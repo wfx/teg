@@ -1,0 +1,28 @@
+Hi,
+  So you want to help the developent of TEG ? cool!
+
+  1. Please, consider joining the teg-list.
+     Also, try to join the teg-changes, where you will see
+     the changes in the CVS
+
+  2. I'm using tab spaces of 8. If you are using vi:
+  	set ts=8 sw=8
+
+  3. If your function will return a value, consider returning a TEG_STATUS
+     type.
+
+  4. Try to uses K&R coding style
+
+
+How to send patches:
+
+  1. Send them to the list or to the patch manager.
+
+  2. For single files:
+  	diff -u
+     For recursive patches:
+     	diff -u -r
+     For new files
+     	diff -u -r -N
+
+riq.

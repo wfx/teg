@@ -1,0 +1,1 @@
+globals.o: globals.c

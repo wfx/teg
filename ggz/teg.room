@@ -1,0 +1,10 @@
+[RoomInfo]
+# This is the short name for the room
+Name = Tenes Empanadas Graciela
+# This is the long descriptive name for the room
+Description = A clone of a Risk clone
+# The gametype should match up to the Name of an added game
+GameType = TEG
+# These set maximum values for this room
+MaxPlayers = 150
+MaxTables = 45

@@ -1,0 +1,126 @@
+<gconfschemafile>
+    <schemalist>    
+
+      <schema>
+        <key>/schemas/apps/teg/port</key>
+        <applyto>/apps/teg/port</applyto>
+        <owner>teg</owner>
+        <type>int</type>
+        <default>2000</default>
+        <locale name="C">
+          <short>server port</short>
+          <long>The port where the TEG sever is listen to</long>
+        </locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/servername</key>
+	<applyto>/apps/teg/servername</applyto>
+	<owner>teg</owner>
+	<type>string</type>
+	<default>localhost</default>
+	<locale name="C">
+	  <short>server name</short>
+	  <long>The TEG server name</long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/playername</key>
+	<applyto>/apps/teg/playername</applyto>
+	<owner>teg</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short>your name</short>
+	  <long>Your name in the game</long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/theme</key>
+	<applyto>/apps/teg/theme</applyto>
+	<owner>teg</owner>
+	<type>string</type>
+	<default>m2</default>
+	<locale name="C">
+	  <short>TEG's theme</short>
+	  <long>TEG's theme name</long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/color</key>
+	<applyto>/apps/teg/color</applyto>
+	<owner>teg</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short>desired color</short>
+	  <long>desired color</long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/msgshow</key>
+	<applyto>/apps/teg/msgshow</applyto>
+	<owner>teg</owner>
+	<type>int</type>
+	<default>254</default>
+	<locale name="C">
+	  <short>which messages to show</short>
+	  <long>which messages to show</long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/msgshow_with_color</key>
+	<applyto>/apps/teg/msgshow_with_color</applyto>
+	<owner>teg</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short>show names with color</short>
+	  <long>show names with color</long>
+	</locale>
+      </schema>
+     
+      <schema>
+        <key>/schemas/apps/teg/status_show</key>
+	<applyto>/apps/teg/status_show</applyto>
+	<owner>teg</owner>
+	<type>int</type>
+	<default>65485</default>
+	<locale name="C">
+	  <short>which columns of the status dialog show</short>
+	  <long>which columns of the status dialog show</long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/dialog_show</key>
+	<applyto>/apps/teg/dialog_show</applyto>
+	<owner>teg</owner>
+	<type>int</type>
+	<default>7</default>
+	<locale name="C">
+	  <short>which dialogs should be shown</short>
+	  <long>which dialogs should be shown</long>
+	</locale>
+      </schema>
+
+      <schema>
+        <key>/schemas/apps/teg/robot_in_server</key>
+	<applyto>/apps/teg/robot_in_server</applyto>
+	<owner>teg</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short>launch robot in server</short>
+	  <long>launch robot in server</long>
+	</locale>
+      </schema>
+
+  </schemalist>
+  
+</gconfschemafile>

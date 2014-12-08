@@ -1,0 +1,57 @@
+
+                           Tenes Empanadas Graciela
+<<<<<<< HEAD
+			          v0.12                                       
+=======
+			          v0.11.3                                       
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+
+ChangeLog:
+ . Fixed a remote DoS in the client: The server could crash the client with invalid
+   highscore data.
+   
+ . Feature Request 539564 implemented (Moving Armies). Now, by default all armies
+   are moved during regrouping which makes regrouping a lot easier. Remember: If you
+   do not want to move any armies simply press ESC to close the window. If you want
+   to move all armies, press ENTER to accept the default value. This way you can
+   regroup with a minimum of clicks.
+   
+ . Included a patch by Patrik Nilsson that allows to hide robot messages but still see
+   messages from human players. For those of you who are tired of the witty comment
+   the robots make ;)
+ 
+<<<<<<< HEAD
+ . Included patch from Gonï¿½ri Le Bouder to convert documentation to XML to make yelp
+=======
+ . Included patch from Gonéri Le Bouder to convert documentation to XML to make yelp
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+   (Gnome help browser) happy. Will have to think of something for people without
+   Gnome
+   
+ . Bug 490577 was solved (game too slow if only computer is left). After finishing
+   the present round at normal speed, the robots play at more than 3 times the normal
+   speed. This way it you don't have to watch the robots play for minutes when you
+   have lost.
+ 
+ . Bug 1634396 was solved (Teg deals two identical country cards & then refuses to exch).
+   When exchanging 3 cards, only 2 were marked as unused which confused the program
+   once all cards were marked as used.
+   
+ . Bug 1634392 was solved ([crash]tegclient can't start with an invalid theme setting).
+   Teg now tries to load themes "m2" or "sentimental" if the configured theme cannot
+   be loaded.
+   
+ . Bug 689687 was solved (Error, unexpected error in reagrupe_click()).
+ 
+ . Bug 573300 was solved (error in ataque_click()).
+ 
+ . Bug 553375 marked as solved (select(): invalid file descriptor). This one was
+   probably already fixed in 0.11.2 since a buffer overflow in the tegrobot was fixed.
+   If anyone still sees this bug, please report it!
+   
+Known Bugs:
+ . Hiscore list and game result list handle color names incorrectly.
+ . Some server ouput not I18nized at all.
+ . Teg gets confused if you press ESC in the color selection dialog.
+ 

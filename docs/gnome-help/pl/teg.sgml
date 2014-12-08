@@ -1,0 +1,473 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V3.1//EN"[
+        <!-- if not using PNG graphic, replace reference above with
+             .....PUBLIC "-//OASIS//DTD DocBook V3.1//EN"[
+         -->
+<!ENTITY version "1.2.0"> 
+]>
+
+
+<!-- 
+      (Do not remove this comment block.)
+  Maintained by the GNOME Documentation Project
+  http://developer.gnome.org/projects/gdp
+  Template version: 1.0.3
+  Template last modified: Nov 16, 2000
+-->
+
+
+<!-- =============Document Header ============================= -->
+
+<article id="index"> <!-- please do not change the id -->
+  <artheader>
+  <title>Podrêcznik gracza Tenes Empanadas Graciela</title>
+      <copyright>
+        <year>2002</year>
+        <holder>Quesada, Ricardo</holder>
+      </copyright>
+
+    <copyright>
+      <year>2002</year>
+      <holder>Lipiec, Arkadiusz (Polish translation)</holder>
+    </copyright>
+
+    <!-- do not put authorname in the header except in copyright - use
+    section "authors" below -->
+
+    <!-- Use this legal notice for online documents which depend on -->
+    <!-- core GNOME packages.                                       -->
+    <legalnotice id="legalnotice">
+      <para>
+        Permission is granted to copy, distribute and/or modify this document
+        under the terms of the <ulink type="help" 
+        url="gnome-help:fdl"><citetitle>GNU Free Documentation
+        License</citetitle></ulink>, Version 1.1 or any later version 
+        published by the Free Software Foundation with no Invariant Sections, 
+        no Front-Cover Texts, and no Back-Cover Texts.  A copy of the license
+        can be found <ulink type="help" url="gnome-help:fdl">here</ulink>.
+      </para>
+      <para>
+        Many of the names used by companies to distinguish their products and
+        services are claimed as trademarks. Where those names appear in any
+        GNOME documentation, and those trademarks are made aware to the members
+        of the GNOME Documentation Project, the names have been printed in caps
+        or initial caps.
+      </para>
+    </legalnotice>
+
+    <!-- This is the manual version, not application version. --> 
+    <releaseinfo>
+      This is version 1.0 of the TEG manual.
+    </releaseinfo>
+  </artheader>
+
+  <sect1 id="cintro">
+    <title>Podrêcznik gracza TEG</title>
+
+    <sect2 id="introduction">
+      <title>Wprowadzenie</title>
+      <para>Tenes Empandas Graciela (TEG), jest klonem argentyñskiej gry
+      zwanej 'Plan Táctico y Estrátegico de la Guerra', która z kolei
+      jest zmodyfikowan± wersj± strategii turowej 'Risk'.
+      Jest to gra przeznaczona dla wielu graczy, mog±cych ³±czyæ siê za po¶rednictwem
+      Internetu.
+      </para>
+
+      <para> 
+      Celem gry jest podbicie wszystkich krajów ¶wiata, wy¶wietlonych na
+      mapie lub wykonanie tajnej misji (je¶li gracze wybrali tak± opcjê przed
+      rozpoczêciem gry). Do osi±gniêcia tego celu gracze powinni obraæ jak±¶
+      strategiê (np. próbuj±c podbiæ jeden kontynent, broni±c granic
+      drugiego. Gdy to siê uda, podbiæ kontynent, który jest rzeczywistym celem).
+      </para>
+
+    </sect2>
+  </sect1>
+
+  <sect1 id="crules">
+    <title>Rozgrywka</title>
+    <sect2 id="connecting">
+      <title>£±czenie z serwerem</title>
+      <para>Aby po³±czyæ siê z serwerem nale¿y znaæ adres oraz port serwera.
+      Dobrze znanym portem jest 2000. Nale¿ tak¿e poinformowaæ klienta o tych
+      opcjach za po¶rednictwem okna <command>po³±cz</command>.
+      </para>
+
+      <figure>
+      <title>Okno po³±czenia</title>
+      <screenshot><screeninfo>okno po³±czenia</screeninfo>
+      <graphic format="jpg" fileref="figures/connect.jpg" srccredit="riq">
+      </graphic></screenshot>
+      </figure>
+
+      <para>Po wype³nieniu pól 'Okno po³±czenia', wy¶wietlone zostanie
+      nowe okno umo¿liwiaj±ce wybór koloru gracza.</para>
+
+      <figure>
+      <title>Okno 'wybór koloru'</title>
+      <screenshot><screeninfo>okno koloru</screeninfo>
+      <graphic format="jpg" fileref="figures/selectcolor.jpg" srccredit="riq">
+      </graphic></screenshot>
+      </figure>
+
+  <para>Je¶li zostanie wybrany kolor, który nie jest dostêpny, serwer
+  wybierze kolor za gracza.</para>
+      
+
+    </sect2>
+
+    <sect2 id="starting">
+      <title>Uruchamianie gry</title>
+      <para>W celu uruchomienia gry, przynajmniej 2 (maksymalnie
+      6) graczy musi byæ przy³±czonych do serwera. Po przy³±czeniu, 
+      ka¿dy z graczy mo¿e zainicjowaæ rozgrywkê poprzez klikniêcie przycisku 
+      <command>uruchom</command>. Dodatkowi gracze nie mog± przy³±czaæ siê 
+       je¶li gra zosta³a ju¿ uruchomiona.</para>
+      <para>Po klikniêciu przycisku <command>uruchom</command>, pojawi siê
+      okno dialogowe 'Rodzaj rozgrywki'.</para>
+
+      <figure>
+      <title>Przycisk uruchamiania</title>
+      <screenshot><screeninfo>Przycisk uruchamiania</screeninfo>
+      <graphic format="jpg" fileref="figures/toolbar_start.jpg" srccredit="riq">
+      </graphic></screenshot>
+      </figure>
+
+      <para>Serwer nastêpnie rozdysponuje losowo kraje wszystkim graczom,
+      ustawiaj±c na ka¿dym po jednej armii.</para>
+
+      <note>
+      <title>Note</title>
+      <para>Osoby mog± przy³±czaæ siê do serwera jako obserwatorzy. 
+      Umo¿liwia to przygl±danie siê rozgrywce ale bez uczestniczenia w niej.
+      Maksymalnie mo¿e byæ przy³±czonych
+      do serwera w tym trybie 9 osób.</para></note>
+
+    </sect2>
+
+    <sect2 id="armies1">
+      <title>Rozmieszczanie armii po raz pierwszy</title>
+      <para>Aby po raz pierwszy rozmie¶ciæ armie, nale¿y poczekaæ na swoj±
+      turê. Je¶li gracz otrzyma turê musi rozmie¶ciæ 5 armii w swoich krajach.
+      Po tej czynno¶ci nale¿y wys³aæ armie do serwera klikaj±c przycisk
+      <command>wy¶lij armie</command>.
+      Nastêpnie nale¿y poczekaæ ponownie na swoj± turê, oraz rozmie¶ciæ
+      kolejne 3 armie w swoich krajach. Mo¿na umieszczaæ wszystkie armie w jednym
+      kraju (nie ma limitu na liczbê armii w danym kraju) lub te¿ w ró¿nych
+      krajach. Po ustawieniu przez ka¿dego gracza 8 armii mo¿na rozpocz±æ turê ataku.</para>
+
+    </sect2>
+
+    <sect2 id="attack">
+      <title>Atakowanie przeciwnika</title>
+      <para>Aby zaatakowaæ przeciwnika nale¿y poczekaæ na swoj± turê.
+     Po jej otrzymaniu mo¿na atakowaæ dowoln± ilo¶æ razy.
+     Aby zaatakowaæ nale¿y wybraæ 2 kraje: kraj ¼ród³owy (gracza
+     atakuj±cego) oraz kraj docelowy (kraj przeciwnika).
+     Kraj ¼ród³owy musi posiadaæ co najmniej 2 armie, lecz nie ma ograniczenia
+     na liczbê armii kraju docelowego. Kraje ¼ród³owy i docelowy musz±
+     graniczyæ ze sob±. Krajami granicznymi s± tak¿e te kraje, które ³±czy linia
+     na mapie.
+      </para>
+
+      <para>
+      W trakcie ataku gracz rzuca 'n' ko¶ci, gdzie 'n' jest liczb± 
+      armii posiadanych w kraju minus 1, lecz nie wiêcej ni¿ trzema ko¶æmi.
+      Przeciwnik atakowany rzuca 'm' ko¶ci, lecz nie wiêcej ni¿ 3. Po rzucie 
+      wyniki s± sortowane w kolejno¶ci malej±cej.</para>
+
+      <para>Wyniki s± porównywane: najwiêkszy z najwiêkszym, i tak dalej.
+      Je¶li jest remis lub te¿ wynik dla kraju docelowego jest wiêkszy ni¿
+      kraju ¼ród³owego, z kraju ¼ród³owego nale¿y usun±æ jedn± armiê. W innym
+      przypadku armia jest usuwana z kraju docelowego.</para>
+
+      <para>Gracz zdobywa kraj je¶li przeciwnik nie posiada ju¿ tam armii.
+      W tym przypadku mo¿na przesun±æ co najwy¿ej 3 armie do podbitego kraju
+      (z kraju ¼ród³owego)</para>
+
+      <para>Przyk³ady rzutów:</para>
+      <itemizedlist>
+      <listitem><para>Gracz posiada 3 armie, jego przeciwnik tak¿e 3.
+      Rzuca on dwoma ko¶æmi, za¶ przeciwnik trzema.</para></listitem>
+      <listitem><para>Je¶li gracz posiada 5 armii, za¶ przeciwnik 2,
+       to bêdzie rzucaæ trzema ko¶æmi za¶ przeciwnik dwoma.</para></listitem>
+      <listitem><para>Je¶li gracz posiada jedn± armiê, nie mo¿e atakowaæ</para></listitem>
+      </itemizedlist> 
+
+      <para>Przyk³ady rzutów:</para>
+      <itemizedlist>
+      <listitem><para>Je¶li gracz wyrzuci: <guilabel>6, 4, 2</guilabel>,
+      za¶ przeciwnik <guilabel>6, 3</guilabel>, wynikiem jest: <guilabel>
+      6 przeciwko 6</guilabel>,
+      za¶ przeciwnik wygrywa (jedna z armii gracza do usuniêcia).
+      W wyniku drugiego porównania:<guilabel>4 przeciwko 3 </guilabel>, 
+      wygrywa gracz atakuj±cy (armia przeciwnika do usuniêcia).</para></listitem>
+
+      <listitem><para>Je¶li gracz wyrzuci: <guilabel>4, 2, 2</guilabel>, 
+      za¶ przeciwnik <guilabel>3, 2, 1</guilabel>, wynikiem jest: <guilabel>
+      4 i 3</guilabel>, wygrywa gracz (przeciwnik usuwa swoj± armiê). 
+      Porównanie drugich wyników:<guilabel>2 i 2</guilabel>, 
+      wiêc wygrywa przeciwnik (utrata 1 armii gracza).
+      Ostatni wynik to <guilabel> 2 i 1</guilabel> i wygrywa
+      gracz atakuj±cy - przeciwnik musi usun±æ jedn± armiê.</para>
+      </listitem>
+
+      </itemizedlist> 
+
+      <figure>
+      <title>Okno ko¶ci</title>
+      <screenshot><screeninfo>Okno ko¶ci</screeninfo>
+      <graphic format="jpg" fileref="figures.dices.jpg" srccredit="riq">
+      </graphic></screenshot>
+      </figure>
+
+
+      <tip>
+      <title>Tip</title>
+      <para>Nie atakuj kraju, który posiada wiêcej armii ni¿ twój</para>
+      </tip>
+
+    </sect2>
+
+    <sect2 id="attack2">
+      <title>Po zakoñczeniu ataku</title>
+      <para>Po ataku mo¿na <command>Przegrupowaæ swoje armie</command>.
+     Mo¿na przesun±æ do 3 armii z jednego kraju do drugiego (musz± ze
+     sob± graniczyæ), za¶ raz poruszona armia nie mo¿e byæ przesuwana,
+     a¿ do kolejnej tury.</para>
+
+      <para>Po zakoñczeniu <command>Przegrupowywania armii</command>, oraz
+      przed <command>Zakoñczeniem tury</command> mo¿na <command>Pobraæ kartê
+      kraju</command>.</para>
+
+      <para>Aby <command>Pobraæ kartê kraju</command> nale¿y
+      zdobyæ co najmniej jeden kraj w swojej turze, oraz je¶li ten warunek
+      zostanie spe³niony, gracz otrzyma losowo wybran± kartê kraju.
+      W kraju reprezentowanym przez t± kartê (je¶li nale¿y on do gracza) 
+      automatycznie zostan± dodane 2 armie. W innym przypadku bêdzie 
+      mo¿na umie¶ciæ te 2 armie po podbiciu danego kraju. Istniej± 4 rodzaje kart:
+      <command>galeon</command>, <command>dzia³o</command>, <command>balon</command>
+      lub <command>joker</command>. Je¶li gracz ma 3 ró¿ne lub te¿ 3 takie
+      same symbole na kartach - mo¿e on zamieniæ je na dodatkowe armie.
+      </para>
+
+      <informaltable><tgroup cols="2">
+      <tbody>
+      <row><entry>Kolejna wymiana</entry><entry>Liczba otrzymanych armii</entry> </row>
+      <row><entry>1</entry><entry>4</entry></row>
+      <row><entry>2</entry><entry>7</entry></row>
+      <row><entry>3</entry><entry>10 (and now add 5)</entry></row>
+      <row><entry>4</entry><entry>15</entry></row>
+      <row><entry>5</entry><entry>20</entry></row>
+      <row><entry>...</entry><entry>...</entry></row>
+      </tbody></tgroup></informaltable>
+
+      <para>Po trzeciej wymianie, nale¿y podbiæ 2 kraje
+      (zamiast jednego) aby otrzymaæ 'kartê kraju'</para>
+
+      <para>Na koñcu trzeba nacisn±æ przycisk <command>Zakoñcz turê</command>
+      aby zakoñczyæ turê oraz przekazaæ j± kolejnemu graczowi.</para>
+      
+    </sect2>
+
+    <sect2 id="newturn">
+      <title>Nowa tura</title>
+      <para>Kiedy wszyscy gracze zakoñcz± swoje tury, rozpoczyna siê nowa
+      tura. Tym razem graczem, który rozpoczyna jest gracz, który w poprzedniej
+      turze by³ drugi. Ten gracz umieszcza 'n' armii, gdzie 'n' jest ca³kowit± 
+      liczb± armii w swoich krajach podzielon± przez 2.
+      Je¶li podbity zosta³ kontynent gracz otrzymuje dodatkowe armie do
+      umieszczenia:</para>
+      <informaltable><tgroup cols="2">
+      <tbody>
+      <row><entry>Kontynent</entry><entry>Liczba armii</entry> </row>
+      <row><entry>Ameryka Po³udniowa</entry><entry>3</entry></row>
+      <row><entry>Ameryka Pó³nocna</entry><entry>5</entry></row>
+      <row><entry>Afryka</entry><entry>3</entry></row>
+      <row><entry>Europa</entry><entry>5</entry></row>
+      <row><entry>Azja</entry><entry>7</entry></row>
+      <row><entry>Oceania</entry><entry>2</entry></row>
+      </tbody></tgroup></informaltable>
+
+      <note>
+      <title>Uwaga</title>
+      <para>te armie musz± byæ rozmieszczane na podbitym kontynencie.</para> 
+      </note>
+
+      <para>Po zakoñczeniu rozmieszczania armii przez wszystkich graczy
+       mo¿na atakowaæ ponownie.</para>
+      
+    </sect2>
+   </sect1>
+
+    <sect1 id="mission">
+  <title>Rozgrywka z tajnymi misjami</title>
+  <para>Istnieje mo¿liwo¶æ wyoru rodzaju rozgrywki - <guilabel>tajna misja</guilabel>,
+  lub te¿<guilabel>podbicie ca³ego ¶wiata</guilabel>.</para>
+
+  <figure>
+  <title>Typ gry</title>
+  <screenshot><screeninfo>Typ gry</screeninfo>
+  <graphic format="jpg" fileref="figures/toolbar_start.jpg" srccredit="riq">
+  </graphic></screenshot>
+  </figure>
+
+  <note>
+  <title>Uwaga</title>
+  <para>Je¶li wiesz ¿e tylko 2 graczy zamiesza siê zmierzyæ, lepiej u¿ywaæ
+  opcji 'podbicie ca³ego ¶wiata'</para></note>
+
+
+  <para>Je¶li rozgrywka odbywa siê w trybie <guilabel>tajna misja</guilabel>, 
+  mo¿na zrealizowaæ j± lub te¿ zrealizowaæ zwyk³± 'tajn±' misjê,
+  polegaj±c± na podbiciu 30 krajów ¶wiata. Je¶li rozgrywka odbywa siê w
+  trybie <guilabel>podbijania ca³ego ¶wiata</guilabel> mo¿na wygraæ tylko dziêki
+  zdobyciu wszystkich krajów.</para>
+
+  <para>Zwyciêzc± jest ten z graczy, który pierwszy zrealizuje swoja misjê.</para>
+
+  <para>Mo¿na tak¿e zmieniæ typ gry z konsoli serwera. Po prostu nale¿y
+  wpisaæ <command>set conquer_world=0</command> lub
+  <command>set conquer_world=1</command>
+  aby prze³±czyæ miêdzy opcjami
+  <guilabel>tajne misje</guilabel> oraz <guilabel>podbicie ¶wiata</guilabel>.</para>
+
+  <note>
+  <title>Ogl±danie misji</title>
+  <para>Aby zobaczyæ swoj± tajn± misjê, kliknij po prostu na
+   opcjê menu <guilabel>podgl±d->misja</guilabel>w oknie klienta</para>
+  </note>
+  
+  <figure>
+  <title>Twoja misja</title>
+  <screenshot><screeninfo>Twoja misja</screeninfo>
+  <graphic format="jpg" fileref="figures/mission.jpg" srccredit="riq">
+  </graphic></screenshot>
+  </figure>
+
+  </sect1>
+
+  <sect1 id="server">
+    <title>Serwer</title>
+    <sect2 id="staring">
+      <title>Uruchamianie serwera</title>
+      <para>Mo¿na uruchomiæ serwer wykonuj±c polecenie
+      <command>tegserver</command> lub te¿ za po¶rednictwem
+      okna klienta, klikaj±c na <guilabel>Uruchom serwer lokalnie</guilabel></para>
+
+      <figure>
+      <title>Uruchamianie serwera lokalnie</title>
+      <screenshot><screeninfo>Uruchamianie serwera lokalnie</screeninfo>
+      <graphic format="jpg" fileref="figures/connect.jpg" srccredit="riq">
+      </graphic></screenshot>
+      </figure>
+
+    </sect2>
+    <sect2 id="commands">
+      <title>Polecenia serwera</title>
+      <para>Serwer posiada bardzo u¿yteczne polecenia do jego konfiguracji.
+      Wpisz <command>help</command>, a wy¶wietli siê lista pozosta³ych poleceñ.</para>
+
+      <figure>
+      <title>Polecenia serwera</title>
+      <screenshot><screeninfo>Polecenia serwera</screeninfo>
+      <graphic format="jpg" fileref="figures/server.jpg" srccredit="riq">
+      </graphic></screenshot>
+      </figure>
+    </sect2>
+
+  </sect1>
+
+  <sect1 id="crisk">
+    <title>Ró¿nice w stosunku do gry Ryzyko</title>
+    <sect2 id="riskdiff">
+      <title>Ró¿nice w stosunku do gry Ryzyko</title>
+
+      <para>Nie znam zasad oryginalnych Ryzyka (gra³em tylko raz lub dwa
+      baaaardzo dawno temu). Nie jestem wiêc pewien jakie s± ró¿nice
+      pomiêdzy nimi. Je¶li je znasz, napisz mi o nich. (w jêz. angielskim).
+      Oto rzeczy o których poinformowowali gracze TEG:
+      </para>
+      <table frame=all><title>TEG vs. Risk</title>
+      <tgroup cols="3">
+      <colspec colname=c1>
+      <colspec colname=c2>
+      <colspec colname=c3>
+      <spanspec spanname=hspan namest=c1 nameend=c3 align=center>
+      <thead>
+      <row>
+        <entry align=center>Temat</entry>
+        <entry align=center>TEG</entry>
+        <entry align=center>Ryzyko</entry>
+      </row>
+      </thead>
+      <tbody>
+      <row>
+        <entry>Po zdobyciu kraju</entry>
+        <entry>Mo¿na przesun±æ co najwyzej 3 armie do tego kraju</entry>
+        <entry>Mo¿na przesun±æ ile siê chce armii</entry>
+      </row>
+      <row>
+        <entry>Po zakoñczeniu tury</entry>
+        <entry>Nie mo¿na rozmieszczaæ armii, dopóki nie bêdzie siê mia³o
+        ¿adnej karty swojego kraju, w którym mo¿na umie¶ciæ tylko 2 armie</entry>
+        <entry>Mo¿na umie¶ciæ 3 armie w swoim kraju</entry>
+      </row>
+      <row>
+        <entry>Dodatkowe armie po podbiciu kontynentu</entry>
+        <entry>MUSZ¡ byæ one umieszczane na tym kontynencie</entry>
+        <entry>Mog± byæ umieszczane w dowolnym miejscu</entry>
+      </row>
+      <row>
+        <entry>Ustawianie armii</entry>
+        <entry>S± rozmieszczane na pocz±tku ka¿dej tury</entry>
+        <entry>Rozmieszczane przed atakiem</entry>
+      </row>
+      <row>
+        <entry>Rozpoczynanie nowej rundy</entry>
+        <entry>Ka¿d± runde rozpoczyna inny z graczy</entry>
+        <entry>Ka¿d± rundê rozpoczyna ten sam gracz</entry>
+      </row>
+      <row>
+        <entry spanname=hspan>Je¶li znasz jeszcze jakie¶ ró¿nice
+        napisz na listê <email>teg-list@lists.sourceforge.net</email>
+        (w jêz. angielskim). Pamiêtaj, ¿e nie znam zasad gry Ryzyko!
+        </entry>
+      </row>
+      </tbody>
+      </tgroup>
+      </table>
+    </sect2>
+  </sect1>
+
+  <sect1 id="cbugs">
+    <title>Bugs</title>
+    <sect2 id="bugs">
+      <title>Zg³aszanie b³êdów oraz wysy³anie ³at w celu ulepszenia gry</title>
+      
+      <para>Mo¿na skontaktowaæ siê z autorem (w jêzyku angielskim) pod
+      adresem:
+      <email>riq@corest.com</email>
+      Ogólne opinie dotycz±ce tej gry nale¿y wysy³aæ na listê
+      <email>teg-list@lists.sourceforge.net</email>.</para>
+
+    </sect2>
+
+  </sect1>
+
+
+  <sect1 id="chistory">
+    <title>History</title>
+    <sect2 id="history">
+      <title>Krótka historia TEG</title>
+
+      <para>Sebastián Cativa Tolosa, powiedzia³ mi raz o tej grze. My¶lê,
+      ¿e by³o to w 1996, w trakcie rozmowy na uniwersytecie. Tak wiêc
+      zaczêli¶my o niej my¶leæ. Nie wiem z jakiego powodu projekt ten
+      umar³ po 3 lub 4 miesi±cach. W 1998, projekt zosta³ reaktywowany lecz
+      umar³ ponownie po 2 tygodniach :(. W koñcu w lutym 2000 roku rozpocz±³em
+      tworzenie gry od nowa i wygl±da na to, ¿e projekt wci±¿ ¿yje :-).   
+      </para>
+    </sect2>
+  </sect1>
+
+</article>

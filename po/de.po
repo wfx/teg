@@ -1,0 +1,3226 @@
+# Tenes Empanadas Graciela (TEG) German translation
+# TEG is a Risk-clone to be found at http://teg.sourceforge.net
+# Copyright (C) 2001 - 2002 Free Software Foundation, Inc.
+# Thomas R. Koll <tomk32@tomk32.de>, 2001 - 2002
+#
+msgid ""
+msgstr ""
+<<<<<<< HEAD
+"Project-Id-Version: teg 0.12\n"
+=======
+"Project-Id-Version: teg 0.11.3\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-02-08 12:53-0300\n"
+"PO-Revision-Date: 2007-07-10 00:00+0200\n"
+"Last-Translator: Stefan Nordhausen <nordi@users.sourceforge.net>\n"
+"Language-Team: de@li.org\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: common/common.c:40
+msgid "red"
+msgstr "rot"
+
+#: common/common.c:41
+msgid "yellow"
+msgstr "gelb"
+
+#: common/common.c:42
+msgid "blue"
+msgstr "blau"
+
+#: common/common.c:43
+msgid "black"
+msgstr "schwarz"
+
+#: common/common.c:44
+msgid "pink"
+msgstr "pink"
+
+#: common/common.c:45
+msgid "green"
+<<<<<<< HEAD
+msgstr "grï¿½n"
+=======
+msgstr "grün"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/common.c:46 server/console.c:239
+msgid "n/a"
+msgstr "n. m."
+
+#: common/common.c:51
+msgid "TEG"
+msgstr "TEG"
+
+#: common/common.c:52
+msgid "Risk"
+msgstr "Risiko"
+
+#: common/common.c:53
+msgid "1914"
+msgstr "1914"
+
+#: common/common.c:54
+msgid "other"
+msgstr "andere"
+
+#: common/common.c:59
+msgid "disconnected"
+msgstr "unterbrochen"
+
+#: common/common.c:60
+msgid "connected"
+msgstr "verbunden"
+
+#: common/common.c:61
+msgid "game over"
+msgstr "Spiel vorbei"
+
+#: common/common.c:62
+msgid "enabled"
+msgstr "aktiv"
+
+#: common/common.c:63
+msgid "started"
+msgstr "gestartet"
+
+#: common/common.c:64
+msgid "placing armies"
+msgstr "platziert Armeen"
+
+#: common/common.c:65
+msgid "postarmies"
+msgstr "Armeen aufgestellt"
+
+#: common/common.c:66
+msgid "placing armies 2"
+msgstr "platziert Armeen 2"
+
+#: common/common.c:67
+msgid "postarmies 2"
+msgstr "Armeen aufgestellt 2"
+
+#: common/common.c:68
+msgid "idle"
+<<<<<<< HEAD
+msgstr "untï¿½tig"
+=======
+msgstr "untätig"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/common.c:69
+msgid "placing armies 3"
+msgstr "platziert Armeen 3"
+
+#: common/common.c:70
+msgid "exchanging cards"
+msgstr "tauscht Karten"
+
+#: common/common.c:71
+msgid "postarmies 3"
+msgstr "Armeen aufgestellt 3"
+
+#: common/common.c:72
+msgid "making a pact"
+<<<<<<< HEAD
+msgstr "schlieï¿½t Bï¿½ndnis"
+=======
+msgstr "schließt Bündnis"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/common.c:73
+msgid "starting turn"
+msgstr "startet Runde"
+
+#: common/common.c:74
+msgid "attacking"
+msgstr "greift an"
+
+#: common/common.c:75
+msgid "moving armies"
+msgstr "bewegt Armeen"
+
+#: common/common.c:76
+msgid "regrouping"
+msgstr "bewegt Armeen"
+
+#: common/common.c:77
+msgid "gettting card"
+<<<<<<< HEAD
+msgstr "erhï¿½lt Karte"
+=======
+msgstr "erhält Karte"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/common.c:78
+msgid "ending turn"
+msgstr "beendet Zug"
+
+#. $Id: de.po,v 1.67 2007/09/06 13:48:22 nordi Exp $
+#.
+#. * Translatable strings.
+#. * DO NOT compile it as part of your application.
+#.
+#. $Id: de.po,v 1.67 2007/09/06 13:48:22 nordi Exp $
+#.
+#. * Translatable strings.
+#. * DO NOT compile it as part of your application.
+#.
+#: common/cont.c:28 client/themes/m2/translate.c:7
+#: client/themes/sentimental/translate.c:7
+msgid "South America"
+<<<<<<< HEAD
+msgstr "Sï¿½damerika"
+=======
+msgstr "Südamerika"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/cont.c:29 client/themes/m2/translate.c:15
+#: client/themes/sentimental/translate.c:15
+msgid "North America"
+msgstr "Nordamerika"
+
+#: common/cont.c:30 client/themes/m2/translate.c:27
+#: client/themes/sentimental/translate.c:27
+msgid "Africa"
+msgstr "Afrika"
+
+#: common/cont.c:31 client/themes/m2/translate.c:35
+#: client/themes/sentimental/translate.c:35
+msgid "Oceania"
+msgstr "Ozeanien"
+
+#: common/cont.c:32 client/themes/m2/translate.c:41
+#: client/themes/sentimental/translate.c:41
+msgid "Europe"
+msgstr "Europa"
+
+#: common/cont.c:33 client/themes/m2/translate.c:52
+#: client/themes/sentimental/translate.c:52
+msgid "Asia"
+msgstr "Asien"
+
+#: common/cont.c:62 common/missions.c:123 common/country.c:151
+#: server/helper.c:430 server/helper.c:471
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#. Objetivo cuando se juega sin missions
+#: common/missions.c:32
+msgid "Conquer the world"
+msgstr "Erobere die Welt"
+
+#. Objetivo comun
+#: common/missions.c:38
+msgid "Conquer 30 countries"
+<<<<<<< HEAD
+msgstr "Erobere 30 Lï¿½nder"
+=======
+msgstr "Erobere 30 Länder"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/missions.c:44
+msgid ""
+"Conquer &2,\n"
+"5 countries of &1 and\n"
+"4 countries of &4"
+msgstr ""
+"Erobere &2,\n"
+<<<<<<< HEAD
+"5 Lï¿½nder in &1 und\n"
+"4 Lï¿½nder in &4"
+=======
+"5 Länder in &1 und\n"
+"4 Länder in &4"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/missions.c:57
+msgid ""
+"Conquer &0,\n"
+"7 countries of &4 and\n"
+"3 frontier countries"
+msgstr ""
+"Erobere &0,\n"
+"7 Lander in &4 und\n"
+<<<<<<< HEAD
+"3 Grenzlï¿½nder"
+=======
+"3 Grenzländer"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/missions.c:65
+msgid ""
+"Conquer &5 and\n"
+"2 countries of &0"
+msgstr ""
+"Erobere &5 und\n"
+<<<<<<< HEAD
+"2 Lï¿½nder in &0"
+=======
+"2 Länder in &0"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/missions.c:72
+msgid ""
+"Conquer &4,\n"
+"4 countries of &5 and,\n"
+"2 of &0"
+msgstr ""
+"Erobere &4,\n"
+<<<<<<< HEAD
+"4 Lï¿½nder in &5 und\n"
+=======
+"4 Länder in &5 und\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+"2 in &0"
+
+#: common/missions.c:79
+msgid ""
+"Conquer &1,\n"
+"2 countries of &3 and\n"
+"4 countries of &5"
+msgstr ""
+"Erobere &1,\n"
+<<<<<<< HEAD
+"2 Lï¿½nder in &3 und\n"
+"4 Lï¿½nder in &5"
+=======
+"2 Länder in &3 und\n"
+"4 Länder in &5"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/missions.c:86
+msgid ""
+"Conquer 2 countries of &3,\n"
+"2 of &2, 2 of &0,\n"
+"3 of &4, 4 of &1,\n"
+"and 3 of &5"
+msgstr ""
+<<<<<<< HEAD
+"Erobere 2 Lï¿½nder in &3,\n"
+=======
+"Erobere 2 Länder in &3,\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+"2 in &2, 2 ind &0,\n"
+"3 in &4, 4 in &1,\n"
+"und 3 in &5"
+
+#: common/missions.c:93
+msgid ""
+"Conquer &3,\n"
+"conquer &1 and,\n"
+"2 countries of &4"
+msgstr ""
+"Erobere &3,\n"
+"&1 und\n"
+<<<<<<< HEAD
+"2 Lï¿½nder in &4"
+=======
+"2 Länder in &4"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/missions.c:100
+msgid ""
+"Conquer &0,\n"
+"conquer &2 and,\n"
+"4 countries of &5"
+msgstr ""
+"Erobere &0,\n"
+"&2  und\n"
+<<<<<<< HEAD
+"4 Lï¿½nder in &5"
+=======
+"4 Länder in &5"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/missions.c:107
+msgid ""
+"Conquer &3,\n"
+"conquer &2 and,\n"
+"5 countries of &1"
+msgstr ""
+"Erobere &3,\n"
+"&2 und\n"
+<<<<<<< HEAD
+"5 Lï¿½nder in &1"
+=======
+"5 Länder in &1"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. AMERICA DEL SUR
+#: common/country.c:29 client/themes/m2/translate.c:8
+#: client/themes/sentimental/translate.c:8
+msgid "Argentina"
+msgstr "Argentinien"
+
+#: common/country.c:30 client/themes/m2/translate.c:9
+#: client/themes/sentimental/translate.c:9
+msgid "Brazil"
+msgstr "Brasilien"
+
+#: common/country.c:31 client/themes/m2/translate.c:10
+#: client/themes/sentimental/translate.c:10
+msgid "Chile"
+msgstr "Chile"
+
+#: common/country.c:32 client/themes/m2/translate.c:11
+#: client/themes/sentimental/translate.c:11
+msgid "Colombia"
+msgstr "Kolumbien"
+
+#: common/country.c:33 client/themes/m2/translate.c:12
+#: client/themes/sentimental/translate.c:12
+msgid "Peru"
+msgstr "Peru"
+
+#: common/country.c:34 client/themes/m2/translate.c:13
+#: client/themes/sentimental/translate.c:13
+msgid "Uruguay"
+msgstr "Uruguay"
+
+#. AMERICA DEL NORTE
+#: common/country.c:37 client/themes/m2/translate.c:16
+#: client/themes/sentimental/translate.c:16
+msgid "Mexico"
+msgstr "Mexiko"
+
+#: common/country.c:38 client/themes/m2/translate.c:17
+#: client/themes/sentimental/translate.c:17
+msgid "California"
+msgstr "Kalifornien"
+
+#: common/country.c:39 client/themes/m2/translate.c:18
+#: client/themes/sentimental/translate.c:18
+msgid "Oregon"
+msgstr "Oregon"
+
+#: common/country.c:40 client/themes/m2/translate.c:19
+#: client/themes/sentimental/translate.c:19
+msgid "New York"
+msgstr "New York"
+
+#: common/country.c:41 client/themes/m2/translate.c:20
+#: client/themes/sentimental/translate.c:20
+msgid "Alaska"
+msgstr "Alaska"
+
+#: common/country.c:42 client/themes/m2/translate.c:21
+#: client/themes/sentimental/translate.c:21
+msgid "Yukon"
+msgstr "Yukon"
+
+#: common/country.c:43 client/themes/m2/translate.c:22
+#: client/themes/sentimental/translate.c:22
+msgid "Canada"
+msgstr "Kanada"
+
+#: common/country.c:44 client/themes/m2/translate.c:23
+#: client/themes/sentimental/translate.c:23
+msgid "Terranova"
+msgstr "Neuengland"
+
+#: common/country.c:45 client/themes/m2/translate.c:24
+#: client/themes/sentimental/translate.c:24
+msgid "Labrador"
+msgstr "Labrador"
+
+#: common/country.c:46 client/themes/m2/translate.c:25
+#: client/themes/sentimental/translate.c:25
+msgid "Greenland"
+<<<<<<< HEAD
+msgstr "Grï¿½nland"
+=======
+msgstr "Grönland"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. AFRICA
+#: common/country.c:49 client/themes/m2/translate.c:28
+#: client/themes/sentimental/translate.c:28
+msgid "Sahara"
+msgstr "Sahara"
+
+#: common/country.c:50 client/themes/m2/translate.c:29
+#: client/themes/sentimental/translate.c:29
+msgid "Zaire"
+msgstr "Zaire"
+
+#: common/country.c:51 client/themes/m2/translate.c:30
+#: client/themes/sentimental/translate.c:30
+msgid "Ethiopia"
+<<<<<<< HEAD
+msgstr "ï¿½thiopien"
+=======
+msgstr "Äthiopien"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/country.c:52 client/themes/m2/translate.c:31
+#: client/themes/sentimental/translate.c:31
+msgid "Egypt"
+<<<<<<< HEAD
+msgstr "ï¿½gypten"
+=======
+msgstr "Ägypten"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/country.c:53 client/themes/m2/translate.c:32
+#: client/themes/sentimental/translate.c:32
+msgid "Madagascar"
+msgstr "Madagaskar"
+
+#: common/country.c:54 client/themes/m2/translate.c:33
+#: client/themes/sentimental/translate.c:33
+msgid "South Africa"
+<<<<<<< HEAD
+msgstr "Sï¿½dafrika"
+=======
+msgstr "Südafrika"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. OCEANIA
+#: common/country.c:57 client/themes/sentimental/translate.c:36
+msgid "Australia"
+msgstr "Australien"
+
+#: common/country.c:58 client/themes/m2/translate.c:37
+#: client/themes/sentimental/translate.c:37
+msgid "Borneo"
+msgstr "Borneo"
+
+#: common/country.c:59 client/themes/sentimental/translate.c:38
+msgid "Java"
+msgstr "Java"
+
+#: common/country.c:60 client/themes/m2/translate.c:39
+#: client/themes/sentimental/translate.c:39
+msgid "Sumatra"
+msgstr "Sumatra"
+
+#. EUROPA
+#: common/country.c:63 client/themes/m2/translate.c:42
+#: client/themes/sentimental/translate.c:42
+msgid "Spain"
+msgstr "Spanien"
+
+#: common/country.c:64 client/themes/m2/translate.c:43
+#: client/themes/sentimental/translate.c:43
+msgid "France"
+msgstr "Frankreich"
+
+#: common/country.c:65 client/themes/m2/translate.c:44
+#: client/themes/sentimental/translate.c:44
+msgid "Germany"
+msgstr "Deutschland"
+
+#: common/country.c:66 client/themes/m2/translate.c:45
+#: client/themes/sentimental/translate.c:45
+msgid "Italy"
+msgstr "Italien"
+
+#: common/country.c:67 client/themes/m2/translate.c:46
+#: client/themes/sentimental/translate.c:46
+msgid "Poland"
+msgstr "Polen"
+
+#: common/country.c:68 client/themes/m2/translate.c:47
+#: client/themes/sentimental/translate.c:47
+msgid "Russia"
+msgstr "Russland"
+
+#: common/country.c:69 client/themes/m2/translate.c:48
+#: client/themes/sentimental/translate.c:48
+msgid "Sweden"
+msgstr "Schweden"
+
+#: common/country.c:70 client/themes/m2/translate.c:49
+#: client/themes/sentimental/translate.c:49
+msgid "Great Britain"
+<<<<<<< HEAD
+msgstr "Groï¿½ Britannien"
+=======
+msgstr "Groß Britannien"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/country.c:71 client/themes/m2/translate.c:50
+#: client/themes/sentimental/translate.c:50
+msgid "Iceland"
+msgstr "Island"
+
+#. ASIA
+#: common/country.c:74 client/themes/m2/translate.c:53
+#: client/themes/sentimental/translate.c:53
+msgid "Arabia"
+msgstr "Arabien"
+
+#: common/country.c:75 client/themes/m2/translate.c:54
+#: client/themes/sentimental/translate.c:54
+msgid "Israel"
+msgstr "Israel"
+
+#: common/country.c:76 client/themes/m2/translate.c:55
+#: client/themes/sentimental/translate.c:55
+msgid "Turkey"
+<<<<<<< HEAD
+msgstr "Tï¿½rkei"
+=======
+msgstr "Türkei"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/country.c:77 client/themes/m2/translate.c:56
+#: client/themes/sentimental/translate.c:56
+msgid "India"
+msgstr "Indien"
+
+#: common/country.c:78 client/themes/m2/translate.c:57
+#: client/themes/sentimental/translate.c:57
+msgid "Malaysia"
+msgstr "Malaysien"
+
+#: common/country.c:79 client/themes/m2/translate.c:58
+#: client/themes/sentimental/translate.c:58
+msgid "Iran"
+msgstr "Iran"
+
+#: common/country.c:80 client/themes/m2/translate.c:59
+#: client/themes/sentimental/translate.c:59
+msgid "Gobi"
+<<<<<<< HEAD
+msgstr "Wï¿½ste Gobi"
+=======
+msgstr "Wüste Gobi"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/country.c:81 client/themes/m2/translate.c:60
+#: client/themes/sentimental/translate.c:60
+msgid "China"
+msgstr "China"
+
+#: common/country.c:82 client/themes/m2/translate.c:61
+#: client/themes/sentimental/translate.c:61
+msgid "Mongolia"
+msgstr "Mongolei"
+
+#: common/country.c:83 client/themes/m2/translate.c:62
+#: client/themes/sentimental/translate.c:62
+msgid "Siberia"
+msgstr "Sibirien"
+
+#: common/country.c:84 client/themes/m2/translate.c:63
+#: client/themes/sentimental/translate.c:63
+msgid "Aral"
+msgstr "Aralsee"
+
+#: common/country.c:85 client/themes/m2/translate.c:64
+#: client/themes/sentimental/translate.c:64
+msgid "Tartary"
+msgstr "Tartarus"
+
+#: common/country.c:86 client/themes/m2/translate.c:65
+#: client/themes/sentimental/translate.c:65
+msgid "Taymir"
+msgstr "Westsibirien"
+
+#: common/country.c:87 client/themes/m2/translate.c:66
+#: client/themes/sentimental/translate.c:66
+msgid "Kamchatka"
+msgstr "Kamtschatka"
+
+#: common/country.c:88 client/themes/m2/translate.c:67
+#: client/themes/sentimental/translate.c:67
+msgid "Japan"
+msgstr "Japan"
+
+#: common/share.c:50
+#, c-format
+msgid "Parameter is missing for \"%s\".\n"
+<<<<<<< HEAD
+msgstr "Ein Parameter fï¿½r '%s' fehlt.\n"
+=======
+msgstr "Ein Parameter für '%s' fehlt.\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: common/share.c:71
+#, c-format
+msgid "Fatal error: You can't run this program as superuser\n"
+msgstr ""
+"Schwerer Fehler: Dieses Programm kann nicht als Superuser (root) benutzt "
+"werden\n"
+
+#: common/share.c:72
+#, c-format
+msgid "Try to run it as a different user\n"
+msgstr "Starte es als normaler Benutzer\n"
+
+#: common/support.c:111
+#, c-format
+msgid "error %d (compiled without strerror)"
+msgstr "Fehler %d (kompiliert ohne strerror)"
+
+#: robot/gui.c:135
+#, c-format
+msgid "Robot name: %s"
+msgstr "Robotername: %s"
+
+#: robot/gui.c:155
+msgid "Robot: Error while trying to connect to server"
+<<<<<<< HEAD
+msgstr "Roboter: Fehler wï¿½hrend des Verbindungsaufbaus zum Server"
+=======
+msgstr "Roboter: Fehler während des Verbindungsaufbaus zum Server"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/main.c:58 server/main.c:345
+#, c-format
+msgid ""
+"Usage: %s [option ...]\n"
+"Valid options are:\n"
+msgstr ""
+"Verwendung: %s [option ...]\n"
+<<<<<<< HEAD
+"Gï¿½ltige Optionen sind:\n"
+=======
+"Gültige Optionen sind:\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/main.c:59 server/main.c:346
+#, c-format
+msgid "  -h, --help\t\tPrint a summary of the options\n"
+<<<<<<< HEAD
+msgstr " -h, --help\t\tZeigt eine ï¿½bersicht der Optionen\n"
+=======
+msgstr " -h, --help\t\tZeigt eine Übersicht der Optionen\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/main.c:60
+#, c-format
+msgid "  -n, --name NAME\tUse NAME as name\n"
+msgstr " -n, --name NAME\tVerwende NAME als Namen\n"
+
+#: robot/main.c:61
+#, c-format
+msgid "  -p, --port PORT\tConnect to server port PORT\n"
+msgstr " -p, --port PORT\tVerbinde zum Port PORT\n"
+
+#: robot/main.c:62
+#, c-format
+msgid "  -s, --server HOST\tConnect to the server at HOST\n"
+msgstr " -s, --server HOST\tVerbinde zum Server auf HOST\n"
+
+#: robot/main.c:63 server/main.c:349
+#, c-format
+msgid "  -v, --version\t\tPrint the version number\n"
+msgstr " -v, --version\t\tZeigt die Versionsnummer an\n"
+
+#: robot/main.c:65
+#, c-format
+msgid "  -g, --ggz\t\tEnable GGZ mode\n"
+msgstr " -g, --ggz\t\tAktiviere GGZ Modus\n"
+
+#: robot/main.c:67
+#, c-format
+msgid "  -c, --connected\t\tThe robot is already connected\n"
+<<<<<<< HEAD
+msgstr " -c, --connected\t\tDer Computer-Spieler ist schon lï¿½ngst verbunden\n"
+=======
+msgstr " -c, --connected\t\tDer Computer-Spieler ist schon längst verbunden\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/main.c:68
+#, c-format
+msgid "  -q, --quiet\t\tdon't show messages\n"
+msgstr " -q, --quiet\t\tkeine Meldungen anzeigen\n"
+
+#: robot/main.c:91 server/main.c:376
+#, c-format
+msgid "Unrecognized option: \"%s\"\n"
+msgstr "Unbekannte Option: '%s'\n"
+
+#: robot/main.c:99
+#, c-format
+msgid "Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"
+msgstr "Tenes Empanadas Graciela - Roboter v%s von Ricardo Quesada\n"
+
+#: robot/main.c:100
+#, c-format
+msgid "Robot intelligence: %d%%"
+msgstr "Roboter Intelligenz: %d%%"
+
+#: robot/ai_msg.c:34
+#, c-format
+msgid "Hi %s"
+msgstr "Hi %s"
+
+#: robot/ai_msg.c:35
+#, c-format
+msgid "Good luck %s"
+<<<<<<< HEAD
+msgstr "Viel Glï¿½ck %s"
+=======
+msgstr "Viel Glück %s"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:36
+#, c-format
+msgid "How are you %s ?"
+msgstr "Wie geht's dir %s ?"
+
+#: robot/ai_msg.c:37
+#, c-format
+msgid "Welcome back %s!"
+<<<<<<< HEAD
+msgstr "Willkommen zurï¿½ck %s!"
+=======
+msgstr "Willkommen zurück %s!"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:38
+#, c-format
+msgid "%s, I'll be the winner"
+msgstr "%s, Ich werde gewinnen"
+
+#: robot/ai_msg.c:39
+#, c-format
+msgid "Hey %s!"
+msgstr "Hey %s!"
+
+#: robot/ai_msg.c:46
+#, c-format
+msgid "Goodbye %s"
+msgstr "Ciao %s"
+
+#: robot/ai_msg.c:47
+#, c-format
+msgid "%s, you need to improve you game"
+<<<<<<< HEAD
+msgstr "%s, du solltest mehr ï¿½ben"
+=======
+msgstr "%s, du solltest mehr üben"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:48
+#, c-format
+msgid "%s, You really don't know how to play!"
+<<<<<<< HEAD
+msgstr "%s, du weiï¿½t wirklich nicht wie man spielt!"
+=======
+msgstr "%s, du weißt wirklich nicht wie man spielt!"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:49
+#, c-format
+msgid "%s Better luck for the next time"
+<<<<<<< HEAD
+msgstr "%s Vielleicht nï¿½chstes Mal"
+=======
+msgstr "%s Vielleicht nächstes Mal"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:50
+#, c-format
+msgid "%s, try to improve your game"
+msgstr "%s, du solltest besser spielen"
+
+#: robot/ai_msg.c:55
+#, c-format
+msgid "%s, Do you have a sister ?"
+msgstr "%s, hast du 'ne Schwester?"
+
+#: robot/ai_msg.c:56
+msgid "I love this game"
+msgstr "Ich liebe dieses Spiel"
+
+#: robot/ai_msg.c:57
+#, c-format
+msgid "%s, I can't believe it!"
+msgstr "%s, ich kann es nicht glauben!"
+
+#: robot/ai_msg.c:58
+#, c-format
+msgid "%s, Do you have Lewinsky's phone ?"
+msgstr "%s, hast du was an den Ohren?"
+
+#: robot/ai_msg.c:59
+msgid "Does anyone speak Speranto ?"
+msgstr "Spricht irgendwer Deutsch?"
+
+#: robot/ai_msg.c:60
+#, c-format
+msgid "%s, You play very well"
+msgstr "%s, du spielst gar nicht so schlecht"
+
+#: robot/ai_msg.c:61
+msgid "Thanks"
+msgstr "Danke"
+
+#: robot/ai_msg.c:62
+msgid "mmm..."
+msgstr "hmmm...."
+
+#: robot/ai_msg.c:63
+#, c-format
+msgid "%s, Are you a robot ?"
+msgstr "%s, bist du ein Roboter?"
+
+#: robot/ai_msg.c:64
+msgid "Geronimoooooo"
+msgstr "Attaaaaackeeee"
+
+#: robot/ai_msg.c:65
+msgid "I'm a bit tired"
+<<<<<<< HEAD
+msgstr "Ich bin mï¿½de"
+=======
+msgstr "Ich bin müde"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:66
+msgid "I'm hungry"
+msgstr "Ich bin hungrig"
+
+#: robot/ai_msg.c:67
+msgid "Who wants an Empanada ?"
+msgstr "Wer will ein Empanada?"
+
+#: robot/ai_msg.c:68
+msgid "I like whistling"
+msgstr "Ich mag pfeifen"
+
+#: robot/ai_msg.c:69
+msgid "What is a good strategy to win this game?"
+msgstr "Gibt's eine gute Strategie um dieses Spiel zu gewinnen?"
+
+#: robot/ai_msg.c:70
+#, c-format
+msgid "%s, Were you here last night ?"
+msgstr "%s, warst du nicht schon letzte Nacht hier?"
+
+#: robot/ai_msg.c:71
+msgid "nod"
+msgstr "jaja"
+
+#: robot/ai_msg.c:72
+msgid "What?"
+<<<<<<< HEAD
+msgstr "Hï¿½ï¿½h?"
+=======
+msgstr "Hääh?"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:73
+msgid ":-)"
+msgstr ":-)"
+
+#: robot/ai_msg.c:74
+#, c-format
+msgid "%s, Do you think so?"
+msgstr "%s, glaubst doch selber nicht?"
+
+#: robot/ai_msg.c:75
+#, c-format
+msgid "%s, What can I say ?"
+msgstr "%s, was soll ich dazu sagen?"
+
+#: robot/ai_msg.c:76
+#, c-format
+msgid "%s, Do you think I'm ugly ?"
+<<<<<<< HEAD
+msgstr "%s, behauptest du etwa ich wï¿½re hï¿½ï¿½lich?"
+=======
+msgstr "%s, behauptest du etwa ich wäre häßlich?"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:77
+#, c-format
+msgid "%s, Do you think I'm pretty ?"
+<<<<<<< HEAD
+msgstr "%s, glaubst du ich wï¿½re zu gut fï¿½r dich?"
+=======
+msgstr "%s, glaubst du ich wäre zu gut für dich?"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:78
+#, c-format
+msgid "%s, Are you pretty ?"
+msgstr "%s, wie siehst du aus?"
+
+#: robot/ai_msg.c:79
+#, c-format
+msgid "%s, Where do you live ?"
+msgstr "%s, wo lebst du?"
+
+#: robot/ai_msg.c:80
+#, c-format
+msgid "%s, miauuuuuuuuu"
+msgstr "%s, miauuuuuu"
+
+#: robot/ai_msg.c:91
+#, c-format
+msgid "%s, I don't agree"
+msgstr "%s, da liegst fett daneben"
+
+#: robot/ai_msg.c:92
+#, c-format
+msgid "%s, Are you sure what you are saying?"
+<<<<<<< HEAD
+msgstr "%s, kann's sein dass du Scheiï¿½ daher laberst?"
+=======
+msgstr "%s, kann's sein dass du Scheiß daher laberst?"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:93
+#, c-format
+msgid "%s, What are you saying"
+msgstr "%s, WIE BITTE?"
+
+#: robot/ai_msg.c:94
+#, c-format
+msgid "%s, I don't understand you"
+msgstr "%s, kapier ich nicht"
+
+#: robot/ai_msg.c:95
+#, c-format
+msgid "%s, funny"
+msgstr "%s, sehr lustig.."
+
+#: robot/ai_msg.c:96
+#, c-format
+msgid "%s, What?"
+msgstr "%s, was?"
+
+#: robot/ai_msg.c:97
+#, c-format
+msgid "%s, sure"
+msgstr "%s, schon klar"
+
+#: robot/ai_msg.c:98
+#, c-format
+msgid "%s, Are you talking to me?"
+msgstr "%s, redest du mit mir?"
+
+#: robot/ai_msg.c:99 robot/ai_msg.c:100
+#, c-format
+msgid "%s, you make me laugh"
+msgstr "%s, sehr lustig"
+
+#: robot/ai_msg.c:101
+#, c-format
+msgid "%s, I don't think so"
+msgstr "%s, glaub ich kaum."
+
+#: robot/ai_msg.c:102
+#, c-format
+msgid "No %s, I don't believe that"
+msgstr "Nein %s, ich kann es nicht glauben!"
+
+#: robot/ai_msg.c:103
+#, c-format
+msgid "Yes, why not ? %s, but are you sure ?"
+msgstr "Ja, warum nicht? Aber %s bist du dir auch ganz sicher?"
+
+#: robot/ai_msg.c:104
+#, c-format
+msgid "Tomorrow, not today. %s don't get me wrong"
+msgstr "Morgen, nicht heute. Versteh mich nicht falsch %s"
+
+#: robot/ai_msg.c:110
+msgid "Coca Sarli"
+msgstr "Heinz"
+
+#: robot/ai_msg.c:111
+msgid "Ciccolina"
+msgstr "Franz"
+
+#: robot/ai_msg.c:112
+msgid "Raton Perez"
+msgstr "Sepperl"
+
+#: robot/ai_msg.c:113
+msgid "Geniol"
+msgstr "Wolfi"
+
+#: robot/ai_msg.c:114
+msgid "Fantoche"
+msgstr "Tomboy"
+
+#: robot/ai_msg.c:115
+msgid "Jirafa"
+msgstr "Der Polizist"
+
+#: robot/ai_msg.c:116
+msgid "Guaymayen"
+<<<<<<< HEAD
+msgstr "Der Rï¿½uber"
+=======
+msgstr "Der Räuber"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:117
+msgid "Mono Mario"
+msgstr "Superman"
+
+#: robot/ai_msg.c:118
+msgid "Havanna"
+msgstr "Mustafa"
+
+#: robot/ai_msg.c:119
+msgid "Shakira"
+msgstr "HerrBert"
+
+#: robot/ai_msg.c:120
+msgid "Thalia"
+msgstr "Jim Morrison"
+
+#: robot/ai_msg.c:121
+msgid "Spice Girls"
+msgstr "Spice Girls"
+
+#: robot/ai_msg.c:122
+msgid "Britney Spears"
+msgstr "Britney Spears"
+
+#: robot/ai_msg.c:123
+msgid "Cameron Diaz"
+msgstr "Cameron Diaz"
+
+#: robot/ai_msg.c:124
+msgid "Betty la fea"
+msgstr "Heidi Klum"
+
+#: robot/ai_msg.c:125
+msgid "Pitufina"
+msgstr "DJ Tomcraft"
+
+#: robot/ai_msg.c:126
+msgid "Topacio"
+msgstr "Michi Beck"
+
+#: robot/ai_msg.c:127
+msgid "Batman"
+msgstr "Godzilla"
+
+#: robot/ai_msg.c:128
+msgid "Gatubela"
+msgstr "Rosi"
+
+#: robot/ai_msg.c:129
+msgid "La cuca"
+<<<<<<< HEAD
+msgstr "Lieï¿½chen"
+
+#: robot/ai_msg.c:130
+msgid "Bush"
+msgstr "Gerhard Schrï¿½der"
+=======
+msgstr "Ließchen"
+
+#: robot/ai_msg.c:130
+msgid "Bush"
+msgstr "Gerhard Schröder"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:131
+msgid "Lewinsky"
+msgstr "Theo Waigel"
+
+#: robot/ai_msg.c:132
+msgid "Clinton"
+msgstr "Homer Simpson"
+
+#: robot/ai_msg.c:133
+msgid "Chupete"
+msgstr "Pinky"
+
+#: robot/ai_msg.c:134
+msgid "Gaturro"
+msgstr "Brain"
+
+#: robot/ai_msg.c:135
+msgid "Mr.President"
+msgstr "Bobbele"
+
+#: robot/ai_msg.c:136
+msgid "Batistuta"
+msgstr "Steffi Graf"
+
+#: robot/ai_msg.c:137
+msgid "Perla"
+msgstr "Napoleon"
+
+#: robot/ai_msg.c:138
+msgid "Maradona"
+msgstr "Caesar"
+
+#: robot/ai_msg.c:139
+msgid "Pele"
+msgstr "Hannibal"
+
+#: robot/ai_msg.c:140
+msgid "Comanche"
+msgstr "Darth Vader"
+
+#: robot/ai_msg.c:141
+msgid "Tehuelche"
+msgstr "Luke Skywalker"
+
+#: robot/ai_msg.c:142
+msgid "Pampita"
+<<<<<<< HEAD
+msgstr "Kï¿½ptain Blaubï¿½r"
+=======
+msgstr "Käptain Blaubär"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: robot/ai_msg.c:143
+msgid "Pampa"
+msgstr "Erich Honnecker"
+
+#: robot/ai_msg.c:144
+msgid "Pamela"
+msgstr "Claudia Schiffer"
+
+#: client/helper.c:201
+msgid "Error in start. Are there at least 2 players?"
+<<<<<<< HEAD
+msgstr "Fehler beim Starten. Es mï¿½ssen mindestens 2 Spieler sein!"
+=======
+msgstr "Fehler beim Starten. Es müssen mindestens 2 Spieler sein!"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/attack.c:92
+msgid "Error, It's not the time to attack"
+msgstr "Fehler, du kannst jetzt nicht angreifen"
+
+#: client/attack.c:103 client/reagrupe.c:61
+#, c-format
+msgid "Source country: '%s'. Now select the destination country"
+<<<<<<< HEAD
+msgstr "Ursprungsland: '%s'. Jetzt wï¿½hle das Zielland"
+=======
+msgstr "Ursprungsland: '%s'. Jetzt wähle das Zielland"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/attack.c:105
+#, c-format
+msgid "Error, '%s' must have at least 2 armies"
+msgstr "Fehler, '%s' muss mindestens zwei Armeen haben"
+
+#: client/attack.c:109 client/ejer2.c:52 client/fichas.c:78
+#: client/fichas.c:105 client/reagrupe.c:67 client/reagrupe.c:90
+#, c-format
+msgid "Error, '%s' isn't one of your countries"
+<<<<<<< HEAD
+msgstr "Fehler, '%s' ist keines deiner Lï¿½nder"
+
+#: client/attack.c:114
+msgid "Source country is the same as the destination. Resetting the attack..."
+msgstr "Ursprungsland und Zielland sind gleich. Ziehe Attacke zurï¿½ck..."
+=======
+msgstr "Fehler, '%s' ist keines deiner Länder"
+
+#: client/attack.c:114
+msgid "Source country is the same as the destination. Resetting the attack..."
+msgstr "Ursprungsland und Zielland sind gleich. Ziehe Attacke zurück..."
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/attack.c:125
+#, c-format
+msgid "Destination country: '%s'. Attacking..."
+msgstr "Zielland: '%s'. Greife an..."
+
+#: client/attack.c:128 client/reagrupe.c:86
+#, c-format
+msgid "Error, '%s' isn't frontier with '%s'"
+msgstr "Fehler, '%s' ist kein Nachbarland von '%s'"
+
+#: client/attack.c:133
+#, c-format
+msgid "Error, you can't attack your own countries ('%s')"
+msgstr "Fehler, du kannst nicht dein eigenes Land angreifen ('%s')"
+
+#: client/attack.c:139
+#, fuzzy
+msgid "Error, unexpected error in attack_click(). Report this bug!"
+msgstr "Unerwarteter Fehler in ataque_click(). Bitte melde diesen Fehler!"
+
+#: client/attack.c:179
+msgid "Error, make sure to select the countries first."
+<<<<<<< HEAD
+msgstr "Fehler, erst die Lï¿½nder auswï¿½hlen"
+=======
+msgstr "Fehler, erst die Länder auswählen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/canje.c:34
+msgid "Error, its not the moment to exchange the cards"
+msgstr "Fehler, es ist nicht die Zeit zum Kartentauschen"
+
+#: client/canje.c:42
+msgid "Error, the cards must be all equal, or all different"
+<<<<<<< HEAD
+msgstr "Fehler, die Karten mï¿½ssen alle entweder gleich oder verschieden sein"
+=======
+msgstr "Fehler, die Karten müssen alle entweder gleich oder verschieden sein"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/ejer2.c:44
+msgid "Error, the 2 armies where placed before"
+msgstr "Fehler, die 2 Armeen wurden bereits platziert"
+
+#: client/ejer2.c:48
+msgid "Error, it's not the time to put 2 armies."
+msgstr "Fehler, es ist nicht der Zeitpunkt um die 2 Armeen zu setzen"
+
+#: client/fichas.c:61
+msgid "Error, you can't add armies now"
+<<<<<<< HEAD
+msgstr "Fehler, du kannst jetzt keine Armeen hinzufï¿½gen"
+=======
+msgstr "Fehler, du kannst jetzt keine Armeen hinzufügen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/fichas.c:73
+#, c-format
+msgid "Error, you can't put more than %d armies"
+msgstr "Fehler, du kannst nicht mehr als %d Armeen setzen"
+
+#: client/fichas.c:91
+msgid "Error, you can't sub armies now"
+msgstr "Fehler, du kannst deine Armeen jetzt nicht aufteilen"
+
+#: client/fichas.c:228
+msgid "Error, its not the time to send armies"
+msgstr "Fehler, du kannst jetzt keine Armeen senden"
+
+#: client/fichas.c:234
+msgid "Error, put the correct number of armies"
+msgstr "Fehler, setze die richtige Anzahl von Armeen"
+
+#: client/fichas.c:269
+msgid "Error, its not the moment to send your armies"
+msgstr "Fehler, du kannst jetzt keine Armeen schicken"
+
+#: client/inputfd.c:129
+msgid "The server is full. Try connecting as an observer"
+msgstr "Der Server ist voll :( Versuch dich als Beobachter einzuloggen."
+
+#: client/inputfd.c:137
+msgid "The game has already started. Try connecting as an observer."
+msgstr ""
+<<<<<<< HEAD
+"Das Spiel hat schon lï¿½ngst begonnen. Versuch dich als Beobachter einzuloggen."
+=======
+"Das Spiel hat schon längst begonnen. Versuch dich als Beobachter einzuloggen."
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/inputfd.c:146
+#, c-format
+msgid "Player %s was kicked from the game"
+msgstr "Spieler %s wurde aus dem Spiel geworfen"
+
+#. no lo tengo en la base
+#: client/inputfd.c:160
+#, c-format
+msgid "Player %d abandoned the game"
+msgstr "Spieler %d hat das Spiel verlassen"
+
+#: client/inputfd.c:164
+#, c-format
+msgid "Player %s(%s) abandoned the game"
+msgstr "Spieler %s(%s) hat das Spiel verlassen"
+
+#. no lo tengo en la base
+#: client/inputfd.c:190
+#, c-format
+msgid "Player %d exit the game"
+msgstr "Spieler %d hat das Spiel verlassen"
+
+#: client/inputfd.c:194
+#, c-format
+msgid "Player %s(%s) exit the game"
+msgstr "Spieler %s(%s) hat das Spiel verlassen"
+
+#: client/inputfd.c:244
+#, c-format
+msgid "Player %s(%s) is the WINNER"
+msgstr "Spieler %s(%s) ist der GEWINNER"
+
+#: client/inputfd.c:271
+#, c-format
+msgid "Player %s(%s) lost the game\n"
+msgstr "Spieler %s(%s) hat verloren\n"
+
+#: client/inputfd.c:356
+#, c-format
+msgid "The server report an error in '%s'"
+msgstr "Der Server erhielt einen Fehler in '%s'"
+
+#: client/inputfd.c:460
+#, c-format
+msgid "Dices: %s: %d %d %d vs. %s: %d %d %d"
+<<<<<<< HEAD
+msgstr "Wï¿½rfel: %s: %d %d %d vs. %s: %d %d %d\""
+=======
+msgstr "Würfel: %s: %d %d %d vs. %s: %d %d %d\""
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/inputfd.c:521
+#, c-format
+msgid "%s(%s) is attacking %s(%s)"
+msgstr "%s(%s) greift %s(%s) an"
+
+#: client/inputfd.c:524
+#, c-format
+msgid "%s is attacking %s"
+msgstr "%s greift %s an"
+
+#: client/inputfd.c:565
+msgid "It's your turn to attack!!"
+msgstr "Du bist mit Angreifen an der Reihe"
+
+#. No es mi turno, entonces yo tengo que estar en idle
+#: client/inputfd.c:568
+#, c-format
+msgid "Player %s(%s) has the turn to attack!"
+msgstr "Spieler %s(%s) darf jetzt angreifen!"
+
+#: client/inputfd.c:620
+#, c-format
+msgid "Player %s(%s) is placing %d armies for 1st time"
+msgstr "Spieler %s(%s) setzt %d Armeen zum ersten Mal"
+
+#: client/inputfd.c:670
+#, c-format
+msgid "Player %s(%s) is placing %d armies for 2nd time"
+msgstr "Spieler %s(%s) setzt %d Armeen zum zweiten Mal"
+
+#: client/inputfd.c:729
+#, c-format
+msgid "Player %s(%s) is placing %d armies"
+msgstr "Spieler %s(%s) setzt %d Armeen"
+
+#: client/inputfd.c:817
+#, c-format
+msgid "I'm player number:%d"
+msgstr "Ich habe die Spieler-Nummer: %d"
+
+#: client/inputfd.c:855
+#, c-format
+msgid "Successful reconnection. I'm player number:%d"
+msgstr "Erfolgreich wieder verbunden. Ich habe die Spieler-Nummer: %d"
+
+#: client/inputfd.c:930
+#, c-format
+msgid "My color is: %s"
+msgstr "Meine Farbe ist: %s"
+
+#: client/inputfd.c:932
+#, c-format
+msgid "Player[%d] '%s' is connected with color %s"
+msgstr "Spieler[%d] '%s' mit der Farbe %s ist verbunden"
+
+#: client/inputfd.c:1212
+#, c-format
+msgid "Exchanged approved. Now you can place %d more armies!"
+<<<<<<< HEAD
+msgstr "Austausch erfolgt. Du kannst jetzt %d zusï¿½tzliche Armeen setzen!"
+=======
+msgstr "Austausch erfolgt. Du kannst jetzt %d zusätzliche Armeen setzen!"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/inputfd.c:1215
+#, c-format
+msgid "Player %s(%s) exchanged 3 cards for %d armies"
+msgstr "Spieler %s(%s) hat 3 Karten gegen %d Armeen getauscht"
+
+#: client/inputfd.c:1340
+#, c-format
+msgid "You received card: '%s' and 2 armies where placed there"
+msgstr "Du hast eine Karte erhalten: '%s' und 2 Armeen wurden dort platziert"
+
+#: client/inputfd.c:1342
+#, c-format
+msgid "You received card: '%s'"
+msgstr "Du hast eine Karte erhalten: '%s'"
+
+#: client/inputfd.c:1377
+#, c-format
+msgid "Aborting: Different protocols version. Server:%d Client:%d"
+msgstr "ABBRUCH: Unterschiedliche Protokolversionen. Server:%d Client:%d"
+
+#. no lo tengo en la base
+#: client/inputfd.c:1432
+#, c-format
+msgid "Player %d started round number: %d"
+msgstr "Spielder %d hat Runde %d gestartet"
+
+#: client/inputfd.c:1434
+#, c-format
+msgid "Player %s(%s) started round number: %d"
+msgstr "Spieler %s(%s) startete die Runde %d"
+
+#: client/inputfd.c:1489
+#, c-format
+msgid "Token '%s' not found"
+msgstr "Konnte '%s' nicht finden"
+
+#: client/misc.c:128
+#, c-format
+msgid "Error while trying to connect to server '%s' at port %d"
+<<<<<<< HEAD
+msgstr "Fehler wï¿½hrend des Verbindungsaufbaus zum Server '%s' am Port %d"
+
+#: client/misc.c:138
+msgid "Error while trying to connect to GGZ client"
+msgstr "Fehler wï¿½hrend des Verbindungsaufbaus zum GGZ Client"
+=======
+msgstr "Fehler während des Verbindungsaufbaus zum Server '%s' am Port %d"
+
+#: client/misc.c:138
+msgid "Error while trying to connect to GGZ client"
+msgstr "Fehler während des Verbindungsaufbaus zum GGZ Client"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/misc.c:151
+msgid "Error, you are already connected"
+msgstr "Fehler, du bist bereits verbunden"
+
+#: client/misc.c:185
+msgid "The game has already started. Connect as an observer."
+<<<<<<< HEAD
+msgstr "Das Spiel hat schon lï¿½ngst begonnen. Log dich also Beobachter ein."
+=======
+msgstr "Das Spiel hat schon längst begonnen. Log dich also Beobachter ein."
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/outputfd.c:74 client/outputfd.c:86 client/outputfd.c:98
+msgid "Error, you must be connected"
+msgstr "Fehler, du musst verbunden sein."
+
+#: client/outputfd.c:130
+msgid "Error, it's not the moment to get a card"
+msgstr "Fehler, du kannst jetzt keine Karte erhalten"
+
+#: client/outputfd.c:165
+msgid "Error, it's not your turn."
+msgstr "Fehler, du bist nicht an der Reihe"
+
+#: client/outputfd.c:193 client/outputfd.c:208
+msgid "Error, the game is not started"
+msgstr "Fehler, das Spiel hat noch nicht begonnen."
+
+#: client/outputfd.c:221
+msgid "Error, the game is started so you can't change the type of game"
+msgstr ""
+"Fehler, das Spiel hat schon angefangen und du kannst die Spielart nicht "
+<<<<<<< HEAD
+"ï¿½ndern"
+=======
+"ändern"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/outputfd.c:277
+msgid "TEG client version "
+msgstr "TEG Client Version"
+
+#: client/reagrupe.c:50
+msgid "Error, It's not the time to regroup"
+msgstr "Fehler, du kannst deine Truppen jetzt nicht neu anordnen."
+
+#: client/reagrupe.c:63
+#, c-format
+msgid "Error, '%s' doesn't have any avalaible armies to move"
+msgstr "Fehler, '%s' hat keine freien Armeen zum Bewegen"
+
+#: client/reagrupe.c:72
+msgid "Source country is the same as the destination. Resetting the regroup..."
+msgstr "Ursprungsland und Zielland sind gleich. Starte neu..."
+
+#: client/reagrupe.c:83
+#, c-format
+msgid "Destination country: '%s'. Now select the quantity of armies to move"
+<<<<<<< HEAD
+msgstr "Zielland: '%s'. Wï¿½hle jetzt die Anzahl der zu bewegenden Armeen"
+=======
+msgstr "Zielland: '%s'. Wähle jetzt die Anzahl der zu bewegenden Armeen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/reagrupe.c:95
+msgid "Error, unexpected error in reagrupe_click(). Report this bug!"
+msgstr ""
+"Fehler, unerwarteter Fehler in reagrupe_click(). Bitte melde diesen Bug!"
+
+#: client/reagrupe.c:136
+msgid "Error, you can't regroup your armies now"
+msgstr "Fehler, du kannst deine Armeen jetzt nicht neu verteilen"
+
+#: client/reagrupe.c:188
+msgid "Error, you can't regroup now."
+msgstr "Fehler, du kannst deine Armeen jetzt nicht neu verteilen"
+
+#: client/themes/m2/translate.c:36
+msgid "Western Australia"
+msgstr "West-Australien"
+
+#: client/themes/m2/translate.c:38
+msgid "Eastern Australia"
+msgstr "Ost-Australien"
+
+#: client/gui-gnome/armies.c:284
+msgid "Total"
+msgstr "Gesamt"
+
+#: client/gui-gnome/callbacks.c:148
+msgid ""
+"The attack was reset. Please, select the source country to continue your attack"
+msgstr ""
+<<<<<<< HEAD
+"Der Angriff wurde abgebrochen. Bitte wï¿½hle ein Ursprungsland um deine Attacke\nfortzusetzen"
+=======
+"Der Angriff wurde abgebrochen. Bitte wähle ein Ursprungsland um deine Attacke\nfortzusetzen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. reagrupe_dialog = gnome_dialog_new(_("Regrouping armies"),GNOME_STOCK_BUTTON_OK,NULL);
+#: client/gui-gnome/callbacks.c:155 client/gui-gnome/interface.c:887
+msgid "Regrouping armies"
+msgstr "Ordne Armeen neu an"
+
+#: client/gui-gnome/callbacks.c:156 client/gui-gnome/gui.c:399
+msgid ""
+"Select two countries:\n"
+"1st: click on the source country\n"
+"2nd: click on the destination country"
+msgstr ""
+<<<<<<< HEAD
+"Wï¿½hle zwei Lï¿½nder:\n"
+=======
+"Wähle zwei Länder:\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+"1: Klicke auf das Ursprungsland\n"
+"2: Klicke auf das Zielland"
+
+#: client/gui-gnome/callbacks.c:180
+msgid "Really surrender ?"
+msgstr "Wirklich aufgeben?"
+
+#: client/gui-gnome/callbacks.c:235
+msgid "translator_credits"
+msgstr "Thomas R. Koll <tomk32@tomk32.de>"
+
+#: client/gui-gnome/callbacks.c:262
+msgid "Tenes Empanadas Graciela"
+msgstr "Tenes Empanadas Graciela"
+
+#: client/gui-gnome/callbacks.c:263
+msgid "Copyright (C) 2000, 2002 Ricardo Quesada"
+msgstr "Copyright (C) 2000 - 2002 Ricardo Quesada"
+
+#: client/gui-gnome/callbacks.c:264
+msgid "A clone of T.E.G. (a Risk clone)."
+msgstr "Eine Neufassung von T.E.G. (eine Risiko Kopie)."
+
+#: client/gui-gnome/callbacks.c:276
+msgid "TEG Home Page"
+msgstr "TEG Homepage"
+
+#: client/gui-gnome/cards.c:205
+msgid "Error creating canvas\n"
+msgstr "Fehler beim Erzeugen der Karten\n"
+
+#: client/gui-gnome/cards.c:222 client/gui-gnome/cards.c:238
+#: client/gui-gnome/cards.c:254
+msgid "Error creating image\n"
+msgstr "Fehler beim Erzeugen der Bilder\n"
+
+#. botones
+#. hbox = gtk_hbox_new( FALSE, 0);
+#: client/gui-gnome/cards.c:261
+msgid "Put 2 armies"
+msgstr "Setze 2 Armeen"
+
+#: client/gui-gnome/cards.c:267
+msgid "Select this card"
+<<<<<<< HEAD
+msgstr "Wï¿½hle diese Karte"
+=======
+msgstr "Wähle diese Karte"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/cards.c:273
+msgid "Locate country"
+msgstr "Land finden"
+
+#: client/gui-gnome/cards.c:305
+msgid "You don't have any cards yet"
+msgstr "Du hast noch keine Karten"
+
+#: client/gui-gnome/cards.c:316
+msgid "Country Cards"
+<<<<<<< HEAD
+msgstr "Lï¿½nderkarten"
+=======
+msgstr "Länderkarten"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/cards.c:316
+msgid "Exchange"
+msgstr "Austauschen"
+
+#: client/gui-gnome/chatline.c:51
+msgid "You need to be connected"
+msgstr "Du musst verbunden sein"
+
+#: client/gui-gnome/chatline.c:128
+#, fuzzy
+msgid "Cleared output window"
+<<<<<<< HEAD
+msgstr "Ausgabefenster gelï¿½scht\n"
+=======
+msgstr "Ausgabefenster gelöscht\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/colors.c:102 client/gui-gnome/colors.c:115
+#: client/gui-gnome/colors.c:127 client/gui-gnome/colors.c:138
+#: client/gui-gnome/dices.c:84 client/gui-gnome/g_country.c:366
+#, c-format
+msgid "Error, couldn't find file: %s"
+msgstr "Fehler, konnte Datei nicht finden: %s"
+
+#: client/gui-gnome/connect.c:167 client/gui-gnome/interface.c:98
+#: client/gui-gnome/interface.c:288
+msgid "Connect to server"
+msgstr "Verbinde zum Server"
+
+#: client/gui-gnome/connect.c:194
+msgid "TEG Server Selection"
+msgstr "TEG Server Auswahl"
+
+#: client/gui-gnome/connect.c:204
+msgid "Server Options"
+msgstr "Server Einstellungen"
+
+#. server port
+#: client/gui-gnome/connect.c:209
+msgid "Server port:"
+msgstr "Server Port:"
+
+#. server name
+#: client/gui-gnome/connect.c:216
+msgid "Server name:"
+msgstr "Server Name:"
+
+#. player name
+#: client/gui-gnome/connect.c:224
+msgid "Name:"
+msgstr "Name:"
+
+#. launch localhost server
+#: client/gui-gnome/connect.c:234
+msgid "Start server locally"
+msgstr "Starte lokalen Server"
+
+#. observer mode
+#: client/gui-gnome/connect.c:241
+msgid "Don't play, just observe"
+msgstr "Nicht spielen, nur beobachten"
+
+#. notebook: TEG Server Selection
+#: client/gui-gnome/connect.c:244
+#, fuzzy
+msgid "Metaserver"
+msgstr "Beobachter"
+
+#: client/gui-gnome/connect.c:257
+#, fuzzy
+msgid "Server Name"
+msgstr "Server Name:"
+
+#: client/gui-gnome/connect.c:259
+msgid "Port"
+msgstr ""
+
+#: client/gui-gnome/connect.c:261
+#, fuzzy
+msgid "Version"
+msgstr "_Mission"
+
+#: client/gui-gnome/connect.c:263 client/gui-gnome/status.c:213
+msgid "Status"
+msgstr "Status"
+
+#: client/gui-gnome/connect.c:271
+#, fuzzy
+msgid "Update"
+msgstr "_Aktualisiere Karte"
+
+#: client/gui-gnome/connect.c:368
+msgid "Select your color"
+<<<<<<< HEAD
+msgstr "Wï¿½hle deine Farbe"
+=======
+msgstr "Wähle deine Farbe"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. desired color
+#: client/gui-gnome/connect.c:379
+msgid "Select your desired color"
+<<<<<<< HEAD
+msgstr "Wï¿½hle deine gewï¿½nschte Farbe"
+
+#: client/gui-gnome/connect.c:446
+msgid "Select type of game"
+msgstr "Wï¿½hle die Spielart"
+=======
+msgstr "Wähle deine gewünschte Farbe"
+
+#: client/gui-gnome/connect.c:446
+msgid "Select type of game"
+msgstr "Wähle die Spielart"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. Conquer the world / Secret missions
+#: client/gui-gnome/connect.c:458
+msgid "Missions"
+msgstr "Missionen"
+
+#: client/gui-gnome/connect.c:465
+msgid "Play to conquer the world"
+msgstr "Spiele um die Weltherrschaft"
+
+#: client/gui-gnome/connect.c:471
+msgid "Play with secret missions"
+msgstr "Spiele um geheime Missionen"
+
+#: client/gui-gnome/connect.c:477
+msgid ""
+"Play with common mission\n"
+"(One wins, also, conquering 30 countries)"
+msgstr ""
+"Spiel mit normaler Mission\n"
+<<<<<<< HEAD
+"(Man kann auch mit 30 eroberten Lï¿½ndern gewinnen)"
+=======
+"(Man kann auch mit 30 eroberten Ländern gewinnen)"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. Fog of War / Normal
+#: client/gui-gnome/connect.c:487
+msgid "Visibility"
+msgstr "Sichtbarkeit"
+
+#: client/gui-gnome/connect.c:494
+msgid "Standard (You see all countries)"
+<<<<<<< HEAD
+msgstr "Standard (Alle Lï¿½nder sind sichtbar)"
+
+#: client/gui-gnome/connect.c:500
+msgid "Fog of War (You see only border countries)"
+msgstr "Nebel des Krieges (Du kannst nur benachbarte Lï¿½nder sehen)"
+=======
+msgstr "Standard (Alle Länder sind sichtbar)"
+
+#: client/gui-gnome/connect.c:500
+msgid "Fog of War (You see only border countries)"
+msgstr "Nebel des Krieges (Du kannst nur benachbarte Länder sehen)"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. Armies
+#: client/gui-gnome/connect.c:508 client/gui-gnome/status.c:195
+msgid "Armies"
+msgstr "Armeen"
+
+#: client/gui-gnome/connect.c:515
+msgid "Armies to place in the 1st step"
+msgstr "Anzahl der Armeen beim ersten Platzieren"
+
+#: client/gui-gnome/connect.c:524
+msgid "Armies to place in the 2nd step"
+msgstr "Anzahl der Armeen beim zweiten Platzieren"
+
+#: client/gui-gnome/g_country.c:77
+#, c-format
+msgid "%s armies: %d"
+msgstr "%s Armeen: %d"
+
+#: client/gui-gnome/g_scores.c:89 client/gui-gnome/status.c:144
+msgid "Number"
+msgstr "Nummer"
+
+#: client/gui-gnome/g_scores.c:98 client/gui-gnome/g_scores.c:343
+#: client/gui-gnome/status.c:161
+msgid "Score"
+msgstr "Punkte"
+
+#: client/gui-gnome/g_scores.c:107 client/gui-gnome/g_scores.c:343
+#: client/gui-gnome/status.c:153
+msgid "Name"
+msgstr "Name"
+
+#: client/gui-gnome/g_scores.c:116
+msgid "Date"
+msgstr "Datum"
+
+#: client/gui-gnome/g_scores.c:125 client/gui-gnome/g_scores.c:343
+#: client/gui-gnome/status.c:136
+msgid "Color"
+msgstr "Farbe"
+
+#: client/gui-gnome/g_scores.c:134 client/gui-gnome/status.c:180
+msgid "Human?"
+msgstr "Mensch?"
+
+#: client/gui-gnome/g_scores.c:257
+msgid "High Scores"
+msgstr "High Score"
+
+#: client/gui-gnome/gui.c:61
+msgid "Enables GGZ mode"
+msgstr "Schalte GGZ Modus ein"
+
+#: client/gui-gnome/gui.c:63
+msgid "Observe the game, don't play it"
+msgstr "Spiel beobachten, nicht mitspielen"
+
+#: client/gui-gnome/gui.c:107
+#, c-format
+msgid "You lost the game :("
+msgstr "Du hast das Spiel verloren :("
+
+#: client/gui-gnome/gui.c:108
+msgid "You lost"
+msgstr "Du hast verloren"
+
+#: client/gui-gnome/gui.c:108 client/gui-gnome/support.c:257
+#: client/gui-gnome/support.c:260 client/gui-gnome/support.c:265
+msgid "Game Over"
+msgstr "Spiel vorbei"
+
+#: client/gui-gnome/gui.c:111
+#, c-format
+msgid "Player %s(%s) lost the game"
+msgstr "Spieler %s(%s) hat verloren"
+
+#: client/gui-gnome/gui.c:112
+msgid "A player lost the game"
+msgstr "Ein Mitspieler hat verloren"
+
+#: client/gui-gnome/gui.c:112
+msgid "Player lost the game"
+msgstr "Ein Mitspieler hat verloren"
+
+#: client/gui-gnome/gui.c:132
+#, c-format
+msgid "Coward %s(%s) has surrendered"
+msgstr "Der Feigling %s(%s) hat aufgegeben"
+
+#: client/gui-gnome/gui.c:133
+msgid "A player has surrendered"
+msgstr "Ein Mitspieler hat aufgegeben"
+
+#. show welcome message
+#: client/gui-gnome/gui.c:201
+#, c-format
+msgid "Tenes Empanadas Graciela - Gnome client v%s - by Ricardo Quesada"
+msgstr "Tenes Empanadas Graciela - Gnome Client v%s - von Ricardo Quesada"
+
+#: client/gui-gnome/gui.c:202
+#, c-format
+msgid "Using theme '%s - v%s' by %s\n"
+msgstr "Verwende Karte '%s - v%s' von %s\n"
+
+#: client/gui-gnome/gui.c:339
+#, c-format
+msgid ""
+"1st part:\n"
+"Place %d armies in your countries"
+msgstr ""
+"Erster Teil:\n"
+<<<<<<< HEAD
+"Platziere %d Armeen in deinen Lï¿½ndern"
+=======
+"Platziere %d Armeen in deinen Ländern"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/gui.c:342
+#, c-format
+msgid ""
+"2nd part:\n"
+"Place %d armies in your countries"
+msgstr ""
+"Zweiter Teil:\n"
+<<<<<<< HEAD
+"Platziere %d Armeen in deinen Lï¿½ndern"
+=======
+"Platziere %d Armeen in deinen Ländern"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/gui.c:353
+#, c-format
+msgid "Place %d armies in %s\n"
+msgstr "Platziere %d Armeen in %s\n"
+
+#: client/gui-gnome/gui.c:361
+#, c-format
+msgid "And place another %d armies in your countries\n"
+<<<<<<< HEAD
+msgstr "Und platziere weitere %d Armeen in deinen Lï¿½ndern\n"
+=======
+msgstr "Und platziere weitere %d Armeen in deinen Ländern\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/gui.c:365
+#, c-format
+msgid "Place %d armies in your countries\n"
+<<<<<<< HEAD
+msgstr "Platziere %d Armeen in deinen Lï¿½ndern\n"
+=======
+msgstr "Platziere %d Armeen in deinen Ländern\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/gui.c:371
+msgid ""
+"\n"
+"If you want to EXCHANGE your cards for armies,\n"
+"DO IT NOW!"
+msgstr ""
+"\n"
+"Wenn du deine Armee Karten AUSTAUSCHEN willst,\n"
+"TU ES JETZT!"
+
+#: client/gui-gnome/gui.c:381
+msgid "Place armies"
+msgstr "Platziere deine Armeen"
+
+#: client/gui-gnome/gui.c:398
+msgid "Its your turn"
+msgstr "Du bist an der Reihe"
+
+#: client/gui-gnome/gui.c:398
+msgid "Its your turn to attack"
+msgstr "Du darfst jetzt angreifen"
+
+#: client/gui-gnome/gui.c:468
+#, c-format
+msgid "Now you can add %d extra armies in your countries!"
+<<<<<<< HEAD
+msgstr "Du kannst jetzt %d zusï¿½tzliche Armeen in deinen\nLï¿½ndern positionieren!"
+
+#: client/gui-gnome/gui.c:470
+msgid "Extra armies"
+msgstr "Zusï¿½tzliche Armeen"
+=======
+msgstr "Du kannst jetzt %d zusätzliche Armeen in deinen\nLändern positionieren!"
+
+#: client/gui-gnome/gui.c:470
+msgid "Extra armies"
+msgstr "Zusätzliche Armeen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:98
+msgid "_Connect"
+msgstr "_Verbinde"
+
+#: client/gui-gnome/interface.c:103
+msgid "_Disconnect"
+msgstr "_Unterbreche"
+
+#: client/gui-gnome/interface.c:103
+msgid "Disconnect from server"
+msgstr "Vom Server unterbrochen"
+
+#: client/gui-gnome/interface.c:110
+msgid "_Launch robot"
+msgstr "Starte _Roboter"
+
+#: client/gui-gnome/interface.c:110
+msgid "Launch a robot"
+msgstr "Starte einen Roboter"
+
+#: client/gui-gnome/interface.c:146 client/gui-gnome/interface.c:292
+msgid "Start"
+msgstr "Start"
+
+#: client/gui-gnome/interface.c:146 client/gui-gnome/interface.c:292
+msgid "Start the game"
+msgstr "Starte das Spiel"
+
+#: client/gui-gnome/interface.c:151 client/gui-gnome/interface.c:298
+msgid "Send armies"
+msgstr "Angreifen"
+
+#: client/gui-gnome/interface.c:151
+msgid "Send the armies recently placed"
+msgstr "Sende die gerade gesetzten Armeen"
+
+#: client/gui-gnome/interface.c:156
+msgid "_Update Map"
+msgstr "_Aktualisiere Karte"
+
+#: client/gui-gnome/interface.c:156
+msgid "Show the armies that others player had placed"
+msgstr "Zeige die Armeen die andere Spieler gesetzt haben"
+
+#: client/gui-gnome/interface.c:161
+msgid "_Reattack"
+msgstr "Attacke _wiederholen"
+
+#: client/gui-gnome/interface.c:161
+msgid "Attack your enemy, again using same source and destination"
+msgstr "Feind nochmal mit gleichem Ursprung und Ziel angreifen"
+
+#: client/gui-gnome/interface.c:166
+msgid "Reset the attack"
+msgstr "Angriff abbrechen"
+
+#: client/gui-gnome/interface.c:166
+msgid "Start again selecting the source and destination country for the attack"
+<<<<<<< HEAD
+msgstr "Wï¿½hle den Ursprung und das Ziel der Attacke neu"
+=======
+msgstr "Wähle den Ursprung und das Ziel der Attacke neu"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:171
+msgid "Re_group armies"
+msgstr "Armeen neu _gruppieren"
+
+#: client/gui-gnome/interface.c:171 client/gui-gnome/interface.c:300
+msgid "Regroup your armies, moving from one country to another"
+<<<<<<< HEAD
+msgstr "Ordne deine Armeen neu an, bewege sie von einem Land ins nï¿½chste"
+
+#: client/gui-gnome/interface.c:176
+msgid "Get card"
+msgstr "Nimm eine Lï¿½nderkarte"
+
+#: client/gui-gnome/interface.c:176 client/gui-gnome/interface.c:304
+msgid "Get a country card"
+msgstr "Nimm eine Lï¿½nderkarte"
+=======
+msgstr "Ordne deine Armeen neu an, bewege sie von einem Land ins nächste"
+
+#: client/gui-gnome/interface.c:176
+msgid "Get card"
+msgstr "Nimm eine Länderkarte"
+
+#: client/gui-gnome/interface.c:176 client/gui-gnome/interface.c:304
+msgid "Get a country card"
+msgstr "Nimm eine Länderkarte"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:181
+msgid "_End turn"
+msgstr "Zug be_enden"
+
+#: client/gui-gnome/interface.c:181 client/gui-gnome/interface.c:306
+msgid "Pass the turn to another player"
+<<<<<<< HEAD
+msgstr "Zug an den nï¿½chsten Spieler ï¿½bergeben"
+=======
+msgstr "Zug an den nächsten Spieler übergeben"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:188
+msgid "Surrender"
+msgstr "Aufgeben"
+
+#: client/gui-gnome/interface.c:188
+msgid "I'm a coward"
+msgstr "Ich bin ein Feigling"
+
+#: client/gui-gnome/interface.c:220
+msgid "View _players"
+<<<<<<< HEAD
+msgstr "Spieler_ï¿½bersicht"
+=======
+msgstr "Spieler_übersicht"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:220
+msgid "View the status of the players"
+msgstr "Zeige den Status der Spieler an"
+
+#: client/gui-gnome/interface.c:225
+msgid "View _mission"
+msgstr "_Mission"
+
+#: client/gui-gnome/interface.c:225
+msgid "View your mission of this game"
+msgstr "Schau dir deine Aufgabe in diesem Spiel an"
+
+#: client/gui-gnome/interface.c:230
+msgid "View _cards"
+msgstr "Zeige _Karten"
+
+#: client/gui-gnome/interface.c:230
+msgid "View all the card that you won"
+msgstr "Schau dir die Karten an die du gewonnen hast"
+
+#: client/gui-gnome/interface.c:236
+msgid "View _dices"
+<<<<<<< HEAD
+msgstr "Zeige _Wï¿½rfel"
+
+#: client/gui-gnome/interface.c:236
+msgid "View the result of the dices"
+msgstr "Schau die das Ergebnis der Wï¿½rfel an"
+
+#: client/gui-gnome/interface.c:244
+msgid "Zoom In"
+msgstr "Ver_grï¿½ï¿½ern"
+
+#: client/gui-gnome/interface.c:244
+msgid "Increase zoom factor by 5%"
+msgstr "Spielansicht um 5% vergrï¿½ï¿½ern"
+=======
+msgstr "Zeige _Würfel"
+
+#: client/gui-gnome/interface.c:236
+msgid "View the result of the dices"
+msgstr "Schau die das Ergebnis der Würfel an"
+
+#: client/gui-gnome/interface.c:244
+msgid "Zoom In"
+msgstr "Ver_größern"
+
+#: client/gui-gnome/interface.c:244
+msgid "Increase zoom factor by 5%"
+msgstr "Spielansicht um 5% vergrößern"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:249
+msgid "Zoom Out"
+msgstr "Ver_kleinern"
+
+#: client/gui-gnome/interface.c:249
+msgid "Decrease zoom factor by 5%"
+msgstr "Spielansicht um 5% verkleinern"
+
+#: client/gui-gnome/interface.c:254
+msgid "Zoom _1:1"
+msgstr "Zoom _1:1"
+
+#: client/gui-gnome/interface.c:254
+msgid "Display the map at 1:1 scale"
+<<<<<<< HEAD
+msgstr "Zeige die Karte im Maï¿½stab 1:1"
+=======
+msgstr "Zeige die Karte im Maßstab 1:1"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:278
+msgid "_Actions"
+msgstr "_Aktionen"
+
+#: client/gui-gnome/interface.c:288
+msgid "Connect"
+msgstr "Verbinden"
+
+#: client/gui-gnome/interface.c:298
+msgid "Send your armies"
+msgstr "Angreifen"
+
+#: client/gui-gnome/interface.c:300
+msgid "1. Regroup"
+msgstr "1. Bewegen"
+
+#: client/gui-gnome/interface.c:304
+msgid "2. Get card"
+<<<<<<< HEAD
+msgstr "2. Lï¿½nderkarte"
+=======
+msgstr "2. Länderkarte"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:306
+msgid "3. End turn"
+msgstr "3. Fertig"
+
+#: client/gui-gnome/interface.c:310
+msgid "View players"
+<<<<<<< HEAD
+msgstr "Spielerï¿½bersicht"
+=======
+msgstr "Spielerübersicht"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:310
+msgid "View players status"
+msgstr "Zeige Spieler Status"
+
+#: client/gui-gnome/interface.c:312
+msgid "In"
+msgstr "Rein"
+
+#: client/gui-gnome/interface.c:313
+msgid "Out"
+msgstr "Raus"
+
+#: client/gui-gnome/interface.c:314
+msgid "1:1"
+msgstr "1:1"
+
+#: client/gui-gnome/interface.c:321
+msgid "Exit"
+msgstr "Beenden"
+
+#: client/gui-gnome/interface.c:321
+msgid "Exit TEG"
+msgstr "Beende TEG"
+
+#: client/gui-gnome/interface.c:422 client/gui-gnome/preferences.c:101
+#, c-format
+msgid "Could not find the %s file"
+msgstr "Konnte Datei %s nicht finden"
+
+#: client/gui-gnome/interface.c:585
+msgid "Welcome to TEG!"
+msgstr "Willkommen bei TEG!"
+
+#: client/gui-gnome/interface.c:603
+msgid "Unable to create map!"
+msgstr "Erstellen der Karte fehlgeschlagen!"
+
+#. tropas_dialog = gnome_dialog_new(_("A country was conquered"),GNOME_STOCK_BUTTON_OK,NULL);
+#: client/gui-gnome/interface.c:786
+msgid "A country was conquered"
+msgstr "Ein Land wurde erobert"
+
+#: client/gui-gnome/interface.c:809
+msgid "A new country"
+msgstr "Ein neues Land"
+
+#: client/gui-gnome/interface.c:815
+#, c-format
+msgid "You conquered '%s' in your attack from '%s'!!\n"
+msgstr "Du hast in deinem Angriff '%s' von '%s' aus erobert!!\n"
+
+#: client/gui-gnome/interface.c:823 client/gui-gnome/interface.c:921
+msgid "Armies to move"
+msgstr "Zu bewegende Armeen"
+
+#. gtk_range_draw_trough(GTK_RANGE(tropas_hscale_cant));
+#: client/gui-gnome/interface.c:833
+#, c-format
+msgid ""
+"[Note: The server moved 1 army to '%s' for you.\n"
+"Choose how many more armies you want to move]"
+msgstr ""
+<<<<<<< HEAD
+"[Achtung: Der Server hat fï¿½r dich eine Armee nach '%s' bewegt.\n"
+"Nun wï¿½hle wieviele Armeen du zusï¿½tzlich bewegen willst]"
+=======
+"[Achtung: Der Server hat für dich eine Armee nach '%s' bewegt.\n"
+"Nun wähle wieviele Armeen du zusätzlich bewegen willst]"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/interface.c:887
+msgid "Regroup your armies"
+msgstr "Ordne deine Armeen neu an"
+
+#: client/gui-gnome/interface.c:908
+msgid "Regrouping"
+msgstr "Verteile neu"
+
+#: client/gui-gnome/interface.c:914
+#, c-format
+msgid "Moving armies from '%s' to '%s'\n"
+msgstr "Bewege Armeen von '%s' nach '%s'\n"
+
+#. gtk_range_draw_trough(GTK_RANGE(reagrupe_hscale_cant));
+#: client/gui-gnome/interface.c:932
+#, c-format
+msgid ""
+"[Note: You can regroup as many times as you want,\n"
+"as long as you don't regroup an army that was\n"
+"regrouped before in this turn.]"
+msgstr ""
+"[ACHTUNG: Du kannst so oft bewegen wie du willst,\n"
+"so lange jede Armee nur einmal in einem Zug bewegt wird.]"
+
+#: client/gui-gnome/mission.c:53
+msgid "Error, couldn't find file: objetivo.png"
+msgstr "Fehler, konnte Datei nicht finden: objetivo.png"
+
+#: client/gui-gnome/mission.c:117
+msgid "[This is your secret mission.]"
+msgstr "[Das ist deine Geheimmission.]"
+
+#: client/gui-gnome/mission.c:119
+msgid "[This is the common mission.]"
+msgstr "[Das ist deine normale Mission.]"
+
+#: client/gui-gnome/mission.c:184
+msgid "[Accomplished mission]"
+<<<<<<< HEAD
+msgstr "[Erfï¿½llte Mission]"
+=======
+msgstr "[Erfüllte Mission]"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/mission.c:249
+msgid "Requesting a mission..."
+msgstr "Fordere eine Mission an..."
+
+#: client/gui-gnome/mission.c:258
+#, c-format
+msgid "Your mission is: %s"
+msgstr "Deine Mission ist: %s"
+
+#: client/gui-gnome/mission.c:266
+msgid "Secret mission"
+msgstr "Geheimmission"
+
+#: client/gui-gnome/mission.c:266
+msgid "Your mission"
+msgstr "Deine Mission"
+
+#: client/gui-gnome/status.c:170
+msgid "Address"
+msgstr "IP Adresse"
+
+#: client/gui-gnome/status.c:186
+msgid "Countries"
+<<<<<<< HEAD
+msgstr "Lï¿½nder"
+=======
+msgstr "Länder"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/status.c:204
+msgid "Cards"
+msgstr "Karten"
+
+#: client/gui-gnome/status.c:223
+msgid "Started Turn?"
+msgstr "Hat angefangen"
+
+#: client/gui-gnome/status.c:353
+msgid "Status of Players"
+msgstr "Status der Spieler"
+
+#: client/gui-gnome/status.c:510
+msgid "Round started by:"
+msgstr "Angefangen:"
+
+#: client/gui-gnome/status.c:536
+msgid "Round number:"
+msgstr "Runde:"
+
+#: client/gui-gnome/status.c:549
+msgid "?"
+msgstr "?"
+
+#: client/gui-gnome/status.c:563
+msgid "Players turn:"
+<<<<<<< HEAD
+msgstr "Spielerzï¿½ge:"
+=======
+msgstr "Spielerzüge:"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/stock.c:64
+#, fuzzy
+msgid "Get Card"
+<<<<<<< HEAD
+msgstr "Nimm eine Lï¿½nderkarte"
+=======
+msgstr "Nimm eine Länderkarte"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/stock.c:65
+#, fuzzy
+msgid "Send Armies"
+msgstr "Angreifen"
+
+#: client/gui-gnome/stock.c:66
+#, fuzzy
+msgid "End Turn"
+msgstr "Zug be_enden"
+
+#: client/gui-gnome/stock.c:67
+#, fuzzy
+msgid "View Players"
+<<<<<<< HEAD
+msgstr "Spielerï¿½bersicht"
+=======
+msgstr "Spielerübersicht"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/support.c:257
+msgid "A player won the game"
+msgstr "Ein Mitspieler hat gewonnen"
+
+#: client/gui-gnome/support.c:260
+msgid "You are the winner"
+msgstr "Du bist der Sieger"
+
+#: client/gui-gnome/support.c:263
+#, c-format
+msgid "%s is the winner"
+msgstr "%s hat gewonnen"
+
+#. show mission
+#: client/gui-gnome/support.c:274
+msgid "Accomplished mission"
+<<<<<<< HEAD
+msgstr "Erfï¿½llte Mission"
+=======
+msgstr "Erfüllte Mission"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. show scores
+#: client/gui-gnome/support.c:282
+msgid "Players' Scores"
+msgstr "Punkte der Spieler"
+
+#: client/gui-gnome/preferences.c:261
+msgid "You have to restart TEG to use the new theme."
+msgstr "Du musst TEG neu starten um die neue Karte zu benutzen"
+
+#: client/gui-gnome/preferences.c:277
+msgid "Error while loading information about themes!"
+msgstr "Fehler beim Laden der Karteninformation"
+
+#: client/gui-gnome/preferences.c:331 client/gui-gnome/preferences.c:323
+msgid "Select theme"
+<<<<<<< HEAD
+msgstr "Wï¿½hle Karte"
+=======
+msgstr "Wähle Karte"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/preferences.c:342
+msgid "Preview"
+msgstr "Vorschau"
+
+#. Message Options
+#: client/gui-gnome/preferences.c:352 client/gui-gnome/preferences.c:548
+msgid "Console Messages"
+msgstr "Zeige Nachrichten in der Konsole"
+
+#: client/gui-gnome/preferences.c:359
+msgid "Show Error Messages"
+msgstr "Zeige Fehlermeldungen"
+
+#: client/gui-gnome/preferences.c:365
+msgid "Show Important Messages"
+msgstr "Zeige Wichtige Meldungen"
+
+#: client/gui-gnome/preferences.c:371
+msgid "Show Players Messages"
+msgstr "Zeige Spieler Nachrichten"
+
+#: client/gui-gnome/preferences.c:377
+msgid "Show Players Messages with colors"
+msgstr "Zeige Spieler Nachrichten mit Farben"
+
+#: client/gui-gnome/preferences.c:383
+msgid "Also Show Robot Messages"
+msgstr "Auch Nachrichten der Roboter anzeigen"
+
+#: client/gui-gnome/preferences.c:389
+msgid "Show Informative Messages"
+msgstr "Zeige Informative Nachrichten"
+
+#. * Status options *
+#: client/gui-gnome/preferences.c:386 client/gui-gnome/preferences.c:552
+msgid "Status Of Players"
+msgstr "Status der Spieler"
+
+#: client/gui-gnome/preferences.c:395
+msgid "Show Color"
+msgstr "Zeige Farbe"
+
+#: client/gui-gnome/preferences.c:402
+msgid "Show Player Number"
+msgstr "Zeige Spieler Nummer"
+
+#: client/gui-gnome/preferences.c:409
+msgid "Show Name"
+msgstr "Zeige Name"
+
+#: client/gui-gnome/preferences.c:416
+msgid "Show Score"
+msgstr "Zeige Punkte"
+
+#: client/gui-gnome/preferences.c:422
+msgid "Show IP Address"
+msgstr "Zeige IP Adresse"
+
+#: client/gui-gnome/preferences.c:428
+msgid "Show Human/Robot"
+msgstr "Zeige 'Mensch/Computer'"
+
+#: client/gui-gnome/preferences.c:440
+msgid "Show Countries"
+<<<<<<< HEAD
+msgstr "Zeige Lï¿½nder"
+=======
+msgstr "Zeige Länder"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: client/gui-gnome/preferences.c:446
+msgid "Show Armies"
+msgstr "Zeige Armeen"
+
+#: client/gui-gnome/preferences.c:452
+msgid "Show Cards"
+msgstr "Zeige Karten"
+
+#: client/gui-gnome/preferences.c:458
+msgid "Show Status"
+msgstr "Zeige Status"
+
+#: client/gui-gnome/preferences.c:464
+msgid "Show Who Started"
+msgstr "Zeige wer hat gestartet"
+
+#. Robot Options
+#: client/gui-gnome/preferences.c:478
+msgid "Launch Robot"
+msgstr "Starte Roboter"
+
+#: client/gui-gnome/preferences.c:485
+msgid "Starts the robots in the server (faster)"
+msgstr "Startet den Roboter auf dem Server (schneller)"
+
+#: client/gui-gnome/preferences.c:492
+msgid "Starts the robots in the client (preserves localization)"
+<<<<<<< HEAD
+msgstr "Startet den Roboter auf dem Client (bewahrt die ï¿½bersetzung)"
+=======
+msgstr "Startet den Roboter auf dem Client (bewahrt die Übersetzung)"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#. Dialogs Options
+#: client/gui-gnome/preferences.c:503 client/gui-gnome/preferences.c:560
+msgid "Popup Dialogs"
+msgstr "Popup Fenster"
+
+#: client/gui-gnome/preferences.c:509
+msgid "Show 'your turn for attack' dialog"
+msgstr "Zeige 'Du bist mit Angreifen an der Reihe'"
+
+#: client/gui-gnome/preferences.c:516
+msgid "Show 'regroup your armies' dialog"
+msgstr "Zeige 'Ordne deine Armeen neu an'"
+
+#: client/gui-gnome/preferences.c:523
+msgid "Show 'place your armies' dialog"
+msgstr "Zeige 'Platziere deine Armeen'"
+
+#: client/gui-gnome/preferences.c:539
+msgid "TEG Preferences"
+msgstr "TEG Einstellungen"
+
+#: client/gui-gnome/preferences.c:544
+msgid "Themes"
+msgstr "Themes"
+
+#: client/gui-gnome/preferences.c:556
+msgid "Robot"
+msgstr "Roboter"
+
+#: server/helper.c:434
+msgid "GGZ Client"
+msgstr "GGZ Client"
+
+#: server/helper.c:575
+#, c-format
+msgid "Launching robot with options: %s %s\n"
+msgstr "Starte Roboter mit den Optionen: %s %s\n"
+
+#: server/console.c:78
+msgid "to start playing"
+msgstr "startet das Spiel"
+
+#: server/console.c:79
+msgid "shows status of players"
+msgstr "zeigt den Status der Spieler"
+
+#: server/console.c:80
+msgid "sends a message to all the players"
+msgstr "sendet eine Nachricht an alle Spieler"
+
+#: server/console.c:81
+msgid "shows help"
+msgstr "zeigt die Hilfeseite"
+
+#: server/console.c:82
+msgid "internal use. Don't use it"
+msgstr "wird intern benutzt, Pfoten weg"
+
+#: server/console.c:83
+msgid "exits the game"
+msgstr "beendet das Spiel"
+
+#: server/console.c:84
+msgid "save the game"
+msgstr "speichert das Spiel"
+
+#: server/console.c:85
+msgid "sets options"
+msgstr "setzt einige Optionen"
+
+#: server/console.c:86
+msgid "view options"
+msgstr "zeigt Einstellungen"
+
+#: server/console.c:87
+msgid "kick player from the game"
+msgstr "wirft einen Mitspieler aus dem Spiel"
+
+#: server/console.c:88
+msgid "show players statistics"
+msgstr "zeigt Spieler Statistiken"
+
+#: server/console.c:89
+msgid "show all-time high scores"
+<<<<<<< HEAD
+msgstr "zeigt die hï¿½chsten Punktestï¿½nde an"
+=======
+msgstr "zeigt die höchsten Punktestände an"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/console.c:90
+msgid "metaservers options"
+msgstr "Metaserver Einstellungen"
+
+#: server/console.c:115 server/console.c:137 server/console.c:224
+#: server/console.c:238
+msgid "yes"
+msgstr "ja"
+
+#: server/console.c:115 server/console.c:137 server/console.c:224
+#: server/console.c:238
+msgid "no"
+msgstr "nein"
+
+#: server/console.c:121
+#, c-format
+msgid "Number Score - [Countries: Won  Lost] - [Armies: Won  Lost]  Name Human\n"
+<<<<<<< HEAD
+msgstr "# Punkte - [Lï¿½nder: Gewinn  Verlust] - [Armeen: Sieg  Tod] Name Mensch\n"
+=======
+msgstr "# Punkte - [Länder: Gewinn  Verlust] - [Armeen: Sieg  Tod] Name Mensch\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/console.c:146
+#, c-format
+msgid "  score  date       time    name              color    human\n"
+msgstr "  Punkte    Datum    Name    Farbe   Mensch\n"
+
+#: server/console.c:158
+#, c-format
+msgid "Player %s was kicked from the game\n"
+msgstr "Spieler %s wurde aus dem Spiel geworfen\n"
+
+#: server/console.c:161
+#, c-format
+msgid "Player %s was not found\n"
+msgstr "Spieler %s wurde nicht gefunden\n"
+
+#: server/console.c:168
+msgid "Not yet implemented\n"
+msgstr "Noch nicht implementiert\n"
+
+#: server/console.c:201
+#, c-format
+msgid "players:%d, connections:%d, game number:%d, round:%d, mission:%s\n"
+msgstr "Spieler:%d, Verbindungen:%d, Spielnummer:%d, Runde:%d, Mission:%s\n"
+
+#: server/console.c:206 server/options.c:67 server/options.c:81
+#: server/options.c:82 server/options.c:101 server/options.c:116
+#: server/options.c:117 server/options.c:136 server/options.c:151
+#: server/options.c:152
+msgid "TRUE"
+msgstr "TRUE"
+
+#: server/console.c:206 server/options.c:67 server/options.c:81
+#: server/options.c:82 server/options.c:101 server/options.c:116
+#: server/options.c:117 server/options.c:136 server/options.c:151
+#: server/options.c:152
+msgid "FALSE"
+msgstr "FALSE"
+
+#: server/console.c:208
+#, fuzzy
+msgid ""
+"fd, number, countries, armies, cards, exch, name, human, color, status, "
+"address\n"
+msgstr ""
+<<<<<<< HEAD
+"Nummern, Karten, Lï¿½nder, Armeen, Tausch, Name, Mensch, Farbe, Status, "
+=======
+"Nummern, Karten, Länder, Armeen, Tausch, Name, Mensch, Farbe, Status, "
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+"Adresse\n"
+
+#: server/console.c:240
+msgid "observer"
+msgstr "Beobachter"
+
+#: server/console.c:293
+#, c-format
+msgid "Command '%s' not recongnized\n"
+msgstr "Befehl '%s' ist unbekannt\n"
+
+#: server/console.c:294
+#, c-format
+msgid "Type '%s' for help\n"
+<<<<<<< HEAD
+msgstr "Tippe '%s' fï¿½r Hilfe\n"
+=======
+msgstr "Tippe '%s' für Hilfe\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/player.c:264
+msgid "Game without players. Initializing another game.\n"
+msgstr "Spiel ohne Spieler. Starte ein neues Spiel.\n"
+
+#: server/player.c:275
+#, c-format
+msgid "Game with one player. Player %s(%d) is the winner\n"
+msgstr "Spiel mit einem Spieler. Spieler %s(%d) ist der Gewinner\n"
+
+#: server/player.c:313
+#, c-format
+msgid "Player %s(%d) quit the game\n"
+msgstr "Spieler %s(%d) hat das Spiel verlassen\n"
+
+#: server/player.c:338
+#, c-format
+msgid "Observer %s(%d) quit the game\n"
+msgstr "Beobachter %s(%d) hat das Spiel verlassen\n"
+
+#: server/player.c:673
+#, c-format
+msgid "Robot %s was kicked from the game\n"
+msgstr "Roboter %s wurde aus dem Spiel geworfen\n"
+
+#: server/player.c:707
+msgid "Kicking unwanted robots...\n"
+<<<<<<< HEAD
+msgstr "Unerwï¿½nschte Roboter werden entfernt\n"
+=======
+msgstr "Unerwünschte Roboter werden entfernt\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/main.c:183
+#, c-format
+msgid "Goodbye.\n"
+msgstr "Bis bald.\n"
+
+#: server/main.c:255
+#, c-format
+msgid "tegserver: Abnormal error in select()\n"
+msgstr "tegserver: Unerwarteter Fehler in select()\n"
+
+#: server/main.c:317
+#, c-format
+msgid "Removing fd %d\n"
+msgstr "Entferne fd %d\n"
+
+#: server/main.c:329
+#, c-format
+msgid "Accepting fd %d\n"
+msgstr "Akzeptiere fd %d\n"
+
+#: server/main.c:347
+#, c-format
+msgid "  -p, --port PORT\tBind the server to port PORT (default 2000)\n"
+<<<<<<< HEAD
+msgstr " -p, --port PORT\tKnï¿½pft den Server and Port PORT (Standard 2000)\n"
+=======
+msgstr " -p, --port PORT\tKnüpft den Server and Port PORT (Standard 2000)\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/main.c:348
+#, c-format
+msgid "  -s, --seed SEED\tNew seed for random\n"
+<<<<<<< HEAD
+msgstr " -s, --seed SEED\t\tNeue Ausgangszahl fï¿½r Zufallsgenerator\n"
+=======
+msgstr " -s, --seed SEED\t\tNeue Ausgangszahl für Zufallsgenerator\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/main.c:350
+#, c-format
+msgid "  -c, --console BOOLEAN\tEnable the console or not (default 1)\n"
+<<<<<<< HEAD
+msgstr " -c, --console BOOLEAN\tErmï¿½glicht die Konsole, oder nicht (Standard 1)\n"
+=======
+msgstr " -c, --console BOOLEAN\tErmöglicht die Konsole, oder nicht (Standard 1)\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/main.c:352
+#, c-format
+msgid "  -g, --ggz\t\tEnable the GGZ mode (default OFF)\n"
+<<<<<<< HEAD
+msgstr " -g, --ggz\t\tErmï¿½glicht den GGZ Modus (Standard OFF)\n"
+=======
+msgstr " -g, --ggz\t\tErmöglicht den GGZ Modus (Standard OFF)\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/main.c:354
+#, c-format
+msgid "  -m, --metaserver BOOLEAN\tPublish this server with the metaserver (default 0)\n"
+<<<<<<< HEAD
+msgstr " -m, --metaserver BOOLEAN\tTrï¿½gt diesen Server beim Metaserver ein (Standard 0)\n"
+=======
+msgstr " -m, --metaserver BOOLEAN\tTrägt diesen Server beim Metaserver ein (Standard 0)\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/main.c:356
+#, c-format
+msgid "  -d, --debug\tEnable verbosity in server\n"
+msgstr " -d, --debug\t\tDebugnachrichten ausgeben\n"
+
+#. default values for server
+#. default values for the game
+#. parse command line
+#: server/main.c:394
+#, c-format
+msgid "Bound to port: %d\n"
+msgstr "Verbunden mit Port: %d\n"
+
+#: server/main.c:395
+#, c-format
+msgid "Using seed: %u\n\n"
+msgstr "Verwende Seed: %u\n"
+
+#: server/main.c:399
+#, c-format
+msgid "Type '%s %s' to publish this server in the metaserver\n"
+msgstr "Gib '%s %s' ein um den Server beim Metaserver anzumelden\n"
+
+#: server/main.c:400
+#, c-format
+msgid "Type '%s' for more help\n"
+<<<<<<< HEAD
+msgstr "Gib '%s' ein fï¿½r Hilfe\n"
+=======
+msgstr "Gib '%s' ein für Hilfe\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/main.c:404
+#, c-format
+msgid "Standalone server.\n"
+msgstr "Nur Server.\n"
+
+#: server/main.c:406
+#, c-format
+msgid "GGZ mode activated.\n"
+msgstr "GGZ Modus aktiviert.\n"
+
+#: server/options.c:54
+msgid "Conquer the world, or play with secret missions"
+msgstr "\tErobere die Welt oder spiele mit Geheimmissionen"
+
+#: server/options.c:55
+msgid "Enable/Disable common secret mission"
+msgstr "\tEin/Ausschalten der Geheimmissionen"
+
+#: server/options.c:56
+msgid "Set the initial number of armies to place"
+msgstr "\t\tSetze die Zahl der Armeen zu Beginn des Spiels"
+
+#: server/options.c:57
+msgid "Set the seed for random"
+<<<<<<< HEAD
+msgstr "\t\tSetzt die Anfangszahl fï¿½r den Zufallsgenerator"
+=======
+msgstr "\t\tSetzt die Anfangszahl für den Zufallsgenerator"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/options.c:58
+msgid "Enable/Disable the Fog of War"
+msgstr "\t\tSchalte Nebel des Krieges ein/aus"
+
+#: server/options.c:59
+msgid "Shows the set options"
+msgstr "\t\tZeigt die gesetzen Optionen"
+
+#: server/options.c:65 server/options.c:99 server/options.c:134
+#, c-format
+msgid "'%s' variable is set to: %s\n"
+msgstr "Variable '%s' ist festgelegt auf: %s\n"
+
+#: server/options.c:79 server/options.c:114 server/options.c:149
+#, c-format
+msgid "Setting %s variable to: %s -> %s\n"
+msgstr "Setze %s Variable: %s -> %s\n"
+
+#: server/options.c:92 server/options.c:127 server/options.c:162
+#, c-format
+msgid "Error setting %s variable.\n"
+msgstr "Fehler beim Setzen von Variable %s.\n"
+
+#: server/options.c:169
+#, c-format
+msgid "'%s' variable is set to: (%d,%d)\n"
+msgstr "Variable '%s' ist festgelegt auf: (%d,%d)\n"
+
+#: server/options.c:211
+#, c-format
+msgid "'%s' variable is set to: %u\n"
+msgstr "Variable '%s' ist festgelegt auf: %u\n"
+
+#: server/options.c:258
+#, c-format
+msgid "Unknown option. Try using `%s %s' for help\n"
+<<<<<<< HEAD
+msgstr "Unbekannte Option. Versuch '%s %s' fï¿½r etwas Hilfe\n"
+=======
+msgstr "Unbekannte Option. Versuch '%s %s' für etwas Hilfe\n"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/play.c:83
+msgid "to start the game"
+msgstr "um das Spiel zu starten"
+
+#: server/play.c:84
+msgid "shows the status of the players"
+msgstr "zeigt den Status der Spieler"
+
+#: server/play.c:85
+msgid "to send a message"
+msgstr "um eine Nachricht zu senden"
+
+#: server/play.c:86
+msgid "to exit the game"
+msgstr "um das Spiel zu verlassen"
+
+#: server/play.c:87
+msgid "internal use. Don't use it."
+msgstr "wird intern verwendet, lass es in Ruh."
+
+#: server/play.c:88
+msgid "client version"
+msgstr "Client Version"
+
+#: server/play.c:89
+msgid "server version"
+msgstr "Server Version"
+
+#: server/play.c:90
+msgid "protocol version"
+msgstr "Protokoll Version"
+
+#: server/play.c:91
+msgid "to register as a player"
+msgstr "um als Spieler einzusteigen"
+
+#: server/play.c:92
+msgid "to ask for help"
+msgstr "um Hilfe zu bekommen"
+
+#: server/play.c:93
+msgid "to comment a command"
+msgstr "um ein Kommando zu kommentieren"
+
+#: server/play.c:94
+msgid "It makes you more happy"
+<<<<<<< HEAD
+msgstr "Es macht dich glï¿½cklicher"
+
+#: server/play.c:95
+msgid "It shows info about the countries"
+msgstr "Es zeigt Informationen ï¿½ber die Lï¿½nder"
+
+#: server/play.c:96
+msgid "to place the initials 5 armies"
+msgstr "um die anfï¿½nglichen 5 Armeen zu platzieren"
+
+#: server/play.c:97
+msgid "to place the initials 3 armies"
+msgstr "um die anfï¿½nglichen 3 Armeen zu platzieren"
+=======
+msgstr "Es macht dich glücklicher"
+
+#: server/play.c:95
+msgid "It shows info about the countries"
+msgstr "Es zeigt Informationen über die Länder"
+
+#: server/play.c:96
+msgid "to place the initials 5 armies"
+msgstr "um die anfänglichen 5 Armeen zu platzieren"
+
+#: server/play.c:97
+msgid "to place the initials 3 armies"
+msgstr "um die anfänglichen 3 Armeen zu platzieren"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/play.c:98
+msgid "to place the armies after a turn have finished"
+msgstr "um Armeen nach Zugende zu platzieren"
+
+#: server/play.c:99
+msgid "to attack a country"
+msgstr "um ein Land anzugreifen"
+
+#: server/play.c:100
+msgid "to send armies to a conquered country"
+msgstr "um Armeen in ein erobertes Land zu schicken"
+
+#: server/play.c:101
+msgid "to pick up a country-card"
+<<<<<<< HEAD
+msgstr "um eine Lï¿½nderkarte zu bekommen"
+=======
+msgstr "um eine Länderkarte zu bekommen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/play.c:102
+msgid "to reorder your armies"
+msgstr "um deine Armeen neu zu verteilen"
+
+#: server/play.c:103
+msgid "to finish your turn"
+msgstr "um deinen Zug zu beenden"
+
+#: server/play.c:104
+msgid "to exchange your cards for armies"
+msgstr "um deine Karten gegen Armeen zu tauschen"
+
+#: server/play.c:105
+msgid "to place 2 armies in a country. You must have that card"
+msgstr "um 2 Armeen in einem Land zu platzieren musst du diese Karte haben"
+
+#: server/play.c:106
+msgid "request a mission"
+msgstr "fordere eine Mission an"
+
+#: server/play.c:107
+msgid "to select a color"
+<<<<<<< HEAD
+msgstr "um eine Farbe zu wï¿½hlen"
+=======
+msgstr "um eine Farbe zu wählen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/play.c:108
+msgid "to remind me what to do"
+msgstr "um mich dran zu erinnern was zu tun ist"
+
+#: server/play.c:109
+msgid "to set an async callback"
+msgstr "um einen async callback zu setzen"
+
+#: server/play.c:110
+msgid "to surrender"
+msgstr "um aufzugeben"
+
+#: server/play.c:111
+msgid "to set options"
+msgstr "um Optionen zu setzen"
+
+#: server/play.c:112
+msgid "to show the highscores"
+<<<<<<< HEAD
+msgstr "um die hï¿½chsten Punktestï¿½nde zu sehen"
+=======
+msgstr "um die höchsten Punktestände zu sehen"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+#: server/play.c:113
+msgid "to show the cards a player has"
+msgstr "Um die Karten eines Spielers zu zeigen"
+
+#: server/play.c:114
+msgid "to play with a robot"
+msgstr "um mit einem Roboter zu spielen"
+
+#: server/play.c:115
+msgid "to know who started the round, and the round number"
+msgstr "um zu wissen wer die Runde gestartet hat, und die Nummer der Runde"
+
+#: server/play.c:116
+msgid "to know the type of game it is being played"
+msgstr "um den derzeitigen Spieltyp zu erfahren"
+
+#: server/play.c:215
+#, c-format
+msgid "Player %s(%d) has color %s\n"
+msgstr "Spieler %s(%d) hat die Farbe %s\n"
+
+#: server/play.c:263
+#, c-format
+msgid "BUG: The server believes that player `%s' does not have the turn"
+msgstr "Fehler: Der Server behauptet das Spieler '%s' nicht am Zug ist"
+
+#: server/play.c:311
+msgid "Para que me envias un rem?"
+msgstr ""
+
+#: server/play.c:325
+msgid "Yo tambien quiero un mundo mejor!"
+msgstr ""
+
+#: server/play.c:412
+#, c-format
+msgid "Player %s(%d) is re-connected from %s\n"
+msgstr "Spieler %s(%d) ist wieder von %s verbunden\n"
+
+#: server/play.c:426
+#, c-format
+msgid "Player %s(%d) is connected from %s\n"
+msgstr "Spieler %s(%d) ist verbunden von %s\n"
+
+#: server/play.c:436
+#, c-format
+msgid "Using client version: %s\n"
+msgstr "Benutze die Client Version: %s\n"
+
+#: server/play.c:689
+#, c-format
+msgid "Player %s(%d) lost the game\n"
+msgstr "Spieler %s(%d) hat verloren\n"
+
+#: server/play.c:696
+#, c-format
+msgid "Player %s(%d) is the winner! Game Over\n"
+msgstr "Spieler %s(%d) ist der Gewinner! Das Spiel ist aus\n"
+
+#: server/play.c:1230
+#, c-format
+msgid "Starting game number: %d with seed: %u\n"
+msgstr "Starte Spiel Nummer: %d mit Zufallszahl: %u\n"
+
+#: server/play.c:1244
+msgid "Error, can't initialize a new turn\n"
+msgstr "Fehler, kann keine neue Runde starten\n"
+
+#: server/play.c:1304
+msgid "TEG server version "
+msgstr "TEG Server Version "
+
+#: server/play.c:1338
+#, c-format
+msgid "Client with incompatible protocol version (server:%d , client:%d)\n"
+msgstr "Client mit inkompatibler Protokollversion (Server:%d, Client:%d)\n"
+
+#: server/play.c:1383
+#, c-format
+msgid "Player %s(%d) abandoned the game\n"
+msgstr "Spieler %s(%d) hat das Spiel verlassen\n"
+
+#: server/xmlscores.c:57
+#, c-format
+msgid "Out of memory\n"
+msgstr "Nicht genug Speicher\n"
+
+#~ msgid "Human"
+#~ msgstr "Mensch"
+
+#~ msgid "Who started"
+#~ msgstr "Wer hat gestartet"
+
+#~ msgid "%s is not visible for you"
+<<<<<<< HEAD
+#~ msgstr "%s ist nicht sichtbar fï¿½r dich"
+=======
+#~ msgstr "%s ist nicht sichtbar für dich"
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c

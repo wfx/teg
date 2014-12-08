@@ -1,0 +1,55 @@
+/*	$Id: stats.c,v 1.5 2004/08/04 13:03:06 riq Exp $	*/
+/* Tenes Empanadas Graciela
+ *
+ * Copyright (C) 2000 Ricardo Quesada
+ *
+ * Author: Ricardo Calixto Quesada <rquesada@core-sdi.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; only version 2 of the License
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
+ */
+/**
+ * @file stats.c
+ * Statistics for the players
+ */
+
+#include "stats.h"
+#include "common.h"
+
+#include <string.h>
+
+TEG_STATUS stats_init( PPLAYER_STATS s )
+{
+	memset( s, 0, sizeof(*s) );
+	return TEG_STATUS_SUCCESS;
+}
+
+TEG_STATUS stats_score( PPLAYER_STATS s )
+{
+	int i;
+
+	/* points for armies, countries */
+<<<<<<< HEAD
+	s->score =
+		s->countries_won * 5 + s->armies_killed * 2 - s->countries_won * 2 - s->armies_killed;
+=======
+	s->score =  s->countries_won * 5 +
+		s->armies_killed  * 2;
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+
+	/* points for defending continents */
+	for(i=0;i<CONT_CANT;i++)
+		s->score += s->continents_turn[i] * g_conts[i].fichas_x_cont;
+
+	return TEG_STATUS_SUCCESS;
+}

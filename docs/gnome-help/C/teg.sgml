@@ -1,0 +1,454 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V3.1//EN"[
+				<!-- if not using PNG graphic, replace reference above with
+						 .....PUBLIC "-//OASIS//DTD DocBook V3.1//EN"[
+				 -->
+<!ENTITY version "1.2.0"> 
+]>
+
+
+<!-- 
+			(Do not remove this comment block.)
+	Maintained by the GNOME Documentation Project
+	http://developer.gnome.org/projects/gdp
+	Template version: 1.0.3
+	Template last modified: Nov 16, 2000
+-->
+
+
+<!-- =============Document Header ============================= -->
+
+<article id="index"> <!-- please do not change the id -->
+	<artheader>
+	<title>Tenes Empanadas Graciela Manual</title>
+			<copyright>
+				<year>2002</year>
+				<holder>Quesada, Ricardo</holder>
+			</copyright>
+		<!-- translators: uncomment this:
+
+		<copyright>
+			<year>2000</year>
+			<holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+		</copyright>
+
+		-->
+
+		<!-- do not put authorname in the header except in copyright - use
+		section "authors" below -->
+
+		<!-- Use this legal notice for online documents which depend on -->
+		<!-- core GNOME packages.																				-->
+		<legalnotice id="legalnotice">
+			<para>
+				Permission is granted to copy, distribute and/or modify this document
+				under the terms of the <ulink type="help" 
+				url="gnome-help:fdl"><citetitle>GNU Free Documentation
+				License</citetitle></ulink>, Version 1.1 or any later version 
+				published by the Free Software Foundation with no Invariant Sections, 
+				no Front-Cover Texts, and no Back-Cover Texts.	A copy of the license
+				can be found <ulink type="help" url="gnome-help:fdl">here</ulink>.
+			</para>
+			<para>
+				Many of the names used by companies to distinguish their products and
+				services are claimed as trademarks. Where those names appear in any
+				GNOME documentation, and those trademarks are made aware to the members
+				of the GNOME Documentation Project, the names have been printed in caps
+				or initial caps.
+			</para>
+		</legalnotice>
+
+		<!-- This is the manual version, not application version. --> 
+		<releaseinfo>
+			This is version 1.0 of the TEG manual.
+		</releaseinfo>
+	</artheader>
+	
+	<sect1 id="introduction">
+		<title>Introduction</title>
+		<para>Tenes Empandas Graciela (TEG), is a clone of an Argentinian game
+		called 'Plan T�ctico y Estr�tegico de la Guerra', a
+		modified clone of the turn based strategy game 'Risk'.
+		It is a multi-player game that can be played across the Internet.
+		</para>
+
+		<para> The target of the game is to conquer all the countries of
+		the world, which are displayed in a map, or to accomplish your secret
+		mission (if you prefer to play with secret missions). In order to
+		achieve this goal, the player is supposed to create a certain strategy
+		(i.e. try to conquer one continent in the first place, protecting its
+		borders once this first step have been achieved. Only then, try to conquer
+		another continent).</para>
+	</sect1>
+
+	<sect1 id="crules">
+		<title>Playing the game</title>
+		<sect2 id="connecting">
+			<title>Connecting to the server</title>
+			<para>To connect to the server, you must know the address and
+			port of the server. The well-known port of the server is 2000.
+			You must tell the client this through the <command>connect</command>
+	dialog.
+			</para>
+
+			<figure>
+			<title>Connect dialog</title>
+			<screenshot><screeninfo>connect dialog</screeninfo>
+			<graphic format="jpg" fileref="figures/connect.jpg" srccredit="riq">
+			</graphic></screenshot>
+			</figure>
+
+			<para>After filling the 'Connect Dialog', you'll have a new dialog,
+	which will ask your favorite color.</para>
+
+			<figure>
+			<title>'Select color' dialog</title>
+			<screenshot><screeninfo>color dialog</screeninfo>
+			<graphic format="jpg" fileref="figures/selectcolor.jpg" srccredit="riq">
+			</graphic></screenshot>
+			</figure>
+
+	<para>If you select a color that it isn't available, the server will
+	select a color for you</para>
+			
+
+		</sect2>
+		<sect2 id="starting">
+			<title>Starting the game</title>
+			<para>In order to start the game, there should be at least 2 and a
+			maximum of 6 players connected to the server. Once connected, any
+			of the said players can start the game by clicking on the <command>
+			start</command> button of his client. No more players are allowed
+			when the game has already started.</para>
+			<para>After clicking on the <command>start</command> button, the `Type of
+			Game' dialog will appear.</para>
+
+			<figure>
+			<title>Start button</title>
+			<screenshot><screeninfo>Start button</screeninfo>
+			<graphic format="jpg" fileref="figures/toolbar_start.jpg" srccredit="riq">
+			</graphic></screenshot>
+			</figure>
+
+			<para>The server, will then distribute all the countries at random
+			among the players, providing each country with an army.</para>
+
+			<note>
+			<title>Note</title>
+			<para>One can also connect to the server as an observer. This enables to follow the
+			game, but not to play. It is noteworthy to keep in mind that there is a maximum number of 9
+			connections permitted in this mode.</para></note>
+		</sect2>
+
+		<sect2 id="armies1">
+			<title>Placing the armies for 1st time</title>
+			<para> To place the the armies for 1st time, you must wait your turn.
+			Once you are given the turn, you must place 5 armies in your countries.
+			After that, send them to the server clicking on <command>send armies</command> button.
+			Then, you must wait again for your turn, and place another 3 armies in
+			your countries. You can place all the armies in one country if you want
+			(there is no limit on the number of armies per country). Once all the
+			players have placed the 8 armies, you will be able to attack.</para>
+		</sect2>
+
+		<sect2 id="attack">
+			<title>Attacking an enemy</title>
+			<para>To attack an enemy, you must wait for your turn. When you receive
+			the turn you can attack as many times as you want. To attack, you must
+			select 2 countries: the source country (your country),
+			and the destination country (your opponent country). The source country
+			must have at least 2 armies, but there is no restriction on the quantity
+			of the destination country. The source and destination countries must be
+			frontier. Frontiers countries are the ones that have common borders or
+			a line that connects them.
+			</para>
+
+			<para>When you attack, you throw 'n' dices, where 'n' is the number of
+			armies that you have in your country minus one, but no more than 3.
+			Your enemy will throw 'm' dices, where 'm' is the number of armies
+			that he has in his country, but no more than 3. After that, the results
+			of the dices are sorted in a desceding order. </para>
+
+			<para> The results are compared, the greatest result, with the greatest result,
+			and so on. If the there is a draw, or if the destination's result is greater,
+			then the source country must take one of his armies off, otherwise
+			the destination country must take one of his armies off.</para>
+
+			<para>You will conquer the country if your opponent runs out of armies. In that
+			case you can move as much as 3 armies to the conquered country (from the source
+			country)</para>
+
+			<para>Armies example:</para>
+			<itemizedlist>
+			<listitem><para>If you have 3 armies, and your opponent has 3 armies,
+			you will throw 2 dices, and your opponent 3.</para></listitem>
+			<listitem><para>If you have 5 armies, and your opponent has 2 armies,
+			you will throw 3 dices, and your opponent 2.</para></listitem>
+			<listitem><para>If you have 1 army, you cant attack</para></listitem>
+			</itemizedlist> 
+
+			<para>Dices example:</para>
+			<itemizedlist>
+			<listitem><para>If you get a: <guilabel>6, 4, 2</guilabel>, and your
+			opponent gets <guilabel>6, 3</guilabel>, the result is: <guilabel>
+			6 vs. 6</guilabel>,
+			and your opponent wins (you take away one of your armies), and
+			the other is:<guilabel>4 vs. 3 </guilabel>, and you win (your
+			opponent takes away one of his armies).</para></listitem>
+
+			<listitem><para>If you get a: <guilabel>4, 2, 2</guilabel>, and your
+			opponent gets <guilabel>3, 2, 1</guilabel>, the result is: <guilabel>
+			4 vs. 3</guilabel>, and you wins (your opponent has to take away one
+			of his armies). The 2nd result is:<guilabel>2 vs. 2</guilabel>, 
+			and your opponent wins (so you have to take away one of your armies),
+			and the last result is <guilabel> 2 vs. 1</guilabel> and here you
+			win, and your opponent has to take away one of his armies.</para>
+			</listitem>
+
+			</itemizedlist> 
+
+			<figure>
+			<title>Dices window</title>
+			<screenshot><screeninfo>Dices window</screeninfo>
+			<graphic format="jpg" fileref="figures/dices.jpg" srccredit="riq">
+			</graphic></screenshot>
+			</figure>
+
+			<tip>
+			<title>Tip</title>
+			<para>Don't attack a country that has more armies than yours</para>
+			</tip>
+		</sect2>
+
+		<sect2 id="attack2">
+			<title>After the attack</title>
+			<para>After your attack you can <command>Regroup your armies</command>.
+			You can move as much as 3 armies from one country to another one (they
+			must be frontier countries), and the army that is moved once, won't be
+			able to be moved again in that turn.</para>
+
+			<para> After you finish your <command>Regroup armies</command>, and
+			before you <command>End your turn</command> you can <command>Get country card</command>.</para>
+
+			<para>If you want to <command>Get country card</command> you must have
+			conquered at least one country in your turn, and if that is OK, you 
+			will be given a country card chosen randomly.  If the country that
+			represents the card is yours, that country will be
+			added 2 armies automatically.  Otherwise you will be allowed to place 2
+			armies later if you conquer it. There are 4 types of cards: 
+			<command>galleon</command>, <command>cannon</command>, <command>balloon</command>
+			or a <command>joker</command>. When you have 3 different cards or 3 cards
+			of the same type you can exchange them for armies.</para>
+
+			<informaltable><tgroup cols="2">
+			<tbody>
+			<row><entry>Number of exchange</entry><entry>Quantity of armies received</entry> </row>
+			<row><entry>1</entry><entry>4</entry></row>
+			<row><entry>2</entry><entry>7</entry></row>
+			<row><entry>3</entry><entry>10 (and now add 5)</entry></row>
+			<row><entry>4</entry><entry>15</entry></row>
+			<row><entry>5</entry><entry>20</entry></row>
+			<row><entry>...</entry><entry>...</entry></row>
+			</tbody></tgroup></informaltable>
+
+			<para>After the 3rd exchange, you will have to conquer 2 countries
+			(instead of one) to 'get a country card'</para>
+
+			<para>Finally, you must press <command>End turn</command> to finish your turn,
+			and give it to the next player</para>
+		</sect2>
+
+		<sect2 id="newturn">
+			<title>A new turn</title>
+			<para>When all the players finished their turns, a new turn will start. This
+			time, the first player to start will be the 2nd player of the last
+			turn. This player will have to place a certain amount of armies in his countries.
+			If a player has conquered an entire continent, he will have to place:</para>
+			<informaltable><tgroup cols="2">
+			<tbody>
+			<row><entry>Continent</entry><entry>Quantity of armies</entry> </row>
+			<row><entry>South America</entry><entry>3</entry></row>
+			<row><entry>North America</entry><entry>5</entry></row>
+			<row><entry>Africa</entry><entry>3</entry></row>
+			<row><entry>Europe</entry><entry>5</entry></row>
+			<row><entry>Asia</entry><entry>7</entry></row>
+			<row><entry>Oceania</entry><entry>2</entry></row>
+			</tbody></tgroup></informaltable>
+
+			<note>
+			<title>Note</title>
+			<para>Those armies must be placed in the conquered continent</para> 
+			</note>
+
+			<para>After all the players have finished placing their armies, you will be able
+			to attack again.</para>
+		</sect2>
+	</sect1>
+
+	<sect1 id="mission">
+		<title>Playing with secret missions</title>
+		<para>You can choose between playing with <guilabel>secret mission</guilabel>,
+		or to <guilabel>conquer the world</guilabel>.</para>
+
+		<figure>
+		<title>Type of game</title>
+		<screenshot><screeninfo>Type of game</screeninfo>
+		<graphic format="jpg" fileref="figures/toolbar_start.jpg" srccredit="riq">
+		</graphic></screenshot>
+		</figure>
+
+		<note>
+		<title>Note</title>
+		<para>If you know that only 2 players are going to play, its better to use
+		the 'conquer the world' option</para></note>
+
+
+		<para>If you play with <guilabel>secret mission</guilabel>, you can win achieving
+		your secret mission, or achieving the common `secret' mission,
+		which is to conquer 30 countries of the world. If you play with <guilabel>conquer
+		the world</guilabel> you win only conquering the entire world.</para>
+
+		<para>The winner is the player who achieves his mission first.</para>
+
+		<para>You can also, change the type of game from the server's console. Just
+		type <command>set conquer_world=0</command> or <command>set conquer_world=1</command> to switch
+		between <guilabel>secret missions</guilabel> or <guilabel>conquer the world</guilabel>.</para>
+
+		<note>
+		<title>Viewing your mission</title>
+		<para>To view your secret mission, just click on <guilabel>view->mission</guilabel> in the client</para>
+		</note>
+		
+		<figure>
+		<title>Your mission</title>
+		<screenshot><screeninfo>Your mission</screeninfo>
+		<graphic format="jpg" fileref="figures/mission.jpg" srccredit="riq">
+		</graphic></screenshot>
+		</figure>
+	</sect1>
+
+	<sect1 id="server">
+		<title>The Server</title>
+		<sect2 id="staring">
+			<title>Starting the server</title>
+			<para>You can start the server, executing the command <command>tegserver</command> or
+			from the connect dialog of the client, clicking in the <guilabel>Start server locally</guilabel>
+			</para>
+
+			<figure>
+			<title>Starting the server locally</title>
+			<screenshot><screeninfo>Starting the server locally</screeninfo>
+			<graphic format="jpg" fileref="figures/connect.jpg" srccredit="riq">
+			</graphic></screenshot>
+			</figure>
+
+		</sect2>
+		<sect2 id="commands">
+			<title>Server commands</title>
+			<para>The server has very useful commands to configure it. Just type <command>help</command> and
+			you will see all the available commands.</para>
+
+			<figure>
+			<title>Server commands</title>
+			<screenshot><screeninfo>Server commands</screeninfo>
+			<graphic format="jpg" fileref="figures/server.jpg" srccredit="riq">
+			</graphic></screenshot>
+			</figure>
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="crisk">
+		<title>Differences with Risk</title>
+		<sect2 id="riskdiff">
+			<title>Differences with Risk</title>
+
+			<para>I don't know the original Risk rules (I've only played Risk once or twice a looong time ago).
+			So I'm not sure about the differences between both games. If you notice them, please tell me.
+			So far, here is what some TEG players told me:
+			</para>
+			<table frame=all><title>TEG vs. Risk</title>
+			<tgroup cols="3">
+			<colspec colname=c1>
+			<colspec colname=c2>
+			<colspec colname=c3>
+			<spanspec spanname=hspan namest=c1 nameend=c3 align=center>
+			<thead>
+			<row>
+				<entry align=center>Topic</entry>
+				<entry align=center>TEG</entry>
+				<entry align=center>Risk</entry>
+			</row>
+			</thead>
+			<tbody>
+			<row>
+				<entry>After conquering a country</entry>
+				<entry>You can only move at most 3 armies to that country</entry>
+				<entry>You can move as many as you want</entry>
+			</row>
+			<row>
+				<entry>After ending your turn</entry>
+				<entry>You can't place any army, unless you have the card of any
+				of your countries, where you can place only 2 armies</entry>
+				<entry>You're able to place 3 armies in your countries</entry>
+			</row>
+			<row>
+				<entry>Extra armies for conquering a continent</entry>
+				<entry>They MUST be placed inside the continent</entry>
+				<entry>They can be placed anywhere</entry>
+			</row>
+			<row>
+				<entry>Placing armies</entry>
+				<entry>They are placed at the beginning of each round</entry>
+				<entry>You place them before attacking</entry>
+			</row>
+			<row>
+				<entry>Starting a new round</entry>
+				<entry>Each round, a different player will start it (round-robin)</entry>
+				<entry>Each round, the same player starts it</entry>
+			</row>
+			<row>
+				<entry>Getting cards</entry>
+				<entry>After the third exchange of cards, you have to conquer two countries to get a new card, not just one</entry>
+				<entry></entry>
+			</row>
+			<row>
+				<entry spanname=hspan>If you notice any other differences, mail it to the list <email>teg-list@lists.sourceforge.net</email>
+				Remember that I don't know the Risk rules!
+				</entry>
+			</row>
+			</tbody>
+			</tgroup>
+			</table>
+		</sect2>
+	</sect1>
+
+	<sect1 id="cbugs">
+		<title>Bugs</title>
+		<sect2 id="bugs">
+			<title>Reporting bugs and sending patches to enhance the
+			game</title>
+			
+			<para>You can contact the author as
+			<email>riq@corest.com</email>
+			General discussion about this game is carried on the
+			<email>teg-list@lists.sourceforge.net</email> mailing list.</para>
+
+		</sect2>
+	</sect1>
+
+
+	<sect1 id="chistory">
+		<title>History</title>
+		<sect2 id="history">
+			<title>Brief history of TEG</title>
+
+			<para>Sebasti�n Cativa Tolosa, once told me to do this game. I think that
+			was in 1996, in a chat we were having in the University. Well, we started
+			to think the game. But I don't know why, the project died after 3 or 4 months.
+			In 1998, the project was reactivated, but after 2 weeks it died again :(.
+			Finally, in February 2000, I started the game again, and it seems that it is
+			not dead :-).
+			</para>
+		</sect2>
+	</sect1>
+</article>

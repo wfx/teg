@@ -1,0 +1,32 @@
+$Log: CHANGES,v $
+Revision 1.6  2000/02/25 02:53:38  riq
+Se agrego: token_qumm, token_rem, token_msg, netall_printf y para el
+SO_REUSEADDR en debug mode
+
+
+Revision 1.5  2000/02/24 06:01:18  riq
+Se agrego el token_ataque, que mas o menos esta encaminado.
+Se agrego el limitrof.h que contiene la matriz de adyacencia (hay que
+llenarla), bugfixeado el token_fichas_aux y alguna otra cosa
+
+
+Revision 1.4  2000/02/22 04:22:01  riq
+Se agregaron los token fichas y fichas2.
+
+
+Revision 1.3  2000/02/21 00:59:38  riq
+Se agrego el TOKEN_PAISES que permite ver los paises asignados.
+
+
+Revision 1.2  2000/02/20 21:44:47  riq
+Se integro un poco mas el juego con el protocolo. Ahora se puede hacer
+status, start, test, player_id y otros cosas.
+
+
+Revision 1.1  2000/02/09 04:50:51  riq
+Se agrego el main_loop en main.c que escucha un port.
+Se agrego el archivo CHANGES que va a tener todos los cambios que se hagan.
+
+
+Revision 1.1.1.1  2000/02/12 06:42:21  riq
+Inicial

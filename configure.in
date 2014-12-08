@@ -1,0 +1,333 @@
+dnl configure.ac for teg
+AC_PREREQ([2.53])
+
+<<<<<<< HEAD
+AC_INIT([Tenes Empanadas Graciela], [0.12], [teg-list@lists.sourceforge.net], [teg])
+=======
+AC_INIT([Tenes Empanadas Graciela], [0.11.3], [teg-list@lists.sourceforge.net], [teg])
+>>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+AM_INIT_AUTOMAKE
+AC_CONFIG_SRCDIR([server/main.c])
+AC_CONFIG_MACRO_DIR([macros])
+AC_CONFIG_HEADERS([config.h])
+AM_MAINTAINER_MODE
+
+# Locate various programs
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_CXX
+AC_PROG_INTLTOOL([0.29])
+AC_PROG_LIBTOOL
+AC_PROG_LN_S
+
+
+dnl
+dnl Common libraries for the server, client & robot
+dnl
+PKG_CHECK_MODULES(TEG_COMMONLIBS, glib-2.0)
+PKG_CHECK_MODULES(XML, libxml-2.0)
+AC_SUBST(TEG_COMMONLIBS_CFLAGS)
+AC_SUBST(TEG_COMMONLIBS_LIBS)
+AC_SUBST(XML_CFLAGS)
+AC_SUBST(XML_LIBS)
+
+
+dnl Evaluate options. Example:
+AC_ARG_ENABLE(debug,
+ 	[  --enable-debug[=no/minimum/yes] 
+ 	                  turn on debugging [default=minimum]],,
+	enable_debug=minimum
+)
+
+
+if test "x$enable_debug" = "xyes"; then
+  test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
+  CPPFLAGS="$CPPFLAGS -DDEBUG"
+else
+  if test "x$enable_debug" = "xno"; then
+    CPPFLAGS="$CPPFLAGS -DNDEBUG"
+  fi
+fi
+
+dnl  no=do not compile server,  yes=compile server,  *=error
+AC_ARG_ENABLE(server,
+[  --disable-server        do not compile the server],
+[case "${enableval}" in
+  yes) server=true ;;
+  no)  server=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-server) ;;
+esac], [server=true])
+AM_CONDITIONAL(SERVER, test x$server = xtrue)
+
+AC_ARG_WITH(readline,
+[  --with-readline         support fancy command line editing in server],
+WITH_READLINE=$withval,	dnl yes/no - required to use / never use
+WITH_READLINE="maybe"	dnl maybe  - use if found [default]
+)
+
+dnl  no=do not compile server,  yes=compile server,  *=error
+AC_ARG_ENABLE(robot,
+[  --disable-robot         do not compile the robot],
+[case "${enableval}" in
+  yes) robot=true ;;
+  no)  robot=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-robot) ;;
+esac], [robot=true])
+AM_CONDITIONAL(ROBOT, test x$robot = xtrue)
+
+
+dnl  no=do not compile client,  yes=compile client,  *=error
+AC_ARG_ENABLE(client,
+[  --disable-client        do not compile the client],
+[case "${enableval}" in
+  yes) client=true ;;
+  no)  client=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-client) ;;
+esac], [client=true])
+AM_CONDITIONAL(CLIENT, test x$client = xtrue)
+
+dnl
+dnl GGZ stuff
+dnl
+dnl  no=disable ggz support  yes=enable ggz support,  *=error
+AC_ARG_ENABLE(ggz,
+[  --enable-ggz[=yes/no]     enable ggz support [default=yes]],
+[case "${enableval}" in
+  yes) ggz=true ;;
+  no)  ggz=false ;;
+  *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ggz) ;;
+esac], [ggz=true])
+
+
+dnl
+dnl GCONF stuff
+dnl
+dnl Specify the gconf configuration source,
+dnl use specific location for SUSE Linux 10.0 if it exists and no value was given
+dnl default to xml::$(sysconfdir)/gconf/gconf.xml.defaults
+GCONF_CONFIG_SOURCE=
+
+if test -d "/etc/opt/gnome/gconf/gconf.xml.defaults"; then
+        GCONF_CONFIG_SOURCE="xml::/etc/opt/gnome/gconf/gconf.xml.defaults"
+fi
+
+dnl OpenSuse 10.3 and others have a different directory, because Gnome is not installed
+dnl in /opt/gnome any more.
+if test -d "/etc/gconf/gconf.xml.defaults"; then
+        GCONF_CONFIG_SOURCE="xml::/etc/gconf/gconf.xml.defaults"
+fi
+
+AC_ARG_ENABLE(gconf-source, [  --enable-gconf-source=sourceaddress Where to install schema files.], GCONF_CONFIG_SOURCE=$enable_gconf_source,)
+
+if test "x$GCONF_CONFIG_SOURCE" = "x"; then
+	GCONF_CONFIG_SOURCE="xml::\${sysconfdir}/gconf/gconf.xml.defaults"
+fi
+
+AC_SUBST(GCONF_CONFIG_SOURCE)
+AC_SUBST(INSTALL_GCONF_CONFIG_SOURCE)
+
+AC_PATH_PROG(GCONFTOOL, gconftool-2)
+
+
+dnl does the robot needs something special ???
+dnl if test x$robot = xtrue; then
+dnl fi
+
+if test x$client = xtrue; then
+	PKG_CHECK_MODULES(TEG_LIBGNOME, libgnomeui-2.0)
+	AC_SUBST(TEG_LIBGNOME_CFLAGS)
+	AC_SUBST(TEG_LIBGNOME_LIBS)
+fi
+
+
+if test "x$ggz" = "xtrue"; then
+	AC_GGZ_INIT(defaults, export)
+	if test x$server = xtrue; then
+		AC_GGZ_GGZDMOD([], [ggz=false])
+		AC_GGZ_SERVER([], [ggz=false])
+	fi
+	if test x$client = xtrue; then
+		AC_GGZ_GGZMOD([], [ggz=false])
+		AC_GGZ_CONFIG([], [ggz=false])
+	fi
+	if test x$ggz = xtrue; then
+		AC_DEFINE([WITH_GGZ], 1, [Enable GGZ support])
+	fi
+fi
+dnl Define this conditional _after_ the checks for $ggz!!!
+dnl Otherwise, if $ggz is true (default) but GGZ is not installed ($ggz set to false)
+dnl then GGZSUPPORT would still be true, because it was define _before_ $ggz was
+dnl set to false!
+AM_CONDITIONAL(GGZSUPPORT, test "x$ggz" = "xtrue")
+
+
+gui_sources="gui-gnome"
+CLIENT_CFLAGS="$CLIENT_CFLAGS $TEG_COMMONLIBS_CFLAGS"
+CLIENT_LIBS="$CLIENT_LIBS $TEG_COMMONLIBS_LIBS"
+
+AC_SUBST(gui_sources)
+AC_SUBST(CLIENT_CFLAGS)
+AC_SUBST(CLIENT_LIBS)
+AM_CONDITIONAL(CLIENT_GUI_NULL, test "$gui_sources" = "gui-null")
+AM_CONDITIONAL(CLIENT_GUI_GNOME, test "$gui_sources" = "gui-gnome")
+
+
+dnl Programs already checked by AM_INIT_AUTOMAKE:
+dnl  AC_PROG_MAKE_SET
+
+dnl I18n support
+GETTEXT_PACKAGE=teg
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE], "$GETTEXT_PACKAGE", [Gettext package name])
+ALL_LINGUAS="es fr de gl pl it pt pt_BR hu_HU"
+AM_GLIB_GNU_GETTEXT
+
+
+dnl DATADIRNAME is generated by AM_GNU_GETTEXT; 
+dnl note this has to match the path installed by po/Makefile
+LOCALEDIR="${prefix}/${DATADIRNAME}/locale"
+AC_DEFINE_UNQUOTED([LOCALEDIR], "$LOCALEDIR", [Localisation files location])
+
+
+if test -n "$GCC"; then
+   CFLAGS="$CFLAGS -Wall"
+fi
+
+dnl check pthreads
+AC_CHECK_LIB(pthread, pthread_create, 
+		[AC_DEFINE([HAVE_PTHREADS], 1, [Check for pthreads availability])
+		SERVER_LIBS="-lpthread $SERVER_LIBS"
+		SERVER_CFLAGS="-D_REENTRANT $SERVER_CFLAGS"
+		])
+
+dnl Checks for additional server libraries:
+if test x$server = xtrue; then
+    dnl The use of AC_CHECK_FUNC is to avoid wrong libs on IRIX.
+    AC_CHECK_FUNC(gethostbyname)
+    if test $ac_cv_func_gethostbyname = no; then
+        AC_CHECK_LIB(nsl, gethostbyname, SERVER_LIBS="-lnsl $SERVER_LIBS")
+    fi
+    AC_CHECK_FUNC(connect)
+    if test $ac_cv_func_connect = no; then
+        AC_CHECK_LIB(socket, connect, SERVER_LIBS="-lsocket $SERVER_LIBS")
+    fi
+
+    dnl looking for readline library and header
+    if test "$WITH_READLINE" = "yes"; then
+	AC_CHECK_LIB(readline, rl_callback_handler_install, 
+	    [SERVER_LIBS="-lreadline $SERVER_LIBS"
+	     AC_DEFINE_UNQUOTED([HAVE_LIBREADLINE], 1, [Check for readline availability])],
+	    AC_MSG_ERROR([Specified --with-readline but did not find library.]),
+	    $SERVER_LIBS)
+	AC_CHECK_HEADER(readline/readline.h, ,
+	AC_MSG_ERROR([Specified --with-readline; found library but not header file. You may need to install a readline development package.]))
+    elif test "$WITH_READLINE" = "maybe"; then
+	AC_CHECK_HEADER(readline/readline.h, have_readline_h=1, have_readline_h=0)
+	if test "$have_readline_h" = "1"; then
+	    AC_CHECK_LIB(readline, rl_callback_handler_install, 
+		[SERVER_LIBS="-lreadline $SERVER_LIBS"
+		 AC_DEFINE_UNQUOTED([HAVE_LIBREADLINE], 1, [Check for readline availability])
+		], , $SERVER_LIBS)
+	fi
+    fi
+fi
+
+SERVER_CFLAGS="$SERVER_CFLAGS $TEG_COMMONLIBS_CFLAGS"
+SERVER_LIBS="$SERVER_LIBS $TEG_COMMONLIBS_LIBS"
+AC_SUBST(SERVER_CFLAGS)
+AC_SUBST(SERVER_LIBS)
+
+dnl Checks for inet_ntop function. MacOSX seems to not have it
+AC_CHECK_LIB(c, inet_ntop, [AC_DEFINE([HAVE_INET_NTOP], 1, [Check for ntop availability])])
+
+AC_CHECK_LIB(nls,main)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS(arpa/inet.h netdb.h netinet/in.h pwd.h sys/ioctl.h \
+                 sys/select.h sys/signal.h sys/socket.h sys/termio.h \
+		 sys/time.h sys/types.h sys/uio.h termios.h unistd.h)
+
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+AC_HEADER_TIME
+AC_STRUCT_TM
+
+dnl Checks for library functions.
+AC_TYPE_SIGNAL
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS(fdopen gethostname getpwuid gettimeofday select \
+               strerror strlcat strlcpy strstr usleep vsnprintf)
+
+dnl We would AC_CHECK_FUNCS for socket as well, except it is complicated
+dnl by the fact that the -lsocket is in X_EXTRA_LIBS and/or SERVER_LIBS,
+dnl and not in LIBS.
+
+dnl This has to be last library
+if test -n "$WITH_EFENCE"; then
+  AC_CHECK_LIB(efence, malloc, [ 
+  if test "x$LIBS" = "x"; then
+    LIBS = -lefence
+  else
+    LIBS="$LIBS -lefence"
+  fi])
+fi
+
+dnl Chequear si tiene empanadas.
+AC_MSG_CHECKING([whether you have Empanadas de carne criolla])
+sleep 1
+AC_MSG_RESULT(Super!)
+AC_MSG_CHECKING([whether you have Empanadas de verdura])
+sleep 1
+AC_MSG_RESULT(Cool!)
+AC_MSG_CHECKING([whether you have Empanadas de jamon y queso])
+sleep 1
+AC_MSG_RESULT(Buenichimo!)
+AC_MSG_CHECKING([whether you have Empanadas de carne picante])
+sleep 1
+AC_MSG_RESULT(Yeah!)
+
+
+AC_CONFIG_FILES([
+	Makefile
+	macros/Makefile
+	po/Makefile.in
+	po/Makefile
+	common/Makefile 
+	server/Makefile 
+	client/Makefile 
+	client/teg_pix/Makefile 
+	client/themes/Makefile 
+	client/themes/m2/Makefile 
+	client/themes/sentimental/Makefile 
+	client/themes/draco/Makefile
+	client/gui-gnome/Makefile 
+	client/gui-gnome/stock/Makefile 
+	robot/Makefile
+	docs/Makefile
+	docs/gnome-help/Makefile
+	docs/gnome-help/C/Makefile
+	docs/gnome-help/pl/Makefile
+	ggz/Makefile
+	ggz/teg.dsc
+	ggz/tegclient.dsc
+	metaserver/Makefile
+	])
+AC_OUTPUT
+
+dnl Status Output
+dnl =============
+echo "
+Configuration:
+
+	Compile server:	  		   ${server}
+	Compile gnome-client:	  	   ${client}
+	Compile robot:	  	  	   ${robot}
+	Compile with GGZ support:          ${ggz}
+"
+echo ""
+echo "Are you ready for the Empanada Experience ?"
+echo "Type \`make'"
+echo ""
+

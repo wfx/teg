@@ -1,0 +1,1 @@
+ar rcs libguiclient.a gui.o

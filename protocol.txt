@@ -1,0 +1,160 @@
+TEG protocol ChangeLog
+----------------------
+
+s: string
+i: integer
+b: bool (represented with '0' and '1')
+'token' is between single quotes 
+Some tokens has a separator
+
+
+*** version 6 ***
+client                 server
+-----------------------------
+TypeofGame [MODIFIED]:
+==========
+Description:
+	TypeOfGame, also known is spanish as 'modalidad', was used previously
+	to tell the players, after sending the 'start' message, to tell the
+	rules of the game (actually not used), and if the server was set to
+	play with secret missions.
+	Now, it also sends 2 more variables: Fog of War, and Common mission.
+	Fog of war: set to true if Fog of war is activated
+	Common mission: set to true, if playing with common secret mission
+	 of conquering 30 countries.
+	Also, now the client can request the TypeOfGame. Before, only the server
+	was sending this message after starting the game.
+	
+
+Implementation:
+request:               response:
+'modalidad'            'modalidad=b1,b2,b3,i4'
+		       b1= is true if playing with secret missions
+		       b2= is true if playing the common secret mission
+		       b3= is true if playin in Fog of War
+		       i4= rules of the game. (Ignore this param)
+
+
+NewRound [NEW] 
+==============
+Description:
+    Informs the players that a new round it about to begin.
+    The client may request that info (after a reconnect)
+    The server will inform that automatically when a new round starts
+
+Implementatation:
+request:               response:
+'new_round'            'new_round=i1,i2'
+		       i1=who starts the round
+		       i2=the round number
+
+
+
+LaunchRobot [NEW] 
+=================
+Description:
+	Launchs a robot in the server. This helps a lot the speed
+	of the game. The robot will run with the translations of the
+	server and not of the client.
+
+Implementation:
+request:
+'quiero_jugar_con_un_robot'
+
+
+
+*** version 5 ***
+
+client                 server
+-----------------------------
+
+Scores [NEW] ( to view the high scores )
+======
+request:               response:
+'scores'               'scores=s1,i2,s3,i4,b5\s1,i2,s3,i4,b5....'
+                       s1= name
+                       i2=color
+                       s3=date
+                       i4=score
+                       b5=is human
+
+                       the separator is '\' (and not '/')
+
+
+Status [MODIFIED] ( to view the status of the players )
+======
+request:               response:
+'status'               'status=s1,i2,i3,i4,i5,i6,i7,i8,b9,b10,s11/...'
+                        s1=name
+                        i2=color
+                        i3=score
+                        i4=player number
+                        i5=status
+                        i6=total countries,
+                        i7=total armies
+                        i8=total cards
+                        b9=started the turn ?
+                        b10=am I human ?
+                        s11=internet address
+
+                        the separator is '/'
+
+
+Message [MODIFIED] ( to send a message to all the players )
+=======
+request:                response:
+'msg="any chars but quotes"' idem
+(The client MUST forbid quotes character in the
+ message)
+
+
+Enum cards [NEW] (to know all the cards I have, usefull after a re-join)
+==========
+request:		response:
+'enum_cards'            'enum_cards=i1:b1,i2:b2,...'
+                         i1=country number
+                         b2=occupied or not (0 or 1)
+                       
+Client version [NEW] (Send the server the client version)
+==============
+request:
+'client_version=a description'
+This message SHOULD be sent after the PVERSION (protocol version)
+
+
+*** version 4 ***
+
+
+client                 server
+-----------------------------
+
+Game in progress [NEW] (the server tells the client that a game is in progress)
+================
+request:               response:
+                       'game_in_progess'
+
+Kick [NEW] (the server kicks a player)
+====
+request:               response:
+                       'kick=s1'
+
+		       s1=name of the kicked player
+
+
+Message [MODIFIED ??] ( to send a message to all the players )
+=======
+request:                response:
+'msg=COMPLETE???' idem
+
+
+*** version 3 ***
+TODO: Complete!
+
+
+*** version 2 ***
+TODO: Complete!
+
+
+*** version 1 ***
+TODO: Complete!
+riq.
