@@ -1,8 +1,8 @@
 var width = 1080;
 var height = 1080;
 var paper = Raphael("paper", width, height);
- var text = "Width = "+width+"\n Height = "+height;
-\nvar paths = [
+var text = "Width = "+width+"\n Height = "+height;
+var paths = [
     ["m 0,0 1080,0 0,1080 -1080,0 z",
     ['none','0', 0],['Board']],
 
