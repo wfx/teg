@@ -35,11 +35,18 @@ def mk_attr(attr):
     elif (search(r'stroke-width:([1-9]+)', attr)):
         width = search(r'stroke-width:([0-9]+)', attr).group(1)
 
-    attr = '\'' + fill + '\',\'' + stroke + '\', ' + width
-    return attr
+    a = '\'' + fill + '\',\'' + stroke + '\', ' + width
+    return a
 
 def mk_data(data):
-    return data
+    d = ''
+    d = data.split('.')
+    if (len(d)==3):
+        d = '\'id\':\'' + d[2]+d[1] + '\', \'continent\':\'' + d[0].replace('_', ' ') + '\', \'county\':\'' + d[2].replace('_', ' ') + '\''
+    else:
+        return False
+
+    return str(d)
 
 def svg2raphael(target):
     directory = os.getcwd()
@@ -51,18 +58,24 @@ def svg2raphael(target):
     SVG_NS = "http://www.w3.org/2000/svg"
     tree = ElementTree()
     tree.parse(fsvg)
-    #doc = tree.getroot()
 
-    #open(fjs, 'w') as f
-    #f.write('var width = 100%;\n')
-    #f.write('var height = 100%;\n')
-    #f.wrtie('var map = Raphael(\"map\", width, height);\"\n')
+    with open(fjs, 'w') as f:
+        f.write('var m = Raphael(\'map\', \'100%\', \'100%\');\n')
+        f.write('var country = [];\n')
 
-    for node in tree.findall('.//{%s}path' % SVG_NS):
-        p = mk_path(node.get('d'))
-        a = mk_attr(node.get('style'))
-        d = mk_attr(node.get('id'))
-        print(a)
+        for node in tree.findall('.//{%s}path' % SVG_NS):
+            p = mk_path(node.get('d'))
+            a = mk_attr(node.get('style'))
+            d = mk_data(node.get('id'))
+            print (d)
+            if (d != False):
+                #print('var c = map.path(\'' + p + '\');\n')
+                #print('c.attr({' + a + '}).data({' + d + '});\n')
+                f.write('var c = m.path(\'' + p + '\');\n')
+                f.write('c.attr({' + a + '}).data({' + d + '});\n')
+                f.write('country.push(c);\n')
+    f.close()
+    return
 
 if __name__ == '__main__':
     svg2raphael('map_risk')
