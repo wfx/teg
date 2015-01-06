@@ -38,7 +38,7 @@ def convert_file(filename):
         else:
             f.write('var height = 100%;\n')
 
-        f.write('var paper = Raphael(\"paper\", width, height);\n\var text = "Width = \"+width+\"\\n Height = \"+height;\n\\nvar paths = [')
+        f.write('var paper = Raphael(\"paper\", width, height);\nvar text = "Width = \"+width+\"\\n Height = \"+height;\n\\nvar paths = [')
         totalpaths = doc.findall("./{http://www.w3.org/2000/svg}path")
         lastpath = totalpaths.pop()
         for result in totalpaths:
@@ -84,7 +84,7 @@ for ( ;c < length; c++) {\n\
       var cfill = cattr[0];\n\
       var cstroke = cattr[1];\n\
       var cstrokewidth = cattr[2];\n\
-      var current = paper.path(cpath).attr({fill: cfill, stroke: cstroke, \'stroke-width\': cstrokewidth});\n\
+      var current = paper.path(cpath).attr({fill: cfill, stroke: cstroke, \'stroke-width\': cstrokewidth}).data(cdata);\n\
       mapset.push(current);\n\
     }\n')
 

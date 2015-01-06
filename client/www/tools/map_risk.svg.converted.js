@@ -1,7 +1,7 @@
 var width = 1080;
 var height = 1080;
 var paper = Raphael("paper", width, height);
-ar text = "Width = "+width+"\n Height = "+height;
+var text = "Width = "+width+"\n Height = "+height;
 \nvar paths = [
     ["m 0,0 1080,0 0,1080 -1080,0 z",
     ['none','0', 0],['Board']],
@@ -225,6 +225,6 @@ for ( ;c < length; c++) {
       var cfill = cattr[0];
       var cstroke = cattr[1];
       var cstrokewidth = cattr[2];
-      var current = paper.path(cpath).attr({fill: cfill, stroke: cstroke, 'stroke-width': cstrokewidth});
+      var current = paper.path(cpath).attr({fill: cfill, stroke: cstroke, 'stroke-width': cstrokewidth}).data(cdata);
       mapset.push(current);
     }
