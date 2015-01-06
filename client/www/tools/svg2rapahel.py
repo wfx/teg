@@ -22,20 +22,23 @@ def mk_path(path):
 
 def mk_attr(attr):
     a = ''
-    fill = 'none'
-    stroke = '0'
-    width = '0'
 
     if (search(r'fill:(#[a-zA-Z0-9]{6})', attr)):
         fill = search(r'fill:(#[a-zA-Z0-9]{6})', attr).group(1)
+    else:
+        fill = 'none'
     if (search(r'stroke:(#[a-zA-Z0-9]{6})', attr)):
         stroke = search(r'stroke:(#[a-zA-Z0-9]{6})', attr).group(1)
+    else:
+        stroke = '0'
     if (search(r'stroke-width:([0-9*.0-9]+)', attr)):
         width = str(int(math.ceil(float(search(r'stroke-width:([0-9*.0-9]+)', attr).group(1)))))
     elif (search(r'stroke-width:([1-9]+)', attr)):
         width = search(r'stroke-width:([0-9]+)', attr).group(1)
+    else:
+        width = '0'
 
-    a = '\'' + fill + '\',\'' + stroke + '\', ' + width
+    a = 'fill: \'' + fill + '\', \'stroke\': \'' + stroke + '\', \'stroke-width\': \'' + width + '\''
     return a
 
 def mk_data(data):
@@ -60,14 +63,13 @@ def svg2raphael(target):
     tree.parse(fsvg)
 
     with open(fjs, 'w') as f:
-        f.write('var m = Raphael(\'map\', \'100%\', \'100%\');\n')
+        f.write('var m = Raphael(\'map\', \'1080\', \'1080\');\n')
         f.write('var country = [];\n')
 
         for node in tree.findall('.//{%s}path' % SVG_NS):
             p = mk_path(node.get('d'))
             a = mk_attr(node.get('style'))
             d = mk_data(node.get('id'))
-            print (d)
             if (d != False):
                 #print('var c = map.path(\'' + p + '\');\n')
                 #print('c.attr({' + a + '}).data({' + d + '});\n')
