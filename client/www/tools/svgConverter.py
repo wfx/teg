@@ -38,7 +38,7 @@ def convert_file(filename):
         else:
             f.write('var height = 100%;\n')
 
-        f.write('var paper = Raphael(\"paper\", width, height);\nvar text = "Width = \"+width+\"\\n Height = \"+height;\n\\nvar paths = [')
+        f.write('var paper = Raphael(\"paper\", width, height);\n var text = "Width = \"+width+\"\\n Height = \"+height;\n\\nvar paths = [')
         totalpaths = doc.findall("./{http://www.w3.org/2000/svg}path")
         lastpath = totalpaths.pop()
         for result in totalpaths:
