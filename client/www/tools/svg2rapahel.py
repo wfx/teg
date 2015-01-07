@@ -1,15 +1,18 @@
 #
-#   Convert Inkscape SVG's into a raphael object and
-#   hope that Eric found it usefull :)
+#   Convert Inkscape SVG's into raphael js code
 #
-#   TODO: This ugly py needs a rewrite.
-#
+#   This ugly py needs some touch.
+#   TODO:
+#   -   give map name as option
+#   -   fill:url(#id) ?
+#   ===========================================
 
 import sys
 import os
 import math
+import json
 from xml.etree.ElementTree import ElementTree, parse
-from re import search
+from re import search, split
 
 def removepx(val):
     if isinstance(val, str):
@@ -21,31 +24,16 @@ def mk_path(path):
     return path
 
 def mk_attr(attr):
-    a = ''
-
-    if (search(r'fill:(#[a-zA-Z0-9]{6})', attr)):
-        fill = search(r'fill:(#[a-zA-Z0-9]{6})', attr).group(1)
-    else:
-        fill = 'none'
-    if (search(r'stroke:(#[a-zA-Z0-9]{6})', attr)):
-        stroke = search(r'stroke:(#[a-zA-Z0-9]{6})', attr).group(1)
-    else:
-        stroke = '0'
-    if (search(r'stroke-width:([0-9*.0-9]+)', attr)):
-        width = str(int(math.ceil(float(search(r'stroke-width:([0-9*.0-9]+)', attr).group(1)))))
-    elif (search(r'stroke-width:([1-9]+)', attr)):
-        width = search(r'stroke-width:([0-9]+)', attr).group(1)
-    else:
-        width = '0'
-
-    a = 'fill: \'' + fill + '\', \'stroke\': \'' + stroke + '\', \'stroke-width\': \'' + width + '\''
-    return a
+    s = attr
+    l = split(':|;',s)
+    i = iter(l)
+    d = dict(zip(i,i))
+    return json.dumps(d)
 
 def mk_data(data):
-    d = ''
     d = data.split('.')
     if (len(d)==3):
-        d = '\'id\':\'' + d[2]+d[1] + '\', \'continent\':\'' + d[0].replace('_', ' ') + '\', \'county\':\'' + d[2].replace('_', ' ') + '\''
+        d = '\'id\':\'' + d[2]+'_'+d[1] + '\', \'group\':\'' + d[0].replace('_', ' ') + '\', \'name\':\'' + d[2].replace('_', ' ') + '\''
     else:
         return False
 
@@ -64,8 +52,16 @@ def svg2raphael(target):
 
     with open(fjs, 'w') as f:
         f.write('var m = Raphael(\'map\');\n')
-        f.write('var country = [];\n')
+        f.write('var obj = [];\n')
 
+        # Def's - Gradiant's
+        # TODO: ????????????????????????????????????????????????
+        # ------------------------------------------------------
+        for node in tree.findall('.//{%s}linearGradient' % SVG_NS):
+            print(node.get('id'))
+        # ------------------------------------------------------
+
+        # Path
         for node in tree.findall('.//{%s}path' % SVG_NS):
             p = mk_path(node.get('d'))
             a = mk_attr(node.get('style'))
@@ -74,8 +70,8 @@ def svg2raphael(target):
                 #print('var c = map.path(\'' + p + '\');\n')
                 #print('c.attr({' + a + '}).data({' + d + '});\n')
                 f.write('var c = m.path(\'' + p + '\');\n')
-                f.write('c.attr({' + a + '}).data({' + d + '});\n')
-                f.write('country.push(c);\n')
+                f.write('c.attr(' + a + ').data({' + d + '});\n')
+                f.write('obj.push(c);\n')
     f.close()
     return
 
