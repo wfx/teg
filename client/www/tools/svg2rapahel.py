@@ -14,12 +14,6 @@ import json
 from xml.etree.ElementTree import ElementTree, parse
 from re import search, split
 
-def removepx(val):
-    if isinstance(val, str):
-        return search(r'[0-9]+', val).group()
-    else:
-        return val
-
 def mk_path(path):
     return path
 
@@ -36,7 +30,6 @@ def mk_data(data):
         d = '\'id\':\'' + d[2]+'_'+d[1] + '\', \'group\':\'' + d[0].replace('_', ' ') + '\', \'name\':\'' + d[2].replace('_', ' ') + '\''
     else:
         return False
-
     return str(d)
 
 def svg2raphael(target):
@@ -51,7 +44,8 @@ def svg2raphael(target):
     tree.parse(fsvg)
 
     with open(fjs, 'w') as f:
-        f.write('var m = Raphael(\'map\');\n')
+        f.write('function playfield(c){\n')
+        f.write('var m = Raphael($(c).attr(\'id\'),$(c).attr(\'width\'),$(c).attr(\'height\'));\n')
         f.write('var obj = [];\n')
 
         # Def's - Gradiant's
@@ -72,6 +66,8 @@ def svg2raphael(target):
                 f.write('var c = m.path(\'' + p + '\');\n')
                 f.write('c.attr(' + a + ').data({' + d + '});\n')
                 f.write('obj.push(c);\n')
+        f.write('return obj;\n')
+        f.write('}')
     f.close()
     return
 

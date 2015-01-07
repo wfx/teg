@@ -3,23 +3,23 @@
     <head>
         <meta charset="UTF-8">
         <title>TEG</title>
-        <style type="text/css">
-            #body, #html {
-                margin : 0;
-                padding : 0;
-            }
-            #map {
-                height: 900px;
-                width: 900px;
-            }
-        </style>
+        <link rel="stylesheet" href="css/style.css">
     </head>
 
 <body>
-    <div id="map"></div>
+    <div id="game">
+        <div id="pannel">
+
+        </div>
+        <div id="map"></div>
+    </div>
+    <script src="lib/jquery-2.1.3.min.js"></script>
     <script src="lib/raphael-min.js"></script>
     <script src="themes/map_risk.js"></script>
     <script>
+
+    // map width & heigth is get from the css definition.
+    obj = playfield('#map');
 
     for (var i = 0; i < obj.length; i++) {
         // Show off

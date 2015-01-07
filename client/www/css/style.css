@@ -1,0 +1,14 @@
+body {
+    margin : 0;
+    padding : 0;
+    background-color: #838383;
+}
+#game {
+    display: flex; /* or inline-flex */
+}
+#map {
+    width: 800px;
+    height: 800px;
+    background-color: #066720;
+}
+
