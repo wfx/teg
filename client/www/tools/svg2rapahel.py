@@ -63,7 +63,7 @@ def svg2raphael(target):
     tree.parse(fsvg)
 
     with open(fjs, 'w') as f:
-        f.write('var m = Raphael(\'map\', \'1080\', \'1080\');\n')
+        f.write('var m = Raphael(\'map\');\n')
         f.write('var country = [];\n')
 
         for node in tree.findall('.//{%s}path' % SVG_NS):

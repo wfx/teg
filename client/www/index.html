@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>TEG</title>
-  </head>
+    <head>
+        <meta charset="UTF-8">
+        <title>TEG</title>
+        <style type="text/css">
+            #body, #html {
+                margin : 0;
+                padding : 0;
+            }
+            #map {
+                height: 1080px;
+                width: 1080px;
+                background-color: #000;
+            }
+            #country_id {
+                display: fixed;
+                top: 2px;
+                left: 2px;
+                color: #fff;
+                background-color: rgba(255, 100, 0, 0.5);
+            }
+        </style>
+    </head>
 
-  <body>
-    <h3 id="country-name"></h3>
+<body>
     <div id="map"></div>
     <script src="lib/raphael-min.js"></script>
     <script src="themes/map_risk.js"></script>
     <script>
 
-for (var i = 0; i < country.length; i++) {
+    for (var i = 0; i < country.length; i++) {
     // Showing off
     country[i].mouseover(function(e){
         this.node.style.opacity = 0.7;
         document.getElementById('country-name').innerHTML = this.data('id');
+        alert(this.node.cx);
     });
         country[i].mouseout(function(e){
         this.node.style.opacity = 1;
     });
-}
+    }
 
     </script>
-  </body>
+</body>
 </html>
