@@ -25,7 +25,7 @@ def mk_attr(attr):
     return json.dumps(d)
 
 def mk_data(data):
-    d = data.split('.')
+    d = data.split('-')
     if (len(d)==3):
         d = '\'id\':\'' + d[2]+'_'+d[1] + '\', \'group\':\'' + d[0].replace('_', ' ') + '\', \'name\':\'' + d[2].replace('_', ' ') + '\''
     else:
@@ -49,10 +49,20 @@ def svg2raphael(target):
         f.write('var obj = [];\n')
 
         # Def's - Gradiant's
-        # TODO: ????????????????????????????????????????????????
         # ------------------------------------------------------
+        # From:
+        # <linearGradient id="linearGradient4043">
+        #     <stop style="stop-color:#aca641;stop-opacity:1;" offset="0" id="stop4045" />
+        #     <stop style="stop-color:#848c25;stop-opacity:1;" offset="1" id="stop4047" />
+        # </linearGradient>
+        # To:
+        # fill: "r(.5,.5)#fff-#fff:70-#000", "opacityStops": "1-0-0.6"
+
         for node in tree.findall('.//{%s}linearGradient' % SVG_NS):
             print(node.get('id'))
+        for node in tree.findall('.//{%s}stop' % SVG_NS):
+            print(node.get('style'))
+
         # ------------------------------------------------------
 
         # Path
