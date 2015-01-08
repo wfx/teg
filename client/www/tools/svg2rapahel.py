@@ -44,8 +44,8 @@ def svg2raphael(target):
     tree.parse(fsvg)
 
     with open(fjs, 'w') as f:
-        f.write('function playfield(c){\n')
-        f.write('var m = Raphael($(c).attr(\'id\'),$(c).attr(\'width\'),$(c).attr(\'height\'));\n')
+        f.write('function playfield(c) {\n')
+        f.write('var m = Raphael($(c).attr(\'id\'), $(c).attr(\'width\'), $(c).attr(\'height\'));\n')
         f.write('var obj = [];\n')
 
         # Def's - Gradiant's
