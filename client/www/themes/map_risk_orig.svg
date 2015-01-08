@@ -97,10 +97,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.68"
-     inkscape:cx="901.69946"
+     inkscape:cx="1039.6174"
      inkscape:cy="497.28811"
      inkscape:document-units="px"
-     inkscape:current-layer="layer11"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
@@ -123,7 +123,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -227,7 +227,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer40"
-     inkscape:label="Australia.04.Wester_Australia"
+     inkscape:label="Australia-04-Wester_Australia"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -240,7 +240,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer42"
-     inkscape:label="Australia.03.New_Guinea"
+     inkscape:label="Australia-03-New_Guinea"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -271,7 +271,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Australia.02.Indonesia"
+     inkscape:label="Australia-02-Indonesia"
      sodipodi:insensitive="true"
      style="display:inline">
     <path
@@ -284,7 +284,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer41"
-     inkscape:label="Australia.01.Eastern_Australia"
+     inkscape:label="Australia-01-Eastern_Australia"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -296,7 +296,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer38"
-     inkscape:label="Africa.06.South_Africa"
+     inkscape:label="Africa-06-South_Africa"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -308,7 +308,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer34"
-     inkscape:label="Africa.05.North_Africa"
+     inkscape:label="Africa-05-North_Africa"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -321,7 +321,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer39"
-     inkscape:label="Africa.04.Madagascar"
+     inkscape:label="Africa-04-Madagascar"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -334,7 +334,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer35"
-     inkscape:label="Africa.03.Egypt"
+     inkscape:label="Africa-03-Egypt"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -346,7 +346,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer36"
-     inkscape:label="Africa.02.East_Africa"
+     inkscape:label="Africa-02-East_Africa"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -359,7 +359,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer37"
-     inkscape:label="Africa.01.Congo"
+     inkscape:label="Africa-01-Congo"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -372,7 +372,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer32"
-     inkscape:label="Asia.12.Yakutsk"
+     inkscape:label="Asia-12-Yakutsk"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -384,7 +384,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer27"
-     inkscape:label="Asia.11.Ural"
+     inkscape:label="Asia-11-Ural"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -397,7 +397,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer29"
-     inkscape:label="Asia.10.Siberia"
+     inkscape:label="Asia-10-Siberia"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -410,7 +410,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer24"
-     inkscape:label="Asia.09.Siam"
+     inkscape:label="Asia-09-Siam"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -422,7 +422,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer28"
-     inkscape:label="Asia.08.Mongolia"
+     inkscape:label="Asia-08-Mongolia"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -435,7 +435,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer22"
-     inkscape:label="Asia.07.Middle_East"
+     inkscape:label="Asia-07-Middle_East"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -447,7 +447,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer30"
-     inkscape:label="Asia.06.Kamchatka"
+     inkscape:label="Asia-06-Kamchatka"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -459,7 +459,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer33"
-     inkscape:label="Asia.05.Japan"
+     inkscape:label="Asia-05-Japan"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -472,7 +472,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer31"
-     inkscape:label="Asia.04.Irkutsk"
+     inkscape:label="Asia-04-Irkutsk"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -484,7 +484,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer23"
-     inkscape:label="Asia.03.India"
+     inkscape:label="Asia-03-India"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -496,7 +496,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer25"
-     inkscape:label="Asia.02.China"
+     inkscape:label="Asia-02-China"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -513,7 +513,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer26"
-     inkscape:label="Asia.01.Afghanistan"
+     inkscape:label="Asia-01-Afghanistan"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -525,7 +525,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer21"
-     inkscape:label="Europe.07.Wester_Europe"
+     inkscape:label="Europe-07-Wester_Europe"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -537,7 +537,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer17"
-     inkscape:label="Europe.06.Ukraine"
+     inkscape:label="Europe-06-Ukraine"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -549,7 +549,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer19"
-     inkscape:label="Europe.05.Southern_Europe"
+     inkscape:label="Europe-05-Southern_Europe"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -567,7 +567,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer16"
-     inkscape:label="Europe.04.Scandinavia"
+     inkscape:label="Europe-04-Scandinavia"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -580,7 +580,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer18"
-     inkscape:label="Europe.03.Northern_Europe"
+     inkscape:label="Europe-03-Northern_Europe"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -592,7 +592,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer15"
-     inkscape:label="Europe.02.Iceland"
+     inkscape:label="Europe-02-Iceland"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -605,7 +605,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer20"
-     inkscape:label="Europe.01.Great_Britain"
+     inkscape:label="Europe-01-Great_Britain"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -617,7 +617,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer7"
-     inkscape:label="North_America.09.Western_United_States"
+     inkscape:label="North_America-09-Western_United_States"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -629,7 +629,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer9"
-     inkscape:label="North_America.08.Quebec"
+     inkscape:label="North_America-08-Quebec"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -642,7 +642,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer10"
-     inkscape:label="North_America.07.Ontario"
+     inkscape:label="North_America-07-Ontario"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -655,7 +655,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer13"
-     inkscape:label="North_America.06.Nordwest_Territorium"
+     inkscape:label="North_America-06-Nordwest_Territorium"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -685,7 +685,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer14"
-     inkscape:label="North_America.05.Greenland"
+     inkscape:label="North_America-05-Greenland"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -709,7 +709,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer8"
-     inkscape:label="North_America.04.Eastern_United_States"
+     inkscape:label="North_America-04-Eastern_United_States"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -722,7 +722,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer6"
-     inkscape:label="North_America.03.Central_America"
+     inkscape:label="North_America-03-Central_America"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -734,7 +734,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer11"
-     inkscape:label="North_America.02.Alberta"
+     inkscape:label="North_America-02-Alberta"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -746,7 +746,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer12"
-     inkscape:label="North_America.01.Alaska"
+     inkscape:label="North_America-01-Alaska"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -757,7 +757,7 @@
   </g>
   <g
      id="layer1"
-     inkscape:label="South_America.04.Venezuela"
+     inkscape:label="South_America-04-Venezuela"
      inkscape:groupmode="layer"
      style="display:inline"
      sodipodi:insensitive="true">
@@ -771,7 +771,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="South_America.03.Peru"
+     inkscape:label="South_America-03-Peru"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -784,7 +784,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="South_America.02.Brazil"
+     inkscape:label="South_America-02-Brazil"
      style="display:inline"
      sodipodi:insensitive="true">
     <path
@@ -797,7 +797,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer5"
-     inkscape:label="South_America.01.Argentina"
+     inkscape:label="South_America-01-Argentina"
      style="display:inline"
      sodipodi:insensitive="true">
     <path

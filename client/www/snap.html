@@ -23,24 +23,31 @@
     <script>
         var s = Snap("#map");
         Snap.load("../themes/map_risk.svg", function (f) {
-            var country = f.select("#South_America-01-Argentina");
 
-            country.mouseover(function(e) {
-                console.log('mouseover event');
-                console.log(country.select('id'));
-            });
-
-            country.mouseout(function(e) {
-                console.log('mouse out');
-            });
-
-            var country_click_cb = function(event) {
-                var id = event.target.attributes.id.value;
-                console.log(id)
+            var country_click_cb = function(el) {
+                var cb_id = el.target.attributes.id.value.split("-");
+                cb_id = cb_id[0]+cb_id[1]
+                // do something...
+                console.log(cb_id);
             }
-
-            country.click(country_click_cb);
-
+            var countries = {}
+            var gs = f.selectAll('path');
+            gs.forEach(function(el) {
+                var id = el.node.id
+                id = id.split('-');
+                if (id[0] != 'Artwork') {
+                    el.mouseover(function(e) {
+                        el.animate( { opacity: 0.7 }, 1, mina.elastic);
+                    });
+                    el.mouseout(function(e) {
+                        el.animate( { opacity: 1 }, 1, mina.elastic);
+                    });
+                    el.click(country_click_cb);
+                }
+                name = id[2];
+                id = id[0]+id[1];
+                //console.log('id: '+id+' name: '+name );
+            });
 
             s.append(f);
         });
