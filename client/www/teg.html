@@ -2,7 +2,7 @@
 <head>
     <meta charset="UTF-8">
     <title>TEG</title>
-    <script src="lib/jquery-2.1.3.min.js"></script>
+    <!-- <script src="lib/jquery-2.1.3.min.js"></script> -->
     <script src="lib/snap.svg.js"></script>
     <style type="text/css">
         #map { text-align: center; }
@@ -10,9 +10,6 @@
 </head>
 <body>
     <!--
-    This one is mutch more powerfull...
-    I can use my orig svg!
-
     http://snapsvg.io/docs/
     http://svg.dabbles.info/
     needs a runing webserver but it is very simple:
@@ -26,6 +23,7 @@
 
         var s = Snap("#map");
 
+        // country click callback
         var country_click_cb = function( el ) {
             var cid = el.target.attributes.id.value.split( "-" );
                 cid = cid[2] + cid[1];
@@ -33,16 +31,17 @@
                 console.log( cid );
         };
 
+        // country mouse over effect
         var country_hoverover_cb = function( el ) {
-            this.animate({ transform: 's1.1r0,2,2' }, 200, mina.bounce )
+            this.animate({ transform: 's1.1r0,1,0' }, 100, mina.bounce )
         };
+
+        // country mouse out effect
         var country_hoverout_cb = function( el ) {
-            this.animate({ transform: 's1r0,2,2' }, 200, mina.bounce )
+            this.animate({ transform: 's1r0,1,0' }, 100, mina.bounce )
         };
 
         var map = Snap.load("../themes/map_risk_orig.svg", function ( f ) {
-
-            var countries = {};
             var gs = f.selectAll( 'path' );
             gs.forEach(function( el ) {
                 var id = el.node.id;
@@ -52,7 +51,6 @@
                     el.click( country_click_cb );
                 }
             });
-
             s.append( f );
         } );
 
