@@ -1,0 +1,51 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TEG</title>
+    <script src="lib/jquery-2.1.3.min.js"></script>
+    <script src="lib/snap.svg.js"></script>
+    <style>
+        #map { text-align: center; }
+    </style>
+</head>
+<body>
+    <!--
+    This one is mutch more powerfull...
+
+    http://snapsvg.io/docs/
+    needs a runing webserver but it is very simple:
+    python : python -m http.server
+    node.js: npm install http-server -g
+    -->
+    <div id="map"></div>
+
+    <!-- Show off -->
+    <script>
+        var s = Snap("#map");
+        Snap.load("../themes/map_risk.svg", function (f) {
+            var country = f.select("#South_America-01-Argentina");
+
+            country.mouseover(function(e) {
+                console.log('mouseover event');
+                console.log(country.select('id'));
+            });
+
+            country.mouseout(function(e) {
+                console.log('mouse out');
+            });
+
+            var country_click_cb = function(event) {
+                var id = event.target.attributes.id.value;
+                console.log(id)
+            }
+
+            country.click(country_click_cb);
+
+
+            s.append(f);
+        });
+
+    </script>
+
+</body>
+</html>
