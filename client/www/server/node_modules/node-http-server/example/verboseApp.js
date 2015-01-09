@@ -1,0 +1,11 @@
+var server=require('../server/http.js');
+
+console.log(server);
+
+server.deploy(
+    {
+        verbose:true,
+        port:8001,
+        root:'~/myApp/'
+    }
+);

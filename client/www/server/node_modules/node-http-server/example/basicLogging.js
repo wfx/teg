@@ -1,0 +1,11 @@
+var server=require('../server/http.js');
+
+console.log(server);
+
+server.deploy(
+    {
+        port:8000,
+        root:'~/myApp/',
+        log:'/tmp/server-test-myApp-8000-request.log'
+    }
+);
