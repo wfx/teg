@@ -1,0 +1,16 @@
+var server=require('../server/http.js');
+
+console.log(server);
+
+server.deploy(
+    {
+        verbose:true,
+        port:8010,
+        root:process.env.HOME+'/myApp/',
+        domain:'myapp',
+        domains:{
+            'a.myapp':process.env.HOME+'/myApp/mySubdomain/',
+            'yourapp.com':process.env.HOME+'/www/yourApp/'
+        }
+    }
+);

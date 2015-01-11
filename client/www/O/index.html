@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TEG</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+
+<body>
+        <div id="pannel"></div>
+        <div id="map"></div>
+    <script src="lib/jquery-2.1.3.min.js"></script>
+    <script src="lib/raphael-min.js"></script>
+    <script src="themes/map_risk.js"></script>
+    <script>
+
+    // map width & heigth is get from the css definition.
+    obj = playfield('#map');
+
+    for (var i = 0; i < obj.length; i++) {
+        // Show off
+        if (obj[i].data('group') != 'Artwork'){
+            obj[i].mouseover(function(e){
+                this.node.style.opacity = 0.7;
+                //document.getElementById('country-name').innerHTML = this.data('id');
+            });
+                obj[i].mouseout(function(e){
+                this.node.style.opacity = 1;
+            });
+        }
+    }
+
+    </script>
+</body>
+</html>
