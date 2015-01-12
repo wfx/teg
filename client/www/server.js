@@ -7,10 +7,7 @@ var express = require('express')
 
 // Webserver
 server.listen(conf.port);
-
-app.configure(function(){
-    app.use(express.static(__dirname + '/client'));
-});
+app.use(express.static(__dirname + '/client'));
 
 // Path only
 app.get('/', function (req, res) {
