@@ -16,7 +16,29 @@
 
 <script>
 
-var country = {};
+var countries = new Array();
+
+var Country = function () {
+    this.id = '';
+    this.name = '';
+    this.owner = '';
+    this.armies = 0;
+    this.svg = '';
+    this.neighbour = new Array();
+
+    this.addNeighbour = function ( countryID ) {
+        this.neighbour.push( countryID );
+        console.log( this.neighbour );
+    };
+
+    this.isNeighbour = function ( countryID ) {
+        var idx = this.neighbour.indexOf ( countryID );
+        console.log('neighbour:', idx);
+        return idx;
+    };
+
+}
+
 var g = Snap();
 g.attr({ viewBox: [0, 0, 900, 900] });
 
@@ -29,16 +51,23 @@ var country_hoverout_cb = function( el ) {
 }
 
 var country_click_cb = function( el ) {
-    console.log(this.node.id.split('-'));
+    console.log(el);
 }
 
 var map = Snap.load("themes/map_risk_orig.svg", function ( f ) {
     var p = f.selectAll ( 'path' );
     p.forEach(function ( el ) {
         var c = el.node.id.split('-');
-        if (c[0] != 'Artwork') {
-            el.hover( country_hoverover_cb, country_hoverout_cb );
-            el.click( country_click_cb );
+        if (c[0] === 'Country') {
+            var idx = c[3]+c[1];
+            countries[ idx ] = new Country();
+            countries[ idx ].id = idx;
+            countries[ idx ].name = c[3].replace('_', ' ');
+            countries[ idx ].svg = el;
+            countries[ idx ].svg.hover( country_hoverover_cb, country_hoverout_cb );
+            countries[ idx ].svg.click( country_click_cb );
+            //countries.addNeighbour( 'Wien' );
+            //countries.isNeighbour( 'Wien' );
         }
     });
     g.append( f );
