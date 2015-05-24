@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<teg_theme version="1.3">
+	<author>Wolfgang Morawetz</author>
+	<email>wfx@users.sourceforge.net</email>
+	<version>1.0.0</version>
+	<screenshot>mini_shot.png</screenshot>
+	<board file="board.png"/>
+	<toolbar custom="true" name="Infobar.png" text_color="black" offset_left="40" offset_right="-35"/>
+	<dices_pos x="56" y="240"/>
+	<dices_ext_pos x1="2" y1="12" x2="32" y2="12" x3="62" y3="12" x4="2" y4="55" x5="32" y5="55" x6="62" y6="55"/>
+	<dices_text color="black" x1="48" y1="2" x2="48" y2="46"/>
+	<armies_pos x="56" y="240" background="false" dragable="false"/>
+	<cards>
+		<card type="jocker">jocker.png</card>
+		<card type="balloon">infantry.png</card>
+		<card type="cannon">cannon.png</card>
+		<card type="ship">horse.png</card>
+		<pos_y>110</pos_y>
+	</cards>
+
+	<continent name="South America" pos_x="188" pos_y="220">
+		<country name="Argentina" file="Southamerica-Argentinia" pos_x="16" pos_y="63" army_x="-8" army_y="-14"></country>
+		<country name="Brazil" file="Southamerica-Brasil" pos_x="14" pos_y="4" army_x="0" army_y="0"></country>
+		<country name="Chile" file="Southamerica-Chile" pos_x="1" pos_y="64" army_x="-4" army_y="-35"></country>
+		<country name="Colombia" file="Southamerica-Colombia" pos_x="-16" pos_y="-4" army_x="0" army_y="0"></country>
+		<country name="Peru" file="Southamerica-Peru" pos_x="-16" pos_y="34" army_x="0" army_y="0"></country>
+		<country name="Uruguay" file="Southamerica-Uruguay" pos_x="37" pos_y="54" army_x="0" army_y="10"></country>
+	</continent>
+
+	<continent name="North America" pos_x="11" pos_y="1">
+		<country name="Mexico" file="America-Mexico" pos_x="111" pos_y="177" army_x="18" army_y="8"></country>
+		<country name="California" file="America-California" pos_x="60" pos_y="164" army_x="-50" army_y="0"></country>
+		<country name="Oregon" file="America-Oregon" pos_x="19" pos_y="124" army_x="-5" army_y="0"></country>
+		<country name="New York" file="America-Nuevayork" pos_x="106" pos_y="108" army_x="-10" army_y="12"></country>
+		<country name="Alaska" file="America-Alaska" pos_x="16" pos_y="84" army_x="" army_y="5"></country>
+		<country name="Yukon" file="America-Yukon" pos_x="52" pos_y="53" army_x="-5" army_y="15"></country>
+		<country name="Canada" file="America-Canada" pos_x="75" pos_y="17" army_x="-3" army_y="5"></country>
+		<country name="Terranova" file="America-Terranova" pos_x="134" pos_y="102" army_x="0" army_y="0"></country>
+		<country name="Labrador" file="America-Labrador" pos_x="162" pos_y="74" army_x="0" army_y="0"></country>
+		<country name="Greenland" file="America-Groenlandia" pos_x="181" pos_y="7" army_x="15" army_y="-5"></country>
+	</continent>
+
+	<continent name="Africa" pos_x="342" pos_y="238">
+		<country name="Sahara" file="Africa-Sahara" pos_x="-44" pos_y="7" army_x="0" army_y="0"></country>
+		<country name="Zaire" file="Africa-Zaire" pos_x="-3" pos_y="48" army_x="2" army_y="-2"></country>
+		<country name="Etiopia" file="Africa-Etiopia" pos_x="20" pos_y="31" army_x="0" army_y="0"></country>
+		<country name="Egypt" file="Africa-Egipto" pos_x="16" pos_y="3" army_x="0" army_y="0"></country>
+		<country name="Madagascar" file="Africa-Madagascar" pos_x="101" pos_y="45" army_x="0" army_y="0"></country>
+		<country name="South Africa" file="Africa-Sudafrica" pos_x="48" pos_y="63" army_x="0" army_y="0"></country>
+	</continent>
+
+	<continent name="Oceania" pos_x="500" pos_y="240">
+		<country name="Australia" file="Australia-Australia" pos_x="37" pos_y="58" army_x="0" army_y="0"></country>
+		<country name="Borneo" file="Australia_Borneo" pos_x="56" pos_y="12" army_x="-2" army_y="-6"></country>
+		<country name="Java" file="Australia_Java" pos_x="95" pos_y="18" army_x="0" army_y="0"></country>
+		<country name="Sumatra" file="Australia-Sumatra" pos_x="22" pos_y="14" army_x="0" army_y="0"></country>
+	</continent>
+
+	<continent name="Europe" pos_x="237" pos_y="11">
+		<country name="Spain" file="Europe-Espania" pos_x="57" pos_y="146" army_x="0" army_y="0"></country>
+		<country name="France" file="Europe-Francia" pos_x="102" pos_y="126" army_x="-3" army_y="7"></country>
+		<country name="Germany" file="Europe-Alemania" pos_x="130" pos_y="114" army_x="-12" army_y="0"></country>
+		<country name="Italy" file="Europe-Italia" pos_x="126" pos_y="162" army_x="2" army_y="-16"></country>
+		<country name="Poland" file="Europe-Polonia" pos_x="141" pos_y="110" army_x="3" army_y="2"></country>
+		<country name="Russia" file="Europe-Rusia" pos_x="150" pos_y="44" army_x="-15" army_y="15"></country>
+		<country name="Sweden" file="Europe-Suecia" pos_x="110" pos_y="26" army_x="4" army_y="0"></country>
+		<country name="Great Britain" file="Europe-Grand_Bretania" pos_x="70" pos_y="78" army_x="4" army_y="7"></country>
+		<country name="Iceland" file="Europe-Islandia" pos_x="49" pos_y="37" army_x="-1" army_y="-2"></country>
+	</continent>
+
+	<continent name="Asia" pos_x="292" pos_y="20">
+		<country name="Arabia" file="Asia-Arabia" pos_x="170" pos_y="152" army_x="0" army_y="0"></country>
+		<country name="Israel" file="Asia-Israel" pos_x="146" pos_y="148" army_x="0" army_y="0"></country>
+		<country name="Turkey" file="Asia-Turquia" pos_x="131" pos_y="126" army_x="-15" army_y="-8"></country>
+		<country name="India" file="Asia-India" pos_x="207" pos_y="126" army_x="0" army_y="0"></country>
+		<country name="Malaysia" file="Asia-Malaysia" pos_x="253" pos_y="120" army_x="0" army_y="0"></country>
+		<country name="Iran" file="Asia-iran" pos_x="137" pos_y="60" army_x="-7" army_y="15"></country>
+		<country name="Gobi" file="Asia-Gobi" pos_x="164" pos_y="68" army_x="3" army_y="-4"></country>
+		<country name="China" file="Asia-China" pos_x="205" pos_y="16" army_x="0" army_y="20"></country>
+		<country name="Mongolia" file="Asia-Mongolia" pos_x="153" pos_y="46" army_x="22" army_y="-13"></country>
+		<country name="Siberia" file="Asia-Siberia" pos_x="159" pos_y="2" army_x="29" army_y="5"></country>
+		<country name="Aral" file="Asia-Aral" pos_x="125" pos_y="21" army_x="0" army_y="0"></country>
+		<country name="Tartary" file="Asia-Tartaria" pos_x="137" pos_y="-1" army_x="5" army_y="-2"></country>
+		<country name="Taymir" file="Asia-Taimir" pos_x="175" pos_y="3" army_x="0" army_y="0"></country>
+		<country name="Katchatka" file="Asia-katchatka" pos_x="222" pos_y="-9" army_x="0" army_y="-5"></country>
+		<country name="Japan" file="Asia-japon" pos_x="289" pos_y="41" army_x="0" army_y="0"></country>
+	</continent>
+</teg_theme>
