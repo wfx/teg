@@ -1,4 +1,4 @@
-/*	$Id: callbacks.c,v 1.71 2007/07/07 19:08:25 nordi Exp $	*/
+/*	$Id: callbacks.c,v 1.70 2006/03/12 09:56:04 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -241,11 +241,6 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 		"Main Contributors:",
 		"    Thomas R. Koll",
 		"    Raymond Ostertag",
-		"    Stefan Nordhausen",
-<<<<<<< HEAD
-		"    Jeroen De Dauw",
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 		"",
 		"Detailed info in the PEOPLE file or in the homepage",
 		NULL

@@ -1,4 +1,4 @@
-/*	$Id: chatline.c,v 1.15 2007/09/06 13:48:22 nordi Exp $ */
+/*	$Id: chatline.c,v 1.14 2002/09/21 17:56:38 riq Exp $ */
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
 	 This program is free software; you can redistribute it and/or modify
@@ -92,9 +92,6 @@ TEG_STATUS gui_textplayermsg(char *n, int num, char *msg)
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer( GTK_TEXT_VIEW(main_message_area) );
 	gchar *ptr_name, *ptr_msg;
 
-	if( ! is_color_human(num) && ! gui_private.msg_show_robot )
-		return TEG_STATUS_SUCCESS; /* Silence of the evil machines */
-	
 	snprintf(name,sizeof(name)-1,"<%s>",n);
 	name[sizeof(name)-1] = 0;
 
@@ -137,19 +134,6 @@ void set_output_window_text(const char *text)
 	
 	buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
 	gtk_text_buffer_set_text(buf, text, -1);
-}
-
-
-/* is color belonging to a human? */
-int is_color_human( int color )
-{
-	PCPLAYER pJ;
-
-	if(player_whois(color,&pJ) != TEG_STATUS_SUCCESS) {
-		return FALSE;
-	}
-	
-	return pJ->human;
 }
 
 TEG_STATUS chatline_init()

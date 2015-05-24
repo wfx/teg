@@ -1,25 +1,25 @@
 # To use this template:
-#     1) Define: figs, docname, lang, omffile, xml_ents although figs, 
-#        omffile, and xml_ents may be empty in your Makefile.am which 
+#     1) Define: figs, docname, lang, omffile, sgml_ents although figs, 
+#        omffile, and sgml_ents may be empty in your Makefile.am which 
 #        will "include" this one 
 #     2) Figures must go under figures/ and be in PNG format
 #     3) You should only have one document per directory 
 #
 #        Note that this makefile forces the directory name under
-#        $prefix/share/gnome/help/ to be the same as the XML filename
+#        $prefix/share/gnome/help/ to be the same as the SGML filename
 #        of the document.  This is required by GNOME. eg:
-#        $prefix/share/gnome/help/fish_applet/C/fish_applet.xml
+#        $prefix/share/gnome/help/fish_applet/C/fish_applet.sgml
 #                                 ^^^^^^^^^^^   ^^^^^^^^^^^
 # Definitions:
 #   figs         A list of screenshots which will be included in EXTRA_DIST
 #                Note that these should reside in figures/ and should be .png
 #                files, or you will have to make modifications below.
-#   docname      This is the name of the XML file: <docname>.xml
+#   docname      This is the name of the SGML file: <docname>.sgml
 #   lang         This is the document locale
 #   omffile      This is the name of the OMF file.  Convention is to name
 #                it <docname>-<locale>.omf.
-#   xml_ents    This is a list of XML entities which must be installed 
-#                with the main XML file and included in EXTRA_DIST. 
+#   sgml_ents    This is a list of SGML entities which must be installed 
+#                with the main SGML file and included in EXTRA_DIST. 
 # eg:
 #   figs = \
 #          figures/fig1.png            \
@@ -27,8 +27,8 @@
 #   docname = scrollkeeper-manual
 #   lang = C
 #   omffile=scrollkeeper-manual-C.omf
-#   xml_ents = fdl.xml
-#   include $(top_srcdir)/help/xmldocs.make
+#   sgml_ents = fdl.sgml
+#   include $(top_srcdir)/help/sgmldocs.make
 #   dist-hook: app-dist-hook
 #
 
@@ -36,11 +36,11 @@ docdir = $(datadir)/gnome/help/$(docname)/$(lang)
 
 doc_DATA = index.html
 
-xml_files = $(xml_ents) $(docname).xml
+sgml_files = $(sgml_ents) $(docname).sgml
 
 omf_dir=$(top_srcdir)/omf-install
 
-EXTRA_DIST = $(xml_files) $(doc_DATA) $(omffile) $(figs)
+EXTRA_DIST = $(sgml_files) $(doc_DATA) $(omffile) $(figs)
 
 CLEANFILES = omf_timestamp
 
@@ -50,26 +50,28 @@ omf: omf_timestamp
 
 omf_timestamp: $(omffile)
 	-for file in $(omffile); do \
-	  scrollkeeper-preinstall $(docdir)/$(docname).xml $$file $(omf_dir)/$$file; \
+	  scrollkeeper-preinstall $(docdir)/$(docname).sgml $$file $(omf_dir)/$$file; \
 	done
 	touch omf_timestamp
 
 index.html: $(docname)/index.html
 	-cp $(docname)/index.html .
 
-$(docname).xml: $(xml_ents)
+$(docname).sgml: $(sgml_ents)
         ourdir=`pwd`;  \
         cd $(srcdir);   \
-        cp $(xml_ents) $$ourdir
+        cp $(sgml_ents) $$ourdir
 
 
 # The weird srcdir trick is because the db2html from the Cygnus RPMs
 # cannot handle relative filenames
 # Suse Linux 10.0 does not have "db2html", only "docbook2html" which is a script that calls "jw"
 # Check if any of those is available.
-$(docname)/index.html: $(srcdir)/$(docname).xml
+$(docname)/index.html: $(srcdir)/$(docname).sgml
 	-srcdir=`cd $(srcdir) && pwd`; \
-	test ! "x`xmlto`" = "x" && xmlto --skip-validation html-nochunks html $$srcdir/$(docname).xml
+	test ! "x`which db2html`" = "x" && db2html $$srcdir/$(docname).sgml; \
+	test ! "x`which docbook2html`" = "x" && docbook2html $$srcdir/$(docname).sgml; \
+	test ! "x`which jw`" = "x" && jw -f docbook -b html $$srcdir/$(docname).sgml
 
 # remove $(docname) to make installation work
 app-dist-hook: index.html
@@ -89,7 +91,7 @@ app-dist-hook: index.html
 install-data-am: index.html omf
 	-$(mkinstalldirs) $(DESTDIR)$(docdir)/stylesheet-images
 	-$(mkinstalldirs) $(DESTDIR)$(docdir)/figures
-	-cp $(srcdir)/$(xml_files) $(DESTDIR)$(docdir)
+	-cp $(srcdir)/$(sgml_files) $(DESTDIR)$(docdir)
 	-for file in $(srcdir)/*.html $(srcdir)/$(docname)/*.css; do \
 	  basefile=`echo $$file | sed -e 's,^.*/,,'`; \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/$$basefile; \
@@ -106,13 +108,13 @@ install-data-am: index.html omf
 		$(INSTALL_DATA) $(srcdir)/topic.dat $(DESTDIR)$(docdir); \
 	 fi
 
-$(docname).ps: $(srcdir)/$(docname).xml
+$(docname).ps: $(srcdir)/$(docname).sgml
 	-srcdir=`cd $(srcdir) && pwd`; \
-	db2ps $$srcdir/$(docname).xml
+	db2ps $$srcdir/$(docname).sgml
 
-$(docname).rtf: $(srcdir)/$(docname).xml
+$(docname).rtf: $(srcdir)/$(docname).sgml
 	-srcdir=`cd $(srcdir) && pwd`; \
-	db2ps $$srcdir/$(docname).xml
+	db2ps $$srcdir/$(docname).sgml
 
 uninstall-local:
 	-for file in $(srcdir)/$(docname)/stylesheet-images/*.gif; do \
@@ -127,7 +129,7 @@ uninstall-local:
 	  basefile=`echo $$file | sed -e 's,^.*/,,'`; \
 	  rm -f $(DESTDIR)$(docdir)/$$basefile; \
 	done
-	-for file in $(xml_files); do \
+	-for file in $(sgml_files); do \
 	  rm -f $(DESTDIR)$(docdir)/$$file; \
 	done
 	-rmdir $(DESTDIR)$(docdir)/stylesheet-images

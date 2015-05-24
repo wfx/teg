@@ -1,4 +1,4 @@
-/*	$Id: tarjeta.h,v 1.13 2007/07/07 19:16:19 nordi Exp $	*/
+/*	$Id: tarjeta.h,v 1.12 2002/08/31 17:45:59 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -41,10 +41,10 @@ typedef enum {
 } TARJTIPO, *PTARJTIPO;
 
 typedef struct _tarjeta {
-	LIST_ENTRY next;	/**< siguiente */
-	TARJTIPO tarjeta;	/**< tipo de tarjeta | type of the card (cannon/horse/soldier) */
-	int	numjug;			/**< si la tiene algun jugador y que jugador | number of player that owns it, or -1 */
-	BOOLEAN usada;		/**< si se pusieron las 2 fichas del country | if the 2 armies were placed */
+	LIST_ENTRY next;		/**< siguiente */
+	TARJTIPO tarjeta;		/**< tipo de tarjeta */
+	int	numjug;			/**< si la tiene algun jugador y que jugador */
+	BOOLEAN usada;			/**< si se pusieron las 2 fichas del country */
 } TARJETA, *PTARJETA;
 
 #define COUNTRY_FROM_TARJETA( pT ) ( ((char*)(pT)) - (( ((char*)&((PCOUNTRY)pT)->tarjeta) - ((char*)pT) )))

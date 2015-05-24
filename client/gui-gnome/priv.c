@@ -1,4 +1,4 @@
-/*	$Id: priv.c,v 1.9 2007/09/06 13:48:22 nordi Exp $	*/
+/*	$Id: priv.c,v 1.8 2002/10/14 03:26:36 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -39,6 +39,7 @@ TEG_STATUS priv_init( void )
 {
 	gui_private.tag = -1;
 	gui_private.tag_ggz = -1;
+	gui_private.msg_show_colors = 0;
 	gui_private.country_i_am = -1;
 
 	return TEG_STATUS_SUCCESS;

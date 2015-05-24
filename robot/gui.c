@@ -1,4 +1,4 @@
-/*	$Id: gui.c,v 1.54 2007/07/15 17:10:58 nordi Exp $	*/
+/*	$Id: gui.c,v 1.52 2002/10/06 03:25:35 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -71,7 +71,7 @@ TEG_STATUS gui_textplayermsg(char *n, int num, char *msg)
 	tolowerstr(msg,msg);
 	tolowerstr(_(g_game.myname), converted);
 
-	// If a player, not a robot, sends me a message (=message contains my name) I respond.
+	/* a player, not a robot, sends me a message i respond */
 	if( strstr(msg,converted ) && ai_findname(n) != TEG_STATUS_SUCCESS ) {
 		ai_msg( AI_MSG_ANSWER, n );
 	}
@@ -160,35 +160,8 @@ TEG_STATUS gui_main(void)
 	}
 
 	while(1) {
-	
-		// taken (and adapted) from /server/player.c: find out if all human players lost.
-		// If yes, play faster so the humans don't have to wait forever. Feature request 490577
-		int HumansInGame = 0;
-		PLIST_ENTRY l = g_list_player.Flink;
-		PCPLAYER pJ;
-
-		// Find humans left in the game (not counting oberservers).
-		while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) )
-		{
-			pJ = (PCPLAYER) l;
-			// Count humans that are not in state "game over".
-			if ( ( pJ->human ) && ( pJ->estado != PLAYER_STATUS_GAMEOVER ) )
-			{
-				HumansInGame++;
-			}
-			l = LIST_NEXT(l);
-		}
-	
-		// Set timeout: Long if humans in game, short if they all lost/are spectators
-		if ( HumansInGame > 0 )
-		{
-			tout.tv_sec = 1;		// Timeout is 1 second.
-			tout.tv_usec = 0;
-		} else {
-			tout.tv_sec = 0;		// Timeout is 0.3 seconds: Play ~3 times faster when
-			tout.tv_usec = 300000;	// no human is left.
-		}
-			
+		tout.tv_sec =  robot_timeout;
+		tout.tv_usec = 0;
 		FD_ZERO( &readfds );
 		FD_SET( g_game.fd ,&readfds );
 		r = select(g_game.fd+1,&readfds,NULL,NULL,&tout);

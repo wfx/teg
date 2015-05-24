@@ -1,4 +1,4 @@
-/*	$Id: g_scores.c,v 1.14 2007/07/13 20:57:07 nordi Exp $ */
+/*	$Id: g_scores.c,v 1.12 2002/09/21 17:56:38 riq Exp $ */
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -139,7 +139,7 @@ static void scores_add_columns (GtkTreeView *treeview)
 }
 
 /*
- * helper function used by mini_scores & big score
+ * helper funcion used by mini_scores & big score
  */
 static TEG_STATUS paint_color( GtkWidget *dialog, int color, GdkPixmap **pixmap )
 {
@@ -200,8 +200,6 @@ static TEG_STATUS scores_update_model( GtkTreeModel *model)
 		/* sprintf(clist_texts[0],"%s",g_colores[j->color]); */
 
 		gtk_list_store_append (store, &iter);
-		pS->color = (pS->color<0 || pS->color>=TEG_MAX_PLAYERS) ? TEG_MAX_PLAYERS : pS->color;
-
 		gtk_list_store_set (store, &iter,
 					COLUMN_POSNUMBER, ++row,
 					COLUMN_NAME, name,

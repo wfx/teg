@@ -1,4 +1,4 @@
-/*	$Id: outputfd.c,v 1.49 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: outputfd.c,v 1.48 2002/08/31 17:45:57 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -218,7 +218,7 @@ TEG_STATUS out_set_typeofgame(int conqworld, int fog_of_war, int with_common, in
 
 	e = ESTADO_GET();
 	if( e >= PLAYER_STATUS_START ) {
-		textmsg( M_ERR,_("Error, the game is started so you can't change the type of game"));
+		textmsg( M_ERR,_("Error, the game is started so you cant change the type of game"));
 		return TEG_STATUS_ERROR;
 	} else {
 		net_printf(g_game.fd,"%s=%s=%d;%s=%s=%d;%s=%s=%d;%s=%s=%d,%d\n",

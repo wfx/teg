@@ -1,4 +1,4 @@
-/*	$Id: interface.c,v 1.101 2007/08/23 16:57:18 nordi Exp $	*/
+/*	$Id: interface.c,v 1.96 2002/08/31 17:52:54 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -158,7 +158,7 @@ static GnomeUIInfo actions_menu_uiinfo[] =
 	GNOME_APP_PIXMAP_NONE, NULL,
 	0, 0, NULL },
 
-	{ GNOME_APP_UI_ITEM, N_("_Reattack"), N_("Attack your enemy, again using same source and destination"),
+	{ GNOME_APP_UI_ITEM, N_("_Reattck"), N_("Attack your enemy, again using same source and destination"),
 	on_enviarreattack_activate, NULL, NULL,
 	GNOME_APP_PIXMAP_NONE, NULL,
 	'r', GDK_CONTROL_MASK, NULL },
@@ -822,7 +822,7 @@ void tropas_window( int src, int dst, int cant )
 		gtk_container_add( GTK_CONTAINER( vbox ), hbox );
 		label = gtk_label_new(_("Armies to move"));
 		gtk_box_pack_start( GTK_BOX( hbox), label, TRUE, TRUE, 0);
-		adj = (GtkAdjustment *) gtk_adjustment_new( (gfloat) cant, 0.0, (gfloat) (cant + 1), 1.0, 1.0, 1.0 );
+		adj = (GtkAdjustment *) gtk_adjustment_new( 0.0, 0.0, (gfloat) (cant + 1), 1.0, 1.0, 1.0 );
 		// tropas_spinner_cant = gtk_spin_button_new( adj, 0.0, 0);
 		tropas_hscale_cant = gtk_hscale_new( adj);
 		gtk_box_pack_start( GTK_BOX( hbox), tropas_hscale_cant, TRUE, TRUE, 0);
@@ -885,11 +885,7 @@ void reagrupe_window( int src, int dst, int cant )
 
 //	reagrupe_dialog = gnome_dialog_new(_("Regrouping armies"),GNOME_STOCK_BUTTON_OK,NULL);
 	reagrupe_dialog = teg_dialog_new(_("Regrouping armies"),_("Regroup your armies"));
-	
-	// Make the dialog modal (=main window is deactivated while the dialog is open) to fix
-	// bug [689687]: Error, unexpected error in reagrupe_click().
-	gtk_window_set_modal( GTK_WINDOW( reagrupe_dialog ), TRUE );
-	
+
 	gnome_dialog_append_button(GNOME_DIALOG(reagrupe_dialog), GNOME_STOCK_BUTTON_OK);
 
 	gnome_dialog_set_parent (GNOME_DIALOG (reagrupe_dialog),
@@ -898,7 +894,6 @@ void reagrupe_window( int src, int dst, int cant )
 	gtk_signal_connect (GTK_OBJECT (reagrupe_dialog), "destroy",
 			GTK_SIGNAL_FUNC (gtk_widget_destroyed), &reagrupe_dialog);
 
-	// When ok gets pressed, call reagrupe_ok_cb().
 	gnome_dialog_button_connect(GNOME_DIALOG(reagrupe_dialog), 0, GTK_SIGNAL_FUNC(reagrupe_ok_cb), NULL);
 
 	vbox_dia = GNOME_DIALOG(reagrupe_dialog)->vbox;
@@ -925,7 +920,7 @@ void reagrupe_window( int src, int dst, int cant )
 	gtk_container_add( GTK_CONTAINER( vbox ), hbox );
 	label = gtk_label_new(_("Armies to move"));
 	gtk_box_pack_start( GTK_BOX( hbox), label, TRUE, TRUE, 0);
-	adj = (GtkAdjustment *) gtk_adjustment_new( (gfloat) cant, 0.0, (gfloat) (cant + 1), 1.0, 1.0, 1.0 );
+	adj = (GtkAdjustment *) gtk_adjustment_new( 0.0, 0.0, (gfloat) (cant + 1), 1.0, 1.0, 1.0 );
 
 	reagrupe_hscale_cant = gtk_hscale_new( adj);
 
@@ -934,7 +929,7 @@ void reagrupe_window( int src, int dst, int cant )
 	gtk_scale_set_draw_value(GTK_SCALE(reagrupe_hscale_cant),1);
 /*	gtk_range_draw_trough(GTK_RANGE(reagrupe_hscale_cant));  */
 
-	snprintf(buf, sizeof(buf) -1,_("[Note: You can regroup as many times as you want,\nas long as you don't regroup an army that was\nregrouped before in this turn.]"));
+	snprintf(buf, sizeof(buf) -1,_("[Note: You can regroup as many times as you want,\nas long as you dont regroup an armie that were\nregrouped before in this turn.]"));
 	buf[ sizeof(buf) -1 ] = 0;
 	label = gtk_label_new(buf);
 	gtk_box_pack_start( GTK_BOX( vbox), label, TRUE, TRUE, 0);

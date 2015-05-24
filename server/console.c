@@ -1,4 +1,4 @@
-/*	$Id: console.c,v 1.58 2007/09/06 14:25:35 nordi Exp $	*/
+/*	$Id: console.c,v 1.57 2002/09/10 12:17:40 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -79,7 +79,7 @@ struct {
 	{ TOKEN_STATUS,		con_status,	N_("shows status of players") },
 	{ TOKEN_MESSAGE,	con_message,	N_("sends a message to all the players") },
 	{ TOKEN_HELP,		con_help,	N_("shows help") },
-	{ TOKEN_TEST,		con_test,	N_("internal use. Don't use it") },
+	{ TOKEN_TEST,		con_test,	N_("internal use. Dont use it") },
 	{ TOKEN_EXIT,		con_exit,	N_("exits the game") },
 	{ TOKEN_SAVE,		con_save,	N_("save the game") },
 	{ TOKEN_SET,		con_set,	N_("sets options") },
@@ -108,15 +108,9 @@ STATIC TEG_STATUS con_stats_show( PSPLAYER pJ )
 			pJ->numjug,
 			pJ->player_stats.score,
 			pJ->player_stats.countries_won,
-<<<<<<< HEAD
-			pJ->player_stats.countries_lost,
-			pJ->player_stats.armies_killed,
-			pJ->player_stats.armies_lost,
-=======
 			0,
 			pJ->player_stats.armies_killed,
 			0,
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 			pJ->name,
 			pJ->human ? _("yes") : _("no")
 			);
@@ -211,11 +205,7 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 			g_game.round_number,
 			(g_game.mission?_("TRUE"):_("FALSE"))
 			);
-<<<<<<< HEAD
-	net_printf(fd,_("fd, number, countries, countries_won, countries_lost, armies, armies_killed, armies_lost, cards, exch, name, human, color, status, address\n"));
-=======
 	net_printf(fd,_("fd, number, countries, armies, cards, exch, name, human, color, status, address\n"));
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 
 	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) ) {
 		int color;
@@ -223,23 +213,11 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 
 		color = (pJ->color==-1) ? TEG_MAX_PLAYERS : pJ->color;
 		if( pJ->is_player ) {
-<<<<<<< HEAD
-			net_printf(fd,"%-3d %d %-3u %-3u %-3u %-3u %-3u %-3u %d %d %-15s %s %s %s %s\n",
-				pJ->fd,
-				pJ->numjug,
-				pJ->tot_countries + 9000,
-				pJ->player_stats.countries_won,
-				pJ->player_stats.countries_lost,
-				pJ->tot_armies,
-				pJ->player_stats.armies_killed,
-				pJ->player_stats.armies_lost,
-=======
 			net_printf(fd,"%-3d %d  %-3u  %-3u  %d  %d  %-15s  %s  %s  %s  %s\n",
 				pJ->fd,
 				pJ->numjug,
 				pJ->tot_countries,
 				pJ->tot_armies,
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 				pJ->tot_cards,
 				pJ->tot_exchanges,
 				pJ->name,
@@ -249,24 +227,13 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 				pJ->addr
 			);					
 		} else {
-<<<<<<< HEAD
-			net_printf(fd,"%-3d %d  %-3d  %-3d  %-3d  %-3d  %-3d  %-3d  %d  %d  %-15s  %s  %s  %s  %s\n",
-=======
 			net_printf(fd,"%-3d %d  %-3d  %-3d  %d  %d  %-15s  %s  %s  %s  %s\n",
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 				pJ->fd,
 				-1,
 				-1,
 				-1,
 				-1,
 				-1,
-<<<<<<< HEAD
-				-1,
-				-1,
-				-1,
-				-1,
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 				pJ->name,
 				pJ->human ? _("yes") : _("no"),
 				_("n/a"),

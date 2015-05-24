@@ -8,4 +8,4 @@ Homepage = http://teg.sourceforge.net
 Name = teg
 ProtocolEngine = TEG
 ProtocolVersion = 7
-Version = 0.12
+Version = 0.11.2

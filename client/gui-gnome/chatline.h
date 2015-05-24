@@ -1,4 +1,4 @@
-/*	$Id: chatline.h,v 1.4 2007/09/06 13:48:22 nordi Exp $	*/
+/*	$Id: chatline.h,v 1.3 2002/08/13 01:59:35 riq Exp $	*/
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,5 @@ void set_output_window_text(const char *text);
 TEG_STATUS gui_textmsg(char *astring);
 TEG_STATUS gui_textplayermsg(char *name, int nj, char *msg);
 TEG_STATUS chatline_init();
-int is_color_human( int color );
 
 #endif  /* __TEG_GUI_GNOME_CHATLINE_H */

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-/* config.h.in.  Generated from configure.in by autoheader.  */
-=======
 /* config.h.in.  Generated from configure.ac by autoheader.  */
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 
 /* always defined to indicate that i18n is enabled */
 #undef ENABLE_NLS
@@ -157,13 +153,6 @@
 /* Localisation files location */
 #undef LOCALEDIR
 
-<<<<<<< HEAD
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
-#undef LT_OBJDIR
-
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 /* Name of package */
 #undef PACKAGE
 
@@ -182,21 +171,9 @@
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
 
-<<<<<<< HEAD
-/* Define to the home page for this package. */
-#undef PACKAGE_URL
-
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
-/* The installation prefix */
-#undef PREFIX
-
-=======
-/* Define to the version of this package. */
-#undef PACKAGE_VERSION
-
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 /* Define as the return type of signal handlers (`int' or `void'). */
 #undef RETSIGTYPE
 

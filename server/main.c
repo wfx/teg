@@ -1,4 +1,4 @@
-/*	$Id: main.c,v 1.89 2007/07/07 19:31:48 nordi Exp $	*/
+/*	$Id: main.c,v 1.88 2004/08/04 13:03:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -194,7 +194,7 @@ void main_loop( void )
 {
 	int listenfd,fd, nready;
 	struct sockaddr client;
-	socklen_t client_len;
+	ssize_t client_len;
 	fd_set read_set;
 	struct timeval timeout, timeofday_old, timeofday_new;
 	struct timezone tz;

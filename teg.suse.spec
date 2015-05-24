@@ -1,11 +1,7 @@
 # spec file for package teg
 # (c)2000 David Haller
 
-<<<<<<< HEAD
-%define  ver     0.12
-=======
-%define  ver     0.11.3
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+%define  ver     0.11.2
 %define  RELEASE 0
 %define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
 %define  prefix  /opt/gnome

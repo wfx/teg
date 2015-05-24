@@ -1,11 +1,7 @@
 # spec file for package teg
 # based on the original file for Suse by David Haller
 
-<<<<<<< HEAD
-%define  ver     0.12
-=======
-%define  ver     0.11.3
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
+%define  ver     0.10.1
 %define  RELEASE 1
 %define  rel     %{?CUSTOM_RELEASE} %{!?CUSTOM_RELEASE:%RELEASE}
 %define  prefix  /usr
@@ -16,7 +12,7 @@ Summary:   		Clone of a Risk clone
 Version:		%ver
 Release:		%rel
 Distribution:		RedHat
-License:		GPL
+Copyright: 	  	GPL
 Group: 			Amusements/Games
 URL:			http://teg.sourceforge.net/
 Packager:     		Ricardo Quesada <riq@corest.com>
@@ -28,14 +24,10 @@ BuildRequires: gnome-libs-devel
 Docdir:    %{sysdocs}
 BuildRoot: /var/tmp/rpm/teg-%{PACKAGE_VERSION}-root
 
-Source:     http://prdownloads.sourceforge.net/teg/teg-%{PACKAGE_VERSION}.tar.bz2
+Source:     http://prdownloads.sourceforge.net/teg/teg-%{PACKAGE_VERSION}.tar.gz
 
 %description
-<<<<<<< HEAD
-Tenes Emapandas Graciela (TEG) is a clone of 'Plan Tï¿½ctico y Estratï¿½gico
-=======
 Tenes Emapandas Graciela (TEG) is a clone of 'Plan Táctico y Estratégico
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 de la Guerra' (Tactical and Strategic plan of the War), which is a
 pseudo-clone of Risk, a turn-based strategy game. Some rules are different.
 
@@ -54,7 +46,7 @@ make
 rm -rf $RPM_BUILD_ROOT
 make prefix=$RPM_BUILD_ROOT%{prefix} install
 strip $RPM_BUILD_ROOT%{prefix}/bin/*
-rm -f $RPM_BUILD_ROOT%{prefix}/share/locale/locale.alias
+rm $RPM_BUILD_ROOT%{prefix}/share/locale/locale.alias
 
 %clean
 #rm -rf $RPM_BUILD_DIR/teg-%{ver}
@@ -62,16 +54,15 @@ rm -f $RPM_BUILD_ROOT%{prefix}/share/locale/locale.alias
 
 %files
 %defattr(-, root, root)
-%{prefix}/etc/gconf/schemas/teg.schemas
 %{prefix}/bin/tegclient
 %{prefix}/bin/tegserver
 %{prefix}/bin/tegrobot
-%{prefix}/share/gnome/help/teg/*
+%{prefix}/share/gnome/help/teg/C/*
 %{prefix}/share/locale
 %{prefix}/share/pixmaps
 %{prefix}/share/gnome/apps/Games/teg.desktop
 
-%doc AUTHORS COPYING ChangeLog INSTALL NEWS README TODO README.GGZ PEOPLE HACKING
+%doc ABOUT-NLS AUTHORS COPYING ChangeLog INSTALL NEWS README TODO README.GGZ PEOPLE HACKING
 
 %changelog
 * Wed Aug 28 2002 Ganesh Sittampalam <ganesh-rpms@earth.li>

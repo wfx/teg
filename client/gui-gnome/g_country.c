@@ -1,4 +1,4 @@
-/*	$Id: g_country.c,v 1.4 2007/07/10 12:51:37 nordi Exp $	*/
+/*	$Id: g_country.c,v 1.3 2003/08/30 04:34:39 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -488,7 +488,6 @@ TEG_STATUS gui_country_select( int country )
 	if( country < 0 || country >= COUNTRIES_CANT )
 		return TEG_STATUS_ERROR;
 
-	// normal, unselected, state: thin black circle
 	if( g_countries[country].selected == COUNTRY_SELECT_NONE ) {
 		gnome_canvas_item_set(
 			G_countries[country].ellip_item, 

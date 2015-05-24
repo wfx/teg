@@ -1,3 +1,1 @@
-ggz_client.o: ggz_client.c ../config.h
-
-../config.h:
+# dummy

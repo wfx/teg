@@ -1,4 +1,4 @@
-/*	$Id: missions.c,v 1.4 2007/07/07 19:16:19 nordi Exp $	*/
+/*	$Id: missions.c,v 1.3 2002/09/09 03:52:06 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -28,7 +28,7 @@
 #include "all.h"
 
 MISSIONS g_missions[]= {
-	{ 0,	/* Default mission for a game without missions */
+	{ 0,	/* Objetivo cuando se juega sin missions */
 		N_("Conquer the world"),
 		{CONT_AMERICASUR_CANT, CONT_AMERICANORTE_CANT, CONT_AFRICA_CANT, CONT_OCEANIA_CANT, CONT_EUROPA_CANT, CONT_ASIA_CANT},
 		{0, 0, 0, 0, 0, 0},

@@ -65,42 +65,16 @@ TEG_STATUS aux_status( PCPLAYER pj, char *str )
 	if( parser_call( &p ) && p.hay_otro ) {
 		pj->estado = atoi( p.token);
 	} else goto error;
-<<<<<<< HEAD
-
-=======
 	
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 	if( parser_call( &p ) && p.hay_otro ) {
 		pj->tot_countries = atoi( p.token);
 	} else goto error;
 
 	if( parser_call( &p ) && p.hay_otro ) {
-<<<<<<< HEAD
-		pj->tot_countries_won = atoi( p.token);
-	} else goto error;
-
-	if( parser_call( &p ) && p.hay_otro ) {
-		pj->tot_countries_lost = atoi( p.token);
-	} else goto error;
-
-	if( parser_call( &p ) && p.hay_otro ) {
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 		pj->tot_armies = atoi( p.token);
 	} else goto error;
 
 	if( parser_call( &p ) && p.hay_otro ) {
-<<<<<<< HEAD
-		pj->tot_armies_killed = atoi( p.token);
-	} else goto error;
-
-	if( parser_call( &p ) && p.hay_otro ) {
-		pj->tot_armies_lost = atoi( p.token);
-	} else goto error;
-
-	if( parser_call( &p ) && p.hay_otro ) {
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 		pj->tot_cards = atoi( p.token);
 	} else goto error;
 
@@ -118,12 +92,7 @@ TEG_STATUS aux_status( PCPLAYER pj, char *str )
 
 	return TEG_STATUS_SUCCESS;
 error:
-<<<<<<< HEAD
-	strcat (str, "(error in aux_status)");
-	textmsg(M_ERR,str);
-=======
 	textmsg(M_ERR,"error in aux_status()");
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 	return TEG_STATUS_ERROR;
 }
 

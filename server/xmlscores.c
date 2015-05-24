@@ -1,4 +1,4 @@
-/*	$Id: xmlscores.c,v 1.16 2007/07/07 19:36:13 nordi Exp $	*/
+/*	$Id: xmlscores.c,v 1.15 2006/03/12 16:01:45 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada
@@ -101,7 +101,7 @@ TEG_STATUS xmlscores_load( void )
 	PSCORES curscore;
 
 	/*
-	 * build an XML tree from the file;
+	 * build an XML tree from a the file;
 	 */
 
 	snprintf( filename, sizeof(filename)-1,"%s/%s/server_scores.xml",g_get_home_dir(),TEG_DIRRC);
@@ -113,7 +113,7 @@ TEG_STATUS xmlscores_load( void )
 		return TEG_STATUS_ERROR;
 
 	/*
-	 * Check if the document is of the right kind
+	 * Check the document is of the right kind
 	 */
 	cur = xmlDocGetRootElement(doc);
 	if (cur == NULL) {

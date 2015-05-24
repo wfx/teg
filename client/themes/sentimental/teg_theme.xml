@@ -43,7 +43,7 @@
 	<continent name="Africa" pos_x="342" pos_y="238">
 		<country name="Sahara" file="Africa-Sahara" pos_x="-44" pos_y="7" army_x="0" army_y="0"></country>
 		<country name="Zaire" file="Africa-Zaire" pos_x="-3" pos_y="48" army_x="2" army_y="-2"></country>
-		<country name="Ethiopia" file="Africa-Etiopia" pos_x="20" pos_y="31" army_x="0" army_y="0"></country>
+		<country name="Etiopia" file="Africa-Etiopia" pos_x="20" pos_y="31" army_x="0" army_y="0"></country>
 		<country name="Egypt" file="Africa-Egipto" pos_x="16" pos_y="3" army_x="0" army_y="0"></country>
 		<country name="Madagascar" file="Africa-Madagascar" pos_x="101" pos_y="45" army_x="0" army_y="0"></country>
 		<country name="South Africa" file="Africa-Sudafrica" pos_x="48" pos_y="63" army_x="0" army_y="0"></country>
@@ -82,7 +82,7 @@
 		<country name="Aral" file="Asia-Aral" pos_x="125" pos_y="21" army_x="0" army_y="0"></country>
 		<country name="Tartary" file="Asia-Tartaria" pos_x="137" pos_y="-1" army_x="5" army_y="-2"></country>
 		<country name="Taymir" file="Asia-Taimir" pos_x="175" pos_y="3" army_x="0" army_y="0"></country>
-		<country name="Kamchatka" file="Asia-katchatka" pos_x="222" pos_y="-9" army_x="0" army_y="-5"></country>
+		<country name="Katchatka" file="Asia-katchatka" pos_x="222" pos_y="-9" army_x="0" army_y="-5"></country>
 		<country name="Japan" file="Asia-japon" pos_x="289" pos_y="41" army_x="0" army_y="0"></country>
 	</continent>
 </teg_theme>

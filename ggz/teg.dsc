@@ -3,7 +3,7 @@ Author = Ricardo Calixto Quesada
 Description = A clone of a Risk clone
 Homepage = http://teg.sourceforge.net/
 Name = TEG
-Version = 0.12
+Version = 0.11.2
 
 [LaunchInfo]
 ExecutablePath = /usr/local/bin/tegserver --ggz

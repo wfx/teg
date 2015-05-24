@@ -1,4 +1,4 @@
-/*	$Id: fichas.c,v 1.23 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: fichas.c,v 1.22 2006/03/12 16:24:34 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -58,7 +58,7 @@ TEG_STATUS fichas_check()
 TEG_STATUS fichas_add( PCOUNTRY p )
 {
 	if( fichas_check() != TEG_STATUS_SUCCESS ) {
-		textmsg(M_ERR,_("Error, you can't add armies now"));
+		textmsg(M_ERR,_("Error, you cant add armies now"));
 		return TEG_STATUS_UNEXPECTED;
 	}
 
@@ -70,12 +70,12 @@ TEG_STATUS fichas_add( PCOUNTRY p )
 			aConts[p->continente]++;
 			return TEG_STATUS_SUCCESS;
 		} else {
-			textmsg(M_ERR,_("Error, you can't put more than %d armies"),wanted_tot);
+			textmsg(M_ERR,_("Error, you cant put more than %d armies"),wanted_tot);
 			fichas_enter( p );
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR,_("Error, '%s' isn't one of your countries"),countries_get_name(p->id));
+		textmsg(M_ERR,_("Error, '%s' isnt one of your countries"),countries_get_name(p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }
@@ -88,7 +88,7 @@ TEG_STATUS fichas_add( PCOUNTRY p )
 TEG_STATUS fichas_sub( PCOUNTRY p )
 {
 	if( fichas_check() != TEG_STATUS_SUCCESS ) {
-		textmsg(M_ERR,_("Error, you can't sub armies now"));
+		textmsg(M_ERR,_("Error, you cant sub armies now"));
 		return TEG_STATUS_UNEXPECTED;
 	}
 
@@ -102,7 +102,7 @@ TEG_STATUS fichas_sub( PCOUNTRY p )
 			return TEG_STATUS_SUCCESS;
 		} else return TEG_STATUS_UNEXPECTED;
 	} else {
-		textmsg(M_ERR,_("Error, '%s' isn't one of your countries"),countries_get_name(p->id));
+		textmsg(M_ERR,_("Error, '%s' isnt one of your countries"),countries_get_name(p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }

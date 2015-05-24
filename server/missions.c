@@ -1,4 +1,4 @@
-/*	$Id: missions.c,v 1.4 2007/07/07 19:35:16 nordi Exp $	*/
+/*	$Id: missions.c,v 1.3 2004/08/04 13:03:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -25,7 +25,7 @@
 
 #include "server.h"
 
-/* Did player pJ accomplish his secret mission ? */
+/* Do player pJ accomplished his secret mission ? */
 TEG_STATUS mission_chequear( PSPLAYER pJ )
 {
 	int i;
@@ -104,8 +104,7 @@ TEG_STATUS mission_asignar( PSPLAYER pJ )
 	if( pJ->mission != -1 )
 		return TEG_STATUS_SUCCESS;
 
-	/* Si se juega sin missions, es a conquistar el mundo 
-	   When playing without missions, the player has to conquer the world*/
+	/* Si se juega sin missions, es a conquistar el mundo */
 	if( g_game.mission == FALSE ) {
 		pJ->mission = MISSION_CONQWORLD;	/* mission de conquistar al mundo */
 		return TEG_STATUS_SUCCESS;

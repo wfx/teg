@@ -1,1 +1,1 @@
-globals.o: globals.c
+# dummy

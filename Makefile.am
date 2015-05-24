@@ -29,5 +29,5 @@ SUBDIRS= macros po common docs metaserver $(GSUBDIRS) $(SSUBDIRS) $(CSUBDIRS) $(
 
 EXTRA_DIST= teg-ggz.rh.spec teg.suse.spec teg.rh.spec README README.GGZ HACKING PEOPLE protocol.txt ReleaseNotes.txt
 
-ACLOCAL_FLAGS = -I macros
+ACLOCAL_FLAGS = -I `pwd`/macros
 

@@ -1,4 +1,4 @@
-/*	$Id: ejer2.c,v 1.10 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: ejer2.c,v 1.9 2002/09/09 03:52:06 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -49,7 +49,7 @@ TEG_STATUS ejer2_out( int country )
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR,_("Error, '%s' isn't one of your countries"),g_countries[country].name);
+		textmsg(M_ERR,_("Error, '%s' isnt one of your countries"),g_countries[country].name);
 		return TEG_STATUS_ERROR;
 	}
 }

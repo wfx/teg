@@ -1,4 +1,4 @@
-/*	$Id: tarjeta.c,v 1.7 2007/07/07 19:16:19 nordi Exp $	*/
+/*	$Id: tarjeta.c,v 1.6 2002/08/31 17:45:59 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -28,7 +28,6 @@
 /**
  * @fn BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
  * Dice si es correcto el canje con las tarjetas t1,t2 y t3
- * Says if it is correct for player numjug to exchange the cards t1, t2 and t3
  */
 BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
 {
@@ -61,7 +60,6 @@ void tarjeta_init( void )
 
 /**
  * @fn void tarjeta_usar( PTARJETA pT )
- * This card has been used to place 2 armies in the country.
  */
 void tarjeta_usar( PTARJETA pT )
 {

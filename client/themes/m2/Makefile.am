@@ -1,9 +1,9 @@
 pixmapdir=$(datadir)/pixmaps/teg_pix/themes/m2
 
 pixmap_DATA =	\
-	Africa-Egipto Africa-Ethiopia Africa-Madagascar Africa-Sahara Africa-Sudafrica Africa-Zaire	\
+	Africa-Egipto Africa-Etiopia Africa-Madagascar Africa-Sahara Africa-Sudafrica Africa-Zaire	\
 	America-Alaska America-California America-Canada America-Groenlandia America-Labrador America-Mexico America-Nuevayork America-Oregon America-Terranova America-Yukon	\
-	Asia-Arabia Asia-Aral Asia-China Asia-Gobi Asia-India Asia-Iran Asia-Israel Asia-Japon Asia-Kamchatka Asia-Malaysia Asia-Mongolia Asia-Siberia Asia-Taimir Asia-Tartaria Asia-Turquia	\
+	Asia-Arabia Asia-Aral Asia-China Asia-Gobi Asia-India Asia-Iran Asia-Israel Asia-Japon Asia-Katchatka Asia-Malaysia Asia-Mongolia Asia-Siberia Asia-Taimir Asia-Tartaria Asia-Turquia	\
 	Australia-Australia Australia-Borneo Australia-Java Australia-Sumatra	\
 	Europe-Alemania Europe-Espania Europe-Francia Europe-Grand_Bretania Europe-Islandia Europe-Italia Europe-Polonia Europe-Rusia Europe-Suecia	\
 	Southamerica-Argentinia Southamerica-Brasil Southamerica-Chile Southamerica-Colombia Southamerica-Peru Southamerica-Uruguay	\

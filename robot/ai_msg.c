@@ -1,4 +1,4 @@
-/*	$Id: ai_msg.c,v 1.27 2007/07/15 17:10:58 nordi Exp $	*/
+/*	$Id: ai_msg.c,v 1.25 2002/10/06 03:25:34 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -54,7 +54,7 @@ aimsg_t mensajes_bye[] = {
 aimsg_t mensajes_misc[] = {
 	{ N_("%s, Do you have a sister ?"), 1},
 	{ N_("I love this game"), 0 },
-	{ N_("%s, I can't believe it!"), 1 },
+	{ N_("%s, I cant believe it!"), 1 },
 	{ N_("%s, Do you have Lewinsky's phone ?"), 1 },
 	{ N_("Does anyone speak Speranto ?"), 0},
 	{ N_("%s, You play very well"), 0},
@@ -88,20 +88,20 @@ aimsg_t mensajes_misc[] = {
 #define NR_MSGS_MISC ( sizeof(mensajes_misc) / sizeof(mensajes_misc[0]))
 
 aimsg_t mensajes_answer[] = {
-	{ N_("%s, I don't agree"), 1 },
+	{ N_("%s, I dont agree"), 1 },
 	{ N_("%s, Are you sure what you are saying?"), 1 },
 	{ N_("%s, What are you saying"), 1 },
-	{ N_("%s, I don't understand you"), 1 },
+	{ N_("%s, I dont understand you"), 1 },
 	{ N_("%s, funny"), 1 },
 	{ N_("%s, What?"), 1 },
 	{ N_("%s, sure"), 1 },
 	{ N_("%s, Are you talking to me?"), 1 },
 	{ N_("%s, you make me laugh"), 1 },
 	{ N_("%s, you make me laugh"), 1 },
-	{ N_("%s, I don't think so"), 1 },
-	{ N_("No %s, I don't believe that"), 1 },
+	{ N_("%s, I dont think so"), 1 },
+	{ N_("No %s, I dont believe that"), 1 },
 	{ N_("Yes, why not ? %s, but are you sure ?"), 1 },
-	{ N_("Tomorrow, not today. %s don't get me wrong"), 1 },
+	{ N_("Tomorrow, not today. %s dont get me wrong"), 1 },
 };
 #define NR_MSGS_ANSWER ( sizeof(mensajes_answer) / sizeof(mensajes_answer[0]))
 
@@ -206,22 +206,13 @@ char * ai_name()
 	return _(names[i]);
 }
 
-// Returns TEG_STATUS_SUCCESS if there is a robot playing in this game and the robot's name is
-// part of *name. E.g. if name="hello mike!" and there is a robot called "mike".
-// Returns TEG_STATUS_NOTFOUND otherwise.
-// Useful if the AI wants to know if it should reply to a message
 TEG_STATUS ai_findname( char *name )
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PCPLAYER pJ;
+	int i;
 
-	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) )
-	{
-		pJ = (PCPLAYER) l;
-		if (( strstr( name, pJ->name) ) && (!(pJ->human))) {
+	for(i=0;i< NR_NAMES;i++) {
+		if( strstr( _(name), _(names[i]) ) != NULL)
 			return TEG_STATUS_SUCCESS;
-		}
-		l = LIST_NEXT(l);
 	}
 
 	return TEG_STATUS_NOTFOUND;

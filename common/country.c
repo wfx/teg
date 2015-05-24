@@ -1,4 +1,4 @@
-/*	$Id: country.c,v 1.4 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: country.c,v 1.2 2002/09/09 03:52:06 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -48,7 +48,7 @@ COUNTRY g_countries[] = {
 	/* AFRICA */
 	{ LENTRY_NULL, 16, N_("Sahara"), 0, 0, 0, CONTINENTE_AFRICA, TARJETA_NULL_CANION, COUNTRY_SELECT_NONE, NULL },
 	{ LENTRY_NULL, 17, N_("Zaire"), 0, 0, 0, CONTINENTE_AFRICA, TARJETA_NULL_GALEON, COUNTRY_SELECT_NONE, NULL },
-	{ LENTRY_NULL, 18, N_("Ethiopia"), 0, 0, 0, CONTINENTE_AFRICA, TARJETA_NULL_GLOBO, COUNTRY_SELECT_NONE, NULL },
+	{ LENTRY_NULL, 18, N_("Etiopia"), 0, 0, 0, CONTINENTE_AFRICA, TARJETA_NULL_GLOBO, COUNTRY_SELECT_NONE, NULL },
 	{ LENTRY_NULL, 19, N_("Egypt"), 0, 0, 0, CONTINENTE_AFRICA, TARJETA_NULL_GLOBO, COUNTRY_SELECT_NONE, NULL },
 	{ LENTRY_NULL, 20, N_("Madagascar"), 0, 0, 0, CONTINENTE_AFRICA, TARJETA_NULL_GALEON, COUNTRY_SELECT_NONE, NULL },
 	{ LENTRY_NULL, 21, N_("South Africa"), 0, 0, 0, CONTINENTE_AFRICA, TARJETA_NULL_CANION, COUNTRY_SELECT_NONE, NULL },
@@ -84,7 +84,7 @@ COUNTRY g_countries[] = {
 	{ LENTRY_NULL, 45, N_("Aral"), 0, 0, 0, CONTINENTE_ASIA, TARJETA_NULL_CANION, COUNTRY_SELECT_NONE, NULL },
 	{ LENTRY_NULL, 46, N_("Tartary"), 0, 0, 0, CONTINENTE_ASIA, TARJETA_NULL_CANION, COUNTRY_SELECT_NONE, NULL },
 	{ LENTRY_NULL, 47, N_("Taymir"), 0, 0, 0, CONTINENTE_ASIA, TARJETA_NULL_COMODIN, COUNTRY_SELECT_NONE, NULL },
-	{ LENTRY_NULL, 48, N_("Kamchatka"), 0, 0, 0, CONTINENTE_ASIA, TARJETA_NULL_GLOBO, COUNTRY_SELECT_NONE, NULL },
+	{ LENTRY_NULL, 48, N_("Katchatka"), 0, 0, 0, CONTINENTE_ASIA, TARJETA_NULL_GLOBO, COUNTRY_SELECT_NONE, NULL },
 	{ LENTRY_NULL, 49, N_("Japan"), 0, 0, 0, CONTINENTE_ASIA, TARJETA_NULL_CANION, COUNTRY_SELECT_NONE, NULL }
 };
 #define COUNTRIES_TOT (sizeof(g_countries) /sizeof(g_countries[0]))
@@ -139,7 +139,7 @@ void countries_init()
 		countries_initcountry( &g_countries[i] );
 }
 
-/* says if a country is free (=no player owns it) or not */
+/* says if a country is free or not */
 BOOLEAN country_libre( int i )
 {
 	return( g_countries[i].numjug == -1 );

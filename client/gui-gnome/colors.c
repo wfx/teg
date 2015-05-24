@@ -1,4 +1,4 @@
-/*	$Id: colors.c,v 1.17 2007/09/15 15:29:30 nordi Exp $	*/
+/*	$Id: colors.c,v 1.16 2004/10/04 19:47:49 wfx Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -298,13 +298,13 @@ char * get_tag_for_color( int color )
 char * get_foreground_for_color( int c )
 {
 	if(c<0 || c>=NR_COLORS)
-		return G_colores[NR_COLORS-1].text_color;
+		return G_colores[NR_COLORS].text_color;
 	return G_colores[c].text_color;
 }
 
 char * get_background_for_color( int c )
 {
 	if(c<0 || c>=NR_COLORS)
-		return G_colores[NR_COLORS-1].ellip_color;
+		return G_colores[NR_COLORS].ellip_color;
 	return G_colores[c].ellip_color;
 }

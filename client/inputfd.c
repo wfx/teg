@@ -1,4 +1,4 @@
-/*	$Id: inputfd.c,v 1.99 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: inputfd.c,v 1.98 2002/10/14 03:26:36 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -562,7 +562,7 @@ TEG_STATUS clitok_turno( char *str)
 		/* cosas a hacer cuando yo comienzo un nuevo turno */
 		reagrupe_bigreset();
 		attack_init();
-		textmsg(M_INF,_("It's your turn to attack!!"));
+		textmsg(M_INF,_("Its your turn to attack!!"));
 	} else  {
 		/* No es mi turno, entonces yo tengo que estar en idle */
 		textmsg(M_IMP,_("Player %s(%s) has the turn to attack!"),

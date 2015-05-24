@@ -1,4 +1,4 @@
-/*	$Id: options.c,v 1.12 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: options.c,v 1.10 2002/08/31 17:25:20 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -68,7 +68,6 @@ TEG_STATUS option_conqworld_view( void )
 		);
 	return TEG_STATUS_SUCCESS;
 }
-
 TEG_STATUS option_conqworld( int fd, char *str )
 {
 	int a,b;
@@ -255,7 +254,7 @@ TEG_STATUS option_lookup( int fd, PARSER *p )
 			return TEG_STATUS_TOKENNULL;
 		}
 	}
-	net_printf(fd,_("Unknown option. Try using `%s %s' for help\n"),TOKEN_SET,OPTION_HELP);
+	net_printf(fd,_("Unknow option. Try using `%s %s' for help\n"),TOKEN_SET,OPTION_HELP);
 	return TEG_STATUS_TOKENNOTFOUND;
 }
 

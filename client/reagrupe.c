@@ -1,4 +1,4 @@
-/*	$Id: reagrupe.c,v 1.21 2007/07/10 14:10:57 nordi Exp $	*/
+/*	$Id: reagrupe.c,v 1.18 2006/03/12 21:33:58 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -60,11 +60,11 @@ TEG_STATUS reagrupe_click( PCOUNTRY p )
 				country_origen = p->id;
 				textmsg(M_INF,_("Source country: '%s'. Now select the destination country"),countries_get_name(p->id));
 			} else {
-				textmsg(M_ERR,_("Error, '%s' doesn't have any avalaible armies to move"),countries_get_name(p->id));
+				textmsg(M_ERR,_("Error, '%s' doesnt have any avalaible armies to move"),countries_get_name(p->id));
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else { 
-			textmsg(M_ERR,_("Error, '%s' isn't one of your countries"),countries_get_name(p->id));
+			textmsg(M_ERR,_("Error, '%s' isnt one of your countries"),countries_get_name(p->id));
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else if( country_destino == -1 ) {
@@ -82,18 +82,12 @@ TEG_STATUS reagrupe_click( PCOUNTRY p )
 				country_destino = p->id;
 				textmsg(M_INF,_("Destination country: '%s'. Now select the quantity of armies to move"),countries_get_name(p->id));
 				gui_reagrupe(country_origen, country_destino, g_countries[country_origen].ejercitos - g_countries[country_origen].ejer_reagrupe - 1);
-				// In case gui_reagrupe gets aborted (e.g. by pressing ESC) we need to
-				// manually reset everything. If not we will run into something similar to
-				// bug [689687]: "Error, unexpected error in reagrupe_click()" when the next
-				// country is clicked.
-				// FIXME: The destination country remains marked for whatever reason.
-				reagrupe_reset();
 			} else {
-				textmsg(M_ERR,_("Error, '%s' isn't frontier with '%s'"),countries_get_name(p->id),countries_get_name(country_origen));
+				textmsg(M_ERR,_("Error, '%s' isnt frontier with '%s'"),countries_get_name(p->id),countries_get_name(country_origen));
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR,_("Error, '%s' isn't one of your countries"),countries_get_name(p->id));
+			textmsg(M_ERR,_("Error, '%s' isnt one of your countries"),countries_get_name(p->id));
 			reagrupe_reset();
 			return TEG_STATUS_UNEXPECTED;
 		}
@@ -156,7 +150,6 @@ TEG_STATUS reagrupe_set_and_save( int src, int dst, int cant )
 	last_origen = src;
 	last_destino = dst;
 	last_cant = cant;
-	// In the destination country, the newly arrived armies may not be regrouped again.
 	g_countries[ dst ].ejer_reagrupe += cant;
 
 	return TEG_STATUS_SUCCESS;
@@ -181,7 +174,6 @@ TEG_STATUS reagrupe_restore_from_error( void )
 /**
  * @fn TEG_STATUS reagrupe_out()
  * Envia ejercitos que se estan reagrupando
- * Send armies that were regrouped
  */
 TEG_STATUS reagrupe_out( int src, int dst, int cant)
 {
@@ -193,7 +185,7 @@ TEG_STATUS reagrupe_out( int src, int dst, int cant)
 		reagrupe_set_and_save( src, dst, cant );
 		net_printf(g_game.fd,TOKEN_REAGRUPE"=%d,%d,%d\n",src,dst,cant);
 	} else {
-		textmsg(M_ERR,_("Error, you can't regroup now."));
+		textmsg(M_ERR,_("Error, you cant regroup now."));
 		return TEG_STATUS_ERROR;
 	}
 
@@ -203,7 +195,6 @@ TEG_STATUS reagrupe_out( int src, int dst, int cant)
 /**
  * @fn TEG_STATUS reagrupe_enter( PCOUNTRY p )
  * Cuando se esta reagrupando resalta los countries que se pueden reagrupar
- * When regrouping, make a marking around countries where regrouping is possible.
  * @param p Pais a resaltar
  */
 TEG_STATUS reagrupe_enter( PCOUNTRY p )
@@ -212,7 +203,6 @@ TEG_STATUS reagrupe_enter( PCOUNTRY p )
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	// Make marking around possible source country
 	if( country_origen == -1 ) {
 		if(p->numjug == WHOAMI() ) {
 			if( p->ejercitos - p->ejer_reagrupe > 1 ) {
@@ -220,7 +210,6 @@ TEG_STATUS reagrupe_enter( PCOUNTRY p )
 				gui_country_select(p->id);
 			}
 		}
-	// Make marking around possible destination country for a given origin
 	} else if( country_destino == -1 ) {
 		if(p->numjug == WHOAMI()  ) {
 			if( countries_eslimitrofe( country_origen, p->id ) ) {
@@ -232,7 +221,6 @@ TEG_STATUS reagrupe_enter( PCOUNTRY p )
 	return TEG_STATUS_SUCCESS;
 }
 
-// Remove selection around country while regrouping.
 TEG_STATUS reagrupe_leave( PCOUNTRY p )
 {
 	if( reagrupe_check() != TEG_STATUS_SUCCESS ) {

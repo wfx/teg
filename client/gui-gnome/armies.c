@@ -1,4 +1,4 @@
-/*	$Id: armies.c,v 1.14 2007/07/11 22:29:22 nordi Exp $	*/
+/*	$Id: armies.c,v 1.13 2002/08/31 17:45:58 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -122,7 +122,7 @@ static TEG_STATUS armies_view_cant_x_cont( int i )
 		"y", (double) i*12+15,
 		"x_offset", (double) -1,
 		"y_offset", (double) -1,
-		"font", HELVETICA_10_FONT,
+		"font", HELVETICA_12_FONT,
 		"fill_color", ( armies_prop[i].cant > 0 ) ? "black" : "grey",
 		"anchor",GTK_ANCHOR_NE,
 		NULL);
@@ -157,7 +157,7 @@ static void armies_view_cant()
 		"y", (double) 1,
 		"x_offset", (double) -1,
 		"y_offset", (double) -1,
-		"font", HELVETICA_10_FONT,
+		"font", HELVETICA_12_FONT,
 		"fill_color", ( armies_prop[CONT_CANT].cant > 0 ) ? "black" : "grey",
 		"anchor",GTK_ANCHOR_NE,
 		NULL);
@@ -286,7 +286,7 @@ TEG_STATUS armies_init( GnomeCanvasGroup *group )
 			"y", (double) 1,
 			"x_offset", (double) -1,
 			"y_offset", (double) -1,
-			"font", HELVETICA_10_FONT,
+			"font", HELVETICA_12_FONT,
 			"fill_color", "black",
 			"anchor",GTK_ANCHOR_NW,
 			NULL);
@@ -302,7 +302,7 @@ TEG_STATUS armies_init( GnomeCanvasGroup *group )
 				"y", (double) i*12+15,
 				"x_offset", (double) -1,
 				"y_offset", (double) -1,
-				"font", HELVETICA_8_FONT,
+				"font", HELVETICA_10_FONT,
 				"fill_color", "black",
 				"anchor",GTK_ANCHOR_NW,
 				NULL);

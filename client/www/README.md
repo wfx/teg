@@ -1,4 +1,0 @@
-TEG SERVER.
-======
-
-npm install

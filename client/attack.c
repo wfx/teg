@@ -1,4 +1,4 @@
-/*	$Id: attack.c,v 1.6 2007/07/10 19:00:16 nordi Exp $	*/
+/*	$Id: attack.c,v 1.4 2006/03/12 16:24:34 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -106,7 +106,7 @@ TEG_STATUS attack_click( PCOUNTRY p )
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR,_("Error, '%s' isn't one of your countries"),countries_get_name(p->id));
+			textmsg(M_ERR,_("Error, '%s' isnt one of your countries"),countries_get_name(p->id));
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else if( country_destino == -1 ) {
@@ -125,12 +125,12 @@ TEG_STATUS attack_click( PCOUNTRY p )
 				textmsg(M_INF,_("Destination country: '%s'. Attacking..."),countries_get_name(p->id));
 				attack_out();
 			} else {
-				textmsg(M_ERR,_("Error, '%s' isn't frontier with '%s'"),countries_get_name(p->id),countries_get_name(country_origen));
+				textmsg(M_ERR,_("Error, '%s' isnt frontier with '%s'"),countries_get_name(p->id),countries_get_name(country_origen));
 				attack_reset();
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR,_("Error, you can't attack your own countries ('%s')"),countries_get_name(p->id));
+			textmsg(M_ERR,_("Error, you cant attack your own countries ('%s')"),countries_get_name(p->id));
 			attack_reset();
 			return TEG_STATUS_UNEXPECTED;
 		}
@@ -186,18 +186,11 @@ TEG_STATUS attack_out()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* Sends to server the attack message after restoring the last attack. Used when CTRL+R is
-   pressed to reattack. */
+/* Sends to server the attack message */
 TEG_STATUS attackre_out()
 {
 	attack_restore();
-	TEG_STATUS ret;
-	ret = attack_out();
-	// Reset attack information to fix bug [573300]: "error in ataque_click()". If the user clicks
-	// on another country and both src_country and dest_country are already set, ataque_click
-	// gets confused. So reset it, we can restore it if CTRL+R is pressed again.
-	attack_reset();
-	return ret;
+	return attack_out();
 }
 
 /* the mouse is over a country */

@@ -1,4 +1,4 @@
-/*	$Id: common.c,v 1.30 2007/07/07 19:16:19 nordi Exp $	*/
+/*	$Id: common.c,v 1.29 2004/08/04 13:03:06 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -103,8 +103,7 @@ int get_int_from_dev_random( void )
 	return *ret;
 }
 
-/* When exchanging cards for armies, given the number of exchange
-   it says the numer of armies he deserves */
+/* given the number of exchange, it says the numer of armies he deserves */
 int cuantos_x_canje( int c )
 {
 	if( c < 1 )
@@ -124,7 +123,6 @@ int cuantos_x_canje( int c )
 
 }
 
-/* Removes invalid characters =;\,:/%. from string n and replaces them with "." */
 TEG_STATUS strip_invalid( char *n )
 {
 	int l = strlen(n);
@@ -140,7 +138,6 @@ TEG_STATUS strip_invalid( char *n )
 	return TEG_STATUS_SUCCESS;
 }
 
-/* Removes invalid character " from string n and replaces it with ' */
 TEG_STATUS strip_invalid_msg( char *n )
 {
 	int l = strlen(n);

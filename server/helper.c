@@ -1,4 +1,4 @@
-/*	$Id: helper.c,v 1.11 2007/07/07 19:35:16 nordi Exp $	*/
+/*	$Id: helper.c,v 1.10 2004/08/04 13:03:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -76,7 +76,7 @@ BOOLEAN color_libre( int *color )
 	return FALSE;
 }
 
-/* tells which colors are available */
+/* tells which colors are availables */
 TEG_STATUS colores_libres( char *c )
 {
 	int i;
@@ -253,55 +253,29 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len )
 		if( j->is_player ) {
 			int color = (j->color==-1) ? TEG_MAX_PLAYERS : j->color;
 			if(n==0) {
-<<<<<<< HEAD
-				snprintf(strtmp,sizeof(strtmp)-1,"%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s"
-=======
 				snprintf(strtmp,sizeof(strtmp)-1,"%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s"
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 						,j->name
 						,color
 						,j->player_stats.score
 						,j->numjug
 						,j->estado
 						,(! g_game.fog_of_war) ? j->tot_countries : -1
-<<<<<<< HEAD
-						,(! g_game.fog_of_war) ? j->player_stats.countries_won : -1
-						,(! g_game.fog_of_war) ? j->player_stats.countries_lost : -1
-						,(! g_game.fog_of_war) ? j->tot_armies : -1
-						,(! g_game.fog_of_war) ? j->player_stats.armies_killed : -1
-						,(! g_game.fog_of_war) ? j->player_stats.armies_lost : -1
-						,(! g_game.fog_of_war) ? j->tot_cards : -1
-=======
 						,(! g_game.fog_of_war) ? j->tot_armies : -1
 						,j->tot_cards
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 						,(g_game.empieza_turno && (g_game.empieza_turno->numjug==j->numjug))
 						,j->human
 						,j->addr );
 				n=1;
 			} else 
-<<<<<<< HEAD
-				snprintf(strtmp,sizeof(strtmp)-1,"/%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s"
-=======
 				snprintf(strtmp,sizeof(strtmp)-1,"/%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s"
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 						,j->name
 						,color
 						,j->player_stats.score
 						,j->numjug
 						,j->estado
 						,(! g_game.fog_of_war) ? j->tot_countries : -1
-<<<<<<< HEAD
-						,(! g_game.fog_of_war) ? j->player_stats.countries_won : -1
-						,(! g_game.fog_of_war) ? j->player_stats.countries_lost : -1
-						,(! g_game.fog_of_war) ? j->tot_armies : -1
-						,(! g_game.fog_of_war) ? j->player_stats.armies_killed : -1
-						,(! g_game.fog_of_war) ? j->player_stats.armies_lost : -1
-						,(! g_game.fog_of_war) ? j->tot_cards : -1
-=======
 						,(! g_game.fog_of_war) ? j->tot_armies : -1
 						,j->tot_cards
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 						,(g_game.empieza_turno && (g_game.empieza_turno->numjug==j->numjug))
 						,j->human
 						,j->addr );
@@ -325,10 +299,8 @@ PCOUNTRY get_random_country( get_random_func func )
 again:
 	i = RANDOM_MAX(0,COUNTRIES_CANT-1);
 	if( func(i) )
-		// The selected country is ok, return it.
 		return &g_countries[i];
 	else {
-		// The selected country is not ok, search another one.
 		int r = RANDOM_MAX(0,2);
 		switch(r) {
 			/* search going down */
@@ -366,7 +338,7 @@ again:
 	return &g_countries[0];
 }
 
-/* Sends the player the total number of armies he must place, and the continents he has conquered */
+/* Sends the player the total number of armies it must place, and the continents he has conquered */
 TEG_STATUS aux_token_fichasc( PSPLAYER pJ )
 {
 	unsigned long conts=0;

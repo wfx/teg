@@ -1,4 +1,4 @@
-/*	$Id: countries.c,v 1.2 2007/07/07 20:31:23 nordi Exp $	*/
+/*	$Id: countries.c,v 1.1 2002/08/31 17:46:00 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -21,7 +21,6 @@
 /**
  * @file countries.c
  * Funciones para manejar countries en el servidor
- * Functions to manage countries on the server
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,7 +30,6 @@
  * incluye matriz de adyacencia
  */
 
-/* Assign the countries to the players at the beginning of the game */
 void countries_repartir()
 {
 	int i;
@@ -41,24 +39,22 @@ void countries_repartir()
 	PCOUNTRY p;
 
 	for(i=0; i < COUNTRIES_CANT-resto; i++) {
-		p = get_random_country( country_libre );  // get random country that is not yet owned by anyone
-		player_from_indice( j, &real_j );         // get real player number via reference and...
-		player_asignarcountry(real_j,p);          // ...assing the chosen country to this player
-		p->ejercitos=1;	                          // give the country one army
-		j = (j + 1 ) % g_game.playing;
+		p = get_random_country( country_libre );
+		player_from_indice( j, &real_j );
+		player_asignarcountry(real_j,p);
+		p->ejercitos=1;	
+		j = (++j % g_game.playing);
 	}
 
-	/* toma un player al azar, y a partir de el le da un country a cada uno 
-	   Give the remaining countries to the players. Start with random player so that
-	   the first players do not have an advantage. */
+	/* toma un player al azar, y a partir de el le da un country a cada uno */
 	if( resto ) {
-		j = RANDOM_MAX(0,g_game.playing-1);       // choose random player to _start_ with
-		for( i=0;i<resto;i++) {                   // same reason as before
+		j = RANDOM_MAX(0,g_game.playing-1);
+		for( i=0;i<resto;i++) {
 			p = get_random_country( country_libre );
 			player_from_indice( j, &real_j );
 			player_asignarcountry( real_j,p);
 			p->ejercitos=1;	
-			j = (j + 1) % g_game.playing;
+			j = (++j % g_game.playing);
 		}
 	}
 }

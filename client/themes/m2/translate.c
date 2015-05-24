@@ -1,4 +1,4 @@
-/*	$Id: translate.c,v 1.2 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: translate.c,v 1.1 2002/09/28 15:33:47 riq Exp $	*/
 /*
  * Translatable strings.
  * DO NOT compile it as part of your application.
@@ -27,7 +27,7 @@ char *s=N_("Greenland");
 char *s=N_("Africa");
 char *s=N_("Sahara");
 char *s=N_("Zaire");
-char *s=N_("Ethiopia");
+char *s=N_("Etiopia");
 char *s=N_("Egypt");
 char *s=N_("Madagascar");
 char *s=N_("South Africa");
@@ -63,5 +63,5 @@ char *s=N_("Siberia");
 char *s=N_("Aral");
 char *s=N_("Tartary");
 char *s=N_("Taymir");
-char *s=N_("Kamchatka");
+char *s=N_("Katchatka");
 char *s=N_("Japan");

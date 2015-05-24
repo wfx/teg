@@ -1,4 +1,4 @@
-/*	$Id: priv.h,v 1.12 2007/09/06 13:48:22 nordi Exp $	*/
+/*	$Id: priv.h,v 1.11 2002/10/13 23:29:08 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -35,7 +35,6 @@ struct _gui_private {
 	int tag;
 	int tag_ggz;
 	BOOLEAN msg_show_colors;
-	BOOLEAN msg_show_robot;		/* Show what the brainless robots say */
 	unsigned int status_show;	/* what columns to show in the status window */
 	unsigned int dialog_show;	/* what dialogs to show */
 	int country_i_am;		/* what country i'm pointing */

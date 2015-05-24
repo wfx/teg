@@ -1,4 +1,4 @@
-/*	$Id: play.c,v 1.126 2007/09/06 14:24:32 nordi Exp $	*/
+/*	$Id: play.c,v 1.122 2004/08/04 13:03:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -84,7 +84,7 @@ struct {
 	{ TOKEN_STATUS,		token_status,	N_("shows the status of the players") },
 	{ TOKEN_MESSAGE,	token_message,	N_("to send a message") },
 	{ TOKEN_EXIT,		token_exit,	N_("to exit the game") },
-	{ TOKEN_TEST,		token_test,	N_("internal use. Don't use it.") },
+	{ TOKEN_TEST,		token_test,	N_("internal use. Dont use it.") },
 	{ TOKEN_CVERSION,	token_cversion,	N_("client version") },
 	{ TOKEN_SVERSION,	token_sversion,	N_("server version") },
 	{ TOKEN_PVERSION,	token_pversion,	N_("protocol version") },
@@ -618,13 +618,8 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 	/* updated statistics */
 	pJ_src->player_stats.armies_killed += dst_lost;
 	pJ_dst->player_stats.armies_killed += src_lost;
-<<<<<<< HEAD
-	pJ_dst->player_stats.armies_lost += dst_lost;
-	pJ_src->player_stats.armies_lost += src_lost;
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 
-	/* conquisto el country | country was conquered */
+	/* conquisto el country */
 	if( g_countries[dst].ejercitos == 0) {
 		PLIST_ENTRY l;
 
@@ -654,10 +649,6 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 
 		/* updated statistics */
 		pJ_src->player_stats.countries_won ++;
-<<<<<<< HEAD
-		pJ_dst->player_stats.countries_lost ++;
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 	}
 
 	/* update the scores */
@@ -813,15 +804,12 @@ STATIC TEG_STATUS token_card( int fd, char *str )
 	if( pJ->estado < PLAYER_STATUS_TURNOSTART || pJ->estado >= PLAYER_STATUS_TARJETA)
 		goto error;
 
-	// player may not have more than TEG_MAX_TARJETAS cards
 	if( pJ->tot_cards >= TEG_MAX_TARJETAS )
 		goto error;
 
-	// must have conquered a country to get a card
 	if( pJ->turno_conq < 1 )
 		goto error;
 
-	// after the 3rd exchange, the player must have conquered two countries
 	if( pJ->tot_exchanges > 3 && pJ->turno_conq < 2 )
 		goto error;
 
@@ -835,14 +823,8 @@ STATIC TEG_STATUS token_card( int fd, char *str )
 	tarjeta_sacar( &pP->tarjeta, pJ->numjug );
 
 	/*
-<<<<<<< HEAD
-	 * Me fijo si el player es dueï¿½o del paï¿½s que dice la tarjeta. Si es asï¿½
-=======
 	 * Me fijo si el player es dueño del país que dice la tarjeta. Si es así
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 	 * le agrego 2 fichas automaticamente como dice el reglamento.
-	 * Check if the card that the player gets is for a country that this player
-	 * owns. If yes, automatically place two armies according to the rules.
 	 */
 	if( pP->numjug == pJ->numjug ) {
 		pP->ejercitos += 2;
@@ -1030,7 +1012,7 @@ STATIC TEG_STATUS token_canje( int fd, char *str )
 	/* quitarle las tarjetas al player */
 	tarjeta_poner( &g_countries[t1].tarjeta );
 	tarjeta_poner( &g_countries[t2].tarjeta );
-	tarjeta_poner( &g_countries[t3].tarjeta );
+	tarjeta_poner( &g_countries[t2].tarjeta );
 
 	netall_printf("%s=%d,%d,%d,%d,%d\n", TOKEN_CANJE,
 			pJ->numjug,canj_ejer,t1,t2,t3);
@@ -1254,7 +1236,7 @@ TEG_STATUS token_start( int fd )
 	countries_repartir();
 
 	if(turno_init() != TEG_STATUS_SUCCESS ) {
-		con_text_out(M_ERR,_("Error, can't initialize a new turn\n"));
+		con_text_out(M_ERR,_("Error, cant initilize a new turn\n"));
 		goto error;
 	}
 

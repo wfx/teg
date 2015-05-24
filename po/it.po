@@ -139,12 +139,12 @@ msgstr "ricezione carta"
 msgid "ending turn"
 msgstr "fine del turno"
 
-#. $Id: it.po,v 1.15 2007/07/08 13:47:21 nordi Exp $
+#. $Id: it.po,v 1.14 2004/02/08 20:49:07 riq Exp $
 #.
 #. * Translatable strings.
 #. * DO NOT compile it as part of your application.
 #.
-#. $Id: it.po,v 1.15 2007/07/08 13:47:21 nordi Exp $
+#. $Id: it.po,v 1.14 2004/02/08 20:49:07 riq Exp $
 #.
 #. * Translatable strings.
 #. * DO NOT compile it as part of your application.
@@ -379,7 +379,7 @@ msgstr "Zaire"
 
 #: common/country.c:51 client/themes/m2/translate.c:30
 #: client/themes/sentimental/translate.c:30
-msgid "Ethiopia"
+msgid "Etiopia"
 msgstr "Etiopia"
 
 #: common/country.c:52 client/themes/m2/translate.c:31
@@ -530,8 +530,8 @@ msgstr "Tajmyr"
 
 #: common/country.c:87 client/themes/m2/translate.c:66
 #: client/themes/sentimental/translate.c:66
-msgid "Kamchatka"
-msgstr "Kamchatka"
+msgid "Katchatka"
+msgstr "Kamcatka"
 
 #: common/country.c:88 client/themes/m2/translate.c:67
 #: client/themes/sentimental/translate.c:67
@@ -615,7 +615,7 @@ msgstr "  -c, --connected\t\tIl robot è già connesso\n"
 
 #: robot/main.c:68
 #, c-format
-msgid "  -q, --quiet\t\tdon't show messages\n"
+msgid "  -q, --quiet\t\tdont show messages\n"
 msgstr "  -q, --quiet\t\tnon mostrare messaggi\n"
 
 #: robot/main.c:91 server/main.c:376
@@ -675,7 +675,7 @@ msgstr "%s, devi migliorare il tuo gioco"
 
 #: robot/ai_msg.c:48
 #, c-format
-msgid "%s, You really don't know how to play!"
+msgid "%s, You really dont know how to play!"
 msgstr "%s, non sai proprio giocare!"
 
 #: robot/ai_msg.c:49
@@ -699,7 +699,7 @@ msgstr "Amo questo gioco"
 
 #: robot/ai_msg.c:57
 #, c-format
-msgid "%s, I can't believe it!"
+msgid "%s, I cant believe it!"
 msgstr "%s, Non ci posso credere!!!"
 
 #: robot/ai_msg.c:58
@@ -807,7 +807,7 @@ msgstr "%s, miauuuuuuuuu"
 
 #: robot/ai_msg.c:91
 #, c-format
-msgid "%s, I don't agree"
+msgid "%s, I dont agree"
 msgstr "%s, non sono d'accordo"
 
 #: robot/ai_msg.c:92
@@ -822,7 +822,7 @@ msgstr "%s, che stai dicendo?"
 
 #: robot/ai_msg.c:94
 #, c-format
-msgid "%s, I don't understand you"
+msgid "%s, I dont understand you"
 msgstr "%s, non ti capisco"
 
 #: robot/ai_msg.c:95
@@ -852,12 +852,12 @@ msgstr "%s, mi hai fatto ridere"
 
 #: robot/ai_msg.c:101
 #, c-format
-msgid "%s, I don't think so"
+msgid "%s, I dont think so"
 msgstr "%s, non la penso così"
 
 #: robot/ai_msg.c:102
 #, c-format
-msgid "No %s, I don't believe that"
+msgid "No %s, I dont believe that"
 msgstr "%s, non ci credo"
 
 #: robot/ai_msg.c:103
@@ -867,7 +867,7 @@ msgstr "Si, perché no? %s, ne sei sicuro?"
 
 #: robot/ai_msg.c:104
 #, c-format
-msgid "Tomorrow, not today. %s don't get me wrong"
+msgid "Tomorrow, not today. %s dont get me wrong"
 msgstr "Domani, non oggi. %s non mi fraintendere"
 
 #: robot/ai_msg.c:110
@@ -1031,7 +1031,7 @@ msgstr "Errore, la nazione '%s' deve avere almeno 2 armate"
 #: client/attack.c:109 client/ejer2.c:52 client/fichas.c:78
 #: client/fichas.c:105 client/reagrupe.c:67 client/reagrupe.c:90
 #, c-format
-msgid "Error, '%s' isn't one of your countries"
+msgid "Error, '%s' isnt one of your countries"
 msgstr "Errore, la nazione '%s' non è tua"
 
 #: client/attack.c:114
@@ -1046,12 +1046,12 @@ msgstr "Nazione di arrivo: '%s'. Attacco in corso..."
 
 #: client/attack.c:128 client/reagrupe.c:86
 #, c-format
-msgid "Error, '%s' isn't frontier with '%s'"
+msgid "Error, '%s' isnt frontier with '%s'"
 msgstr "Errore, '%s' non confina con '%s'"
 
 #: client/attack.c:133
 #, c-format
-msgid "Error, you can't attack your own countries ('%s')"
+msgid "Error, you cant attack your own countries ('%s')"
 msgstr "Errore, non puoi attaccare le tue nazioni ('%s')"
 
 #: client/attack.c:139
@@ -1079,16 +1079,16 @@ msgid "Error, it's not the time to put 2 armies."
 msgstr "Errore, non è il momento di posizionare le 2 armate"
 
 #: client/fichas.c:61
-msgid "Error, you can't add armies now"
+msgid "Error, you cant add armies now"
 msgstr "Errore, non puoi aggiungere armate adesso"
 
 #: client/fichas.c:73
 #, c-format
-msgid "Error, you can't put more than %d armies"
+msgid "Error, you cant put more than %d armies"
 msgstr "Errore, non puoi posizionare più di %d armate"
 
 #: client/fichas.c:91
-msgid "Error, you can't sub armies now"
+msgid "Error, you cant sub armies now"
 msgstr "Errore, adesso non puoi togliere armate"
 
 #: client/fichas.c:228
@@ -1169,7 +1169,7 @@ msgid "%s is attacking %s"
 msgstr "%s sta attaccando %s"
 
 #: client/inputfd.c:565
-msgid "It's your turn to attack!!"
+msgid "Its your turn to attack!!"
 msgstr "E' il tuo turno di attacco!"
 
 #. No es mi turno, entonces yo tengo que estar en idle
@@ -1290,7 +1290,7 @@ msgid "Error, the game is not started"
 msgstr "Errore, il gioco non è cominciato"
 
 #: client/outputfd.c:221
-msgid "Error, the game is started so you can't change the type of game"
+msgid "Error, the game is started so you cant change the type of game"
 msgstr ""
 "Error, non si può cambiare il tipo del gioco dopo che questo è cominciato"
 
@@ -1304,7 +1304,7 @@ msgstr "Errore, non è il momento di ridisporre le armate"
 
 #: client/reagrupe.c:63
 #, c-format
-msgid "Error, '%s' doesn't have any avalaible armies to move"
+msgid "Error, '%s' doesnt have any avalaible armies to move"
 msgstr "Errore, nella nazione '%s' non sono disponibili armate da spostare"
 
 #: client/reagrupe.c:72
@@ -1328,7 +1328,7 @@ msgid "Error, you can't regroup your armies now"
 msgstr "Errore, non puoi ridisporre adesso le tue armate"
 
 #: client/reagrupe.c:188
-msgid "Error, you can't regroup now."
+msgid "Error, you cant regroup now."
 msgstr "Errore, non puoi ridisporre adesso"
 
 #: client/themes/m2/translate.c:36
@@ -1414,7 +1414,7 @@ msgid "Locate country"
 msgstr "Localizza nazione"
 
 #: client/gui-gnome/cards.c:305
-msgid "You don't have any cards yet"
+msgid "You dont have any cards yet"
 msgstr "Non hai ancora carte"
 
 #: client/gui-gnome/cards.c:316
@@ -1475,7 +1475,7 @@ msgstr "Avvia il server localmente"
 
 #. observer mode
 #: client/gui-gnome/connect.c:240
-msgid "Don't play, just observe"
+msgid "Dont play, just observe"
 msgstr "Non giocare, solo osservare"
 
 #. notebook: TEG Server Selection
@@ -1604,7 +1604,7 @@ msgid "Enables GGZ mode"
 msgstr "Abilitare modo GGZ"
 
 #: client/gui-gnome/gui.c:63
-msgid "Observe the game, don't play it"
+msgid "Observe the game, dont play it"
 msgstr "Osservare il gioco, senza giocare"
 
 #: client/gui-gnome/gui.c:107
@@ -1767,7 +1767,7 @@ msgid "Show the armies that others player had placed"
 msgstr "Mostra gli eserciti posizionati dagli altri giocatori"
 
 #: client/gui-gnome/interface.c:161
-msgid "_Reattack"
+msgid "_Reattck"
 msgstr "_Ri-attacca"
 
 #: client/gui-gnome/interface.c:161
@@ -1983,7 +1983,7 @@ msgstr "Sposta le armate da '%s' a '%s'\n"
 #, c-format
 msgid ""
 "[Note: You can regroup as many times as you want,\n"
-"as long as you don't regroup an army that was\n"
+"as long as you dont regroup an armie that were\n"
 "regrouped before in this turn.]"
 msgstr ""
 "[Nota: Puoi ridisporre quante volte vuoi,\n"
@@ -2256,7 +2256,7 @@ msgid "shows help"
 msgstr "mostra aiuto"
 
 #: server/console.c:82
-msgid "internal use. Don't use it"
+msgid "internal use. Dont use it"
 msgstr "uso interno. Non usare"
 
 #: server/console.c:83
@@ -2538,9 +2538,9 @@ msgstr "Variabile '%s' impostata a: (%d,%d)\n"
 msgid "'%s' variable is set to: %u\n"
 msgstr "Variabile '%s' impostata a: %u\n"
 
-#: server/options.c:258
+#: server/options.c:257
 #, c-format
-msgid "Unknown option. Try using `%s %s' for help\n"
+msgid "Unknow option. Try using `%s %s' for help\n"
 msgstr "Opzione sconosciuta. Prova ad usare `%s %s' per maggiore aiuto\n"
 
 #: server/play.c:83
@@ -2560,7 +2560,7 @@ msgid "to exit the game"
 msgstr "per uscire dal gioco"
 
 #: server/play.c:87
-msgid "internal use. Don't use it."
+msgid "internal use. Dont use it."
 msgstr "uso interno. Non usare."
 
 #: server/play.c:88
@@ -2727,8 +2727,8 @@ msgstr "Il giocatore %s(%d) è il vincitore. Gioco terminato\n"
 msgid "Starting game number: %d with seed: %u\n"
 msgstr "Sto cominciando il gioco numero : %d con seme %u\n"
 
-#: server/play.c:1244
-msgid "Error, can't initialize a new turn\n"
+#: server/play.c:1236
+msgid "Error, cant initilize a new turn\n"
 msgstr "Errore, non posso inizializzare un nuovo turno\n"
 
 #: server/play.c:1304

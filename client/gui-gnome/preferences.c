@@ -1,4 +1,4 @@
-/*	$Id: preferences.c,v 1.25 2007/09/06 13:48:22 nordi Exp $	*/
+/*	$Id: preferences.c,v 1.24 2002/10/08 04:35:57 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada
@@ -43,7 +43,6 @@ static GtkWidget	*conf_cb_showerr=NULL;
 static GtkWidget	*conf_cb_showimp=NULL;
 static GtkWidget	*conf_cb_showmsg=NULL;
 static GtkWidget	*conf_cb_showmsgcolor=NULL;
-static GtkWidget	*conf_cb_showmsgrobot=NULL;	/* NOTE: for silence... */
 static GtkWidget	*conf_cb_showinf=NULL;
 
 /** dialogs */
@@ -173,12 +172,6 @@ static void apply_cb (GtkWidget *widget, gint pagenum, gpointer data)
 		gui_private.msg_show_colors = 0;
 
 
-	if (GTK_TOGGLE_BUTTON( conf_cb_showmsgrobot )->active)
-		gui_private.msg_show_robot = 1;
-	else
-		gui_private.msg_show_robot = 0;
-
-
 	if (GTK_TOGGLE_BUTTON( conf_cb_showinf )->active)
 		g_game.msg_show |= M_INF;
 	else
@@ -250,7 +243,6 @@ static void apply_cb (GtkWidget *widget, gint pagenum, gpointer data)
 	/* save new configurations */
 	gconf_client_set_int( g_conf_client, "/apps/teg/msgshow",g_game.msg_show, NULL);
 	gconf_client_set_bool( g_conf_client, "/apps/teg/msgshow_with_color",gui_private.msg_show_colors, NULL);
-	gconf_client_set_bool( g_conf_client, "/apps/teg/msgshow_robot",gui_private.msg_show_robot, NULL);
 	gconf_client_set_int( g_conf_client, "/apps/teg/status_show",gui_private.status_show, NULL);
 	gconf_client_set_int( g_conf_client, "/apps/teg/dialog_show",gui_private.dialog_show, NULL);
 	gconf_client_set_bool( g_conf_client, "/apps/teg/robot_in_server",g_game.robot_in_server, NULL);
@@ -378,12 +370,6 @@ void preferences_activate(void)
 	GTK_TOGGLE_BUTTON(conf_cb_showmsgcolor)->active = (gui_private.msg_show_colors & 1) ?1:0;
 	gtk_box_pack_start( GTK_BOX( vbox ), conf_cb_showmsgcolor, FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (conf_cb_showmsgcolor), "clicked", GTK_SIGNAL_FUNC
-			(prop_box_changed_callback), NULL);
-
-	conf_cb_showmsgrobot = gtk_check_button_new_with_label(_("Also Show Robot Messages"));
-	GTK_TOGGLE_BUTTON(conf_cb_showmsgrobot)->active = (gui_private.msg_show_robot & 1) ?1:0;
-	gtk_box_pack_start( GTK_BOX( vbox ), conf_cb_showmsgrobot, FALSE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (conf_cb_showmsgrobot), "clicked", GTK_SIGNAL_FUNC
 			(prop_box_changed_callback), NULL);
 
 	conf_cb_showinf = gtk_check_button_new_with_label(_("Show Informative Messages"));

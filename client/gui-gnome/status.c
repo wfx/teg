@@ -1,4 +1,4 @@
-/*	$Id: status.c,v 1.51 2007/07/07 19:10:20 nordi Exp $	*/
+/*	$Id: status.c,v 1.50 2004/02/08 20:49:05 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -68,7 +68,6 @@ static gint status_boton_clicked_cb(GtkWidget *area, GdkEventExpose *event, gpoi
 	return FALSE;
 }
 
-/*
 static TEG_STATUS status_paint_color( int color, GdkPixmap **pixmap )
 {
 	int i, h, w;
@@ -102,7 +101,6 @@ static TEG_STATUS status_paint_color( int color, GdkPixmap **pixmap )
 			((16 - h)/2) + h, _(g_colores[i]));
 	return TEG_STATUS_SUCCESS;
 }
-*/
 
 static GtkTreeModel *
 status_create_model (void)
@@ -119,17 +117,7 @@ status_create_model (void)
 			G_TYPE_STRING,	/* address */
 			G_TYPE_BOOLEAN,	/* human? */
 			G_TYPE_INT,	/* countries */
-<<<<<<< HEAD
-			G_TYPE_INT,	/* countries won */
-			G_TYPE_INT,	/* countries lost */
-			G_TYPE_FLOAT,	/* countries % */
 			G_TYPE_INT,	/* armies */
-			G_TYPE_INT,	/* armies killed */
-			G_TYPE_INT,	/* armies lost */
-			G_TYPE_FLOAT,	/* armies % */
-=======
-			G_TYPE_INT,	/* armies */
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 			G_TYPE_UINT,	/* cards */
 			G_TYPE_STRING,	/* status */
 			G_TYPE_BOOLEAN	/* started the turn */
@@ -202,36 +190,6 @@ static void status_add_columns (GtkTreeView *treeview)
 	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_COUNTRIES);
 	gtk_tree_view_append_column (treeview, column);
 
-<<<<<<< HEAD
-	/* column for countries won */
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Countries won"),
-			renderer,
-			"text", STATUS_COLUMN_COUNTRIES_WON,
-			NULL);
-	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_COUNTRIES_WON);
-	gtk_tree_view_append_column (treeview, column);
-
-	/* column for countries lost */
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Countries lost"),
-			renderer,
-			"text", STATUS_COLUMN_COUNTRIES_LOST,
-			NULL);
-	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_COUNTRIES_LOST);
-	gtk_tree_view_append_column (treeview, column);
-
-	/* column for countries % */
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Countries %"),
-			renderer,
-			"text", STATUS_COLUMN_COUNTRIES_RATIO,
-			NULL);
-	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_COUNTRIES_RATIO);
-	gtk_tree_view_append_column (treeview, column);
-
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 	/* column for armies */
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Armies"),
@@ -241,36 +199,6 @@ static void status_add_columns (GtkTreeView *treeview)
 	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_ARMIES);
 	gtk_tree_view_append_column (treeview, column);
 
-<<<<<<< HEAD
-	/* column for armies killed */
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Armies killed"),
-			renderer,
-			"text", STATUS_COLUMN_ARMIES_KILLED,
-			NULL);
-	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_ARMIES_KILLED);
-	gtk_tree_view_append_column (treeview, column);
-
-	/* column for armies lost */
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Armies lost"),
-			renderer,
-			"text", STATUS_COLUMN_ARMIES_LOST,
-			NULL);
-	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_ARMIES_LOST);
-	gtk_tree_view_append_column (treeview, column);
-
-	/* column for armies % */
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Armies %"),
-			renderer,
-			"text", STATUS_COLUMN_ARMIES_RATIO,
-			NULL);
-	gtk_tree_view_column_set_sort_column_id (column, STATUS_COLUMN_ARMIES_RATIO);
-	gtk_tree_view_append_column (treeview, column);
-
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 	/* column for cards */
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Cards"),
@@ -346,25 +274,6 @@ static TEG_STATUS status_update_model( GtkTreeModel *model)
 		gchar *name;
 		pJ = (PCPLAYER) l;
 		
-<<<<<<< HEAD
-		float cRatio = pJ->tot_countries_won;
-		if ( pJ->tot_countries_lost == 0 ) {
-			cRatio = pJ->tot_countries_won == 0 ? 1 : 9000 + pJ->tot_countries_won;
-		}
-		else {
-			cRatio /= pJ->tot_countries_lost;
-		}
-
-		float aRatio = pJ->tot_armies_killed;
-		if ( pJ->tot_armies_lost == 0 ) {
-			aRatio = pJ->tot_armies_killed == 0 ? 1 : 9000 + pJ->tot_armies_killed;
-		}
-		else {
-			aRatio /= pJ->tot_armies_lost;
-		}
-
-=======
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 		name = translate_to_utf8( pJ->name );
 
 		gtk_list_store_append (store, &iter);
@@ -376,17 +285,7 @@ static TEG_STATUS status_update_model( GtkTreeModel *model)
 				STATUS_COLUMN_ADDR, pJ->addr,
 				STATUS_COLUMN_HUMAN, pJ->human,
 				STATUS_COLUMN_COUNTRIES, pJ->tot_countries,
-<<<<<<< HEAD
-				STATUS_COLUMN_COUNTRIES_WON, pJ->tot_countries_won,
-				STATUS_COLUMN_COUNTRIES_LOST, pJ->tot_countries_lost,
-				STATUS_COLUMN_COUNTRIES_RATIO, cRatio,
 				STATUS_COLUMN_ARMIES, pJ->tot_armies,
-				STATUS_COLUMN_ARMIES_KILLED, pJ->tot_armies_killed,
-				STATUS_COLUMN_ARMIES_LOST, pJ->tot_armies_lost,
-				STATUS_COLUMN_ARMIES_RATIO, aRatio,
-=======
-				STATUS_COLUMN_ARMIES, pJ->tot_armies,
->>>>>>> b8e1f4d5000e931e81e397369fa5ec789dffe26c
 				STATUS_COLUMN_CARDS, pJ->tot_cards,
 				STATUS_COLUMN_STATUS, _(g_estados[pJ->estado]),
 				STATUS_COLUMN_WHO, pJ->empezo_turno,

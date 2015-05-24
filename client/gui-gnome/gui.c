@@ -1,4 +1,4 @@
-/*	$Id: gui.c,v 1.127 2007/09/09 21:52:59 nordi Exp $	*/
+/*	$Id: gui.c,v 1.123 2006/03/12 17:41:21 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -176,21 +176,8 @@ TEG_STATUS gui_init( int argc, char **argv)
 	theme_load(g_game.theme);
 
 	if( theme_giveme_theme(&gui_theme) != TEG_STATUS_SUCCESS ) {
-		// Could not load theme from config, try "m2" as default value
-		strncpy(g_game.theme, "m2", THEME_MAX_NAME-1);
-		g_game.theme[THEME_MAX_NAME-1] = 0;
-		theme_load(g_game.theme);
-		if( theme_giveme_theme(&gui_theme) != TEG_STATUS_SUCCESS ) {
-			// Could not load theme m2. Last chance: Try the sentimental theme.
-			strncpy(g_game.theme, "sentimental", THEME_MAX_NAME-1);
-			g_game.theme[THEME_MAX_NAME-1] = 0;
-			theme_load(g_game.theme);
-			if( theme_giveme_theme(&gui_theme) != TEG_STATUS_SUCCESS ) {
-				// Could not load anything. Giving up...
-				fprintf(stderr,"Error loading theme!\n");
-				return TEG_STATUS_ERROR;
-			}
-		}
+		fprintf(stderr,"Error loading theme!\n");
+		return TEG_STATUS_ERROR;
 	}
 
 	main_window = create_mainwin();
@@ -283,7 +270,6 @@ static TEG_STATUS get_default_values( void )
 
 	g_game.msg_show = gconf_client_get_int( g_conf_client, "/apps/teg/msgshow",NULL);
 	gui_private.msg_show_colors =  gconf_client_get_bool( g_conf_client, "/apps/teg/msgshow_with_color",NULL);
-	gui_private.msg_show_robot =  gconf_client_get_bool( g_conf_client, "/apps/teg/msgshow_robot",NULL);
 	gui_private.dialog_show =  gconf_client_get_int( g_conf_client, "/apps/teg/dialog_show",NULL);
 	string = gconf_client_get_string( g_conf_client, "/apps/teg/theme",NULL);
 	if( string )
@@ -447,7 +433,7 @@ TEG_STATUS gui_tropas( int src, int dst, int cant )
 	return TEG_STATUS_SUCCESS;
 }
 
-/* regrouping armies from one country to another */
+/* regrouping armies from one country to anohter */
 TEG_STATUS gui_reagrupe( int src, int dst, int cant )
 {
 	reagrupe_window( src, dst, cant );

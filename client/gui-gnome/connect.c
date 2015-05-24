@@ -1,4 +1,4 @@
-/*	$Id: connect.c,v 1.7 2007/07/08 13:47:21 nordi Exp $	*/
+/*	$Id: connect.c,v 1.6 2004/10/04 19:47:49 wfx Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -238,7 +238,7 @@ void connect_view()
 	    	GTK_SIGNAL_FUNC (prop_changed), NULL);
 
 	/* observer mode */
-	button_observe = gtk_check_button_new_with_label(_("Don't play, just observe"));
+	button_observe = gtk_check_button_new_with_label(_("Dont play, just observe"));
 	gtk_container_add(GTK_CONTAINER(vbox), button_observe);
 
 /* notebook: TEG Server Selection */
