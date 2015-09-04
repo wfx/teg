@@ -66,6 +66,9 @@ for:
     . use wfx's animation
 
 0.12.0
+  * port from gtk2/gnome to gt3 only
+
+ 0.14.0
   * save/resume the game (5)
   * add tools to view a game in fast forward and that
 
