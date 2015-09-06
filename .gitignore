@@ -1,12 +1,39 @@
-# Compiled Object files
-*.slo
-*.lo
+Makefile
+.deps/
+*.log
+*.status
+*.gmo
+
+# Object files
 *.o
+*.ko
+*.obj
+*.elf
 
-# Compiled Dynamic libraries
-*.so
+# Precompiled Headers
+*.gch
+*.pch
 
-# Compiled Static libraries
-*.lai
-*.la
+# Libraries
+*.lib
 *.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+
