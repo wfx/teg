@@ -3,7 +3,7 @@ Hi,
 
   1. Please, consider joining the teg-list.
      Also, try to join the teg-changes, where you will see
-     the changes in the CVS
+     the changes in the GIT
 
   2. I'm using tab spaces of 8. If you are using vi:
   	set ts=8 sw=8
