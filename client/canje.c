@@ -37,6 +37,9 @@ TEG_STATUS canje_out( int p1, int p2, int p3 )
 
 	if( tarjeta_puedocanje( WHOAMI(), p1, p2, p3 )) {
 		net_printf(g_game.fd,TOKEN_CANJE"=%d,%d,%d\n",p1,p2,p3);
+		tarjeta_poner(&g_countries[p1].tarjeta);
+		tarjeta_poner(&g_countries[p2].tarjeta);
+		tarjeta_poner(&g_countries[p3].tarjeta);
 		return TEG_STATUS_SUCCESS;
 	} else {
 		textmsg(M_ERR,_("Error, the cards must be all equal, or all different"));
