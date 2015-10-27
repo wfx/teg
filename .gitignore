@@ -37,3 +37,6 @@ Makefile
 # Debug files
 *.dSYM/
 
+# Something else
+*.Po
+Makefile
