@@ -1,8 +1,8 @@
-Tenes Emapandas Graciela (TEG) is a clone of 'Plan Táctico y Estratégico
+Tenes Emapandas Graciela (TEG) is a clone of 'Plan TÃ¡ctico y EstratÃ©gico
 de la Guerra', which is a pseudo-clone of Risk, a multiplayer turn-based
 strategy game. Some rules are different.
 
-http://teg.sourceforge.net
+https://github.com/wfx/teg
 
 It can be configured to support the GGZ Gaming Zone; see the GGZ
 directory.
