@@ -11,6 +11,10 @@ Wolfgang Morawetz (wfx) <wfx@users.sourceforge.net>
 Main Contributors
 -----------------
 
+Eric Romanenghi <ericromanenghi@gmail.com>
+  https://github.com/eternautaCAT
+  Work on Gnome2 to GTK3 only porting.
+
 Raymond Ostertag <raymond.linux@free.fr>
 	Creator of the Realist theme
 
@@ -33,7 +37,7 @@ Benoit Timbert <Benoit.TIMBERT@free.fr>
 Luigi Toscano <ltosky@yahoo.it>
 	Itialian translator
 
-José Jorge <jose.jorge@oreka.com>
+JosÃ© Jorge <jose.jorge@oreka.com>
 	Portuguese translator
 
 Antonio Augusto Todo Bom Neto <antonio@projetos.etc.br>
@@ -75,7 +79,7 @@ Justin Zaun <jzaun@telerama.com>
 	Gave me the idea of adding GGZ support to TEG
 
 Benoit Rousseau <roussebe@esstin.uhp-nancy.fr>
-	Patches for launching server 
+	Patches for launching server
 
 Julio Santa Cruz <jscruz@xtech.com.ar>
 	Patch that fixes the order or names in regroup
