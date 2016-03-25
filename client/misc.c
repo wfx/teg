@@ -201,7 +201,7 @@ TEG_STATUS launch_server( int port )
 
 		char buffer[100];
 		close_descriptors();
-		args[0] = "xterm";
+		args[0] = "x-terminal-emulator";
 		args[1] = "-e";
 		args[2] = BINDIR"/tegserver";
 		args[3] = "--port";
