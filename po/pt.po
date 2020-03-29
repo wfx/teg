@@ -133,7 +133,7 @@ msgid "regrouping"
 msgstr "movimentos de armadas"
 
 #: common/common.c:77
-msgid "gettting card"
+msgid "getting card"
 msgstr "a pegar uma carta"
 
 #: common/common.c:78

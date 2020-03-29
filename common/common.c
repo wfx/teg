@@ -75,7 +75,7 @@ char *g_estados[] = {
 	N_("attacking"),
 	N_("moving armies"),
 	N_("regrouping"),
-	N_("gettting card"),
+	N_("getting card"),
 	N_("ending turn")
 };
 

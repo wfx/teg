@@ -132,7 +132,7 @@ msgid "regrouping"
 msgstr "reagrupando"
 
 #: common/common.c:77
-msgid "gettting card"
+msgid "getting card"
 msgstr "pegando carta"
 
 #: common/common.c:78

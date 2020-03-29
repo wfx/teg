@@ -133,7 +133,7 @@ msgid "regrouping"
 msgstr "regroupement"
 
 #: common/common.c:77
-msgid "gettting card"
+msgid "getting card"
 msgstr "tire une carte"
 
 #: common/common.c:78
