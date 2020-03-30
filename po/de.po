@@ -132,7 +132,7 @@ msgid "regrouping"
 msgstr "ordnen neu an"
 
 #: common/common.c:77
-msgid "gettting card"
+msgid "getting card"
 msgstr "erhält Karte"
 
 #: common/common.c:78

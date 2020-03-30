@@ -134,7 +134,7 @@ msgid "regrouping"
 msgstr "reagrupando\t"
 
 #: common/common.c:77
-msgid "gettting card"
+msgid "getting card"
 msgstr "sacando tarxeta"
 
 #: common/common.c:78
