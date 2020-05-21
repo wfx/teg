@@ -1,4 +1,12 @@
 <schemalist gettext-domain="teg">
+
+  <enum id="net.sf.teg.ToolbarStyle">
+    <value nick="both" value="0"/>
+    <value nick="both-horiz" value="1"/>
+    <value nick="icons" value="2"/>
+    <value nick="text" value="3"/>
+  </enum>
+
   <schema id="net.sf.teg" path="/net/sf/teg/">
     <key name="port" type="i">
       <default>2000</default>
@@ -35,6 +43,16 @@
     <key name="dialog-show" type="i">
       <default>7</default>
       <summary>Which dialogs should be shown</summary>
+    </key>
+    <key name="toolbar-visibility" type="b">
+      <default>true</default>
+      <summary>Toolbar visibility</summary>
+    </key>
+    <key name="toolbar-style" enum="net.sf.teg.ToolbarStyle">
+      <default>'both'</default>
+      <summary>Toolbar style</summary>
+      <description>Valid values are "both", "both-horiz", "icons" and
+      "text".</description>
     </key>
     <key name="robot-in-server" type="b">
       <default>true</default>

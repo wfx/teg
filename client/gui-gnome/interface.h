@@ -28,6 +28,7 @@
 extern GtkTextView *main_message_area;
 extern GtkWidget *text_scrollbar;
 extern GtkWidget *main_window;
+extern GtkWidget *toolbar_main;
 extern GtkWidget *statusbar;
 extern GtkWidget *canvas_map;
 

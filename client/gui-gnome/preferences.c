@@ -45,10 +45,12 @@ static GtkWidget	*conf_cb_showmsg=NULL;
 static GtkWidget	*conf_cb_showmsgcolor=NULL;
 static GtkWidget	*conf_cb_showinf=NULL;
 
-/** dialogs */
+/** dialogs & toolbar */
 static GtkWidget	*conf_cb_showattackturn=NULL;
 static GtkWidget	*conf_cb_showplacearmies=NULL;
 static GtkWidget	*conf_cb_showregrouparmies=NULL;
+static GtkWidget	*conf_cb_showtoolbar=NULL;
+static GtkWidget	*conf_cb_toolbarstyle=NULL;
 
 /** themes */
 static char		*theme_activated=NULL;
@@ -115,6 +117,27 @@ static void theme_activated_callback (GtkComboBox *combo, gpointer data)
 	theme_activated = g_strdup (sel);
 	load_preview(sel);
 	g_free(sel);
+}
+
+static void
+toolbar_style_cb (GtkComboBox *combo, gpointer data)
+{
+        gint sel;
+
+        sel = gtk_combo_box_get_active (combo);
+        g_settings_set_enum (settings, "toolbar-style", sel);
+}
+
+static void
+show_toolbar_cb (GtkToggleButton *button, gpointer data)
+{
+        if (gtk_toggle_button_get_active (button)) {
+                g_settings_set_boolean (settings, "toolbar-visibility", TRUE);
+                gtk_widget_show (toolbar_main);
+        } else {
+                g_settings_set_boolean (settings, "toolbar-visibility", FALSE);
+                gtk_widget_hide (toolbar_main);
+        }
 }
 
 static void
@@ -324,6 +347,8 @@ void preferences_activate(void)
 	GtkWidget *dialog_frame;
 	GtkWidget *robot_frame;
 	GtkWidget *theme_frame_sel, *theme_vbox;
+	GtkWidget *toolbar_frame, *toolbar_vbox;
+	GtkComboBoxText *combo;
 	GtkWidget *vbox, *hbox;
 	GtkWidget *omenu, *nb;
 
@@ -496,7 +521,8 @@ void preferences_activate(void)
 	gtk_container_add (GTK_CONTAINER (robot_frame), vbox);
 
 
-	/* Dialogs Options */
+	/* Dialogs & Toolbar Options */
+	toolbar_vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, GNOME_PAD);
 	dialog_frame = gtk_frame_new (_("Popup Dialogs"));
 	gtk_container_set_border_width (GTK_CONTAINER (dialog_frame), GNOME_PAD);
 
@@ -519,7 +545,44 @@ void preferences_activate(void)
 	gtk_box_pack_start( GTK_BOX(vbox), conf_cb_showplacearmies, FALSE, FALSE, 0);
 
 	gtk_container_add (GTK_CONTAINER (dialog_frame), vbox);
+	gtk_box_pack_start (GTK_BOX (toolbar_vbox), dialog_frame,
+	                    TRUE, TRUE, 0);
 
+	toolbar_frame = gtk_frame_new (_("Toolbar Visibility & Style"));
+	gtk_container_set_border_width (GTK_CONTAINER (toolbar_frame),
+                                        GNOME_PAD);
+	hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 5);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), GNOME_PAD);
+	conf_cb_showtoolbar
+	  = gtk_check_button_new_with_label (_("Show toolbar"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (conf_cb_showtoolbar),
+	                              g_settings_get_boolean (settings,
+	                                                      "toolbar-visibility"));
+	g_signal_connect (conf_cb_showtoolbar, "toggled",
+	                  G_CALLBACK (show_toolbar_cb), NULL);
+	gtk_box_pack_start (GTK_BOX (hbox), conf_cb_showtoolbar,
+	                    TRUE, TRUE, 0);
+
+	label = gtk_label_new (_("Toolbar style:"));
+	gtk_widget_set_halign (label, GTK_ALIGN_END);
+	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
+
+	conf_cb_toolbarstyle = gtk_combo_box_text_new ();
+	combo = GTK_COMBO_BOX_TEXT (conf_cb_toolbarstyle);
+	gtk_combo_box_text_append_text (combo, _("Text Below Icons"));
+	gtk_combo_box_text_append_text (combo, _("Priority Text Beside Icons"));
+	gtk_combo_box_text_append_text (combo, _("Icons Only"));
+	gtk_combo_box_text_append_text (combo, _("Text Only"));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combo),
+	                          g_settings_get_enum (settings,
+	                                               "toolbar-style"));
+	g_signal_connect (combo, "changed",
+	                  G_CALLBACK (toolbar_style_cb), NULL);
+	gtk_box_pack_start (GTK_BOX (hbox), conf_cb_toolbarstyle,
+	                    TRUE, TRUE, 0);
+
+	gtk_container_add (GTK_CONTAINER (toolbar_frame), hbox);
+	gtk_container_add (GTK_CONTAINER (toolbar_vbox), toolbar_frame);
 
 	/** end **/
 
@@ -552,9 +615,9 @@ void preferences_activate(void)
 	gtk_notebook_append_page (GTK_NOTEBOOK (nb),
 			robot_frame, label);
 
-	label = gtk_label_new (_("Popup Dialogs"));
+	label = gtk_label_new (_("Dialogs & Toolbar"));
 	gtk_notebook_append_page (GTK_NOTEBOOK (nb),
-			dialog_frame, label);
+			toolbar_vbox, label);
 
 
 

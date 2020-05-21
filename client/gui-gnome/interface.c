@@ -50,6 +50,7 @@
 #include "dices.h"
 #include "themes.h"
 #include "fonts.h"
+#include "priv.h"
 
 #include "robot.xpm"
 
@@ -57,6 +58,7 @@ extern TTheme gui_theme;
 
 GtkTextView *main_message_area = NULL;
 GtkWidget *main_window = NULL;
+GtkWidget *toolbar_main = NULL;
 GtkWidget *statusbar = NULL;
 GtkWidget *canvas_map = NULL;
 GtkWidget *window_mainstatus = NULL;
@@ -270,7 +272,6 @@ GtkWidget* create_mainwin (void)
 	GtkWidget *help_menu;
 	GtkWidget *manual_menu;
 	GtkWidget *about_menu;
-	GtkWidget *toolbar_main;
 	GtkWidget *image;
 	GtkToolItem *button1;
 	GtkToolItem *button2;
@@ -540,7 +541,8 @@ GtkWidget* create_mainwin (void)
 	gtk_widget_show_all (menubar);
 
 	toolbar_main = gtk_toolbar_new ();
-	gtk_toolbar_set_style (GTK_TOOLBAR (toolbar_main), GTK_TOOLBAR_BOTH);
+	g_settings_bind (settings, "toolbar-style", toolbar_main,
+	                 "toolbar-style", G_SETTINGS_BIND_DEFAULT);
 	gtk_widget_show (toolbar_main);
 	gtk_container_add (GTK_CONTAINER (dock1), toolbar_main);
 
