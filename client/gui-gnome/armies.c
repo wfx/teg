@@ -26,7 +26,8 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
+#include <goocanvas.h>
+#include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
@@ -50,50 +51,56 @@ static ARMIES_POS armies_prop[CONT_CANT+1] = {
 
 static int initialized=0;
 
-GnomeCanvasGroup *armies_group;
+GooCanvasItem *armies_group;
 
-static gint
-armies_event (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
+static double x, y;
+double new_x, new_y;
+double item_x, item_y;
+static gboolean dragging;
+
+static gboolean
+button_press_cb (GooCanvasItem *item, GooCanvasItem *target,
+                 GdkEventButton *event, GooCanvas *canvas)
 {
-	static double x, y;
-	double new_x, new_y;
-	double item_x, item_y;
-	static int dragging;
-
-	item_x = event->button.x;
-	item_y = event->button.y;
-	gnome_canvas_item_w2i (item->parent, &item_x, &item_y);
-
-	switch (event->type) {
-
-	case GDK_BUTTON_PRESS:
-		x = item_x;
-		y = item_y;
-		dragging = TRUE;
-		break;
-
-	case GDK_MOTION_NOTIFY:
-		if (dragging && (event->motion.state & GDK_BUTTON1_MASK)) {
-			new_x = item_x;
-			new_y = item_y;
-			gnome_canvas_item_move (item, new_x - x, new_y - y);
-			x = new_x;
-			y = new_y;
-		}
-		break;
-
-	case GDK_BUTTON_RELEASE:
-		gnome_canvas_item_ungrab (item, event->button.time);
-		dragging = FALSE;
-		break;
-
-	default:
-		break;
+	if (!dragging && event->button == 1) {
+	        item_x = event->x;
+	        item_y = event->y;
+	        dragging = TRUE;
+	        g_object_get (item, "x", &x, "y", &y, NULL);
+	        goo_canvas_pointer_grab (canvas, item,
+	                                 GDK_POINTER_MOTION_MASK |
+	                                 GDK_BUTTON_RELEASE_MASK,
+	                                 NULL, event->time);
 	}
 
 	return FALSE;
 }
 
+static gboolean
+motion_notify_cb (GooCanvasItem *item, GooCanvasItem *target,
+                  GdkEventMotion *event, gpointer data)
+{
+	if (dragging && (event->state & GDK_BUTTON1_MASK)) {
+	        new_x = event->x - x;
+	        new_y = event->y - y;
+	        g_object_set (item, "x", item_x + new_x,
+	                      "y", item_y + new_y, NULL);
+	}
+
+	return FALSE;
+}
+
+static gboolean
+button_release_cb (GooCanvasItem *item, GooCanvasItem *target,
+                   GdkEventButton *event, GooCanvas *canvas)
+{
+	if (dragging && item != NULL) {
+	        goo_canvas_pointer_ungrab (canvas, item, event->time);
+	        dragging = FALSE;
+	}
+
+	return FALSE;
+}
 
 static TEG_STATUS armies_view_cant_x_cont( int i )
 {
@@ -105,7 +112,7 @@ static TEG_STATUS armies_view_cant_x_cont( int i )
 		return TEG_STATUS_ERROR;
 
 	if( armies_prop[i].armies_text ) {
-		gtk_object_destroy(GTK_OBJECT ( armies_prop[i].armies_text) );
+	        goo_canvas_item_remove( armies_prop[i].armies_text );
 		armies_prop[i].armies_text = NULL;
 	}
 
@@ -114,17 +121,16 @@ static TEG_STATUS armies_view_cant_x_cont( int i )
 	else
 		snprintf(buffer,sizeof(buffer)-1,"%d",armies_prop[i].cant);
 
-	armies_prop[i].armies_text = gnome_canvas_item_new(
+	armies_prop[i].armies_text = goo_canvas_text_new(
 		armies_group,
-		gnome_canvas_text_get_type(),
-		"text", buffer,
-		"x", (double) 100,
-		"y", (double) i*12+15,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+		buffer,
+		(double) 100,
+		(double) i*12+15,
+		(double) -1,
+		GOO_CANVAS_ANCHOR_NORTH_EAST,
+		"height", (double) -1,
 		"font", HELVETICA_12_FONT,
-		"fill_color", ( armies_prop[i].cant > 0 ) ? "black" : "grey",
-		"anchor",GTK_ANCHOR_NE,
+		"fill-color", ( armies_prop[i].cant > 0 ) ? "black" : "grey",
 		NULL);
 
 	return TEG_STATUS_SUCCESS;
@@ -138,28 +144,27 @@ static void armies_view_cant()
 	memset(buffer,0,sizeof(buffer));
 
 
-	gnome_canvas_item_raise_to_top ( GNOME_CANVAS_ITEM(armies_group));
+	goo_canvas_item_raise ( GOO_CANVAS_ITEM(armies_group), NULL );
 
 	for(i=0;i<CONT_CANT;i++)
 		armies_view_cant_x_cont( i );
 
 	if( armies_prop[CONT_CANT].armies_text ) {
-		gtk_object_destroy(GTK_OBJECT ( armies_prop[CONT_CANT].armies_text) );
+	        goo_canvas_item_remove( armies_prop[CONT_CANT].armies_text );
 		armies_prop[CONT_CANT].armies_text = NULL;
 	}
 
 	snprintf(buffer,sizeof(buffer)-1,"%d",armies_prop[CONT_CANT].cant);
-	armies_prop[CONT_CANT].armies_text = gnome_canvas_item_new(
+	armies_prop[CONT_CANT].armies_text = goo_canvas_text_new(
 		armies_group,
-		gnome_canvas_text_get_type(),
-		"text", buffer,
-		"x", (double) 100,
-		"y", (double) 1,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+		buffer,
+		(double) 100,
+		(double) 1,
+		(double) -1,
+		GOO_CANVAS_ANCHOR_NORTH_EAST,
+		"height", (double) -1,
 		"font", HELVETICA_12_FONT,
-		"fill_color", ( armies_prop[CONT_CANT].cant > 0 ) ? "black" : "grey",
-		"anchor",GTK_ANCHOR_NE,
+		"fill-color", ( armies_prop[CONT_CANT].cant > 0 ) ? "black" : "grey",
 		NULL);
 }
 
@@ -200,7 +205,8 @@ TEG_STATUS armies_view_more( int cant )
 
 	armies_prop[CONT_CANT].cant += cant;
 
-	gnome_canvas_item_show( GNOME_CANVAS_ITEM(armies_group) );
+	g_object_set( armies_group, "visibility",
+	              GOO_CANVAS_ITEM_VISIBLE, NULL );
 
 	armies_view_cant();
 
@@ -225,7 +231,8 @@ TEG_STATUS armies_view(int cant, int conts)
 		conts >>= 1;
 	}
 
-	gnome_canvas_item_show( GNOME_CANVAS_ITEM(armies_group) );
+	g_object_set( armies_group, "visibility",
+	              GOO_CANVAS_ITEM_VISIBLE, NULL );
 
 	armies_view_cant();
 
@@ -236,14 +243,28 @@ TEG_STATUS armies_unview()
 {
 	if(!initialized) return TEG_STATUS_ERROR;
 
-	gnome_canvas_item_hide( GNOME_CANVAS_ITEM(armies_group) );
+	g_object_set( armies_group, "visibility",
+	              GOO_CANVAS_ITEM_INVISIBLE, NULL );
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS armies_init( GnomeCanvasGroup *group )
+static void
+setup_dnd_handlers (GooCanvasItem *item)
+{
+	GooCanvas *canvas = goo_canvas_item_get_canvas (item);
+
+	g_signal_connect (item, "button-press-event",
+	                  G_CALLBACK (button_press_cb), canvas);
+	g_signal_connect (item, "motion-notify-event",
+	                  G_CALLBACK (motion_notify_cb), NULL);
+	g_signal_connect (item, "button-release-event",
+	                  G_CALLBACK (button_release_cb), canvas);
+}
+
+TEG_STATUS armies_init( GooCanvasItem *group )
 {
 	int i;
-	GnomeCanvasItem *item;
+	GooCanvasItem *item;
 
 	if(!group)
 		return TEG_STATUS_ERROR;
@@ -251,70 +272,64 @@ TEG_STATUS armies_init( GnomeCanvasGroup *group )
 	if(initialized)
 		return TEG_STATUS_ERROR;
 
-	armies_group = GNOME_CANVAS_GROUP(
-			gnome_canvas_item_new (
+	armies_group =
+			goo_canvas_group_new (
 				group,
-				gnome_canvas_group_get_type (),
 				"x", (float) gui_theme.armies_x,
 				"y", (float) gui_theme.armies_y,
-				NULL));
+				NULL);
 
 
 	if( armies_group ) {
-		item = gnome_canvas_item_new(
+		item = goo_canvas_rect_new(
 			armies_group,
-			gnome_canvas_rect_get_type (),
-			"x1", 0.0,
-			"y1", 0.0,
-			"x2", (double) 100,
-			"y2", (double) 90,
+			0.0,
+			0.0,
+			(double) 100,
+			(double) 90,
 			NULL);
 
 		if( gui_theme.armies_background )
-			gnome_canvas_item_set(
+			g_object_set(
 				item,
-				"fill_color","light yellow",
-				"outline_color","black",
+				"fill-color","light yellow",
+				"stroke-color","black",
 				NULL );
 
 
-		item = gnome_canvas_item_new(
+		item = goo_canvas_text_new(
 			armies_group,
-			gnome_canvas_text_get_type(),
-			"text",_("Total"),
-			"x", (double) 1,
-			"y", (double) 1,
-			"x_offset", (double) -1,
-			"y_offset", (double) -1,
+			_("Total"),
+			(double) 1,
+			(double) 1,
+			(double) -1,
+			GOO_CANVAS_ANCHOR_NORTH_WEST,
+			"height", (double) -1,
 			"font", HELVETICA_12_FONT,
-			"fill_color", "black",
-			"anchor",GTK_ANCHOR_NW,
+			"fill-color", "black",
 			NULL);
 
 
 		for(i=0;i<CONT_CANT;i++) {
 
-			item = gnome_canvas_item_new(
+			item = goo_canvas_text_new(
 				armies_group,
-				gnome_canvas_text_get_type(),
-				"text", cont_get_name(i),
-				"x", (double) 1,
-				"y", (double) i*12+15,
-				"x_offset", (double) -1,
-				"y_offset", (double) -1,
+				cont_get_name(i),
+				(double) 1,
+				(double) i*12+15,
+				(double) -1,
+				GOO_CANVAS_ANCHOR_NORTH_WEST,
+				"height", (double) -1,
 				"font", HELVETICA_10_FONT,
-				"fill_color", "black",
-				"anchor",GTK_ANCHOR_NW,
+				"fill-color", "black",
 				NULL);
 
 		};
-		gnome_canvas_item_hide( GNOME_CANVAS_ITEM(armies_group) );
+	        g_object_set( armies_group, "visibility",
+	                      GOO_CANVAS_ITEM_INVISIBLE, NULL );
 
 		if( gui_theme.armies_dragable )
-			gtk_signal_connect (GTK_OBJECT (armies_group), "event",
-					    (GtkSignalFunc) armies_event,
-					    &armies_group);
-
+	                setup_dnd_handlers (armies_group);
 	}
 
 	initialized=1;

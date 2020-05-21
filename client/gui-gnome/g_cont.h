@@ -22,17 +22,17 @@
 #ifndef __TEG_GUI_GNOME_GCONT_H
 #define __TEG_GUI_GNOME_GCONT_H
 
-#include <gnome.h>
+#include <goocanvas.h>
 
 struct _G_conts {
-	GnomeCanvasGroup *cont_group;
+	GooCanvasItem *cont_group;
 	int x;
 	int y;
 };
 
 extern struct _G_conts G_conts[];
 
-void G_cont_create( int cont, GnomeCanvasGroup *root );
+void G_cont_create( int cont, GooCanvasItem *root );
 int G_cont_tot();
 
 #endif /* __TEG_GUI_GNOME_GCONT_H */

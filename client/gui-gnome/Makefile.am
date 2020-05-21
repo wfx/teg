@@ -1,9 +1,8 @@
 ## Process this file with automake to produce Makefile.in
-Gamesdir = $(datadir)/gnome/apps/Games
-
 noinst_LIBRARIES = libguiclient.a
 INCLUDES = \
 	$(TEG_LIBGNOME_CFLAGS)				\
+	$(XML_CFLAGS)					\
 	-I$(srcdir)/..					\
 	-I$(top_srcdir)/common				\
 	-I../../intl					\
@@ -36,19 +35,32 @@ libguiclient_a_SOURCES = \
 	preferences.c preferences.h \
 	g_scores.c g_scores.h \
 	locate_country.c locate_country.h \
+	tegcanvasimage.c tegcanvasimage.h \
+	stock_gresources.c stock_gresources.h \
 	fonts.h			\
 	robot.xpm
 
+CLEANFILES = stock_gresources.h stock_gresources.c
+RESOURCE = stock.gresource.xml
 
+stock.c: stock_gresources.h stock_gresources.c
+stock_gresources.c: $(RESOURCE) stock_gresources.h $(shell \
+	$(GLIB_COMPILE_RESOURCES) --generate-dependencies $(RESOURCE))
+	$(GLIB_COMPILE_RESOURCES) --target=$@ \
+	  --generate-source --manual-register --c-name=stock $<
+stock_gresources.h:  $(RESOURCE) $(shell \
+	$(GLIB_COMPILE_RESOURCES) --generate-dependencies $(RESOURCE))
+	$(GLIB_COMPILE_RESOURCES) --target=$@ \
+	  --generate-header --manual-register --c-name=stock $<
 
-@INTLTOOL_DESKTOP_RULE@
+EXTRA_DIST = $(gsettings_SCHEMAS) $(RESOURCE)
 
-schemadir   = $(sysconfdir)/gconf/schemas
-schema_DATA = teg.schemas
+gsettings_SCHEMAS = net.sf.teg.gschema.xml
 
-EXTRA_DIST = teg.desktop $(schema_DATA)
+@GSETTINGS_RULES@
 
-Games_DATA = teg.desktop
+data_desktopdir = $(datadir)/applications
+dist_data_desktop_DATA = teg.desktop
 
-install-data-local:
-	GCONF_CONFIG_SOURCE=$(GCONF_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
+data_convertdir = $(datadir)/GConf/gsettings
+dist_data_convert_DATA = teg.convert

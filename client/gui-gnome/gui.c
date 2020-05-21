@@ -25,7 +25,8 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
@@ -55,14 +56,6 @@ struct _gui_private gui_private;
 TTheme	gui_theme;
 
 static TEG_STATUS get_default_values( void );
-
-static const struct poptOption options[] = {
-#ifdef WITH_GGZ
-	{"ggz", '\0', POPT_ARG_NONE, &g_game.with_ggz, 0, N_("Enables GGZ mode"), NULL},
-#endif /* WITH_GGZ */
-	{"observe", '\0', POPT_ARG_NONE, &g_game.observer, 0, N_("Observe the game, dont play it"), NULL},
-	{NULL, '\0', POPT_ARG_NONE, 0, 0, NULL, NULL}
-};
 
 /* shows your secret mission */
 TEG_STATUS gui_mission()
@@ -138,15 +131,78 @@ TEG_STATUS gui_surrender(int numjug)
 TEG_STATUS gui_exit( char *str)
 {
 	locate_country_exit();
+	g_object_unref(settings);
 
 	gtk_main_quit();
 	return TEG_STATUS_SUCCESS;
 }
 
+static gchar *msg = NULL;
+
+/* Migrate old GConf settings to GSettings.  As it relies on gconf2
+   being available, that is almost certain to fail for users upgrading
+   from stretch to buster.  See
+   https://alioth-lists.debian.net/pipermail/pkg-gnome-maintainers/2018-August/145477.html */
+static void
+migrate_gconf_settings (const gchar *name)
+{
+  gboolean needed = TRUE;
+  GError *error = NULL;
+  GKeyFile *kf;
+  gchar **list;
+  gsize i, n;
+
+  kf = g_key_file_new ();
+
+  g_key_file_load_from_data_dirs (kf, "gsettings-data-convert",
+                                  NULL, G_KEY_FILE_NONE, NULL);
+  list = g_key_file_get_string_list (kf, "State", "converted", &n, NULL);
+
+  if (list)
+    {
+      for (i = 0; i < n; i++)
+        if (!g_strcmp0 (list[i], name))
+          {
+            needed = FALSE;
+            break;
+          }
+
+      g_strfreev (list);
+    }
+
+  g_key_file_free (kf);
+
+  if (needed)
+    {
+      g_spawn_command_line_sync ("gsettings-data-convert",
+                                 NULL, NULL, NULL, &error);
+
+      if (error)
+        {
+          msg = g_strdup_printf (_("Warning: Could not migrate old GConf "
+                                   "settings: %s\nPlease make sure that GConf "
+                                   "is installed and the "
+                                   "gsettings-data-convert tool is in your "
+                                   "PATH. Alternatively, ignore this message "
+                                   "and convert your old settings manually."),
+                                 error->message);
+          g_error_free (error);
+        }
+      else
+        {
+          msg = g_strdup (_("Old GConf settings were either missing or "
+                            "migrated successfully."));
+
+          /* Allow some time for the GSettings backend to record the
+             changes, otherwise get_default_values is called before
+             the old settings are in effect.  */
+          sleep (1);
+        }
+    }
+}
+
 TEG_STATUS gui_init( int argc, char **argv)
 {
-	GnomeClient *client;
-
 #ifdef ENABLE_NLS
 	/*
 	 * I'm not sure if I must call setlocale() or gtk_set_locale() or nothing, since the gnome-hello
@@ -158,19 +214,13 @@ TEG_STATUS gui_init( int argc, char **argv)
 	textdomain(PACKAGE);
 #endif
 
-	gnome_program_init (PACKAGE, VERSION,
-			LIBGNOMEUI_MODULE,
-			argc, argv,
-			GNOME_PARAM_POPT_TABLE, options,
-			GNOME_PARAM_APP_DATADIR, DATADIR, NULL);
+	gtk_init (&argc, &argv);
 
-	/* Get the default GConfClient */
-	g_conf_client = gconf_client_get_default ();
+	settings = g_settings_new ("net.sf.teg");
 
 	stock_init();
 
-	client = gnome_master_client();
-
+	migrate_gconf_settings("teg.convert");
 	get_default_values();
 
 	theme_load(g_game.theme);
@@ -201,6 +251,10 @@ TEG_STATUS gui_main(void)
 	textmsg(M_ALL,_("Tenes Empanadas Graciela - Gnome client v%s - by Ricardo Quesada"),VERSION);
 	textmsg(M_ALL,_("Using theme '%s - v%s' by %s\n"),g_game.theme, gui_theme.version,gui_theme.author);
 
+	if (msg) {
+	  textmsg(M_ALL, msg);
+	  g_free(msg);
+	}
 	/* put the buttons in 'sensitive'*/
 	set_sensitive_tb();
 
@@ -218,10 +272,8 @@ TEG_STATUS gui_main(void)
 
 TEG_STATUS gui_disconnect(void)
 {
-	if( gui_private.tag >=0 )
-		gdk_input_remove( gui_private.tag );
 	if( gui_private.tag_ggz >=0 )
-		gdk_input_remove( gui_private.tag_ggz );
+		g_source_remove( gui_private.tag_ggz );
 
 	gui_private.tag=-1;
 	gui_private.tag_ggz=-1;
@@ -229,6 +281,8 @@ TEG_STATUS gui_disconnect(void)
 
 	dices_unview();
 	armies_unview();
+	ministatus_update();
+	mainstatus_update();
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -253,51 +307,36 @@ static TEG_STATUS get_default_values( void )
 {
 	gchar *string;
 
-	string = gconf_client_get_string( g_conf_client, "/apps/teg/playername",NULL);
-	if( string && string[0] )
+	string = g_settings_get_string( settings, "playername" );
+	if( g_ascii_strcasecmp(string, "") )
 		strncpy(g_game.myname,string,PLAYERNAME_MAX_LEN);
 	else
 		strncpy(g_game.myname,getenv("LOGNAME"),PLAYERNAME_MAX_LEN);
 
+	g_free( string );
 
-	g_game.mycolor = gconf_client_get_int( g_conf_client, "/apps/teg/color", NULL);
+	g_game.mycolor = g_settings_get_int( settings, "color" );
 
-	string = gconf_client_get_string( g_conf_client, "/apps/teg/servername",NULL);
-	if( string )
-		strncpy(g_game.sername,string,SERVER_NAMELEN);
-	else
-		strncpy(g_game.sername,"localhost",SERVER_NAMELEN);
+	string = g_settings_get_string( settings, "servername" );
+	strncpy(g_game.sername,string,SERVER_NAMELEN);
+	g_free(string);
 
-	g_game.msg_show = gconf_client_get_int( g_conf_client, "/apps/teg/msgshow",NULL);
-	gui_private.msg_show_colors =  gconf_client_get_bool( g_conf_client, "/apps/teg/msgshow_with_color",NULL);
-	gui_private.dialog_show =  gconf_client_get_int( g_conf_client, "/apps/teg/dialog_show",NULL);
-	string = gconf_client_get_string( g_conf_client, "/apps/teg/theme",NULL);
-	if( string )
-		strncpy( g_game.theme, string ,sizeof(g_game.theme) );
-	else
-		strncpy( g_game.theme, "m2" ,sizeof(g_game.theme) );
-	g_game.robot_in_server = gconf_client_get_bool( g_conf_client, "/apps/teg/robot_in_server",NULL);
+	g_game.msg_show = g_settings_get_int( settings, "msgshow" );
+	gui_private.msg_show_colors
+	  = g_settings_get_boolean (settings, "msgshow-with-color" );
+	gui_private.dialog_show = g_settings_get_int( settings, "dialog-show" );
+	string = g_settings_get_string( settings, "theme" );
+	strncpy( g_game.theme, string ,sizeof(g_game.theme) );
+	g_free( string );
+
+	g_game.robot_in_server = g_settings_get_boolean( settings,
+	                                                 "robot-in-server" );
 	
-	gui_private.status_show =  gconf_client_get_int( g_conf_client, "/apps/teg/status_show",NULL);
-	g_game.serport = gconf_client_get_int( g_conf_client, "/apps/teg/port",NULL);
-	// if serport is still 0 then this must be the first start of this program, so set serport and
-	// status_show to reasonable default values
-	if ( g_game.serport == 0 )
-	{
-		g_game.serport = 2000;
-		gui_private.status_show = 453;
-	}
-	
-	gconf_client_set_int   ( g_conf_client, "/apps/teg/port",  g_game.serport, NULL);
-	gconf_client_set_string( g_conf_client, "/apps/teg/servername",g_game.sername, NULL);
-	gconf_client_set_string( g_conf_client, "/apps/teg/playername",g_game.myname, NULL);
-	gconf_client_set_string( g_conf_client, "/apps/teg/theme",g_game.theme, NULL);
-	gconf_client_set_int( g_conf_client, "/apps/teg/color",g_game.mycolor, NULL);
-	gconf_client_set_int( g_conf_client, "/apps/teg/msgshow",g_game.msg_show, NULL);
-	gconf_client_set_bool( g_conf_client, "/apps/teg/msgshow_with_color",gui_private.msg_show_colors, NULL);
-	gconf_client_set_int( g_conf_client, "/apps/teg/status_show",gui_private.status_show, NULL);
-	gconf_client_set_int( g_conf_client, "/apps/teg/dialog_show",gui_private.dialog_show, NULL);
-	gconf_client_set_bool( g_conf_client, "/apps/teg/robot_in_server",g_game.robot_in_server, NULL);
+	gui_private.status_show = g_settings_get_int( settings, "status-show" );
+	g_game.serport = g_settings_get_int( settings, "port" );
+
+	g_settings_set_string( settings, "playername", g_game.myname );
+
 	return TEG_STATUS_SUCCESS;
 }
 

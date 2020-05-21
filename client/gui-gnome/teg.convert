@@ -1,0 +1,11 @@
+[net.sf.teg]
+port = /apps/teg/port
+servername = /apps/teg/servername
+playername = /apps/teg/playername
+theme = /apps/teg/theme
+color = /apps/teg/color
+msgshow = /apps/teg/msgshow
+msgshow-with-color = /apps/teg/msgshow_with_color
+status-show = /apps/teg/status_show
+dialog-show = /apps/teg/dialog_show
+robot-in-server = /apps/teg/robot_in_server

@@ -22,7 +22,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <gnome.h>
+#include <gtk/gtk.h>
 
 #include "gui.h"
 #include "client.h"
@@ -33,13 +33,14 @@
 struct _gui_private gui_private;
 
 /* Prefs */
-GConfClient *g_conf_client = NULL;
+GSettings *settings = NULL;
 
 TEG_STATUS priv_init( void )
 {
 	gui_private.tag = -1;
 	gui_private.tag_ggz = -1;
-	gui_private.msg_show_colors = 0;
+	gui_private.msg_show_colors
+	  = g_settings_get_boolean( settings, "msgshow-with-color" );
 	gui_private.country_i_am = -1;
 
 	return TEG_STATUS_SUCCESS;

@@ -21,7 +21,7 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <gnome.h>
+#include <goocanvas.h>
 
 #include "gui.h"
 #include "client.h"
@@ -53,16 +53,15 @@ void G_cont_init()
 	initialized = 1;
 }
 
-void G_cont_create( int cont, GnomeCanvasGroup *root )
+void G_cont_create( int cont, GooCanvasItem *root )
 {
 	if(!initialized)
 		G_cont_init();
 
-	G_conts[cont].cont_group = GNOME_CANVAS_GROUP(
-			gnome_canvas_item_new (
+	G_conts[cont].cont_group =
+			goo_canvas_group_new (
 				root,
-				gnome_canvas_group_get_type (),
 				"x", (double) G_conts[cont].x,
 				"y", (double) G_conts[cont].y,
-				NULL));
+				NULL);
 }

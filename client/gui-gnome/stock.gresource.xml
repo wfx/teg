@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/net/sf/teg/icons">
+    <file alias="stock-endturn.xpm">stock/stock-endturn.xpm</file>
+    <file alias="stock-getcard.xpm">stock/stock-getcard.xpm</file>
+    <file alias="stock-sendarmies.xpm">stock/stock-sendarmies.xpm</file>
+    <file alias="stock-viewplayers.xpm">stock/stock-viewplayers.xpm</file>
+  </gresource>
+</gresources>

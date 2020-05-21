@@ -46,6 +46,7 @@ client/gui-gnome/status.c
 client/gui-gnome/stock.c
 client/gui-gnome/support.c
 client/gui-gnome/preferences.c
+client/gui-gnome/net.sf.teg.gschema.xml
 server/helper.c
 server/console.c
 server/player.c

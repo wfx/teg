@@ -25,7 +25,8 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
@@ -66,18 +67,18 @@ void destroy_window( GtkWidget * widget, GtkWidget **window )
 /* Brings attention to a window by raising it and giving it focus */
 void raise_and_focus (GtkWidget *widget)
 {
-	g_assert (GTK_WIDGET_REALIZED (widget));
-	gdk_window_show (widget->window);
+	g_assert (gtk_widget_get_realized (widget));
+	gdk_window_show (gtk_widget_get_window (widget));
 	gtk_widget_grab_focus (widget);
 }
 
 /*
  * otras funciones
  */
-TEG_STATUS pre_client_recv( gpointer data, int sock, GdkInputCondition GDK_INPUT_READ )
+gboolean pre_client_recv (GIOChannel *source, GIOCondition cond, gpointer data)
 {
-	client_recv( sock );
-	return TEG_STATUS_SUCCESS;
+	client_recv( g_io_channel_unix_get_fd (source) );
+	return TRUE;
 }
 
 /*
@@ -91,6 +92,7 @@ void on_connect_activate (GtkMenuItem *menuitem, gpointer user_data)
 
 void on_disconnect_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
+	shutdown_channel();
 	teg_disconnect();
 }
 
@@ -107,9 +109,9 @@ void on_scores_activate(GtkMenuItem *widget, gpointer user_data)
 
 void on_exit_activate (GtkWidget *widget, gpointer user_data)
 {
+	shutdown_channel();
 	teg_disconnect();
 	cards_free();
-	colors_free();
 	gtk_main_quit();
 }
 
@@ -170,14 +172,22 @@ void on_endturn_activate (GtkMenuItem *menuitem, gpointer user_data)
 	set_sensitive_tb();
 }
 
-static void surrender_cb (int button, gpointer data)
-{
-	if (button == 0)
-		out_surrender();
-}
 void on_surrender_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	gnome_question_dialog_parented (_("Really surrender ?"), surrender_cb, NULL, GTK_WINDOW(main_window));
+        GtkWidget *dialog;
+        gint response;
+
+        dialog = gtk_message_dialog_new (GTK_WINDOW (main_window),
+                                         GTK_DIALOG_DESTROY_WITH_PARENT,
+                                         GTK_MESSAGE_INFO,
+                                         GTK_BUTTONS_YES_NO,
+                                         _("Really surrender ?"));
+
+        response = gtk_dialog_run (GTK_DIALOG (dialog));
+        if (response == GTK_RESPONSE_YES)
+                out_surrender();
+
+        gtk_widget_destroy (dialog);
 }
 
 
@@ -223,9 +233,6 @@ on_preferences1_activate               (GtkMenuItem     *menuitem,
 
 void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	static GtkWidget *about = NULL;
-
-	GtkWidget *href, *hbox;
 	GdkPixbuf *pixbuf = NULL;
 	const gchar *documenters[] = {
 		"Ricardo Quesada, english",
@@ -234,17 +241,20 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 	};	
 	const gchar *translator_credits = _("translator_credits");
 	const char *authors[] = {
-		"Main Authors:",
-		"    Ricardo Quesada, main coder",
-		"    Wolfgang Morawetz, main artist",
+		"Ricardo Quesada, main coder",
 		"",
 		"Main Contributors:",
 		"    Thomas R. Koll",
 		"    Raymond Ostertag",
 		"",
 		"Detailed info in the PEOPLE file or in the homepage",
+                "",
 		NULL
 	};
+        const char *artists[] = {
+		"Wolfgang Morawetz, main artist",
+                NULL
+        };
 
 	{
      		gchar* logo_filename = NULL;
@@ -257,29 +267,25 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 		}
 	}
 
-	if (!about) {
-		about = gnome_about_new (
-			_("Tenes Empanadas Graciela"), VERSION,
-			_("Copyright (C) 2000, 2002 Ricardo Quesada"),
-			_("A clone of T.E.G. (a Risk clone)."),
-			(const char**) authors,
-			(const char**) documenters,
-			 strcmp (translator_credits, "translator_credits") != 0 ? translator_credits : NULL,
-			pixbuf);
+        gtk_show_about_dialog (GTK_WINDOW (main_window),
+                               "program-name", _("Tenes Empanadas Graciela"),
+                               "version", VERSION,
+                               "copyright",
+                               _("Copyright (C) 2000, 2002 Ricardo Quesada"),
+                               "comments",
+                               _("A clone of T.E.G. (a Risk clone)."),
+                               "authors", authors,
+                               "documenters", documenters,
+                               "artists", artists,
+                               "translator-credits", translator_credits,
+                               "website", "http://teg.sourceforge.net",
+                               "website-label", _("TEG Home Page"),
+                               "logo", pixbuf,
+                               NULL);
+}
 
-		gtk_signal_connect (GTK_OBJECT (about), "destroy",
-				    GTK_SIGNAL_FUNC (gtk_widget_destroyed),
-				    &about);
-
-
-		hbox = gtk_hbox_new (TRUE, 0);
-		href = gnome_href_new ("http://teg.sourceforge.net", _("TEG Home Page"));
-		gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
-		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (about)->vbox),
-			    hbox, TRUE, FALSE, 0);
-		gtk_widget_show_all (hbox);
-	}
-
-	gtk_widget_show_now (about);
-	raise_and_focus (about);
+void on_help_activate(GtkMenuItem *item, gpointer user_data)
+{
+        gtk_show_uri_on_window (GTK_WINDOW (main_window), "ghelp:teg",
+                                GDK_CURRENT_TIME, NULL);
 }

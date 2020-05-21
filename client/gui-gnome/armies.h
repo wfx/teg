@@ -27,7 +27,7 @@
 typedef struct _armies_pos {
 	int cant;
 	int orig_cant;
-	GnomeCanvasItem *armies_text;
+	GooCanvasItem *armies_text;
 } ARMIES_POS, *PARMIES_POS;
 
 TEG_STATUS armies_add(int country);

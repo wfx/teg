@@ -24,7 +24,8 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
@@ -38,9 +39,6 @@
 
 extern TTheme gui_theme;
 
-GdkGC *g_colors_gc = NULL;
-GdkFont* g_pixmap_font10 = NULL;
-
 static int allocated=0;
 
 struct _G_colores G_colores[] = {
@@ -53,13 +51,13 @@ struct _G_colores G_colores[] = {
 	{"grey", "black"},		/* Color no usado por playeres */
 };
 #define NR_COLORS (sizeof(G_colores)/sizeof(G_colores[0]))
-GdkColor colors_players[NR_COLORS];
+GdkRGBA colors_players[NR_COLORS];
 
 char *G_colores_common[] = {
 	"white", "black"
 };
 #define NR_COLORS_COMMON (2)
-GdkColor colors_common[NR_COLORS_COMMON];
+GdkRGBA colors_common[NR_COLORS_COMMON];
 
 int colors_foreground[] = { 0,1,0,0,1,1,1 };
 
@@ -148,26 +146,18 @@ TEG_STATUS colors_load_images( void )
 /* allocate colors */
 TEG_STATUS colors_allocate( void )
 {
-	GdkColormap *colormap;
 	int i;
 
 	if(allocated)
 		return TEG_STATUS_ERROR;
 
-    	colormap = gtk_widget_get_colormap(main_window);
-
 	for(i=0;i<NR_COLORS;i++) {
-		gdk_color_parse( G_colores[i].ellip_color, &colors_players[i]);
-		gdk_colormap_alloc_color( colormap, &colors_players[i], FALSE, TRUE);
+	        gdk_rgba_parse( &colors_players[i], G_colores[i].ellip_color );
 	}
 
 	for(i=0;i<NR_COLORS_COMMON;i++) {
-		gdk_color_parse( G_colores_common[i], &colors_common[i]);
-		gdk_colormap_alloc_color( colormap, &colors_common[i], FALSE, TRUE);
+	        gdk_rgba_parse( &colors_common[i], G_colores_common[i] );
 	}
-
-	g_colors_gc = gdk_gc_new(main_window->window);
-	g_pixmap_font10 = gdk_font_load (HELVETICA_10_FONT_OLD);
 
 	colors_load_images();
 
@@ -176,54 +166,7 @@ TEG_STATUS colors_allocate( void )
 	return TEG_STATUS_SUCCESS;
 }
 
-/* free color's resources */
-TEG_STATUS colors_free()
-{
-	GdkColormap *colormap;
-	int i;
-
-	if(allocated)
-		return TEG_STATUS_ERROR;
-
-    	colormap = gtk_widget_get_colormap(main_window);
-
-	gdk_colormap_free_colors(colormap,(GdkColor*)&colors_players,NR_COLORS);
-	gdk_colormap_free_colors(colormap,(GdkColor*)&colors_common,COLORS_LAST);
-
-	for(i=0; i < G_N_ELEMENTS(g_color_circles); i++ ) {
-		if( g_color_players[i] ) {
-			gdk_pixbuf_unref( g_color_players[i] );
-			g_color_players[i] = NULL;
-		}
-
-		if( g_color_circles[i] ) {
-			gdk_pixbuf_unref( g_color_circles[i] );
-			g_color_circles[i] = NULL;
-		}
-	}
-
-	if( g_color_circle_over ) {
-		gdk_pixbuf_unref( g_color_circle_over );
-		g_color_circle_over = NULL;
-	}
-
-
-	if( g_colors_gc ) {
-		gdk_gc_unref( g_colors_gc );
-		g_colors_gc = NULL;
-	}
-
-	if( g_pixmap_font10 ) {
-		gdk_font_unref( g_pixmap_font10 );
-		g_pixmap_font10 = NULL;
-	}
-
-	allocated=0;
-
-	return TEG_STATUS_SUCCESS;
-}
-
-GdkColor* colors_get_player( int n )
+GdkRGBA* colors_get_player( int n )
 {
 	PCPLAYER pJ;
 
@@ -235,14 +178,14 @@ GdkColor* colors_get_player( int n )
 	return &colors_players[pJ->color];
 }
 
-GdkColor* colors_get_player_from_color( int color )
+GdkRGBA* colors_get_player_from_color( int color )
 {
 	if(color<0 || color>=NR_COLORS)
 		return &colors_players[NR_COLORS-1];
 	return &colors_players[color];
 }
 
-GdkColor* colors_get_player_ink(int n )
+GdkRGBA* colors_get_player_ink(int n )
 {
 	PCPLAYER pJ;
 
@@ -254,21 +197,21 @@ GdkColor* colors_get_player_ink(int n )
 	return &colors_common[colors_foreground[pJ->color]];
 }
 
-GdkColor* colors_get_player_ink_from_color(int color )
+GdkRGBA* colors_get_player_ink_from_color(int color )
 {
 	if(color<0 || color>=NR_COLORS)
 		return &colors_common[COLORS_BLACK];
 	return &colors_common[colors_foreground[color]];
 }
 
-GdkColor* colors_get_player_virtual( int n )
+GdkRGBA* colors_get_player_virtual( int n )
 {
 	if( n == g_game.numjug )
 		return &colors_players[COLORS_P_BLUE];
 	return &colors_players[COLORS_P_RED];
 }
 
-GdkColor* colors_get_common( int n )
+GdkRGBA* colors_get_common( int n )
 {
 	if(n<0 || n>=NR_COLORS_COMMON)
 		return &colors_players[NR_COLORS_COMMON-1];
@@ -298,13 +241,13 @@ char * get_tag_for_color( int color )
 char * get_foreground_for_color( int c )
 {
 	if(c<0 || c>=NR_COLORS)
-		return G_colores[NR_COLORS].text_color;
+		return G_colores[NR_COLORS-1].text_color;
 	return G_colores[c].text_color;
 }
 
 char * get_background_for_color( int c )
 {
 	if(c<0 || c>=NR_COLORS)
-		return G_colores[NR_COLORS].ellip_color;
+		return G_colores[NR_COLORS-1].ellip_color;
 	return G_colores[c].ellip_color;
 }

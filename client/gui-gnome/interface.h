@@ -36,8 +36,6 @@ int create_canvas_items(GtkWidget *canvas);
 TEG_STATUS set_sensitive_tb(void);
 void tropas_window( int src, int dst, int cant );
 void reagrupe_window( int src, int dst, int cant );
-void free_imlib_image (GtkObject *object, gpointer data);
-void free_imlib_image_ptr (GtkObject *object, gpointer *data);
 
 
 #endif /* __TEG_GUI_GNOME_INTERFACE_H */

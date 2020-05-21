@@ -24,7 +24,7 @@
 #ifndef __TEG_GUI_GNOME_GCOUNTRY_H
 #define __TEG_GUI_GNOME_GCOUNTRY_H
 
-#include <gnome.h>
+#include <goocanvas.h>
 
 struct _G_countries {
 	char *gfx_name;			/**< name del archivo grafico del country */
@@ -34,10 +34,10 @@ struct _G_countries {
 	gint y_len;			/**<		"" 				*/
 	gint x_center;			/**< si las fichas no estan centradas usar esto	*/
 	gint y_center;			/**<              ""				*/
-	GnomeCanvasGroup *country_group;	/**< contenedor del country */
-	GnomeCanvasItem *country_item;	/**< the figure of the map (png) */
-	GnomeCanvasItem *ellip_item;	/**< circle of armies of the country */
-	GnomeCanvasItem *text_item;	/**< the number of armies of the country */
+	GooCanvasItem *country_group;	/**< contenedor del country */
+	GooCanvasItem *country_item;	/**< the figure of the map (png) */
+	GooCanvasItem *ellip_item;	/**< circle of armies of the country */
+	GooCanvasItem *text_item;	/**< the number of armies of the country */
 }; 
 
 extern struct _G_countries G_countries[];

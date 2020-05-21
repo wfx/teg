@@ -1,5 +1,5 @@
 /* XPM */
-static char * robot_xpm[] = {
+static const char * robot_xpm[] = {
 "21 19 9 1",
 " 	c None",
 ".	c #F91616",

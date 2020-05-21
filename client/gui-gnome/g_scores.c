@@ -26,7 +26,8 @@
 #endif
 
 #include <assert.h>
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
@@ -40,6 +41,7 @@
 
 
 static GtkWidget *gui_scores_dialog=NULL;
+static GtkListStore *store=NULL;
 
 enum {
 	COLUMN_POSNUMBER,
@@ -54,18 +56,10 @@ enum {
 
 #define S_CLIST_MAX 100
 
-static gint boton_clicked_refresh(GtkWidget *area, GdkEventExpose *event, gpointer user_data)
-{
-	out_scores();
-	return FALSE;
-}
 
-
-static GtkTreeModel *
+static GtkListStore *
 scores_create_model (void)
 {
-	GtkListStore *store;
-
 	/* create list store */
 	store = gtk_list_store_new (
 			COLUMN_LAST,
@@ -76,7 +70,7 @@ scores_create_model (void)
 			G_TYPE_STRING,
 			G_TYPE_BOOLEAN);
 
-	return GTK_TREE_MODEL (store);
+	return store;
 }
 
 static void scores_add_columns (GtkTreeView *treeview)
@@ -141,50 +135,67 @@ static void scores_add_columns (GtkTreeView *treeview)
 /*
  * helper funcion used by mini_scores & big score
  */
-static TEG_STATUS paint_color( GtkWidget *dialog, int color, GdkPixmap **pixmap )
+static TEG_STATUS paint_color( GtkWidget *dialog, int color, GdkPixbuf **pixmap )
 {
-	int i, h, w;
+	GdkWindow *window;
+	PangoLayout *layout;
+	PangoAttrList *list;
+	PangoAttribute *attr;
+	cairo_surface_t *surface;
+	cairo_t *cr;
+	int i, width;
 
 	assert( pixmap );
 
 	i = (color<0 || color>=TEG_MAX_PLAYERS) ? TEG_MAX_PLAYERS : color;
 
-	*pixmap = gdk_pixmap_new( dialog->window,
-		48, 16, gtk_widget_get_visual( dialog)->depth);
+	window = gtk_widget_get_window (dialog);
+	surface = gdk_window_create_similar_image_surface (window,
+	                                                   CAIRO_FORMAT_ARGB32,
+	                                                   48, 16, 0);
 
-	if( *pixmap == NULL )
-		return TEG_STATUS_ERROR;
+	cr = cairo_create (surface);
+	gdk_cairo_set_source_rgba (cr, colors_get_player_from_color(color));
+	cairo_rectangle (cr, 0, 0, 47, 15);
+	cairo_fill (cr);
+	cairo_paint (cr);
 
-	gdk_gc_set_foreground(g_colors_gc, colors_get_player_from_color(color));
-	gdk_draw_rectangle( *pixmap, g_colors_gc, TRUE, 0, 0, 47, 15);
+	gdk_cairo_set_source_rgba (cr, colors_get_common(COLORS_BLACK));
+	cairo_rectangle(cr, 0, 0, 47, 15);
+	cairo_stroke (cr);
 
-	gdk_gc_set_foreground(g_colors_gc, colors_get_common(COLORS_BLACK));
-	gdk_draw_rectangle( *pixmap, g_colors_gc, FALSE, 0, 0, 47, 15);
+	gdk_cairo_set_source_rgba (cr,
+	                           colors_get_player_ink_from_color(color));
 
-	gdk_gc_set_foreground(g_colors_gc, colors_get_player_ink_from_color(color));
+	layout = pango_cairo_create_layout (cr);
+	list = pango_attr_list_new ();
+	attr = pango_attr_size_new_absolute (10 * PANGO_SCALE);
+	pango_attr_list_insert (list, attr);
+	pango_layout_set_attributes (layout, list);
+	pango_layout_set_text (layout, _(g_colores[i]), -1);
+	pango_layout_get_size (layout, &width, NULL);
+	cairo_move_to (cr, (47 - width / PANGO_SCALE) / 2, 0);
+	pango_cairo_show_layout (cr, layout);
 
+	*pixmap = gdk_pixbuf_get_from_surface (surface, 0, 0, 47, 15);
 
-	h = gdk_string_height (g_pixmap_font10, _(g_colores[i]) );
-	w = gdk_string_width	(g_pixmap_font10, _(g_colores[i]) );
+	pango_attr_list_unref (list);
+	g_object_unref (layout);
+	cairo_destroy (cr);
+	cairo_surface_destroy (surface);
 
-	gdk_draw_string( *pixmap, g_pixmap_font10, g_colors_gc, 
-			((48 - w )/2),
-			((16 - h)/2) + h, _(g_colores[i]));
 	return TEG_STATUS_SUCCESS;
 }
 
 
-static TEG_STATUS scores_update_model( GtkTreeModel *model)
+static TEG_STATUS scores_update_model( GtkListStore *store)
 {
 	PSCORES pS;
 	int row;
-	GtkListStore *store;
 	GtkTreeIter iter;
 	PLIST_ENTRY list = scores_get_list();
 	PLIST_ENTRY l = list->Flink;
 
-
-	store = GTK_LIST_STORE( model );
 
 	gtk_list_store_clear( store );
 
@@ -219,32 +230,33 @@ static TEG_STATUS scores_update_model( GtkTreeModel *model)
 static TEG_STATUS scores_update_dialog()
 {
 	static GtkWidget *scores_treeview=NULL;
-	static GtkTreeModel *model = NULL;
 
 	if( gui_scores_dialog == NULL )
 		return TEG_STATUS_ERROR;
 
 
-	if( scores_treeview == NULL ) {
+	if ( !GTK_IS_WIDGET(scores_treeview) ) {
 
 		/* create tree model */
-		model = scores_create_model ();
+	        if ( !store )
+	                store = scores_create_model ();
 
 		/* create tree view */
-		scores_treeview = gtk_tree_view_new_with_model (model);
-		gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (scores_treeview), TRUE);
+	        scores_treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL
+	                                                        (store));
 		gtk_tree_view_set_search_column (GTK_TREE_VIEW (scores_treeview),
 				COLUMN_SCORE);
 
-		g_object_unref (G_OBJECT (model)); 
-		gtk_box_pack_start_defaults( GTK_BOX(GNOME_DIALOG(gui_scores_dialog)->vbox), GTK_WIDGET(scores_treeview));
+	        gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
+	                                   (GTK_DIALOG(gui_scores_dialog))),
+	                           GTK_WIDGET(scores_treeview), TRUE, TRUE, 0);
 
 		/* add columns to the tree view */
 		scores_add_columns (GTK_TREE_VIEW (scores_treeview));
 
 	}
 
-	scores_update_model( model );
+	scores_update_model( store );
 
 	gtk_widget_show_all( scores_treeview );
 	return TEG_STATUS_SUCCESS;
@@ -255,26 +267,24 @@ void gui_scores_view()
 	if( gui_scores_dialog == NULL) {
 
 		gui_scores_dialog = teg_dialog_new(_("High Scores"),_("High Scores")); 
-		gnome_dialog_append_buttons(GNOME_DIALOG(gui_scores_dialog),
-				GNOME_STOCK_PIXMAP_REFRESH,
-				GNOME_STOCK_BUTTON_CLOSE,
+		gtk_dialog_add_buttons(GTK_DIALOG(gui_scores_dialog),
+                                       _("_Refresh"), 0,
+                                       _("_Close"), 1,
 				NULL );
-		gnome_dialog_close_hides( GNOME_DIALOG(gui_scores_dialog), TRUE );
-		gnome_dialog_set_default(GNOME_DIALOG(gui_scores_dialog),1);
 
-		/* signals de los botones */
-		gnome_dialog_button_connect (GNOME_DIALOG(gui_scores_dialog),
-						0, GTK_SIGNAL_FUNC(boton_clicked_refresh),gui_scores_dialog);
-		gnome_dialog_button_connect (GNOME_DIALOG(gui_scores_dialog),
-						1, GTK_SIGNAL_FUNC(dialog_close), gui_scores_dialog );
+		gtk_dialog_set_default_response(GTK_DIALOG(gui_scores_dialog),1);
 
-		gnome_dialog_set_default( GNOME_DIALOG(gui_scores_dialog),1);
 	}
 
 	scores_update_dialog();
 
-	gtk_widget_show_all( gui_scores_dialog);
-	raise_and_focus( gui_scores_dialog);
+	if (gtk_dialog_run (GTK_DIALOG (gui_scores_dialog)) == 0)
+	        out_scores ();
+
+	if (GTK_IS_WIDGET(gui_scores_dialog)) {
+	        gtk_widget_destroy (gui_scores_dialog);
+	        gui_scores_dialog = NULL;
+	}
 }
 
 
@@ -291,67 +301,88 @@ enum {
 
 	MINISCORE_CLIST_LAST
 };
-static TEG_STATUS update_mini_clist( GtkWidget *dialog, GtkWidget *clist )
+static TEG_STATUS update_mini_clist( GtkWidget *dialog, GtkListStore *store,
+                                     GtkWidget *clist )
 {
 	PLIST_ENTRY list = &g_list_player;
 	PLIST_ENTRY l = list->Flink;
 	PCPLAYER pJ;
-	char clist_text[MINISCORE_CLIST_LAST][S_CLIST_MAX];
-	char *clist_texts[MINISCORE_CLIST_LAST];
-	int i, row;
-	GdkPixmap *pixmap;
-
-	gtk_clist_freeze(GTK_CLIST(clist));
-
-	for(i=0;i<MINISCORE_CLIST_LAST;i++) {
-		clist_texts[i] = clist_text[i];
-		memset( clist_text[i],0,S_CLIST_MAX);
-	}
+	int row;
+	GdkPixbuf *pixmap;
+	GtkTreeIter iter;
 
 	row = 0;
 	while( !IsListEmpty( list )&& (l != list ) )
 	{
-		gchar *name;
+	        gchar *name, *score;
 
 		pJ = (PCPLAYER) l;
 
 		name = translate_to_utf8( pJ->name );
+	        score = g_strdup_printf ("%d", pJ->score);
 
-		snprintf(clist_texts[MINISCORE_CLIST_NAME],S_CLIST_MAX-1,"%s",name);
-		snprintf(clist_texts[MINISCORE_CLIST_SCORE],S_CLIST_MAX-1,"%d",pJ->score);
-
+	        gtk_list_store_append (store, &iter);
+	        gtk_list_store_set (store, &iter,
+	                            MINISCORE_CLIST_NAME, name,
+	                            MINISCORE_CLIST_SCORE, score, -1);
 		free( name );
+	        g_free( score );
 
-		gtk_clist_append (GTK_CLIST (clist), clist_texts);
+	        paint_color( dialog, pJ->color, &pixmap );
 
-		if( paint_color( dialog, pJ->color, &pixmap ) == TEG_STATUS_SUCCESS )
-			gtk_clist_set_pixmap(GTK_CLIST(clist), row, MINISCORE_CLIST_COLOR, pixmap, NULL);
+	        gtk_list_store_set (store, &iter, MINISCORE_CLIST_COLOR,
+	                            pixmap, -1);
+	        g_object_unref (pixmap);
 
 		l = LIST_NEXT(l);
 		row ++;
 	}
-	gtk_clist_thaw(GTK_CLIST(clist));
 
 	return TEG_STATUS_SUCCESS;
 }
 
 void gui_scores_embed( GtkWidget *frame )
 {
-	int i;
 	static GtkWidget *mini_scores_clist=NULL;
-	char *titles[MINISCORE_CLIST_LAST] = {
-		_("Name"), _("Score"), _("Color"),
-	};
+	GtkListStore *store = NULL;
+	GtkCellRenderer *renderer;
+	GtkTreeViewColumn *name, *score, *color;
 
-	mini_scores_clist = gtk_clist_new_with_titles (MINISCORE_CLIST_LAST, titles);
+	store = gtk_list_store_new (MINISCORE_CLIST_LAST, G_TYPE_STRING,
+	                            G_TYPE_STRING, G_TYPE_OBJECT);
+	mini_scores_clist = gtk_tree_view_new_with_model (GTK_TREE_MODEL
+	                                                  (store));
 
-	gtk_clist_set_selection_mode (GTK_CLIST (mini_scores_clist), GTK_SELECTION_EXTENDED);
-	for (i = 0; i < MINISCORE_CLIST_LAST; i++) {
-		gtk_clist_set_column_justification (GTK_CLIST (mini_scores_clist), i, GTK_JUSTIFY_CENTER);
-		gtk_clist_set_column_auto_resize (GTK_CLIST (mini_scores_clist), i, TRUE);
-	}
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (mini_scores_clist),
+	                                   TRUE);
 
-	update_mini_clist( frame, mini_scores_clist );
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (renderer, "xalign", 0.5, NULL);
+	name = gtk_tree_view_column_new_with_attributes (_("Name"), renderer,
+	                                                 "text",
+	                                                 MINISCORE_CLIST_NAME,
+	                                                 NULL);
+	gtk_tree_view_column_set_alignment (name, 0.5);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (mini_scores_clist), name);
+
+	score = gtk_tree_view_column_new_with_attributes (_("Score"), renderer,
+	                                                  "text",
+	                                                  MINISCORE_CLIST_SCORE,
+	                                                  NULL);
+	gtk_tree_view_column_set_alignment (score, 0.5);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (mini_scores_clist), score);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	color = gtk_tree_view_column_new_with_attributes (_("Color"), renderer,
+	                                                  "pixbuf",
+	                                                  MINISCORE_CLIST_COLOR,
+	                                                  NULL);
+	gtk_tree_view_column_set_alignment (color, 0.5);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (mini_scores_clist), color);
+
+	update_mini_clist( frame, store, mini_scores_clist );
+	gtk_widget_show (mini_scores_clist);
+	gtk_tree_view_columns_autosize (GTK_TREE_VIEW (mini_scores_clist));
 
 	gtk_container_add (GTK_CONTAINER (frame),GTK_WIDGET(mini_scores_clist));
 }
