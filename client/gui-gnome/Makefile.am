@@ -43,14 +43,14 @@ libguiclient_a_SOURCES = \
 CLEANFILES = stock_gresources.h stock_gresources.c
 RESOURCE = stock.gresource.xml
 
-stock.c: stock_gresources.h stock_gresources.c
+$(srcdir)/stock.c: stock_gresources.h stock_gresources.c
 stock_gresources.c: $(RESOURCE) stock_gresources.h $(shell \
-	$(GLIB_COMPILE_RESOURCES) --generate-dependencies $(RESOURCE))
-	$(GLIB_COMPILE_RESOURCES) --target=$@ \
+	$(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir) $(RESOURCE))
+	$(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --target=$@ \
 	  --generate-source --manual-register --c-name=stock $<
 stock_gresources.h:  $(RESOURCE) $(shell \
-	$(GLIB_COMPILE_RESOURCES) --generate-dependencies $(RESOURCE))
-	$(GLIB_COMPILE_RESOURCES) --target=$@ \
+	$(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir) $(RESOURCE))
+	$(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir) --target=$@ \
 	  --generate-header --manual-register --c-name=stock $<
 
 EXTRA_DIST = $(gsettings_SCHEMAS) $(RESOURCE)
