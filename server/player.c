@@ -33,6 +33,33 @@
 
 LIST_ENTRY g_list_player;		/**< list of players */
 
+typedef struct
+{
+	int humans;
+	int robots;
+} PlayerCount;
+
+PlayerCount player_count( void )
+{
+	PlayerCount result = {0, 0};
+
+	PLIST_ENTRY l = g_list_player.Flink;
+	PSPLAYER pJ;
+
+	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) )
+	{
+		pJ = (PSPLAYER) l;
+
+		if( pJ->is_player ) {
+			if( pJ->human )
+				result.humans++;
+			else
+				result.robots++;
+		}
+		l = LIST_NEXT(l);
+	}
+	return result;
+}
 
 /* given a players' number it returns a pointer the player */
 TEG_STATUS player_whois( int numjug, PSPLAYER *pJ)
@@ -676,24 +703,9 @@ TEG_STATUS player_kick_unparent_robots( void )
 {
 	if( g_server.kick_unparent_robots )
 	{
-		int robots=0, humans=0;
-		PLIST_ENTRY l = g_list_player.Flink;
-		PSPLAYER pJ;
+		PlayerCount counts = player_count();
 
-		while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) )
-		{
-			pJ = (PSPLAYER) l;
-
-			if( pJ->is_player ) {
-				if( pJ->human )
-					humans++;
-				else
-					robots++;
-			}
-			l = LIST_NEXT(l);
-		}
-
-		if( robots && ! humans )
+		if( counts.robots && ! counts.humans )
 		{
 			con_text_out_wop(M_INF,_("Kicking unwanted robots...\n"));
 			player_map( player_kick_robot );
