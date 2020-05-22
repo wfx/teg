@@ -101,7 +101,7 @@ STATIC TEG_STATUS con_exit( int unused, char* unused2)
 }
 
 /*shows player's statistics */
-STATIC TEG_STATUS con_stats_show( PSPLAYER pJ )
+STATIC void con_stats_show( PSPLAYER pJ )
 {
 	stats_score( &pJ->player_stats );
 	printf(" %i   %-4i  [ %-3u   %-3u ] - [ %-3u  %-3u ]  %-15s %s\n",
@@ -114,7 +114,6 @@ STATIC TEG_STATUS con_stats_show( PSPLAYER pJ )
 			pJ->name,
 			pJ->human ? _("yes") : _("no")
 			);
-	return TEG_STATUS_SUCCESS;
 }
 STATIC TEG_STATUS con_stats( int unused, char* unused2)
 {
@@ -262,11 +261,10 @@ STATIC TEG_STATUS con_help ( int fd, char*unused )
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS player_dump( PSPLAYER pJ )
+static void player_dump( PSPLAYER pJ )
 {
 	printf("Nombre: %s\n",pJ->name);
 	printf("fd: %d\n",pJ->fd);
-	return TEG_STATUS_SUCCESS;
 }
 
 STATIC TEG_STATUS con_test(int fd, char *str)

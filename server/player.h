@@ -60,14 +60,14 @@ typedef struct _player{
 
 } SPLAYER, *PSPLAYER;
 
-typedef TEG_STATUS (*jug_map_func)( PSPLAYER pJ);
+typedef void (*jug_map_func)( PSPLAYER pJ);
 
 /*
  * funciones y variables exportadas
  */
 extern LIST_ENTRY g_list_player;
 
-TEG_STATUS player_initplayer( PSPLAYER j );
+void player_initplayer( PSPLAYER j );
 void player_init( void );
 PSPLAYER player_ins( PSPLAYER j, BOOLEAN esplayer );
 #define player_ins_player(a) player_ins(a,TRUE)
@@ -98,9 +98,9 @@ PSPLAYER player_return_disconnected( PSPLAYER pJ );
 /*! return TRUE if pJ is a disconnected player */
 BOOLEAN player_is_disconnected( PSPLAYER pJ );
 /*! deletes the player if it disconnected */
-TEG_STATUS player_delete_discon( PSPLAYER pJ );
+void player_delete_discon( PSPLAYER pJ );
 /*! insert all players in scores but the ones in GAMEOVER */
-TEG_STATUS player_insert_scores( PSPLAYER pJ );
+void player_insert_scores( PSPLAYER pJ );
 /*! kick robots when there are no humans */
 TEG_STATUS player_kick_unparent_robots( void );
 

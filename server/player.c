@@ -69,7 +69,7 @@ TEG_STATUS player_findbyname( char *name, PSPLAYER *pJ)
 }
 
 /* delete disconnected players */
-TEG_STATUS player_delete_discon( PSPLAYER pJ )
+void player_delete_discon( PSPLAYER pJ )
 {
 	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
 
@@ -79,12 +79,10 @@ TEG_STATUS player_delete_discon( PSPLAYER pJ )
 		l = RemoveHeadList( l->Blink );
 		free(l);
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
 /* Initialize the player. */
-TEG_STATUS player_initplayer( PSPLAYER pJ )
+void player_initplayer( PSPLAYER pJ )
 {
 	assert( pJ );
 
@@ -103,7 +101,6 @@ TEG_STATUS player_initplayer( PSPLAYER pJ )
 	pJ->fichasc_conts = 0;
 
 	stats_init( &pJ->player_stats );
-	return TEG_STATUS_SUCCESS;
 }
 
 /* main initialization */
@@ -660,22 +657,18 @@ BOOLEAN player_is_disconnected( PSPLAYER pJ )
 }
 
 /* insert all the player but the ones in GAME OVER */
-TEG_STATUS player_insert_scores( PSPLAYER pJ )
+void player_insert_scores( PSPLAYER pJ )
 {
 	scores_insert_player( pJ );
-	return TEG_STATUS_SUCCESS;
 }
 
 /* kick a robot from the game */
-TEG_STATUS player_kick_robot( PSPLAYER pJ )
+static void player_kick_robot( PSPLAYER pJ )
 {
 	if( ! pJ->human ) {
 		player_del_hard( pJ );
 		con_text_out_wop(M_INF,_("Robot %s was kicked from the game\n"),pJ->name);
-		return TEG_STATUS_SUCCESS;
 	}
-
-	return TEG_STATUS_ERROR;
 }
 
 /* kick robots when no human is available */
