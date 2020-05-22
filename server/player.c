@@ -296,7 +296,7 @@ TEG_STATUS player_del_soft( PSPLAYER pJ )
 
 
 /* Deletes a player */
-TEG_STATUS player_del_hard( PSPLAYER pJ )
+void player_del_hard( PSPLAYER pJ )
 {
 	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
 
@@ -321,14 +321,14 @@ TEG_STATUS player_del_hard( PSPLAYER pJ )
 			g_game.players--;
 			pJ->status_before_discon = PLAYER_STATUS_IDLE;
 			pJ->estado = PLAYER_STATUS_DESCONECTADO;
-			return TEG_STATUS_SUCCESS;
+			return;
 
 		} else if( pJ->estado == PLAYER_STATUS_GAMEOVER ) {
 
 			g_game.players--;
 			pJ->status_before_discon = PLAYER_STATUS_GAMEOVER;
 			pJ->estado = PLAYER_STATUS_DESCONECTADO;
-			return TEG_STATUS_SUCCESS;
+			return;
 		}
 
 		color_del( pJ->color );
@@ -342,7 +342,7 @@ TEG_STATUS player_del_hard( PSPLAYER pJ )
 	l = RemoveHeadList( l->Blink );
 	free( l );
 
-	return TEG_STATUS_SUCCESS;
+	return;
 }
 
 /* given an index of player [0..MAX_PLAYERS] return the numjug of it */
@@ -671,10 +671,9 @@ TEG_STATUS player_insert_scores( PSPLAYER pJ )
 TEG_STATUS player_kick_robot( PSPLAYER pJ )
 {
 	if( ! pJ->human ) {
-		TEG_STATUS s;
-		s = player_del_hard( pJ );
+		player_del_hard( pJ );
 		con_text_out_wop(M_INF,_("Robot %s was kicked from the game\n"),pJ->name);
-		return s;
+		return TEG_STATUS_SUCCESS;
 	}
 
 	return TEG_STATUS_ERROR;
