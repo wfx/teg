@@ -460,7 +460,6 @@ TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret )
 
 
 	if( player_listar_countries( pJ, countries ) != TEG_STATUS_SUCCESS ) {
-		free( countries );
 		return TEG_STATUS_ERROR;
 	}
 
