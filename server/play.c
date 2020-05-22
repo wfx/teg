@@ -823,7 +823,7 @@ STATIC TEG_STATUS token_card( int fd, char *str )
 	tarjeta_sacar( &pP->tarjeta, pJ->numjug );
 
 	/*
-	 * Me fijo si el player es dueño del país que dice la tarjeta. Si es así
+	 * Me fijo si el player es dueÃ±o del paÃ­s que dice la tarjeta. Si es asÃ­
 	 * le agrego 2 fichas automaticamente como dice el reglamento.
 	 */
 	if( pP->numjug == pJ->numjug ) {
