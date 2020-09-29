@@ -541,8 +541,7 @@ void cards_free()
 
 	for(i=0;i<NRTARJS;i++) {
 		if( tarjs[i].tar ) {
-			/* gdk_imlib_destroy_image ( tarjs[i].tar ); */
-			tarjs[i].tar = NULL;
+			g_clear_object( &tarjs[i].tar );
 		}
 	}
 }
