@@ -23,7 +23,7 @@ SUBDIRS= $(PIXSUBDIRS) $(GUI_SUBDIR)
 noinst_LIBRARIES = libclient.a
 libclient_a_SOURCES = \
 	client.h		\
-	globals.c globals.h	\
+	globals.h	\
 	player.c player.h	\
 	misc.c misc.h		\
 	inputfd.c inputfd.h	\
