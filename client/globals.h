@@ -75,7 +75,6 @@ typedef struct _cgame {
 	int dados_dstcountry;		/**< ultimo country que se defendio */
 	int dados_dst[3];		/**< ultimos dados del defensor */
 	int msg_show;			/**< mascara de los mensajes que hay que mostrar */
-	int with_ggz;			/**< si tiene soporte para GGZ */
 	int already_connected;		/**< already connected to the server */
 	int robot_in_server;		/**< the robot will be launched in the server */
 	char theme[THEME_MAX_NAME];	/**< theme que se esta usando */

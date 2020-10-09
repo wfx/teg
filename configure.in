@@ -82,18 +82,6 @@ AC_ARG_ENABLE(client,
 esac], [client=true])
 AM_CONDITIONAL(CLIENT, test x$client = xtrue)
 
-dnl
-dnl GGZ stuff
-dnl
-dnl  no=disable ggz support  yes=enable ggz support,  *=error
-AC_ARG_ENABLE(ggz,
-[  --enable-ggz[=yes/no]     enable ggz support [default=yes]],
-[case "${enableval}" in
-  yes) ggz=true ;;
-  no)  ggz=false ;;
-  *)   AC_MSG_ERROR(bad value ${enableval} for --enable-ggz) ;;
-esac], [ggz=true])
-
 GLIB_GSETTINGS
 
 dnl does the robot needs something special ???
@@ -105,27 +93,6 @@ if test x$client = xtrue; then
 	AC_SUBST(TEG_LIBGNOME_CFLAGS)
 	AC_SUBST(TEG_LIBGNOME_LIBS)
 fi
-
-
-if test "x$ggz" = "xtrue"; then
-	AC_GGZ_INIT(defaults, export)
-	if test x$server = xtrue; then
-		AC_GGZ_GGZDMOD([], [ggz=false])
-		AC_GGZ_SERVER([], [ggz=false])
-	fi
-	if test x$client = xtrue; then
-		AC_GGZ_GGZMOD([], [ggz=false])
-		AC_GGZ_CONFIG([], [ggz=false])
-	fi
-	if test x$ggz = xtrue; then
-		AC_DEFINE([WITH_GGZ], 1, [Enable GGZ support])
-	fi
-fi
-dnl Define this conditional _after_ the checks for $ggz!!!
-dnl Otherwise, if $ggz is true (default) but GGZ is not installed ($ggz set to false)
-dnl then GGZSUPPORT would still be true, because it was define _before_ $ggz was
-dnl set to false!
-AM_CONDITIONAL(GGZSUPPORT, test "x$ggz" = "xtrue")
 
 
 gui_sources="gui-gnome"
@@ -278,9 +245,6 @@ AC_CONFIG_FILES([
 	docs/gnome-help/Makefile
 	docs/gnome-help/C/Makefile
 	docs/gnome-help/pl/Makefile
-	ggz/Makefile
-	ggz/teg.dsc
-	ggz/tegclient.dsc
 	metaserver/Makefile
 	])
 AC_OUTPUT
@@ -293,7 +257,6 @@ Configuration:
 	Compile server:	  		   ${server}
 	Compile gnome-client:	  	   ${client}
 	Compile robot:	  	  	   ${robot}
-	Compile with GGZ support:          ${ggz}
 "
 echo ""
 echo "Are you ready for the Empanada Experience ?"

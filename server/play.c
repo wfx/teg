@@ -356,13 +356,6 @@ STATIC TEG_STATUS token_playerid( int fd, char *str )
 
 	/* averigua el name */
 	if( parser_call( &p ) && p.hay_otro ) {
-#ifdef WITH_GGZ
-		if(g_server.with_ggz) {
-			if( ggz_server_find_ggzname(fd,j.name,sizeof(j.name)-1) != TEG_STATUS_SUCCESS ) {
-				player_fillname( &j, p.token );
-			}
-		} else
-#endif /* WITH_GGZ */
 			player_fillname( &j, p.token );
 	} else goto error;
 
@@ -692,9 +685,6 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 
 		/* Did 'src' player win the game ? */
 		if( mission_chequear( pJ_src ) == TEG_STATUS_GAMEOVER || game_is_finished() ) {
-#ifdef WITH_GGZ
-			ggz_server_gameover(pJ_src->fd);
-#endif
 			con_text_out(M_INF,_("Player %s(%d) is the winner! Game Over\n"),pJ_src->name,pJ_src->numjug);
 			pJ_src->estado = PLAYER_STATUS_GAMEOVER;
 			game_end( pJ_src );

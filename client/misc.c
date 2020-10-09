@@ -31,8 +31,6 @@
 
 #include <glib.h>
 
-#include "ggz_client.h"
-
 #include "client.h"
 
 CJUEGO g_game;			/**< client game */
@@ -92,7 +90,6 @@ TEG_STATUS game_init()
 	/* variables seteadas por command line y que pueden cambiar estos defaults */
 	if(firsttime) {
 		dirs_create();
-		g_game.with_ggz = 0;
 		g_game.already_connected = 0;
 	}
 
@@ -122,29 +119,14 @@ TEG_STATUS teg_connect()
 	if( ESTADO_ES(PLAYER_STATUS_DESCONECTADO)) {
 
 		/* standar mode */
-		if( !g_game.with_ggz && ! g_game.already_connected ) {
+		if( ! g_game.already_connected ) {
 			g_game.fd = net_connect_tcp( (char*) &g_game.sername, g_game.serport );
 			if( g_game.fd < 0) {
 				textmsg(M_ERR,_("Error while trying to connect to server '%s' at port %d"),g_game.sername,g_game.serport);
 				return TEG_STATUS_ERROR;
 			}
-
-		} else if( g_game.with_ggz ) {
-
-#ifdef WITH_GGZ
-			/* GGZ mode */
-			g_game.fd = ggz_client_connect();
-			if( g_game.fd < 0 ) {
-				textmsg(M_ERR,_("Error while trying to connect to GGZ client"));
-				return TEG_STATUS_ERROR;
-			}
-#endif /* WITH_GGZ */
 		} else if( g_game.already_connected )
 			g_game.fd = 3;
-
-		if( ! g_game.with_ggz ) {
-			out_pversion();
-		}
 
 		return TEG_STATUS_SUCCESS;
 	} else {
@@ -161,11 +143,6 @@ TEG_STATUS teg_disconnect()
 	player_flush();
 
 	if( g_game.fd > 0 ) {
-#if WITH_GGZ
-		if( g_game.with_ggz )
-			ggz_client_disconnect();
-		else
-#endif /* WITH_GGZ */
 			net_close( g_game.fd );
 		g_game.fd = -1;
 	}

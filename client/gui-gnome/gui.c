@@ -260,22 +260,13 @@ TEG_STATUS gui_main(void)
 	/* shows connection window */
 	connect_view();
 
-#ifdef WITH_GGZ
-	if( g_game.with_ggz && g_game.fd < 0)
-		return TEG_STATUS_ERROR;
-#endif /* WITH_GGZ */
-
 	gtk_main();
 	return TEG_STATUS_SUCCESS;
 }
 
 TEG_STATUS gui_disconnect(void)
 {
-	if( gui_private.tag_ggz >=0 )
-		g_source_remove( gui_private.tag_ggz );
-
 	gui_private.tag=-1;
-	gui_private.tag_ggz=-1;
 	set_sensitive_tb();
 
 	dices_unview();

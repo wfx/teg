@@ -66,7 +66,6 @@ typedef struct _server {
 	int port;		/* port to listen to (default: 2000) */
 	int max_players;	/* max players ( default: 6 ) */
 	int max_connections;	/* max connections ( default: 15 ) */
-	BOOLEAN with_ggz;	/* GGZ mode */
 
 	char metaserver_name[SERVER_NAMELEN];	/* metaserver name */
 	int metaserver_port;	/* port of metaserver */

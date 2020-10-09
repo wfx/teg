@@ -13,7 +13,6 @@ endif
 INCLUDES = -I$(top_srcdir)/common -I../intl	\
 	@CLIENT_CFLAGS@					\
 	@XML_CFLAGS@					\
-	@GGZMOD_INCLUDES@				\
 	-DBINDIR=\"$(bindir)\"				\
 	-DTHEMEDIR=\"$(datadir)/pixmaps/teg_pix/themes/\"
 
@@ -36,8 +35,7 @@ libclient_a_SOURCES = \
 	ejer2.c ejer2.h		\
 	canje.c canje.h		\
 	themes.c themes.h	\
-	metaserver.c metaserver.h	\
-	ggz_client.c ggz_client.h
+	metaserver.c metaserver.h
 
 if CLIENT
 bin_PROGRAMS = tegclient
@@ -46,5 +44,5 @@ tegclient_SOURCES = \
 	main.c main.h
 
 tegclient_DEPENDENCIES = @gui_sources@/libguiclient.a libclient.a  ../common/libtegcommon.a $(INTLDEPS)
-tegclient_LDADD        = @gui_sources@/libguiclient.a @TEG_LIBGNOME_LIBS@ @GGZMOD_LDFLAGS@ @LIB_GGZMOD@ libclient.a  ../common/libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
+tegclient_LDADD        = @gui_sources@/libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a  ../common/libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
 endif

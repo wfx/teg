@@ -38,7 +38,6 @@
 #include "connect.h"
 #include "priv.h"
 #include "colors.h"
-#include "ggz_client.h"
 
 #define GNOME_PAD_SMALL 4
 
@@ -101,14 +100,7 @@ static TEG_STATUS connect_real()
 	                                               (GIOFunc) pre_client_recv,
 	                                               NULL, NULL );
 
-		if( !g_game.with_ggz ) {
-			out_id();
-		}
-#ifdef WITH_GGZ
-		else {
-			gui_private.tag_ggz = gdk_input_add( ggz_client_get_fd(), GDK_INPUT_READ, (GdkInputFunction) ggz_client_handle, (gpointer) NULL );
-		}
-#endif /* WITH_GGZ */
+		out_id();
 		countries_redraw_all();
 		return TEG_STATUS_SUCCESS;
 	}
@@ -169,13 +161,6 @@ void connect_view()
 	GtkWidget *book, *vbox, *list, *scrolled, *update;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
-
-#ifdef WITH_GGZ
-	if( g_game.with_ggz ) {
-		connect_real();
-		return;
-	}
-#endif /* WITH_GGZ */
 
 	connect_window = teg_dialog_new(_("Connect to server"),_("Connect to server")); 
 	gtk_dialog_add_buttons(GTK_DIALOG(connect_window),

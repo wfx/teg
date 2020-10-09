@@ -767,10 +767,6 @@ TEG_STATUS set_sensitive_tb(void)
 		gtk_widget_set_sensitive (SensiData.start_button, FALSE);
 	}
 
-	if( g_game.with_ggz ) {
-		gtk_widget_set_sensitive (connect_menu, FALSE);
-		gtk_widget_set_sensitive (SensiData.connect_button, FALSE);
-	} 
 	if( g_game.observer ) {
 		gtk_widget_set_sensitive (start_menu, FALSE);
 		gtk_widget_set_sensitive (SensiData.start_button, FALSE);

@@ -18,4 +18,4 @@ tegrobot_SOURCES = 		\
 
 
 tegrobot_DEPENDENCIES = ../client/libclient.a ../common/libtegcommon.a $(INTLDEPS)
-tegrobot_LDADD        = ../client/libclient.a @CLIENT_LIBS@ @GGZMOD_LDFLAGS@ @LIB_GGZMOD@ ../common/libtegcommon.a $(INTLLIBS) @XML_LIBS@
+tegrobot_LDADD        = ../client/libclient.a @CLIENT_LIBS@ ../common/libtegcommon.a $(INTLLIBS) @XML_LIBS@

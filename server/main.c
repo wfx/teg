@@ -169,7 +169,6 @@ void server_init( void )
 	g_server.port=TEG_DEFAULT_PORT;
 	g_server.debug=FALSE;
 	g_server.with_console=TRUE;
-	g_server.with_ggz=FALSE;
 	g_server.kick_unparent_robots=TRUE;
 }
 
@@ -348,9 +347,6 @@ void argument_init( int argc, char **argv)
 			fprintf(stderr, _("  -s, --seed SEED\tNew seed for random\n"));
 			fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
 			fprintf(stderr, _("  -c, --console BOOLEAN\tEnable the console or not (default 1)\n"));
-#ifdef WITH_GGZ
-			fprintf(stderr, _("  -g, --ggz\t\tEnable the GGZ mode (default OFF)\n"));
-#endif /* WITH_GGZ */
 			fprintf(stderr, _("  -m, --metaserver BOOLEAN\tPublish this server with the metaserver (default 0)\n"));
 			fprintf(stderr, _("  -d, --debug\tEnable verbosity in server\n"));
 			exit(0);
@@ -363,11 +359,6 @@ void argument_init( int argc, char **argv)
 			g_game.seed=atoi(option);
 		} else if ((option = get_option("--console",argv,&i,argc)) != NULL) {
 			g_server.with_console=atoi(option);
-#ifdef WITH_GGZ
-		} else if (is_option("--ggz",argv[i])) {
-			g_server.with_ggz=1;
-			g_server.with_console=FALSE;
-#endif /* WITH_GGZ */
 		} else if ((option = get_option("--metaserver",argv,&i,argc)) != NULL) {
 			g_server.metaserver_on=atoi(option);
 		} else if ( is_option("--debug",argv[i])) {
@@ -400,19 +391,10 @@ int main( int argc, char **argv)
 		printf( _("Type '%s' for more help\n"),TOKEN_HELP);
 		console_init();		/* initialize console */
 	} else {
-		if( !g_server.with_ggz )
-			printf(_("Standalone server.\n"));
-		else
-			printf(_("GGZ mode activated.\n"));
+		printf(_("Standalone server.\n"));
 	}
 
 	srand( g_game.seed );
-
-#ifdef WITH_GGZ
-	if( g_server.with_ggz )
-		return ggz_server_main_loop();
-	else
-#endif /* WITH_GGZ */
 
 	metaserver_publish();
 

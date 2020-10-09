@@ -428,13 +428,6 @@ TEG_STATUS aux_find_inaddr( PSPLAYER pJ )
 
 	strncpy(pJ->addr, _("Unknown"), sizeof(pJ->addr)-1);
 
-#ifdef WITH_GGZ
-	if(g_server.with_ggz) {
-		strncpy(pJ->addr, _("GGZ Client"), sizeof(pJ->addr)-1);
-		return TEG_STATUS_SUCCESS;
-	}
-#endif /* WITH_GGZ */
-
 	if( pJ->fd <= 0)
 		return TEG_STATUS_ERROR;
 

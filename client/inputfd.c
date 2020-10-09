@@ -52,7 +52,6 @@ TEG_STATUS clitok_lost( char *str );
 TEG_STATUS clitok_exit( char *str );
 TEG_STATUS clitok_pversion( char *str );
 TEG_STATUS clitok_sversion( char *str );
-TEG_STATUS clitok_ggz( char *str );
 TEG_STATUS clitok_serverfull(void);
 TEG_STATUS clitok_surrender(char *str);
 TEG_STATUS clitok_started(void);
@@ -94,9 +93,6 @@ struct {
 	{ TOKEN_PVERSION,	clitok_pversion	},
 	{ TOKEN_SVERSION,	clitok_sversion	},
 	{ TOKEN_SURRENDER,	clitok_surrender},
-#ifdef WITH_GGZ
-	{ TOKEN_GGZ,		clitok_ggz	},
-#endif /* WITH_GGZ */
 	{ TOKEN_SERVERFULL,	clitok_serverfull},
 	{ TOKEN_GAMEINPROGRESS,	clitok_started	},
 	{ TOKEN_KICK,		clitok_kick	},
@@ -1444,32 +1440,6 @@ error:
 	textmsg(M_ERR,"Error in clitok_new_round()");
 	return TEG_STATUS_ERROR;
 }
-
-/* avoids perdig effect */
-#ifdef WITH_GGZ
-TEG_STATUS clitok_ggz( char *str)
-{
-	int is_human=1;
-
-	if( !g_game.with_ggz )
-		goto error;
-
-	if( str && str[0] ) {
-		is_human = atoi(str);
-
-		g_game.observer = ! is_human;
-	}
-
-	out_pversion();
-	out_id();
-	return TEG_STATUS_SUCCESS;
-error:
-	textmsg(M_ERR,"Error in clitok_ggz()");
-	return TEG_STATUS_ERROR;
-}
-#endif /* WITH_GGZ */
-
-
 
 /*
  * 	code that interprets which fn to call

@@ -39,7 +39,6 @@
 #include "helper.h"
 #include "main.h"
 #include "missions.h"
-#include "ggz_server.h"
 #include "options.h"
 #include "metaserver.h"
 
