@@ -28,7 +28,7 @@
 #include <glib/gi18n.h>
 
 #include "gui.h"
-#include "client.h"
+#include "../client.h"
 
 #include "priv.h"
 #include "callbacks.h"
@@ -45,7 +45,7 @@
 #include "connect.h"
 #include "armies.h"
 #include "colors.h"
-#include "themes.h"
+#include "../themes.h"
 #include "g_scores.h"
 #include "locate_country.h"
 
