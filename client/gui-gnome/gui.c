@@ -293,31 +293,35 @@ TEG_STATUS gui_reconnected()
 	return TEG_STATUS_SUCCESS;
 }
 
+static void get_settings_into(char* dest, size_t dest_len,
+                              char const* name, char const* default_)
+{
+	gchar *string = g_settings_get_string( settings, name );
+	if( g_ascii_strcasecmp(string, "") )
+		strncpy(dest, string, dest_len-1);
+	else
+		strncpy(dest, default_, dest_len-1);
+	dest[dest_len-1] = 0;
+	g_free( string );
+
+}
+
 static TEG_STATUS get_default_values( void )
 {
-	gchar *string;
-
-	string = g_settings_get_string( settings, "playername" );
-	if( g_ascii_strcasecmp(string, "") )
-		strncpy(g_game.myname,string,PLAYERNAME_MAX_LEN);
-	else
-		strncpy(g_game.myname,getenv("LOGNAME"),PLAYERNAME_MAX_LEN);
-
-	g_free( string );
+	get_settings_into(g_game.myname, sizeof(g_game.myname),
+	                  "playername", getenv("LOGNAME"));
 
 	g_game.mycolor = g_settings_get_int( settings, "color" );
 
-	string = g_settings_get_string( settings, "servername" );
-	strncpy(g_game.sername,string,SERVER_NAMELEN);
-	g_free(string);
+	get_settings_into(g_game.sername, sizeof(g_game.sername),
+	                  "servername", "localhost");
 
 	g_game.msg_show = g_settings_get_int( settings, "msgshow" );
 	gui_private.msg_show_colors
 	  = g_settings_get_boolean (settings, "msgshow-with-color" );
 	gui_private.dialog_show = g_settings_get_int( settings, "dialog-show" );
-	string = g_settings_get_string( settings, "theme" );
-	strncpy( g_game.theme, string ,sizeof(g_game.theme) );
-	g_free( string );
+	get_settings_into(g_game.theme, sizeof(g_game.theme),
+	                  "theme", "m2");
 
 	g_game.robot_in_server = g_settings_get_boolean( settings,
 	                                                 "robot-in-server" );
