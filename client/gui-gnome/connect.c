@@ -145,7 +145,7 @@ void connect_view()
 	GtkWidget *frame;
         GtkAdjustment *adj;
 
-	connect_window = teg_dialog_new(_("Connect to server"),_("Connect to server")); 
+	connect_window = teg_dialog_new(_("Connect to server"),_("Connect to server"));
 	gtk_dialog_add_buttons(GTK_DIALOG(connect_window),
 	                       _("_OK"), 0, _("_Cancel"), 1,
 		NULL );

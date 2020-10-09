@@ -44,7 +44,7 @@
 /* FONTS */
 #define TEG_DIALOG_X	450
 #define TEG_DIALOG_Y	200
-#define TEG_DIALOG_Y_NEW 45
+#define TEG_DIALOG_Y_NEW 65
 
 void generic_window_set_parent (GtkWidget * dialog, GtkWindow   * parent)
 {
@@ -111,7 +111,7 @@ void teg_dialog( char* title, char* bigtitle, char* data )
 		0.0,
 		0.0,
 		(double) TEG_DIALOG_X,
-		45.0,
+	    TEG_DIALOG_Y_NEW,
 		"fill-color","black",
 		"stroke-color","black",
 		NULL);
@@ -119,7 +119,7 @@ void teg_dialog( char* title, char* bigtitle, char* data )
 	goo_canvas_rect_new(
 		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
 		0.0,
-		45.0,
+	    TEG_DIALOG_Y_NEW,
 		(double) TEG_DIALOG_X,
 		(double) TEG_DIALOG_Y,
 		"fill-color","light green",
@@ -186,9 +186,9 @@ GtkWidget* teg_dialog_new( char* title, char* bigtitle )
 		0.0,
 		0.0,
 		(double) TEG_DIALOG_X,
-		45.0,
-		"fill-color","black",
-		"stroke-color","black",
+	    TEG_DIALOG_Y_NEW,
+	    "fill-color", "black",
+	    "stroke-color", "black",
 		NULL);
 
 	goo_canvas_text_new(
@@ -211,19 +211,6 @@ GtkWidget* teg_dialog_new( char* title, char* bigtitle )
 
 	return dialog;
 }
-
-/**
- * @fn void dialog_close( GtkWidget *button, gpointer data )
- * Closes a generic dialog
- */
-void dialog_close( GtkWidget *button, gpointer data )
-{
-	GtkWidget *dialog = (GtkWidget*) data;
-
-	gtk_widget_destroy( dialog );
-	return;
-}
-
 
 void teg_dialog_gameover( int numjug, int mission )
 {
