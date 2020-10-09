@@ -34,8 +34,7 @@ libclient_a_SOURCES = \
 	reagrupe.c reagrupe.h	\
 	ejer2.c ejer2.h		\
 	canje.c canje.h		\
-	themes.c themes.h	\
-	metaserver.c metaserver.h
+	themes.c themes.h
 
 if CLIENT
 bin_PROGRAMS = tegclient

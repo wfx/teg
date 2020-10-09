@@ -145,7 +145,6 @@ void game_init()
 	pactos_init();
 	scores_init();
 	xmlscores_load();
-	metaserver_init();
 
 	g_game.connections = 0;
 	g_game.players = 0;
@@ -181,11 +180,6 @@ void server_exit( int sock )
 	player_flush();
 	printf(_("Goodbye.\n"));
 	exit(1);
-}
-
-void server_is_idle()
-{
-	metaserver_publish();
 }
 
 void main_loop( void )
@@ -244,7 +238,6 @@ void main_loop( void )
 				timeout.tv_sec = TIMEOUT_SEC;
 				timeout.tv_usec = 0;
 				gettimeofday( &timeofday_old, &tz );
-				server_is_idle();
 			}
 		}
 
@@ -262,7 +255,6 @@ void main_loop( void )
 			timeout.tv_sec = TIMEOUT_SEC;
 			timeout.tv_usec = 0;
 			gettimeofday( &timeofday_old, &tz );
-			server_is_idle();
 
 			continue;
 		}
@@ -395,8 +387,6 @@ int main( int argc, char **argv)
 	}
 
 	srand( g_game.seed );
-
-	metaserver_publish();
 
 	main_loop();
 

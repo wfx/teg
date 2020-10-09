@@ -23,7 +23,6 @@ tegserver_SOURCES = \
 	missions.c missions.h \
 	options.c options.h	\
 	xmlscores.c xmlscores.h	\
-	metaserver.c metaserver.h	\
 	fow.c fow.h
 
 

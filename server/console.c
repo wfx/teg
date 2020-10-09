@@ -67,7 +67,6 @@ STATIC TEG_STATUS con_kick(int, char*);
 STATIC TEG_STATUS con_view(int, char *);
 STATIC TEG_STATUS con_scores(int, char *);
 STATIC TEG_STATUS con_stats(int, char *);
-STATIC TEG_STATUS con_metaserver(int, char*);
 
 struct {
 	char *label;
@@ -86,7 +85,6 @@ struct {
 	{ TOKEN_KICK,		con_kick,	N_("kick player from the game") },
 	{ TOKEN_STATS,		con_stats,	N_("show players statistics") },
 	{ TOKEN_SCORES,		con_scores,	N_("show all-time high scores") },
-	{ TOKEN_METASERVER,	con_metaserver,	N_("metaservers options") },
 };
 #define	CONSOLE_TOKENS  (sizeof(con_tokens)/sizeof(con_tokens[0]))
 
@@ -165,11 +163,6 @@ STATIC TEG_STATUS con_save( int fd, char *unused)
 {
 	con_text_out_wop(M_INF,_("Not yet implemented\n"));
 	return TEG_STATUS_SUCCESS;
-}
-
-STATIC TEG_STATUS con_metaserver( int fd, char *str )
-{
-	return metaserver_parse(fd,str);
 }
 
 STATIC TEG_STATUS con_set(int fd, char*str)

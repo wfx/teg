@@ -40,6 +40,5 @@
 #include "main.h"
 #include "missions.h"
 #include "options.h"
-#include "metaserver.h"
 
 #endif /* __TEGS_SERVER_H */

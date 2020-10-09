@@ -245,7 +245,6 @@ AC_CONFIG_FILES([
 	docs/gnome-help/Makefile
 	docs/gnome-help/C/Makefile
 	docs/gnome-help/pl/Makefile
-	metaserver/Makefile
 	])
 AC_OUTPUT
 

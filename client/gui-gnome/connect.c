@@ -64,18 +64,6 @@ static GtkWidget *gametype_spinner_armies2=NULL;
 
 static GtkWidget *boton_color[TEG_MAX_PLAYERS] = { NULL, NULL, NULL, NULL, NULL, NULL };
 
-/* metaserver */
-static GtkListStore *metaserver_store;
-static void meta_list_callback(GtkTreeSelection *select, GtkTreeModel *model);
-static void meta_update_callback(GtkWidget *w, gpointer data);
-
-enum {
-	METASERVER_NAME,
-	METASERVER_PORT,
-	METASERVER_VERSION,
-	METASERVER_COMMENT,
-};
-
 static GIOChannel *channel = NULL;
 
 void shutdown_channel(void)
@@ -157,11 +145,6 @@ void connect_view()
 	GtkWidget *frame;
         GtkAdjustment *adj;
 
-	/* metaserver */
-	GtkWidget *book, *vbox, *list, *scrolled, *update;
-	GtkTreeSelection *selection;
-	GtkCellRenderer *renderer;
-
 	connect_window = teg_dialog_new(_("Connect to server"),_("Connect to server")); 
 	gtk_dialog_add_buttons(GTK_DIALOG(connect_window),
 	                       _("_OK"), 0, _("_Cancel"), 1,
@@ -171,15 +154,10 @@ void connect_view()
 	g_signal_connect (connect_window, "response",
 	                  G_CALLBACK (connect_button_con_cb), NULL);
 
-/* notebook: TEG Server Selection */
-	book = gtk_notebook_new();
+	GtkWidget *vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
-	                           (GTK_DIALOG(connect_window))), book,
+	                           (GTK_DIALOG(connect_window))), vbox,
 	                   TRUE, TRUE, 0);
-	label=gtk_label_new(_("TEG Server Selection"));
-	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	gtk_notebook_append_page(GTK_NOTEBOOK (book), vbox, label);
-
 
 	/* server options */
 	table = gtk_grid_new ();
@@ -214,7 +192,6 @@ void connect_view()
 	gtk_entry_set_text( GTK_ENTRY( con_entry_name ), g_game.myname);
 	gtk_grid_attach( GTK_GRID(table), con_entry_name, 1, 2, 1, 1 );
 
-
 	gtk_container_add(GTK_CONTAINER( frame), table );
 
 	/* launch localhost server */
@@ -226,42 +203,6 @@ void connect_view()
 	/* observer mode */
 	button_observe = gtk_check_button_new_with_label(_("Dont play, just observe"));
 	gtk_container_add(GTK_CONTAINER(vbox), button_observe);
-
-/* notebook: TEG Server Selection */
-	label=gtk_label_new(_("Metaserver"));
-	vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-	gtk_notebook_append_page(GTK_NOTEBOOK (book), vbox, label);
-
-	metaserver_store = gtk_list_store_new(4, G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING, G_TYPE_STRING );
-
-	list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(metaserver_store));
-	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
-	g_object_unref(metaserver_store);
-	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(list));
-
-	renderer = gtk_cell_renderer_text_new();
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
-		-1, _("Server Name"), renderer, "text", 0, NULL);
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
-		-1, _("Port"), renderer, "text", 1, NULL);
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
-		-1, _("Version"), renderer, "text", 2, NULL);
-	gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(list),
-		-1, _("Status"), renderer, "text", 3, NULL);
-
-	scrolled=gtk_scrolled_window_new(NULL,NULL);
-	gtk_container_add(GTK_CONTAINER(scrolled), list);
-	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-	gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
-
-	update=gtk_button_new_with_label(_("Update"));
-	gtk_box_pack_start(GTK_BOX(vbox), update, FALSE, FALSE, 2);
-
-	g_signal_connect(selection, "changed",
-			G_CALLBACK(meta_list_callback), NULL);
-	g_signal_connect(update, "clicked",
-			G_CALLBACK(meta_update_callback), NULL);
 
 /* end*/
 	gtk_widget_show_all(connect_window);
@@ -514,55 +455,4 @@ void gametype_view( void )
 	gtk_widget_show_all (gametype_dialog);
 	gtk_dialog_run (GTK_DIALOG (gametype_dialog));
 	gtk_widget_destroy (gametype_dialog);
-}
-
-
-/* metaserver helpers */
-static void meta_update_callback(GtkWidget *w, gpointer data)
-{
-	GtkTreeIter iter;
-	PMETASERVER pM;
-	PLIST_ENTRY l;
-
-	gtk_list_store_clear( metaserver_store );
-
-	if( metaserver_get_servers() != TEG_STATUS_SUCCESS )
-		return;
-
-	l = g_list_metaserver.Flink;
-
-	while( !IsListEmpty( &g_list_metaserver ) && (l != &g_list_metaserver) )
-	{
-		pM = (PMETASERVER) l;
-
-		gtk_list_store_append (metaserver_store, &iter);
-		gtk_list_store_set (metaserver_store, &iter,
-				METASERVER_NAME, pM->name,
-				METASERVER_PORT, pM->port,
-				METASERVER_VERSION, pM->version,
-				METASERVER_COMMENT, pM->comment,
-				-1 );
-
-		l = LIST_NEXT(l);
-	}
-
-	return ;
-}
-
-static void meta_list_callback(GtkTreeSelection *select, GtkTreeModel *dummy)
-{
-	GtkTreeIter it;
-	char *name;
-	int port;
-
-	if (!gtk_tree_selection_get_selected(select, NULL, &it))
-		return;
-
-	gtk_tree_model_get(GTK_TREE_MODEL(metaserver_store), &it,
-			METASERVER_NAME, &name,
-			METASERVER_PORT, &port,
-			-1);
-
-	gtk_entry_set_text( GTK_ENTRY( con_entry_server ), name);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(con_spinner_port), port);
 }

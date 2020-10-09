@@ -19,7 +19,7 @@ else
 RSUBDIRS =
 endif
 
-SUBDIRS= macros po common docs metaserver $(GSUBDIRS) $(SSUBDIRS) $(CSUBDIRS) $(RSUBDIRS)
+SUBDIRS= macros po common docs $(GSUBDIRS) $(SSUBDIRS) $(CSUBDIRS) $(RSUBDIRS)
 
 EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt ReleaseNotes.txt
 

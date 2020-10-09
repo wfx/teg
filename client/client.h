@@ -37,6 +37,5 @@
 #include "reagrupe.h"
 #include "ejer2.h"
 #include "canje.h"
-#include "metaserver.h"
 
 #endif /* __TEGC_CLIENT_H */

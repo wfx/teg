@@ -32,7 +32,6 @@ TEG_STATUS main_init()
 	g_game.human = 1;
 	player_init();
 	scores_init();
-	metaserver_init();
 	return TEG_STATUS_SUCCESS;
 }
 
