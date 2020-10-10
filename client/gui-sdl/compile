@@ -1,1 +1,0 @@
-gcc -H -c gui.c -o gui.o -I. -I.. -I../../common -I/usr/include/libxml2 -I/usr/include/SDL -D_REENTRANT
