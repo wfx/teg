@@ -33,9 +33,9 @@ BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
 	int result;
 
 	/* chequear que las tarjetas existan */
-	if( t1 >= COUNTRIES_CANT || t1 < 0 ||
-		t2 >= COUNTRIES_CANT || t2 < 0 ||
-		t3 >= COUNTRIES_CANT || t3 < 0  )
+	if( !(countrynumber_is_valid(t1) &&
+	      countrynumber_is_valid(t2) &&
+	      countrynumber_is_valid(t3)))
 		return FALSE;
 
 	/* chequear que las tarjetas sean del jugador */

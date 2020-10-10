@@ -65,6 +65,9 @@ void countries_initcountry( PCOUNTRY p );
 void countries_init();
 BOOLEAN country_libre( int i );
 
+/// \brief decides if the country number is valid.
+BOOLEAN countrynumber_is_valid(int country_number);
+
 /**! returns the name of 'country' */
 char * countries_get_name( int country );
 

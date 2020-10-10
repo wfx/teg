@@ -154,3 +154,8 @@ char * countries_get_name( int i )
 	else
 		return _( _unknown );
 }
+
+BOOLEAN countrynumber_is_valid(int country_number)
+{
+	return (country_number >= 0) && (country_number < COUNTRIES_CANT);
+}
