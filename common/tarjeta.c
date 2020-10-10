@@ -22,12 +22,16 @@
  * funciones para manejar a las tarjetas
  */
 
-#include "all.h"
+#include "tarjeta.h"
+
 #include <stdbool.h>
+
+#include "country.h"
 
 static bool card_belongs_to_player(int player, int country)
 {
-	return g_countries[country].tarjeta.numjug == player;
+	return countrynumber_is_valid(country)
+	       && g_countries[country].tarjeta.numjug == player;
 }
 
 /**
@@ -37,12 +41,6 @@ static bool card_belongs_to_player(int player, int country)
 BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
 {
 	int result;
-
-	/* chequear que las tarjetas existan */
-	if( !(countrynumber_is_valid(t1) &&
-	      countrynumber_is_valid(t2) &&
-	      countrynumber_is_valid(t3)))
-		return FALSE;
 
 	/* chequear que las tarjetas sean del jugador */
 	if(!(card_belongs_to_player(numjug, t1)&&

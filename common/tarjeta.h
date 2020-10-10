@@ -24,7 +24,7 @@
 #ifndef __TEG_TARJETA_H
 #define __TEG_TARJETA_H 
 
-#include "all.h"
+#include "common.h"
 
 #define TARJETA_NULL { {NULL,NULL}, 0, TRUE, FALSE }
 #define TARJETA_NULL_COMODIN { {NULL,NULL}, TARJ_COMODIN, -1, FALSE }

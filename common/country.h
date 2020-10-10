@@ -24,7 +24,8 @@
 #ifndef __TEG_COUNTRY_H
 #define __TEG_COUNTRY_H
 
-#include "all.h"
+#include "tarjeta.h"
+#include "cont.h"
 
 #define COUNTRYNAME_MAX_LEN	50
 #define COUNTRIES_CANT		50
