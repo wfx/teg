@@ -23,6 +23,12 @@
  */
 
 #include "all.h"
+#include <stdbool.h>
+
+static bool card_belongs_to_player(int player, int country)
+{
+	return g_countries[country].tarjeta.numjug == player;
+}
 
 /**
  * @fn BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
@@ -39,9 +45,9 @@ BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
 		return FALSE;
 
 	/* chequear que las tarjetas sean del jugador */
-	if(!( g_countries[t1].tarjeta.numjug == numjug &&
-		g_countries[t2].tarjeta.numjug == numjug &&
-		g_countries[t3].tarjeta.numjug == numjug ))
+	if(!(card_belongs_to_player(numjug, t1)&&
+	     card_belongs_to_player(numjug, t2) &&
+	     card_belongs_to_player(numjug, t3) ))
 		return FALSE;
 
 	result = g_countries[t1].tarjeta.tarjeta + g_countries[t2].tarjeta.tarjeta + g_countries[t3].tarjeta.tarjeta ;
