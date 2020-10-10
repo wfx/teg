@@ -27,7 +27,7 @@
 #define TEG_MAX_CONNECTIONS 15
 #define TEG_DEFAULT_PORT	2000
 #define PLAYERNAME_MAX_LEN	50
-#define PLAYERADDR_MAX_LEN	80
+#define PLAYERADDR_MAX_LEN	(sizeof "ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255")
 #define SERVER_NAMELEN 50
 #define TEG_MAX_TARJETAS 5
 #define DICES_CANT	(6)

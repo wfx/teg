@@ -128,8 +128,10 @@ SERVER_LIBS="$SERVER_LIBS $TEG_COMMONLIBS_LIBS"
 AC_SUBST(SERVER_CFLAGS)
 AC_SUBST(SERVER_LIBS)
 
-dnl Checks for inet_ntop function. MacOSX seems to not have it
-AC_CHECK_LIB(c, inet_ntop, [AC_DEFINE([HAVE_INET_NTOP], 1, [Check for ntop availability])])
+dnl Checks for inet_ntop function. If this test fails, you can resurrect the
+dnl code which got removed with the commit of this comment.
+AC_CHECK_LIB(c, inet_ntop, [], [AC_MSG_ERROR("Can't find the required inet_ntop function.")])
+
 
 AC_CHECK_LIB(nls,main)
 
