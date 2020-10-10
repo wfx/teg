@@ -315,7 +315,7 @@ void colortype_view( char *c)
 
 		/* UGLY: I know that boton_color[i] is used... */
 		gtk_widget_set_sensitive( button, !c[i] );
-		if( !c[i] & first_active ) {
+		if( (!c[i]) && first_active ) {
 			first_active = 0;
 			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (boton_color[i]), TRUE);
 		}
