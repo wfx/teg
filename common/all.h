@@ -40,7 +40,6 @@
 #include "cont.h"
 #include "country.h"
 #include "missions.h"
-#include "pactos.h"
 #include "scores.h"
 #include "stats.h"
 #include "xml_support.h"

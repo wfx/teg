@@ -105,7 +105,6 @@ void game_new()
 
 	countries_init();
 	mission_init();
-	pactos_flush();
 
 	player_map( player_initplayer );
 	player_all_set_status( PLAYER_STATUS_HABILITADO );
@@ -142,7 +141,6 @@ void game_init()
 {
 	player_init();
 	color_init();
-	pactos_init();
 	scores_init();
 	xmlscores_load();
 

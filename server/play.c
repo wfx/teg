@@ -589,9 +589,6 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 		goto error;
 	}
 
-	if( pactos_attack( src, dst ) != TEG_STATUS_SUCCESS )
-		goto error;
-
 	/* aviso a todos que hay un attack */
 	if( ! g_game.fog_of_war )
 		netall_printf( "%s=%d,%d\n",TOKEN_ATAQUE,src,dst );

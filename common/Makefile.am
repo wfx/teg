@@ -24,7 +24,6 @@ libtegcommon_a_SOURCES = 	\
 	limitrof.h		\
 	cont.c cont.h		\
 	missions.c missions.h	\
-	pactos.c pactos.h	\
 	stats.c stats.h		\
 	scores.c scores.h 	\
 	my_inet_ntop.c my_inet_ntop.h	\
