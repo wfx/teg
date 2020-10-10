@@ -1,4 +1,3 @@
-## Process this file with automake to produce Makefile.in
 noinst_LIBRARIES = libguiclient.a
 INCLUDES = \
 	$(TEG_LIBGNOME_CFLAGS)				\

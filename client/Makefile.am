@@ -1,23 +1,10 @@
-## Process this file with automake to produce Makefile.in
-
-
-if CLIENT
-PIXSUBDIRS = teg_pix themes
-GUI_SUBDIR = gui-gnome
-else
-PIXSUBDIRS =
-GUI_SUBDIR =
-endif
-
-
 INCLUDES = -I$(top_srcdir)/common -I../intl	\
 	@CLIENT_CFLAGS@					\
 	@XML_CFLAGS@					\
 	-DBINDIR=\"$(bindir)\"				\
 	-DTHEMEDIR=\"$(datadir)/pixmaps/teg_pix/themes/\"
 
-SUBDIRS= $(PIXSUBDIRS) $(GUI_SUBDIR)
-
+SUBDIRS = teg_pix themes gui-gnome
 
 noinst_LIBRARIES = libclient.a
 libclient_a_SOURCES = \
@@ -36,12 +23,10 @@ libclient_a_SOURCES = \
 	canje.c canje.h		\
 	themes.c themes.h
 
-if CLIENT
 bin_PROGRAMS = tegclient
 
 tegclient_SOURCES = \
 	main.c main.h
 
-tegclient_DEPENDENCIES = @gui_sources@/libguiclient.a libclient.a  ../common/libtegcommon.a $(INTLDEPS)
-tegclient_LDADD        = @gui_sources@/libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a  ../common/libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
-endif
+tegclient_DEPENDENCIES = gui-gnome/libguiclient.a libclient.a  ../common/libtegcommon.a $(INTLDEPS)
+tegclient_LDADD        = gui-gnome/libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a  ../common/libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@

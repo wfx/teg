@@ -1,5 +1,3 @@
-## Process this file with automake to produce Makefile.in
-
 bin_PROGRAMS = tegserver
 INCLUDES = -I$(top_srcdir)/common -I../intl \
 	@SERVER_CFLAGS@					\

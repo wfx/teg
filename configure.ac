@@ -45,69 +45,24 @@ else
   fi
 fi
 
-dnl  no=do not compile server,  yes=compile server,  *=error
-AC_ARG_ENABLE(server,
-[  --disable-server        do not compile the server],
-[case "${enableval}" in
-  yes) server=true ;;
-  no)  server=false ;;
-  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-server) ;;
-esac], [server=true])
-AM_CONDITIONAL(SERVER, test x$server = xtrue)
-
 AC_ARG_WITH(readline,
 [  --with-readline         support fancy command line editing in server],
 WITH_READLINE=$withval,	dnl yes/no - required to use / never use
 WITH_READLINE="maybe"	dnl maybe  - use if found [default]
 )
 
-dnl  no=do not compile server,  yes=compile server,  *=error
-AC_ARG_ENABLE(robot,
-[  --disable-robot         do not compile the robot],
-[case "${enableval}" in
-  yes) robot=true ;;
-  no)  robot=false ;;
-  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-robot) ;;
-esac], [robot=true])
-AM_CONDITIONAL(ROBOT, test x$robot = xtrue)
-
-
-dnl  no=do not compile client,  yes=compile client,  *=error
-AC_ARG_ENABLE(client,
-[  --disable-client        do not compile the client],
-[case "${enableval}" in
-  yes) client=true ;;
-  no)  client=false ;;
-  *)   AC_MSG_ERROR(bad value ${enableval} for --disable-client) ;;
-esac], [client=true])
-AM_CONDITIONAL(CLIENT, test x$client = xtrue)
-
 GLIB_GSETTINGS
 
-dnl does the robot needs something special ???
-dnl if test x$robot = xtrue; then
-dnl fi
-
-if test x$client = xtrue; then
-	PKG_CHECK_MODULES(TEG_LIBGNOME, goocanvas-2.0)
-	AC_SUBST(TEG_LIBGNOME_CFLAGS)
-	AC_SUBST(TEG_LIBGNOME_LIBS)
-fi
+PKG_CHECK_MODULES(TEG_LIBGNOME, goocanvas-2.0)
+AC_SUBST(TEG_LIBGNOME_CFLAGS)
+AC_SUBST(TEG_LIBGNOME_LIBS)
 
 
-gui_sources="gui-gnome"
 CLIENT_CFLAGS="$CLIENT_CFLAGS $TEG_COMMONLIBS_CFLAGS"
 CLIENT_LIBS="$CLIENT_LIBS $TEG_COMMONLIBS_LIBS"
 
-AC_SUBST(gui_sources)
 AC_SUBST(CLIENT_CFLAGS)
 AC_SUBST(CLIENT_LIBS)
-AM_CONDITIONAL(CLIENT_GUI_NULL, test "$gui_sources" = "gui-null")
-AM_CONDITIONAL(CLIENT_GUI_GNOME, test "$gui_sources" = "gui-gnome")
-
-
-dnl Programs already checked by AM_INIT_AUTOMAKE:
-dnl  AC_PROG_MAKE_SET
 
 dnl I18n support
 GETTEXT_PACKAGE=teg
@@ -250,13 +205,6 @@ AC_OUTPUT
 
 dnl Status Output
 dnl =============
-echo "
-Configuration:
-
-	Compile server:	  		   ${server}
-	Compile gnome-client:	  	   ${client}
-	Compile robot:	  	  	   ${robot}
-"
 echo ""
 echo "Are you ready for the Empanada Experience ?"
 echo "Type \`make'"
