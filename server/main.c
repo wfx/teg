@@ -38,13 +38,7 @@
 #include "xmlscores.h"
 
 
-#undef DEBUG_MAIN
-
-#ifdef DEBUG_MAIN
-# define MAIN_DEBUG(x...) PDEBUG(x)
-#else
-# define MAIN_DEBUG(x)
-#endif
+#define MAIN_DEBUG PDEBUG
 
 /*
  * private variables

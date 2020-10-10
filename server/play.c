@@ -31,12 +31,11 @@
 #include "fow.h"
 
 #undef DEBUG_PLAY
+#define PLAY_DEBUG PDEBUG
 
 #ifdef DEBUG_PLAY
-# define PLAY_DEBUG(x...) PDEBUG(x)
 # define STATIC
 #else
-# define PLAY_DEBUG(x...)
 # define STATIC static
 #endif
 

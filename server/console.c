@@ -41,11 +41,11 @@
 
 #undef DEBUG_CONSOLE
 
+#define CONSOLE_DEBUG PDEBUG
+
 #ifdef DEBUG_CONSOLE
-# define CONSOLE_DEBUG(x...) PDEBUG(x)
 # define STATIC
 #else
-# define CONSOLE_DEBUG(x...)
 # define STATIC static
 #endif
 

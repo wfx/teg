@@ -27,14 +27,7 @@
 #include <assert.h>
 #include "server.h"
 
-
-#undef DEBUG_TURNO
-
-#ifdef DEBUG_TURNO
-# define TURNO_DEBUG(x...) PDEBUG(x)
-#else
-# define TURNO_DEBUG(x...)
-#endif
+#define TURNO_DEBUG PDEBUG
 
 /* Gives turn to the next player */
 TEG_STATUS turno_2nextplayer( PSPLAYER *ppJ )
