@@ -5,7 +5,7 @@ test -z "$srcdir" && srcdir=.
 
 PKG_NAME="Tenes Empanadas Graciela"
 
-(test -f $srcdir/configure.in \
+(test -f $srcdir/configure.ac \
   && test -f $srcdir/ChangeLog \
   && test -d $srcdir/client) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
