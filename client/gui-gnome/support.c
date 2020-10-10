@@ -292,3 +292,11 @@ gchar *translate_to_utf8(const gchar *string )
 
 	return output_string_pointer;
 }
+
+void string_copy(char* dest, size_t destlen, char const* source)
+{
+	if(destlen == 0)
+		return;
+	strncpy(dest, source, destlen-1);
+	dest[destlen-1] = 0;
+}
