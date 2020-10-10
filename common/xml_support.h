@@ -18,11 +18,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TEG_XML_SUPPORT_H
-#define __TEG_XML_SUPPORT_H
+#ifndef TEG_XML_SUPPORT_H
+#define TEG_XML_SUPPORT_H
 
-/* I don't know, but I tried with forward declarations and didn't work either */
-void* xml_get_element_children( void* );
-void* xml_get_element_next( void* );
+#include <libxml/tree.h>
+
+xmlNodePtr xml_get_element_children(xmlNodePtr);
+xmlNodePtr xml_get_element_next(xmlNodePtr);
 
 #endif /* __TEG_XML_SUPPORT_H */
