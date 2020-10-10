@@ -296,14 +296,12 @@ TEG_STATUS gui_reconnected()
 static void get_settings_into(char* dest, size_t dest_len,
                               char const* name, char const* default_)
 {
-	gchar *string = g_settings_get_string( settings, name );
-	if( g_ascii_strcasecmp(string, "") )
-		strncpy(dest, string, dest_len-1);
-	else
-		strncpy(dest, default_, dest_len-1);
-	dest[dest_len-1] = 0;
-	g_free( string );
-
+	gchar *string = g_settings_get_string(settings, name);
+	char const * source = g_ascii_strcasecmp(string, "") != 0
+	                      ? string
+	                      : default_;
+	string_copy(dest, dest_len, source);
+	g_free(string);
 }
 
 static TEG_STATUS get_default_values( void )

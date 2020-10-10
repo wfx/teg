@@ -100,8 +100,8 @@ static void connect_button_con_cb(GtkDialog *dialog, gint id, gpointer user_data
         if ( id != 0 )
                 return;
 
-	strncpy(g_game.myname,gtk_entry_get_text(GTK_ENTRY(con_entry_name)),PLAYERNAME_MAX_LEN);
-	strncpy(g_game.sername,gtk_entry_get_text(GTK_ENTRY(con_entry_server)),SERVER_NAMELEN);
+	string_copy(g_game.myname, sizeof(g_game.myname), gtk_entry_get_text(GTK_ENTRY(con_entry_name)));
+	string_copy(g_game.sername, sizeof(g_game.sername), gtk_entry_get_text(GTK_ENTRY(con_entry_server)));
 	g_game.serport = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(con_spinner_port));
 
 	g_game.observer = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
