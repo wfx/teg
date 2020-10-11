@@ -186,7 +186,6 @@ AC_CONFIG_FILES([
 	Makefile
 	po/Makefile.in
 	po/Makefile
-	server/Makefile 
 	client/Makefile 
 	client/teg_pix/Makefile 
 	client/themes/Makefile 
