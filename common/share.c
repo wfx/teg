@@ -24,6 +24,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef ENABLE_NLS
+#	include <locale.h>
+#endif
+
 #include "all.h"
 #include "share.h"
 
