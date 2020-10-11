@@ -51,3 +51,6 @@ compile
 # Something else
 *.Po
 Makefile
+ABOUT-NLS
+*~
+config.rpath
