@@ -24,5 +24,5 @@ tegserver_SOURCES = \
 	fow.c fow.h
 
 
-tegserver_DEPENDENCIES = ../common/libtegcommon.a $(INTLDEPS)
-tegserver_LDADD        = ../common/libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
+tegserver_DEPENDENCIES = ../libtegcommon.a $(INTLDEPS)
+tegserver_LDADD        = ../libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@

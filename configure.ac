@@ -2,7 +2,7 @@ dnl configure.ac for teg
 AC_PREREQ([2.53])
 
 AC_INIT([Tenes Empanadas Graciela], [0.11.2], [teg-list@lists.sourceforge.net], [teg])
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE(subdir-objects)
 AC_CONFIG_SRCDIR([server/main.c])
 AC_CONFIG_MACRO_DIR([macros])
 AC_CONFIG_HEADERS([config.h])
@@ -186,7 +186,6 @@ AC_CONFIG_FILES([
 	Makefile
 	po/Makefile.in
 	po/Makefile
-	common/Makefile 
 	server/Makefile 
 	client/Makefile 
 	client/teg_pix/Makefile 

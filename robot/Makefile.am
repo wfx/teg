@@ -15,5 +15,5 @@ tegrobot_SOURCES = 		\
 	ai_fichas.c ai_fichas.h
 
 
-tegrobot_DEPENDENCIES = ../client/libclient.a ../common/libtegcommon.a $(INTLDEPS)
-tegrobot_LDADD        = ../client/libclient.a @CLIENT_LIBS@ ../common/libtegcommon.a $(INTLLIBS) @XML_LIBS@
+tegrobot_DEPENDENCIES = ../client/libclient.a ../libtegcommon.a $(INTLDEPS)
+tegrobot_LDADD        = ../client/libclient.a @CLIENT_LIBS@ ../libtegcommon.a $(INTLLIBS) @XML_LIBS@

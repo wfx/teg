@@ -28,5 +28,5 @@ bin_PROGRAMS = tegclient
 tegclient_SOURCES = \
 	main.c main.h
 
-tegclient_DEPENDENCIES = gui-gnome/libguiclient.a libclient.a  ../common/libtegcommon.a $(INTLDEPS)
-tegclient_LDADD        = gui-gnome/libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a  ../common/libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
+tegclient_DEPENDENCIES = gui-gnome/libguiclient.a libclient.a ../libtegcommon.a $(INTLDEPS)
+tegclient_LDADD        = gui-gnome/libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a ../libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
