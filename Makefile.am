@@ -1,4 +1,4 @@
-SUBDIRS = . po client/themes client/teg_pix
+SUBDIRS = . docs po client/themes client/teg_pix
 
 EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt \
     ReleaseNotes.txt $(gsettings_SCHEMAS) $(RESOURCE)
