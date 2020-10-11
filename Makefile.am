@@ -1,4 +1,4 @@
-SUBDIRS=po . robot client/themes client/teg_pix
+SUBDIRS = . po client/themes client/teg_pix
 
 EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt \
     ReleaseNotes.txt $(gsettings_SCHEMAS) $(RESOURCE)
@@ -7,7 +7,7 @@ EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt \
 ACLOCAL_FLAGS = -I `pwd`/macros
 
 noinst_LIBRARIES = libtegcommon.a libclient.a libguiclient.a
-bin_PROGRAMS = tegserver tegclient
+bin_PROGRAMS = tegserver tegclient tegrobot
 
 data_desktopdir = $(datadir)/applications
 dist_data_desktop_DATA = client/gui-gnome/teg.desktop
@@ -15,7 +15,7 @@ dist_data_desktop_DATA = client/gui-gnome/teg.desktop
 data_convertdir = $(datadir)/GConf/gsettings
 dist_data_convert_DATA = client/gui-gnome/teg.convert
 
-libtegcommon_a_SOURCES = @XML_CFLAGS@
+libtegcommon_a_CPPFLAGS = @XML_CFLAGS@
 libtegcommon_a_SOURCES = 	\
 	common/all.h			\
 	common/net.c common/net.h		\
@@ -135,3 +135,21 @@ stock_gresources.h:  $(RESOURCE) $(shell \
 gsettings_SCHEMAS = client/gui-gnome/net.sf.teg.gschema.xml
 
 @GSETTINGS_RULES@
+
+tegrobot_CPPFLAGS = \
+	@CLIENT_CFLAGS@	\
+	@XML_CFLAGS@ \
+	-I$(top_srcdir)/common -I$(top_srcdir)/client
+
+tegrobot_SOURCES = 		\
+	robot/main.c robot/main.h		\
+	robot/gui.c robot/gui.h		\
+	robot/ai.c robot/ai.h		\
+	robot/dijkstra.c robot/dijkstra.h	\
+	robot/ai_msg.c robot/ai_msg.h	\
+	robot/ai_misc.c robot/ai_misc.h	\
+	robot/ai_fichas.c robot/ai_fichas.h
+
+
+tegrobot_DEPENDENCIES = libclient.a libtegcommon.a $(INTLDEPS)
+tegrobot_LDADD        = libclient.a @CLIENT_LIBS@ libtegcommon.a $(INTLLIBS) @XML_LIBS@

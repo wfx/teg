@@ -191,7 +191,6 @@ AC_CONFIG_FILES([
 	client/themes/m2/Makefile 
 	client/themes/sentimental/Makefile 
 	client/themes/draco/Makefile
-	robot/Makefile
 	docs/Makefile
 	docs/gnome-help/Makefile
 	docs/gnome-help/C/Makefile
