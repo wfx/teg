@@ -184,7 +184,6 @@ AC_MSG_RESULT(Yeah!)
 
 AC_CONFIG_FILES([
 	Makefile
-	macros/Makefile
 	po/Makefile.in
 	po/Makefile
 	common/Makefile 

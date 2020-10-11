@@ -1,4 +1,4 @@
-SUBDIRS= macros po common docs server client robot
+SUBDIRS=po common docs server client robot
 
 EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt ReleaseNotes.txt
 
