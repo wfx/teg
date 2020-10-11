@@ -1,4 +1,3 @@
-/*	$Id: helper.c,v 1.10 2004/08/04 13:03:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -464,16 +463,6 @@ TEG_STATUS aux_find_inaddr( PSPLAYER pJ )
 	case AF_UNIX:
 		strncpy(pJ->addr,"127.0.0.1",sizeof(pJ->addr)-1);
 		break;
-#if 0
-	       {
-		struct sockaddr_un *unp = (struct sockaddr_un *) sa;
-		if(unp->sun_path[0]==0)
-			strncpy(pJ->addr,_("Unknown"),sizeof(pJ->addr)-1);
-		else
-			snprintf(pJ->addr, sizeof(pJ->addr)-1, "%s", unp->sun_path);
-		break;
-		}
-#endif
 	default:
 		break;
 	}

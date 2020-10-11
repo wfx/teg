@@ -1,4 +1,3 @@
-/*	$Id: callbacks.c,v 1.70 2006/03/12 09:56:04 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

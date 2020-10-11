@@ -1,4 +1,3 @@
-/*	$Id: support.c,v 1.36 2006/03/14 12:34:18 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -298,11 +297,7 @@ gchar *translate_to_utf8(const gchar *string )
 	output_length = (input_length << 1);
 	output_string = output_string_pointer = g_malloc(output_length);
 
-#if defined __GLIBC__ && __GLIBC_MINOR__ <= 1
-	iconv(iconv_base, (const gchar **) &input_string, &input_length, &output_string, &output_length);
-#else
 	iconv(iconv_base, &input_string, &input_length, &output_string, &output_length);
-#endif
 
 	free( input_string_pointer );
 	

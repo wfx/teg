@@ -1,4 +1,3 @@
-/*	$Id: xml_support.c,v 1.1 2002/08/31 16:07:03 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada

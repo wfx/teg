@@ -1,4 +1,3 @@
-/*	$Id: dices.c,v 1.27 2002/08/31 17:45:58 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -97,16 +96,11 @@ static TEG_STATUS dices_load()
 		return TEG_STATUS_SUCCESS;
 
 	for(i=0;i<DICES_CANT;i++) {
-#ifdef XML_WORKS_OK
-		if(!dices[i])
-			dices_load_from_file (gui_theme.dices_file[i],i);
-#else
 		char name[40];
 		memset(name,0,sizeof(name));
 		snprintf(name,sizeof(name)-1,"dice-%d.png",i+1);
 		if(!dices[i])
 			dices_load_from_file (name,i);
-#endif /* !XML_WORKS_OK */
 	}
 
 	return TEG_STATUS_SUCCESS;

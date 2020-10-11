@@ -1,4 +1,3 @@
-/*	$Id: protocol.h,v 1.37 2002/09/08 07:53:40 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

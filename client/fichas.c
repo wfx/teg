@@ -1,4 +1,3 @@
-/*	$Id: fichas.c,v 1.22 2006/03/12 16:24:34 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

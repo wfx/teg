@@ -1,4 +1,3 @@
-/*	$Id: parser.c,v 1.7 2001/11/10 15:40:19 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -82,7 +81,6 @@ analiza( int *pos,		/* En que pos corto la cadena */
 				break;
 		}
 
-/*		out[i]=tolower(in[i]); */
 		out[j++]=in[i];
 		out[j]=0;
 	}
@@ -120,7 +118,6 @@ int parser_call( PPARSER p_in )
 	case PARSER_IGUAL:
 	{
 		int j;
-//		pval = analiza( &j, &p_in->data[i+1], p_in->value, p_in->igualador, p_in->separador, PARSER_VALUE_MAX );
 		pval = analiza( &j, &p_in->data[i+1], p_in->value, &delim_null, p_in->separador, PARSER_VALUE_MAX );
 
 		if( pval==PARSER_IGUAL || pval==PARSER_ERROR )

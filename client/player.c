@@ -1,4 +1,3 @@
-/*	$Id: player.c,v 1.1 2002/09/09 14:09:14 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -49,8 +48,6 @@ TEG_STATUS player_update( PCPLAYER j )
 {
 	PCPLAYER i;
 
-/*	textmsg(M_DBG,"jugdor_upt(%d):%s",j->numjug,j->name); */
-
 	if( player_whois( j->numjug, &i ) != TEG_STATUS_SUCCESS )
 		goto error; 
 
@@ -68,8 +65,6 @@ PCPLAYER player_ins( PCPLAYER j)
 	PCPLAYER new = (PCPLAYER) malloc( sizeof(CPLAYER) );
 	if( new==NULL)
 		return NULL;
-
-/*	textmsg(M_DBG,"jugdor_ins(%d):%s",j->numjug,j->name); */
 
 	memmove( new, j, sizeof(CPLAYER));
 	InitializeListHead( &new->next );

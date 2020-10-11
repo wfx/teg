@@ -1,5 +1,3 @@
-/*	$Id: fonts.h,v 1.7 2004/02/08 20:49:05 riq Exp $	*/
-
 // Ok, let me explain
 // Pango might be excellent, but it doesn't support fonts with a fixed size in pixels!!!!
 // And gnome-canvas 2 uses pango for everything

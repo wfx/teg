@@ -1,4 +1,3 @@
-/*	$Id: metaserver.c,v 1.15 2006/04/04 21:49:17 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: turno.c,v 1.37 2002/09/09 03:52:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -64,39 +63,6 @@ TEG_STATUS turno_2nextplayer( PSPLAYER *ppJ )
 	con_text_out_wop(M_ERR,"Abnormal error in turno_2nextplayer\n");
 	return TEG_STATUS_PLAYERNOTFOUND;
 }
-
-/**
- * @fn TEG_STATUS turno_2prevplayer( PSPLAYER *ppJ )
- * Gives turn to the previous player (used when the a player leaves the game)
- */
-#if 0
-TEG_STATUS turno_2prevplayer( PSPLAYER *ppJ )
-{
-	PSPLAYER pJ;
-	PLIST_ENTRY first_node = (PLIST_ENTRY)*ppJ;
-	PLIST_ENTRY l = LIST_PREV( (*ppJ));
-
-	TURNO_DEBUG("Old turn: '%s'\n",(*ppJ)->name);
-
-	g_game.old_turn = *ppJ;
-
-	if( IsListEmpty( first_node ) )
-		return TEG_STATUS_ERROR;
-
-	while( l != first_node ) {
-		pJ = (PSPLAYER) l;
-		if( (l != &g_list_player) && player_is_playing(pJ) ) {
-			(*ppJ) = pJ;
-			TURNO_DEBUG("New turn: '%s'\n",pJ->name);
-			return TEG_STATUS_SUCCESS;
-		}
-		l = LIST_PREV(l);
-	}
-
-	con_text_out_wop(M_ERR,"Abnormal error in turno_2prevplayer\n");
-	return TEG_STATUS_PLAYERNOTFOUND;
-}
-#endif
 
 /* Ends the player turn */
 TEG_STATUS turno_end( PSPLAYER pJ )

@@ -1,4 +1,3 @@
-/*	$Id: client.h,v 1.16 2002/09/07 19:25:56 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

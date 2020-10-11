@@ -1,4 +1,3 @@
-/*	$Id: player.c,v 1.7 2006/03/16 21:59:34 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -258,15 +257,6 @@ TEG_STATUS player_give_turn_away( PSPLAYER pJ )
 		}
 	}
 
-#if 0
-	/* XXX: Dont do this, the last player may skip his turn */
-
-	/* si el player empezo el turno, digo que lo empezo el anterior */
-	if( g_game.empieza_turno && g_game.empieza_turno->numjug == pJ->numjug ) {
-		turno_2prevplayer( &g_game.empieza_turno );
-	}
-#endif
-
 	pJ->estado = status;
 
 	return TEG_STATUS_SUCCESS;
@@ -312,8 +302,6 @@ TEG_STATUS player_del_soft( PSPLAYER pJ )
 		player_give_turn_away( pJ );
 		pJ->estado = PLAYER_STATUS_GAMEOVER;
 	}
-
-/*	player_initplayer( pJ ); */
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -597,12 +585,6 @@ TEG_STATUS player_poner_perdio( PSPLAYER pJ )
 		g_game.playing--;
 
 	pJ->estado = PLAYER_STATUS_GAMEOVER;
-
-#if 0
-	if( g_game.empieza_turno && g_game.empieza_turno->numjug == pJ->numjug ) {
-		turno_2prevplayer( &g_game.empieza_turno );
-	}
-#endif
 
 	return TEG_STATUS_SUCCESS;
 }

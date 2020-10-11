@@ -1,4 +1,3 @@
-/*	$Id: ggz_client.h,v 1.1 2002/10/13 23:29:08 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2002 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: parser.h,v 1.6 2001/10/01 03:31:42 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

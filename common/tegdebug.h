@@ -1,4 +1,3 @@
-/*	$Id: tegdebug.h,v 1.4 2001/10/01 03:31:42 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

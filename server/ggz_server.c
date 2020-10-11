@@ -1,4 +1,3 @@
-/*	$Id: ggz_server.c,v 1.4 2006/05/22 06:41:12 dr_maux Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: status.h,v 1.11 2002/09/13 05:38:59 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

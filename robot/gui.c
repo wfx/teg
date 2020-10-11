@@ -1,4 +1,3 @@
-/*	$Id: gui.c,v 1.52 2002/10/06 03:25:35 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: outputfd.c,v 1.48 2002/08/31 17:45:57 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -302,15 +301,3 @@ TEG_STATUS out_robot()
 	}
 	return TEG_STATUS_ERROR;
 }
-
-/*
- * functions no longer in this file
- */
-/* 
- * TEG_STATUS out_reagrupe( int src, int dst, int cant)
- * TEG_STATUS out_ejer2( int country )
- * TEG_STATUS out_canje( int p1, int p2, int p3 )
- * TEG_STATUS out_fichas()
- * TEG_STATUS out_attack()
- * TEG_STATUS out_reattack();
- */

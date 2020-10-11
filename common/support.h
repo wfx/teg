@@ -1,4 +1,3 @@
-/*	$Id: support.h,v 1.1 2000/03/01 04:51:53 riq Exp $	*/
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify

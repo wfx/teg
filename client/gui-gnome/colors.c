@@ -1,4 +1,3 @@
-/*	$Id: colors.c,v 1.16 2004/10/04 19:47:49 wfx Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

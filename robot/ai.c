@@ -1,4 +1,3 @@
-/*	$Id: ai.c,v 1.29 2006/03/13 22:55:51 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

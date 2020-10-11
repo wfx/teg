@@ -1,5 +1,4 @@
 #!/usr/bin/python
-#		$Id: tegmetaserver.py,v 1.13 2002/11/14 11:29:33 riq Exp $
 """
  Tenes Empanadas Graciela
 

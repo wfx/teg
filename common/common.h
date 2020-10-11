@@ -1,4 +1,3 @@
-/*	$Id: common.h,v 1.42 2002/09/19 03:19:26 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: g_country.c,v 1.3 2003/08/30 04:34:39 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

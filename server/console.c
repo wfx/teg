@@ -1,4 +1,3 @@
-/*	$Id: console.c,v 1.57 2002/09/10 12:17:40 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

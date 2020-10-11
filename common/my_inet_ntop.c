@@ -32,12 +32,6 @@ const char * my_inet_ntop(int af, const void *src, char*dst, size_t size)
 
 #else /* ! HAVE_INET_NTOP */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static const char rcsid[] = "$Id: my_inet_ntop.c,v 1.1 2002/07/23 03:29:32 riq Exp $";
-#endif /* LIBC_SCCS and not lint */
-
-/*#include "port_before.h"*/
-
 #include <sys/param.h>
 #include <sys/socket.h>
 
@@ -48,8 +42,6 @@ static const char rcsid[] = "$Id: my_inet_ntop.c,v 1.1 2002/07/23 03:29:32 riq E
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-
-/*#include "port_after.h"*/
 
 #define NS_INT16SZ      2
 #define NS_IN6ADDRSZ   16

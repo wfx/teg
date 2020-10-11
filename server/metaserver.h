@@ -1,4 +1,3 @@
-/*	$Id: metaserver.h,v 1.3 2002/09/01 22:01:50 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
