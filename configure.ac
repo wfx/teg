@@ -186,14 +186,11 @@ AC_CONFIG_FILES([
 	Makefile
 	po/Makefile.in
 	po/Makefile
-	client/Makefile 
 	client/teg_pix/Makefile 
 	client/themes/Makefile 
 	client/themes/m2/Makefile 
 	client/themes/sentimental/Makefile 
 	client/themes/draco/Makefile
-	client/gui-gnome/Makefile 
-	client/gui-gnome/stock/Makefile 
 	robot/Makefile
 	docs/Makefile
 	docs/gnome-help/Makefile
