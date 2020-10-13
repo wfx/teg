@@ -35,7 +35,6 @@
 #include "net.h"
 #include "parser.h"
 #include "version.h"
-#include "support.h"
 #include "tarjeta.h"
 #include "cont.h"
 #include "country.h"
