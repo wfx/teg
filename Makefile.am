@@ -119,7 +119,7 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/robot.xpm
 
 CLEANFILES = stock_gresources.h stock_gresources.c
-RESOURCE = client/gui-gnome/stock.gresource.xml
+RESOURCE = $(srcdir)/client/gui-gnome/stock.gresource.xml
 
 $(srcdir)/client/gui-gnome/stock.c: stock_gresources.h stock_gresources.c
 stock_gresources.c: $(RESOURCE) stock_gresources.h $(shell \
