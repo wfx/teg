@@ -3,7 +3,6 @@ SUBDIRS = . docs po client/themes client/teg_pix
 EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt \
     ReleaseNotes.txt $(gsettings_SCHEMAS) $(RESOURCE)
 
-
 ACLOCAL_FLAGS = -I `pwd`/macros
 
 noinst_LIBRARIES = libtegcommon.a libclient.a libguiclient.a
@@ -14,6 +13,9 @@ dist_data_desktop_DATA = client/gui-gnome/teg.desktop
 
 data_convertdir = $(datadir)/GConf/gsettings
 dist_data_convert_DATA = client/gui-gnome/teg.convert
+
+check_PROGRAMS = tegtest
+TESTS = $(check_PROGRAMS)
 
 libtegcommon_a_CPPFLAGS = @XML_CFLAGS@
 libtegcommon_a_SOURCES = 	\
@@ -32,7 +34,7 @@ libtegcommon_a_SOURCES = 	\
 	common/cont.c common/cont.h		\
 	common/missions.c common/missions.h	\
 	common/stats.c common/stats.h		\
-	common/scores.c common/scores.h 	\
+        common/scores.c common/scores.h 	\
 	common/my_inet_ntop.c common/my_inet_ntop.h	\
 	common/xml_support.c common/xml_support.h
 
@@ -152,3 +154,7 @@ tegrobot_SOURCES = 		\
 
 tegrobot_DEPENDENCIES = libclient.a libtegcommon.a $(INTLDEPS)
 tegrobot_LDADD        = libclient.a @CLIENT_LIBS@ libtegcommon.a $(INTLLIBS) @XML_LIBS@
+
+tegtest_CPPFLAGS = @XML_CFLAGS@
+tegtest_SOURCES = common/xml_support_check.cpp
+tegtest_LDADD = -lgmock_main -lgtest -lgmock libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ -lpthread

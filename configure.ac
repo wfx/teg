@@ -27,7 +27,6 @@ AC_SUBST(XML_CFLAGS)
 AC_SUBST(XML_LIBS)
 AC_SUBST(MSGFMT_OPTS)
 
-
 dnl Evaluate options. Example:
 AC_ARG_ENABLE(debug,
  	[  --enable-debug[=no/minimum/yes] 

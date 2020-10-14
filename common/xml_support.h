@@ -23,7 +23,15 @@
 
 #include <libxml/tree.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 xmlNodePtr xml_get_element_children(xmlNodePtr);
 xmlNodePtr xml_get_element_next(xmlNodePtr);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __TEG_XML_SUPPORT_H */
