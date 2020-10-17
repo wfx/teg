@@ -166,18 +166,24 @@ if test -n "$WITH_EFENCE"; then
   fi])
 fi
 
+if test -r .gitignore ; then
+    SLEEP=true
+else
+    SLEEP=sleep
+fi
+
 dnl Chequear si tiene empanadas.
 AC_MSG_CHECKING([whether you have Empanadas de carne criolla])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Super!)
 AC_MSG_CHECKING([whether you have Empanadas de verdura])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Cool!)
 AC_MSG_CHECKING([whether you have Empanadas de jamon y queso])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Buenichimo!)
 AC_MSG_CHECKING([whether you have Empanadas de carne picante])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Yeah!)
 
 
