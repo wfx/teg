@@ -40,7 +40,6 @@ typedef struct _country {
 	CONTINENTE continente;			/**< continente al que pertenece */
 	TARJETA tarjeta;			/**< tipo de dibujo de tarjeta */
 	int selected;				/**< util para la gui. Dice si esta seleccionado */
-	void *private;				/**< reserved for gui */
 } COUNTRY, *PCOUNTRY;
 
 enum {
