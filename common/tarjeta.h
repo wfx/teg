@@ -55,6 +55,7 @@ typedef struct _tarjeta {
  * Funciones y varialbes exportadas
  */
 bool card_belongs_to_player(int player, int country);
+bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c);
 
 BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 );
 void tarjeta_init( void );

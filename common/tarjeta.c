@@ -34,27 +34,31 @@ bool card_belongs_to_player(int player, int country)
 	       && g_countries[country].tarjeta.numjug == player;
 }
 
+bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
+{
+	TARJTIPO result = a + b + c;
+	return ( result > TARJ_COMODIN ||
+	    result==TARJ_CANION + TARJ_GLOBO + TARJ_GALEON ||
+	    result==TARJ_CANION * 3 ||
+	    result==TARJ_GLOBO * 3 ||
+	    result==TARJ_GALEON * 3 );
+}
+
 /**
  * @fn BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
  * Dice si es correcto el canje con las tarjetas t1,t2 y t3
  */
 BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
 {
-	int result;
-
 	/* chequear que las tarjetas sean del jugador */
 	if(!(card_belongs_to_player(numjug, t1)&&
 	     card_belongs_to_player(numjug, t2) &&
 	     card_belongs_to_player(numjug, t3) ))
 		return FALSE;
 
-	result = g_countries[t1].tarjeta.tarjeta + g_countries[t2].tarjeta.tarjeta + g_countries[t3].tarjeta.tarjeta ;
-
-	return ( result > TARJ_COMODIN || 
-		result==TARJ_CANION + TARJ_GLOBO + TARJ_GALEON ||
-		result==TARJ_CANION * 3 ||
-		result==TARJ_GLOBO * 3 ||
-		result==TARJ_GALEON * 3 );
+	return can_trade_cards(g_countries[t1].tarjeta.tarjeta,
+	                       g_countries[t2].tarjeta.tarjeta,
+	                       g_countries[t3].tarjeta.tarjeta);
 }
 
 void tarjeta_init( void )
