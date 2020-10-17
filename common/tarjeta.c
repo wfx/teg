@@ -25,6 +25,7 @@
 #include "tarjeta.h"
 
 #include <stdbool.h>
+#include <stddef.h>
 
 #include "country.h"
 
@@ -36,12 +37,13 @@ bool card_belongs_to_player(int player, int country)
 
 bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
 {
-	TARJTIPO result = a + b + c;
-	return ( result > TARJ_COMODIN ||
-	    result==TARJ_CANION + TARJ_GLOBO + TARJ_GALEON ||
-	    result==TARJ_CANION * 3 ||
-	    result==TARJ_GLOBO * 3 ||
-	    result==TARJ_GALEON * 3 );
+	TARJTIPO result = a | b | c;
+
+	return (result & TARJ_COMODIN) // at least one joker
+	        || (result == TARJ_GALEON)
+	        || (result == TARJ_CANION)
+	        || (result == TARJ_GLOBO)
+	        || (result == (TARJ_GALEON | TARJ_CANION | TARJ_GLOBO));
 }
 
 /**

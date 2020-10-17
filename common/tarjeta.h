@@ -38,7 +38,7 @@ typedef enum {
 	TARJ_GALEON = 1,		/**< valor del galeon */
 	TARJ_CANION = 4,		/**< valor del canion */
 	TARJ_GLOBO = 8,			/**< valor del globo */
-	TARJ_COMODIN = 32,		/**< valor del comodin */
+	TARJ_COMODIN = 16,		/**< valor del comodin */
 } TARJTIPO, *PTARJTIPO;
 
 typedef struct _tarjeta {
