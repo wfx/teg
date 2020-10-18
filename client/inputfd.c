@@ -1035,19 +1035,13 @@ TEG_STATUS clitok_scores( char *str)
 	p.separador = &separador;
 	p.data = str;
 
-	scores_flush();
+	scores_init();
 
 	do {
 		if( (i=parser_call( &p )) ) {
 			if( aux_scores( &score, p.token ) != TEG_STATUS_SUCCESS )
 				goto error;
-
-			pS = malloc( sizeof(*pS));
-			if( ! pS )
-				goto error;
-
-			*pS = score;
-			scores_insert_score( pS );
+			insert_score(&score);
 		}
 	} while( i && p.hay_otro);
 

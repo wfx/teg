@@ -46,51 +46,48 @@
 #endif
 
 
-static PSCORES parseScore(xmlDocPtr doc, xmlNodePtr cur)
+static bool parseScore(xmlDocPtr doc, xmlNodePtr cur, PSCORES ret)
 {
-	PSCORES ret = NULL;
 	xmlChar *val;
 
-	ret = (PSCORES) malloc(sizeof(SCORES));
-
-	if (ret == NULL) {
-		fprintf(stderr,_("Out of memory\n"));
-		return(NULL);
-	}
-	
 	memset(ret, 0, sizeof(*ret));
 
 	val = xmlGetProp(cur, (const xmlChar *) "name");
-	if (val == NULL)
+	if (val == NULL) {
 		fprintf(stderr, ("Score has no name\n"));
-	else
+		return false;
+	} else
 		strncpy( (char*)ret->name, (char*)val, sizeof(ret->name) -1 );
 
 	val =  xmlGetProp(cur, (const xmlChar *) "color");
-	if ( val == NULL)
+	if ( val == NULL) {
 		fprintf(stderr, ("Score has no color\n"));
-	else
+		return false;
+	} else
 		ret->color = atoi( (char*)val );
 
 	val = xmlGetProp(cur, (const xmlChar *) "points");
-	if ( val == NULL)
+	if ( val == NULL) {
 		fprintf(stderr, ("Score has no score\n"));
-	else
+		return false;
+	} else
 		ret->score = atoi( (char*)val );
 
 	val = xmlGetProp(cur, (const xmlChar *) "date");
-	if (val == NULL)
+	if (val == NULL) {
 		fprintf(stderr, ("Score has no date\n"));
-	else
+		return false;
+	} else
 		strncpy( ret->date, (char*)val, sizeof(ret->date) -1 );
 
 	val = xmlGetProp(cur, (const xmlChar *) "human");
-	if (val == NULL)
+	if (val == NULL) {
 		fprintf(stderr, ("Score has no human\n"));
-	else
+		return false;
+	} else
 		ret->human = atoi( (char*)val );
 
-	return(ret);
+	return true;
 }
 
 TEG_STATUS xmlscores_load( void )
@@ -98,7 +95,6 @@ TEG_STATUS xmlscores_load( void )
 	char filename[512];
 	xmlDocPtr doc;
 	xmlNodePtr cur;
-	PSCORES curscore;
 
 	/*
 	 * build an XML tree from a the file;
@@ -134,12 +130,11 @@ TEG_STATUS xmlscores_load( void )
 
 	while( cur != NULL ) {
 		if ( !xmlStrcmp(cur->name, (const xmlChar *) "score") ) {
-			curscore = parseScore( doc, cur );
-			if (curscore != NULL)
-				scores_insert_score(curscore);
-		}
-
-		else {
+			SCORES score;
+			if(parseScore(doc, cur, &score)) {
+				insert_score(&score);
+			}
+		} else {
 			fprintf(stderr,("Wrong type (%s). score was expected\n"), cur->name);
 			goto error;
 		}
@@ -191,20 +186,13 @@ void xmlscores_save(void)
 	xmlFreeDoc(doc);
 }
 
-
 /* creates a new node with the correct values */
-static PSCORES new_score_node( PSPLAYER pJ )
+static void new_score_node(PSPLAYER pJ, PSCORES pS)
 {
-	PSCORES pS = NULL;
 	time_t tt;
 	struct tm *t;
 
-	pS = (PSCORES) malloc( sizeof(*pS) );
-	if( !pS )
-		return NULL;
-
 	memset( pS,0,sizeof(*pS) );
-	InitializeListHead( &pS->next );
 
 	pS->score = pJ->player_stats.score;
 	pS->color = pJ->color;
@@ -223,14 +211,10 @@ static PSCORES new_score_node( PSPLAYER pJ )
 		);
 
 	pS->date[ sizeof(pS->date) -1 ] = '\0';
-	return pS;
 }
 
 TEG_STATUS scores_insert_player( PSPLAYER pJ )
 {
-	PSCORES pS_new;
-	TEG_STATUS s;
-
 	if( ! pJ->is_player )
 		return TEG_STATUS_ERROR;
 
@@ -239,14 +223,13 @@ TEG_STATUS scores_insert_player( PSPLAYER pJ )
 	if( pJ->player_stats.score == 0 && pJ->player_stats.armies_killed == 0 )
 		return TEG_STATUS_ERROR;
 
-	if( (pS_new = new_score_node( pJ )) == NULL)
-		return TEG_STATUS_NOMEM;
-
-	s = scores_insert_score( pS_new );
+	SCORES score;
+	new_score_node(pJ, &score);
+	insert_score(&score);
 
 	xmlscores_save();
 
-	return s;
+	return TEG_STATUS_SUCCESS;
 }
 
 struct AppendString

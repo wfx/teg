@@ -17,82 +17,80 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file score.c
- * High Scores functions
- */
+
+#include "scores.h"
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stddef.h>
 #include <assert.h>
 #include <unistd.h>
 #include <time.h>
 
 #include "common.h"
-#include "scores.h"
-
-static LIST_ENTRY g_list_scores;	/**< top 5 score list */
 
 
-/* ownership is yielded */
-TEG_STATUS scores_insert_score( PSCORES pS_new )
+static struct HighScores highscores;
+
+void insert_score(SCORES const* score)
 {
-	int position = 0;
-	PSCORES pS;
-	PLIST_ENTRY l = g_list_scores.Flink;
+	insert_highscore(&highscores, score);
+}
 
-	while( !IsListEmpty(&g_list_scores) && l != &g_list_scores && position < SCORES_MAX ) {
-		pS = (PSCORES) l;
-
-		if( pS_new->score > pS->score ) {
-			InsertHeadList( (PLIST_ENTRY) pS->next.Blink, (PLIST_ENTRY) pS_new );
-			return TEG_STATUS_SUCCESS;
+void insert_highscore(struct HighScores* hs, SCORES const* score)
+{
+	size_t insert_pos;
+	for(insert_pos = 0;
+	    /* *** WARNING *** this loop can walk one element past the array.
+		 *
+		 * The code in the loop jumps out if the test index goes behind the
+		 * valid array elements. When you change this code, make sure to not
+		 * access invalid elements (index >= count) */
+	    (insert_pos <= hs->count);
+	    insert_pos++)
+	{
+		if (insert_pos >= SCORES_MAX) {
+			// the new high score is lower (or equal) to each existing one
+			return;
 		}
 
-		position++;
-		l = LIST_NEXT(l);
+		if((insert_pos >= hs->count) // behind the last existing element
+
+		   // the existing element has a lower score
+		   || (score->score > hs->highscores[insert_pos].score)) {
+			// we found the insertion point
+			break;
+		}
 	}
 
-	/* If we reach this, its because we must insert the node at the tail */
-	/* or because the list is empty */
-
-	if( position < SCORES_MAX )
-		InsertTailList( &g_list_scores, (PLIST_ENTRY) pS_new );
-
-	return TEG_STATUS_SUCCESS;
-}
-
-TEG_STATUS scores_map(scores_map_func func, void* user)
-{
-	PLIST_ENTRY l = g_list_scores.Flink;
-	PSCORES pS;
-
-	assert(func);
-
-	while( !IsListEmpty( &g_list_scores) && (l != &g_list_scores) ) {
-		pS = (PSCORES) l;
-		(func)(pS, user);
-
-		l = LIST_NEXT(l);
+	if(hs->count < (SCORES_MAX)) {
+		// The highscore list is not full, so expand it
+		hs->count++;
 	}
-	return TEG_STATUS_SUCCESS;
-}
 
-TEG_STATUS scores_init()
-{
-	InitializeListHead( &g_list_scores);
-	return TEG_STATUS_SUCCESS;
-}
-
-TEG_STATUS scores_flush()
-{
-	PLIST_ENTRY tmp;
-
-	while( !IsListEmpty( &g_list_scores) ) {
-
-		tmp = RemoveHeadList( &g_list_scores );
-		free(tmp);
-
+	// do we need to move existing elements?
+	if(insert_pos < (hs->count-1)) {
+		assert(hs->count > 1);
+		for(size_t i=(hs->count-1); i>insert_pos; i--)
+		{
+			assert(i >= 1);
+			hs->highscores[i] = hs->highscores[i-1];
+		}
 	}
-	return TEG_STATUS_SUCCESS;
+
+	// put the new highscore into its place
+	hs->highscores[insert_pos] = *score;
+}
+
+void scores_map(scores_map_func func, void* user)
+{
+	for(size_t i=0; i < highscores.count; i++) {
+		func(highscores.highscores+i, user);
+	}
+}
+
+void scores_init()
+{
+	highscores.count = 0;
 }

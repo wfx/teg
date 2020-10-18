@@ -34,8 +34,6 @@ extern "C" {
 
 typedef struct _scores
 {
-	LIST_ENTRY next;
-
 	char name[PLAYERNAME_MAX_LEN];	/**< name of the player */
 	int color;			/**< color used */
 	char date[SCORES_DATE_MAX];	/**< date of the game */
@@ -43,18 +41,24 @@ typedef struct _scores
 	int score;
 } SCORES, * PSCORES;
 
+struct HighScores
+{
+	size_t count; ///< the amount of valid high scores
+	SCORES highscores[SCORES_MAX]; ///< the actual highscore list
+};
+
 /**! insert a score in the table */
-TEG_STATUS scores_insert_score( PSCORES score );
+void insert_score(SCORES const* score);
+
+// Helper to make the highscore code easier to test
+void insert_highscore(struct HighScores* hs, SCORES const* score);
 
 /**! initialize the scores */
-TEG_STATUS scores_init();
+void scores_init();
 
 /**! a map function over the scores. (like in functional programming) */
-typedef void(*scores_map_func)( PSCORES pJ, void* user);
-TEG_STATUS scores_map(scores_map_func func , void *user);
-
-/*! flush the list of scores */
-TEG_STATUS scores_flush();
+typedef void(*scores_map_func)(PSCORES pJ, void* user);
+void scores_map(scores_map_func func, void *user);
 
 #ifdef __cplusplus
 }
