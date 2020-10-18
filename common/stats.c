@@ -27,13 +27,12 @@
 
 #include <string.h>
 
-TEG_STATUS stats_init( PPLAYER_STATS s )
+void stats_init(PPLAYER_STATS s)
 {
 	memset( s, 0, sizeof(*s) );
-	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS stats_score( PPLAYER_STATS s )
+void stats_score(PPLAYER_STATS s)
 {
 	int i;
 
@@ -44,6 +43,4 @@ TEG_STATUS stats_score( PPLAYER_STATS s )
 	/* points for defending continents */
 	for(i=0;i<CONT_CANT;i++)
 		s->score += s->continents_turn[i] * g_conts[i].fichas_x_cont;
-
-	return TEG_STATUS_SUCCESS;
 }

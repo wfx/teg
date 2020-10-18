@@ -17,10 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file stats.h
- * Statistics for the players
- */
 #ifndef __TEG_STATS_H
 #define __TEG_STATS_H
 
@@ -38,10 +34,10 @@ typedef struct _player_stats
 } PLAYER_STATS, *PPLAYER_STATS;
 
 
-/* prototypes */
 /*! initialize the scores */
-TEG_STATUS stats_init( PPLAYER_STATS s );
+void stats_init(PPLAYER_STATS s);
+
 /*! calculate the score */
-TEG_STATUS stats_score( PPLAYER_STATS s );
+void stats_score(PPLAYER_STATS s);
 
 #endif /* __TEG_STATS_H */
