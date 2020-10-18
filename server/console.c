@@ -121,8 +121,9 @@ STATIC TEG_STATUS con_stats( int unused, char* unused2)
 
 
 /* shows all the scores */
-STATIC void con_scores_show( PSCORES pS )
+STATIC void con_scores_show(PSCORES pS, void* unused)
 {
+	(void) unused;
 	int color;
 	color = ( ( pS->color >= TEG_MAX_PLAYERS || pS->color < 0 ) ? TEG_MAX_PLAYERS : pS->color );
 	printf("  %4d   %s   %-15s   %-8s %s\n",
@@ -138,7 +139,7 @@ STATIC void con_scores_show( PSCORES pS )
 STATIC TEG_STATUS con_scores( int unused, char* unused2 )
 {
 	printf (_("  score  date       time    name              color    human\n"));
-	scores_map( con_scores_show );
+	scores_map(con_scores_show, NULL);
 	return TEG_STATUS_SUCCESS;
 }
 

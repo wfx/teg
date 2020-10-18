@@ -62,7 +62,7 @@ TEG_STATUS scores_insert_score( PSCORES pS_new )
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS scores_map( scores_map_func func )
+TEG_STATUS scores_map(scores_map_func func, void* user)
 {
 	PLIST_ENTRY l = g_list_scores.Flink;
 	PSCORES pS;
@@ -71,7 +71,7 @@ TEG_STATUS scores_map( scores_map_func func )
 
 	while( !IsListEmpty( &g_list_scores) && (l != &g_list_scores) ) {
 		pS = (PSCORES) l;
-		(func)(pS);
+		(func)(pS, user);
 
 		l = LIST_NEXT(l);
 	}

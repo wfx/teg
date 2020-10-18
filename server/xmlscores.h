@@ -26,8 +26,8 @@
 /*! loads the scores from and xml file */
 TEG_STATUS xmlscores_load( void );
 
-/*! saves the scores to and xml file from a PLIST_ENTRY */
-TEG_STATUS xmlscores_save( PLIST_ENTRY pL_orig );
+/*! Save the current high scores into the home directory. */
+void xmlscores_save(void);
 
 /*! insert a score from a SPLAYER structure */
 TEG_STATUS scores_insert_player( PSPLAYER pJ );

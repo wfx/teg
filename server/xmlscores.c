@@ -180,37 +180,29 @@ static TEG_STATUS xmlscores_add( xmlNodePtr parent, PSCORES pS )
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS xmlscores_save( PLIST_ENTRY pL_orig )
+static void save_single_score(PSCORES pS, void* user)
+{
+	xmlNodePtr node = (xmlNodePtr) user;
+	xmlscores_add(node, pS);
+}
+
+void xmlscores_save(void)
 {
 	xmlDocPtr doc;
 	xmlNodePtr child;
-	PLIST_ENTRY pL = pL_orig->Flink;
 	char filename[512];
-
-	PSCORES pS;
 
 	doc = xmlNewDoc((xmlChar*)"1.0");
 
 	child = xmlNewDocRawNode( doc, NULL, (xmlChar*)"teg_scores", NULL );
 
-	/* whats the difference between xmlNewDocRawNode & SetRootElement */
 	xmlDocSetRootElement( doc, child );
-
-	while( !IsListEmpty( pL_orig ) && (pL != pL_orig) ) {
-		pS = (PSCORES) pL;
-
-		xmlscores_add( child, pS );
-
-		pL = LIST_NEXT(pL);
-	}
-
+	scores_map(save_single_score, (void*) child);
 
 	snprintf( filename, sizeof(filename)-1,"%s/%s/server_scores.xml",g_get_home_dir(),TEG_DIRRC);
 	filename[ sizeof(filename)-1 ] = 0;
 
 	xmlSaveFile( filename , doc );
-
-	return TEG_STATUS_SUCCESS;
 }
 
 
@@ -268,7 +260,7 @@ TEG_STATUS scores_insert_player( PSPLAYER pJ )
 
 	s = scores_insert_score( pS_new );
 
-	xmlscores_save( scores_get_list() );
+	xmlscores_save();
 
 	return s;
 }
