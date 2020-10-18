@@ -46,6 +46,7 @@ typedef struct _tarjeta {
 	BOOLEAN usada;			/**< si se pusieron las 2 fichas del country */
 } TARJETA, *PTARJETA;
 
+/// \todo: Remove this dangerous macro
 #define COUNTRY_FROM_TARJETA( pT ) ( ((char*)(pT)) - (( ((char*)&((PCOUNTRY)pT)->tarjeta) - ((char*)pT) )))
 
 /* 
