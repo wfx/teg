@@ -17,14 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file scores.h
- */
 
-#ifndef __TEG_COMMON_SCORES_H
-#define __TEG_COMMON_SCORES_H
+#pragma once
 
 #include "stats.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define SCORES_DATE_MAX (40)
 
@@ -57,4 +57,6 @@ TEG_STATUS scores_map(scores_map_func func , void *user);
 /*! flush the list of scores */
 TEG_STATUS scores_flush();
 
-#endif /* __TEG_COMMONG_SCORES_H */
+#ifdef __cplusplus
+}
+#endif
