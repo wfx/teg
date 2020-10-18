@@ -23,6 +23,8 @@
 #ifndef __TEG_COMMON_H
 #define __TEG_COMMON_H
 
+#include <stddef.h>
+
 #define TEG_MAX_PLAYERS 6
 #define TEG_MAX_CONNECTIONS 15
 #define TEG_DEFAULT_PORT	2000
@@ -247,5 +249,12 @@ TEG_STATUS strip_invalid_msg( char *n );
 
 /**! like atoi, but if ! s, returns -1 */
 int my_atoi( char * s);
+
+/** @brief Copies a string respecting the size limit of the destination buffer.
+ *
+ * This function copies up to \p destlen bytes from \p source to \p dest. When
+ * the size limit is hit, it places a terminating zero byte at the end of the
+ * target buffer (unless \p destlen is 0). */
+void string_copy(char* dest, size_t destlen, char const* source);
 
 #endif /* __TEG_COMMON_H */

@@ -158,3 +158,11 @@ int my_atoi( char *s )
 		return -1;
 	return atoi( s );
 }
+
+void string_copy(char* dest, size_t destlen, char const* source)
+{
+	if(destlen == 0)
+		return;
+	strncpy(dest, source, destlen-1);
+	dest[destlen-1] = 0;
+}
