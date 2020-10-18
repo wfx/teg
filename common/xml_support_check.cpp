@@ -64,3 +64,25 @@ TEST_F(TegXmlTest, get_sibling)
 	xmlNodePtr const nothing = xml_get_element_next(baz3);
 	EXPECT_EQ(nullptr, nothing);
 }
+
+TEST_F(TegXmlTest, add_numeric_attribute)
+{
+	add_numeric_attribute(root, "zero", 0);
+	add_numeric_attribute(root, "min", std::numeric_limits<int>::min());
+	add_numeric_attribute(root, "max", std::numeric_limits<int>::max());
+	add_numeric_attribute(root, "twentythree", 23);
+
+	auto gp = [this](const char* name) -> std::string {
+		auto value = xmlGetProp(root, reinterpret_cast<xmlChar const*>(name));
+		if (value != nullptr)
+			return std::string(reinterpret_cast<char *>(value));
+		else {
+			return "<NULL>";
+		}
+	};
+
+	EXPECT_EQ("0", gp("zero"));
+	EXPECT_EQ(std::to_string(std::numeric_limits<int>::min()), gp("min"));
+	EXPECT_EQ(std::to_string(std::numeric_limits<int>::max()), gp("max"));
+	EXPECT_EQ("23", gp("twentythree"));
+}

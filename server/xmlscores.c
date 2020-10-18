@@ -153,31 +153,15 @@ error:
 	return TEG_STATUS_ERROR;
 }
 
-static TEG_STATUS xmlscores_add( xmlNodePtr parent, PSCORES pS )
+static void xmlscores_add(xmlNodePtr parent, PSCORES pS)
 {
-	xmlNodePtr child;
-	char buffer[512];
-
-	child = xmlNewTextChild( parent , NULL, (xmlChar*)"score", NULL ); 
+	xmlNodePtr child = xmlNewTextChild( parent , NULL, (xmlChar*)"score", NULL );
 
 	xmlSetProp( child, (xmlChar*)"name", (xmlChar*)pS->name );
-
-	snprintf(buffer,sizeof(buffer)-1,"%d", pS->stats.score );
-	buffer[ sizeof(buffer) -1 ] = 0;
-	xmlSetProp( child, (xmlChar*)"points", (xmlChar*)buffer);
-
-	snprintf(buffer,sizeof(buffer)-1,"%d", pS->color);
-	buffer[ sizeof(buffer) -1 ] = 0;
-	xmlSetProp( child, (xmlChar*)"color", (xmlChar*)buffer );
-
+	add_numeric_attribute(child, "points", pS->stats.score);
+	add_numeric_attribute(child, "color", pS->color);
 	xmlSetProp( child, (xmlChar*)"date", (xmlChar*)pS->date );
-
-	snprintf(buffer,sizeof(buffer)-1,"%d", pS->human);
-	buffer[ sizeof(buffer) -1 ] = 0;
-	xmlSetProp( child, (xmlChar*)"human", (xmlChar*)buffer );
-
-
-	return TEG_STATUS_SUCCESS;
+	add_numeric_attribute(child, "human", pS->human);
 }
 
 static void save_single_score(PSCORES pS, void* user)

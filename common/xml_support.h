@@ -18,8 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef TEG_XML_SUPPORT_H
-#define TEG_XML_SUPPORT_H
+#pragma once
 
 #include <libxml/tree.h>
 
@@ -30,8 +29,14 @@ extern "C" {
 xmlNodePtr xml_get_element_children(xmlNodePtr);
 xmlNodePtr xml_get_element_next(xmlNodePtr);
 
+/**
+ * @brief Add an attribute with a number to an existing xml node.
+ * @param node The xml node to add the attribute to
+ * @param name the name of the attribute
+ * @param number the number to store
+ */
+void add_numeric_attribute(xmlNodePtr node, char const* name, int number);
+
 #ifdef __cplusplus
 }
 #endif
-
-#endif /* __TEG_XML_SUPPORT_H */
