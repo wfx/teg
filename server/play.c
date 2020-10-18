@@ -640,8 +640,8 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 	}
 
 	/* update the scores */
-	stats_score( &pJ_src->player_stats );
-	stats_score( &pJ_dst->player_stats );
+	stats_score( &pJ_src->player_stats, g_conts );
+	stats_score( &pJ_dst->player_stats, g_conts );
 
 	/* tell everybody the result of the attack */
 

@@ -32,7 +32,7 @@ void stats_init(PPLAYER_STATS s)
 	memset( s, 0, sizeof(*s) );
 }
 
-void stats_score(PPLAYER_STATS s)
+void stats_score(PPLAYER_STATS s, CONT const* continents)
 {
 	int i;
 
@@ -42,5 +42,5 @@ void stats_score(PPLAYER_STATS s)
 
 	/* points for defending continents */
 	for(i=0;i<CONT_CANT;i++)
-		s->score += s->continents_turn[i] * g_conts[i].fichas_x_cont;
+		s->score += s->continents_turn[i] * continents[i].fichas_x_cont;
 }

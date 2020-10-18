@@ -17,11 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifndef __TEG_STATS_H
-#define __TEG_STATS_H
 
-#include "common.h"
+#pragma once
+
 #include "cont.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _player_stats 
 {
@@ -38,6 +41,8 @@ typedef struct _player_stats
 void stats_init(PPLAYER_STATS s);
 
 /*! calculate the score */
-void stats_score(PPLAYER_STATS s);
+void stats_score(PPLAYER_STATS s, CONT const* continents);
 
-#endif /* __TEG_STATS_H */
+#ifdef __cplusplus
+}
+#endif

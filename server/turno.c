@@ -194,7 +194,7 @@ void turno_initialize_new_round( void )
 			}
 
 			/* update the score */
-			stats_score( &pJ->player_stats );
+			stats_score( &pJ->player_stats, g_conts );
 		}
 	}
 	
