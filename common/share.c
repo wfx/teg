@@ -30,18 +30,18 @@
 #include "all.h"
 #include "share.h"
 
-/**************************************************************************
-  return a char * to the parameter of the option or NULL.
-  *i can be increased to get next string in the array argv[]. 
- **************************************************************************/
-char * get_option(const char *option_name,char **argv,int *i,int argc)
+char * get_option(const char *option_name,char const **argv,int *i,int argc)
 {
 	int len = strlen(option_name);
 
-	if( !strcmp(option_name,argv[*i]) || (!strncmp(option_name,argv[*i],len) && argv[*i][len]=='=') ||
-		!strncmp(option_name+1,argv[*i],2) ) {
+	if( !strcmp(option_name,argv[*i])
+	    || (!strncmp(option_name,argv[*i],len) && argv[*i][len]=='=')
+	    || !strncmp(option_name+1,argv[*i],2) ) {
 
-		char *opt = argv[*i] + (argv[*i][1] != '-' ? 0 : len);
+		int offset = argv[*i][1] != '-'
+		                            ? 2 // minus sign + option character
+		                            : len;
+		char *opt = argv[*i] + offset;
 
 		if (*opt == '=') {
 			opt++;
@@ -59,8 +59,7 @@ char * get_option(const char *option_name,char **argv,int *i,int argc)
 	return NULL;
 }
 
-
-int is_option(const char *option_name,char *option)
+int is_option(const char *option_name, const char *option)
 {
 	if (!strcmp(option_name,option) || !strncmp(option_name+1,option,2))
 		return 1;

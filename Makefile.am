@@ -157,5 +157,5 @@ tegrobot_LDADD        = libclient.a @CLIENT_LIBS@ libtegcommon.a $(INTLLIBS) @XM
 
 tegtest_CPPFLAGS = @XML_CFLAGS@
 tegtest_SOURCES = common/xml_support_check.cpp common/tarjeta_check.cpp \
-    common/stats_check.cpp
+    common/stats_check.cpp common/share_check.cpp
 tegtest_LDADD = -lgmock_main -lgtest -lgmock libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ -lpthread
