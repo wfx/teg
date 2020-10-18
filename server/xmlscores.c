@@ -203,6 +203,7 @@ void xmlscores_save(void)
 	filename[ sizeof(filename)-1 ] = 0;
 
 	xmlSaveFile( filename , doc );
+	xmlFreeDoc(doc);
 }
 
 
