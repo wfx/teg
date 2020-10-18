@@ -121,7 +121,7 @@ STATIC TEG_STATUS con_stats( int unused, char* unused2)
 
 
 /* shows all the scores */
-STATIC TEG_STATUS con_scores_show( PSCORES pS )
+STATIC void con_scores_show( PSCORES pS )
 {
 	int color;
 	color = ( ( pS->color >= TEG_MAX_PLAYERS || pS->color < 0 ) ? TEG_MAX_PLAYERS : pS->color );
@@ -132,8 +132,6 @@ STATIC TEG_STATUS con_scores_show( PSCORES pS )
 				 _(g_colores[color]),
 				 pS->human ? _("yes") : _("no")
 				 );
-
-	return TEG_STATUS_SUCCESS;
 }
 
 

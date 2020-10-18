@@ -51,7 +51,7 @@ TEG_STATUS scores_insert_score( PSCORES score );
 TEG_STATUS scores_init();
 
 /**! a map function over the scores. (like in functional programming) */
-typedef TEG_STATUS (*scores_map_func)( PSCORES pJ);
+typedef void(*scores_map_func)( PSCORES pJ);
 TEG_STATUS scores_map( scores_map_func func );
 
 /**! return the list of all the scores */
