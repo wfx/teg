@@ -15,6 +15,7 @@ AC_PROG_CXX
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
 
+AX_CXX_COMPILE_STDCXX(17, [ext])
 
 dnl
 dnl Common libraries for the server, client & robot
