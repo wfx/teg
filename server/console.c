@@ -127,7 +127,7 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 	int color;
 	color = ( ( pS->color >= TEG_MAX_PLAYERS || pS->color < 0 ) ? TEG_MAX_PLAYERS : pS->color );
 	printf("  %4d   %s   %-15s   %-8s %s\n",
-				 pS->stats.score,
+	             pS->score,
 				 pS->date,
 				 pS->name,
 				 _(g_colores[color]),

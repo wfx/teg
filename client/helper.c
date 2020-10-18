@@ -124,7 +124,7 @@ TEG_STATUS aux_scores( PSCORES pS, char *str )
 	} else goto error;
 
 	if( parser_call( &p ) && p.hay_otro ) {
-		pS->stats.score = atoi( p.token );
+		pS->score = atoi( p.token );
 	} else goto error;
 
 	if( parser_call( &p ) && !p.hay_otro ) {

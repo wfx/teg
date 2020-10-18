@@ -76,7 +76,7 @@ static PSCORES parseScore(xmlDocPtr doc, xmlNodePtr cur)
 	if ( val == NULL)
 		fprintf(stderr, ("Score has no score\n"));
 	else
-		ret->stats.score = atoi( (char*)val );
+		ret->score = atoi( (char*)val );
 
 	val = xmlGetProp(cur, (const xmlChar *) "date");
 	if (val == NULL)
@@ -159,7 +159,7 @@ static void xmlscores_add(xmlNodePtr parent, PSCORES pS)
 	xmlNodePtr child = xmlNewTextChild( parent , NULL, (xmlChar*)"score", NULL );
 
 	xmlSetProp( child, (xmlChar*)"name", (xmlChar*)pS->name );
-	add_numeric_attribute(child, "points", pS->stats.score);
+	add_numeric_attribute(child, "points", pS->score);
 	add_numeric_attribute(child, "color", pS->color);
 	xmlSetProp( child, (xmlChar*)"date", (xmlChar*)pS->date );
 	add_numeric_attribute(child, "human", pS->human);
@@ -206,9 +206,7 @@ static PSCORES new_score_node( PSPLAYER pJ )
 	memset( pS,0,sizeof(*pS) );
 	InitializeListHead( &pS->next );
 
-	/* copy the stats */
-	pS->stats = pJ->player_stats;
-
+	pS->score = pJ->player_stats.score;
 	pS->color = pJ->color;
 	strncpy( pS->name, pJ->name, sizeof( pS->name ) -1 );
 	pS->human = pJ->human;
@@ -267,7 +265,7 @@ void appendScoreString(PSCORES pS, void* user)
 	int printed = snprintf(as->dest, as->storage_remaining,
 	                       "%s%s,%d,%s,%d,%d",
 	                       as->delim,
-	                       pS->name,pS->color,pS->date,pS->stats.score,pS->human );
+	                       pS->name, pS->color, pS->date, pS->score, pS->human);
 	if((printed < 0) // some printf error
 	   || (printed >= as->storage_remaining)) // string truncation
 		as->valid = false;

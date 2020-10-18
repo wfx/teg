@@ -44,7 +44,7 @@ TEG_STATUS scores_insert_score( PSCORES pS_new )
 	while( !IsListEmpty(&g_list_scores) && l != &g_list_scores && position < SCORES_MAX ) {
 		pS = (PSCORES) l;
 
-		if( pS_new->stats.score > pS->stats.score ) {
+		if( pS_new->score > pS->score ) {
 			InsertHeadList( (PLIST_ENTRY) pS->next.Blink, (PLIST_ENTRY) pS_new );
 			return TEG_STATUS_SUCCESS;
 		}

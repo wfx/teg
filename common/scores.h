@@ -21,6 +21,7 @@
 #pragma once
 
 #include "stats.h"
+#include "common.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,9 +40,7 @@ typedef struct _scores
 	int color;			/**< color used */
 	char date[SCORES_DATE_MAX];	/**< date of the game */
 	int human;			/**< human or robot */
-
-	PLAYER_STATS stats;		/**< stats of the game */
-
+	int score;
 } SCORES, * PSCORES;
 
 /**! insert a score in the table */

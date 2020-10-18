@@ -203,7 +203,7 @@ static void append_player_score(PSCORES pS, void* user)
 	gtk_list_store_set(store, &iter,
 	            COLUMN_POSNUMBER, ++state->row,
 	            COLUMN_NAME, name,
-	            COLUMN_SCORE, pS->stats.score,
+	            COLUMN_SCORE, pS->score,
 	            COLUMN_DATE, pS->date,
 	            COLUMN_COLOR, g_colores[pS->color],
 	            COLUMN_HUMAN, pS->human,
