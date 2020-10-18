@@ -437,7 +437,7 @@ BOOLEAN player_esta_xxx_plus( int fd, int condicion, int strict, PSPLAYER *j )
 }
 
 /* quantity of countries per contient that a player has */
-TEG_STATUS player_listar_countries( PSPLAYER pJ, int *countries )
+void player_listar_countries( PSPLAYER pJ, int *countries )
 {
 	PLIST_ENTRY list;
 	PCOUNTRY pP;
@@ -455,11 +455,10 @@ TEG_STATUS player_listar_countries( PSPLAYER pJ, int *countries )
 
 		list = LIST_NEXT( list );
 	}
-	return TEG_STATUS_SUCCESS;
 }
 
 /* quantity of continents that a player has */
-TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret )
+void player_listar_conts( PSPLAYER pJ, unsigned long *ret )
 {
 	int countries[CONT_CANT];
 	int i;
@@ -467,13 +466,9 @@ TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret )
 	assert( pJ );
 	assert( ret );
 
-
 	memset( countries, 0, sizeof(countries) );
 
-
-	if( player_listar_countries( pJ, countries ) != TEG_STATUS_SUCCESS ) {
-		return TEG_STATUS_ERROR;
-	}
+	player_listar_countries( pJ, countries );
 
 	*ret = 0;
 
@@ -481,8 +476,6 @@ TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret )
 		if( countries[i] == g_conts[i].cant_countries)
 			*ret |= 1 << i;
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
 

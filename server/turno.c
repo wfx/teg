@@ -177,20 +177,19 @@ void turno_initialize_new_round( void )
 	/* add the continents that it defend */
 	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) )
 	{
-		unsigned long conts;
 		pJ = (PSPLAYER) l;
 
 		l = LIST_NEXT(l);
 
 		if( pJ->is_player ) {
-			if( player_listar_conts( pJ, &conts ) == TEG_STATUS_SUCCESS ) {
-				int i;
-				for(i=0;i<CONT_CANT;i++)
-				{
-					if( conts & 1 )
-						pJ->player_stats.continents_turn[i]++;
-					conts >>= 1;
-				}
+			unsigned long conts;
+			player_listar_conts(pJ, &conts);
+			int i;
+			for(i=0;i<CONT_CANT;i++)
+			{
+				if( conts & 1 )
+					pJ->player_stats.continents_turn[i]++;
+				conts >>= 1;
 			}
 
 			/* update the score */

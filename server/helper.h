@@ -30,7 +30,7 @@ typedef int (*get_random_func)(int i);
 TEG_STATUS aux_token_fichas( int fd, char *str, int maximo, unsigned long conts );
 TEG_STATUS aux_token_stasta(char *strout, size_t buflen );
 TEG_STATUS aux_token_attack( int src, int dst, int *src_lost, int *dst_lost, char *datos_src, char *dados_dst );
-TEG_STATUS aux_token_fichasc( PSPLAYER pJ );
+void aux_token_fichasc( PSPLAYER pJ );
 TEG_STATUS aux_token_countries( PSPLAYER pJ, char *buf, int buflen );
 
 PCOUNTRY get_random_country( get_random_func func);

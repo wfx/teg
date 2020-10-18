@@ -338,7 +338,7 @@ again:
 }
 
 /* Sends the player the total number of armies it must place, and the continents he has conquered */
-TEG_STATUS aux_token_fichasc( PSPLAYER pJ )
+void aux_token_fichasc( PSPLAYER pJ )
 {
 	unsigned long conts=0;
 	int armies;
@@ -350,8 +350,7 @@ TEG_STATUS aux_token_fichasc( PSPLAYER pJ )
 		conts = pJ->fichasc_conts;
 		armies = pJ->fichasc_armies;
 	} else {
-		if( player_listar_conts( pJ, &conts ) != TEG_STATUS_SUCCESS )
-			return TEG_STATUS_UNEXPECTED;
+		player_listar_conts( pJ, &conts );
 		armies = player_fichasc_cant( pJ );
 
 		pJ->fichasc_conts = conts;
@@ -363,8 +362,6 @@ TEG_STATUS aux_token_fichasc( PSPLAYER pJ )
 
 	pJ->estado = PLAYER_STATUS_FICHASC;
 	netall_printf( TOKEN_FICHASC"=%d,%d,%d\n",pJ->numjug,conts,armies + x_canje );
-
-	return TEG_STATUS_SUCCESS;
 }
 
 
