@@ -96,8 +96,3 @@ TEG_STATUS scores_flush()
 	}
 	return TEG_STATUS_SUCCESS;
 }
-
-PLIST_ENTRY scores_get_list()
-{
-	return &g_list_scores;
-}

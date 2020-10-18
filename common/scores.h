@@ -54,9 +54,6 @@ TEG_STATUS scores_init();
 typedef void(*scores_map_func)( PSCORES pJ, void* user);
 TEG_STATUS scores_map(scores_map_func func , void *user);
 
-/**! return the list of all the scores */
-PLIST_ENTRY scores_get_list();
-
 /*! flush the list of scores */
 TEG_STATUS scores_flush();
 

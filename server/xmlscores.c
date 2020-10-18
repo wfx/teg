@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <unistd.h>
 #include <libxml/xmlmemory.h>
@@ -250,37 +251,44 @@ TEG_STATUS scores_insert_player( PSPLAYER pJ )
 	return s;
 }
 
+struct AppendString
+{
+	char* dest;
+	size_t storage_remaining;
+	char const* delim;
+	bool valid;
+};
+
+void appendScoreString(PSCORES pS, void* user)
+{
+	struct AppendString* as = (struct AppendString*) user;
+	if(!as->valid)
+		return;
+	int printed = snprintf(as->dest, as->storage_remaining,
+	                       "%s%s,%d,%s,%d,%d",
+	                       as->delim,
+	                       pS->name,pS->color,pS->date,pS->stats.score,pS->human );
+	if((printed < 0) // some printf error
+	   || (printed >= as->storage_remaining)) // string truncation
+		as->valid = false;
+	as->dest += printed;
+	as->storage_remaining -= printed;
+	as->delim = "\\";
+}
+
 TEG_STATUS scores_dump(char *strout, size_t len )
 {
-	int n;
-	int max;
-	char strtmp[ PLAYERNAME_MAX_LEN + 200];
-
-	PLIST_ENTRY l = scores_get_list()->Flink;
-	PSCORES pS;
-
-	strout[0]=0;
-
-	n=0;
-	max=0;
-	while( !IsListEmpty( scores_get_list() ) && (l != scores_get_list()) ) {
-		pS = (PSCORES) l;
-
-		if(n==0) {
-			snprintf(strtmp,sizeof(strtmp)-1,"%s,%d,%s,%d,%d",pS->name,pS->color,pS->date,pS->stats.score,pS->human );
-			n=1;
-		} else
-			snprintf(strtmp,sizeof(strtmp)-1,"\\%s,%d,%s,%d,%d",pS->name,pS->color,pS->date,pS->stats.score,pS->human );
-
-		strtmp[ sizeof(strtmp) -1 ] = 0;
-
-		strncat( strout, strtmp, len - strlen(strout) );
-
-		/* only the top ten */
-		if( ++max == 10 )
-			break;
-
-		l = LIST_NEXT(l);
+	strout[0]=0; // zero out the string if there are no scores.
+	struct AppendString as = {
+		.dest = strout, .storage_remaining=len-1, .delim="", .valid=true
+	};
+	scores_map(appendScoreString, &as);
+	if(!as.valid) {
+		strout[0]=0; // something bad happened, so zero out the result
+		return TEG_STATUS_ERROR;
+	} else {
+		strout[len-1] = 0; // add terminator just in case.
 	}
+
 	return TEG_STATUS_SUCCESS;
 }
