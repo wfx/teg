@@ -28,7 +28,7 @@
 
 #include "country.h"
 
-static bool card_belongs_to_player(int player, int country)
+bool card_belongs_to_player(int player, int country)
 {
 	return countrynumber_is_valid(country)
 	       && g_countries[country].tarjeta.numjug == player;

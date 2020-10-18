@@ -17,14 +17,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file tarjeta.h
- */
 
-#ifndef __TEG_TARJETA_H
-#define __TEG_TARJETA_H 
+#pragma once
+
+#include <stdbool.h>
 
 #include "common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define TARJETA_NULL { {NULL,NULL}, 0, TRUE, FALSE }
 #define TARJETA_NULL_COMODIN { {NULL,NULL}, TARJ_COMODIN, -1, FALSE }
@@ -52,6 +54,8 @@ typedef struct _tarjeta {
 /* 
  * Funciones y varialbes exportadas
  */
+bool card_belongs_to_player(int player, int country);
+
 BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 );
 void tarjeta_init( void );
 void tarjeta_inittarj( PTARJETA t );
@@ -62,4 +66,6 @@ void tarjeta_desusar( PTARJETA pT );
 int tarjeta_es_libre( int i );
 BOOLEAN tarjeta_es_usada( PTARJETA pT );
 
-#endif /* __TEG_TARJETA_H */
+#ifdef __cplusplus
+}
+#endif
