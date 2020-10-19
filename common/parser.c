@@ -34,9 +34,11 @@
  *	"Hola=343=534"
 */
 
+#include "parser.h"
+#include "parser_private.h"
+
 #include <ctype.h>
 #include <stdio.h>
-#include "all.h"
 
 DELIM delim_null={ '\0', '\0', '\0' };
 
@@ -94,26 +96,26 @@ analiza( int *pos,		/* En que pos corto la cadena */
 }
 
 /* Unica funcion exportable */
-int parser_call( PPARSER p_in )
+bool parser_call( PPARSER p_in )
 {
 	PARSER_VALUE pval;
 	int i;
 
 	if( (pval=analiza( &i, p_in->data, p_in->token, p_in->igualador, p_in->separador,PARSER_TOKEN_MAX )) == PARSER_ERROR )
-		return FALSE;
+		return false;
 	
 	p_in->value[0]=0;
 
 	switch(pval) {
 	case PARSER_FIN:
 		p_in->data=NULL;
-		p_in->hay_otro=FALSE;
-		return TRUE;
+		p_in->hay_otro = false;
+	    return true;
 
 	case PARSER_SEPARADOR:
 		p_in->data=&p_in->data[i+1];
-		p_in->hay_otro=TRUE;
-		return TRUE;
+		p_in->hay_otro = true;
+	    return true;
 
 	case PARSER_IGUAL:
 	{
@@ -121,18 +123,18 @@ int parser_call( PPARSER p_in )
 		pval = analiza( &j, &p_in->data[i+1], p_in->value, &delim_null, p_in->separador, PARSER_VALUE_MAX );
 
 		if( pval==PARSER_IGUAL || pval==PARSER_ERROR )
-			return FALSE;
+			return false;
 
 		if( pval==PARSER_SEPARADOR ) {
 			p_in->data = &p_in->data[j+1 + i+1];
-			p_in->hay_otro=TRUE;
+			p_in->hay_otro = true;
 		} else { /* PARSER_FIN */
 			p_in->data = NULL;
-			p_in->hay_otro=FALSE;
+			p_in->hay_otro = false;
 		}
-		return TRUE;
+		return true;
 	}
 	default:
-		return FALSE;
+	    return false;
 	}	
 }

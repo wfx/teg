@@ -21,8 +21,9 @@
  * Estructura del parser
  */
 
-#ifndef __PARSER_H
-#define __PARSER_H
+#pragma once
+
+#include <stdbool.h>
 
 #define PARSER_TOKEN_MAX 1024
 #define PARSER_VALUE_MAX 1024
@@ -53,15 +54,5 @@ typedef struct {
 	PDELIM separador;
 } PARSER, *PPARSER;
 
-typedef enum {
-	PARSER_FIN,
-	PARSER_SEPARADOR,
-	PARSER_IGUAL,
-	PARSER_DATA,
-	PARSER_ERROR
-} PARSER_VALUE, *PPARSER_VALUE;
-
 /* Unica funcion publica del parser */
-int parser_call( PPARSER );
-
-#endif /* __PARSER_H */
+bool parser_call( PPARSER );
