@@ -59,7 +59,7 @@ TEG_STATUS mission_chequear( PSPLAYER pJ )
 	/* TODO: 3ra parte. Chequear si vencio a los otros playeres */
 
 	/* TODO: 4ta parte. Chequear si tiene los countries limitrofes que se piden */
-	if( (i=g_missions[pJ->mission].limitrofes) ) {
+	if( (i=g_missions[pJ->mission].frontiering_countries) ) {
 		int j,k,i_tmp;
 		int salir=0;
 		for(j=0;j<COUNTRIES_CANT && salir==0;j++) {
@@ -114,15 +114,15 @@ TEG_STATUS mission_asignar( PSPLAYER pJ )
 	i = obj;
 
 	for( ; i < missions_cant() ; i++) {
-		if( g_missions[i].numjug == -1 ) {
-			g_missions[i].numjug = pJ->numjug;
+		if( g_missions[i].player_number == -1 ) {
+			g_missions[i].player_number = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
 	}
 	for( i=0; i < obj ; i++ ) {
-		if( g_missions[i].numjug == -1 ) {
-			g_missions[i].numjug = pJ->numjug;
+		if( g_missions[i].player_number == -1 ) {
+			g_missions[i].player_number = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
@@ -137,10 +137,10 @@ TEG_STATUS mission_init()
 	int i;
 
 	for(i=0;i<missions_cant();i++) {
-		g_missions[i].numjug = -1;
+		g_missions[i].player_number = -1;
 	}
-	g_missions[MISSION_CONQWORLD].numjug = 0;
-	g_missions[MISSION_COMMON].numjug = 0;
+	g_missions[MISSION_CONQWORLD].player_number = 0;
+	g_missions[MISSION_COMMON].player_number = 0;
 
 	return TEG_STATUS_SUCCESS;
 }
