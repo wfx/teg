@@ -17,12 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file missions.h
- */
 
-#ifndef __TEG_MISSIONS_H
-#define __TEG_MISSIONS_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _missions {
 	int	numjug;				/**< a quien se asigno el mission */
@@ -46,4 +46,6 @@ int missions_cant();
 /* return the name of a mission (translated) */
 char * missions_get_name( int number );
 
-#endif /* __TEG_MISSIONS_H */
+#ifdef __cplusplus
+}
+#endif
