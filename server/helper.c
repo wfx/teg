@@ -34,7 +34,6 @@
 
 #include "server.h"
 #include "fow.h"
-#include "my_inet_ntop.h"
 
 static char colors[TEG_MAX_PLAYERS];
 
@@ -442,12 +441,12 @@ TEG_STATUS aux_find_inaddr( PSPLAYER pJ )
 	switch(sa->sa_family) {
 	case AF_INET: {
 		struct sockaddr_in *sin = (struct sockaddr_in*) sa;
-		my_inet_ntop( AF_INET, &sin->sin_addr,pJ->addr, sizeof(pJ->addr)-1);
+		inet_ntop(AF_INET, &sin->sin_addr,pJ->addr, sizeof(pJ->addr)-1);
 		break;
 		}
 	case AF_INET6: {
 		struct sockaddr_in6 *sin6 = (struct sockaddr_in6*) sa;
-		my_inet_ntop( AF_INET6, &sin6->sin6_addr,pJ->addr, sizeof(pJ->addr)-1);
+		inet_ntop(AF_INET6, &sin6->sin6_addr,pJ->addr, sizeof(pJ->addr)-1);
 		break;
 		}
 	default:

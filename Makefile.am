@@ -35,7 +35,6 @@ libtegcommon_a_SOURCES = 	\
 	common/missions.c common/missions.h	\
 	common/stats.c common/stats.h		\
         common/scores.c common/scores.h 	\
-	common/my_inet_ntop.c common/my_inet_ntop.h	\
 	common/xml_support.c common/xml_support.h
 
 tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
