@@ -18,12 +18,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TEG_NET_H
-#define __TEG_NET_H
+#pragma once
 
 #include <sys/types.h>
 
 int net_connect_unix(char *path );
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 ssize_t net_readline(int sock, void *gs,size_t maxlen );
 int net_printf(int sock, char *format, ...);
 int net_print(int sock, char *msg);
@@ -32,4 +35,6 @@ int net_connect_tcp( const char *host, int port );
 int net_close( int s );
 ssize_t net_read( int s, void *buf, size_t maxlen );
 
-#endif /* __TEG_NET_H */
+#ifdef __cplusplus
+}
+#endif
