@@ -17,15 +17,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file country.h
- */
 
-#ifndef __TEG_COUNTRY_H
-#define __TEG_COUNTRY_H
+#pragma once
 
 #include "tarjeta.h"
 #include "cont.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define COUNTRYNAME_MAX_LEN	50
 #define COUNTRIES_CANT		50
@@ -71,4 +71,6 @@ BOOLEAN countrynumber_is_valid(int country_number);
 /**! returns the name of 'country' */
 char * countries_get_name( int country );
 
-#endif /* __TEG_COUNTRY_H */
+#ifdef __cplusplus
+}
+#endif
