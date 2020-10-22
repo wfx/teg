@@ -10,11 +10,18 @@
 extern "C" {
 #endif
 
+enum CharClass {
+	ccEnd, ///< end of data
+	ccSeparators, ///< one of the separators
+	ccEquals, ///< one of the equals
+	ccData ///< none of the others
+};
+
 typedef enum {
-	PARSER_FIN,
-	PARSER_SEPARADOR,
-	PARSER_IGUAL,
-	PARSER_DATA,
+	PARSER_FIN = ccEnd,
+	PARSER_SEPARADOR = ccSeparators,
+	PARSER_IGUAL = ccEquals,
+	PARSER_DATA = ccData,
 	PARSER_ERROR
 } PARSER_VALUE, *PPARSER_VALUE;
 
@@ -27,9 +34,9 @@ bool parser_belongs_to_class(char ch, DELIM const* which);
  * @param separators possible separators
  * @return the character class.
  */
-PARSER_VALUE parser_character_class(char a,
-                                    DELIM const* equals,
-                                    DELIM const* separators);
+enum CharClass parser_character_class(char a,
+                                      DELIM const* equals,
+                                      DELIM const* separators);
 
 /// A delimiter descriptor which matches nothing.
 extern DELIM const delim_null;

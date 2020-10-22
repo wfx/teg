@@ -51,20 +51,19 @@ bool parser_belongs_to_class(char ch, DELIM const* which)
 
 DELIM const delim_null = { '\0', '\0', '\0' };
 DELIM const delim_fin = {0, '\n', '\r'};
-PARSER_VALUE parser_character_class(char a,
-                                    DELIM const* igualador,
-                                    DELIM const* separador)
+enum CharClass parser_character_class(char a,
+                                      DELIM const* igualador,
+                                      DELIM const* separador)
 {
 	if(parser_belongs_to_class(a, &delim_fin))
-		return PARSER_FIN;
+		return ccEnd;
 	if(parser_belongs_to_class(a, igualador))
-		return PARSER_IGUAL;
+		return ccEquals;
 	if(parser_belongs_to_class(a, separador))
-		return PARSER_SEPARADOR;
+		return ccSeparators;
 
-	return PARSER_DATA;
+	return ccData;
 }
-
 
 static PARSER_VALUE 
 analiza( int *pos,		/* En que pos corto la cadena */
@@ -89,7 +88,7 @@ analiza( int *pos,		/* En que pos corto la cadena */
 		}
 
 		if( ! quote ) {
-			if( (pval=parser_character_class(in[i],igualador,separador)) != PARSER_DATA )
+			if( (pval=(PARSER_VALUE)parser_character_class(in[i],igualador,separador)) != PARSER_DATA )
 				break;
 		}
 

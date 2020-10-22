@@ -18,20 +18,16 @@ TEST(Parser, belongs_to_class)
 
 TEST(Parser, character_class)
 {
-	EXPECT_EQ(PARSER_FIN, parser_character_class(0, nullptr, nullptr));
-	EXPECT_EQ(PARSER_FIN, parser_character_class('\n', nullptr, nullptr));
-	EXPECT_EQ(PARSER_FIN, parser_character_class('\r', nullptr, nullptr));
+	EXPECT_EQ(ccEnd, parser_character_class(0, nullptr, nullptr));
+	EXPECT_EQ(ccEnd, parser_character_class('\n', nullptr, nullptr));
+	EXPECT_EQ(ccEnd, parser_character_class('\r', nullptr, nullptr));
 
-	const DELIM a__{'a', 'b', 'c'};
-	const DELIM abc{'a', 'b', 'c'};
-	const DELIM xyz{'x', 'y', 'z'};
-	EXPECT_EQ(PARSER_DATA, parser_character_class('a', &delim_null, &delim_null));
-	EXPECT_EQ(PARSER_IGUAL, parser_character_class('a', &a__, &delim_null));
-	EXPECT_EQ(PARSER_IGUAL, parser_character_class('a', &abc, &delim_null));
-	EXPECT_EQ(PARSER_IGUAL, parser_character_class('b', &abc, &delim_null));
-	EXPECT_EQ(PARSER_IGUAL, parser_character_class('c', &abc, &delim_null));
-	EXPECT_EQ(PARSER_IGUAL, parser_character_class('a', &a__, &xyz));
-	EXPECT_EQ(PARSER_IGUAL, parser_character_class('a', &a__, &a__))
-	        << "Precedence wrong";
-	EXPECT_EQ(PARSER_SEPARADOR, parser_character_class('a', &xyz, &a__));
+	const DELIM a{'a'};
+	const DELIM z{'z'};
+	EXPECT_EQ(ccData, parser_character_class('a', &delim_null, &delim_null));
+	EXPECT_EQ(ccEquals, parser_character_class('a', &a, nullptr));
+	EXPECT_EQ(ccEquals, parser_character_class('a', &a, &z));
+	EXPECT_EQ(ccEquals, parser_character_class('a', &a, &a)) << "Precedence wrong";
+	EXPECT_EQ(ccSeparators, parser_character_class('z', &a, &z));
+	EXPECT_EQ(ccSeparators, parser_character_class('z', nullptr, &z));
 }
