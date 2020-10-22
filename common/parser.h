@@ -34,15 +34,6 @@ typedef struct _DELIM {
 	char c;
 } DELIM, *PDELIM;
 
-#define DELIM_EQ1 {'=','=','='}
-#define DELIM_FI1 {';',';',';'}
-
-#define DELIM_EQ2 {':',':',':'}
-#define DELIM_FI2 {',',',',','}
-
-#define DELIM_EQ3 {'|','|','|'}
-#define DELIM_FI3 {'/','/','/'}
-
 typedef struct {
 	char *data; 
 	int hay_otro;

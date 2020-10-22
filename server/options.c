@@ -174,7 +174,7 @@ TEG_STATUS option_armies( int fd, char *str )
 	int armies1;
 	int armies2;
 	PARSER p;
-	DELIM igualador=DELIM_EQ3;
+	DELIM igualador={ '|', '|', '|' };
 	DELIM separador={ ',', ',', ',' };
 
 	p.igualador = &igualador;
