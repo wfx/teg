@@ -27,22 +27,19 @@
 #include "all.h"
 
 MISSIONS g_missions[]= {
-	{ 0,	/* Objetivo cuando se juega sin missions */
+    { 0,	/* Objetivo cuando se juega sin missions */
 		N_("Conquer the world"),
 		{CONT_AMERICASUR_CANT, CONT_AMERICANORTE_CANT, CONT_AFRICA_CANT, CONT_OCEANIA_CANT, CONT_EUROPA_CANT, CONT_ASIA_CANT},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0 },
-	{ 0,	/* Objetivo comun */
+    { 0,	/* Objetivo comun */
 		N_("Conquer 30 countries"),
-		{0, 0, 0, 0, 0, 0},
 		{0, 0, 0, 0, 0, 0},
 		0,
 		30 },
 	{ -1,
 		N_("Conquer &2,\n5 countries of &1 and\n4 countries of &4"),
 		{0, 5, CONT_AFRICA_CANT, 0, 4, 0},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0 },
 
@@ -55,7 +52,6 @@ MISSIONS g_missions[]= {
 	{ -1,
 		N_("Conquer &0,\n7 countries of &4 and\n3 frontier countries"),
 		{CONT_AMERICASUR_CANT, 0, 0, 0, 7, 0},
-		{0, 0, 0, 0, 0, 0},
 		3,
 		0},
 #endif /* WITH_ALL_MISSIONS */
@@ -63,49 +59,42 @@ MISSIONS g_missions[]= {
 	{ -1,
 		N_("Conquer &5 and\n2 countries of &0"),
 		{2, 0, 0, 0, 0, CONT_ASIA_CANT},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0},
 
 	{ -1,
 		N_("Conquer &4,\n4 countries of &5 and,\n2 of &0"),
 		{2, 0, 0, 0, CONT_EUROPA_CANT, 4},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0},
 
 	{ -1,
 		N_("Conquer &1,\n2 countries of &3 and\n4 countries of &5"),
 		{0, CONT_AMERICANORTE_CANT, 0, 2, 0, 4},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0},
 
 	{ -1,
 		N_("Conquer 2 countries of &3,\n2 of &2, 2 of &0,\n3 of &4, 4 of &1,\nand 3 of &5"),
 		{2, 4, 2, 2, 3, 3},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0},
 
 	{ -1,
 		N_("Conquer &3,\nconquer &1 and,\n2 countries of &4"),
 		{0, CONT_AMERICANORTE_CANT, 0, CONT_OCEANIA_CANT, 2, 0},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0},
 
 	{ -1,
 		N_("Conquer &0,\nconquer &2 and,\n4 countries of &5"),
 		{CONT_AMERICASUR_CANT, 0, CONT_AFRICA_CANT, 0, 0, 4},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0},
 
 	{ -1,
 		N_("Conquer &3,\nconquer &2 and,\n5 countries of &1"),
 		{0, 5, CONT_AFRICA_CANT, CONT_OCEANIA_CANT, 0, 0},
-		{0, 0, 0, 0, 0, 0},
 		0,
 		0},
 };

@@ -24,11 +24,12 @@
 extern "C" {
 #endif
 
+#include "cont.h"
+
 typedef struct _missions {
 	int	numjug;				/**< a quien se asigno el mission */
 	char	*name;			/**< name del mission */
 	int	continentes[CONTINENTE_LAST];	/**< continentes a conquistar */
-	int	jugadores[TEG_MAX_PLAYERS];	/**< jugadores a eliminar */
 	int	limitrofes;			/**< countries limitrofes a tener */
 	int	tot_countries;			/**< cantidad de countries a conquistar */
 } MISSIONS, *PMISSIONS;
