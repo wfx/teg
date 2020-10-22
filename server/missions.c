@@ -52,7 +52,7 @@ TEG_STATUS mission_chequear( PSPLAYER pJ )
 
 	/* 2da parte. Chequear countries por contienente */
 	for(i=0;i<CONT_CANT;i++) {
-		if( countries[i] < g_missions[pJ->mission].continentes[i] )
+		if( countries[i] < g_missions[pJ->mission].continents[i] )
 			goto no_gano;
 	}
 
