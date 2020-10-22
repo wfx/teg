@@ -6,9 +6,11 @@
 
 TEST(Parser, belongs_to_class)
 {
+	DELIM const delim_null{0};
 	EXPECT_FALSE(parser_belongs_to_class('x', nullptr)) << "Must not crash";
 	EXPECT_FALSE(parser_belongs_to_class('x', &delim_null));
 	EXPECT_TRUE(parser_belongs_to_class(0, &delim_null));
+
 	DELIM const abc{'a', 'b', 'c'};
 	EXPECT_FALSE(parser_belongs_to_class('x', &abc));
 	EXPECT_TRUE(parser_belongs_to_class('a', &abc));
@@ -24,7 +26,8 @@ TEST(Parser, character_class)
 
 	const DELIM a{'a'};
 	const DELIM z{'z'};
-	EXPECT_EQ(ccData, parser_character_class('a', &delim_null, &delim_null));
+	EXPECT_EQ(ccData, parser_character_class('a', nullptr, nullptr));
+	EXPECT_EQ(ccData, parser_character_class('I', &a, &z));
 	EXPECT_EQ(ccEquals, parser_character_class('a', &a, nullptr));
 	EXPECT_EQ(ccEquals, parser_character_class('a', &a, &z));
 	EXPECT_EQ(ccEquals, parser_character_class('a', &a, &a)) << "Precedence wrong";

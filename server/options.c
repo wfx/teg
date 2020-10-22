@@ -273,10 +273,9 @@ TEG_STATUS option_parse( int fd, char *str)
 	int i;
 	PARSER p;
 	DELIM igualador={ '=', ' ', ':' };
-	DELIM separador=DELIM_NULL;
 
 	p.igualador = &igualador;
-	p.separador = &separador;
+	p.separador = NULL;
 	p.data = str;
 
 	do {

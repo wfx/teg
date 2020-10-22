@@ -49,7 +49,6 @@ bool parser_belongs_to_class(char ch, DELIM const* which)
 	        || (which->c == ch);
 }
 
-DELIM const delim_null = { '\0', '\0', '\0' };
 DELIM const delim_fin = {0, '\n', '\r'};
 enum CharClass parser_character_class(char a,
                                       DELIM const* igualador,
@@ -123,7 +122,7 @@ bool parser_call( PPARSER p_in )
 	case PARSER_IGUAL:
 	{
 		int j;
-		pval = parser_analyze_token( &j, &p_in->data[i+1], p_in->value, &delim_null, p_in->separador, PARSER_VALUE_MAX );
+		pval = parser_analyze_token( &j, &p_in->data[i+1], p_in->value, NULL, p_in->separador, PARSER_VALUE_MAX );
 
 		if( pval==PARSER_IGUAL || pval==PARSER_ERROR )
 			return false;

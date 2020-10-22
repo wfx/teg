@@ -1023,7 +1023,6 @@ TEG_STATUS clitok_scores( char *str)
 	PSCORES pS;
 	SCORES score;
 	PARSER p;
-	DELIM igualador = DELIM_NULL;
 	DELIM separador={ '\\', '\\', '\\' };
 
 	int i;
@@ -1031,7 +1030,7 @@ TEG_STATUS clitok_scores( char *str)
 	if( strlen(str)==0 )
 		goto ok;
 
-	p.igualador = &igualador;
+	p.igualador = NULL;
 	p.separador = &separador;
 	p.data = str;
 

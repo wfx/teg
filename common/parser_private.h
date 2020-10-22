@@ -38,9 +38,6 @@ enum CharClass parser_character_class(char a,
                                       DELIM const* equals,
                                       DELIM const* separators);
 
-/// A delimiter descriptor which matches nothing.
-extern DELIM const delim_null;
-
 /**
  * @brief Try to copy a full token, and return the end position and by how the
  *        token is terminated.

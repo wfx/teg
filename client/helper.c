@@ -99,7 +99,6 @@ error:
 TEG_STATUS aux_scores( PSCORES pS, char *str )
 {
 	PARSER p;
-	DELIM igualador=DELIM_NULL;
 	DELIM separador={ ',', ',', ',' };
 
 	memset( pS, 0, sizeof(*pS));
@@ -107,7 +106,7 @@ TEG_STATUS aux_scores( PSCORES pS, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
+	p.igualador = NULL;
 	p.separador = &separador;
 	p.data = str;
 

@@ -43,8 +43,6 @@ typedef struct _DELIM {
 #define DELIM_EQ3 {'|','|','|'}
 #define DELIM_FI3 {'/','/','/'}
 
-#define DELIM_NULL {'\0','\0','\0'}
-
 typedef struct {
 	char *data; 
 	int hay_otro;
