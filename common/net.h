@@ -22,7 +22,6 @@
 
 #include <sys/types.h>
 
-int net_connect_unix(char *path );
 #ifdef __cplusplus
 extern "C" {
 #endif

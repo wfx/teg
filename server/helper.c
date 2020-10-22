@@ -450,9 +450,6 @@ TEG_STATUS aux_find_inaddr( PSPLAYER pJ )
 		my_inet_ntop( AF_INET6, &sin6->sin6_addr,pJ->addr, sizeof(pJ->addr)-1);
 		break;
 		}
-	case AF_UNIX:
-		strncpy(pJ->addr,"127.0.0.1",sizeof(pJ->addr)-1);
-		break;
 	default:
 		break;
 	}
