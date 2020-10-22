@@ -354,16 +354,16 @@ STATIC TEG_STATUS token_playerid( int fd, char *str )
 	memset( &j, 0, sizeof(SPLAYER));
 
 	/* averigua el name */
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 			player_fillname( &j, p.token );
 	} else goto error;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		j.is_player = atoi( p.token );		
 	} else
 		goto error;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		j.human = atoi( p.token );		
 	} else
 		goto error;
@@ -564,11 +564,11 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );		
 	} else goto error;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		dst = atoi( p.token );		
 	} else goto error;
 
@@ -724,15 +724,15 @@ STATIC TEG_STATUS token_tropas( int fd, char *str )
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );		
 	} else goto error;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		dst = atoi( p.token );		
 	} else goto error;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );		
 	} else goto error;
 
@@ -917,7 +917,7 @@ STATIC TEG_STATUS token_ejer2( int fd, char *str )
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		country = atoi( p.token );		
 	} else goto error;
 
@@ -970,15 +970,15 @@ STATIC TEG_STATUS token_canje( int fd, char *str )
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		t1 = atoi( p.token );		
 	} else goto error;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		t2 = atoi( p.token );		
 	} else goto error;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		t3 = atoi( p.token );		
 	} else goto error;
 
@@ -1036,15 +1036,15 @@ STATIC TEG_STATUS token_regroup( int fd, char *str )
 	p.data = str;
 
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );
 	} else goto error;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		dst = atoi( p.token );
 	} else goto error;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );
 	} else goto error;
 
@@ -1154,7 +1154,7 @@ STATIC TEG_STATUS token_countries( int fd, char *str )
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		i = atoi( p.token );		
 	} else
 		goto error;
@@ -1313,11 +1313,11 @@ STATIC TEG_STATUS token_pversion( int fd, char *str )
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		hi = atoi( p.token );		
 	} else goto error;
 
-	if( parser_parse( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		lo = atoi( p.token );		
 	} else goto error;
 
@@ -1450,7 +1450,7 @@ TEG_STATUS play_teg( int fd )
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
 }

@@ -186,11 +186,11 @@ TEG_STATUS option_armies( int fd, char *str )
 		if( JUEGO_EMPEZADO )
 			goto error;
 
-		if( parser_parse( &p ) && p.hay_otro ) {
+		if( parser_parse( &p ) && p.can_continue ) {
 			armies1 = atoi( p.token );		
 		} else goto error;
 
-		if( parser_parse( &p ) && !p.hay_otro ) {
+		if( parser_parse( &p ) && !p.can_continue ) {
 			armies2 = atoi( p.token );		
 		} else goto error;
 
@@ -284,7 +284,7 @@ TEG_STATUS option_parse( int fd, char *str)
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
 }

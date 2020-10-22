@@ -25,6 +25,10 @@
 
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PARSER_TOKEN_MAX 1024
 #define PARSER_VALUE_MAX 1024
 
@@ -35,12 +39,12 @@ typedef struct _DELIM {
 } DELIM, *PDELIM;
 
 typedef struct {
-	char *data; 
-	int hay_otro;
+	char const *data;
+	int can_continue;
 	char token[PARSER_TOKEN_MAX];
 	char value[PARSER_VALUE_MAX];
-	PDELIM equals;
-	PDELIM separators;
+	DELIM const *equals;
+	DELIM const *separators;
 } PARSER, *PPARSER;
 
 /**
@@ -48,3 +52,7 @@ typedef struct {
  * @return true if the parse succeded, false otherwise.
  */
 bool parser_parse(PPARSER);
+
+#ifdef __cplusplus
+}
+#endif

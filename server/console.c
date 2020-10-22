@@ -310,7 +310,7 @@ TEG_STATUS console_parse( int fd, char *str )
 			if( ts != TEG_STATUS_SUCCESS )
 				return ts;
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 	return TEG_STATUS_SUCCESS;
 }
 

@@ -160,7 +160,7 @@ do_real:
 			goto error;
 		}
 
-	} while( p.hay_otro );
+	} while( p.can_continue );
 
 	if( fichas != maximo ) {
 		goto error;

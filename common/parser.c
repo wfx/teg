@@ -112,12 +112,12 @@ bool parser_parse( PPARSER p_in )
 	switch(pval) {
 	case PARSER_FIN:
 		p_in->data=NULL;
-		p_in->hay_otro = false;
+		p_in->can_continue = false;
 	    return true;
 
 	case PARSER_SEPARADOR:
 		p_in->data=&p_in->data[i+1];
-		p_in->hay_otro = true;
+		p_in->can_continue = true;
 	    return true;
 
 	case PARSER_IGUAL:
@@ -130,10 +130,10 @@ bool parser_parse( PPARSER p_in )
 
 		if( pval==PARSER_SEPARADOR ) {
 			p_in->data = &p_in->data[j+1 + i+1];
-			p_in->hay_otro = true;
+			p_in->can_continue = true;
 		} else { /* PARSER_FIN */
 			p_in->data = NULL;
-			p_in->hay_otro = false;
+			p_in->can_continue = false;
 		}
 		return true;
 	}
