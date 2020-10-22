@@ -126,8 +126,8 @@ TEG_STATUS aux_token_fichas( int fd, char *str, int maximo, unsigned long conts 
 
 	copia = str;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	memset( cptr, 0, sizeof(cptr));

@@ -104,7 +104,7 @@ bool parser_parse( PPARSER p_in )
 	PARSER_VALUE pval;
 	int i;
 
-	if( (pval=parser_analyze_token( &i, p_in->data, p_in->token, p_in->igualador, p_in->separador,PARSER_TOKEN_MAX )) == PARSER_ERROR )
+	if( (pval=parser_analyze_token( &i, p_in->data, p_in->token, p_in->equals, p_in->separators,PARSER_TOKEN_MAX )) == PARSER_ERROR )
 		return false;
 	
 	p_in->value[0]=0;
@@ -123,7 +123,7 @@ bool parser_parse( PPARSER p_in )
 	case PARSER_IGUAL:
 	{
 		int j;
-		pval = parser_analyze_token( &j, &p_in->data[i+1], p_in->value, NULL, p_in->separador, PARSER_VALUE_MAX );
+		pval = parser_analyze_token( &j, &p_in->data[i+1], p_in->value, NULL, p_in->separators, PARSER_VALUE_MAX );
 
 		if( pval==PARSER_IGUAL || pval==PARSER_ERROR )
 			return false;

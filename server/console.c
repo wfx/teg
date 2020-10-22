@@ -299,8 +299,8 @@ TEG_STATUS console_parse( int fd, char *str )
 	DELIM igualador={ '=', ' ', '=' };
 	DELIM separador={ ';', ';', ';' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 
 
 	p.data = str;

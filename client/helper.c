@@ -41,8 +41,8 @@ TEG_STATUS aux_status( PCPLAYER pj, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -106,8 +106,8 @@ TEG_STATUS aux_scores( PSCORES pS, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = NULL;
-	p.separador = &separador;
+	p.equals = NULL;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -152,8 +152,8 @@ TEG_STATUS aux_countries( int numjug, char *str )
 		return TEG_STATUS_SUCCESS;
 	}
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	do {

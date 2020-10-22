@@ -177,8 +177,8 @@ TEG_STATUS option_armies( int fd, char *str )
 	DELIM igualador={ '|', '|', '|' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if(str && strlen(str)!=0) {
@@ -274,8 +274,8 @@ TEG_STATUS option_parse( int fd, char *str)
 	PARSER p;
 	DELIM igualador={ '=', ' ', ':' };
 
-	p.igualador = &igualador;
-	p.separador = NULL;
+	p.equals = &igualador;
+	p.separators = NULL;
 	p.data = str;
 
 	do {

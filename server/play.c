@@ -347,8 +347,8 @@ STATIC TEG_STATUS token_playerid( int fd, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	memset( &j, 0, sizeof(SPLAYER));
@@ -560,8 +560,8 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 		} else goto error;
 	}
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -720,8 +720,8 @@ STATIC TEG_STATUS token_tropas( int fd, char *str )
 	if( !SPLAYER_TROPAS_P(fd,&pJ) || strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -913,8 +913,8 @@ STATIC TEG_STATUS token_ejer2( int fd, char *str )
 	if( j->estado != PLAYER_STATUS_TARJETA )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && !p.hay_otro ) {
@@ -966,8 +966,8 @@ STATIC TEG_STATUS token_canje( int fd, char *str )
 	if( pJ->estado != PLAYER_STATUS_FICHASC )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -1031,8 +1031,8 @@ STATIC TEG_STATUS token_regroup( int fd, char *str )
 	if( pJ->estado < PLAYER_STATUS_TURNOSTART || pJ->estado > PLAYER_STATUS_REAGRUPE)
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 
@@ -1150,8 +1150,8 @@ STATIC TEG_STATUS token_countries( int fd, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && !p.hay_otro ) {
@@ -1309,8 +1309,8 @@ STATIC TEG_STATUS token_pversion( int fd, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -1417,8 +1417,8 @@ TEG_STATUS play_teg( int fd )
 	DELIM igualador={ '=', '=', '=' };
 	DELIM separador={ ';', ';', ';' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 
 	str[0]=0;
 

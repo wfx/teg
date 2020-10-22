@@ -212,8 +212,8 @@ TEG_STATUS clitok_winner( char *str )
 	int mission;
 	PCPLAYER pJ;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -287,8 +287,8 @@ TEG_STATUS clitok_tropas( char *str)
 	DELIM separador={ ',', ',', ',' };
 	int src,dst,cant;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -323,8 +323,8 @@ TEG_STATUS clitok_ok( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -370,8 +370,8 @@ TEG_STATUS clitok_country( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -409,8 +409,8 @@ TEG_STATUS clitok_dados( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -479,8 +479,8 @@ TEG_STATUS clitok_attack( char *str)
 	DELIM separador={ ',', ',', ',' };
 	PCPLAYER pJsrc, pJdst;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -533,8 +533,8 @@ TEG_STATUS clitok_turno( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -583,8 +583,8 @@ TEG_STATUS clitok_fichas( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -634,8 +634,8 @@ TEG_STATUS clitok_fichas2( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -685,8 +685,8 @@ TEG_STATUS clitok_fichasc( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -744,8 +744,8 @@ TEG_STATUS clitok_countries( char *str)
 	DELIM separador={ '/', '/', '/' };
 
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -773,8 +773,8 @@ TEG_STATUS clitok_playerid( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -824,8 +824,8 @@ TEG_STATUS clitok_reconnect( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -892,8 +892,8 @@ TEG_STATUS clitok_newplayer( char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -946,8 +946,8 @@ TEG_STATUS clitok_message( char *str)
 	if( strlen(str) == 0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -993,8 +993,8 @@ TEG_STATUS clitok_status( char *str)
 	if( strlen(str)==0 )
 		goto ok;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 
@@ -1030,8 +1030,8 @@ TEG_STATUS clitok_scores( char *str)
 	if( strlen(str)==0 )
 		goto ok;
 
-	p.igualador = NULL;
-	p.separador = &separador;
+	p.equals = NULL;
+	p.separators = &separador;
 	p.data = str;
 
 	scores_init();
@@ -1065,8 +1065,8 @@ TEG_STATUS clitok_start(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	player_flush();
@@ -1108,8 +1108,8 @@ TEG_STATUS clitok_enum_cards( char *str )
 	if(  ! str || strlen(str) == 0 )
 		goto ok;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	do {
@@ -1150,8 +1150,8 @@ TEG_STATUS clitok_exchange(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -1224,8 +1224,8 @@ TEG_STATUS clitok_modalidad(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && p.hay_otro ) {
@@ -1269,8 +1269,8 @@ TEG_STATUS clitok_mission(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( parser_parse( &p ) && !p.hay_otro ) {
@@ -1299,8 +1299,8 @@ TEG_STATUS clitok_tarjeta(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 
@@ -1346,8 +1346,8 @@ TEG_STATUS clitok_pversion( char *str)
 	DELIM separador={ ',', ',', ',' };
 	int hi,lo;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -1395,8 +1395,8 @@ TEG_STATUS clitok_new_round( char *str )
 	int numjug, round_number;
 	PCPLAYER pJ;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -1461,8 +1461,8 @@ TEG_STATUS client_recv( int fd )
 	DELIM igualador={ '=', '=', '=' };
 	DELIM separador={ ';', ';', ';' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 
 	memset(str,0,sizeof(str));
 	j=net_readline( fd, str, PROT_MAX_LEN );

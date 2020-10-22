@@ -39,8 +39,8 @@ typedef struct {
 	int hay_otro;
 	char token[PARSER_TOKEN_MAX];
 	char value[PARSER_VALUE_MAX];
-	PDELIM igualador;
-	PDELIM separador;
+	PDELIM equals;
+	PDELIM separators;
 } PARSER, *PPARSER;
 
 /**
