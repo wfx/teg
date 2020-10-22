@@ -40,16 +40,26 @@
 #include <ctype.h>
 #include <stdio.h>
 
-DELIM delim_null={ '\0', '\0', '\0' };
-
-/* Que tipo de char es? */
-static PARSER_VALUE que_es( char a, PDELIM igualador, PDELIM separador )
+bool parser_belongs_to_class(char ch, DELIM const* which)
 {
-	if( a==0 || a=='\n' || a=='\r' )
+	if (which == NULL)
+		return false;
+	return (which->a == ch)
+	        || (which->b == ch)
+	        || (which->c == ch);
+}
+
+DELIM const delim_null = { '\0', '\0', '\0' };
+DELIM const delim_fin = {0, '\n', '\r'};
+PARSER_VALUE parser_character_class(char a,
+                                    DELIM const* igualador,
+                                    DELIM const* separador)
+{
+	if(parser_belongs_to_class(a, &delim_fin))
 		return PARSER_FIN;
-	if( a==igualador->a || a==igualador->b || a==igualador->c )
+	if(parser_belongs_to_class(a, igualador))
 		return PARSER_IGUAL;
-	if( a==separador->a || a==separador->b || a==separador->c )
+	if(parser_belongs_to_class(a, separador))
 		return PARSER_SEPARADOR;
 
 	return PARSER_DATA;
@@ -60,8 +70,8 @@ static PARSER_VALUE
 analiza( int *pos,		/* En que pos corto la cadena */
 	char *in,		/* Cadena de entrada */ 
 	char *out,		/* Cadena de salida */
-	PDELIM igualador,	/* Igualadores */
-	PDELIM separador,	/* Separadores */
+    DELIM const* igualador,	/* Igualadores */
+    DELIM const* separador,	/* Separadores */
 	int maxlen
 	)
 {
@@ -79,7 +89,7 @@ analiza( int *pos,		/* En que pos corto la cadena */
 		}
 
 		if( ! quote ) {
-			if( (pval=que_es(in[i],igualador,separador)) != PARSER_DATA )
+			if( (pval=parser_character_class(in[i],igualador,separador)) != PARSER_DATA )
 				break;
 		}
 
