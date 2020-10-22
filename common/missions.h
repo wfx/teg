@@ -44,7 +44,7 @@ extern MISSIONS g_missions[];
 int missions_cant();
 
 /* return the name of a mission (translated) */
-char * missions_get_name( int number );
+char const* missions_get_name( int number );
 
 #ifdef __cplusplus
 }

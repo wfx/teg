@@ -117,7 +117,7 @@ int missions_cant()
 }
 
 /* WARNING: it returns a pointer static buffer */
-char * missions_get_name( int number )
+const char *missions_get_name( int number )
 {
 	static char *_unknown = N_("Unknown");
 	static char mission[1024];
