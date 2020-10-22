@@ -76,3 +76,62 @@ TEST(Parser, analyze)
 	EXPECT_EQ(-1, pos);
 	EXPECT_STREQ("abcdefg=hij", out);
 }
+
+TEST(Parser, parse)
+{
+	const DELIM eql{'='};
+	const DELIM sep{';'};
+
+	{
+		// single token parse
+		char const*const fb = "foobar";
+		PARSER foobar{.data=fb, .can_continue=true, .token={'x'}, .value={'y'}};
+		EXPECT_TRUE(parser_parse(&foobar));
+		EXPECT_FALSE(foobar.can_continue);
+		EXPECT_STREQ(fb, foobar.token);
+		EXPECT_EQ(0, foobar.value[0]);
+		EXPECT_EQ(nullptr, foobar.data);
+	}
+
+	{
+		// single assignment
+		PARSER assignment{.data="foo=bar", .can_continue=true,
+			              .token={'x'}, .value={'y'}, .equals=&eql};
+		EXPECT_TRUE(parser_parse(&assignment));
+		EXPECT_FALSE(assignment.can_continue);
+		EXPECT_STREQ("foo", assignment.token);
+		EXPECT_STREQ("bar", assignment.value);
+		EXPECT_EQ(nullptr, assignment.data);
+	}
+
+	{
+		// non-exhaustive single token
+		char const*const input = "foo;bar";
+		// single assignment
+		PARSER multitoken{.data=input, .can_continue=false,
+			              .token={'x'}, .value={'y'}, .separators=&sep};
+		EXPECT_TRUE(parser_parse(&multitoken));
+		EXPECT_TRUE(multitoken.can_continue);
+		EXPECT_STREQ("foo", multitoken.token);
+		EXPECT_EQ(0, multitoken.value[0]);
+		EXPECT_EQ(input+4, multitoken.data);
+	}
+
+	{
+		// non-exhaustive assignment
+		char const*const input = "foo=bar;baz";
+		PARSER multiassignment{.data=input, .can_continue=false,
+			                   .token={'x'}, .value={'y'},
+			                   .equals=&eql, .separators=&sep};
+		EXPECT_TRUE(parser_parse(&multiassignment));
+		EXPECT_TRUE(multiassignment.can_continue);
+		EXPECT_STREQ("foo", multiassignment.token);
+		EXPECT_STREQ("bar", multiassignment.value);
+		EXPECT_EQ(8+input, multiassignment.data);
+	}
+	{
+		// defect input string.
+		PARSER error{.data="err\"or"};
+		EXPECT_FALSE(parser_parse(&error));
+	}
+}
