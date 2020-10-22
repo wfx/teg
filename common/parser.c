@@ -69,31 +69,32 @@ PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
 {
 	PARSER_VALUE pval=PARSER_DATA;
 	int i,j;
-	int quote=0;
+	bool in_escape = false;
 	
-	out[0]=0;
-
-	/* copia data */
+	// Analyzing the input string, copy data characters obeying escaped values.
 	for(i=0,j=0;i<maxlen;i++) {
 		if( in[i] == '"' ) {
-			quote = ! quote;
+			in_escape = !in_escape;
 			continue;
 		}
 
-		if( ! quote ) {
-			if( (pval=(PARSER_VALUE)parser_character_class(in[i],equals,separators)) != PARSER_DATA )
+		if(!in_escape) {
+			pval=(PARSER_VALUE)parser_character_class(in[i], equals, separators);
+			if(pval != PARSER_DATA) {
 				break;
+			}
 		}
 
 		out[j++]=in[i];
-		out[j]=0;
 	}
+	out[j]=0;
 
-	/* se termino de copiar en la pos i */
+	// Check if the input end was reached without a terminating symbol
 	if(i==maxlen) {
 		return PARSER_ERROR;
 	}
-	*pos=i;
+
+	*pos=i; // signal the new input position to the caller
 	return pval;
 }
 
