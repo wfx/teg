@@ -99,7 +99,7 @@ PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
 }
 
 /* Unica funcion exportable */
-bool parser_call( PPARSER p_in )
+bool parser_parse( PPARSER p_in )
 {
 	PARSER_VALUE pval;
 	int i;

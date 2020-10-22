@@ -136,7 +136,7 @@ TEG_STATUS aux_token_fichas( int fd, char *str, int maximo, unsigned long conts 
 
 do_real:
 	do {
-		if( parser_call( &p )) {
+		if( parser_parse( &p )) {
 
 			country = atoi( p.token );		
 			cant = atoi( p.value );		

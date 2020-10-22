@@ -43,5 +43,8 @@ typedef struct {
 	PDELIM separador;
 } PARSER, *PPARSER;
 
-/* Unica funcion publica del parser */
-bool parser_call( PPARSER );
+/**
+ * @brief Parse an input string into the command token and optional value token.
+ * @return true if the parse succeded, false otherwise.
+ */
+bool parser_parse(PPARSER);

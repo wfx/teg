@@ -45,47 +45,47 @@ TEG_STATUS aux_status( PCPLAYER pj, char *str )
 	p.separador = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		strncpy( pj->name, p.token, sizeof(pj->name)-1);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->color = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->score = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->numjug = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->estado = atoi( p.token);
 	} else goto error;
 	
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->tot_countries = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->tot_armies = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->tot_cards = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->empezo_turno = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pj->human = atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.hay_otro ) {
 		strncpy( pj->addr, p.token, sizeof(pj->addr)-1);
 	} else goto error;
 
@@ -110,23 +110,23 @@ TEG_STATUS aux_scores( PSCORES pS, char *str )
 	p.separador = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		strncpy( pS->name, p.token, sizeof(pS->name)-1);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pS->color= atoi( p.token);
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		strncpy( pS->date, p.token, sizeof(pS->date)-1 );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.hay_otro ) {
 		pS->score = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.hay_otro ) {
 		pS->human= atoi( p.token);
 	} else goto error;
 
@@ -157,7 +157,7 @@ TEG_STATUS aux_countries( int numjug, char *str )
 	p.data = str;
 
 	do {
-		if((i = parser_call( &p ))) {
+		if((i = parser_parse( &p ))) {
 			country = atoi(p.token);
 			cant = atoi(p.value);
 			if( g_countries[country].numjug != numjug || g_countries[country].ejercitos != cant ) {
