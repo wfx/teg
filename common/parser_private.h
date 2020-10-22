@@ -41,6 +41,21 @@ enum CharClass parser_character_class(char a,
 /// A delimiter descriptor which matches nothing.
 extern DELIM const delim_null;
 
+/**
+ * @brief Try to copy a full token, and return the end position and by how the
+ *        token is terminated.
+ * @param[out] pos The position of the token delimiter. When there is an error,
+ *                 this value will be left untouched.
+ * @param in The text to scan
+ * @param[out] out The token string value
+ * @param igualador Characters which can act as equal signs
+ * @param separador Characters which can act as separating sings
+ * @param maxlen The length of the input buffer
+ * @return
+ */
+PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
+    DELIM const* equals, DELIM const* separators, int maxlen);
+
 #ifdef __cplusplus
 }
 #endif

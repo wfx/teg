@@ -65,14 +65,8 @@ enum CharClass parser_character_class(char a,
 	return ccData;
 }
 
-static PARSER_VALUE 
-analiza( int *pos,		/* En que pos corto la cadena */
-	char *in,		/* Cadena de entrada */ 
-	char *out,		/* Cadena de salida */
-    DELIM const* igualador,	/* Igualadores */
-    DELIM const* separador,	/* Separadores */
-	int maxlen
-	)
+PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
+    DELIM const* equals, DELIM const* separators, int maxlen)
 {
 	PARSER_VALUE pval=PARSER_DATA;
 	int i,j;
@@ -88,7 +82,7 @@ analiza( int *pos,		/* En que pos corto la cadena */
 		}
 
 		if( ! quote ) {
-			if( (pval=(PARSER_VALUE)parser_character_class(in[i],igualador,separador)) != PARSER_DATA )
+			if( (pval=(PARSER_VALUE)parser_character_class(in[i],equals,separators)) != PARSER_DATA )
 				break;
 		}
 
@@ -110,7 +104,7 @@ bool parser_call( PPARSER p_in )
 	PARSER_VALUE pval;
 	int i;
 
-	if( (pval=analiza( &i, p_in->data, p_in->token, p_in->igualador, p_in->separador,PARSER_TOKEN_MAX )) == PARSER_ERROR )
+	if( (pval=parser_analyze_token( &i, p_in->data, p_in->token, p_in->igualador, p_in->separador,PARSER_TOKEN_MAX )) == PARSER_ERROR )
 		return false;
 	
 	p_in->value[0]=0;
@@ -129,7 +123,7 @@ bool parser_call( PPARSER p_in )
 	case PARSER_IGUAL:
 	{
 		int j;
-		pval = analiza( &j, &p_in->data[i+1], p_in->value, &delim_null, p_in->separador, PARSER_VALUE_MAX );
+		pval = parser_analyze_token( &j, &p_in->data[i+1], p_in->value, &delim_null, p_in->separador, PARSER_VALUE_MAX );
 
 		if( pval==PARSER_IGUAL || pval==PARSER_ERROR )
 			return false;
