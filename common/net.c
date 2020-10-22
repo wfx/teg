@@ -24,10 +24,6 @@
  *       y del archivo gnome-net (que ya no existe mas)
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif /* HAVE_CONFIG_H */
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
