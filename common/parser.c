@@ -91,7 +91,7 @@ PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
 	}
 
 	/* se termino de copiar en la pos i */
-	if(i==PARSER_TOKEN_MAX) {
+	if(i==maxlen) {
 		return PARSER_ERROR;
 	}
 	*pos=i;

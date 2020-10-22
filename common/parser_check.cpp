@@ -54,10 +54,8 @@ TEST(Parser, analyze)
 	EXPECT_STREQ("abcdefg", out);
 
 	// end of input string -> error
-	/* This behaviour is not implemented right now
 	EXPECT_EQ(PARSER_ERROR, pat("", 0));
 	EXPECT_EQ(-1, pos);
-	*/
 
 	EXPECT_EQ(PARSER_SEPARADOR, pat("abcdefg;hij"));
 	EXPECT_EQ(7, pos);
@@ -71,7 +69,7 @@ TEST(Parser, analyze)
 	EXPECT_EQ(9, pos);
 	EXPECT_STREQ("abcdefg", out);
 
-	EXPECT_EQ(PARSER_DATA, pat("a\"bcdefg=hij"));
-	EXPECT_EQ(13, pos);
+	EXPECT_EQ(PARSER_ERROR, pat("a\"bcdefg=hij"));
+	EXPECT_EQ(-1, pos);
 	EXPECT_STREQ("abcdefg=hij", out);
 }
