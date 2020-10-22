@@ -27,12 +27,14 @@
 #include "all.h"
 
 MISSIONS g_missions[]= {
-    { 0,	/* Objetivo cuando se juega sin missions */
+    // common mission, all time active: conquer the whole world
+    [MISSION_CONQWORLD] = {0,
 		N_("Conquer the world"),
 		{CONT_AMERICASUR_CANT, CONT_AMERICANORTE_CANT, CONT_AFRICA_CANT, CONT_OCEANIA_CANT, CONT_EUROPA_CANT, CONT_ASIA_CANT},
 		0,
 		0 },
-    { 0,	/* Objetivo comun */
+    // optional common mission: conquer 30 countries
+    [MISSION_COMMON] = { 0,	/* Objetivo comun */
 		N_("Conquer 30 countries"),
 		{0, 0, 0, 0, 0, 0},
 		0,
