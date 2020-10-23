@@ -17,14 +17,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file canje.h
- */
 
-#ifndef __TEGC_CANJE_H
-#define __TEGC_CANJE_H
+#pragma once
+
+#include "common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 TEG_STATUS canje_out( int p1, int p2, int p3 );
 TEG_STATUS canje_puedo(int *p1, int *p2, int *p3);
 
-#endif /* __TEGC_CANJE_H */
+#ifdef __cplusplus
+}
+#endif
