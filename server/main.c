@@ -154,7 +154,6 @@ void game_init()
 	g_game.fichas2 = 3;
 	g_game.mission = FALSE;
 	g_game.cmission = TRUE;
-	g_game.reglas = TEG_RULES_TEG;
 	g_game.fog_of_war = FALSE;
 	g_game.player_fow = NULL;
 

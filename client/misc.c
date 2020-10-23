@@ -69,7 +69,6 @@ TEG_STATUS game_reinit()
 		tarjeta_inittarj( &g_countries[i].tarjeta );
 
 	g_game.secret_mission = -1;
-	g_game.rules = TEG_RULES_TEG;
 	g_game.whos_turn = -1;
 	g_game.who_started_round = -1;
 	g_game.round_number = -1;

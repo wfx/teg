@@ -69,7 +69,6 @@ typedef struct _cgame {
 	LIST_ENTRY tarjetas_list;	/**< lista de tarjetas */
 	int tarjetas_cant;		/**< cantidad de tarjetas */
 	int secret_mission;		/**< which secret mission to accomplish */
-	int rules;			/**< rules of the game */
 	int dados_srccountry;		/**< utimo country que ataco */
 	int dados_src[3];		/**< ultimos dados del atacante */
 	int dados_dstcountry;		/**< ultimo country que se defendio */

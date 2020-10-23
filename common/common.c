@@ -44,15 +44,6 @@ char *g_colores[] = {
 	N_("n/a")			/* color is not assigned yet */
 };
 
-
-/* XXX sync with common.h */
-char *g_reglas[] = {
-	N_("TEG"),
-	N_("Risk"),
-	N_("1914"),
-	N_("other"),
-};
-
 /* XXX: sync these status with the one in common.h */
 char *g_estados[] = {
 	N_("disconnected"),

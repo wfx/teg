@@ -1222,7 +1222,7 @@ TEG_STATUS clitok_modalidad(char *str)
 	PARSER p;
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
-	int with_secret_mission, with_common_mission, with_fog_of_war, rules;
+	int with_secret_mission, with_common_mission, with_fog_of_war;
 
 	if( strlen(str)==0 )
 		goto error;
@@ -1245,10 +1245,9 @@ TEG_STATUS clitok_modalidad(char *str)
 
 	/* not used */
 	if( parser_parse( &p ) && !p.can_continue ) {
-		rules = atoi( p.token );		
+		// rules = atoi( p.token );
 	} else goto error;
 
-	g_game.rules = rules;
 	g_game.with_common_mission = with_common_mission;
 	g_game.with_secret_mission = with_secret_mission;
 	g_game.with_fog_of_war = with_fog_of_war;

@@ -66,15 +66,6 @@ typedef enum {
 	TEG_STATUS_THEMEERROR = 13,
 } TEG_STATUS, *PTEG_STATUS;
 
-/* hacer sync con common.c */
-enum {
-	TEG_RULES_TEG,			/**< reglas tipo TEG */
-	TEG_RULES_RISK,			/**< reglas tipo RISK */
-	TEG_RULES_1914,			/**< reglas tipo 1914 */
-	TEG_RULES_MISC,			/**< reglas tipo otracosa */
-};
-extern char *g_reglas[];
-
 typedef enum {
 	ARMY_ROJO = 0,
 	ARMY_AMARILLO = 1,
