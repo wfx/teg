@@ -17,14 +17,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file common.h
- */
-#ifndef __TEG_COMMON_H
-#define __TEG_COMMON_H
+
+#pragma once
 
 #include <stddef.h>
 #include <stdlib.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define TEG_MAX_PLAYERS 6
 #define TEG_MAX_CONNECTIONS 15
@@ -258,4 +260,6 @@ int my_atoi( char * s);
  * target buffer (unless \p destlen is 0). */
 void string_copy(char* dest, size_t destlen, char const* source);
 
-#endif /* __TEG_COMMON_H */
+#ifdef __cplusplus
+}
+#endif
