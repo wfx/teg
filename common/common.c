@@ -71,6 +71,8 @@ char *g_estados[] = {
 /* returns an integer from /dev/random or 0 if it can't */
 int get_int_from_dev_random( void )
 {
+	char const*const RANDOM_DEVICE="/dev/urandom";
+
 	int fd;
 	char buf[sizeof(int)];
 	int l;

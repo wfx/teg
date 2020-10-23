@@ -78,8 +78,6 @@ extern char *g_colores[];
 
 #define RANDOM_MAX(_min,_max) (_min+(int)(((float)(1+_max-_min))*rand() / (RAND_MAX+1.0)))
 
-#define RANDOM_DEVICE "/dev/random"
-
 #define MODALIDAD_READONLY	0
 #define MODALIDAD_PLAYER	1
 
