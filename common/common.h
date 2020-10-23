@@ -117,15 +117,6 @@ typedef enum {
 } PLAYER_STATUS, *PPLAYER_STATUS;
 extern char *g_estados[];
 
-#ifndef MAX
-#define MAX(a,b)	(((a) > (b)) ? (a): (b))
-#endif
-
-#ifndef MIN
-#define MIN(a,b)	(((a) < (b)) ? (a): (b))
-#endif
-
-
 typedef struct _LIST_ENTRY {
 	struct _LIST_ENTRY *Flink;
 	struct _LIST_ENTRY *Blink;
@@ -232,14 +223,12 @@ typedef struct _LIST_ENTRY {
     _EX_ListHead->Flink = (Entry);\
     }
 
-
-/* prototipos de funciones */
 int get_int_from_dev_random( void );
 int cuantos_x_canje( int c );
 TEG_STATUS strip_invalid( char *n );
 TEG_STATUS strip_invalid_msg( char *n );
 
-/**! like atoi, but if ! s, returns -1 */
+/**! like atoi, but returns -1 when s==NULL*/
 int my_atoi( char * s);
 
 /** @brief Copies a string respecting the size limit of the destination buffer.
