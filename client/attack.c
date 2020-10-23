@@ -22,15 +22,26 @@
  */
 
 #include "protocol.h"
+#include "net.h"
 #include "fcintl.h"
 #include "client.h"
 
+/// \internal The origin of the ongoing attack
 static int country_origen = -1;
+
+//// \internal The target of the current attack
 static int country_destino = -1;
+
+/// \internal Copy of the origin country, used for attack replay (Ctrl-R)
 static int country_origen_bak = -1;
+
+/// \internal Copy of the target country, used for attack replay
 static int country_destino_bak = -1;
 
+/// \internal Used in the gnome gui only as a helper to show ongoing attacks
 static int show_src = -1;
+
+/// \internal Used in the gnome gui only as a helper to show ongoing attacks
 static int show_dst = -1;
 
 /* are the necesary conditions met for the attack ? */
@@ -80,7 +91,7 @@ TEG_STATUS attack_init()
 	if( attack_check() != TEG_STATUS_SUCCESS )
 		return TEG_STATUS_UNEXPECTED;
 
-	attack_backup();
+	attack_backup(); /// \todo This looks wrong here.
 	attack_reset();
 
 	return TEG_STATUS_SUCCESS;
@@ -235,7 +246,7 @@ TEG_STATUS attack_leave( PCOUNTRY p )
 }
 
 /* unshow the attack shown with attack_show() */
-TEG_STATUS attack_unshow()
+void attack_unshow()
 {
 
 	if( show_src != -1 ) {
@@ -249,12 +260,10 @@ TEG_STATUS attack_unshow()
 		gui_country_select(show_dst);
 		show_dst = -1;
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
 /* shows attack an attack from srt to dst */
-TEG_STATUS attack_show( int src, int dst )
+void attack_show( int src, int dst )
 {
 	attack_unshow();
 
@@ -269,7 +278,4 @@ TEG_STATUS attack_show( int src, int dst )
 		g_countries[dst].selected |= COUNTRY_SELECT_ATTACK_DST;
 		gui_country_select(dst);
 	}
-
-
-	return TEG_STATUS_SUCCESS;
 }
