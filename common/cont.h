@@ -17,12 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file cont.h
- */
 
-#ifndef __TEG_CONT_H
-#define __TEG_CONT_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	CONTINENTE_AMERICASUR,
@@ -58,4 +58,6 @@ int cont_tot( unsigned long conts );
 /* returns the name of a country */
 char * cont_get_name( int cont_number );
 
-#endif /* __TEG_CONT_H */
+#ifdef __cplusplus
+}
+#endif
