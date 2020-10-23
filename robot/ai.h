@@ -17,13 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file ai.h
- * Inteligecia artificial del robot
- */
 
-#ifndef __TEGR_AI_H
-#define __TEGR_AI_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern int ai_puntaje[COUNTRIES_CANT*10];
 extern int ai_sorted[COUNTRIES_CANT*10];
@@ -39,4 +38,6 @@ BOOLEAN ai_own_continent( int c );
 TEG_STATUS ai_puntaje_sort(int cant);
 TEG_STATUS ai_puntaje_clean();
 
-#endif /* __TEGR_AI_H */
+#ifdef __cplusplus
+}
+#endif
