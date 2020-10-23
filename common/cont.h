@@ -52,10 +52,25 @@ typedef struct _cont {
 
 extern CONT g_conts[];
 
-/* returns the total number of continents */
+/**
+ * \brief Calculates the sum of all additional armies given for completely
+ * conquered continents.
+ *
+ * \param conts A bitfield, where the bit for each completely conquered
+ *              continent is set to 1.
+ *
+ *              Example: if the player conquered oceania and asia, the bitfield
+ *              equals to (1 << CONTINENTE_OCEANIA) | (1 << CONTINENTE_ASIA)
+ *                      = (1 << 3)                  | (1 << 5)
+ *                      =     8                     |    32
+ *                      =                          40
+ *
+ * \return The total number of additional armies. For oceania and asia, this
+ *         would be 9 (2 for oceania + 7 for asia).
+ */
 int cont_tot( unsigned long conts );
 
-/* returns the name of a country */
+/// \return the translated name of the continent with number \p cont_number
 char * cont_get_name( int cont_number );
 
 #ifdef __cplusplus
