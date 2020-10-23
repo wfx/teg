@@ -71,7 +71,7 @@ extern CONT g_conts[];
 int cont_tot( unsigned long conts );
 
 /// \return the translated name of the continent with number \p cont_number
-char * cont_get_name( int cont_number );
+char const* cont_get_name(unsigned cont_number);
 
 #ifdef __cplusplus
 }

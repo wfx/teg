@@ -33,10 +33,9 @@ CONT g_conts[] = {
 int cont_tot( unsigned long conts )
 {
 	int max;
-	int i;
 
 	max = 0;
-	for(i=0;i<NRCONTS;i++) {
+	for(size_t i=0; i<NRCONTS; i++) {
 		if( conts & 1 ) {
 			max += g_conts[i].fichas_x_cont;
 		}
@@ -46,10 +45,9 @@ int cont_tot( unsigned long conts )
 	return max;
 }
 
-/* returns the name of a country */
-char * cont_get_name( int i )
+char const* cont_get_name(unsigned i)
 {
-	if( i >= 0 && i < NRCONTS )
+	if(i < NRCONTS )
 		return _( g_conts[i].name );
 	else
 		return _("Unknown");
