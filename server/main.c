@@ -33,10 +33,17 @@
 #include <errno.h>
 #include <string.h>
 
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif
+
+
 #include "server.h"
 #include "scores.h"
 #include "xmlscores.h"
-
+#include "version.h"
+#include "fcintl.h"
+#include "tegdebug.h"
 
 #define MAIN_DEBUG PDEBUG
 

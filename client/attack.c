@@ -21,8 +21,9 @@
  * manages the client side of the attack
  */
 
+#include "protocol.h"
+#include "fcintl.h"
 #include "client.h"
-
 
 static int country_origen = -1;
 static int country_destino = -1;

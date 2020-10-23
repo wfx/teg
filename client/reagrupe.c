@@ -22,7 +22,9 @@
  * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_REAGRUPE'
  */
 
+#include "fcintl.h"
 #include "client.h"
+#include "protocol.h"
 
 static int country_origen = -1;
 static int country_destino = -1;

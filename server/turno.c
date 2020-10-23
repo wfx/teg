@@ -25,7 +25,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+
 #include "server.h"
+#include "tegdebug.h"
 
 #define TURNO_DEBUG PDEBUG
 

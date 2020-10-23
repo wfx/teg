@@ -21,8 +21,14 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "client.h"
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif /* HAVE_CONFIG_H */
 
+#include "fcintl.h"
+#include "net.h"
+#include "client.h"
+#include "protocol.h"
 
 /* sends message to all players (via server) */
 TEG_STATUS out_mensaje( char *msg )

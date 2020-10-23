@@ -27,8 +27,8 @@
 #	include <locale.h>
 #endif
 
-#include "all.h"
 #include "share.h"
+#include "fcintl.h"
 
 char * get_option(const char *option_name,char const **argv,int *i,int argc)
 {

@@ -22,6 +22,8 @@
  * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_EJER2'
  */
 
+#include "protocol.h"
+#include "fcintl.h"
 #include "client.h"
 
 static int last_country = -1;

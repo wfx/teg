@@ -28,8 +28,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#	include <config.h>
 #endif
 
 #ifdef HAVE_LIBREADLINE
@@ -38,6 +39,9 @@
 #endif /* HAVE_LIBREADLINE */
 
 #include "server.h"
+#include "fcintl.h"
+#include "scores.h"
+#include "parser.h"
 
 #undef DEBUG_CONSOLE
 

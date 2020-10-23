@@ -36,6 +36,7 @@
 #include <glib.h>
 #include <time.h>
 
+#include "../common/xml_support.h"
 #include "server.h"
 #include "xmlscores.h"
 #include "scores.h"

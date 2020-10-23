@@ -25,6 +25,7 @@
 
 #include "server.h"
 #include "stats.h"
+#include "country.h"
 
 /* server player */
 typedef struct _player{

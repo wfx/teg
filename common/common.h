@@ -24,6 +24,7 @@
 #define __TEG_COMMON_H
 
 #include <stddef.h>
+#include <stdlib.h>
 
 #define TEG_MAX_PLAYERS 6
 #define TEG_MAX_CONNECTIONS 15

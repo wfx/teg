@@ -32,7 +32,6 @@
 #include <libxml/parser.h>
 #include <glib.h>
 
-#include "all.h"
 #include "themes.h"
 #include "globals.h"
 #include "common.h"

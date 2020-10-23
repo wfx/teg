@@ -26,6 +26,8 @@
 #endif
 
 #include <gtk/gtk.h>
+
+#include "fcintl.h"
 #include "client.h"
 #include "gui.h"
 #include "priv.h"

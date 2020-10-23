@@ -24,6 +24,9 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "parser.h"
+#include "fcintl.h"
+#include "protocol.h"
 #include "client.h"
 
 TEG_STATUS clitok_rem(char *str);

@@ -25,8 +25,6 @@
 #ifndef __TEGS_SERVER_H
 #define __TEGS_SERVER_H
 
-#include "all.h"
-
 #include "tarjeta.h"
 #include "countries.h"
 #include "player.h"

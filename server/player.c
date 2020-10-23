@@ -29,6 +29,7 @@
 #include "server.h"
 #include "scores.h"
 #include "xmlscores.h"
+#include "fcintl.h"
 
 LIST_ENTRY g_list_player;		/**< list of players */
 

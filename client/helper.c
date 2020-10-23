@@ -24,6 +24,8 @@
 
 #include <string.h>
 
+#include "parser.h"
+#include "fcintl.h"
 #include "client.h"
 
 /**

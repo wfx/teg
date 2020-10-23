@@ -31,6 +31,8 @@
 
 #include <glib.h>
 
+#include "protocol.h"
+#include "fcintl.h"
 #include "client.h"
 
 CJUEGO g_game;			/**< client game */

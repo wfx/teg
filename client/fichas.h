@@ -25,6 +25,9 @@
 #ifndef __TEGC_FICHAS
 #define __TEGC_FICHAS
 
+#include "common.h"
+#include "country.h"
+
 TEG_STATUS fichas_add( PCOUNTRY p );
 TEG_STATUS fichas_sub( PCOUNTRY p );
 TEG_STATUS fichas_finish( int **ptr );

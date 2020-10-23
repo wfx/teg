@@ -17,14 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file missions.c
- */
+
+#include "missions.h"
+
+#include "fcintl.h"
 
 #include <stdio.h>
 #include <string.h>
-
-#include "all.h"
 
 MISSIONS g_missions[]= {
     // common mission, all time active: conquer the whole world

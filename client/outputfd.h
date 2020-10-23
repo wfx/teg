@@ -24,6 +24,7 @@
 #define __TEGC_OUTPUTFD_H
 
 #include "client.h"
+#include "common.h"
 
 TEG_STATUS out_mensaje( char *msg );
 TEG_STATUS out_id();

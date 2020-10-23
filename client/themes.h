@@ -26,11 +26,14 @@
 #ifndef __TEGC_THEMES_H
 #define __TEGC_THEMES_H
 
+#include <libxml/parser.h>
+
+#include "common.h"
+
 #define THEME_CONTINENT_MAX	(30)
 #define THEME_COUNTRY_MAX	(30)
 #define THEME_MAX_NAME		(50)
 
-#include <libxml/parser.h>
 
 /* country */
 typedef struct _theme_country {

@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <string.h>
 
+#include "fcintl.h"
 #include "gui.h"
 #include "client.h"
 #include "ai.h"

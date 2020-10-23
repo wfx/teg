@@ -18,7 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "all.h"
+#include "cont.h"
+
+#include <stdlib.h>
+
+#include "fcintl.h"
 
 CONT g_conts[] = {
 	{ N_("South America"), CONTINENTE_AMERICASUR, CONT_AMERICASUR_CANT, 3 },

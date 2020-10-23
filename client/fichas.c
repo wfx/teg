@@ -24,6 +24,9 @@
 
 #include <stdio.h>
 #include <string.h>
+
+#include "fcintl.h"
+#include "protocol.h"
 #include "client.h"
 
 static int	aFichas[COUNTRIES_CANT];	/**< array de los countries */

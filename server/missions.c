@@ -23,6 +23,7 @@
 #include <string.h>
 
 #include "server.h"
+#include "../common/missions.h"
 
 /* Do player pJ accomplished his secret mission ? */
 TEG_STATUS mission_chequear( PSPLAYER pJ )

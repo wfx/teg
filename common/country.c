@@ -18,7 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "all.h"
+#include "country.h"
+
+#include "fcintl.h"
 
 COUNTRY g_countries[] = {
 	/* AMERICA DEL SUR */

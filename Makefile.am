@@ -19,7 +19,6 @@ TESTS = $(check_PROGRAMS)
 
 libtegcommon_a_CPPFLAGS = @XML_CFLAGS@
 libtegcommon_a_SOURCES = 	\
-	common/all.h			\
 	common/net.c common/net.h		\
 	common/share.c	common/share.h		\
 	common/fcintl.h		\

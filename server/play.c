@@ -26,9 +26,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif
+
 #include "server.h"
+#include "tegdebug.h"
 #include "xmlscores.h"
 #include "fow.h"
+#include "fcintl.h"
+#include "parser.h"
 
 #undef DEBUG_PLAY
 #define PLAY_DEBUG PDEBUG

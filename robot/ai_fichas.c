@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "fcintl.h"
 #include "client.h"
 #include "ai.h"
 #include "ai_fichas.h"

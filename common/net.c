@@ -38,7 +38,7 @@
 #include <stdio.h>
 #include <netdb.h>
 
-#include "all.h"
+#include "protocol.h"
 
 static ssize_t
 writen(int fd, const void *vptr, size_t n )

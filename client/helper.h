@@ -23,6 +23,8 @@
 #ifndef __TEGC_AUX_H
 #define __TEGC_AUX_H
 
+#include "scores.h"
+
 TEG_STATUS aux_status( PCPLAYER pj, char *str );
 TEG_STATUS aux_countries( int numjug, char *str );
 void aux_draw_all_countries();

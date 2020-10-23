@@ -24,6 +24,10 @@
 #ifndef __TEG_VERSION_H
 #define __TEG_VERSION_H
 
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif /* HAVE_CONFIG_H */
+
 #define TEG_NAME PACKAGE
 
 #endif  /* __TEG_VERSION_H */

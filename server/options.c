@@ -27,8 +27,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include "server.h"
 #include "fow.h"
+#include "parser.h"
+#include "fcintl.h"
 
 TEG_STATUS option_conqworld(int fd, char *str);
 TEG_STATUS option_conqworld_view( void );

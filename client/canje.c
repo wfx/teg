@@ -22,7 +22,10 @@
  * Contiene algunas funciones auxiliares para el manejo del canje
  */
 
+#include "protocol.h"
+#include "fcintl.h"
 #include "client.h"
+
 /**
  * @fn TEG_STATUS canje_out( int p1, int p2, int p3 )
  * Envia el canje de tarjetas
