@@ -360,7 +360,7 @@ void aux_token_fichasc( PSPLAYER pJ )
 	}
 
 	if( pJ->hizo_canje )
-		x_canje = cuantos_x_canje( pJ->tot_exchanges );
+		x_canje = cards_for_this_exchange( pJ->tot_exchanges );
 
 	pJ->estado = PLAYER_STATUS_FICHASC;
 	netall_printf( TOKEN_FICHASC"=%d,%d,%d\n",pJ->numjug,conts,armies + x_canje );

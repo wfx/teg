@@ -90,10 +90,8 @@ int get_int_from_dev_random( void )
 }
 
 /* given the number of exchange, it says the numer of armies he deserves */
-int cards_for_this_exchange(int exchanges )
+unsigned cards_for_this_exchange(unsigned exchanges )
 {
-	if( exchanges < 1 )
-		return 0;
 	switch( exchanges ) {
 		case 0:
 			return 0;
@@ -106,7 +104,6 @@ int cards_for_this_exchange(int exchanges )
 		default:
 	        return (exchanges-1) * 5;
 	}
-
 }
 
 void strip_invalid(char *n )

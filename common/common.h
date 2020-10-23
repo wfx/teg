@@ -232,7 +232,7 @@ int get_int_from_dev_random(void);
  *
  * @return The number of additional armies.
  */
-int cards_for_this_exchange(int exchanges);
+unsigned cards_for_this_exchange(unsigned exchanges);
 
 /**
  * @brief Removes invalid characters from the string, for use with player names

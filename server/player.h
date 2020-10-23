@@ -45,7 +45,7 @@ typedef struct _player{
 	int tot_countries;			/**< number of countries (optimization) */
 	int tot_armies;				/**< number of armies (") */
 	int tot_cards;				/**< number of cards (") */
-	int tot_exchanges;			/**< number of exchanges */
+	unsigned tot_exchanges;			/**< number of exchanges */
 	int fd;					/**< file descriptor */
 	PLAYER_STATUS estado;			/**< status of the player */
 	PLAYER_STATUS status_before_discon;	/**< status before disconn */

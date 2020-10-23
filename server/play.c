@@ -493,7 +493,7 @@ STATIC TEG_STATUS token_fichasc( int fd, char *str )
 	total_armies = pJ->fichasc_armies + cont_tot(pJ->fichasc_conts);
 
 	if( pJ->hizo_canje )
-		total_armies += cuantos_x_canje( pJ->tot_exchanges );
+		total_armies += cards_for_this_exchange( pJ->tot_exchanges );
 
 	if( aux_token_fichas( fd, str, total_armies, pJ->fichasc_conts) == TEG_STATUS_SUCCESS ) {
 
@@ -1000,7 +1000,7 @@ STATIC TEG_STATUS token_canje( int fd, char *str )
 	pJ->tot_exchanges++;
 	pJ->tot_cards -= 3;
 
-	canj_ejer = cuantos_x_canje( pJ->tot_exchanges );
+	canj_ejer = cards_for_this_exchange( pJ->tot_exchanges );
 
 	/* quitarle las tarjetas al player | mark the cards as unused*/
 	tarjeta_poner( &g_countries[t1].tarjeta );
