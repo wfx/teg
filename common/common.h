@@ -223,10 +223,32 @@ typedef struct _LIST_ENTRY {
     _EX_ListHead->Flink = (Entry);\
     }
 
-int get_int_from_dev_random( void );
-int cuantos_x_canje( int c );
-TEG_STATUS strip_invalid( char *n );
-TEG_STATUS strip_invalid_msg( char *n );
+/// Read a random number from the linux/bsd kernel
+int get_int_from_dev_random(void);
+
+/**
+ * \brief Calculates the number of additional armies after already \p excanges
+ * had taken place.
+ *
+ * @return The number of additional armies.
+ */
+int cards_for_this_exchange(int exchanges);
+
+/**
+ * @brief Removes invalid characters from the string, for use with player names
+ *        and remote addresses.
+ *
+ * @param[inout] n the string to strip
+ */
+void strip_invalid(char *n);
+
+/**
+ * @brief Removes invalid characters from the string, for use in network
+ *        messages.
+ *
+ * @param[inout] n
+ */
+void strip_invalid_msg(char *n);
 
 /**! like atoi, but returns -1 when s==NULL*/
 int my_atoi( char * s);

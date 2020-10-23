@@ -90,11 +90,11 @@ int get_int_from_dev_random( void )
 }
 
 /* given the number of exchange, it says the numer of armies he deserves */
-int cuantos_x_canje( int c )
+int cards_for_this_exchange(int exchanges )
 {
-	if( c < 1 )
+	if( exchanges < 1 )
 		return 0;
-	switch( c ) {
+	switch( exchanges ) {
 		case 0:
 			return 0;
 		case 1:
@@ -104,12 +104,12 @@ int cuantos_x_canje( int c )
 		case 3:
 			return 10;
 		default:
-			return (c-1) * 5;
+	        return (exchanges-1) * 5;
 	}
 
 }
 
-TEG_STATUS strip_invalid( char *n )
+void strip_invalid(char *n )
 {
 	int l = strlen(n);
 	int i;
@@ -120,11 +120,9 @@ TEG_STATUS strip_invalid( char *n )
 		if( n[i]=='=' || n[i]==';' || n[i]=='\\' || n[i]==',' || n[i]==':' || n[i]=='/' || n[i]=='%')
 			n[i] = '.';
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS strip_invalid_msg( char *n )
+void strip_invalid_msg( char *n )
 {
 	int l = strlen(n);
 	int i;
@@ -135,8 +133,6 @@ TEG_STATUS strip_invalid_msg( char *n )
 		if( n[i]=='"' )
 			n[i]='\'';
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
 int my_atoi( char *s )
