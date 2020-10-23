@@ -60,7 +60,6 @@ enum {
 extern COUNTRY g_countries[];
 
 BOOLEAN countries_eslimitrofe( int a, int b);
-int countries_cantlimitrofes( int p );
 void countries_initcountry( PCOUNTRY p );
 void countries_init();
 BOOLEAN country_libre( int i );

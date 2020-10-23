@@ -99,23 +99,6 @@ BOOLEAN countries_eslimitrofe( int a, int b)
 		return( mat_ady[a][b]==1 );
 }
 
-/* returns the quantity of border contries that a country has */
-int countries_cantlimitrofes( int p )
-{
-	int i;
-	int cant=0;
-
-	if(p < 0 || p >= COUNTRIES_CANT )
-		return -1;
-
-	for(i=0; i < COUNTRIES_CANT; i++ ) {
-		if(  countries_eslimitrofe( p, i ) )
-			cant++;
-	}
-
-	return cant;
-}
-
 /* Initializes country p */
 void countries_initcountry( PCOUNTRY p )
 {
