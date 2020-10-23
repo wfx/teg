@@ -251,7 +251,7 @@ void strip_invalid(char *n);
 void strip_invalid_msg(char *n);
 
 /**! like atoi, but returns -1 when s==NULL*/
-int my_atoi( char * s);
+int my_atoi(const char *s);
 
 /** @brief Copies a string respecting the size limit of the destination buffer.
  *

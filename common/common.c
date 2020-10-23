@@ -132,7 +132,7 @@ void strip_invalid_msg( char *n )
 	}
 }
 
-int my_atoi( char *s )
+int my_atoi(char const *s)
 {
 	if( ! s )
 		return -1;
