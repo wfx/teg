@@ -110,9 +110,7 @@ void countries_initcountry( PCOUNTRY p )
 /* initializes all the countries */
 void countries_init()
 {
-	int i;
-	
-	for(i=0;i<COUNTRIES_CANT;i++)
+	for(size_t i=0; i<COUNTRIES_CANT; i++)
 		countries_initcountry( &g_countries[i] );
 }
 
@@ -125,12 +123,10 @@ BOOLEAN country_libre( int i )
 /* returns the name of a country */
 char * countries_get_name( int i )
 {
-	static char *_unknown = N_("Unknown");
-
 	if( i >= 0 && i < COUNTRIES_CANT )
 		return _( g_countries[i].name );
 	else
-		return _( _unknown );
+		return _("Unknown");
 }
 
 BOOLEAN countrynumber_is_valid(int country_number)
