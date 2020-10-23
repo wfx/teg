@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+VERSIONS=(debian:10/d10 ubuntu:latest/ul)
+
+for VSPEC in "${VERSIONS[@]}"
+do
+	VERSION=${VSPEC%/*}
+	REGISTRY_TAG=${VSPEC##*/}
+	sed -e "s/@IMAGEBASE@/$VERSION/" debian | docker build -t ranft/teg:$REGISTRY_TAG -
+	docker push ranft/teg:$REGISTRY_TAG
+done

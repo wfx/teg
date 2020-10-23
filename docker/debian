@@ -1,5 +1,5 @@
 # vim: filetype=dockerfile sw=4 ts=4 et
-FROM debian:10
+FROM @IMAGEBASE@
 
 RUN echo 'APT::Install-Recommends "false";' >> /etc/apt/apt.conf && \
     echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf && \
@@ -7,4 +7,4 @@ RUN echo 'APT::Install-Recommends "false";' >> /etc/apt/apt.conf && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
             build-essential debhelper gettext \
             libgoocanvas-2.0-dev libtool libxml2-dev \
-            xmlto
+            xmlto libgmock-dev
