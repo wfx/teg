@@ -107,8 +107,6 @@ void countries_initcountry( PCOUNTRY p )
 	InitializeListHead( &p->next );
 	InitializeListHead( &p->tarjeta.next );
 	tarjeta_inittarj( &p->tarjeta );
-	p->tarjeta.numjug = -1;
-	p->tarjeta.usada = FALSE;
 	p->selected = COUNTRY_SELECT_NONE;
 }
 
