@@ -30,9 +30,6 @@
  * Funciones, variables exportadas
  */
 
-void countries_initcountry( PCOUNTRY p );
-void countries_init();
 void countries_repartir();
-void countries_test();
 
 #endif /* __TEGS_COUNTRIES_H */
