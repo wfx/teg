@@ -73,25 +73,20 @@ int get_int_from_dev_random( void )
 {
 	char const*const RANDOM_DEVICE="/dev/urandom";
 
-	int fd;
-	char buf[sizeof(int)];
-	int l;
-	int *ret;
-
-	fd = open( RANDOM_DEVICE, O_RDONLY);
-	if( fd < 0) {
+	int const fd = open(RANDOM_DEVICE, O_RDONLY);
+	if(fd < 0) {
 		fprintf(stderr,"Couldn't open '%s'\n", RANDOM_DEVICE);
 		return 0;
 	}
-	l = read( fd, buf, sizeof(buf));
-	if( l != sizeof(buf) )
+	int result;
+	const int l = read(fd, &result, sizeof(result));
+	if(l != sizeof(result)) {
 		fprintf(stderr,"Returning a not so random number. Read: %d\n",l);
-
-	ret = (int *)&buf;
+	}
 
 	close(fd);
 
-	return *ret;
+	return result;
 }
 
 /* given the number of exchange, it says the numer of armies he deserves */
