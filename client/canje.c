@@ -19,17 +19,13 @@
  */
 /**
  * @file canje.c
- * Contiene algunas funciones auxiliares para el manejo del canje
+ * @brief Client side card management.
  */
 
 #include "protocol.h"
 #include "fcintl.h"
 #include "client.h"
 
-/**
- * @fn TEG_STATUS canje_out( int p1, int p2, int p3 )
- * Envia el canje de tarjetas
- */
 TEG_STATUS canje_out( int p1, int p2, int p3 )
 {
 	if( !ESTADO_ES( PLAYER_STATUS_FICHASC )) {
