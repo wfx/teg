@@ -54,9 +54,9 @@ omf_timestamp: $(omffile)
 	done
 	touch omf_timestamp
 
+# Used to contain "-cp $(docname)/index.html .", but that is pointless
 index.html: $(docname)/index.html
-	-cp $(docname)/index.html .
-
+	
 $(docname).sgml: $(sgml_ents)
         ourdir=`pwd`;  \
         cd $(srcdir);   \
@@ -65,15 +65,26 @@ $(docname).sgml: $(sgml_ents)
 
 # The weird srcdir trick is because the db2html from the Cygnus RPMs
 # cannot handle relative filenames
+
 # Suse Linux 10.0 does not have "db2html", only "docbook2html" which is a script that calls "jw"
 # Check if any of those is available.
+
+# Use "iconv" and "tidy" to convert the non-ASCII Polish letters to html-entities.
+# Do it in the following steps:
+#	SGML iso8859-2   ->    HTML iso8859-2   -> HTML UTF-8   ->   HTML ASCII with entities
 $(docname)/index.html: $(srcdir)/$(docname).sgml
 	-srcdir=`cd $(srcdir) && pwd`; \
 	test ! "x`which db2html`" = "x" && db2html $$srcdir/$(docname).sgml; \
 	test ! "x`which docbook2html`" = "x" && docbook2html $$srcdir/$(docname).sgml; \
 	test ! "x`which jw`" = "x" && jw -f docbook -b html $$srcdir/$(docname).sgml
 
-# remove $(docname) to make installation work
+	-for file in *.html; do \
+	    iconv -f iso-8859-2 -t utf-8 $$file > utf8_$$file; \
+	    tidy --show-warnings no --quiet yes --input-encoding utf8 utf8_$$file > $$file; \
+	    rm -f utf8_$$file; \
+	done
+	
+# removed $(docname) to make thing install
 app-dist-hook: index.html
 	-$(mkinstalldirs) $(distdir)/$(docname)/stylesheet-images
 	-$(mkinstalldirs) $(distdir)/figures
@@ -87,7 +98,7 @@ app-dist-hook: index.html
 		cp $(srcdir)/topic.dat $(distdir); \
 	 fi
 
-# remove $(docname) to make installation work
+# removed $(docname) to make things install
 install-data-am: index.html omf
 	-$(mkinstalldirs) $(DESTDIR)$(docdir)/stylesheet-images
 	-$(mkinstalldirs) $(DESTDIR)$(docdir)/figures

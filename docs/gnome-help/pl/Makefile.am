@@ -12,5 +12,5 @@ docname = teg
 lang = pl
 omffile=teg-pl.omf
 sgml_ents =
-include $(top_srcdir)/docs/gnome-help/sgmldocs.make
+include $(top_srcdir)/docs/gnome-help/pl/sgmldocs.make
 dist-hook: app-dist-hook

@@ -20,4 +20,4 @@ intltoolize --copy --force
 
 REQUIRED_AUTOMAKE_VERSION=1.7
 
-ACLOCAL_FLAGS="-I macros $ACLOCAL_FLAGS" . gnome-autogen.sh
+USE_GNOME2_MACROS=1 ACLOCAL_FLAGS="-I macros $ACLOCAL_FLAGS" . gnome-autogen.sh

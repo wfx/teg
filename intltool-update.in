@@ -869,7 +869,7 @@ sub SubstituteVariable
 	}
     }
     
-    if ($str =~ /^(.*)\$\{?([A-Z_]+)}?(.*)$/)
+    if ($str =~ /^(.*)\${?([A-Z_]+)}?(.*)$/)
     {
 	my $rest = $3;
 	my $untouched = $1;

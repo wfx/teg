@@ -1009,11 +1009,10 @@ STATIC TEG_STATUS token_canje( int fd, char *str )
 
 	canj_ejer = cuantos_x_canje( pJ->tot_exchanges );
 
-	/* quitarle las tarjetas al player | mark the cards as unused*/
+	/* quitarle las tarjetas al player */
 	tarjeta_poner( &g_countries[t1].tarjeta );
 	tarjeta_poner( &g_countries[t2].tarjeta );
-	tarjeta_poner( &g_countries[t3].tarjeta );
-
+	tarjeta_poner( &g_countries[t2].tarjeta );
 
 	netall_printf("%s=%d,%d,%d,%d,%d\n", TOKEN_CANJE,
 			pJ->numjug,canj_ejer,t1,t2,t3);
