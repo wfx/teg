@@ -89,7 +89,9 @@ static TEG_STATUS connect_real()
 	                                               NULL, NULL );
 
 		out_id();
-		countries_redraw_all();
+		for(size_t i=0; i<COUNTRIES_CANT; i++)
+			gui_country( i );
+
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;

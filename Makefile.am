@@ -65,7 +65,6 @@ libclient_a_SOURCES = \
 	client/misc.c client/misc.h		\
 	client/inputfd.c client/inputfd.h	\
 	client/outputfd.c client/outputfd.h	\
-	client/countries.c client/countries.h	\
 	client/helper.c client/helper.h	\
 	client/fichas.c client/fichas.h	\
 	client/attack.c client/attack.h	\

@@ -30,7 +30,6 @@
 #include "helper.h"
 #include "inputfd.h"
 #include "outputfd.h"
-#include "countries.h"
 #include "fichas.h"
 #include "attack.h"
 #include "reagrupe.h"
