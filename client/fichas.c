@@ -17,10 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file fichas.c
- * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_FICHAS'
- */
 
 #include <stdio.h>
 #include <string.h>

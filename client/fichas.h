@@ -19,11 +19,15 @@
  */
 /**
  * @file fichas.h
- * Contiene algunas funciones auxiliares para el manejo del brief estado 'ESTADO_FICHAS'
+ *
+ * Everything related to the placement of armies.
  */
 
-#ifndef __TEGC_FICHAS
-#define __TEGC_FICHAS
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "common.h"
 #include "country.h"
@@ -42,4 +46,6 @@ TEG_STATUS fichas_enter( PCOUNTRY p );
 TEG_STATUS fichas_leave( PCOUNTRY p );
 TEG_STATUS fichas_get_wanted( int *cant, int *conts );
 
-#endif	/* __TEGC_FICHAS */
+#ifdef __cplusplus
+}
+#endif
