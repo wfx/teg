@@ -17,11 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file globals.h
- */
-#ifndef __TEGC_GLOBALS_H
-#define __TEGC_GLOBALS_H
+
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "client.h"
 #include "themes.h"
@@ -88,4 +89,6 @@ typedef struct _cgame {
 /* funciones y variables exportadas */
 extern CJUEGO g_game;
 
-#endif /* __TEGC_GLOBALS_H */
+#ifdef __cplusplus
+}
+#endif

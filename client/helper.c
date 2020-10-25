@@ -32,7 +32,7 @@
  * @fn TEG_STATUS aux_status( PCPLAYER pj, char *str )
  * parsea el status de los playeres
  */
-TEG_STATUS aux_status( PCPLAYER pj, char *str )
+TEG_STATUS aux_status( PCPLAYER pj, char const *str )
 {
 	PARSER p;
 	DELIM igualador={ ':', ':', ':' };
@@ -98,7 +98,7 @@ error:
 }
 
 
-TEG_STATUS aux_scores( PSCORES pS, char *str )
+TEG_STATUS aux_scores( PSCORES pS, char const *str )
 {
 	PARSER p;
 	DELIM separador={ ',', ',', ',' };

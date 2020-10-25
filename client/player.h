@@ -24,7 +24,7 @@
 #ifndef __TEGC_CPLAYER_H
 #define __TEGC_CPLAYER_H
 
-#include "common.h"
+#include "../common/common.h"
 
 typedef struct _player {
 	LIST_ENTRY next;
