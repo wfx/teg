@@ -15,4 +15,5 @@ mkdir "$BUILD_DIR"
 cd "$BUILD_DIR"
 echo '*' > .gitignore
 "$HERE/configure" --enable-maintainer-mode --prefix=$PWD/DD "CFLAGS=-Wall -Wextra"
-make -j$(nproc)
+make -j$(nproc) all check
+grep . teg*test.log
