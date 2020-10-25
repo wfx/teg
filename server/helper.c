@@ -32,9 +32,9 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#include "parser.h"
-#include "tegdebug.h"
-#include "fcintl.h"
+#include "../common/parser.h"
+#include "../common/tegdebug.h"
+#include "../common/fcintl.h"
 #include "server.h"
 #include "fow.h"
 

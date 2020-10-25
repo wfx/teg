@@ -5,7 +5,7 @@ EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt \
 
 ACLOCAL_FLAGS = -I `pwd`/macros
 
-noinst_LIBRARIES = libtegcommon.a libclient.a libguiclient.a
+noinst_LIBRARIES = libtegcommon.a libclient.a libguiclient.a libtegserver.a
 bin_PROGRAMS = tegserver tegclient tegrobot
 
 data_desktopdir = $(datadir)/applications
@@ -14,7 +14,7 @@ dist_data_desktop_DATA = client/gui-gnome/teg.desktop
 data_convertdir = $(datadir)/GConf/gsettings
 dist_data_convert_DATA = client/gui-gnome/teg.convert
 
-check_PROGRAMS = tegtest
+check_PROGRAMS = tegtest tegservertest
 TESTS = $(check_PROGRAMS)
 
 libtegcommon_a_CPPFLAGS = @XML_CFLAGS@
@@ -36,8 +36,8 @@ libtegcommon_a_SOURCES = 	\
         common/scores.c common/scores.h 	\
 	common/xml_support.c common/xml_support.h
 
-tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
-tegserver_SOURCES = \
+libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
+libtegserver_a_SOURCES = \
 	server/main.c server/main.h		\
 	server/globals.h		\
 	server/server.h		\
@@ -53,8 +53,9 @@ tegserver_SOURCES = \
 	server/xmlscores.c server/xmlscores.h	\
 	server/fow.c server/fow.h
 
-tegserver_DEPENDENCIES = libtegcommon.a $(INTLDEPS)
-tegserver_LDADD        = libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
+tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
+tegserver_SOURCES = server/main.c server/main.h
+tegserver_LDADD = libtegserver.a libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
 
 libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common \
 	-DBINDIR=\"$(bindir)\" -DTHEMEDIR=\"$(datadir)/pixmaps/teg_pix/themes/\"
@@ -158,3 +159,7 @@ tegtest_SOURCES = common/xml_support_check.cpp common/tarjeta_check.cpp \
     client/helper_check.cpp client/gui-null/null.c
 tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ -lpthread
 tegtest_LDFLAGS = -Wl,--as-needed
+
+tegservertest_SOURCES = server/helper_check.cpp
+tegservertest_LDADD = libtegserver.a libtegcommon.a \
+    -lgmock_main -lgtest -lgmock @SERVER_LIBS@ @XML_LIBS@ -lpthread

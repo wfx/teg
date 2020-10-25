@@ -24,6 +24,9 @@
 #ifndef __TEGS_MISSIONS_H
 #define __TEGS_MISSIONS_H
 
+#include "../common/common.h"
+#include "player.h"
+
 TEG_STATUS mission_chequear( PSPLAYER pJ );
 TEG_STATUS mission_asignar( PSPLAYER pJ );
 TEG_STATUS mission_init();

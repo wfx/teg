@@ -20,7 +20,8 @@
 #ifndef __TEG_TURNO_H
 #define __TEG_TURNO_H
 
-#include "server.h"
+#include "../common/common.h"
+#include "player.h"
 
 /*! give turn to next player */
 TEG_STATUS turno_next( void );

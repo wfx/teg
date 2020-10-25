@@ -25,6 +25,9 @@
 #ifndef __TEGS_AUX_H
 #define __TEGS_AUX_H
 
+#include "../common/common.h"
+#include "player.h"
+
 typedef int (*get_random_func)(int i);
 
 TEG_STATUS aux_token_fichas( int fd, char *str, int maximo, unsigned long conts );

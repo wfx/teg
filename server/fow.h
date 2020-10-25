@@ -23,8 +23,8 @@
 #ifndef __TEGS_FOW_H
 #define __TEGS_FOW_H
 
-#include "server.h"
-#include "stats.h"
+#include "../common/common.h"
+#include "player.h"
 
 /* enables or disables FOW */
 TEG_STATUS fow_set_mode( BOOLEAN b );

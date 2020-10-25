@@ -23,9 +23,8 @@
 #ifndef __TEGS_SPLAYER_H
 #define __TEGS_SPLAYER_H
 
-#include "server.h"
-#include "stats.h"
-#include "country.h"
+#include "../common/stats.h"
+#include "../common/country.h"
 
 /* server player */
 typedef struct _player{
