@@ -17,18 +17,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file aux.h
- * funciones auxiliares del server
- */
 
-#ifndef __TEGS_AUX_H
-#define __TEGS_AUX_H
+#pragma once
 
 #include "../common/common.h"
 #include "player.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef int (*get_random_func)(int i);
+
+void ins_orden( char d, char *array, int len );
 
 TEG_STATUS aux_token_fichas( int fd, char *str, int maximo, unsigned long conts );
 TEG_STATUS aux_token_stasta(char *strout, size_t buflen );
@@ -51,4 +52,6 @@ TEG_STATUS aux_find_inaddr( PSPLAYER pJ );
 
 TEG_STATUS launch_robot( int *robot_socket, char *mode );
 
-#endif /* __TEGS_AUX_H */
+#ifdef __cplusplus
+}
+#endif

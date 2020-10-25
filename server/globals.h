@@ -21,6 +21,9 @@
 #ifndef __TEGS_GLOBALS_H
 #define __TEGS_GLOBALS_H
 
+#include "../common/common.h"
+#include "player.h"
+
 typedef struct _sgame {
 	int connections;	/**< quantity of connections */
 	int players;		/**< quantity of players */

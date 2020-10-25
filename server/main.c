@@ -39,11 +39,11 @@
 
 
 #include "server.h"
-#include "scores.h"
+#include "../common/scores.h"
 #include "xmlscores.h"
-#include "version.h"
-#include "fcintl.h"
-#include "tegdebug.h"
+#include "../common/version.h"
+#include "../common/fcintl.h"
+#include "../common/tegdebug.h"
 
 #define MAIN_DEBUG PDEBUG
 
@@ -361,6 +361,7 @@ void argument_init( int argc, char **argv)
 	}
 }
 
+#ifndef TEGSERVER_OMIT_MAIN
 int main( int argc, char **argv)
 {
 	init_nls();
@@ -393,3 +394,4 @@ int main( int argc, char **argv)
 
 	return 1;
 }
+#endif

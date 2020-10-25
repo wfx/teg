@@ -38,8 +38,7 @@ libtegcommon_a_SOURCES = 	\
 
 libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
 libtegserver_a_SOURCES = \
-	server/main.c server/main.h		\
-	server/globals.h		\
+        server/globals.h server/main.h		\
 	server/server.h		\
 	server/player.c server/player.h	\
 	server/sernet.c server/sernet.h	\
@@ -54,7 +53,7 @@ libtegserver_a_SOURCES = \
 	server/fow.c server/fow.h
 
 tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
-tegserver_SOURCES = server/main.c server/main.h
+tegserver_SOURCES = server/main.c
 tegserver_LDADD = libtegserver.a libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
 
 libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common \
@@ -160,6 +159,7 @@ tegtest_SOURCES = common/xml_support_check.cpp common/tarjeta_check.cpp \
 tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ -lpthread
 tegtest_LDFLAGS = -Wl,--as-needed
 
-tegservertest_SOURCES = server/helper_check.cpp
+tegservertest_CPPFLAGS = -DTEGSERVER_OMIT_MAIN=1
+tegservertest_SOURCES = server/main.c server/helper_check.cpp
 tegservertest_LDADD = libtegserver.a libtegcommon.a \
     -lgmock_main -lgtest -lgmock @SERVER_LIBS@ @XML_LIBS@ -lpthread
