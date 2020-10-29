@@ -17,11 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file misc.h
- */
-#ifndef __TEGC_MISC_H
-#define __TEGC_MISC_H
+
+#pragma once
+
+#include "../common/common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 TEG_STATUS game_init();
 TEG_STATUS game_finalize();
@@ -35,12 +38,12 @@ TEG_STATUS dirs_create();
 
 #define ESTADO_ES(a) (g_game.estado==(a))
 #define ESTADO_MENOR(a) (g_game.estado<(a))
-#define ESTADO_MAYOR(a) (g_game.estado>(a))
-#define ESTADO_MENOR_IGUAL(a) (g_game.estado<=(a))
 #define ESTADO_MAYOR_IGUAL(a) (g_game.estado>=(a))
 
 #define WHOAMI() g_game.numjug
 #define ESTADO_GET() g_game.estado
 #define ESTADO_SET(a) (g_game.estado=(a))
 
-#endif /* __TEGC_MISC_H */
+#ifdef __cplusplus
+}
+#endif
