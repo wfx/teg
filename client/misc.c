@@ -31,6 +31,7 @@
 
 #include <glib.h>
 
+#include "../common/net.h"
 #include "protocol.h"
 #include "fcintl.h"
 #include "client.h"
