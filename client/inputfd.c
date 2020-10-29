@@ -27,6 +27,7 @@
 #include "parser.h"
 #include "fcintl.h"
 #include "protocol.h"
+#include "../common/net.h"
 #include "client.h"
 
 TEG_STATUS clitok_rem(char *str);

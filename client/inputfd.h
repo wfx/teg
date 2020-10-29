@@ -17,14 +17,24 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
+#pragma once
+
+#include "../common/common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
- * @file inputfd.h
+ * Parses the server response from filsdescriptor \p pf and dispatch the
+ * response.
+ *
+ * @return TEG_STATUS_SUCCESS on regular parse (even when the token was invalid),
+ *         TEG_STATUS_CONNCLOSED when a read error occured.
  */
-#ifndef __TEGC_INPUTFD_H
-#define __TEGC_INPUTFD_H
+TEG_STATUS client_recv(int fd);
 
-#include "client.h"
-
-TEG_STATUS client_recv( int fd );
-
-#endif /* __TEGC_INPUTFD_H */
+#ifdef __cplusplus
+}
+#endif
