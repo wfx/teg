@@ -105,17 +105,6 @@ TEG_STATUS gui_surrender(int numjug)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_exit( char * str)
-{
-	int numjug;
-
-	numjug = atoi( str );
-	if( numjug == g_game.numjug )
-		return TEG_STATUS_CONNCLOSED;
-
-	return TEG_STATUS_SUCCESS;
-}
-
 TEG_STATUS gui_init( int argc, char **argv)
 {
 

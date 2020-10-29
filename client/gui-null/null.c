@@ -17,12 +17,6 @@ TEG_STATUS gui_main(void)
 	return TEG_STATUS_SUCCESS;
 }
 
-/* to free the resource */
-TEG_STATUS gui_exit(char *str)
-{
-	return TEG_STATUS_SUCCESS;
-}
-
 /* to view messages */
 TEG_STATUS gui_textmsg(char *aString )
 {

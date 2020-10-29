@@ -29,7 +29,6 @@ extern "C" {
 
 extern TEG_STATUS gui_init(int argc, char **argv);
 extern TEG_STATUS gui_main(void);
-extern TEG_STATUS gui_exit(char *str);
 extern TEG_STATUS gui_textmsg(char *aString );
 extern TEG_STATUS gui_disconnect(void);
 extern TEG_STATUS gui_habilitado(int numjug);
