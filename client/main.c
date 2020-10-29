@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 
+#include "../common/share.h"
 #include "client.h"
 
 TEG_STATUS main_init()
