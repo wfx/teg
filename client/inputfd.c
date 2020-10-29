@@ -1440,7 +1440,7 @@ error:
 /*
  * 	code that interprets which fn to call
  */
-static TEG_STATUS client_lookup( int fd, PARSER *p )
+static TEG_STATUS client_lookup(PARSER *p)
 {
 	int i;
 
@@ -1479,7 +1479,7 @@ TEG_STATUS client_recv( int fd )
 
 	do {
 		if( (i=parser_parse( &p )) ) {
-			if( client_lookup( fd,&p ) == TEG_STATUS_CONNCLOSED ) {
+			if( client_lookup(&p) == TEG_STATUS_CONNCLOSED ) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
