@@ -17,20 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file ai_misc.c
- * Funciones que mucho no tienen que ver con el robot, pero ayudan
- */
 
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "client.h"
 
-/**
- * @fn char *ai_fetch_a_name()
- * Devuelve el name de un player al azar
- */
 char *ai_fetch_a_name()
 {
 	int i=0;

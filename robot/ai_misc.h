@@ -17,13 +17,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file ai_misc.h
- */
 
-#ifndef __TEGR_AI_MISC_H
-#define __TEGR_AI_MISC_H
+#pragma once
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/// Select a random player name.
 char *ai_fetch_a_name();
 
-#endif /* __TEGR_AI_MISC_H */
+#ifdef __cplusplus
+}
+#endif

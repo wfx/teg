@@ -17,13 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file ai_msg.h
- * Mensaje que puede decir el robot ;)
- */
 
-#ifndef __TEGR_AI_MSG_H
-#define __TEGR_AI_MSG_H
+#pragma once
+
+#include "../common/common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _aimsg {
 	char *msg;
@@ -39,8 +40,15 @@ enum {
 	AI_MSG_LAST,
 };
 
+/// Creates a random message, with a random frequency
 TEG_STATUS ai_msg( int type, char *n );
+
+/// Choose a random name
 char * ai_name();
+
+/// Checks if the name is a name the robot would use
 TEG_STATUS ai_findname( char *name );
 
-#endif /* __TEGR_AI_MSG_H */
+#ifdef __cplusplus
+}
+#endif

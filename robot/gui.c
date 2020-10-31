@@ -37,6 +37,7 @@
 #include "gui.h"
 #include "client.h"
 #include "ai.h"
+#include "ai_fichas.h"
 #include "ai_msg.h"
 #include "ai_misc.h"
 
