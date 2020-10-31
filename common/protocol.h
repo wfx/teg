@@ -79,7 +79,6 @@
 #define TOKEN_COLOR		"color"
 #define TOKEN_SAVE		"save"
 #define TOKEN_LOQUE		"que_tengo_que_hacer"
-#define TOKEN_ECHO		"echo"
 #define TOKEN_PACTO_REQUEST	"pacto_request"
 #define TOKEN_PACTO_REPLY	"pacto_reply"
 #define TOKEN_SURRENDER		"soy_cobarde"

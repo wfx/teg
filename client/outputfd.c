@@ -250,19 +250,6 @@ TEG_STATUS out_loque( void )
 	return TEG_STATUS_ERROR;
 }
 
-/* echo client (robots uses this) */
-TEG_STATUS out_echo( char *msg )
-{
-	PLAYER_STATUS e;
-
-	e = ESTADO_GET();
-	if( e >= PLAYER_STATUS_CONNECTED ) {
-		net_printf(g_game.fd,TOKEN_ECHO"=%s\n",msg);
-		return TEG_STATUS_SUCCESS;
-	}
-	return TEG_STATUS_ERROR;
-}
-
 /*Sends the protocol version, request the server version, send the client version */
 TEG_STATUS out_pversion()
 {

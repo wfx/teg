@@ -72,7 +72,6 @@ STATIC TEG_STATUS token_ejer2(int, char *);
 STATIC TEG_STATUS token_mission(int, char *);
 STATIC TEG_STATUS token_color(int, char*);
 STATIC TEG_STATUS token_loque(int, char*);
-STATIC TEG_STATUS token_echo(int, char*);
 STATIC TEG_STATUS token_surrender(int, char*);
 STATIC TEG_STATUS token_set(int, char*);
 STATIC TEG_STATUS token_scores(int, char*);
@@ -112,7 +111,6 @@ struct {
 	{ TOKEN_MISSION,	token_mission,	N_("request a mission") },
 	{ TOKEN_COLOR,		token_color,	N_("to select a color") },
 	{ TOKEN_LOQUE,		token_loque,	N_("to remind me what to do") },
-	{ TOKEN_ECHO,		token_echo,	N_("to set an async callback") },
 	{ TOKEN_SURRENDER,	token_surrender,N_("to surrender") },
 	{ TOKEN_SET,		token_set,	N_("to set options") },
 	{ TOKEN_SCORES,		token_scores,	N_("to show the highscores") },
@@ -135,21 +133,6 @@ STATIC TEG_STATUS token_set( int fd, char *str )
 
 error:
 	net_print(fd,TOKEN_ERROR"="TOKEN_SET"\n");
-	return TEG_STATUS_PARSEERROR;
-}
-
-/* Sends the player the message he requested. Usefull as callback */
-STATIC TEG_STATUS token_echo( int fd, char *msg )
-{
-	PSPLAYER pJ;
-	if( player_whoisfd(fd, &pJ )!=TEG_STATUS_SUCCESS || strlen(msg)==0 )
-		goto error;
-
-	net_printf(fd,"%s\n",msg);
-	return TEG_STATUS_SUCCESS;
-
-error:
-	net_print(fd,TOKEN_ERROR"="TOKEN_ECHO"\n");
 	return TEG_STATUS_PARSEERROR;
 }
 

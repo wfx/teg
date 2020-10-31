@@ -41,7 +41,6 @@ TEG_STATUS out_set_typeofgame(int a, int b, int c, int ar1, int ar2);
 TEG_STATUS out_get_typeofgame();
 TEG_STATUS out_color();
 TEG_STATUS out_loque();
-TEG_STATUS out_echo(char *msg);
 TEG_STATUS out_pversion();
 TEG_STATUS out_surrender();
 
