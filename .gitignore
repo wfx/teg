@@ -1,10 +1,36 @@
-Makefile
 .deps/
 *.log
 *.status
 *.gmo
 
 # Object files
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
 *.o
 *.ko
 *.obj
@@ -25,6 +51,14 @@ Makefile
 *.so
 *.so.*
 *.dylib
+config.h.in
+Makefile.in
+aclocal.m4
+autom4te.cache
+configure
+ltmain.sh
+macros
+compile
 
 # Executables
 *.exe

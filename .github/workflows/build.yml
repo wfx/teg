@@ -1,0 +1,19 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: ["ranft/teg:ul", "ranft/teg:d10"]
+
+    container:
+      image: ${{ matrix.image }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build the software
+      run: ./build

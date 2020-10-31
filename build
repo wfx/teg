@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -xeuo pipefail
+
+# bd=builddir
+BUILD_DIR="${1:-bd}"
+MYSELF="$(readlink -m $0)"
+HERE="${MYSELF%/*}"
+echo $HERE
+
+(cd $HERE && bash -eu autogen.sh)
+
+rm -rf "$BUILD_DIR"
+mkdir "$BUILD_DIR"
+cd "$BUILD_DIR"
+echo '*' > .gitignore
+"$HERE/configure" --enable-maintainer-mode --prefix=$PWD/DD "CFLAGS=-Wall -Wextra"
+make

@@ -72,7 +72,7 @@ void player_init( void );
 PSPLAYER player_ins( PSPLAYER j, BOOLEAN esplayer );
 #define player_ins_player(a) player_ins(a,TRUE)
 #define player_ins_ro(a) player_ins(a,FALSE)
-TEG_STATUS player_del_hard(PSPLAYER j);
+void player_del_hard(PSPLAYER j);
 TEG_STATUS player_del_soft( PSPLAYER pJ );
 TEG_STATUS player_flush();
 TEG_STATUS player_asignarcountry( int numjug, PCOUNTRY p);
