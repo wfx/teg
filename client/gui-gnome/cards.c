@@ -26,7 +26,8 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
+#include <goocanvas.h>
+#include <glib/gi18n.h>
 #include <assert.h>
 
 #include "gui.h"
@@ -128,19 +129,24 @@ static int cuantos_selected( int countries[TEG_MAX_TARJETAS])
 	return selected;
 }
 
-static void cards_cb_button_canje (GtkWidget *widget )
+static void cards_cb_button_canje (GtkDialog *dialog, gint id, gpointer data)
 {
 	int sel;
 	int countries[TEG_MAX_TARJETAS];
 
-	assert(widget);
+	assert(dialog);
 
-	sel = cuantos_selected( countries );
-	if( sel != 3 ) {
-		textmsg(M_ERR,"Error, you must select 3 cards and not %d.",sel);
-		return;
+	if (id == 0) {
+	        sel = cuantos_selected( countries );
+	        if( sel != 3 ) {
+	                textmsg(M_ERR,"Error, you must select 3 cards and "
+	                        "not %d.",sel);
+	                return;
+	        }
+	        canje_out( countries[0], countries[1], countries[2] );
 	}
-	canje_out( countries[0], countries[1], countries[2] );
+
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void cards_cb_button_armies (GtkWidget *widget, int index )
@@ -181,7 +187,7 @@ static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 	GtkWidget	*button_select;
 	GtkWidget	*button_locate;
 	PCOUNTRY		pP;
-	GnomeCanvasItem *image;
+	GooCanvasItem *image;
 	int i;
 	TCards cards;
 
@@ -196,84 +202,88 @@ static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 
 	pP = (PCOUNTRY) COUNTRY_FROM_TARJETA( pT );
 
-	vbox = gtk_vbox_new (FALSE, 0);
+	vbox = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
 	if( !vbox ) return NULL;
 
 	/* create picture of card (canvas with labels) */
-	canvas = gnome_canvas_new();
+	canvas = goo_canvas_new();
 	if( !canvas ) {
 		textmsg( M_ERR, _("Error creating canvas\n"));
 		return NULL;
 	}
 
-	gtk_widget_set_usize (canvas, gdk_pixbuf_get_width(tarjs[i].tar), gdk_pixbuf_get_height(tarjs[i].tar) );
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, gdk_pixbuf_get_width(tarjs[i].tar), gdk_pixbuf_get_height(tarjs[i].tar) );
-	image = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_pixbuf_get_type (),
-		"pixbuf", tarjs[i].tar,
-		"x", 0.0,
-		"y", 0.0,
+	gtk_widget_set_size_request (canvas,
+	                             gdk_pixbuf_get_width(tarjs[i].tar),
+	                             gdk_pixbuf_get_height(tarjs[i].tar));
+	goo_canvas_set_bounds (GOO_CANVAS (canvas), 0, 0,
+	                       gdk_pixbuf_get_width(tarjs[i].tar),
+	                       gdk_pixbuf_get_height(tarjs[i].tar));
+	image = goo_canvas_image_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		tarjs[i].tar,
+		0.0,
+		0.0,
 		"width", (double) gdk_pixbuf_get_width(tarjs[i].tar),
 		"height", (double) gdk_pixbuf_get_height(tarjs[i].tar),
-		"anchor", GTK_ANCHOR_NW,
 		NULL);
 
 	if( !image ) textmsg( M_ERR, _("Error creating image\n"));
 
-	image = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_text_get_type(),
-		"text", countries_get_name(pP->id),
-		"x", (double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
-		"y", (double) cards.pos_y,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+	image = goo_canvas_text_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		countries_get_name(pP->id),
+		(double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
+		(double) cards.pos_y,
+		(double) -1,
+		GOO_CANVAS_ANCHOR_NORTH,
+		"height", (double) -1,
 //		"font", "-adobe-helvetica-medium-r-normal--12-*-72-72-p-*-iso8859-1",
 		"font", HELVETICA_12_FONT,
-		"fill_color", "brown",
-		"anchor",GTK_ANCHOR_NORTH,
+		"fill-color", "brown",
 		NULL);
 
 	if( !image ) textmsg( M_ERR, _("Error creating image\n"));
 
-	image = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_text_get_type(),
-		"text", cont_get_name(pP->continente),
-		"x", (double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
-		"y", (double) cards.pos_y + 15,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+	image = goo_canvas_text_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		cont_get_name(pP->continente),
+		(double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
+		(double) cards.pos_y + 15,
+		(double) -1,
+		GOO_CANVAS_ANCHOR_NORTH,
+		"height", (double) -1,
 //		"font", "-adobe-helvetica-medium-r-normal--9-*-72-72-p-*-iso8859-1",
 		"font", HELVETICA_8_FONT,
-		"fill_color", "brown",
-		"anchor",GTK_ANCHOR_NORTH,
+		"fill-color", "brown",
 		NULL);
 
 	if( !image ) textmsg( M_ERR, _("Error creating image\n"));
 
-	gtk_box_pack_start_defaults( GTK_BOX(vbox), GTK_WIDGET(canvas));
+	gtk_box_pack_start( GTK_BOX(vbox), GTK_WIDGET(canvas), TRUE, TRUE, 0 );
 	gtk_widget_show (canvas);
 
 	/* botones */
 //	hbox = gtk_hbox_new( FALSE, 0);
 	button_armies = gtk_button_new_with_label(_("Put 2 armies"));
-	gtk_box_pack_start_defaults( GTK_BOX(vbox), GTK_WIDGET(button_armies));
-	gtk_signal_connect (GTK_OBJECT (button_armies), "clicked", GTK_SIGNAL_FUNC
-			(cards_cb_button_armies), (void* )tarjs_index);
+	gtk_box_pack_start( GTK_BOX(vbox), GTK_WIDGET(button_armies),
+	                    TRUE, TRUE, 0 );
+	g_signal_connect (G_OBJECT (button_armies), "clicked",
+	                  G_CALLBACK (cards_cb_button_armies),
+	                  GINT_TO_POINTER(tarjs_index));
 	gtk_widget_show(button_armies);
 
 	button_select = gtk_check_button_new_with_label(_("Select this card"));
-	gtk_box_pack_start_defaults( GTK_BOX(vbox), GTK_WIDGET(button_select));
-	gtk_signal_connect (GTK_OBJECT (button_select), "clicked", GTK_SIGNAL_FUNC
-			(cards_cb_button_select), (void* )tarjs_index);
+        gtk_box_pack_start( GTK_BOX(vbox), GTK_WIDGET(button_select), TRUE, TRUE, 0);
+	g_signal_connect (G_OBJECT (button_select), "clicked", G_CALLBACK
+                          (cards_cb_button_select), GINT_TO_POINTER(tarjs_index));
 	gtk_widget_show(button_select);
 
 	button_locate = gtk_button_new_with_label(_("Locate country"));
-	gtk_box_pack_start_defaults( GTK_BOX(vbox), GTK_WIDGET(button_locate));
-	gtk_signal_connect (GTK_OBJECT (button_locate), "clicked", GTK_SIGNAL_FUNC
-			(cards_cb_button_locate), (void* )tarjs_index);
+	gtk_box_pack_start( GTK_BOX(vbox), GTK_WIDGET(button_locate),
+	                    TRUE, TRUE, 0 );
+	g_signal_connect (G_OBJECT (button_locate), "clicked",
+	                  G_CALLBACK (cards_cb_button_locate),
+	                  GINT_TO_POINTER(tarjs_index));
 	gtk_widget_show(button_locate);
 
 //	gtk_box_pack_start_defaults( GTK_BOX(vbox), GTK_WIDGET(hbox));
@@ -297,7 +307,7 @@ void cards_view(int country)
 {
 	GtkWidget *vbox;
 	GtkWidget *scrolledwindow;
-	static GtkTable	*table = NULL;
+	static GtkGrid	*table = NULL;
 	GtkWidget	*tarjeta;	
 
 
@@ -313,31 +323,35 @@ void cards_view(int country)
 		cards_init();
 		cards_load();
 
-		cards_dialog = gnome_dialog_new(_("Country Cards"), _("Exchange"), GNOME_STOCK_BUTTON_CLOSE, NULL );
-		gnome_dialog_set_parent( GNOME_DIALOG(cards_dialog), GTK_WINDOW(main_window));
+		cards_dialog
+		  = gtk_dialog_new_with_buttons (_("Country Cards"),
+		                                 GTK_WINDOW (main_window),
+	                                         GTK_DIALOG_DESTROY_WITH_PARENT,
+	                                         _("Exchange"), 0,
+	                                         _("_Close"), 1,
+	                                         NULL);
 
-		gnome_dialog_button_connect ( GNOME_DIALOG(cards_dialog),
-				0, GTK_SIGNAL_FUNC(cards_cb_button_canje), cards_dialog);
+	        g_signal_connect (cards_dialog, "response",
+	                          G_CALLBACK (cards_cb_button_canje), NULL);
 
-		gnome_dialog_button_connect (GNOME_DIALOG(cards_dialog),
-				1, GTK_SIGNAL_FUNC(dialog_close), cards_dialog);
-
-		gtk_signal_connect( GTK_OBJECT(cards_dialog),
-				"destroy", GTK_SIGNAL_FUNC(destroy_window),
+		g_signal_connect( G_OBJECT(cards_dialog),
+				"destroy", G_CALLBACK(destroy_window),
 				&cards_dialog);
 
-		vbox = GNOME_DIALOG(cards_dialog)->vbox;
+	        vbox = gtk_dialog_get_content_area(GTK_DIALOG(cards_dialog));
 
 		scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy( GTK_SCROLLED_WINDOW(scrolledwindow),
 				GTK_POLICY_AUTOMATIC,
 				GTK_POLICY_AUTOMATIC);
-		gtk_widget_set_usize(scrolledwindow, 300, 160);
+		gtk_widget_set_size_request(scrolledwindow, 300, 160);
 
 
-		table    = GTK_TABLE( gtk_table_new ( 1, 3, TRUE) );
-		gtk_table_set_col_spacings (table, 1);
-		gtk_table_set_row_spacings (table, 5);
+	        table = GTK_GRID( gtk_grid_new ());
+		gtk_grid_set_column_spacing (table, 1);
+		gtk_grid_set_row_spacing (table, 5);
+		gtk_grid_set_column_homogeneous (table, TRUE);
+		gtk_grid_set_row_homogeneous (table, TRUE);
 
 		{
 			int x=0,y=0, index=0;
@@ -349,12 +363,12 @@ void cards_view(int country)
 				if(x >= 3 ) {
 					x=0;
 					y++;
-					gtk_table_resize(table,y+1,3);
 				}
 				tarjeta = cards_create( pT, index );
 				if( tarjeta ) {
 					gtk_widget_show (tarjeta );
-					gtk_table_attach_defaults ( table, tarjeta, x, x+1, y, y+1);
+	                                gtk_grid_attach (table, tarjeta,
+	                                                 x, y, 1, 1);
 				}
 				x++, index++;
 
@@ -373,14 +387,14 @@ void cards_view(int country)
 			if(x >= 3 ) {
 				x=0;
 				y++;
-				gtk_table_resize(table,y+1,3);
 			}
 
 			if( tarjs_sensi[i].country == NULL ) {
 				tarjeta = cards_create( &g_countries[country].tarjeta, i );
 				if( tarjeta ) {
 					gtk_widget_show (tarjeta );
-					gtk_table_attach_defaults ( table, tarjeta, x, x+1, y, y+1);
+	                                gtk_grid_attach (table, tarjeta,
+	                                                 x, y, 1, 1);
 				}
 				break;
 			}
@@ -483,9 +497,11 @@ void cards_update_para_canje( void )
 	}
 
 	if( ESTADO_ES( PLAYER_STATUS_FICHASC ) && canje_puedo(NULL,NULL,NULL)==TEG_STATUS_SUCCESS)
-		gnome_dialog_set_sensitive( GNOME_DIALOG(cards_dialog), 0, TRUE );
+		gtk_dialog_set_response_sensitive( GTK_DIALOG(cards_dialog),
+	                                           0, TRUE );
 	else
-		gnome_dialog_set_sensitive( GNOME_DIALOG(cards_dialog), 0, FALSE );
+		gtk_dialog_set_response_sensitive( GTK_DIALOG(cards_dialog),
+	                                           0, FALSE );
 }
 
 /**
@@ -505,10 +521,10 @@ TEG_STATUS cards_select(int p1, int p2, int p3 )
 				(tarjs_sensi[i].country->id == p2 ) ||
 				(tarjs_sensi[i].country->id == p3 ) ) {
 			tarjs_sensi[i].selected = TRUE;
-			GTK_TOGGLE_BUTTON(tarjs_sensi[i].button_select)->active=1;
+	                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(tarjs_sensi[i].button_select), TRUE);
 		} else {
 			tarjs_sensi[i].selected = FALSE;
-			GTK_TOGGLE_BUTTON(tarjs_sensi[i].button_select)->active=0;
+	                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(tarjs_sensi[i].button_select), FALSE);
 		}
 	}
 

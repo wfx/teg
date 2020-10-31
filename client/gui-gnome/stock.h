@@ -29,10 +29,10 @@
 #define STOCK_ZOOM_FIT	"TEG_stock_zoom_fit"
 #define STOCK_ZOOM_IN	"TEG_stock_zoom_in"
 #define STOCK_ZOOM_OUT	"TEG_stock_zoom_out"
-#define STOCK_GETCARD	"TEG_stock_getcard"
-#define STOCK_SENDARMIES	"TEG_stock_sendarmies"
-#define STOCK_ENDTURN	"TEG_stock_endturn"
-#define STOCK_VIEWPLAYERS	"TEG_stock_viewplayers"
+#define STOCK_GETCARD	"stock-getcard"
+#define STOCK_SENDARMIES	"stock-sendarmies"
+#define STOCK_ENDTURN	"stock-endturn"
+#define STOCK_VIEWPLAYERS	"stock-viewplayers"
 
 
 void stock_init (void);

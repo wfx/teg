@@ -26,6 +26,6 @@
 
 void dices_view();
 void dices_unview();
-void dices_init( GnomeCanvasGroup *root);
+void dices_init(GooCanvasItem *root);
 
 #endif 

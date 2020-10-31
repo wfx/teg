@@ -1,5 +1,5 @@
 /* XPM */
-static char * teg_icono_xpm[] = {
+static const char * teg_icono_xpm[] = {
 "49 48 839 2",
 "  	c None",
 ". 	c #BA833A",

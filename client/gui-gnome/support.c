@@ -30,7 +30,8 @@
 #include <stdio.h>
 #include <iconv.h>
 
-#include <gnome.h>
+#include <goocanvas.h>
+#include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
@@ -48,8 +49,6 @@
 
 void generic_window_set_parent (GtkWidget * dialog, GtkWindow   * parent)
 {
-	gint x, y, w, h, dialog_x, dialog_y;
-
 	g_return_if_fail(dialog != NULL);
 	g_return_if_fail(parent != NULL);
 	g_return_if_fail(GTK_IS_WINDOW(parent));
@@ -58,25 +57,11 @@ void generic_window_set_parent (GtkWidget * dialog, GtkWindow   * parent)
 
 
 
-	if ( ! GTK_WIDGET_VISIBLE(parent)) return; /* Can't get its
+	if ( ! gtk_widget_get_visible(GTK_WIDGET(parent))) return; /* Can't get its
 						  size/pos */
 
-	/* Throw out other positioning */
-	gtk_window_set_position(GTK_WINDOW(dialog),GTK_WIN_POS_NONE);
-
-	gdk_window_get_origin (GTK_WIDGET(parent)->window, &x, &y);
-	gdk_window_get_size   (GTK_WIDGET(parent)->window, &w, &h);
-
-	/*
-	 * The problem here is we don't know how big the dialog is.
-	 * So "centered" isn't really true. We'll go with 
-	 * "kind of more or less on top"
-	 */
-
-	dialog_x = x + w/4;
-	dialog_y = y + h/4;
-
-	gtk_widget_set_uposition(GTK_WIDGET(dialog), dialog_x, dialog_y); 
+	gtk_window_set_position(GTK_WINDOW(dialog),
+	                        GTK_WIN_POS_CENTER_ON_PARENT);
 }
 
 /**
@@ -94,10 +79,7 @@ char * load_pixmap_file( char *name )
 	if( f == NULL )
 		return NULL;
 
-	filename = gnome_pixmap_file (f);
-	if( filename == NULL ) {
-		filename = g_strconcat( PIXMAPDIR,f,NULL );
-	}
+	filename = g_strconcat( PIXMAPDIR,f,NULL );
 	g_free( f );
 	return filename;
 }
@@ -113,71 +95,68 @@ void teg_dialog( char* title, char* bigtitle, char* data )
 {
 	GtkWidget* dialog;
 	GtkWidget* canvas;
-	GnomeCanvasItem *item;
 
-	dialog = gnome_dialog_new(title, 
-			GNOME_STOCK_BUTTON_OK,
-			NULL );
-	gnome_dialog_set_parent( GNOME_DIALOG(dialog), GTK_WINDOW(main_window));
-	gnome_dialog_set_close( GNOME_DIALOG(dialog), TRUE );
-	
+	dialog = gtk_dialog_new_with_buttons(title,
+	                                     GTK_WINDOW(main_window),
+	                                     GTK_DIALOG_DESTROY_WITH_PARENT,
+	                                     _("_OK"), GTK_RESPONSE_OK,
+	                                     NULL );
 
-	canvas = gnome_canvas_new();
-	gtk_widget_set_usize (canvas, TEG_DIALOG_X, TEG_DIALOG_Y );
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, TEG_DIALOG_X, TEG_DIALOG_Y );
+	canvas = goo_canvas_new();
+	gtk_widget_set_size_request ( canvas, TEG_DIALOG_X, TEG_DIALOG_Y );
+	goo_canvas_set_bounds (GOO_CANVAS (canvas), 0, 0, TEG_DIALOG_X,
+	                       TEG_DIALOG_Y);
 
-	item = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_rect_get_type (),
-		"x1", 0.0,
-		"y1", 0.0,
-		"x2", (double) TEG_DIALOG_X,
-		"y2", 45.0,
-		"fill_color","black",
-		"outline_color","black",
+	goo_canvas_rect_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		0.0,
+		0.0,
+		(double) TEG_DIALOG_X,
+		45.0,
+		"fill-color","black",
+		"stroke-color","black",
 		NULL);
 
-	item = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_rect_get_type (),
-		"x1", 0.0,
-		"y1", 45.0,
-		"x2", (double) TEG_DIALOG_X,
-		"y2", (double) TEG_DIALOG_Y,
-		"fill_color","light green",
-		"outline_color","light green",
+	goo_canvas_rect_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		0.0,
+		45.0,
+		(double) TEG_DIALOG_X,
+		(double) TEG_DIALOG_Y,
+		"fill-color","light green",
+		"stroke-color","light green",
 		NULL);
 
-	item = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_text_get_type(),
-		"text",bigtitle,
-		"x", (double) (TEG_DIALOG_X/2),
-		"y", (double) 10,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+	goo_canvas_text_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		bigtitle,
+		(double) (TEG_DIALOG_X/2),
+		(double) 10,
+		-1,
+		GOO_CANVAS_ANCHOR_NORTH,
 		"font", HELVETICA_20_BFONT,
-		"fill_color", "white",
-		"anchor",GTK_ANCHOR_NORTH,
+		"fill-color", "white",
 		NULL);
 
-	item = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_text_get_type(),
-		"text",data,
-		"x", (double) 4,
-		"y", (double) 60,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+	goo_canvas_text_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		data,
+		(double) 4,
+		(double) 60,
+		-1,
+		GOO_CANVAS_ANCHOR_NORTH_WEST,
 		"font", HELVETICA_12_FONT,
-		"fill_color", "black",
-		"anchor",GTK_ANCHOR_NW,
+		"fill-color", "black",
 		NULL);
 
-	gtk_box_pack_start_defaults( GTK_BOX(GNOME_DIALOG(dialog)->vbox), GTK_WIDGET(canvas));
+	gtk_box_pack_start( GTK_BOX(gtk_dialog_get_content_area
+	                            (GTK_DIALOG(dialog))), GTK_WIDGET(canvas),
+	                    TRUE, TRUE, 0);
 
 	gtk_widget_show (canvas);
 	gtk_widget_show_all(dialog);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 
 	return;
 }
@@ -190,42 +169,44 @@ GtkWidget* teg_dialog_new( char* title, char* bigtitle )
 {
 	GtkWidget* dialog;
 	GtkWidget* canvas;
-	GnomeCanvasItem *item;
 
-	dialog = gnome_dialog_new(title, NULL );
+	dialog = gtk_dialog_new ();
 
-	gnome_dialog_set_parent( GNOME_DIALOG(dialog), GTK_WINDOW(main_window));
+	gtk_window_set_title (GTK_WINDOW (dialog), title);
+	gtk_window_set_transient_for ( GTK_WINDOW(dialog),
+	                               GTK_WINDOW(main_window) );
 
-	canvas = gnome_canvas_new();
-	gtk_widget_set_usize (canvas, TEG_DIALOG_X, TEG_DIALOG_Y_NEW );
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (canvas), 0, 0, TEG_DIALOG_X, TEG_DIALOG_Y_NEW );
+	canvas = goo_canvas_new();
+	gtk_widget_set_size_request (canvas, TEG_DIALOG_X, TEG_DIALOG_Y_NEW);
+	gtk_widget_set_halign (canvas, GTK_ALIGN_CENTER);
+	goo_canvas_set_bounds (GOO_CANVAS (canvas), 0, 0, TEG_DIALOG_X,
+	                       TEG_DIALOG_Y_NEW);
 
-	item = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_rect_get_type (),
-		"x1", 0.0,
-		"y1", 0.0,
-		"x2", (double) TEG_DIALOG_X,
-		"y2", 45.0,
-		"fill_color","black",
-		"outline_color","black",
+	goo_canvas_rect_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		0.0,
+		0.0,
+		(double) TEG_DIALOG_X,
+		45.0,
+		"fill-color","black",
+		"stroke-color","black",
 		NULL);
 
-	item = gnome_canvas_item_new(
-		gnome_canvas_root(GNOME_CANVAS(canvas)),
-		gnome_canvas_text_get_type(),
-		"text",bigtitle,
-		"x", (double) (TEG_DIALOG_X/2),
-		"y", (double) 10,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+	goo_canvas_text_new(
+		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+		bigtitle,
+		(double) (TEG_DIALOG_X/2),
+		(double) 10,
+		-1,
+		GOO_CANVAS_ANCHOR_NORTH,
 		"font", HELVETICA_20_BFONT,
-		"fill_color", "white",
-		"anchor",GTK_ANCHOR_NORTH,
+		"fill-color", "white",
 		NULL);
 
 
-	gtk_box_pack_start_defaults( GTK_BOX(GNOME_DIALOG(dialog)->vbox), GTK_WIDGET(canvas));
+	gtk_box_pack_start( GTK_BOX(gtk_dialog_get_content_area
+	                            (GTK_DIALOG(dialog))), GTK_WIDGET(canvas),
+	                    TRUE, TRUE, 0 );
 
 	gtk_widget_show (canvas);
 
@@ -240,12 +221,12 @@ void dialog_close( GtkWidget *button, gpointer data )
 {
 	GtkWidget *dialog = (GtkWidget*) data;
 
-	gnome_dialog_close( GNOME_DIALOG(dialog) );
+	gtk_widget_destroy( dialog );
 	return;
 }
 
 
-GtkWidget * teg_dialog_gameover( int numjug, int mission )
+void teg_dialog_gameover( int numjug, int mission )
 {
 	GtkWidget *dialog;
 	PCPLAYER pJ;
@@ -265,14 +246,15 @@ GtkWidget * teg_dialog_gameover( int numjug, int mission )
 		dialog = teg_dialog_new(_("Game Over"),buf);
 	}
 
-	hbox = gtk_hbox_new ( FALSE, 3);
+	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
 
-	gtk_box_pack_start_defaults( GTK_BOX(GNOME_DIALOG(dialog)->vbox), hbox);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
+	                           (GTK_DIALOG(dialog))), hbox, TRUE, TRUE, 0);
 
 
 	/* show mission */
 	frame = gtk_frame_new( _("Accomplished mission") );
-	gtk_container_border_width( GTK_CONTAINER(frame), 3 );
+	gtk_container_set_border_width( GTK_CONTAINER(frame), 3 );
 	gtk_container_add( GTK_CONTAINER(hbox), frame );
 
 	mission_view_fake_number( frame, mission );
@@ -280,21 +262,16 @@ GtkWidget * teg_dialog_gameover( int numjug, int mission )
 
 	/* show scores */
 	frame = gtk_frame_new( _("Players' Scores") );
-	gtk_container_border_width( GTK_CONTAINER(frame), 3 );
+	gtk_container_set_border_width( GTK_CONTAINER(frame), 3 );
 	gtk_container_add( GTK_CONTAINER(hbox), frame );
 
 	gui_scores_embed( frame );
 	
-	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
-			GNOME_STOCK_BUTTON_OK,
-			NULL );
-	gnome_dialog_button_connect (GNOME_DIALOG(dialog),
-			0, GTK_SIGNAL_FUNC(dialog_close), dialog );
+	gtk_dialog_add_button(GTK_DIALOG(dialog), _("_OK"), GTK_RESPONSE_OK);
 
-	gtk_widget_show_all(dialog);
-	raise_and_focus(dialog);
-
-	return dialog;
+	gtk_widget_show_all (dialog);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
 }
 
 gchar *translate_to_utf8(const gchar *string )

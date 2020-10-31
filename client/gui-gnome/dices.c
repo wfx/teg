@@ -26,7 +26,8 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
+#include <goocanvas.h>
+#include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
@@ -46,9 +47,9 @@ extern TTheme gui_theme;
 
 
 static GdkPixbuf *dices[DICES_CANT] = { NULL, NULL, NULL, NULL, NULL, NULL };
-static GnomeCanvasItem *images[DICES_CANT] = { NULL, NULL, NULL, NULL, NULL, NULL };
-static GnomeCanvasItem *text[2] = {NULL,NULL};
-static GnomeCanvasGroup* dices_group=NULL;
+static GooCanvasItem *images[DICES_CANT] = { NULL, NULL, NULL, NULL, NULL, NULL };
+static GooCanvasItem *text[2] = {NULL,NULL};
+static GooCanvasItem* dices_group=NULL;
 static int dices_initialized=0;
 
 struct _dices_coord {
@@ -113,20 +114,21 @@ static TEG_STATUS dices_load()
 
 static void dices_show_text( int country, dices_type_t type )
 {
-	if( text[type] )
-		gtk_object_destroy( GTK_OBJECT( text[type] ));
+	if( text[type] ) {
+	        goo_canvas_item_remove( text[type] );
+	        text[type] = NULL;
+	}
 
-	text[type] = gnome_canvas_item_new(
+	text[type] = goo_canvas_text_new(
 		dices_group,
-		gnome_canvas_text_get_type(),
-		"text", countries_get_name(country),
-		"x", (double) (type == DICES_ATTACKER ) ? dices_pos.attacker_text.x :  dices_pos.defender_text.x,
-		"y", (double) (type == DICES_ATTACKER ) ? dices_pos.attacker_text.y :  dices_pos.defender_text.y,
-		"x_offset", (double) -1,
-		"y_offset", (double) -1,
+		countries_get_name(country),
+		(double) (type == DICES_ATTACKER ) ? dices_pos.attacker_text.x :  dices_pos.defender_text.x,
+		(double) (type == DICES_ATTACKER ) ? dices_pos.attacker_text.y :  dices_pos.defender_text.y,
+		(double) -1,
+		GOO_CANVAS_ANCHOR_NORTH,
+		"height", (double) -1,
 		"font", HELVETICA_12_BFONT,
-		"fill_color", gui_theme.dices_color,
-		"anchor",GTK_ANCHOR_NORTH,
+		"fill-color", gui_theme.dices_color,
 		NULL);
 }
 
@@ -149,46 +151,31 @@ static void dices_show_image( int dice_index, dices_type_t type, int pos )
 	}
 
 	if( images[i] == NULL ) {
-		images[i] = gnome_canvas_item_new(
+		images[i] = goo_canvas_image_new(
 			dices_group,
-			gnome_canvas_pixbuf_get_type (),
-			"pixbuf", dices[dice_index],
-			"x", x,
-			"y", y,
+			dices[dice_index],
+			x,
+			y,
 			"width", (double) gdk_pixbuf_get_width(dices[dice_index]),
 			"height", (double) gdk_pixbuf_get_height(dices[dice_index]),
-			"anchor", GTK_ANCHOR_NW,
 			NULL);
 
 	} else {
-		gnome_canvas_item_set( images[i],
+		g_object_set( images[i],
 			"pixbuf", dices[dice_index],
 			"x", x,
 			"y", y,
 			"width", (double) gdk_pixbuf_get_width(dices[dice_index]),
 			"height", (double) gdk_pixbuf_get_height(dices[dice_index]),
-			"anchor", GTK_ANCHOR_NW,
+	                "visibility", GOO_CANVAS_ITEM_VISIBLE,
 			NULL);
-		gnome_canvas_item_show( images[i] );
-	}
-}
-
-static void free_dices (GtkObject *object, gpointer *data)
-{
-	int i;
-
-	for(i=0;i<DICES_CANT;i++) {
-/*		if( dices[i] )
-			gdk_imlib_destroy_image(dices[i]);
-*/
-		dices[i] = NULL;
 	}
 }
 
 /*
  * exported functions 
  */
-void dices_init( GnomeCanvasGroup *root)
+void dices_init( GooCanvasItem *root )
 {
 	if( dices_initialized )
 		return;
@@ -196,21 +183,16 @@ void dices_init( GnomeCanvasGroup *root)
 	if( !root )
 		return;
 
-	dices_group = GNOME_CANVAS_GROUP(
-		gnome_canvas_item_new(
+	dices_group =
+		goo_canvas_group_new(
 			root,
-			gnome_canvas_group_get_type (),
 			"x",(float) gui_theme.dices_x,
 			"y",(float) gui_theme.dices_y,
-			NULL)
+			NULL
 		);
 
 	if( !dices_group )
 		return;
-
-	gtk_signal_connect (GTK_OBJECT (dices_group), "destroy",
-		(GtkSignalFunc) free_dices,
-		NULL);
 
 	dices_load();
 
@@ -260,13 +242,14 @@ void dices_unview()
 
 	for(i=0;i<DICES_CANT;i++) {
 		if( images[i] )
-			gnome_canvas_item_hide( images[i] );
+	                g_object_set( images[i], "visibility",
+	                              GOO_CANVAS_ITEM_INVISIBLE, NULL );
 	}
 
 	for(i=0;i<2;i++) {
 		if( text[i] ) {
-			gtk_object_destroy( GTK_OBJECT( text[i] ));
-			text[i] = NULL;
+	                goo_canvas_item_remove( text[i] );
+	                text[i] = NULL;
 		}
 	}
 }
@@ -285,7 +268,8 @@ void dices_view()
 	/* hide all dices */
 	for(i=0;i<DICES_CANT;i++) {
 		if( images[i] )
-			gnome_canvas_item_hide( images[i] );
+	                g_object_set( images[i], "visibility",
+	                              GOO_CANVAS_ITEM_INVISIBLE, NULL );
 	}
 
 	for(i=0;i<3;i++) {

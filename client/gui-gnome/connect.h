@@ -24,6 +24,7 @@
 #ifndef __GUI_GNOME_CONECTAR_H
 #define __GUI_GNOME_CONECTAR_H
 
+void shutdown_channel();
 void connect_view();
 void gametype_view();
 void colortype_view( char *colores);

@@ -24,7 +24,7 @@
 #  include <config.h>
 #endif
 
-#include <gnome.h>
+#include <goocanvas.h>
 #include <assert.h>
 
 #include "gui.h"
@@ -71,14 +71,14 @@ static gint timeout_cb( gpointer data )
 
 		if( list_locate_countries[i].is_hidden ) {
 			list_locate_countries[i].is_hidden = FALSE;
-			gnome_canvas_item_show( G_countries[ list_locate_countries[i].country ].country_item );
+	                g_object_set( G_countries[ list_locate_countries[i].country ].country_item, "visibility", GOO_CANVAS_ITEM_VISIBLE, NULL );
 
 			if( ++list_locate_countries[i].number_times_refreshed == MAX_REFRESHES_COUNTRY ) {
 				locate_country_init_entry( &list_locate_countries[i] );
 			}
 		} else {
 			list_locate_countries[i].is_hidden = TRUE;
-			gnome_canvas_item_hide( G_countries[ list_locate_countries[i].country ].country_item );
+	                g_object_set( G_countries[ list_locate_countries[i].country ].country_item, "visibility", GOO_CANVAS_ITEM_INVISIBLE, NULL );
 		}
 
 	}
@@ -91,16 +91,16 @@ static gint timeout_cb( gpointer data )
 
 		if( list_locate_armies[i].is_hidden ) {
 			list_locate_armies[i].is_hidden = FALSE;
-			gnome_canvas_item_show( G_countries[ list_locate_armies[i].country ].ellip_item );
-			gnome_canvas_item_show( G_countries[ list_locate_armies[i].country ].text_item );
+	                g_object_set( G_countries[ list_locate_armies[i].country ].ellip_item, "visibility", GOO_CANVAS_ITEM_VISIBLE, NULL );
+	                g_object_set( G_countries[ list_locate_armies[i].country ].text_item, "visibility", GOO_CANVAS_ITEM_VISIBLE, NULL );
 
 			if( ++list_locate_armies[i].number_times_refreshed == MAX_REFRESHES_ARMY ) {
 				locate_country_init_entry( &list_locate_armies[i] );
 			}
 		} else {
 			list_locate_armies[i].is_hidden = TRUE;
-			gnome_canvas_item_hide( G_countries[ list_locate_armies[i].country ].ellip_item );
-			gnome_canvas_item_hide( G_countries[ list_locate_armies[i].country ].text_item );
+	                g_object_set( G_countries[ list_locate_armies[i].country ].ellip_item, "visibility", GOO_CANVAS_ITEM_INVISIBLE, NULL );
+	                g_object_set( G_countries[ list_locate_armies[i].country ].text_item, "visibility", GOO_CANVAS_ITEM_INVISIBLE, NULL );
 		}
 
 	}
@@ -111,7 +111,7 @@ static gint timeout_cb( gpointer data )
 TEG_STATUS locate_country_init()
 {
 	int i;
-	timeout_id = gtk_timeout_add( 300, timeout_cb, NULL );
+	timeout_id = g_timeout_add( 300, timeout_cb, NULL );
 
 	for(i=0;i<MAX_LOCATE_COUNTRIES;i++)
 	{
@@ -126,7 +126,7 @@ TEG_STATUS locate_country_init()
 TEG_STATUS locate_country_exit()
 {
 	if( timeout_id >= 0 )
-		gtk_timeout_remove( timeout_id );
+		g_source_remove( timeout_id );
 
 	return TEG_STATUS_SUCCESS;
 }

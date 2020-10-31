@@ -21,7 +21,7 @@
 #ifndef __GUI_GNOME_CALLBACKS_H
 #define __GUI_GNOME_CALLBACKS_H
 
-#include <gnome.h>
+#include <gtk/gtk.h>
 #include "gui.h"
 #include "client.h"
 
@@ -69,10 +69,12 @@ void on_viewmission_activate(GtkMenuItem  *menuitem, gpointer         user_data)
 
 void on_start_activate(GtkMenuItem  *menuitem, gpointer         user_data);
 
+void on_help_activate(GtkMenuItem *menuitem, gpointer user_data);
+
 void destroy_window( GtkWidget * widget, GtkWidget **window );
 
 void raise_and_focus (GtkWidget *widget);
 
-TEG_STATUS pre_client_recv( gpointer data, int sock, GdkInputCondition GDK_INPUT_READ );
+gboolean pre_client_recv(GIOChannel *source, GIOCondition cond, gpointer data);
 
 #endif /* __GUI_GNOME_CALLBACKS_H */
