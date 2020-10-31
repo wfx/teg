@@ -17,14 +17,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file outputfd.h
- */
-#ifndef __TEGC_OUTPUTFD_H
-#define __TEGC_OUTPUTFD_H
+
+#pragma once
 
 #include "client.h"
 #include "common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 TEG_STATUS out_mensaje( char *msg );
 TEG_STATUS out_id();
@@ -59,4 +60,6 @@ TEG_STATUS out_robot();
 /**! request who started the round, and the round number */
 TEG_STATUS out_new_round();
 
-#endif /* __TEGC_OUTPUTFD_H */
+#ifdef __cplusplus
+}
+#endif
