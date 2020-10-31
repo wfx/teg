@@ -26,14 +26,39 @@
 extern "C" {
 #endif
 
-TEG_STATUS game_init();
-TEG_STATUS game_finalize();
+/// \brief initialize the client game dataset
+void game_init();
+
+/// Reset the country and client game datasets. Call this after the game end.
+void game_finalize();
+
+/** \brief Try to connect to the game server
+ *
+ * The connection details are taken from g_game.
+ */
 TEG_STATUS teg_connect();
-TEG_STATUS teg_disconnect();
+
+/// disconnect from the server, and reset game datastructures and GUI
+void teg_disconnect();
+
+
+/** \brief Callback for the "error:player_id" protocoll error handler.
+ *
+ * This function terminates the connection and always returns TEG_STATUS_SUCCESS.
+ * Since this is a callback, the return value can't be changed.
+ */
 TEG_STATUS playerid_restore_from_error( void );
+
+/// \brief Tries to start a server at the specified \p port.
 TEG_STATUS launch_server( int port );
+
+/// \brief Tries to start a robot
 TEG_STATUS launch_robot( void );
+
+/// Log-like function to display messages above \p level in the GUI
 TEG_STATUS textmsg( int level, char *format, ...);
+
+/// Create the .teg directory structure in the users home directory
 TEG_STATUS dirs_create();
 
 #define ESTADO_ES(a) (g_game.estado==(a))
