@@ -24,19 +24,39 @@
 extern "C" {
 #endif
 
+#include "../common/common.h"
+
 extern int ai_puntaje[COUNTRIES_CANT*10];
 extern int ai_sorted[COUNTRIES_CANT*10];
 
-TEG_STATUS ai_fichas( int cant );
-TEG_STATUS ai_fichasc( int cant, int conts);
+/// \brief Initialize / reset the per country attack score
 TEG_STATUS ai_init();
+
+/**
+ * \brief Tries to perform one attack.
+ *
+ * \note The next attack will be started by the timeout in gui_main and the
+ *       out_loque() call there.
+ */
 TEG_STATUS ai_turno();
+
+/// Move the armies after the attack turn.
 TEG_STATUS ai_reagrupe();
+
+/// Move armies from my counry to the new conquered country
 TEG_STATUS ai_tropas( int src, int dst, int cant);
+
+/// Try to exchange cards
 TEG_STATUS ai_puedocanje( int *p1, int *p2, int *p3 );
+
+/// Do I own the continent number \p c?
 BOOLEAN ai_own_continent( int c );
+
+/// \todo Find out what this function does
 TEG_STATUS ai_puntaje_sort(int cant);
-TEG_STATUS ai_puntaje_clean();
+
+/// Reset the sorting mechanism
+void ai_puntaje_clean();
 
 #ifdef __cplusplus
 }
