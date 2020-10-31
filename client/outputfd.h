@@ -27,28 +27,71 @@
 extern "C" {
 #endif
 
+/** \addtogroup TransmitProtocoll
+ *
+ * All functions in this group use g_game.fd as the file descriptor to send the
+ * data to the server.
+ * \{
+ */
+
+/// \brief Send message \p msg as chat message to all players
 TEG_STATUS out_mensaje( char *msg );
+
+/** \brief Tell the server who I am
+ *
+ * This function sends the name, the observer and the human proprty to the
+ * server.
+ */
 TEG_STATUS out_id();
+
+/// \brief Tell the server to close the connection
 TEG_STATUS out_exit();
+
+/// ask server the countries' status
 TEG_STATUS out_countries();
+
+/// Request all players scores
 TEG_STATUS out_status();
+
+/// Request the server to start the game
 TEG_STATUS out_start();
+
+/** Tell the server the ammount of armies (\p cant) I'm sending into the
+ *  conquered country p dst from the country \p src. */
 TEG_STATUS out_tropas( int src, int dst, int cant);
+
+/// Tell the server I'm done with my turn
 TEG_STATUS out_endturn();
+
+/// Sends to server a request for a 'get card'
 TEG_STATUS out_tarjeta();
+
+/// request the server my secret mission
 TEG_STATUS out_missions();
+
+/// Sets the Conquer-The-World option on/off, Fog of war on/off
 TEG_STATUS out_set_typeofgame(int a, int b, int c, int ar1, int ar2);
+
+/// request the type of game
 TEG_STATUS out_get_typeofgame();
-TEG_STATUS out_color();
+
+/// tell the server which color I prefer
+TEG_STATUS out_color(int color);
+
+/// robot: ask server what do I have to do
 TEG_STATUS out_loque();
-TEG_STATUS out_pversion();
+
+/// Sends the protocol version, request the server version, send the client version
+void out_pversion(void);
+
+/// tells the server that I surrender
 TEG_STATUS out_surrender();
 
 /**! request the high scores from the server */
 TEG_STATUS out_scores();
 
 /**! sends the clients version */
-TEG_STATUS out_cversion();
+void out_cversion();
 
 /**! sends the request to enumerate all the cards i have */
 TEG_STATUS out_enum_cards();
@@ -58,6 +101,8 @@ TEG_STATUS out_robot();
 
 /**! request who started the round, and the round number */
 TEG_STATUS out_new_round();
+
+/** \} */
 
 #ifdef __cplusplus
 }
