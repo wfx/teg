@@ -239,21 +239,6 @@ TEG_STATUS out_loque( void )
 	return TEG_STATUS_ERROR;
 }
 
-void out_pversion()
-{
-	if( g_game.fd > 0 ) {
-		net_printf(g_game.fd,TOKEN_PVERSION"=%d,%d\n",PROTOCOL_HIVER,PROTOCOL_LOVER);
-		net_printf(g_game.fd,TOKEN_SVERSION"\n");
-		out_cversion();
-	}
-}
-
-void out_cversion()
-{
-	if( g_game.fd > 0 )
-		net_printf(g_game.fd,TOKEN_CVERSION"=%s %s\n",_("TEG client version "),VERSION);
-}
-
 /* ask for scores */
 TEG_STATUS out_scores()
 {

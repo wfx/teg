@@ -81,17 +81,11 @@ TEG_STATUS out_color(int color);
 /// robot: ask server what do I have to do
 TEG_STATUS out_loque();
 
-/// Sends the protocol version, request the server version, send the client version
-void out_pversion(void);
-
 /// tells the server that I surrender
 TEG_STATUS out_surrender();
 
 /**! request the high scores from the server */
 TEG_STATUS out_scores();
-
-/**! sends the clients version */
-void out_cversion();
 
 /**! sends the request to enumerate all the cards i have */
 TEG_STATUS out_enum_cards();
