@@ -17,18 +17,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file themes.h
- * File that parse the theme stuff
- */
 
-
-#ifndef __TEGC_THEMES_H
-#define __TEGC_THEMES_H
+#pragma once
 
 #include <libxml/parser.h>
-
 #include "common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define THEME_CONTINENT_MAX	(30)
 #define THEME_COUNTRY_MAX	(30)
@@ -162,20 +159,36 @@ typedef struct _tinfo {
 } TInfo, *pTInfo;
 
 
-/* prototypes */
-TEG_STATUS theme_load( char *file );
-void theme_unload();
+/// \brief Tries to load the theme named \p name from different directories
+TEG_STATUS theme_load(char *name);
+
+/// \brief Fill in the card details from the theme dataset
 TEG_STATUS theme_giveme_cards(pTCards pC);
+
+/// \brief Fill in the coordinates of continent \p n into the structure \p pC
 TEG_STATUS theme_giveme_continent(pTContinent pC, int n);
+
+/// \brief Fill in the details of country \p n of continent \p cont into \p pC
 TEG_STATUS theme_giveme_country(pTCountry pC, int cont, int n);
+
+/// \brief Copy the theme data into \p pT
 TEG_STATUS theme_giveme_theme(pTTheme pT);
+
+/// \brief Return the list of all available themes
 TEG_STATUS theme_enum_themes( pTInfo pTI );
-TEG_STATUS theme_init();
+
+/// \brief Delete the theme list
 void theme_free();
+
+/// \brief Tries to load the theme \p name.
 char * theme_load_file( char *name );
-char * theme_load_fake_file( char *name, char *theme );
+
+/// Tries to load the preview image
+char * theme_load_fake_file(char *name, char *theme);
 
 /**! returns 1 if dices extended are being used */
 int theme_using_extended_dices();
 
-#endif /* __TEGC_THEMES_H */
+#ifdef __cplusplus
+}
+#endif
