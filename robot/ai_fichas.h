@@ -17,15 +17,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file ai_fichas.h
- */
+#pragma once
 
-#ifndef __TEGR_AI_FICHAS_H
-#define __TEGR_AI_FICHAS_H
+#include "../common/common.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/// Place the regular armies
 TEG_STATUS ai_fichas( int cant );
+
+/// Place continent assigned armies
 TEG_STATUS ai_fichasc( int cant, int conts);
+
+/// Calls all the strategies of the robots to place armies
 TEG_STATUS ai_fichas_calc_puntaje( int p );
 
-#endif /* __TEGR_AI_FICHAS_H */
+#ifdef __cplusplus
+}
+#endif

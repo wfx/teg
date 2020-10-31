@@ -269,7 +269,6 @@ TEG_STATUS gui_turn( PCPLAYER pJ)
 	return TEG_STATUS_SUCCESS;
 }
 
-
 TEG_STATUS gui_country( int p )
 {
 	return TEG_STATUS_SUCCESS;
