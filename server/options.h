@@ -17,15 +17,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file options.c
- * Manages the server options
- */
 
-#ifndef __TEGS_OPTIONS_H
-#define __TEGS_OPTIONS_H
+#pragma once
 
-TEG_STATUS option_parse( int fd, char *str);
-TEG_STATUS option_view( int fd, char *str);
+#include "../common/common.h"
 
-#endif /* __TEGS_OPTIONS_H */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/// \brief Parses a game option received from a client
+TEG_STATUS option_parse(int fd, char *str);
+
+/// \brief Print the current game options on the console
+TEG_STATUS option_view(int fd, char *str);
+
+#ifdef __cplusplus
+}
+#endif
