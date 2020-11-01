@@ -17,19 +17,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
- * @file countries.h
+ * This function takes place at the beginning of a game, and randomly assign
+ * each country to a player.
  */
-
-#ifndef __TEGS_COUNTRIES_H
-#define __TEGS_COUNTRIES_H
-
-#include "server.h"
-
-/*
- * Funciones, variables exportadas
- */
-
 void countries_repartir();
 
-#endif /* __TEGS_COUNTRIES_H */
+#ifdef __cplusplus
+}
+#endif
