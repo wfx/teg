@@ -348,7 +348,7 @@ TEG_STATUS console_handle( int fd )
 }
 
 
-TEG_STATUS con_text_out( int level, char *format, ...)
+void con_text_out( int level, char *format, ...)
 {
         va_list args;
 	char buf[PROT_MAX_LEN];
@@ -362,7 +362,6 @@ TEG_STATUS con_text_out( int level, char *format, ...)
 		fprintf(stdout,"%s",buf);
 		con_show_prompt();
 	}
-	return TEG_STATUS_SUCCESS;
 }
 
 TEG_STATUS con_text_out_wop( int level, char *format, ...)

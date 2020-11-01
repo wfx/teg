@@ -17,21 +17,41 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file console.h
- * Prototipos de las funciones de la consola
- */
-#ifndef __TEGS_CONSOLE_H
-#define __TEGS_CONSOLE_H
+
+#pragma once
+
+#include "../common/common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define CONSOLE_FD 0
 
+/// \brief Try to read and handle one command from the console
 TEG_STATUS console_handle( int fd );
+
+/// \brief Print the console ready prompt
 void con_show_prompt();
-TEG_STATUS con_text_out( int level, char *format, ...);
+
+/** \brief Print a text to the server console and show the ready prompt
+ *
+ * \note The parameter \p level is ignored
+ */
+void con_text_out( int level, char *format, ...);
+
+/** \brief Print a text to the server console without printing a ready prompt
+ *
+ * \note The parameter \p level is ignored
+ */
 TEG_STATUS con_text_out_wop( int level, char *format, ...);
+
+/// \brief Initialize the server console
 TEG_STATUS console_init( void );
+
+/// \brief Deactivate the server console
 TEG_STATUS console_quit( void );
 
-
-#endif /* __TEGS_CONSOLE_H */
+#ifdef __cplusplus
+}
+#endif
