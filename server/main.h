@@ -17,12 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file main.h
- */
 
-#ifndef __TEGS_MAIN_H
-#define __TEGS_MAIN_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**! initialize the game */
 void game_init();
@@ -44,4 +44,6 @@ void fd_remove( int fd );
 /**! adds a new fd to the list of fd */
 void fd_add( int fd );
 
-#endif /* __TEGS_MAIN_H */
+#ifdef __cplusplus
+}
+#endif
