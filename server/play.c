@@ -1331,7 +1331,6 @@ error:
 	return TEG_STATUS_PARSEERROR;
 }
 
-/* Quit TEG */
 TEG_STATUS token_exit( int fd )
 {
 	PSPLAYER pJ;

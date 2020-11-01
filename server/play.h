@@ -17,17 +17,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file play.h
- * Prototipos de play.c
+
+#pragma once
+
+#include "../common/common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/** \brief Start a new game
+ *
+ * The function checks if the preconditions to (re)start the game are met. If it
+ * is so, a new game is start.
+ *
+ * \return TEG_STATUS_SUCCESS if a new game is started
+ *         TEG_STATUS_PARSEERROR if there was any error.
  */
+TEG_STATUS token_start(int fd);
 
-#ifndef __TEG_PLAY_H
-#define __TEG_PLAY_H
+/** \brief Shut down the server
+ *
+ * \return This function always returns TEG_STATUS_CONNCLOSED. It can't be void
+ *         since it is used as a callback function.
+ */
+TEG_STATUS token_exit(int fd);
 
-TEG_STATUS token_start( int fd );
-TEG_STATUS token_exit( int fd );
+/// \brief Read a message from a client fd and do the appropriate action
 TEG_STATUS play_teg( int fd );
-int tarjeta_libre( int i );
 
-#endif /* __TEG_PLAY_H */
+#ifdef __cplusplus
+}
+#endif
