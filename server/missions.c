@@ -25,7 +25,6 @@
 #include "server.h"
 #include "missions.h"
 
-/* Do player pJ accomplished his secret mission ? */
 TEG_STATUS mission_chequear( PSPLAYER pJ )
 {
 	int i;
@@ -93,7 +92,6 @@ no_gano:
 	return TEG_STATUS_ERROR;
 }
 
-/* Assigns a secret mission to player pJ */
 TEG_STATUS mission_asignar( PSPLAYER pJ )
 {
 	int i,obj;
@@ -132,8 +130,7 @@ TEG_STATUS mission_asignar( PSPLAYER pJ )
 	return TEG_STATUS_ERROR;
 }
 
-/* Initialize the secret missions */
-TEG_STATUS mission_init()
+void mission_init()
 {
 	int i;
 
@@ -142,12 +139,9 @@ TEG_STATUS mission_init()
 	}
 	g_missions[MISSION_CONQWORLD].player_number = 0;
 	g_missions[MISSION_COMMON].player_number = 0;
-
-	return TEG_STATUS_SUCCESS;
 }
 
-/* sets the option: play to conquer the world, or with secret missions */
-TEG_STATUS mission_set( int a )
+TEG_STATUS mission_set(bool a)
 {
 	if( JUEGO_EMPEZADO )
 		return TEG_STATUS_ERROR;
@@ -157,8 +151,7 @@ TEG_STATUS mission_set( int a )
 	return TEG_STATUS_SUCCESS;
 }
 
-/* Enables/Disables playing with common secret mission */
-TEG_STATUS mission_common_mission( int a )
+TEG_STATUS mission_common_mission(bool a)
 {
 	if( JUEGO_EMPEZADO )
 		return TEG_STATUS_ERROR;
