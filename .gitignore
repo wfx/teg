@@ -4,33 +4,6 @@
 *.gmo
 
 # Object files
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.o
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
 *.o
 *.ko
 *.obj
@@ -45,6 +18,10 @@
 *.a
 *.la
 *.lo
+*.o
+*.ko
+*.obj
+*.elf
 
 # Shared objects (inc. Windows DLLs)
 *.dll
