@@ -160,6 +160,6 @@ tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_
 tegtest_LDFLAGS = -Wl,--as-needed
 
 tegservertest_CPPFLAGS = -DTEGSERVER_OMIT_MAIN=1
-tegservertest_SOURCES = server/main.c server/helper_check.cpp
+tegservertest_SOURCES = server/main.c server/helper_check.cpp server/player_check.cpp
 tegservertest_LDADD = libtegserver.a libtegcommon.a \
     -lgmock_main -lgtest -lgmock @SERVER_LIBS@ @XML_LIBS@ -lpthread

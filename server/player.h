@@ -68,8 +68,12 @@ typedef void (*jug_map_func)( PSPLAYER pJ);
 /// \brief List of all connected players
 extern LIST_ENTRY g_list_player;
 
-/// \brief Initialize a single player datastructure
-void player_initplayer( PSPLAYER j );
+/** \brief Initialize a single player datastructure for a new game
+ *
+ * Only the fields needed to be reset for a new game are touched, all other
+ * fields are kept unchanged
+ */
+void player_initplayer(PSPLAYER j);
 
 /// \brief Initialize the entire player list
 void player_init( void );
