@@ -24,10 +24,11 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "server.h"
+#include "../common/net.h"
+#include "../common/protocol.h"
+#include "player.h"
 
-int
-netall_printf( char *format, ...)
+void netall_printf(char *format, ...)
 {
         va_list args;
 	char buf[PROT_MAX_LEN];

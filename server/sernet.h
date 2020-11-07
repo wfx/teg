@@ -17,15 +17,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file server.h
- */
+#pragma once
 
-#ifndef __TEG_SERNET_H
-#define __TEG_SERNET_H
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-#include <sys/types.h>
+/// \brief send a message to all connected players.
+void netall_printf(char *format, ...);
 
-int netall_printf( char *format, ...);
-
-#endif /* __TEG_SERNET_H */
+#ifdef __cplusplus
+}
+#endif
