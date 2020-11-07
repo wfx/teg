@@ -17,23 +17,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifndef __TEG_TURNO_H
-#define __TEG_TURNO_H
+
+#pragma once
 
 #include "../common/common.h"
 #include "player.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*! give turn to next player */
 TEG_STATUS turno_next( void );
+
 /*! initialize the turn */
 TEG_STATUS turno_init(void);
+
 /*! give the turn to the next player */
 TEG_STATUS turno_2nextplayer( PSPLAYER *j );
+
 /*! ends the turn for a player */
 TEG_STATUS turno_end( PSPLAYER pJ );
+
 /*! says if the round is completed */
 BOOLEAN turno_is_round_complete( void );
+
 /*! called when a round is complete */
 void turno_initialize_new_round( void );
 
-#endif /* __TEG_TURNO_H */
+#ifdef __cplusplus
+}
+#endif
