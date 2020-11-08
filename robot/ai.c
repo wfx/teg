@@ -119,7 +119,7 @@ BOOLEAN ai_is_country_border( int p )
 	return FALSE;
 }
 
-BOOLEAN ai_own_continent( int c )
+BOOLEAN ai_own_continent(CONTINENTE c )
 {
 	int i;
 	int t=0;

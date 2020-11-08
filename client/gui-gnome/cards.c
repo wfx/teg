@@ -72,7 +72,6 @@ struct {
 TEG_STATUS cards_load()
 {
 	char *filename;
-	int i;
 
 	TCards cards;
 	/* obtain cards from theme */
@@ -87,8 +86,7 @@ TEG_STATUS cards_load()
 			tarjs[3].filename = cards.jocker;
 	}
 
-
-	for(i=0; i<NRTARJS;i++) {
+	for(unsigned i=0; i<NRTARJS;i++) {
 
 		if(!tarjs[i].tar) {
 			filename = theme_load_file( tarjs[i].filename );
@@ -186,14 +184,13 @@ static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 	GtkWidget	*button_locate;
 	PCOUNTRY		pP;
 	GooCanvasItem *image;
-	int i;
 	TCards cards;
 
 	if( theme_giveme_cards(&cards) != TEG_STATUS_SUCCESS )
 		return NULL;
 
-
-	for(i=0;i<NRTARJS;i++) {
+	unsigned i=0;
+	for(;i<NRTARJS;i++) {
 		if( tarjs[i].tipo == pT->tarjeta )
 			break;
 	}
@@ -530,9 +527,7 @@ TEG_STATUS cards_select(int p1, int p2, int p3 )
  */
 void cards_free()
 {
-	int i;
-
-	for(i=0;i<NRTARJS;i++) {
+	for(unsigned i=0;i<NRTARJS;i++) {
 		if( tarjs[i].tar ) {
 			g_clear_object( &tarjs[i].tar );
 		}

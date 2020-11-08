@@ -143,7 +143,7 @@ error:
  * @fn TEG_STATUS aux_countries( int numjug, char *str )
  * parsea los ejercitos en countries de un player
  */
-TEG_STATUS aux_countries( int numjug, char *str )
+TEG_STATUS aux_countries( int numjug, char const *str )
 {
 	int i,country,cant;
 	PARSER p;

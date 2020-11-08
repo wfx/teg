@@ -20,7 +20,6 @@ void inputline_return(GtkEntry *w, gpointer data);
 void output_window_clear(void);
 void set_output_window_text(const char *text);
 TEG_STATUS gui_textmsg(char *astring);
-TEG_STATUS gui_textplayermsg(char *name, int nj, char *msg);
 TEG_STATUS chatline_init();
 
 #endif  /* __TEG_GUI_GNOME_CHATLINE_H */

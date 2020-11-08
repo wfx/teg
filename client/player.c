@@ -88,11 +88,9 @@ void player_flush(void)
 		tmp = RemoveHeadList( &g_list_player );
 		free( tmp );
 	}
-	return TEG_STATUS_SUCCESS;
 }
 
 void player_init(void)
 {
 	InitializeListHead(&g_list_player);
-	return TEG_STATUS_SUCCESS;
 }

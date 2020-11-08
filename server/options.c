@@ -28,10 +28,12 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "../common/net.h"
 #include "server.h"
 #include "fow.h"
 #include "parser.h"
 #include "fcintl.h"
+#include "missions.h"
 
 TEG_STATUS option_conqworld(int fd, char *str);
 TEG_STATUS option_conqworld_view( void );
@@ -236,8 +238,7 @@ error:
 
 TEG_STATUS option_help( int fd, char *str )
 {
-	int i;
-	for(i=0;i<NOPTIONS;i++) {
+	for(unsigned i=0;i<NOPTIONS;i++) {
 		if(options[i].func)
 			net_printf(fd, TOKEN_REM"='%s' %s\n",options[i].label,_(options[i].help));
 	}
@@ -246,9 +247,7 @@ TEG_STATUS option_help( int fd, char *str )
 
 TEG_STATUS option_lookup( int fd, PARSER *p )
 {
-	int i;
-
-	for(i = 0; i < NOPTIONS; i++) {
+	for(unsigned i = 0; i < NOPTIONS; i++) {
 		if(strcasecmp( p->token, options[i].label )==0 ){
 			if (options[i].func)
 				return( (options[i].func)(fd,p->value));
@@ -262,9 +261,7 @@ TEG_STATUS option_lookup( int fd, PARSER *p )
 
 TEG_STATUS option_view( int fd, char *str)
 {
-	int i;
-
-	for(i = 0; i < NOPTIONS; i++) {
+	for(unsigned i = 0; i < NOPTIONS; i++) {
 		if (options[i].func_view)
 			(options[i].func_view)();
 	}

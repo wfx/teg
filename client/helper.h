@@ -26,7 +26,7 @@ extern "C" {
 #include "player.h"
 
 TEG_STATUS aux_status(PCPLAYER pj, char const *str );
-TEG_STATUS aux_countries( int numjug, char *str );
+TEG_STATUS aux_countries(int numjug, const char *str );
 void aux_draw_all_countries();
 TEG_STATUS aux_player_init( PCPLAYER pJ, int numjug, char *name, int color );
 TEG_STATUS aux_start_error();

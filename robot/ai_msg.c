@@ -166,7 +166,7 @@ TEG_STATUS ai_out_mensaje( int r, char *format, ...)
 	return out_mensaje( buf );
 }
 
-TEG_STATUS ai_msg(int type, char *name )
+TEG_STATUS ai_msg(int type, char const *name )
 {
 	int i;
 	char dst_name[PLAYERNAME_MAX_LEN];
@@ -207,12 +207,10 @@ char * ai_name()
 	return _(names[i]);
 }
 
-TEG_STATUS ai_findname( char *name )
+TEG_STATUS ai_findname(char const *name )
 {
-	int i;
-
-	for(i=0;i< NR_NAMES;i++) {
-		if( strstr( _(name), _(names[i]) ) != NULL)
+	for(unsigned i=0; i<NR_NAMES; i++) {
+		if(strstr(_(name), _(names[i])) != NULL)
 			return TEG_STATUS_SUCCESS;
 	}
 

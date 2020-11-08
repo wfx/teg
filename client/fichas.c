@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../common/net.h"
 #include "fcintl.h"
 #include "protocol.h"
 #include "client.h"

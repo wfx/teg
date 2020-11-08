@@ -186,9 +186,9 @@ do_real:
 	if(real==0) {
 		fichas=0;
 		real=1;
-		memset( cptr, 0, CONT_CANT);
+		memset(cptr, 0, sizeof(cptr));
 		p.data = copia;
-		goto do_real;
+		goto do_real; /// \todo Remove this
 	}
 
 	return TEG_STATUS_SUCCESS;

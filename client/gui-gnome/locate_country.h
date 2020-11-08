@@ -26,8 +26,6 @@
 /* constructor */
 TEG_STATUS locate_country_init();
 
-/* destructor */
-TEG_STATUS locate_country_exit();
 
 /* adds a country to view */
 TEG_STATUS locate_country_add_country( PCOUNTRY p );

@@ -38,12 +38,15 @@
 #endif
 
 
+#include "../common/share.h"
 #include "server.h"
 #include "../common/scores.h"
+#include "../common/net.h"
 #include "xmlscores.h"
 #include "../common/version.h"
 #include "../common/fcintl.h"
 #include "../common/tegdebug.h"
+#include "missions.h"
 
 #define MAIN_DEBUG PDEBUG
 
@@ -184,7 +187,7 @@ void main_loop( void )
 {
 	int listenfd,fd, nready;
 	struct sockaddr client;
-	ssize_t client_len;
+	socklen_t client_len;
 	fd_set read_set;
 	struct timeval timeout, timeofday_old, timeofday_new;
 	struct timezone tz;
@@ -323,10 +326,11 @@ void fd_add( int fd )
 }
 
 /* parse the arguments */
-void argument_init( int argc, char **argv)
+void argument_init( int argc, char **argv_var)
 {
 	int i;
-	char *option;
+	char const *option;
+	char const **argv = (char const**) argv_var; // save, since we add more constness here
 
 	i = 1;
 	while (i < argc) {

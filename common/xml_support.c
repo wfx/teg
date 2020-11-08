@@ -50,6 +50,6 @@ void add_numeric_attribute(xmlNodePtr node, char const* name, int number)
 {
 	char buf[22]; // enough for a 64bit integer with sign and zero terminator
 	int res = snprintf(buf, sizeof(buf), "%d", number);
-	assert((res > 0) && (res < sizeof(buf)));
+	assert((res > 0) && (((unsigned)res) < sizeof(buf)));
 	xmlSetProp(node, (xmlChar*)name, (xmlChar*)buf );
 }

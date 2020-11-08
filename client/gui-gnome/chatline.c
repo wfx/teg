@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "../../common/net.h"
 #include "gui.h"
 #include "client.h"
 #include "interface.h"
@@ -85,7 +86,7 @@ TEG_STATUS gui_textmsg(char *astring)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_textplayermsg(char *n, int num, char *msg)
+TEG_STATUS gui_textplayermsg(char const *n, int num, char const *msg)
 {
 	GtkTextIter iter;
 	char name[PLAYERNAME_MAX_LEN+30];

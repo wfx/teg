@@ -33,6 +33,7 @@
 #include <unistd.h>
 #include <string.h>
 
+#include "../common/share.h"
 #include "fcintl.h"
 #include "client.h"
 #include "ai.h"
@@ -47,7 +48,7 @@ int robot_timeout = 1;			/* variable que dice los segundos que espera */
 /*
  * private functions
  */
-void tolowerstr(char *n, char *converted)
+void tolowerstr(char const *n, char *converted)
 {
 	int i;
 
@@ -62,17 +63,18 @@ TEG_STATUS gui_mission()
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_textplayermsg(char *n, int num, char *msg)
+TEG_STATUS gui_textplayermsg(char const *n, int num, char const *msg)
 {
 	char converted[sizeof(g_game.myname)+1];
+	char msg_lower[strlen(msg)+1];
 
 	memset( converted,0,sizeof(converted));
 
-	tolowerstr(msg,msg);
+	tolowerstr(msg, msg_lower);
 	tolowerstr(_(g_game.myname), converted);
 
 	/* a player, not a robot, sends me a message i respond */
-	if( strstr(msg,converted ) && ai_findname(n) != TEG_STATUS_SUCCESS ) {
+	if( strstr(msg_lower, converted ) && ai_findname(n) != TEG_STATUS_SUCCESS ) {
 		ai_msg( AI_MSG_ANSWER, n );
 	}
 	return TEG_STATUS_SUCCESS;

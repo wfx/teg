@@ -26,8 +26,10 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "../common/missions.h"
 #include "server.h"
 #include "tegdebug.h"
+#include "missions.h"
 
 #define TURNO_DEBUG PDEBUG
 

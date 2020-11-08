@@ -145,16 +145,14 @@ TEG_STATUS colors_load_images( void )
 /* allocate colors */
 TEG_STATUS colors_allocate( void )
 {
-	int i;
-
 	if(allocated)
 		return TEG_STATUS_ERROR;
 
-	for(i=0;i<NR_COLORS;i++) {
+	for(unsigned i=0; i<NR_COLORS; i++) {
 	        gdk_rgba_parse( &colors_players[i], G_colores[i].ellip_color );
 	}
 
-	for(i=0;i<NR_COLORS_COMMON;i++) {
+	for(unsigned i=0; i<NR_COLORS_COMMON; i++) {
 	        gdk_rgba_parse( &colors_common[i], G_colores_common[i] );
 	}
 
@@ -165,6 +163,12 @@ TEG_STATUS colors_allocate( void )
 	return TEG_STATUS_SUCCESS;
 }
 
+bool color_is_valid(int color)
+{
+	return (color >= 0)
+	        && (((unsigned)color) < NR_COLORS);
+}
+
 GdkRGBA* colors_get_player( int n )
 {
 	PCPLAYER pJ;
@@ -172,14 +176,14 @@ GdkRGBA* colors_get_player( int n )
 	if(player_whois(n,&pJ) != TEG_STATUS_SUCCESS)
 		return &colors_players[NR_COLORS-1];
 
-	if(pJ->color<0 || pJ->color>=NR_COLORS)
+	if(!color_is_valid(pJ->color))
 		return &colors_players[NR_COLORS-1];
 	return &colors_players[pJ->color];
 }
 
 GdkRGBA* colors_get_player_from_color( int color )
 {
-	if(color<0 || color>=NR_COLORS)
+	if(!color_is_valid(color))
 		return &colors_players[NR_COLORS-1];
 	return &colors_players[color];
 }
@@ -191,14 +195,14 @@ GdkRGBA* colors_get_player_ink(int n )
 	if(player_whois(n,&pJ) != TEG_STATUS_SUCCESS)
 		return &colors_common[COLORS_BLACK];
 
-	if(pJ->color<0 || pJ->color>=NR_COLORS)
+	if(!color_is_valid(pJ->color))
 		return &colors_common[COLORS_BLACK];
 	return &colors_common[colors_foreground[pJ->color]];
 }
 
 GdkRGBA* colors_get_player_ink_from_color(int color )
 {
-	if(color<0 || color>=NR_COLORS)
+	if(!color_is_valid(color))
 		return &colors_common[COLORS_BLACK];
 	return &colors_common[colors_foreground[color]];
 }
@@ -229,7 +233,7 @@ char * get_tag_for_color( int color )
 		return (char*)buffer;
 	}
 
-	if(pJ->color<0 || pJ->color>=NR_COLORS)
+	if(!color_is_valid(pJ->color))
 		return (char*)buffer;
 
 	snprintf(buffer,sizeof(buffer)-1,"%s_tag",g_colores[pJ->color]);
@@ -239,14 +243,14 @@ char * get_tag_for_color( int color )
 
 char * get_foreground_for_color( int c )
 {
-	if(c<0 || c>=NR_COLORS)
+	if(!color_is_valid(c))
 		return G_colores[NR_COLORS-1].text_color;
 	return G_colores[c].text_color;
 }
 
 char * get_background_for_color( int c )
 {
-	if(c<0 || c>=NR_COLORS)
+	if(!color_is_valid(c))
 		return G_colores[NR_COLORS-1].ellip_color;
 	return G_colores[c].ellip_color;
 }

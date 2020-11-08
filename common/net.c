@@ -65,11 +65,12 @@ writen(int fd, const void *vptr, size_t n )
 ssize_t
 net_readline( int fd, void *vptr, size_t maxlen )
 {
-	ssize_t n, rc;
+	ssize_t rc;
 	char c, *ptr;
 
 	ptr = vptr ;
-	for( n =1 ; n < maxlen; n++ ) {
+	size_t n=1;
+	for(; n<maxlen; n++) {
 again:
 		if( (rc= read(fd, &c, 1 )) ==1 ) {
 			*ptr++ = c;

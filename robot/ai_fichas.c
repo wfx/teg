@@ -111,7 +111,7 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
 TEG_STATUS ai_fichas_calc_puntaje_defense( int country )
 {
 	int i;
-	int c = g_countries[country].continente;
+	CONTINENTE c = g_countries[country].continente;
 	int suma=0;
 	int f=0;		/* fronteras que tiene */
 

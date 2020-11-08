@@ -49,5 +49,4 @@ void netall_printf(char *format, ...)
 
 		l = LIST_NEXT( l );
 	}
-	return 0;
 }

@@ -38,11 +38,7 @@ TEG_STATUS main_init()
 
 int main( int argc, char **argv)
 {
-	int i;
-
 	dont_run_as_root();
-
-	i = 1;
 
 	main_init();
 
