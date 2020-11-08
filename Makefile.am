@@ -1,7 +1,7 @@
 SUBDIRS = . docs po client/themes client/teg_pix
 
-EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt \
-    ReleaseNotes.txt $(gsettings_SCHEMAS) $(RESOURCE)
+EXTRA_DIST= README HACKING PEOPLE protocol.txt \
+    $(gsettings_SCHEMAS) $(RESOURCE)
 
 ACLOCAL_FLAGS = -I `pwd`/macros
 
@@ -42,7 +42,7 @@ libtegserver_a_SOURCES = \
 	server/server.h		\
 	server/player.c server/player.h	\
 	server/sernet.c server/sernet.h	\
-	server/countries.c countries.h	\
+        server/countries.c server/countries.h	\
 	server/play.c server/play.h		\
 	server/turno.c server/turno.h		\
 	server/console.c server/console.h	\
@@ -75,8 +75,7 @@ libclient_a_SOURCES = \
 
 
 tegclient_CPPFLAGS = @XML_CFLAGS@ -I$(top_srcdir)/common
-tegclient_SOURCES = \
-	client/main.c client/main.h
+tegclient_SOURCES = client/main.c
 
 tegclient_DEPENDENCIES = libguiclient.a libclient.a libtegcommon.a $(INTLDEPS)
 tegclient_LDADD        = libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
@@ -140,8 +139,8 @@ tegrobot_CPPFLAGS = \
 	-I$(top_srcdir)/common -I$(top_srcdir)/client
 
 tegrobot_SOURCES = 		\
-	robot/main.c robot/main.h		\
-	robot/gui.c robot/gui.h		\
+        robot/main.c \
+        robot/gui.c \
 	robot/ai.c robot/ai.h		\
 	robot/ai_msg.c robot/ai_msg.h	\
 	robot/ai_misc.c robot/ai_misc.h	\
