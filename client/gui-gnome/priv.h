@@ -1,4 +1,3 @@
-/*	$Id: priv.h,v 1.11 2002/10/13 23:29:08 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -32,7 +31,6 @@ enum {
 
 struct _gui_private {
 	int tag;
-	int tag_ggz;
 	BOOLEAN msg_show_colors;
 	unsigned int status_show;	/* what columns to show in the status window */
 	unsigned int dialog_show;	/* what dialogs to show */

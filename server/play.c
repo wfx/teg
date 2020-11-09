@@ -1,4 +1,3 @@
-/*	$Id: play.c,v 1.122 2004/08/04 13:03:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -32,12 +31,11 @@
 #include "fow.h"
 
 #undef DEBUG_PLAY
+#define PLAY_DEBUG PDEBUG
 
 #ifdef DEBUG_PLAY
-# define PLAY_DEBUG(x...) PDEBUG(x)
 # define STATIC
 #else
-# define PLAY_DEBUG(x...)
 # define STATIC static
 #endif
 
@@ -357,13 +355,6 @@ STATIC TEG_STATUS token_playerid( int fd, char *str )
 
 	/* averigua el name */
 	if( parser_call( &p ) && p.hay_otro ) {
-#ifdef WITH_GGZ
-		if(g_server.with_ggz) {
-			if( ggz_server_find_ggzname(fd,j.name,sizeof(j.name)-1) != TEG_STATUS_SUCCESS ) {
-				player_fillname( &j, p.token );
-			}
-		} else
-#endif /* WITH_GGZ */
 			player_fillname( &j, p.token );
 	} else goto error;
 
@@ -597,9 +588,6 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 		goto error;
 	}
 
-	if( pactos_attack( src, dst ) != TEG_STATUS_SUCCESS )
-		goto error;
-
 	/* aviso a todos que hay un attack */
 	if( ! g_game.fog_of_war )
 		netall_printf( "%s=%d,%d\n",TOKEN_ATAQUE,src,dst );
@@ -693,9 +681,6 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 
 		/* Did 'src' player win the game ? */
 		if( mission_chequear( pJ_src ) == TEG_STATUS_GAMEOVER || game_is_finished() ) {
-#ifdef WITH_GGZ
-			ggz_server_gameover(pJ_src->fd);
-#endif
 			con_text_out(M_INF,_("Player %s(%d) is the winner! Game Over\n"),pJ_src->name,pJ_src->numjug);
 			pJ_src->estado = PLAYER_STATUS_GAMEOVER;
 			game_end( pJ_src );
@@ -823,7 +808,7 @@ STATIC TEG_STATUS token_card( int fd, char *str )
 	tarjeta_sacar( &pP->tarjeta, pJ->numjug );
 
 	/*
-	 * Me fijo si el player es dueño del país que dice la tarjeta. Si es así
+	 * Me fijo si el player es dueÃ±o del paÃ­s que dice la tarjeta. Si es asÃ­
 	 * le agrego 2 fichas automaticamente como dice el reglamento.
 	 */
 	if( pP->numjug == pJ->numjug ) {

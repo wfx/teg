@@ -1,4 +1,3 @@
-/*	$Id: themes.c,v 1.33 2006/03/12 15:49:33 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada
@@ -277,10 +276,6 @@ static pTheme parseTheme(char *filename)
 
 		ver_major = atoi( (char*)theme_version );
 
-#ifdef _DEBUG
-		fprintf( stderr, "major:%d, minor: %d\n", ver_major, ver_minor );
-#endif
-
 		if( ver_major != TEG_THEME_VER_MAJOR || ver_minor > TEG_THEME_VER_MINOR)
 		{
 			fprintf(stderr, "XML: The version of the XML is incompatible.\n . Supported theme version are %d.x where x is <= %d\n . Current theme version is:%d.%d\n"
@@ -307,11 +302,6 @@ static pTheme parseTheme(char *filename)
 	 * Now, walk the tree.
 	 */
 	cur = xml_get_element_children( cur );
-#if 0
-	while ( cur && xmlIsBlankNode ( cur ) ) {
-		cur = cur -> next;
-	}
-#endif
 	if ( cur == 0 )
 		goto error;
 
@@ -527,22 +517,6 @@ static pTheme parseTheme(char *filename)
 			  ret->board_y = (xmlChar*)"0";
 			}
 		}
-#ifdef XML_WORKS_OK
-		/* dices file */
-		else  if (!xmlStrcmp(cur->name, (const xmlChar *) "dices_file") ) {
-			int i;
-
-			for(i=0;i<DICES_CANT;i++) {
-				char name[40];
-
-				memset(name,0,sizeof(name));
-				snprintf(name,sizeof(name)-1,"%d",i+1);
-				ret->dices_file[i] = xmlGetProp(cur, (const xmlChar *) name);
-				if (ret->dices_file[i]== NULL)
-					fprintf(stderr, "Dices_file has no %d\n",i);
-			}
-		}
-#endif	/* XML_WORKS_OK */
 		else {
 			fprintf(stderr,"Wrong type (%s). 'continent', 'board' or 'map', 'screen' and 'dices' were expected\n", cur->name);
 			free(ret);

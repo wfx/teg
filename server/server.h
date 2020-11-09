@@ -1,4 +1,3 @@
-/*	$Id: server.h,v 1.17 2002/10/14 01:25:04 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -40,8 +39,6 @@
 #include "helper.h"
 #include "main.h"
 #include "missions.h"
-#include "ggz_server.h"
 #include "options.h"
-#include "metaserver.h"
 
 #endif /* __TEGS_SERVER_H */

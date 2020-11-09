@@ -1,4 +1,3 @@
-/*	$Id: country.h,v 1.2 2002/09/09 03:52:06 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -25,7 +24,8 @@
 #ifndef __TEG_COUNTRY_H
 #define __TEG_COUNTRY_H
 
-#include "all.h"
+#include "tarjeta.h"
+#include "cont.h"
 
 #define COUNTRYNAME_MAX_LEN	50
 #define COUNTRIES_CANT		50
@@ -65,6 +65,9 @@ int countries_cantlimitrofes( int p );
 void countries_initcountry( PCOUNTRY p );
 void countries_init();
 BOOLEAN country_libre( int i );
+
+/// \brief decides if the country number is valid.
+BOOLEAN countrynumber_is_valid(int country_number);
 
 /**! returns the name of 'country' */
 char * countries_get_name( int country );

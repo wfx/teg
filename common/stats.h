@@ -1,4 +1,3 @@
-/*	$Id: stats.h,v 1.3 2002/05/25 18:38:14 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: my_inet_ntop.h,v 1.1 2002/07/23 03:29:32 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

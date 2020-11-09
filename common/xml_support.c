@@ -1,4 +1,3 @@
-/*	$Id: xml_support.c,v 1.1 2002/08/31 16:07:03 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada
@@ -19,13 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <libxml/xmlmemory.h>
-#include <libxml/parser.h>
-
-#ifndef xmlChildrenNode
-#define xmlChildrenNode childs
-#define xmlRootNode root
-#endif
+#include "xml_support.h"
 
 xmlNodePtr xml_get_element_children( xmlNodePtr cur )
 {

@@ -1,4 +1,3 @@
-/*	$Id: main.c,v 1.21 2002/08/31 17:46:00 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -61,9 +60,6 @@ int main( int argc, char **argv)
 			fprintf(stderr, _("  -p, --port PORT\tConnect to server port PORT\n"));
 			fprintf(stderr, _("  -s, --server HOST\tConnect to the server at HOST\n"));
 			fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
-#ifdef WITH_GGZ
-			fprintf(stderr, _("  -g, --ggz\t\tEnable GGZ mode\n"));
-#endif
 			fprintf(stderr, _("  -c, --connected\t\tThe robot is already connected\n"));
 			fprintf(stderr, _("  -q, --quiet\t\tdont show messages\n"));
 			exit(0);
@@ -76,12 +72,6 @@ int main( int argc, char **argv)
 			g_game.serport=atoi(option);
 		} else if ((option = get_option("--server",argv,&i,argc)) != NULL) {
 			strncpy( g_game.sername, option, SERVER_NAMELEN );
-#ifdef WITH_GGZ
-		} else if ( is_option("--ggz",argv[i])) {
-			g_game.with_ggz = 1;
-			g_game.already_connected = 1;
-			quiet = 1;
-#endif
 		} else if ( is_option("--connected",argv[i])) {
 			g_game.already_connected = 1;
 			quiet = 1;

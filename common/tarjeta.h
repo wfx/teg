@@ -1,4 +1,3 @@
-/*	$Id: tarjeta.h,v 1.12 2002/08/31 17:45:59 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -25,7 +24,7 @@
 #ifndef __TEG_TARJETA_H
 #define __TEG_TARJETA_H 
 
-#include "all.h"
+#include "common.h"
 
 #define TARJETA_NULL { {NULL,NULL}, 0, TRUE, FALSE }
 #define TARJETA_NULL_COMODIN { {NULL,NULL}, TARJ_COMODIN, -1, FALSE }

@@ -1,4 +1,3 @@
-/*	$Id: interface.h,v 1.19 2002/08/13 01:59:35 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

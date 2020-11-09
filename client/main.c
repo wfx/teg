@@ -1,4 +1,3 @@
-/*	$Id: main.c,v 1.25 2002/09/07 19:25:56 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -33,7 +32,6 @@ TEG_STATUS main_init()
 	g_game.human = 1;
 	player_init();
 	scores_init();
-	metaserver_init();
 	return TEG_STATUS_SUCCESS;
 }
 

@@ -1,4 +1,3 @@
-/*	$Id: turno.h,v 1.13 2002/08/13 03:28:49 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada
@@ -18,10 +17,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file turno.h
- */
-
 #ifndef __TEG_TURNO_H
 #define __TEG_TURNO_H
 
@@ -33,8 +28,6 @@ TEG_STATUS turno_next( void );
 TEG_STATUS turno_init(void);
 /*! give the turn to the next player */
 TEG_STATUS turno_2nextplayer( PSPLAYER *j );
-/*! give the turn to the previous player */
-TEG_STATUS turno_2prevplayer( PSPLAYER *ppj );
 /*! ends the turn for a player */
 TEG_STATUS turno_end( PSPLAYER pJ );
 /*! says if the round is completed */

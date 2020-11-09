@@ -1,4 +1,3 @@
-/*	$Id: g_cont.c,v 1.9 2002/08/31 17:45:58 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

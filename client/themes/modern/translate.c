@@ -1,4 +1,3 @@
-/*	$Id: translate.c,v 1.2 2002/05/13 04:02:27 riq Exp $	*/
 /*
  * Translatable strings.
  * DO NOT compile it as part of your application.
@@ -7,7 +6,7 @@
 char *s=N_("South America");
 char *s=N_("Argentina");
 char *s=N_("Brazil");
-char *s=N_("Chile")
+char *s=N_("Chile");
 char *s=N_("Colombia");
 char *s=N_("Peru");
 char *s=N_("Uruguay");

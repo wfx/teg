@@ -1,4 +1,3 @@
-/*	$Id: player.c,v 1.7 2006/03/16 21:59:34 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -33,6 +32,33 @@
 
 LIST_ENTRY g_list_player;		/**< list of players */
 
+typedef struct
+{
+	int humans;
+	int robots;
+} PlayerCount;
+
+PlayerCount player_count( void )
+{
+	PlayerCount result = {0, 0};
+
+	PLIST_ENTRY l = g_list_player.Flink;
+	PSPLAYER pJ;
+
+	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) )
+	{
+		pJ = (PSPLAYER) l;
+
+		if( pJ->is_player ) {
+			if( pJ->human )
+				result.humans++;
+			else
+				result.robots++;
+		}
+		l = LIST_NEXT(l);
+	}
+	return result;
+}
 
 /* given a players' number it returns a pointer the player */
 TEG_STATUS player_whois( int numjug, PSPLAYER *pJ)
@@ -69,7 +95,7 @@ TEG_STATUS player_findbyname( char *name, PSPLAYER *pJ)
 }
 
 /* delete disconnected players */
-TEG_STATUS player_delete_discon( PSPLAYER pJ )
+void player_delete_discon( PSPLAYER pJ )
 {
 	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
 
@@ -79,12 +105,10 @@ TEG_STATUS player_delete_discon( PSPLAYER pJ )
 		l = RemoveHeadList( l->Blink );
 		free(l);
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
 /* Initialize the player. */
-TEG_STATUS player_initplayer( PSPLAYER pJ )
+void player_initplayer( PSPLAYER pJ )
 {
 	assert( pJ );
 
@@ -103,7 +127,6 @@ TEG_STATUS player_initplayer( PSPLAYER pJ )
 	pJ->fichasc_conts = 0;
 
 	stats_init( &pJ->player_stats );
-	return TEG_STATUS_SUCCESS;
 }
 
 /* main initialization */
@@ -234,15 +257,6 @@ TEG_STATUS player_give_turn_away( PSPLAYER pJ )
 		}
 	}
 
-#if 0
-	/* XXX: Dont do this, the last player may skip his turn */
-
-	/* si el player empezo el turno, digo que lo empezo el anterior */
-	if( g_game.empieza_turno && g_game.empieza_turno->numjug == pJ->numjug ) {
-		turno_2prevplayer( &g_game.empieza_turno );
-	}
-#endif
-
 	pJ->estado = status;
 
 	return TEG_STATUS_SUCCESS;
@@ -288,8 +302,6 @@ TEG_STATUS player_del_soft( PSPLAYER pJ )
 		player_give_turn_away( pJ );
 		pJ->estado = PLAYER_STATUS_GAMEOVER;
 	}
-
-/*	player_initplayer( pJ ); */
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -574,12 +586,6 @@ TEG_STATUS player_poner_perdio( PSPLAYER pJ )
 
 	pJ->estado = PLAYER_STATUS_GAMEOVER;
 
-#if 0
-	if( g_game.empieza_turno && g_game.empieza_turno->numjug == pJ->numjug ) {
-		turno_2prevplayer( &g_game.empieza_turno );
-	}
-#endif
-
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -660,22 +666,18 @@ BOOLEAN player_is_disconnected( PSPLAYER pJ )
 }
 
 /* insert all the player but the ones in GAME OVER */
-TEG_STATUS player_insert_scores( PSPLAYER pJ )
+void player_insert_scores( PSPLAYER pJ )
 {
 	scores_insert_player( pJ );
-	return TEG_STATUS_SUCCESS;
 }
 
 /* kick a robot from the game */
-TEG_STATUS player_kick_robot( PSPLAYER pJ )
+static void player_kick_robot( PSPLAYER pJ )
 {
 	if( ! pJ->human ) {
 		player_del_hard( pJ );
 		con_text_out_wop(M_INF,_("Robot %s was kicked from the game\n"),pJ->name);
-		return TEG_STATUS_SUCCESS;
 	}
-
-	return TEG_STATUS_ERROR;
 }
 
 /* kick robots when no human is available */
@@ -683,24 +685,9 @@ TEG_STATUS player_kick_unparent_robots( void )
 {
 	if( g_server.kick_unparent_robots )
 	{
-		int robots=0, humans=0;
-		PLIST_ENTRY l = g_list_player.Flink;
-		PSPLAYER pJ;
+		PlayerCount counts = player_count();
 
-		while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) )
-		{
-			pJ = (PSPLAYER) l;
-
-			if( pJ->is_player ) {
-				if( pJ->human )
-					humans++;
-				else
-					robots++;
-			}
-			l = LIST_NEXT(l);
-		}
-
-		if( robots && ! humans )
+		if( counts.robots && ! counts.humans )
 		{
 			con_text_out_wop(M_INF,_("Kicking unwanted robots...\n"));
 			player_map( player_kick_robot );

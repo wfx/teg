@@ -1,4 +1,3 @@
-/*	$Id: support.h,v 1.20 2002/09/21 17:56:38 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -26,8 +25,8 @@ void generic_window_set_parent (GtkWidget * dialog, GtkWindow   * parent);
 char * load_pixmap_file( char *name );
 void teg_dialog( char* title, char* bigtitle, char* data );
 GtkWidget* teg_dialog_new( char* title, char* bigtitle );
-void dialog_close( GtkWidget *button, gpointer data );
 void teg_dialog_gameover( int numjug, int mission );
 gchar *translate_to_utf8(const gchar *string );
+void string_copy(char* dest, size_t destlen, char const* source);
 
 #endif /* __TEG_GUI_GNOME_SUPPORT_H */

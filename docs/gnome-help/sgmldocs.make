@@ -69,7 +69,8 @@ $(docname).xml: $(xml_ents)
 # Check if any of those is available.
 $(docname)/index.html: $(srcdir)/$(docname).xml
 	-srcdir=`cd $(srcdir) && pwd`; \
-	test ! "x`xmlto`" = "x" && xmlto --skip-validation html-nochunks html $$srcdir/$(docname).xml
+	test ! "x`xmlto`" = "x" && xmlto --skip-validation html-nochunks $(srcdir)/$(docname).xml
+	test ! "x`xmlto`" = "x" && xmlto --skip-validation html $(srcdir)/$(docname).xml
 
 # remove $(docname) to make installation work
 app-dist-hook: index.html

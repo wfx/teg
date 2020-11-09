@@ -1,4 +1,3 @@
-/*	$Id: priv.c,v 1.8 2002/10/14 03:26:36 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -38,7 +37,6 @@ GSettings *settings = NULL;
 TEG_STATUS priv_init( void )
 {
 	gui_private.tag = -1;
-	gui_private.tag_ggz = -1;
 	gui_private.msg_show_colors
 	  = g_settings_get_boolean( settings, "msgshow-with-color" );
 	gui_private.country_i_am = -1;

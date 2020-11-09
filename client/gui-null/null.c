@@ -1,4 +1,3 @@
-/*	$Id: null.c,v 1.2 2001/10/28 19:47:01 riq Exp $	*/
 /*
  * To port TEG to a new platform/toolkit/etc, all of these functions
  * must be done

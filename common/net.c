@@ -1,4 +1,3 @@
-/*	$Id: net.c,v 1.15 2002/09/09 14:10:45 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -23,15 +22,6 @@
  *       Unix Network Programming vol1 2nd Ed. (W.Richard Stevens)
  *       Linux Application Development (M.K.Johnson, E.K.Troan)
  *       y del archivo gnome-net (que ya no existe mas)
- *
- * v0.93: 03/5/01	. Use of getaddrinfo, protocol independent version
- * v0.92: 20/4/01	. Use strncpy instead of strcpy in connect_unix
- * v0.91: 10/2/00	. Rename riq_net_* a net_*
- * 			. net_printf usa buffer de tamanio PROT_MAX_LEN
- * v0.9: 31/3/99	. Bug en el INET6 (estable?)
- * v0.8: 24/1/99	. Soporte para INET6
- *			. Rewrite de varias funciones
- *			. Codigo mas inestable :-(
  */
 
 #ifdef HAVE_CONFIG_H

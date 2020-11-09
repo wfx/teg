@@ -1,4 +1,3 @@
-/*	$Id: ai_msg.c,v 1.25 2002/10/06 03:25:34 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

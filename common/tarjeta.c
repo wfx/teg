@@ -1,4 +1,3 @@
-/*	$Id: tarjeta.c,v 1.6 2002/08/31 17:45:59 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -23,7 +22,17 @@
  * funciones para manejar a las tarjetas
  */
 
-#include "all.h"
+#include "tarjeta.h"
+
+#include <stdbool.h>
+
+#include "country.h"
+
+static bool card_belongs_to_player(int player, int country)
+{
+	return countrynumber_is_valid(country)
+	       && g_countries[country].tarjeta.numjug == player;
+}
 
 /**
  * @fn BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
@@ -33,16 +42,10 @@ BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
 {
 	int result;
 
-	/* chequear que las tarjetas existan */
-	if( t1 >= COUNTRIES_CANT || t1 < 0 ||
-		t2 >= COUNTRIES_CANT || t2 < 0 ||
-		t3 >= COUNTRIES_CANT || t3 < 0  )
-		return FALSE;
-
 	/* chequear que las tarjetas sean del jugador */
-	if(!( g_countries[t1].tarjeta.numjug == numjug &&
-		g_countries[t2].tarjeta.numjug == numjug &&
-		g_countries[t3].tarjeta.numjug == numjug ))
+	if(!(card_belongs_to_player(numjug, t1)&&
+	     card_belongs_to_player(numjug, t2) &&
+	     card_belongs_to_player(numjug, t3) ))
 		return FALSE;
 
 	result = g_countries[t1].tarjeta.tarjeta + g_countries[t2].tarjeta.tarjeta + g_countries[t3].tarjeta.tarjeta ;

@@ -1,4 +1,3 @@
-/*	$Id: player.h,v 1.1 2002/09/09 14:09:14 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: dijkstra.c,v 1.3 2002/08/31 17:46:00 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -43,9 +42,6 @@ static int mat[MAX_NODES][MAX_NODES];
 static struct _etiqueta et[MAX_NODES];
 static int mat_src=-1;
 
-/**
- * @fn static void dij_ponerdefaults( void )
- */
 static void dij_ponerdefaults( void )
 {
 	int i;
@@ -61,9 +57,6 @@ static void dij_ponerdefaults( void )
 	}
 }
 
-/**
- * @fn static int dij_haymodificados( int *id )
- */
 static int dij_haymodificados( int *id )
 {
 	int i;
@@ -76,9 +69,6 @@ static int dij_haymodificados( int *id )
 	return FALSE;
 }
 
-/**
- * @fn static void dij_calcularpeso( int s, int d )
- */
 static void dij_calcularpeso( int s, int d )
 {
 	// Si los 2 son distintos a  INFINITO
@@ -97,9 +87,6 @@ static void dij_calcularpeso( int s, int d )
 	// else como alguno es infinito no tiene sentido
 }
 
-/**
- * @fn void dij_resolver( void )
- */
 void dij_resolver( void )
 {
 	int s;			// source
@@ -119,9 +106,6 @@ void dij_resolver( void )
 	}
 }
 
-/**
- * @fn void dij_cargar( int *m[], int src )
- */
 void dij_cargar( int *m[], int src )
 {
 	mat_src = src;

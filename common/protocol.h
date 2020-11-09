@@ -1,4 +1,3 @@
-/*	$Id: protocol.h,v 1.37 2002/09/08 07:53:40 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -81,7 +80,6 @@
 #define TOKEN_SAVE		"save"
 #define TOKEN_LOQUE		"que_tengo_que_hacer"
 #define TOKEN_ECHO		"echo"
-#define TOKEN_GGZ		"avoding_perdig_effect"
 #define TOKEN_PACTO_REQUEST	"pacto_request"
 #define TOKEN_PACTO_REPLY	"pacto_reply"
 #define TOKEN_SURRENDER		"soy_cobarde"

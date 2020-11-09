@@ -1,4 +1,3 @@
-/*	$Id: country.c,v 1.2 2002/09/09 03:52:06 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -154,4 +153,9 @@ char * countries_get_name( int i )
 		return _( g_countries[i].name );
 	else
 		return _( _unknown );
+}
+
+BOOLEAN countrynumber_is_valid(int country_number)
+{
+	return (country_number >= 0) && (country_number < COUNTRIES_CANT);
 }

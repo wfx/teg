@@ -624,10 +624,6 @@ teg_canvas_image_model_new (GooCanvasItemModel *parent,
       image_data->pattern = goo_canvas_cairo_pattern_from_pixbuf (pixbuf);
       image_data->width = gdk_pixbuf_get_width (pixbuf);
       image_data->height = gdk_pixbuf_get_height (pixbuf);
-
-      /* This is not possible with a model, because we don't know the canvas
-	 units being used. */
-      /*goo_canvas_image_convert_pixbuf_sizes (item, image_data);*/
     }
 
   va_start (var_args, y);

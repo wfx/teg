@@ -1,4 +1,3 @@
-/*	$Id: attack.h,v 1.2 2002/09/07 19:25:56 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

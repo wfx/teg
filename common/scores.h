@@ -1,4 +1,3 @@
-/*	$Id: scores.h,v 1.4 2001/12/03 01:23:13 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada

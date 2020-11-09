@@ -1,4 +1,3 @@
-/*	$Id: xmlscores.c,v 1.15 2006/03/12 16:01:45 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada
@@ -220,8 +219,6 @@ static PSCORES new_score_node( PSPLAYER pJ )
 {
 	PSCORES pS = NULL;
 	time_t tt;
-/*	char *char_time; */
-/*	char *newline; */
 	struct tm *t;
 
 	pS = (PSCORES) malloc( sizeof(*pS) );
@@ -241,15 +238,6 @@ static PSCORES new_score_node( PSPLAYER pJ )
 	time(&tt);
 	t = localtime(&tt);
 
-#if 0
-	char_time = ctime(&tt);
-
-	/* remove newline */
-	if( (newline = strchr( char_time, (int) '\n' )) != NULL )
-		*newline = '\0';
-
-	snprintf( pS->date, sizeof(pS->date) -1, "%s", char_time );
-#else
 	snprintf( pS->date, sizeof(pS->date) -1, "%.2d/%.2d/%.2d %.2d:%.2d"
 			,t->tm_mon +1
 			,t->tm_mday
@@ -257,7 +245,6 @@ static PSCORES new_score_node( PSPLAYER pJ )
 			,t->tm_hour
 			,t->tm_min
 		);
-#endif
 
 	pS->date[ sizeof(pS->date) -1 ] = '\0';
 	return pS;

@@ -1,4 +1,3 @@
-/*	$Id: themes.h,v 1.18 2003/09/08 06:18:12 edomat Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada

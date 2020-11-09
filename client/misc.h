@@ -1,4 +1,3 @@
-/*	$Id: misc.h,v 1.18 2002/09/02 03:20:10 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

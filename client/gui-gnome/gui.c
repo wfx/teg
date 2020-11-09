@@ -1,4 +1,3 @@
-/*	$Id: gui.c,v 1.123 2006/03/12 17:41:21 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -29,7 +28,7 @@
 #include <glib/gi18n.h>
 
 #include "gui.h"
-#include "client.h"
+#include "../client.h"
 
 #include "priv.h"
 #include "callbacks.h"
@@ -46,7 +45,7 @@
 #include "connect.h"
 #include "armies.h"
 #include "colors.h"
-#include "themes.h"
+#include "../themes.h"
 #include "g_scores.h"
 #include "locate_country.h"
 
@@ -261,22 +260,13 @@ TEG_STATUS gui_main(void)
 	/* shows connection window */
 	connect_view();
 
-#ifdef WITH_GGZ
-	if( g_game.with_ggz && g_game.fd < 0)
-		return TEG_STATUS_ERROR;
-#endif /* WITH_GGZ */
-
 	gtk_main();
 	return TEG_STATUS_SUCCESS;
 }
 
 TEG_STATUS gui_disconnect(void)
 {
-	if( gui_private.tag_ggz >=0 )
-		g_source_remove( gui_private.tag_ggz );
-
 	gui_private.tag=-1;
-	gui_private.tag_ggz=-1;
 	set_sensitive_tb();
 
 	dices_unview();
@@ -303,31 +293,33 @@ TEG_STATUS gui_reconnected()
 	return TEG_STATUS_SUCCESS;
 }
 
+static void get_settings_into(char* dest, size_t dest_len,
+                              char const* name, char const* default_)
+{
+	gchar *string = g_settings_get_string(settings, name);
+	char const * source = g_ascii_strcasecmp(string, "") != 0
+	                      ? string
+	                      : default_;
+	string_copy(dest, dest_len, source);
+	g_free(string);
+}
+
 static TEG_STATUS get_default_values( void )
 {
-	gchar *string;
-
-	string = g_settings_get_string( settings, "playername" );
-	if( g_ascii_strcasecmp(string, "") )
-		strncpy(g_game.myname,string,PLAYERNAME_MAX_LEN);
-	else
-		strncpy(g_game.myname,getenv("LOGNAME"),PLAYERNAME_MAX_LEN);
-
-	g_free( string );
+	get_settings_into(g_game.myname, sizeof(g_game.myname),
+	                  "playername", getenv("LOGNAME"));
 
 	g_game.mycolor = g_settings_get_int( settings, "color" );
 
-	string = g_settings_get_string( settings, "servername" );
-	strncpy(g_game.sername,string,SERVER_NAMELEN);
-	g_free(string);
+	get_settings_into(g_game.sername, sizeof(g_game.sername),
+	                  "servername", "localhost");
 
 	g_game.msg_show = g_settings_get_int( settings, "msgshow" );
 	gui_private.msg_show_colors
 	  = g_settings_get_boolean (settings, "msgshow-with-color" );
 	gui_private.dialog_show = g_settings_get_int( settings, "dialog-show" );
-	string = g_settings_get_string( settings, "theme" );
-	strncpy( g_game.theme, string ,sizeof(g_game.theme) );
-	g_free( string );
+	get_settings_into(g_game.theme, sizeof(g_game.theme),
+	                  "theme", "m2");
 
 	g_game.robot_in_server = g_settings_get_boolean( settings,
 	                                                 "robot-in-server" );

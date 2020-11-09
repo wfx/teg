@@ -1,4 +1,3 @@
-/*	$Id: all.h,v 1.15 2002/08/31 17:45:59 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -36,12 +35,10 @@
 #include "net.h"
 #include "parser.h"
 #include "version.h"
-#include "support.h"
 #include "tarjeta.h"
 #include "cont.h"
 #include "country.h"
 #include "missions.h"
-#include "pactos.h"
 #include "scores.h"
 #include "stats.h"
 #include "xml_support.h"

@@ -1,4 +1,3 @@
-/*	$Id: console.c,v 1.57 2002/09/10 12:17:40 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -42,11 +41,11 @@
 
 #undef DEBUG_CONSOLE
 
+#define CONSOLE_DEBUG PDEBUG
+
 #ifdef DEBUG_CONSOLE
-# define CONSOLE_DEBUG(x...) PDEBUG(x)
 # define STATIC
 #else
-# define CONSOLE_DEBUG(x...)
 # define STATIC static
 #endif
 
@@ -68,7 +67,6 @@ STATIC TEG_STATUS con_kick(int, char*);
 STATIC TEG_STATUS con_view(int, char *);
 STATIC TEG_STATUS con_scores(int, char *);
 STATIC TEG_STATUS con_stats(int, char *);
-STATIC TEG_STATUS con_metaserver(int, char*);
 
 struct {
 	char *label;
@@ -87,7 +85,6 @@ struct {
 	{ TOKEN_KICK,		con_kick,	N_("kick player from the game") },
 	{ TOKEN_STATS,		con_stats,	N_("show players statistics") },
 	{ TOKEN_SCORES,		con_scores,	N_("show all-time high scores") },
-	{ TOKEN_METASERVER,	con_metaserver,	N_("metaservers options") },
 };
 #define	CONSOLE_TOKENS  (sizeof(con_tokens)/sizeof(con_tokens[0]))
 
@@ -101,7 +98,7 @@ STATIC TEG_STATUS con_exit( int unused, char* unused2)
 }
 
 /*shows player's statistics */
-STATIC TEG_STATUS con_stats_show( PSPLAYER pJ )
+STATIC void con_stats_show( PSPLAYER pJ )
 {
 	stats_score( &pJ->player_stats );
 	printf(" %i   %-4i  [ %-3u   %-3u ] - [ %-3u  %-3u ]  %-15s %s\n",
@@ -114,7 +111,6 @@ STATIC TEG_STATUS con_stats_show( PSPLAYER pJ )
 			pJ->name,
 			pJ->human ? _("yes") : _("no")
 			);
-	return TEG_STATUS_SUCCESS;
 }
 STATIC TEG_STATUS con_stats( int unused, char* unused2)
 {
@@ -167,11 +163,6 @@ STATIC TEG_STATUS con_save( int fd, char *unused)
 {
 	con_text_out_wop(M_INF,_("Not yet implemented\n"));
 	return TEG_STATUS_SUCCESS;
-}
-
-STATIC TEG_STATUS con_metaserver( int fd, char *str )
-{
-	return metaserver_parse(fd,str);
 }
 
 STATIC TEG_STATUS con_set(int fd, char*str)
@@ -262,11 +253,10 @@ STATIC TEG_STATUS con_help ( int fd, char*unused )
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS player_dump( PSPLAYER pJ )
+static void player_dump( PSPLAYER pJ )
 {
 	printf("Nombre: %s\n",pJ->name);
 	printf("fd: %d\n",pJ->fd);
-	return TEG_STATUS_SUCCESS;
 }
 
 STATIC TEG_STATUS con_test(int fd, char *str)

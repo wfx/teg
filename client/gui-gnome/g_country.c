@@ -1,4 +1,3 @@
-/*	$Id: g_country.c,v 1.3 2003/08/30 04:34:39 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -541,15 +540,13 @@ TEG_STATUS gui_country_select( int country )
 			"line-width", (double) 2,
 			NULL);
 	}
-#if 0
 	if( g_countries[country].selected & COUNTRY_SELECT_ATTACK ) {
-		gnome_canvas_item_set(
+		g_object_set(
 			G_countries[country].ellip_item, 
-			"outline_color", "red",
-			"width_units", (double) 3,
+		    "stroke-color", "red",
+		    "line-width", (double) 3,
 			NULL);
 	}
-#endif
 	if( g_countries[country].selected & COUNTRY_SELECT_REGROUP_ENTER ) {
 		g_object_set(
 			G_countries[country].ellip_item, 
@@ -557,15 +554,13 @@ TEG_STATUS gui_country_select( int country )
 			"line-width", (double) 2,
 			NULL);
 	}
-#if 0
 	if( g_countries[country].selected & COUNTRY_SELECT_REGROUP ) {
-		gnome_canvas_item_set(
+		g_object_set(
 			G_countries[country].ellip_item, 
-			"outline_color", "blue",
-			"width_units", (double) 2,
+		    "stroke-color", "blue",
+		    "line-width", (double) 2,
 			NULL);
 	}
-#endif
 
 	if( g_countries[country].selected & COUNTRY_SELECT_ATTACK_SRC ) {
 		g_object_set(

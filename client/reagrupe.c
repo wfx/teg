@@ -1,4 +1,3 @@
-/*	$Id: reagrupe.c,v 1.18 2006/03/12 21:33:58 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

@@ -1,4 +1,3 @@
-/*	$Id: globals.h,v 1.49 2002/08/31 17:45:57 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -26,48 +25,6 @@
 
 #include "client.h"
 #include "themes.h"
-
-
-/*
- * Estas son las funciones que deben exportar los modulos (gtk,win,etc)
- * (para hacer un nuevo port, ver gui-null/null.c)
- *
- * NO CAMBIAR EL ORDEN. DO NOT CHANGE THE ORDER
- *
- */
-
-#if 0
-enum {
-	GUI_INIT,		/**< inicializacion de variables                                 */
-	GUI_MAIN,		/**< main loop */
-	GUI_DISCONNECT,		/**< me desconecte callback */
-	GUI_CONNECTED,		/**< conectado */
-	GUI_HABILITADO,		/**< habilitado */
-	GUI_START,		/**< empece a jugar callback */
-	GUI_STATUS,		/**< status callback */
-	GUI_EXIT,		/**< quit callback */
-	GUI_TEXTMSG,		/**< mensaje a la pantalla ppal */
-	GUI_FICHAS,		/**< poner las 1ra fichas */
-	GUI_FICHAS2,		/**< poner las 2das fichas */
-	GUI_TURNO,		/**< es mi turno */
-	GUI_ATAQUE,		/**< me estan atacando */
-	GUI_COUNTRY,		/**< country, dueño y cant. de ejercitos */
-	GUI_COUNTRY_SELECT,	/**< selecciona un country */
-	GUI_TROPAS,		/**< tropas */
-	GUI_TARJETA,		/**< tarjeta que gane */
-	GUI_FICHASC,		/**< fichas de contienente y countries */
-	GUI_DADOS,		/**< mostrar dados */
-	GUI_REAGRUPE,		/**< mostrar ventana de reagrupe */
-	GUI_SENSI,		/**< usada para mostrar sensitiviness en los botones */
-	GUI_CANJE,		/**< avisa que hiciste bien el canje */
-	GUI_LOST,		/**< un player perdio */
-	GUI_WINNER,		/**< un player gano */
-	GUI_MISSION,		/**< muestra tu mission */
-	GUI_TEXTPLAYERMSG,	/**< mensaje de un player */
-
-	GUI_LAST		/**< este no  existe */
-};
-#endif
 
 extern TEG_STATUS gui_init(int argc, char **argv);
 extern TEG_STATUS gui_main(void);
@@ -118,7 +75,6 @@ typedef struct _cgame {
 	int dados_dstcountry;		/**< ultimo country que se defendio */
 	int dados_dst[3];		/**< ultimos dados del defensor */
 	int msg_show;			/**< mascara de los mensajes que hay que mostrar */
-	int with_ggz;			/**< si tiene soporte para GGZ */
 	int already_connected;		/**< already connected to the server */
 	int robot_in_server;		/**< the robot will be launched in the server */
 	char theme[THEME_MAX_NAME];	/**< theme que se esta usando */

@@ -1,4 +1,3 @@
-/*	$Id: ai_fichas.c,v 1.7 2006/03/13 22:55:51 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -70,18 +69,6 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
 	}
 
 	/* si tengo mas del xx% de los countries del cont suma puntos */
-#if 0
-	i = pm*100/pc;
-	if( i < 99 ) {
-		if( i >= 50 )
-			ai_puntaje[country] += 3;
-		if( i >= 65 )
-			ai_puntaje[country] += 4;
-		if( i >= 80 )
-			ai_puntaje[country] += 5;
-		ai_puntaje[country] += ple;
-	}
-#else
 	if( pc != pm ) {
 		/* ASIA */
 		if( pc >= 12 ) {
@@ -113,7 +100,6 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
 		if(ple == 0)
 			ai_puntaje[country] -= 50;
 	}
-#endif
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -300,10 +286,6 @@ TEG_STATUS ai_fichas_en_cont( int cont )
 	ai_puntaje_sort( cant );
 
 	for(i=0;i<cant;i++) {
-#ifdef DEBUG
-		printf("%s: %s\n",g_conts[cont].name, g_countries[ai_sorted[i]].name);
-#endif
-
 		if( fichas_add( &g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS ) {
 			textmsg(M_ERR,_("Failed to fichas_add(%s)"),g_countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;

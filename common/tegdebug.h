@@ -1,4 +1,3 @@
-/*	$Id: tegdebug.h,v 1.4 2001/10/01 03:31:42 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -19,15 +18,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TEG_TEGDEBUG_H
-#define __TEG_TEGDEBUG_H
+#ifndef TEG_TEGDEBUG_H
+#define TEG_TEGDEBUG_H
+
+#include <stdio.h>
 
 #define TEGDEBUG
 
 #ifdef TEGDEBUG
-#define PDEBUG(a...) printf(a)
+#	define PDEBUG(a...) fprintf(stderr, a)
 #else
-#define PDEBUG(a)
+#	define PDEBUG(a)
 #endif
 
 #endif /* __TEG_TEGDEBUG_H */

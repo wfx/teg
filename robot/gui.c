@@ -1,4 +1,3 @@
-/*	$Id: gui.c,v 1.52 2002/10/06 03:25:35 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -146,18 +145,12 @@ TEG_STATUS gui_main(void)
 	struct timeval tout;
 	int r;
 
-	if( g_game.with_ggz )
-		// this file descriptor is inherited
-		g_game.fd = 3;
-
-	else {
-		if( teg_connect() != TEG_STATUS_SUCCESS ) {
-			textmsg(M_ERR,_("Robot: Error while trying to connect to server"));
-			return TEG_STATUS_ERROR;
-		}
-
-		out_id();
+	if( teg_connect() != TEG_STATUS_SUCCESS ) {
+		textmsg(M_ERR,_("Robot: Error while trying to connect to server"));
+		return TEG_STATUS_ERROR;
 	}
+
+	out_id();
 
 	while(1) {
 		tout.tv_sec =  robot_timeout;

@@ -1,4 +1,3 @@
-/*	$Id: preferences.c,v 1.24 2002/10/08 04:35:57 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2001 Ricardo Quesada

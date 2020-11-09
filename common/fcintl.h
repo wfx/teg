@@ -1,4 +1,3 @@
-/*	$Id: fcintl.h,v 1.6 2005/04/24 16:51:57 dr_maux Exp $	*/
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify

@@ -1,4 +1,3 @@
-/*	$Id: cards.c,v 1.38 2002/08/31 17:45:58 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -181,7 +180,6 @@ static void cards_cb_button_locate (GtkWidget *widget, int index )
 static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 {
 	GtkWidget	*vbox;
-//	GtkWidget	*hbox;
 	GtkWidget	*canvas;
 	GtkWidget	*button_armies;
 	GtkWidget	*button_select;
@@ -237,7 +235,6 @@ static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 		(double) -1,
 		GOO_CANVAS_ANCHOR_NORTH,
 		"height", (double) -1,
-//		"font", "-adobe-helvetica-medium-r-normal--12-*-72-72-p-*-iso8859-1",
 		"font", HELVETICA_12_FONT,
 		"fill-color", "brown",
 		NULL);
@@ -252,7 +249,6 @@ static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 		(double) -1,
 		GOO_CANVAS_ANCHOR_NORTH,
 		"height", (double) -1,
-//		"font", "-adobe-helvetica-medium-r-normal--9-*-72-72-p-*-iso8859-1",
 		"font", HELVETICA_8_FONT,
 		"fill-color", "brown",
 		NULL);
@@ -263,7 +259,6 @@ static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 	gtk_widget_show (canvas);
 
 	/* botones */
-//	hbox = gtk_hbox_new( FALSE, 0);
 	button_armies = gtk_button_new_with_label(_("Put 2 armies"));
 	gtk_box_pack_start( GTK_BOX(vbox), GTK_WIDGET(button_armies),
 	                    TRUE, TRUE, 0 );
@@ -285,8 +280,6 @@ static GtkWidget *cards_create( PTARJETA pT, int tarjs_index )
 	                  G_CALLBACK (cards_cb_button_locate),
 	                  GINT_TO_POINTER(tarjs_index));
 	gtk_widget_show(button_locate);
-
-//	gtk_box_pack_start_defaults( GTK_BOX(vbox), GTK_WIDGET(hbox));
 
 	tarjs_sensi[tarjs_index].card = vbox;
 	tarjs_sensi[tarjs_index].button_armies = button_armies;
@@ -541,8 +534,7 @@ void cards_free()
 
 	for(i=0;i<NRTARJS;i++) {
 		if( tarjs[i].tar ) {
-			/* gdk_imlib_destroy_image ( tarjs[i].tar ); */
-			tarjs[i].tar = NULL;
+			g_clear_object( &tarjs[i].tar );
 		}
 	}
 }

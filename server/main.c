@@ -1,4 +1,3 @@
-/*	$Id: main.c,v 1.88 2004/08/04 13:03:07 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -39,13 +38,7 @@
 #include "xmlscores.h"
 
 
-#undef DEBUG_MAIN
-
-#ifdef DEBUG_MAIN
-# define MAIN_DEBUG(x...) PDEBUG(x)
-#else
-# define MAIN_DEBUG(x)
-#endif
+#define MAIN_DEBUG PDEBUG
 
 /*
  * private variables
@@ -106,7 +99,6 @@ void game_new()
 
 	countries_init();
 	mission_init();
-	pactos_flush();
 
 	player_map( player_initplayer );
 	player_all_set_status( PLAYER_STATUS_HABILITADO );
@@ -143,10 +135,8 @@ void game_init()
 {
 	player_init();
 	color_init();
-	pactos_init();
 	scores_init();
 	xmlscores_load();
-	metaserver_init();
 
 	g_game.connections = 0;
 	g_game.players = 0;
@@ -170,7 +160,6 @@ void server_init( void )
 	g_server.port=TEG_DEFAULT_PORT;
 	g_server.debug=FALSE;
 	g_server.with_console=TRUE;
-	g_server.with_ggz=FALSE;
 	g_server.kick_unparent_robots=TRUE;
 }
 
@@ -183,11 +172,6 @@ void server_exit( int sock )
 	player_flush();
 	printf(_("Goodbye.\n"));
 	exit(1);
-}
-
-void server_is_idle()
-{
-	metaserver_publish();
 }
 
 void main_loop( void )
@@ -246,7 +230,6 @@ void main_loop( void )
 				timeout.tv_sec = TIMEOUT_SEC;
 				timeout.tv_usec = 0;
 				gettimeofday( &timeofday_old, &tz );
-				server_is_idle();
 			}
 		}
 
@@ -264,7 +247,6 @@ void main_loop( void )
 			timeout.tv_sec = TIMEOUT_SEC;
 			timeout.tv_usec = 0;
 			gettimeofday( &timeofday_old, &tz );
-			server_is_idle();
 
 			continue;
 		}
@@ -349,9 +331,6 @@ void argument_init( int argc, char **argv)
 			fprintf(stderr, _("  -s, --seed SEED\tNew seed for random\n"));
 			fprintf(stderr, _("  -v, --version\t\tPrint the version number\n"));
 			fprintf(stderr, _("  -c, --console BOOLEAN\tEnable the console or not (default 1)\n"));
-#ifdef WITH_GGZ
-			fprintf(stderr, _("  -g, --ggz\t\tEnable the GGZ mode (default OFF)\n"));
-#endif /* WITH_GGZ */
 			fprintf(stderr, _("  -m, --metaserver BOOLEAN\tPublish this server with the metaserver (default 0)\n"));
 			fprintf(stderr, _("  -d, --debug\tEnable verbosity in server\n"));
 			exit(0);
@@ -364,11 +343,6 @@ void argument_init( int argc, char **argv)
 			g_game.seed=atoi(option);
 		} else if ((option = get_option("--console",argv,&i,argc)) != NULL) {
 			g_server.with_console=atoi(option);
-#ifdef WITH_GGZ
-		} else if (is_option("--ggz",argv[i])) {
-			g_server.with_ggz=1;
-			g_server.with_console=FALSE;
-#endif /* WITH_GGZ */
 		} else if ((option = get_option("--metaserver",argv,&i,argc)) != NULL) {
 			g_server.metaserver_on=atoi(option);
 		} else if ( is_option("--debug",argv[i])) {
@@ -401,21 +375,10 @@ int main( int argc, char **argv)
 		printf( _("Type '%s' for more help\n"),TOKEN_HELP);
 		console_init();		/* initialize console */
 	} else {
-		if( !g_server.with_ggz )
-			printf(_("Standalone server.\n"));
-		else
-			printf(_("GGZ mode activated.\n"));
+		printf(_("Standalone server.\n"));
 	}
 
 	srand( g_game.seed );
-
-#ifdef WITH_GGZ
-	if( g_server.with_ggz )
-		return ggz_server_main_loop();
-	else
-#endif /* WITH_GGZ */
-
-	metaserver_publish();
 
 	main_loop();
 

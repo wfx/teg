@@ -1,4 +1,3 @@
-/*	$Id: missions.h,v 1.1 2002/08/31 17:25:20 riq Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada

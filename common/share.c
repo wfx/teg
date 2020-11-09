@@ -1,4 +1,3 @@
-/*	$Id: share.c,v 1.5 2002/04/11 01:24:18 riq Exp $	*/
 /********************************************************************** 
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify

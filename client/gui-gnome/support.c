@@ -1,4 +1,3 @@
-/*	$Id: support.c,v 1.36 2006/03/14 12:34:18 nordi Exp $	*/
 /* Tenes Empanadas Graciela
  *
  * Copyright (C) 2000 Ricardo Quesada
@@ -45,7 +44,7 @@
 /* FONTS */
 #define TEG_DIALOG_X	450
 #define TEG_DIALOG_Y	200
-#define TEG_DIALOG_Y_NEW 45
+#define TEG_DIALOG_Y_NEW 65
 
 void generic_window_set_parent (GtkWidget * dialog, GtkWindow   * parent)
 {
@@ -112,7 +111,7 @@ void teg_dialog( char* title, char* bigtitle, char* data )
 		0.0,
 		0.0,
 		(double) TEG_DIALOG_X,
-		45.0,
+	    TEG_DIALOG_Y_NEW,
 		"fill-color","black",
 		"stroke-color","black",
 		NULL);
@@ -120,7 +119,7 @@ void teg_dialog( char* title, char* bigtitle, char* data )
 	goo_canvas_rect_new(
 		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
 		0.0,
-		45.0,
+	    TEG_DIALOG_Y_NEW,
 		(double) TEG_DIALOG_X,
 		(double) TEG_DIALOG_Y,
 		"fill-color","light green",
@@ -187,9 +186,9 @@ GtkWidget* teg_dialog_new( char* title, char* bigtitle )
 		0.0,
 		0.0,
 		(double) TEG_DIALOG_X,
-		45.0,
-		"fill-color","black",
-		"stroke-color","black",
+	    TEG_DIALOG_Y_NEW,
+	    "fill-color", "black",
+	    "stroke-color", "black",
 		NULL);
 
 	goo_canvas_text_new(
@@ -212,19 +211,6 @@ GtkWidget* teg_dialog_new( char* title, char* bigtitle )
 
 	return dialog;
 }
-
-/**
- * @fn void dialog_close( GtkWidget *button, gpointer data )
- * Closes a generic dialog
- */
-void dialog_close( GtkWidget *button, gpointer data )
-{
-	GtkWidget *dialog = (GtkWidget*) data;
-
-	gtk_widget_destroy( dialog );
-	return;
-}
-
 
 void teg_dialog_gameover( int numjug, int mission )
 {
@@ -298,15 +284,19 @@ gchar *translate_to_utf8(const gchar *string )
 	output_length = (input_length << 1);
 	output_string = output_string_pointer = g_malloc(output_length);
 
-#if defined __GLIBC__ && __GLIBC_MINOR__ <= 1
-	iconv(iconv_base, (const gchar **) &input_string, &input_length, &output_string, &output_length);
-#else
 	iconv(iconv_base, &input_string, &input_length, &output_string, &output_length);
-#endif
 
 	free( input_string_pointer );
 	
 	iconv_close(iconv_base);
 
 	return output_string_pointer;
+}
+
+void string_copy(char* dest, size_t destlen, char const* source)
+{
+	if(destlen == 0)
+		return;
+	strncpy(dest, source, destlen-1);
+	dest[destlen-1] = 0;
 }
