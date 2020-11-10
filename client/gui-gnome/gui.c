@@ -127,14 +127,6 @@ TEG_STATUS gui_surrender(int numjug)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_exit( char *str)
-{
-	locate_country_exit();
-	g_object_unref(settings);
-
-	gtk_main_quit();
-	return TEG_STATUS_SUCCESS;
-}
 
 static gchar *msg = NULL;
 

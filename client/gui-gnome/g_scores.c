@@ -186,42 +186,37 @@ static TEG_STATUS paint_color( GtkWidget *dialog, int color, GdkPixbuf **pixmap 
 	return TEG_STATUS_SUCCESS;
 }
 
+struct AddScoreState
+{
+	GtkListStore *store;
+	int row;
+};
+
+static void append_player_score(PSCORES pS, void* user)
+{
+	struct AddScoreState *state = (struct AddScoreState *) user;
+
+	gchar *name = translate_to_utf8( pS->name );
+
+	GtkTreeIter iter;
+	gtk_list_store_append(state->store, &iter);
+	gtk_list_store_set(store, &iter,
+	            COLUMN_POSNUMBER, ++state->row,
+	            COLUMN_NAME, name,
+	            COLUMN_SCORE, pS->score,
+	            COLUMN_DATE, pS->date,
+	            COLUMN_COLOR, g_colores[pS->color],
+	            COLUMN_HUMAN, pS->human,
+	            -1);
+	free(name);
+}
 
 static TEG_STATUS scores_update_model( GtkListStore *store)
 {
-	PSCORES pS;
-	int row;
-	GtkTreeIter iter;
-	PLIST_ENTRY list = scores_get_list();
-	PLIST_ENTRY l = list->Flink;
-
-
 	gtk_list_store_clear( store );
 
-	row = 0;
-
-	while( !IsListEmpty( list )&& (l != list ) )
-	{
-		gchar *name;
-		pS = (PSCORES) l;
-
-		name = translate_to_utf8( pS->name );
-
-		/* sprintf(clist_texts[0],"%s",g_colores[j->color]); */
-
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-					COLUMN_POSNUMBER, ++row,
-					COLUMN_NAME, name,
-					COLUMN_SCORE, pS->stats.score,
-					COLUMN_DATE, pS->date,
-					COLUMN_COLOR, g_colores[pS->color],
-					COLUMN_HUMAN, pS->human,
-					-1);
-
-		free( name );
-		l = LIST_NEXT(l);
-	}
+	struct AddScoreState ass = {.store = store, .row=0};
+	scores_map(append_player_score, &ass);
 
 	return TEG_STATUS_SUCCESS;
 }

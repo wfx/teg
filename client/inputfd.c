@@ -24,6 +24,10 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "parser.h"
+#include "fcintl.h"
+#include "protocol.h"
+#include "../common/net.h"
 #include "client.h"
 
 TEG_STATUS clitok_rem(char *str);
@@ -212,18 +216,18 @@ TEG_STATUS clitok_winner( char *str )
 	int mission;
 	PCPLAYER pJ;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		mission = atoi( p.token );
 	} else goto error;
 
@@ -287,22 +291,22 @@ TEG_STATUS clitok_tropas( char *str)
 	DELIM separador={ ',', ',', ',' };
 	int src,dst,cant;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		dst = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );
 	} else goto error;
 
@@ -323,8 +327,8 @@ TEG_STATUS clitok_ok( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -370,22 +374,22 @@ TEG_STATUS clitok_country( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		country = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		jug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		ejer = atoi( p.token );
 	} else goto error;
 
@@ -409,8 +413,8 @@ TEG_STATUS clitok_dados( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
@@ -419,7 +423,7 @@ TEG_STATUS clitok_dados( char *str)
 	/* src and dst country can be -1 */
 
 	/* attacker */
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		g_game.dados_srccountry = atoi( p.token );
 		if( g_game.dados_srccountry >= COUNTRIES_CANT || g_game.dados_srccountry < -1 ) {
 			g_game.dados_srccountry = -1;
@@ -428,13 +432,13 @@ TEG_STATUS clitok_dados( char *str)
 	}
 
 	for(i=0;i<3;i++) {
-		if( parser_call( &p ) && p.hay_otro ) {
+		if( parser_parse( &p ) && p.can_continue ) {
 			g_game.dados_src[i] = atoi( p.token );
 		} else goto error;
 	}
 
 	/* defender */
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		g_game.dados_dstcountry = atoi( p.token );
 		if( g_game.dados_dstcountry >= COUNTRIES_CANT || g_game.dados_dstcountry < -1 ) {
 			g_game.dados_dstcountry = -1;
@@ -443,12 +447,12 @@ TEG_STATUS clitok_dados( char *str)
 	}
 
 	for(i=0;i<2;i++) {
-		if( parser_call( &p ) && p.hay_otro ) {
+		if( parser_parse( &p ) && p.can_continue ) {
 			g_game.dados_dst[i] = atoi( p.token );
 		} else goto error;
 	}
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		g_game.dados_dst[2] = atoi( p.token );
 	} else goto error;
 
@@ -479,18 +483,18 @@ TEG_STATUS clitok_attack( char *str)
 	DELIM separador={ ',', ',', ',' };
 	PCPLAYER pJsrc, pJdst;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		dst = atoi( p.token );
 	} else goto error;
 
@@ -533,14 +537,14 @@ TEG_STATUS clitok_turno( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		numjug = atoi( p.token );
 	} else goto error;
 
@@ -583,18 +587,18 @@ TEG_STATUS clitok_fichas( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );
 	} else goto error;
 
@@ -634,18 +638,18 @@ TEG_STATUS clitok_fichas2( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );
 	} else goto error;
 
@@ -685,22 +689,22 @@ TEG_STATUS clitok_fichasc( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		conts = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );
 	} else goto error;
 
@@ -744,14 +748,14 @@ TEG_STATUS clitok_countries( char *str)
 	DELIM separador={ '/', '/', '/' };
 
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro )
+	if( parser_parse( &p ) && p.can_continue )
 		numjug = atoi( p.token );
 	else 
 		goto error;
@@ -773,30 +777,30 @@ TEG_STATUS clitok_playerid( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		strncpy( g_game.myname, p.token, sizeof(g_game.myname)-1);
 		g_game.myname[sizeof(g_game.myname)-1]=0;
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		g_game.numjug = atoi( p.token );
 	} else goto error;
 
 	for(i=0;i<TEG_MAX_PLAYERS-1;i++ ) {
 
-		if( parser_call( &p ) && p.hay_otro ) {
+		if( parser_parse( &p ) && p.can_continue ) {
 			c[i] = atoi( p.token );	
 		} else goto error;
 	}
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		c[i] = atoi( p.token );	
 	} else goto error;
 
@@ -824,23 +828,23 @@ TEG_STATUS clitok_reconnect( char *str)
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		strncpy( g_game.myname, p.token, sizeof(g_game.myname)-1);
 		g_game.myname[sizeof(g_game.myname)-1]=0;
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		g_game.numjug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		g_game.mycolor  = atoi( p.token );	
 	} else goto error;
 
@@ -892,20 +896,20 @@ TEG_STATUS clitok_newplayer( char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		strncpy( name, p.token, sizeof(name)-1 );
 		name[sizeof(name)-1]=0;
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		color = atoi( p.token );
 	} else goto error;
 
@@ -946,16 +950,16 @@ TEG_STATUS clitok_message( char *str)
 	if( strlen(str) == 0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		strncpy( name, p.token, sizeof(name)-1);
 		name[sizeof(name)-1]=0;
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );		
 	} else goto error;
 
@@ -993,13 +997,13 @@ TEG_STATUS clitok_status( char *str)
 	if( strlen(str)==0 )
 		goto ok;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 
 	do {
-		if( (i=parser_call( &p )) ) {
+		if( (i=parser_parse( &p )) ) {
 			if( aux_status( &j, p.token ) != TEG_STATUS_SUCCESS )
 				goto error;
 
@@ -1008,7 +1012,7 @@ TEG_STATUS clitok_status( char *str)
 			else
 				player_ins( &j );
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 ok:
 	gui_status();
 	return TEG_STATUS_SUCCESS;
@@ -1023,7 +1027,6 @@ TEG_STATUS clitok_scores( char *str)
 	PSCORES pS;
 	SCORES score;
 	PARSER p;
-	DELIM igualador = DELIM_NULL;
 	DELIM separador={ '\\', '\\', '\\' };
 
 	int i;
@@ -1031,25 +1034,19 @@ TEG_STATUS clitok_scores( char *str)
 	if( strlen(str)==0 )
 		goto ok;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = NULL;
+	p.separators = &separador;
 	p.data = str;
 
-	scores_flush();
+	scores_init();
 
 	do {
-		if( (i=parser_call( &p )) ) {
+		if( (i=parser_parse( &p )) ) {
 			if( aux_scores( &score, p.token ) != TEG_STATUS_SUCCESS )
 				goto error;
-
-			pS = malloc( sizeof(*pS));
-			if( ! pS )
-				goto error;
-
-			*pS = score;
-			scores_insert_score( pS );
+			insert_score(&score);
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 
 ok:
 	gui_scores();
@@ -1072,19 +1069,19 @@ TEG_STATUS clitok_start(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	player_flush();
 	do {
-		if( (i=parser_call( &p )) ) {
+		if( (i=parser_parse( &p )) ) {
 			if( aux_status( &j, p.token ) != TEG_STATUS_SUCCESS )
 				goto error;
 
 			player_ins( &j );
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 
 	ESTADO_SET(PLAYER_STATUS_START);
 
@@ -1115,12 +1112,12 @@ TEG_STATUS clitok_enum_cards( char *str )
 	if(  ! str || strlen(str) == 0 )
 		goto ok;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	do {
-		if( parser_call( &p ) ) {
+		if( parser_parse( &p ) ) {
 			country = atoi( p.token );
 			used = atoi( p.value );
 		} else 
@@ -1135,7 +1132,7 @@ TEG_STATUS clitok_enum_cards( char *str )
 		if( used ) tarjeta_usar( &g_countries[ country ].tarjeta );
 		g_countries[ country ].tarjeta.numjug = WHOAMI();
 
-	} while ( p.hay_otro );
+	} while ( p.can_continue );
 
 ok:
 	return TEG_STATUS_SUCCESS;
@@ -1157,27 +1154,27 @@ TEG_STATUS clitok_exchange(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		cant = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		p1 = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		p2 = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		p3 = atoi( p.token );		
 	} else goto error;
 
@@ -1226,33 +1223,32 @@ TEG_STATUS clitok_modalidad(char *str)
 	PARSER p;
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
-	int with_secret_mission, with_common_mission, with_fog_of_war, rules;
+	int with_secret_mission, with_common_mission, with_fog_of_war;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		with_secret_mission = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		with_common_mission = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		with_fog_of_war = atoi( p.token );
 	} else goto error;
 
 	/* not used */
-	if( parser_call( &p ) && !p.hay_otro ) {
-		rules = atoi( p.token );		
+	if( parser_parse( &p ) && !p.can_continue ) {
+		// rules = atoi( p.token );
 	} else goto error;
 
-	g_game.rules = rules;
 	g_game.with_common_mission = with_common_mission;
 	g_game.with_secret_mission = with_secret_mission;
 	g_game.with_fog_of_war = with_fog_of_war;
@@ -1276,11 +1272,11 @@ TEG_STATUS clitok_mission(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		mission = atoi( p.token );
 	} else goto error;
 
@@ -1306,16 +1302,16 @@ TEG_STATUS clitok_tarjeta(char *str)
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		country = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		used = atoi( p.token );		
 	} else goto error;
 
@@ -1353,18 +1349,18 @@ TEG_STATUS clitok_pversion( char *str)
 	DELIM separador={ ',', ',', ',' };
 	int hi,lo;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		hi = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		lo = atoi( p.token );
 	} else goto error;
 
@@ -1402,18 +1398,18 @@ TEG_STATUS clitok_new_round( char *str )
 	int numjug, round_number;
 	PCPLAYER pJ;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if( strlen(str)==0 )
 		goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		numjug = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		round_number = atoi( p.token );
 	} else goto error;
 
@@ -1444,7 +1440,7 @@ error:
 /*
  * 	code that interprets which fn to call
  */
-static TEG_STATUS client_lookup( int fd, PARSER *p )
+static TEG_STATUS client_lookup(PARSER *p)
 {
 	int i;
 
@@ -1468,8 +1464,8 @@ TEG_STATUS client_recv( int fd )
 	DELIM igualador={ '=', '=', '=' };
 	DELIM separador={ ';', ';', ';' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 
 	memset(str,0,sizeof(str));
 	j=net_readline( fd, str, PROT_MAX_LEN );
@@ -1482,12 +1478,12 @@ TEG_STATUS client_recv( int fd )
 	p.data = str;
 
 	do {
-		if( (i=parser_call( &p )) ) {
-			if( client_lookup( fd,&p ) == TEG_STATUS_CONNCLOSED ) {
+		if( (i=parser_parse( &p )) ) {
+			if( client_lookup(&p) == TEG_STATUS_CONNCLOSED ) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
 }

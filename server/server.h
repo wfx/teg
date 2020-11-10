@@ -25,20 +25,18 @@
 #ifndef __TEGS_SERVER_H
 #define __TEGS_SERVER_H
 
-#include "all.h"
-
-#include "tarjeta.h"
+#include "../common/tarjeta.h"
 #include "countries.h"
 #include "player.h"
 #include "turno.h"
 #include "globals.h"
 #include "sernet.h"
-#include "protocol.h"
+#include "../common/protocol.h"
 #include "play.h"
 #include "console.h"
 #include "helper.h"
 #include "main.h"
-#include "missions.h"
+#include "../common/missions.h"
 #include "options.h"
 
 #endif /* __TEGS_SERVER_H */

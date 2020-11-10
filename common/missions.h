@@ -17,25 +17,36 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file missions.h
- */
 
-#ifndef __TEG_MISSIONS_H
-#define __TEG_MISSIONS_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "cont.h"
 
 typedef struct _missions {
-	int	numjug;				/**< a quien se asigno el mission */
-	char	*name;			/**< name del mission */
-	int	continentes[CONTINENTE_LAST];	/**< continentes a conquistar */
-	int	jugadores[TEG_MAX_PLAYERS];	/**< jugadores a eliminar */
-	int	limitrofes;			/**< countries limitrofes a tener */
-	int	tot_countries;			/**< cantidad de countries a conquistar */
+	/// The player number which this mission is assigned to
+	int	player_number;
+
+	/// The name of the mission
+	char	*name;
+
+	/// number of countries to conquer on each continent
+	int	continents[CONTINENTE_LAST];
+
+	/** number countries additionaly to own in neighboring continents in
+	 * addition to the counties in the continentes */
+	int	frontiering_countries;
+
+	/// total number of countries to conquer
+	int	tot_countries;
 } MISSIONS, *PMISSIONS;
 
 enum {
-	MISSION_CONQWORLD,			/**< mission 0. Conquistar el mundo */
-	MISSION_COMMON,			/**< mission comun: Conquistar 30 countries */
+	MISSION_CONQWORLD, ///< "fallback mission": conquer everything
+	MISSION_COMMON, ///< optional common mission: conquer 30 countries
 };
 
 extern MISSIONS g_missions[];
@@ -44,6 +55,8 @@ extern MISSIONS g_missions[];
 int missions_cant();
 
 /* return the name of a mission (translated) */
-char * missions_get_name( int number );
+char const* missions_get_name( int number );
 
-#endif /* __TEG_MISSIONS_H */
+#ifdef __cplusplus
+}
+#endif

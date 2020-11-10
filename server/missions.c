@@ -23,8 +23,8 @@
 #include <string.h>
 
 #include "server.h"
+#include "missions.h"
 
-/* Do player pJ accomplished his secret mission ? */
 TEG_STATUS mission_chequear( PSPLAYER pJ )
 {
 	int i;
@@ -52,14 +52,14 @@ TEG_STATUS mission_chequear( PSPLAYER pJ )
 
 	/* 2da parte. Chequear countries por contienente */
 	for(i=0;i<CONT_CANT;i++) {
-		if( countries[i] < g_missions[pJ->mission].continentes[i] )
+		if( countries[i] < g_missions[pJ->mission].continents[i] )
 			goto no_gano;
 	}
 
 	/* TODO: 3ra parte. Chequear si vencio a los otros playeres */
 
 	/* TODO: 4ta parte. Chequear si tiene los countries limitrofes que se piden */
-	if( (i=g_missions[pJ->mission].limitrofes) ) {
+	if( (i=g_missions[pJ->mission].frontiering_countries) ) {
 		int j,k,i_tmp;
 		int salir=0;
 		for(j=0;j<COUNTRIES_CANT && salir==0;j++) {
@@ -92,7 +92,6 @@ no_gano:
 	return TEG_STATUS_ERROR;
 }
 
-/* Assigns a secret mission to player pJ */
 TEG_STATUS mission_asignar( PSPLAYER pJ )
 {
 	int i,obj;
@@ -114,15 +113,15 @@ TEG_STATUS mission_asignar( PSPLAYER pJ )
 	i = obj;
 
 	for( ; i < missions_cant() ; i++) {
-		if( g_missions[i].numjug == -1 ) {
-			g_missions[i].numjug = pJ->numjug;
+		if( g_missions[i].player_number == -1 ) {
+			g_missions[i].player_number = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
 	}
 	for( i=0; i < obj ; i++ ) {
-		if( g_missions[i].numjug == -1 ) {
-			g_missions[i].numjug = pJ->numjug;
+		if( g_missions[i].player_number == -1 ) {
+			g_missions[i].player_number = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
@@ -131,22 +130,18 @@ TEG_STATUS mission_asignar( PSPLAYER pJ )
 	return TEG_STATUS_ERROR;
 }
 
-/* Initialize the secret missions */
-TEG_STATUS mission_init()
+void mission_init()
 {
 	int i;
 
 	for(i=0;i<missions_cant();i++) {
-		g_missions[i].numjug = -1;
+		g_missions[i].player_number = -1;
 	}
-	g_missions[MISSION_CONQWORLD].numjug = 0;
-	g_missions[MISSION_COMMON].numjug = 0;
-
-	return TEG_STATUS_SUCCESS;
+	g_missions[MISSION_CONQWORLD].player_number = 0;
+	g_missions[MISSION_COMMON].player_number = 0;
 }
 
-/* sets the option: play to conquer the world, or with secret missions */
-TEG_STATUS mission_set( int a )
+TEG_STATUS mission_set(bool a)
 {
 	if( JUEGO_EMPEZADO )
 		return TEG_STATUS_ERROR;
@@ -156,8 +151,7 @@ TEG_STATUS mission_set( int a )
 	return TEG_STATUS_SUCCESS;
 }
 
-/* Enables/Disables playing with common secret mission */
-TEG_STATUS mission_common_mission( int a )
+TEG_STATUS mission_common_mission(bool a)
 {
 	if( JUEGO_EMPEZADO )
 		return TEG_STATUS_ERROR;

@@ -27,8 +27,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include "server.h"
 #include "fow.h"
+#include "parser.h"
+#include "fcintl.h"
 
 TEG_STATUS option_conqworld(int fd, char *str);
 TEG_STATUS option_conqworld_view( void );
@@ -174,11 +177,11 @@ TEG_STATUS option_armies( int fd, char *str )
 	int armies1;
 	int armies2;
 	PARSER p;
-	DELIM igualador=DELIM_EQ3;
+	DELIM igualador={ '|', '|', '|' };
 	DELIM separador={ ',', ',', ',' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	if(str && strlen(str)!=0) {
@@ -186,11 +189,11 @@ TEG_STATUS option_armies( int fd, char *str )
 		if( JUEGO_EMPEZADO )
 			goto error;
 
-		if( parser_call( &p ) && p.hay_otro ) {
+		if( parser_parse( &p ) && p.can_continue ) {
 			armies1 = atoi( p.token );		
 		} else goto error;
 
-		if( parser_call( &p ) && !p.hay_otro ) {
+		if( parser_parse( &p ) && !p.can_continue ) {
 			armies2 = atoi( p.token );		
 		} else goto error;
 
@@ -273,19 +276,18 @@ TEG_STATUS option_parse( int fd, char *str)
 	int i;
 	PARSER p;
 	DELIM igualador={ '=', ' ', ':' };
-	DELIM separador=DELIM_NULL;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = NULL;
 	p.data = str;
 
 	do {
-		if( (i=parser_call( &p )) ) {
+		if( (i=parser_parse( &p )) ) {
 			if( option_lookup( fd,&p ) == TEG_STATUS_CONNCLOSED ) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
 }

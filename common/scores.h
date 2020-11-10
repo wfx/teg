@@ -17,14 +17,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file scores.h
- */
 
-#ifndef __TEG_COMMON_SCORES_H
-#define __TEG_COMMON_SCORES_H
+#pragma once
 
 #include "stats.h"
+#include "common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define SCORES_DATE_MAX (40)
 
@@ -33,31 +34,32 @@
 
 typedef struct _scores
 {
-	LIST_ENTRY next;
-
 	char name[PLAYERNAME_MAX_LEN];	/**< name of the player */
 	int color;			/**< color used */
 	char date[SCORES_DATE_MAX];	/**< date of the game */
 	int human;			/**< human or robot */
-
-	PLAYER_STATS stats;		/**< stats of the game */
-
+	int score;
 } SCORES, * PSCORES;
 
+struct HighScores
+{
+	size_t count; ///< the amount of valid high scores
+	SCORES highscores[SCORES_MAX]; ///< the actual highscore list
+};
+
 /**! insert a score in the table */
-TEG_STATUS scores_insert_score( PSCORES score );
+void insert_score(SCORES const* score);
+
+// Helper to make the highscore code easier to test
+void insert_highscore(struct HighScores* hs, SCORES const* score);
 
 /**! initialize the scores */
-TEG_STATUS scores_init();
+void scores_init();
 
 /**! a map function over the scores. (like in functional programming) */
-typedef TEG_STATUS (*scores_map_func)( PSCORES pJ);
-TEG_STATUS scores_map( scores_map_func func );
+typedef void(*scores_map_func)(PSCORES pJ, void* user);
+void scores_map(scores_map_func func, void *user);
 
-/**! return the list of all the scores */
-PLIST_ENTRY scores_get_list();
-
-/*! flush the list of scores */
-TEG_STATUS scores_flush();
-
-#endif /* __TEG_COMMONG_SCORES_H */
+#ifdef __cplusplus
+}
+#endif

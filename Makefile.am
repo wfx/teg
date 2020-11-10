@@ -3,10 +3,9 @@ SUBDIRS = . docs po client/themes client/teg_pix
 EXTRA_DIST= teg.suse.spec teg.rh.spec README HACKING PEOPLE protocol.txt \
     ReleaseNotes.txt $(gsettings_SCHEMAS) $(RESOURCE)
 
-
 ACLOCAL_FLAGS = -I `pwd`/macros
 
-noinst_LIBRARIES = libtegcommon.a libclient.a libguiclient.a
+noinst_LIBRARIES = libtegcommon.a libclient.a libguiclient.a libtegserver.a
 bin_PROGRAMS = tegserver tegclient tegrobot
 
 data_desktopdir = $(datadir)/applications
@@ -15,9 +14,11 @@ dist_data_desktop_DATA = client/gui-gnome/teg.desktop
 data_convertdir = $(datadir)/GConf/gsettings
 dist_data_convert_DATA = client/gui-gnome/teg.convert
 
+check_PROGRAMS = tegtest tegservertest
+TESTS = $(check_PROGRAMS)
+
 libtegcommon_a_CPPFLAGS = @XML_CFLAGS@
 libtegcommon_a_SOURCES = 	\
-	common/all.h			\
 	common/net.c common/net.h		\
 	common/share.c	common/share.h		\
 	common/fcintl.h		\
@@ -32,14 +33,12 @@ libtegcommon_a_SOURCES = 	\
 	common/cont.c common/cont.h		\
 	common/missions.c common/missions.h	\
 	common/stats.c common/stats.h		\
-	common/scores.c common/scores.h 	\
-	common/my_inet_ntop.c common/my_inet_ntop.h	\
+        common/scores.c common/scores.h 	\
 	common/xml_support.c common/xml_support.h
 
-tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
-tegserver_SOURCES = \
-	server/main.c server/main.h		\
-	server/globals.h		\
+libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
+libtegserver_a_SOURCES = \
+        server/globals.h server/main.h		\
 	server/server.h		\
 	server/player.c server/player.h	\
 	server/sernet.c server/sernet.h	\
@@ -53,8 +52,9 @@ tegserver_SOURCES = \
 	server/xmlscores.c server/xmlscores.h	\
 	server/fow.c server/fow.h
 
-tegserver_DEPENDENCIES = libtegcommon.a $(INTLDEPS)
-tegserver_LDADD        = libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
+tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
+tegserver_SOURCES = server/main.c
+tegserver_LDADD = libtegserver.a libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
 
 libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common \
 	-DBINDIR=\"$(bindir)\" -DTHEMEDIR=\"$(datadir)/pixmaps/teg_pix/themes/\"
@@ -65,7 +65,6 @@ libclient_a_SOURCES = \
 	client/misc.c client/misc.h		\
 	client/inputfd.c client/inputfd.h	\
 	client/outputfd.c client/outputfd.h	\
-	client/countries.c client/countries.h	\
 	client/helper.c client/helper.h	\
 	client/fichas.c client/fichas.h	\
 	client/attack.c client/attack.h	\
@@ -144,7 +143,6 @@ tegrobot_SOURCES = 		\
 	robot/main.c robot/main.h		\
 	robot/gui.c robot/gui.h		\
 	robot/ai.c robot/ai.h		\
-	robot/dijkstra.c robot/dijkstra.h	\
 	robot/ai_msg.c robot/ai_msg.h	\
 	robot/ai_misc.c robot/ai_misc.h	\
 	robot/ai_fichas.c robot/ai_fichas.h
@@ -152,3 +150,16 @@ tegrobot_SOURCES = 		\
 
 tegrobot_DEPENDENCIES = libclient.a libtegcommon.a $(INTLDEPS)
 tegrobot_LDADD        = libclient.a @CLIENT_LIBS@ libtegcommon.a $(INTLLIBS) @XML_LIBS@
+
+tegtest_CPPFLAGS = @XML_CFLAGS@
+tegtest_SOURCES = common/xml_support_check.cpp common/tarjeta_check.cpp \
+    common/stats_check.cpp common/share_check.cpp common/scores_check.cpp \
+    common/parser_check.cpp common/common_check.cpp \
+    client/helper_check.cpp client/gui-null/null.c
+tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ -lpthread
+tegtest_LDFLAGS = -Wl,--as-needed
+
+tegservertest_CPPFLAGS = -DTEGSERVER_OMIT_MAIN=1
+tegservertest_SOURCES = server/main.c server/helper_check.cpp server/player_check.cpp
+tegservertest_LDADD = libtegserver.a libtegcommon.a \
+    -lgmock_main -lgtest -lgmock @SERVER_LIBS@ @XML_LIBS@ -lpthread

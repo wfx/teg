@@ -18,8 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TEGS_GLOBALS_H
-#define __TEGS_GLOBALS_H
+#pragma once
+
+#include "../common/common.h"
+#include "player.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _sgame {
 	int connections;	/**< quantity of connections */
@@ -75,4 +81,6 @@ typedef struct _server {
 extern SERVER g_server;
 	
 
-#endif /* __TEGS_GLOBALS_H */
+#ifdef __cplusplus
+}
+#endif

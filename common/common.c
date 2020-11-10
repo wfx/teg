@@ -17,15 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file common.c
- */
+
+#include "common.h"
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif /* HAVE_CONFIG_H */
 
-#include "all.h"
+#include "fcintl.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,15 +42,6 @@ char *g_colores[] = {
 	N_("pink"),
 	N_("green"),
 	N_("n/a")			/* color is not assigned yet */
-};
-
-
-/* XXX sync with common.h */
-char *g_reglas[] = {
-	N_("TEG"),
-	N_("Risk"),
-	N_("1914"),
-	N_("other"),
 };
 
 /* XXX: sync these status with the one in common.h */
@@ -81,33 +71,28 @@ char *g_estados[] = {
 /* returns an integer from /dev/random or 0 if it can't */
 int get_int_from_dev_random( void )
 {
-	int fd;
-	char buf[sizeof(int)];
-	int l;
-	int *ret;
+	char const*const RANDOM_DEVICE="/dev/urandom";
 
-	fd = open( RANDOM_DEVICE, O_RDONLY);
-	if( fd < 0) {
+	int const fd = open(RANDOM_DEVICE, O_RDONLY);
+	if(fd < 0) {
 		fprintf(stderr,"Couldn't open '%s'\n", RANDOM_DEVICE);
 		return 0;
 	}
-	l = read( fd, buf, sizeof(buf));
-	if( l != sizeof(buf) )
+	int result;
+	const int l = read(fd, &result, sizeof(result));
+	if(l != sizeof(result)) {
 		fprintf(stderr,"Returning a not so random number. Read: %d\n",l);
-
-	ret = (int *)&buf;
+	}
 
 	close(fd);
 
-	return *ret;
+	return result;
 }
 
 /* given the number of exchange, it says the numer of armies he deserves */
-int cuantos_x_canje( int c )
+unsigned cards_for_this_exchange(unsigned exchanges )
 {
-	if( c < 1 )
-		return 0;
-	switch( c ) {
+	switch( exchanges ) {
 		case 0:
 			return 0;
 		case 1:
@@ -117,12 +102,11 @@ int cuantos_x_canje( int c )
 		case 3:
 			return 10;
 		default:
-			return (c-1) * 5;
+	        return (exchanges-1) * 5;
 	}
-
 }
 
-TEG_STATUS strip_invalid( char *n )
+void strip_invalid(char *n )
 {
 	int l = strlen(n);
 	int i;
@@ -133,11 +117,9 @@ TEG_STATUS strip_invalid( char *n )
 		if( n[i]=='=' || n[i]==';' || n[i]=='\\' || n[i]==',' || n[i]==':' || n[i]=='/' || n[i]=='%')
 			n[i] = '.';
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS strip_invalid_msg( char *n )
+void strip_invalid_msg( char *n )
 {
 	int l = strlen(n);
 	int i;
@@ -148,13 +130,19 @@ TEG_STATUS strip_invalid_msg( char *n )
 		if( n[i]=='"' )
 			n[i]='\'';
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
-int my_atoi( char *s )
+int my_atoi(char const *s)
 {
 	if( ! s )
 		return -1;
 	return atoi( s );
+}
+
+void string_copy(char* dest, size_t destlen, char const* source)
+{
+	if(destlen == 0)
+		return;
+	strncpy(dest, source, destlen-1);
+	dest[destlen-1] = 0;
 }

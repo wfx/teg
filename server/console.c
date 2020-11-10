@@ -28,8 +28,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
+
 #ifdef HAVE_CONFIG_H
-#include <config.h>
+#	include <config.h>
 #endif
 
 #ifdef HAVE_LIBREADLINE
@@ -38,6 +39,9 @@
 #endif /* HAVE_LIBREADLINE */
 
 #include "server.h"
+#include "fcintl.h"
+#include "scores.h"
+#include "parser.h"
 
 #undef DEBUG_CONSOLE
 
@@ -100,7 +104,7 @@ STATIC TEG_STATUS con_exit( int unused, char* unused2)
 /*shows player's statistics */
 STATIC void con_stats_show( PSPLAYER pJ )
 {
-	stats_score( &pJ->player_stats );
+	stats_score( &pJ->player_stats, g_conts );
 	printf(" %i   %-4i  [ %-3u   %-3u ] - [ %-3u  %-3u ]  %-15s %s\n",
 			pJ->numjug,
 			pJ->player_stats.score,
@@ -121,26 +125,25 @@ STATIC TEG_STATUS con_stats( int unused, char* unused2)
 
 
 /* shows all the scores */
-STATIC TEG_STATUS con_scores_show( PSCORES pS )
+STATIC void con_scores_show(PSCORES pS, void* unused)
 {
+	(void) unused;
 	int color;
 	color = ( ( pS->color >= TEG_MAX_PLAYERS || pS->color < 0 ) ? TEG_MAX_PLAYERS : pS->color );
 	printf("  %4d   %s   %-15s   %-8s %s\n",
-				 pS->stats.score,
+	             pS->score,
 				 pS->date,
 				 pS->name,
 				 _(g_colores[color]),
 				 pS->human ? _("yes") : _("no")
 				 );
-
-	return TEG_STATUS_SUCCESS;
 }
 
 
 STATIC TEG_STATUS con_scores( int unused, char* unused2 )
 {
 	printf (_("  score  date       time    name              color    human\n"));
-	scores_map( con_scores_show );
+	scores_map(con_scores_show, NULL);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -300,18 +303,18 @@ TEG_STATUS console_parse( int fd, char *str )
 	DELIM igualador={ '=', ' ', '=' };
 	DELIM separador={ ';', ';', ';' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 
 
 	p.data = str;
 	do {
-		if( (i=parser_call( &p )) ) {
+		if( (i=parser_parse( &p )) ) {
 			TEG_STATUS ts = console_lookup( fd, &p );
 			if( ts != TEG_STATUS_SUCCESS )
 				return ts;
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -345,7 +348,7 @@ TEG_STATUS console_handle( int fd )
 }
 
 
-TEG_STATUS con_text_out( int level, char *format, ...)
+void con_text_out( int level, char *format, ...)
 {
         va_list args;
 	char buf[PROT_MAX_LEN];
@@ -359,7 +362,6 @@ TEG_STATUS con_text_out( int level, char *format, ...)
 		fprintf(stdout,"%s",buf);
 		con_show_prompt();
 	}
-	return TEG_STATUS_SUCCESS;
 }
 
 TEG_STATUS con_text_out_wop( int level, char *format, ...)

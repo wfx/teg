@@ -29,6 +29,7 @@
 #include "server.h"
 #include "scores.h"
 #include "xmlscores.h"
+#include "fcintl.h"
 
 LIST_ENTRY g_list_player;		/**< list of players */
 
@@ -60,8 +61,7 @@ PlayerCount player_count( void )
 	return result;
 }
 
-/* given a players' number it returns a pointer the player */
-TEG_STATUS player_whois( int numjug, PSPLAYER *pJ)
+TEG_STATUS player_whois(int numjug, PSPLAYER *pJ)
 {
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ_new;
@@ -77,7 +77,6 @@ TEG_STATUS player_whois( int numjug, PSPLAYER *pJ)
 	return TEG_STATUS_PLAYERNOTFOUND;
 }
 
-/* finds a player given its name */
 TEG_STATUS player_findbyname( char *name, PSPLAYER *pJ)
 {
 	PLIST_ENTRY l = g_list_player.Flink;
@@ -94,7 +93,6 @@ TEG_STATUS player_findbyname( char *name, PSPLAYER *pJ)
 	return TEG_STATUS_PLAYERNOTFOUND;
 }
 
-/* delete disconnected players */
 void player_delete_discon( PSPLAYER pJ )
 {
 	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
@@ -107,7 +105,6 @@ void player_delete_discon( PSPLAYER pJ )
 	}
 }
 
-/* Initialize the player. */
 void player_initplayer( PSPLAYER pJ )
 {
 	assert( pJ );
@@ -135,7 +132,6 @@ void player_init( void )
 	InitializeListHead( &g_list_player );
 }
 
-/* returns a free number for the player */
 TEG_STATUS player_numjug_libre( int *libre)
 {
 	char jugs[TEG_MAX_PLAYERS];
@@ -204,7 +200,6 @@ PSPLAYER player_ins( PSPLAYER pJ, BOOLEAN esplayer )
 	return newJ;
 }
 
-/* deletes (flush) all players */
 TEG_STATUS player_flush()
 {
 	PLIST_ENTRY tmp;
@@ -223,16 +218,15 @@ TEG_STATUS player_flush()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* Tells if a player is playing */
-BOOLEAN player_is_playing( PSPLAYER pJ )
+bool player_is_playing(PSPLAYER pJ)
 {
 	if( ! pJ->is_player )
-		return FALSE;
+		return false;
 
 	if( pJ->estado < PLAYER_STATUS_START || pJ->estado >= PLAYER_STATUS_LAST )
-		return FALSE;
+		return false;
 
-	return TRUE;
+	return true;
 }
 
 /* release the turn, and give it to the next or prev one */
@@ -262,7 +256,6 @@ TEG_STATUS player_give_turn_away( PSPLAYER pJ )
 	return TEG_STATUS_SUCCESS;
 }
 
-/* Puts a player in a GAME OVER state */
 TEG_STATUS player_del_soft( PSPLAYER pJ )
 {
 	assert( pJ );
@@ -306,8 +299,6 @@ TEG_STATUS player_del_soft( PSPLAYER pJ )
 	return TEG_STATUS_SUCCESS;
 }
 
-
-/* Deletes a player */
 void player_del_hard( PSPLAYER pJ )
 {
 	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
@@ -357,7 +348,6 @@ void player_del_hard( PSPLAYER pJ )
 	return;
 }
 
-/* given an index of player [0..MAX_PLAYERS] return the numjug of it */
 TEG_STATUS player_from_indice( int j, int *real_j )
 {
 	PLIST_ENTRY l = g_list_player.Flink;
@@ -378,8 +368,7 @@ TEG_STATUS player_from_indice( int j, int *real_j )
 	return TEG_STATUS_PLAYERNOTFOUND;
 }
 
-/* assigns a country to a player */
-TEG_STATUS player_asignarcountry( int numjug, PCOUNTRY p)
+TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p)
 {
 	PSPLAYER pJ;
 
@@ -410,34 +399,24 @@ TEG_STATUS player_whoisfd( int fd, PSPLAYER *j)
 	return TEG_STATUS_PLAYERNOTFOUND;
 }
 
-/* tells if a player is in a given state */
-BOOLEAN player_esta_xxx( int fd, int condicion, int strict )
+bool player_esta_xxx(int fd, PLAYER_STATUS state, bool exact)
 {
 	PSPLAYER pJ;
-
-	if( player_whoisfd( fd, &pJ) == TEG_STATUS_SUCCESS ) {
-		if(strict)
-			return (pJ->estado == condicion );
-		else
-			return (pJ->estado >= condicion );
-	} else
-		return FALSE;
+	return player_esta_xxx_plus(fd, state, exact, &pJ);
 }
 
-/* tells if a player is in a given state */
-BOOLEAN player_esta_xxx_plus( int fd, int condicion, int strict, PSPLAYER *j )
+bool player_esta_xxx_plus(int fd, PLAYER_STATUS state, bool strict, PSPLAYER *j)
 {
 	if( player_whoisfd( fd, j) == TEG_STATUS_SUCCESS ) {
 		if(strict)
-			return ((*j)->estado == condicion );
+			return ((*j)->estado == state );
 		else
-			return ((*j)->estado >= condicion );
+			return ((*j)->estado >= state );
 	} else
 		return FALSE;
 }
 
-/* quantity of countries per contient that a player has */
-TEG_STATUS player_listar_countries( PSPLAYER pJ, int *countries )
+void player_listar_countries( PSPLAYER pJ, int *countries )
 {
 	PLIST_ENTRY list;
 	PCOUNTRY pP;
@@ -455,11 +434,9 @@ TEG_STATUS player_listar_countries( PSPLAYER pJ, int *countries )
 
 		list = LIST_NEXT( list );
 	}
-	return TEG_STATUS_SUCCESS;
 }
 
-/* quantity of continents that a player has */
-TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret )
+void player_listar_conts( PSPLAYER pJ, unsigned long *ret )
 {
 	int countries[CONT_CANT];
 	int i;
@@ -467,13 +444,9 @@ TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret )
 	assert( pJ );
 	assert( ret );
 
-
 	memset( countries, 0, sizeof(countries) );
 
-
-	if( player_listar_countries( pJ, countries ) != TEG_STATUS_SUCCESS ) {
-		return TEG_STATUS_ERROR;
-	}
+	player_listar_countries( pJ, countries );
 
 	*ret = 0;
 
@@ -481,14 +454,9 @@ TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret )
 		if( countries[i] == g_conts[i].cant_countries)
 			*ret |= 1 << i;
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
-
-
-/* Initialize the start turn variables */
-TEG_STATUS player_clear_turn( PSPLAYER pJ )
+void player_clear_turn( PSPLAYER pJ )
 {
 	int i;
 
@@ -504,11 +472,8 @@ TEG_STATUS player_clear_turn( PSPLAYER pJ )
 		if( g_countries[i].numjug == pJ->numjug )
 			g_countries[i].ejer_reagrupe = 0;
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
-/* says the quantity of armies a player can place depending in the quantity of countries */
 int player_fichasc_cant( PSPLAYER pJ )
 {
 	assert( pJ );
@@ -519,8 +484,7 @@ int player_fichasc_cant( PSPLAYER pJ )
 		return pJ->tot_countries/2;
 }
 
-/* put all the players in a given state */
-TEG_STATUS player_all_set_status( PLAYER_STATUS estado )
+void player_all_set_status( PLAYER_STATUS estado )
 {
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ;
@@ -532,11 +496,9 @@ TEG_STATUS player_all_set_status( PLAYER_STATUS estado )
 		}
 		l = LIST_NEXT(l);
 	}
-	return TEG_STATUS_SUCCESS;
 }
 
-/* 'map' for player */
-TEG_STATUS player_map( jug_map_func func )
+void player_map(jug_map_func func)
 {
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ;
@@ -546,18 +508,17 @@ TEG_STATUS player_map( jug_map_func func )
 	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) ) {
 		pJ = (PSPLAYER) l;
 
-		/* I dont know what (func)() will do, so next now */
+		/* The function might remove the current element, so we determine the
+		 * next element now */
 		l = LIST_NEXT(l);
 
 		if( pJ->is_player ) {
 			(func)(pJ);
 		}
 	}
-	return TEG_STATUS_SUCCESS;
 }
 
-/* Tell if the player lost the game */
-BOOLEAN player_is_lost( PSPLAYER pJ )
+bool player_is_lost( PSPLAYER pJ )
 {
 	assert( pJ );
 
@@ -567,16 +528,13 @@ BOOLEAN player_is_lost( PSPLAYER pJ )
 	return 1;
 }
 
-/* Put the player in GAMEOVER state */
-TEG_STATUS player_poner_perdio( PSPLAYER pJ )
+void player_poner_perdio( PSPLAYER pJ )
 {
 	assert( pJ );
-	//assert( pJ->is_player == TRUE );
 
 	if( pJ->estado == PLAYER_STATUS_DESCONECTADO ) {
 		scores_insert_player( pJ );
 		player_delete_discon( pJ );
-		return TEG_STATUS_SUCCESS;
 	}
 
 	// We get called if a player's last country is conquered. If the player 
@@ -585,13 +543,10 @@ TEG_STATUS player_poner_perdio( PSPLAYER pJ )
 		g_game.playing--;
 
 	pJ->estado = PLAYER_STATUS_GAMEOVER;
-
-	return TEG_STATUS_SUCCESS;
 }
 
 
-/* Assigns a name to the player that does not conflict with another names */
-TEG_STATUS player_fillname( PSPLAYER pJ, char *name )
+void player_fillname( PSPLAYER pJ, char *name )
 {
 	PSPLAYER pJ_new;
 	char new_name [ PLAYERNAME_MAX_LEN ];
@@ -618,8 +573,6 @@ TEG_STATUS player_fillname( PSPLAYER pJ, char *name )
 		strncpy( pJ->name, new_name, sizeof(pJ->name)-1);
 		pJ->name[ sizeof(pJ->name) -1 ] = 0;
 	}
-
-	return TEG_STATUS_SUCCESS;
 }
 
 /* return a disconected player with the same name as pJ */

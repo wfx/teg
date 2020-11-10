@@ -21,10 +21,15 @@
 #include <string.h>
 #include <stdio.h>
 
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif /* HAVE_CONFIG_H */
+
+#include "fcintl.h"
+#include "net.h"
 #include "client.h"
+#include "protocol.h"
 
-
-/* sends message to all players (via server) */
 TEG_STATUS out_mensaje( char *msg )
 {
 	if( ESTADO_MENOR(PLAYER_STATUS_CONNECTED) )
@@ -46,7 +51,6 @@ TEG_STATUS out_id()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* tell the server which color I prefer */
 TEG_STATUS out_color( int color )
 {
 	if( ESTADO_MAYOR_IGUAL(PLAYER_STATUS_HABILITADO) )
@@ -56,7 +60,6 @@ TEG_STATUS out_color( int color )
 	return TEG_STATUS_SUCCESS;
 }
 
-/* tell the server that I quit the game */
 TEG_STATUS out_exit()
 {
 	if( ESTADO_MENOR(PLAYER_STATUS_CONNECTED) )
@@ -66,7 +69,6 @@ TEG_STATUS out_exit()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* ask server the countries' status */
 TEG_STATUS out_countries()
 {
 	if( ESTADO_MENOR(PLAYER_STATUS_CONNECTED) ) {
@@ -122,7 +124,6 @@ TEG_STATUS out_start()
 	return TEG_STATUS_NOTCONNECTED;
 }
 
-/* Sends to server a request for a 'get card' */
 TEG_STATUS out_tarjeta()
 {
 	if( ESTADO_MENOR(PLAYER_STATUS_ATAQUE) || ESTADO_MAYOR_IGUAL(PLAYER_STATUS_TARJETA) ) {
@@ -149,7 +150,6 @@ TEG_STATUS out_tropas( int src, int dst, int cant)
 	return TEG_STATUS_SUCCESS;
 }
 
-/* tells the server that my turn is over */
 TEG_STATUS out_endturn()
 {
 	PLAYER_STATUS e;
@@ -167,7 +167,6 @@ TEG_STATUS out_endturn()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* tells the server that I surrender */
 TEG_STATUS out_surrender()
 {
 	PLAYER_STATUS e;
@@ -180,7 +179,6 @@ TEG_STATUS out_surrender()
 	return TEG_STATUS_ERROR;
 }
 
-/* request the server my secret mission */
 TEG_STATUS out_missions()
 {
 	PLAYER_STATUS e;
@@ -195,7 +193,6 @@ TEG_STATUS out_missions()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* request the type of game */
 TEG_STATUS out_get_typeofgame()
 {
 	PLAYER_STATUS e;
@@ -210,7 +207,6 @@ TEG_STATUS out_get_typeofgame()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* Sets the Conquer-The-World option on/off, Fog of war on/off */
 TEG_STATUS out_set_typeofgame(int conqworld, int fog_of_war, int with_common, int armies1, int armies2)
 {
 	PLAYER_STATUS e;
@@ -231,7 +227,6 @@ TEG_STATUS out_set_typeofgame(int conqworld, int fog_of_war, int with_common, in
 	return TEG_STATUS_SUCCESS;
 }
 
-/* ask server what do I have to do (robots uses this) */
 TEG_STATUS out_loque( void )
 {
 	PLAYER_STATUS e;
@@ -242,40 +237,6 @@ TEG_STATUS out_loque( void )
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;
-}
-
-/* echo client (robots uses this) */
-TEG_STATUS out_echo( char *msg )
-{
-	PLAYER_STATUS e;
-
-	e = ESTADO_GET();
-	if( e >= PLAYER_STATUS_CONNECTED ) {
-		net_printf(g_game.fd,TOKEN_ECHO"=%s\n",msg);
-		return TEG_STATUS_SUCCESS;
-	}
-	return TEG_STATUS_ERROR;
-}
-
-/*Sends the protocol version, request the server version, send the client version */
-TEG_STATUS out_pversion()
-{
-	if( g_game.fd > 0 ) {
-		net_printf(g_game.fd,TOKEN_PVERSION"=%d,%d\n",PROTOCOL_HIVER,PROTOCOL_LOVER);
-		net_printf(g_game.fd,TOKEN_SVERSION"\n");
-		out_cversion();
-	}
-
-	return TEG_STATUS_SUCCESS;
-}
-
-/* sends client version */
-TEG_STATUS out_cversion()
-{
-	if( g_game.fd > 0 )
-		net_printf(g_game.fd,TOKEN_CVERSION"=%s %s\n",_("TEG client version "),VERSION);
-
-	return TEG_STATUS_SUCCESS;
 }
 
 /* ask for scores */

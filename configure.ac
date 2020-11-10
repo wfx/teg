@@ -15,6 +15,7 @@ AC_PROG_CXX
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
 
+AX_CXX_COMPILE_STDCXX(17, [ext])
 
 dnl
 dnl Common libraries for the server, client & robot
@@ -26,7 +27,6 @@ AC_SUBST(TEG_COMMONLIBS_LIBS)
 AC_SUBST(XML_CFLAGS)
 AC_SUBST(XML_LIBS)
 AC_SUBST(MSGFMT_OPTS)
-
 
 dnl Evaluate options. Example:
 AC_ARG_ENABLE(debug,
@@ -167,18 +167,24 @@ if test -n "$WITH_EFENCE"; then
   fi])
 fi
 
+if test -r .gitignore ; then
+    SLEEP=true
+else
+    SLEEP=sleep
+fi
+
 dnl Chequear si tiene empanadas.
 AC_MSG_CHECKING([whether you have Empanadas de carne criolla])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Super!)
 AC_MSG_CHECKING([whether you have Empanadas de verdura])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Cool!)
 AC_MSG_CHECKING([whether you have Empanadas de jamon y queso])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Buenichimo!)
 AC_MSG_CHECKING([whether you have Empanadas de carne picante])
-sleep 1
+$SLEEP 1
 AC_MSG_RESULT(Yeah!)
 
 

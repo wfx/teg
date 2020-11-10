@@ -33,10 +33,17 @@
 #include <errno.h>
 #include <string.h>
 
-#include "server.h"
-#include "scores.h"
-#include "xmlscores.h"
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif
 
+
+#include "server.h"
+#include "../common/scores.h"
+#include "xmlscores.h"
+#include "../common/version.h"
+#include "../common/fcintl.h"
+#include "../common/tegdebug.h"
 
 #define MAIN_DEBUG PDEBUG
 
@@ -147,7 +154,6 @@ void game_init()
 	g_game.fichas2 = 3;
 	g_game.mission = FALSE;
 	g_game.cmission = TRUE;
-	g_game.reglas = TEG_RULES_TEG;
 	g_game.fog_of_war = FALSE;
 	g_game.player_fow = NULL;
 
@@ -355,6 +361,7 @@ void argument_init( int argc, char **argv)
 	}
 }
 
+#ifndef TEGSERVER_OMIT_MAIN
 int main( int argc, char **argv)
 {
 	init_nls();
@@ -387,3 +394,4 @@ int main( int argc, char **argv)
 
 	return 1;
 }
+#endif

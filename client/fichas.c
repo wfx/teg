@@ -17,13 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file fichas.c
- * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_FICHAS'
- */
 
 #include <stdio.h>
 #include <string.h>
+
+#include "fcintl.h"
+#include "protocol.h"
 #include "client.h"
 
 static int	aFichas[COUNTRIES_CANT];	/**< array de los countries */
@@ -49,11 +48,6 @@ TEG_STATUS fichas_check()
 		return TEG_STATUS_ERROR;
 }
 
-/**
- * @fn TEG_STATUS add_fichas( PCOUNTRY p )
- * llamada desde la 'gui' y recuerda los countries que se fueron agregando
- * @params p country que se esta agregando
- */
 TEG_STATUS fichas_add( PCOUNTRY p )
 {
 	if( fichas_check() != TEG_STATUS_SUCCESS ) {
@@ -79,11 +73,6 @@ TEG_STATUS fichas_add( PCOUNTRY p )
 	}
 }
 
-/**
- * @fn TEG_STATUS sub_fichas( PCOUNTRY p )
- * llamada desde la 'gui' y recuerda los countries que se fueron agregando
- * @params p country que se esta agregando
- */
 TEG_STATUS fichas_sub( PCOUNTRY p )
 {
 	if( fichas_check() != TEG_STATUS_SUCCESS ) {
@@ -106,13 +95,6 @@ TEG_STATUS fichas_sub( PCOUNTRY p )
 	}
 }
 
-/**
- * @fn TEG_STATUS finish_fichas( int cant, int **ptr )
- * Funcion llamada cuando uno 'cree' que ya puso todas las fichas
- * @params cant Cantidad de fichas que tiene que haber
- * @params ptr Puntero al array
- * @return TEG_STATUS_SUCCESS si las fichas estan bien puestas
- */
 TEG_STATUS fichas_finish( int **ptr )
 {
 	int i,c;
@@ -133,12 +115,7 @@ TEG_STATUS fichas_finish( int **ptr )
 	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @fn TEG_STATUS init_fichas()
- * Llamada antes de empezar a poner fichas
- * @return TEG_STATUS_SUCCESS (siempre)
- */
-TEG_STATUS fichas_init(int cant, int conts)
+void fichas_init(int cant, int conts)
 {
 	int i;
 	for(i=0;i<COUNTRIES_CANT;i++)
@@ -148,25 +125,14 @@ TEG_STATUS fichas_init(int cant, int conts)
 	fichas_tot = 0;
 	wanted_tot = cant;
 	wanted_conts = conts;
-
-	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @fn void fichas_add_wanted( int i )
- * Si hace un canje, entonces se van a poder poner mas fichas
- */
 void fichas_add_wanted( int i )
 {
 	wanted_tot += i ;
 }
 
-/**
- * @fn TEG_STATUS reset_fichas()
- * Si hay un error, se llama esta funcion que hace que empiece todo de nuevo
- * @return TEG_STATUS_SUCCESS (siempre)
- */
-TEG_STATUS fichas_reset()
+void fichas_reset()
 {
 	int i;
 
@@ -180,7 +146,6 @@ TEG_STATUS fichas_reset()
 		aConts[i] = 0;
 
 	fichas_tot = 0;
-	return TEG_STATUS_SUCCESS;
 }
 
 TEG_STATUS fichas_restore_from_error()
@@ -210,10 +175,6 @@ TEG_STATUS fichasc_restore_from_error()
 	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @fn TEG_STATUS fichas_out()
- * Envia las fichas al server. Usada por FICHAS, FICHAS2 y FICHASC
- */
 TEG_STATUS fichas_out()
 {
 	char buf[2000];
@@ -309,9 +270,8 @@ TEG_STATUS fichas_leave( PCOUNTRY p )
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS fichas_get_wanted( int *cant, int *conts )
+void fichas_get_wanted( int *cant, int *conts )
 {
 	*cant = wanted_tot - cont_tot(wanted_conts);
 	*conts = wanted_conts;
-	return TEG_STATUS_SUCCESS;
 }

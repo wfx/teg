@@ -17,13 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/*
- * Version del teg
- */
 
-#ifndef __TEG_VERSION_H
-#define __TEG_VERSION_H
+#pragma once
+
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif /* HAVE_CONFIG_H */
 
 #define TEG_NAME PACKAGE
-
-#endif  /* __TEG_VERSION_H */

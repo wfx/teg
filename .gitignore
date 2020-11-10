@@ -59,3 +59,4 @@ config.sub
 depcomp
 install-sh
 missing
+test-driver

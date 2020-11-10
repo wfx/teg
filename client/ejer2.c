@@ -17,19 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file ejer2.c
- * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_EJER2'
- */
 
+#include "net.h"
+#include "protocol.h"
+#include "fcintl.h"
 #include "client.h"
 
 static int last_country = -1;
 
-/**
- * @fn TEG_STATUS ejer2_out( int country )
- * Pone 2 ejercitos por la tarjeta que saco
- */
 TEG_STATUS ejer2_out( int country )
 {
 	if( g_countries[ country ].numjug == WHOAMI() ) {

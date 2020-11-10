@@ -42,12 +42,6 @@ int ai_puntaje[COUNTRIES_CANT*10];
 int ai_sorted[COUNTRIES_CANT*10];
 static int attack_dst[COUNTRIES_CANT];
 
-
-/**
- * @fn TEG_STATUS ai_puntaje_sort( int cant )
- * Pone los 'cant' puntajes mas altos en sorted.
- * Puede que uno este varias veces.
- */
 TEG_STATUS ai_puntaje_sort(int cant)
 {
 	int i,j;
@@ -86,17 +80,11 @@ TEG_STATUS ai_puntaje_sort_for_attack()
 	return TEG_STATUS_SUCCESS;
 }
 
-
-/**
- * @fn TEG_STATUS ai_puntaje_clean()
- */
-TEG_STATUS ai_puntaje_clean()
+void ai_puntaje_clean()
 {
 	int i;
 	for(i=0;i<COUNTRIES_CANT;i++)
 		ai_puntaje[i] = -10000;
-
-	return TEG_STATUS_SUCCESS;
 }
 
 /**
@@ -131,10 +119,6 @@ BOOLEAN ai_is_country_border( int p )
 	return FALSE;
 }
 
-/**
- * @fn BOOLEAN ai_own_contienent( int c )
- * Dice si soy owner de un continente
- */
 BOOLEAN ai_own_continent( int c )
 {
 	int i;
@@ -149,10 +133,6 @@ BOOLEAN ai_own_continent( int c )
 
 }
 
-
-/**
- * @fn TEG_STATUS ai_init()
- */
 TEG_STATUS ai_init()
 {
 	ai_puntaje_clean();
@@ -282,10 +262,6 @@ TEG_STATUS ai_puntaje_atacar( int country )
 	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @fn TEG_STATUS ai_turno()
- * Hace los attacks correspondientes
- */
 TEG_STATUS ai_turno()
 {
 	int i;
@@ -368,9 +344,6 @@ TEG_STATUS __ai_reagrupe( int  p, int cant )
 	return TEG_STATUS_ERROR;
 }
 
-/**
- * @fn TEG_STATUS ai_reagrupe()
- */
 TEG_STATUS ai_reagrupe()
 {
 	int i,p;
@@ -391,10 +364,6 @@ TEG_STATUS ai_reagrupe()
 	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @fn TEG_STATUS ai_tropas(int src, int dst, int cant)
- * Move armies from my counry to the new conquered country
- */
 TEG_STATUS ai_tropas(int src, int dst, int cant)
 {
 	int i;
@@ -415,10 +384,6 @@ TEG_STATUS ai_tropas(int src, int dst, int cant)
 	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @fn TEG_STATUS ai_puedocanje( int *p1, int *p2, int *p3 )
- * Dice si se puede hacer canje, y con que tarjetas si se puede
- */
 TEG_STATUS ai_puedocanje( int *p1, int *p2, int *p3 )
 {
 	return canje_puedo( p1,p2,p3);

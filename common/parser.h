@@ -21,8 +21,13 @@
  * Estructura del parser
  */
 
-#ifndef __PARSER_H
-#define __PARSER_H
+#pragma once
+
+#include <stdbool.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define PARSER_TOKEN_MAX 1024
 #define PARSER_VALUE_MAX 1024
@@ -33,35 +38,21 @@ typedef struct _DELIM {
 	char c;
 } DELIM, *PDELIM;
 
-#define DELIM_EQ1 {'=','=','='}
-#define DELIM_FI1 {';',';',';'}
-
-#define DELIM_EQ2 {':',':',':'}
-#define DELIM_FI2 {',',',',','}
-
-#define DELIM_EQ3 {'|','|','|'}
-#define DELIM_FI3 {'/','/','/'}
-
-#define DELIM_NULL {'\0','\0','\0'}
-
 typedef struct {
-	char *data; 
-	int hay_otro;
+	char const *data;
+	int can_continue;
 	char token[PARSER_TOKEN_MAX];
 	char value[PARSER_VALUE_MAX];
-	PDELIM igualador;
-	PDELIM separador;
+	DELIM const *equals;
+	DELIM const *separators;
 } PARSER, *PPARSER;
 
-typedef enum {
-	PARSER_FIN,
-	PARSER_SEPARADOR,
-	PARSER_IGUAL,
-	PARSER_DATA,
-	PARSER_ERROR
-} PARSER_VALUE, *PPARSER_VALUE;
+/**
+ * @brief Parse an input string into the command token and optional value token.
+ * @return true if the parse succeded, false otherwise.
+ */
+bool parser_parse(PPARSER);
 
-/* Unica funcion publica del parser */
-int parser_call( PPARSER );
-
-#endif /* __PARSER_H */
+#ifdef __cplusplus
+}
+#endif

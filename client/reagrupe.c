@@ -22,7 +22,9 @@
  * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_REAGRUPE'
  */
 
+#include "fcintl.h"
 #include "client.h"
+#include "protocol.h"
 
 static int country_origen = -1;
 static int country_destino = -1;
@@ -43,7 +45,7 @@ TEG_STATUS reagrupe_check( void )
 		return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS reagrupe_click( PCOUNTRY p )
+TEG_STATUS reagrupe_click(PCOUNTRY p)
 {
 	if( reagrupe_check() != TEG_STATUS_SUCCESS ) {
 		textmsg(M_ERR,_("Error, It's not the time to regroup"));
@@ -99,7 +101,7 @@ TEG_STATUS reagrupe_click( PCOUNTRY p )
 	return TEG_STATUS_SUCCESS;
 }
 
-void reagrupe_reset( void )
+void reagrupe_reset(void)
 {
 	if( country_origen != -1 ) {
 		g_countries[country_origen].selected &= ~COUNTRY_SELECT_REGROUP;
@@ -114,7 +116,7 @@ void reagrupe_reset( void )
 	}
 }
 
-void reagrupe_bigreset( void )
+void reagrupe_bigreset(void)
 {
 	int i;
 
@@ -127,7 +129,7 @@ void reagrupe_bigreset( void )
 	last_cant = 0;
 }
 
-TEG_STATUS reagrupe_init( void )
+TEG_STATUS reagrupe_init(void)
 {
 	attack_reset();
 
@@ -139,26 +141,14 @@ TEG_STATUS reagrupe_init( void )
 	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @fn TEG_STATUS reagrupe_set_and_save( int src, int dst, int cant )
- * Funcion usada para setear el ejer_reagrupe y si hay algun error
- * en el envio luego restaura
- */
-TEG_STATUS reagrupe_set_and_save( int src, int dst, int cant )
+void reagrupe_set_and_save(int src, int dst, int cant)
 {
 	last_origen = src;
 	last_destino = dst;
 	last_cant = cant;
 	g_countries[ dst ].ejer_reagrupe += cant;
-
-	return TEG_STATUS_SUCCESS;
 }
 
-/**
- * @ TEG_STATUS reagrupe_restore_from_error( void )
- * Si hubo algun error en el envio del reagrupe, esto se encarga
- * de restorear el ejer_reagrupe
- */
 TEG_STATUS reagrupe_restore_from_error( void )
 {
 	if( last_origen != -1 && last_destino != -1 && last_cant >= 0) {
@@ -170,11 +160,7 @@ TEG_STATUS reagrupe_restore_from_error( void )
 
 }
 
-/**
- * @fn TEG_STATUS reagrupe_out()
- * Envia ejercitos que se estan reagrupando
- */
-TEG_STATUS reagrupe_out( int src, int dst, int cant)
+TEG_STATUS reagrupe_out(int src, int dst, int cant)
 {
 	PLAYER_STATUS e;
 

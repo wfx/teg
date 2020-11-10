@@ -15,4 +15,13 @@ mkdir "$BUILD_DIR"
 cd "$BUILD_DIR"
 echo '*' > .gitignore
 "$HERE/configure" --enable-maintainer-mode --prefix=$PWD/DD "CFLAGS=-Wall -Wextra"
-make -j$(nproc)
+
+set +e
+# We need to do some work regardless if make succeedes or fails. So here we
+# don't stop on a failure, but preserve the exit code for later usage.
+make all check
+EXIT_CODE="$?"
+set -e
+
+grep . teg*test.log
+exit "$EXIT_CODE"

@@ -17,11 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file cont.c
- */
 
-#include "all.h"
+#include "cont.h"
+
+#include <stdlib.h>
+
+#include "fcintl.h"
 
 CONT g_conts[] = {
 	{ N_("South America"), CONTINENTE_AMERICASUR, CONT_AMERICASUR_CANT, 3 },
@@ -33,19 +34,12 @@ CONT g_conts[] = {
 };
 #define NRCONTS ( sizeof(g_conts) /sizeof(g_conts[0]) )
 
-/**
- * @fn int cont_tot( unsigned long  conts )
- * return the total armies that one must place in a continent
- * @param conts Continenet bit-or-wised
- * @return cantidad de fichas que hay que poner
- */
 int cont_tot( unsigned long conts )
 {
 	int max;
-	int i;
 
 	max = 0;
-	for(i=0;i<NRCONTS;i++) {
+	for(size_t i=0; i<NRCONTS; i++) {
 		if( conts & 1 ) {
 			max += g_conts[i].fichas_x_cont;
 		}
@@ -55,13 +49,10 @@ int cont_tot( unsigned long conts )
 	return max;
 }
 
-/* returns the name of a country */
-char * cont_get_name( int i )
+char const* cont_get_name(unsigned i)
 {
-	static char *_unknown = N_("Unknown");
-
-	if( i >= 0 && i < NRCONTS )
+	if(i < NRCONTS )
 		return _( g_conts[i].name );
 	else
-		return _( _unknown );
+		return _("Unknown");
 }

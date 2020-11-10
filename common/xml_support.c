@@ -20,6 +20,8 @@
 
 #include "xml_support.h"
 
+#include <assert.h>
+
 xmlNodePtr xml_get_element_children( xmlNodePtr cur )
 {
 	xmlNodePtr ret;
@@ -42,4 +44,12 @@ xmlNodePtr xml_get_element_next( xmlNodePtr cur )
 		ret = ret->next;
 
 	return ret;
+}
+
+void add_numeric_attribute(xmlNodePtr node, char const* name, int number)
+{
+	char buf[22]; // enough for a 64bit integer with sign and zero terminator
+	int res = snprintf(buf, sizeof(buf), "%d", number);
+	assert((res > 0) && (res < sizeof(buf)));
+	xmlSetProp(node, (xmlChar*)name, (xmlChar*)buf );
 }

@@ -17,17 +17,33 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file missions.h
- */
 
-#ifndef __TEGS_MISSIONS_H
-#define __TEGS_MISSIONS_H
+#pragma once
 
-TEG_STATUS mission_chequear( PSPLAYER pJ );
-TEG_STATUS mission_asignar( PSPLAYER pJ );
-TEG_STATUS mission_init();
-TEG_STATUS mission_set( int a );
-TEG_STATUS mission_common_mission( int a );
+#include <stdbool.h>
 
-#endif /* __TEGS_MISSIONS_H */
+#include "../common/common.h"
+#include "player.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/// \brief Does player pJ accomplished his secret mission ?
+TEG_STATUS mission_chequear(PSPLAYER pJ);
+
+/// \brief Assigns a secret mission to player pJ
+TEG_STATUS mission_asignar(PSPLAYER pJ);
+
+/// \brief Initialize the secret missions datastructure
+void mission_init();
+
+/// \brief sets the option: play to conquer the world, or with secret missions
+TEG_STATUS mission_set(bool a);
+
+/// \brief Enables/Disables playing with common secret mission
+TEG_STATUS mission_common_mission(bool a);
+
+#ifdef __cplusplus
+}
+#endif

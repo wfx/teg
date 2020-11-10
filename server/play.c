@@ -26,9 +26,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+#ifdef HAVE_CONFIG_H
+#	include <config.h>
+#endif
+
 #include "server.h"
+#include "tegdebug.h"
 #include "xmlscores.h"
 #include "fow.h"
+#include "fcintl.h"
+#include "parser.h"
 
 #undef DEBUG_PLAY
 #define PLAY_DEBUG PDEBUG
@@ -64,7 +72,6 @@ STATIC TEG_STATUS token_ejer2(int, char *);
 STATIC TEG_STATUS token_mission(int, char *);
 STATIC TEG_STATUS token_color(int, char*);
 STATIC TEG_STATUS token_loque(int, char*);
-STATIC TEG_STATUS token_echo(int, char*);
 STATIC TEG_STATUS token_surrender(int, char*);
 STATIC TEG_STATUS token_set(int, char*);
 STATIC TEG_STATUS token_scores(int, char*);
@@ -104,7 +111,6 @@ struct {
 	{ TOKEN_MISSION,	token_mission,	N_("request a mission") },
 	{ TOKEN_COLOR,		token_color,	N_("to select a color") },
 	{ TOKEN_LOQUE,		token_loque,	N_("to remind me what to do") },
-	{ TOKEN_ECHO,		token_echo,	N_("to set an async callback") },
 	{ TOKEN_SURRENDER,	token_surrender,N_("to surrender") },
 	{ TOKEN_SET,		token_set,	N_("to set options") },
 	{ TOKEN_SCORES,		token_scores,	N_("to show the highscores") },
@@ -127,21 +133,6 @@ STATIC TEG_STATUS token_set( int fd, char *str )
 
 error:
 	net_print(fd,TOKEN_ERROR"="TOKEN_SET"\n");
-	return TEG_STATUS_PARSEERROR;
-}
-
-/* Sends the player the message he requested. Usefull as callback */
-STATIC TEG_STATUS token_echo( int fd, char *msg )
-{
-	PSPLAYER pJ;
-	if( player_whoisfd(fd, &pJ )!=TEG_STATUS_SUCCESS || strlen(msg)==0 )
-		goto error;
-
-	net_printf(fd,"%s\n",msg);
-	return TEG_STATUS_SUCCESS;
-
-error:
-	net_print(fd,TOKEN_ERROR"="TOKEN_ECHO"\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -347,23 +338,23 @@ STATIC TEG_STATUS token_playerid( int fd, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	memset( &j, 0, sizeof(SPLAYER));
 
 	/* averigua el name */
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 			player_fillname( &j, p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		j.is_player = atoi( p.token );		
 	} else
 		goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		j.human = atoi( p.token );		
 	} else
 		goto error;
@@ -485,7 +476,7 @@ STATIC TEG_STATUS token_fichasc( int fd, char *str )
 	total_armies = pJ->fichasc_armies + cont_tot(pJ->fichasc_conts);
 
 	if( pJ->hizo_canje )
-		total_armies += cuantos_x_canje( pJ->tot_exchanges );
+		total_armies += cards_for_this_exchange( pJ->tot_exchanges );
 
 	if( aux_token_fichas( fd, str, total_armies, pJ->fichasc_conts) == TEG_STATUS_SUCCESS ) {
 
@@ -560,15 +551,15 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 		} else goto error;
 	}
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		dst = atoi( p.token );		
 	} else goto error;
 
@@ -640,8 +631,8 @@ STATIC TEG_STATUS token_attack( int fd, char *str )
 	}
 
 	/* update the scores */
-	stats_score( &pJ_src->player_stats );
-	stats_score( &pJ_dst->player_stats );
+	stats_score( &pJ_src->player_stats, g_conts );
+	stats_score( &pJ_dst->player_stats, g_conts );
 
 	/* tell everybody the result of the attack */
 
@@ -720,19 +711,19 @@ STATIC TEG_STATUS token_tropas( int fd, char *str )
 	if( !SPLAYER_TROPAS_P(fd,&pJ) || strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		dst = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );		
 	} else goto error;
 
@@ -913,11 +904,11 @@ STATIC TEG_STATUS token_ejer2( int fd, char *str )
 	if( j->estado != PLAYER_STATUS_TARJETA )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		country = atoi( p.token );		
 	} else goto error;
 
@@ -966,19 +957,19 @@ STATIC TEG_STATUS token_canje( int fd, char *str )
 	if( pJ->estado != PLAYER_STATUS_FICHASC )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		t1 = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		t2 = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		t3 = atoi( p.token );		
 	} else goto error;
 
@@ -992,7 +983,7 @@ STATIC TEG_STATUS token_canje( int fd, char *str )
 	pJ->tot_exchanges++;
 	pJ->tot_cards -= 3;
 
-	canj_ejer = cuantos_x_canje( pJ->tot_exchanges );
+	canj_ejer = cards_for_this_exchange( pJ->tot_exchanges );
 
 	/* quitarle las tarjetas al player | mark the cards as unused*/
 	tarjeta_poner( &g_countries[t1].tarjeta );
@@ -1031,20 +1022,20 @@ STATIC TEG_STATUS token_regroup( int fd, char *str )
 	if( pJ->estado < PLAYER_STATUS_TURNOSTART || pJ->estado > PLAYER_STATUS_REAGRUPE)
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		src = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		dst = atoi( p.token );
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		cant = atoi( p.token );
 	} else goto error;
 
@@ -1150,11 +1141,11 @@ STATIC TEG_STATUS token_countries( int fd, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		i = atoi( p.token );		
 	} else
 		goto error;
@@ -1309,15 +1300,15 @@ STATIC TEG_STATUS token_pversion( int fd, char *str )
 	if( strlen(str)==0 )
 		goto error;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
-	if( parser_call( &p ) && p.hay_otro ) {
+	if( parser_parse( &p ) && p.can_continue ) {
 		hi = atoi( p.token );		
 	} else goto error;
 
-	if( parser_call( &p ) && !p.hay_otro ) {
+	if( parser_parse( &p ) && !p.can_continue ) {
 		lo = atoi( p.token );		
 	} else goto error;
 
@@ -1340,7 +1331,6 @@ error:
 	return TEG_STATUS_PARSEERROR;
 }
 
-/* Quit TEG */
 TEG_STATUS token_exit( int fd )
 {
 	PSPLAYER pJ;
@@ -1417,8 +1407,8 @@ TEG_STATUS play_teg( int fd )
 	DELIM igualador={ '=', '=', '=' };
 	DELIM separador={ ';', ';', ';' };
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 
 	str[0]=0;
 
@@ -1445,12 +1435,12 @@ TEG_STATUS play_teg( int fd )
 	p.data = str;
 
 	do {
-		if( (i=parser_call( &p )) ) {
+		if( (i=parser_parse( &p )) ) {
 			if( token_lookup( fd,&p ) == TEG_STATUS_CONNCLOSED ) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while( i && p.hay_otro);
+	} while( i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
 }

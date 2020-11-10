@@ -17,37 +17,69 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file player.h
- */
 
-#ifndef __TEGC_CPLAYER_H
-#define __TEGC_CPLAYER_H
+#pragma once
+
+#include "../common/common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef struct _player {
 	LIST_ENTRY next;
-	char name[PLAYERNAME_MAX_LEN];
-	char addr[PLAYERADDR_MAX_LEN];
+	char name[PLAYERNAME_MAX_LEN]; ///< Player name
+	char addr[PLAYERADDR_MAX_LEN]; ///< server address
 	int color;
-	int score;
-	int numjug;
-	PLAYER_STATUS estado;
-	int tot_countries;
-	int tot_armies;
-	int tot_cards;
-	int empezo_turno;		/* dice si empezo el turno */
-	int human;
+	int score; ///< final score
+	int numjug; ///< player number
+	PLAYER_STATUS estado; ///< current game state
+	int tot_countries; ///< \todo find out what the meaning of this field is
+	int tot_armies; ///< \todo find out what the meaning of this field is
+	int tot_cards; ///< \todo find out what the meaning of this field is
+	int empezo_turno; ///< did this player start the turn?
+	int human; ///< is this a human?
 } CPLAYER, *PCPLAYER;
 
 
-/* funciones exportadas */
+/// Client game state
 extern LIST_ENTRY g_list_player;
 
-TEG_STATUS player_whois( int numjug, PCPLAYER *j);
-TEG_STATUS player_update( PCPLAYER j );
-PCPLAYER player_ins( PCPLAYER j);
-TEG_STATUS player_del( PCPLAYER j );
-TEG_STATUS player_flush();
-TEG_STATUS player_init();
+/**
+ * \brief Fill in the details for the player with number \p numjug into the
+ * structure \p j.
+ *
+ * \return TEG_STATUS_SUCCESS if successfull
+ *         TEG_STATUS_PLAYERNOTFOUND if the player number is not assigned.
+ */
+TEG_STATUS player_whois(int numjug, PCPLAYER *j);
 
-#endif /* __TEGC_CPLAYER_H */
+/// \todo: find out if this function does something usefull
+TEG_STATUS player_update(PCPLAYER j);
+
+/**
+ * Insert the player \p j into the list of all players
+ */
+void player_ins(PCPLAYER j);
+
+/**
+ * Removes the player \p j from the player list.
+ *
+ * \warning The \p j storage space is freed, so don't access the value
+ *          afterwards.
+ */
+void player_del(PCPLAYER j);
+
+/// Remove all players from the player list
+void player_flush(void);
+
+/** Initializes the player list
+ *
+ * \warning When you call this function with an active player list, you get a
+ *          ressource leak since the old list items become unfreeable
+ */
+void player_init(void);
+
+#ifdef __cplusplus
+}
+#endif

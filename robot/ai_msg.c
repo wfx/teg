@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#include "fcintl.h"
+#include "protocol.h"
 #include "client.h"
 #include "ai_msg.h"
 

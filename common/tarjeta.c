@@ -25,13 +25,25 @@
 #include "tarjeta.h"
 
 #include <stdbool.h>
+#include <stddef.h>
 
 #include "country.h"
 
-static bool card_belongs_to_player(int player, int country)
+bool card_belongs_to_player(int player, int country)
 {
 	return countrynumber_is_valid(country)
 	       && g_countries[country].tarjeta.numjug == player;
+}
+
+bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
+{
+	TARJTIPO result = a | b | c;
+
+	return (result & TARJ_COMODIN) // at least one joker
+	        || (result == TARJ_GALEON)
+	        || (result == TARJ_CANION)
+	        || (result == TARJ_GLOBO)
+	        || (result == (TARJ_GALEON | TARJ_CANION | TARJ_GLOBO));
 }
 
 /**
@@ -40,21 +52,15 @@ static bool card_belongs_to_player(int player, int country)
  */
 BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
 {
-	int result;
-
 	/* chequear que las tarjetas sean del jugador */
 	if(!(card_belongs_to_player(numjug, t1)&&
 	     card_belongs_to_player(numjug, t2) &&
 	     card_belongs_to_player(numjug, t3) ))
 		return FALSE;
 
-	result = g_countries[t1].tarjeta.tarjeta + g_countries[t2].tarjeta.tarjeta + g_countries[t3].tarjeta.tarjeta ;
-
-	return ( result > TARJ_COMODIN || 
-		result==TARJ_CANION + TARJ_GLOBO + TARJ_GALEON ||
-		result==TARJ_CANION * 3 ||
-		result==TARJ_GLOBO * 3 ||
-		result==TARJ_GALEON * 3 );
+	return can_trade_cards(g_countries[t1].tarjeta.tarjeta,
+	                       g_countries[t2].tarjeta.tarjeta,
+	                       g_countries[t3].tarjeta.tarjeta);
 }
 
 void tarjeta_init( void )

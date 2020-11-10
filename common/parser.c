@@ -34,105 +34,110 @@
  *	"Hola=343=534"
 */
 
+#include "parser.h"
+#include "parser_private.h"
+
 #include <ctype.h>
 #include <stdio.h>
-#include "all.h"
 
-DELIM delim_null={ '\0', '\0', '\0' };
-
-/* Que tipo de char es? */
-static PARSER_VALUE que_es( char a, PDELIM igualador, PDELIM separador )
+bool parser_belongs_to_class(char ch, DELIM const* which)
 {
-	if( a==0 || a=='\n' || a=='\r' )
-		return PARSER_FIN;
-	if( a==igualador->a || a==igualador->b || a==igualador->c )
-		return PARSER_IGUAL;
-	if( a==separador->a || a==separador->b || a==separador->c )
-		return PARSER_SEPARADOR;
-
-	return PARSER_DATA;
+	if (which == NULL)
+		return false;
+	return (which->a == ch)
+	        || (which->b == ch)
+	        || (which->c == ch);
 }
 
+DELIM const delim_fin = {0, '\n', '\r'};
+enum CharClass parser_character_class(char a,
+                                      DELIM const* igualador,
+                                      DELIM const* separador)
+{
+	if(parser_belongs_to_class(a, &delim_fin))
+		return ccEnd;
+	if(parser_belongs_to_class(a, igualador))
+		return ccEquals;
+	if(parser_belongs_to_class(a, separador))
+		return ccSeparators;
 
-static PARSER_VALUE 
-analiza( int *pos,		/* En que pos corto la cadena */
-	char *in,		/* Cadena de entrada */ 
-	char *out,		/* Cadena de salida */
-	PDELIM igualador,	/* Igualadores */
-	PDELIM separador,	/* Separadores */
-	int maxlen
-	)
+	return ccData;
+}
+
+PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
+    DELIM const* equals, DELIM const* separators, int maxlen)
 {
 	PARSER_VALUE pval=PARSER_DATA;
 	int i,j;
-	int quote=0;
+	bool in_escape = false;
 	
-	out[0]=0;
-
-	/* copia data */
+	// Analyzing the input string, copy data characters obeying escaped values.
 	for(i=0,j=0;i<maxlen;i++) {
 		if( in[i] == '"' ) {
-			quote = ! quote;
+			in_escape = !in_escape;
 			continue;
 		}
 
-		if( ! quote ) {
-			if( (pval=que_es(in[i],igualador,separador)) != PARSER_DATA )
+		if(!in_escape) {
+			pval=(PARSER_VALUE)parser_character_class(in[i], equals, separators);
+			if(pval != PARSER_DATA) {
 				break;
+			}
 		}
 
 		out[j++]=in[i];
-		out[j]=0;
 	}
+	out[j]=0;
 
-	/* se termino de copiar en la pos i */
-	if(i==PARSER_TOKEN_MAX) {
+	// Check if the input end was reached without a terminating symbol
+	if(i==maxlen) {
 		return PARSER_ERROR;
 	}
-	*pos=i;
+
+	*pos=i; // signal the new input position to the caller
 	return pval;
 }
 
 /* Unica funcion exportable */
-int parser_call( PPARSER p_in )
+bool parser_parse( PPARSER p_in )
 {
 	PARSER_VALUE pval;
 	int i;
 
-	if( (pval=analiza( &i, p_in->data, p_in->token, p_in->igualador, p_in->separador,PARSER_TOKEN_MAX )) == PARSER_ERROR )
-		return FALSE;
+	if( (pval=parser_analyze_token( &i, p_in->data, p_in->token, p_in->equals, p_in->separators,PARSER_TOKEN_MAX )) == PARSER_ERROR )
+		return false;
 	
 	p_in->value[0]=0;
 
 	switch(pval) {
 	case PARSER_FIN:
 		p_in->data=NULL;
-		p_in->hay_otro=FALSE;
-		return TRUE;
+		p_in->can_continue = false;
+	    return true;
 
 	case PARSER_SEPARADOR:
 		p_in->data=&p_in->data[i+1];
-		p_in->hay_otro=TRUE;
-		return TRUE;
+		p_in->can_continue = true;
+	    return true;
 
 	case PARSER_IGUAL:
 	{
 		int j;
-		pval = analiza( &j, &p_in->data[i+1], p_in->value, &delim_null, p_in->separador, PARSER_VALUE_MAX );
+		pval = parser_analyze_token( &j, &p_in->data[i+1], p_in->value, NULL, p_in->separators, PARSER_VALUE_MAX );
 
 		if( pval==PARSER_IGUAL || pval==PARSER_ERROR )
-			return FALSE;
+			return false;
 
 		if( pval==PARSER_SEPARADOR ) {
 			p_in->data = &p_in->data[j+1 + i+1];
-			p_in->hay_otro=TRUE;
+			p_in->can_continue = true;
 		} else { /* PARSER_FIN */
 			p_in->data = NULL;
-			p_in->hay_otro=FALSE;
+			p_in->can_continue = false;
 		}
-		return TRUE;
+		return true;
 	}
 	default:
-		return FALSE;
+	    return false;
 	}	
 }

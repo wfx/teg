@@ -26,8 +26,7 @@
 
 LIST_ENTRY g_list_player;
 
-/* given a player_number (numjug), it returns a pointer to the PLAYER */
-TEG_STATUS player_whois( int numjug, PCPLAYER *j)
+TEG_STATUS player_whois(int numjug, PCPLAYER *j)
 {
 	PLIST_ENTRY l = g_list_player.Flink;
 	PCPLAYER pJ;
@@ -43,8 +42,7 @@ TEG_STATUS player_whois( int numjug, PCPLAYER *j)
 	return TEG_STATUS_PLAYERNOTFOUND;
 }
 
-/* updates status of the player */
-TEG_STATUS player_update( PCPLAYER j )
+TEG_STATUS player_update(PCPLAYER j)
 {
 	PCPLAYER i;
 
@@ -59,34 +57,29 @@ error:
 	return TEG_STATUS_PLAYERNOTFOUND;
 }
 
-/* insers a player to the list */
-PCPLAYER player_ins( PCPLAYER j)
+void player_ins(PCPLAYER j)
 {
 	PCPLAYER new = (PCPLAYER) malloc( sizeof(CPLAYER) );
 	if( new==NULL)
-		return NULL;
+		return;
 
 	memmove( new, j, sizeof(CPLAYER));
 	InitializeListHead( &new->next );
 	InsertTailList( &g_list_player, (PLIST_ENTRY) new );
 
 	g_game.playeres++;
-	return new;
 }
 
-/* deletes a player from the list */
-TEG_STATUS player_del( PCPLAYER pJ )
+void player_del(PCPLAYER pJ)
 {
 	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
 
 	l = RemoveHeadList( l->Blink );
 	free( l );
 	g_game.playeres--;
-	return TEG_STATUS_SUCCESS;
 }
 
-/* deletes all players from the list */
-TEG_STATUS player_flush()
+void player_flush(void)
 {
 	PLIST_ENTRY tmp;
 
@@ -98,9 +91,8 @@ TEG_STATUS player_flush()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* initializes the player's list */
-TEG_STATUS player_init()
+void player_init(void)
 {
-	InitializeListHead( &g_list_player );
+	InitializeListHead(&g_list_player);
 	return TEG_STATUS_SUCCESS;
 }

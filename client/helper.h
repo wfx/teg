@@ -17,19 +17,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file aux.h
- */
-#ifndef __TEGC_AUX_H
-#define __TEGC_AUX_H
 
-TEG_STATUS aux_status( PCPLAYER pj, char *str );
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "../common/scores.h"
+#include "player.h"
+
+TEG_STATUS aux_status(PCPLAYER pj, char const *str );
 TEG_STATUS aux_countries( int numjug, char *str );
 void aux_draw_all_countries();
 TEG_STATUS aux_player_init( PCPLAYER pJ, int numjug, char *name, int color );
 TEG_STATUS aux_start_error();
 
 /*! parse one score */
-TEG_STATUS aux_scores( PSCORES pS, char *str );
+TEG_STATUS aux_scores(PSCORES pS, char const *str );
 
-#endif /* __TEGC_AUX_H */
+#ifdef __cplusplus
+}
+#endif

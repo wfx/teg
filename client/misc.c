@@ -31,6 +31,9 @@
 
 #include <glib.h>
 
+#include "../common/net.h"
+#include "protocol.h"
+#include "fcintl.h"
 #include "client.h"
 
 CJUEGO g_game;			/**< client game */
@@ -67,7 +70,6 @@ TEG_STATUS game_reinit()
 		tarjeta_inittarj( &g_countries[i].tarjeta );
 
 	g_game.secret_mission = -1;
-	g_game.rules = TEG_RULES_TEG;
 	g_game.whos_turn = -1;
 	g_game.who_started_round = -1;
 	g_game.round_number = -1;
@@ -80,7 +82,7 @@ TEG_STATUS game_reinit()
 
 
 /* initializes a game */
-TEG_STATUS game_init()
+void game_init()
 {
 	static int firsttime=1;
 	g_game.fd = -1;
@@ -100,20 +102,14 @@ TEG_STATUS game_init()
 	/* name, server, serverport, color is assigned in the gui */
 
 	firsttime=0;
-
-	return TEG_STATUS_SUCCESS;
 }
 
-/* called when a game is over. initializes the client for a new game */
-TEG_STATUS game_finalize()
+void game_finalize()
 {
 	countries_init();
 	game_reinit();
-
-	return TEG_STATUS_SUCCESS;
 }
 
-/* connect to a server */
 TEG_STATUS teg_connect()
 {
 	if( ESTADO_ES(PLAYER_STATUS_DESCONECTADO)) {
@@ -135,8 +131,7 @@ TEG_STATUS teg_connect()
 	}
 }
 
-/* disconnects from the server */
-TEG_STATUS teg_disconnect()
+void teg_disconnect()
 {
 	ESTADO_SET(PLAYER_STATUS_DESCONECTADO);
 
@@ -151,12 +146,8 @@ TEG_STATUS teg_disconnect()
 	game_init();
 
 	gui_disconnect();
-
-
-	return TEG_STATUS_SUCCESS;
 }
 
-/* playerid_restore_from_error( void ) */
 TEG_STATUS playerid_restore_from_error( void )
 {
 	textmsg( M_ERR, _("The game has already started. Connect as an observer."));

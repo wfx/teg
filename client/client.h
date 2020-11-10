@@ -24,14 +24,12 @@
 #ifndef __TEGC_CLIENT_H
 #define __TEGC_CLIENT_H
 
-#include "all.h"
 #include "player.h"
 #include "globals.h"
 #include "misc.h"
 #include "helper.h"
 #include "inputfd.h"
 #include "outputfd.h"
-#include "countries.h"
 #include "fichas.h"
 #include "attack.h"
 #include "reagrupe.h"

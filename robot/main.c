@@ -26,6 +26,8 @@
 #include <string.h>
 
 #include "client.h"
+#include "version.h"
+#include "fcintl.h"
 
 TEG_STATUS main_init()
 {

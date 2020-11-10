@@ -33,9 +33,10 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "gui.h"
+#include "fcintl.h"
 #include "client.h"
 #include "ai.h"
+#include "ai_fichas.h"
 #include "ai_msg.h"
 #include "ai_misc.h"
 
@@ -101,17 +102,6 @@ TEG_STATUS gui_lost(int numjug)
 
 TEG_STATUS gui_surrender(int numjug)
 {
-	return TEG_STATUS_SUCCESS;
-}
-
-TEG_STATUS gui_exit( char * str)
-{
-	int numjug;
-
-	numjug = atoi( str );
-	if( numjug == g_game.numjug )
-		return TEG_STATUS_CONNCLOSED;
-
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -278,7 +268,6 @@ TEG_STATUS gui_turn( PCPLAYER pJ)
 
 	return TEG_STATUS_SUCCESS;
 }
-
 
 TEG_STATUS gui_country( int p )
 {

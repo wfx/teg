@@ -17,17 +17,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file xmlscores.h
- */
-#ifndef __TEGS_XMLSCORES_H
-#define __TEGS_XMLSCORES_H
+
+#pragma once
+
+#include "../common/common.h"
+#include "player.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*! loads the scores from and xml file */
 TEG_STATUS xmlscores_load( void );
 
-/*! saves the scores to and xml file from a PLIST_ENTRY */
-TEG_STATUS xmlscores_save( PLIST_ENTRY pL_orig );
+/*! Save the current high scores into the home directory. */
+void xmlscores_save(void);
 
 /*! insert a score from a SPLAYER structure */
 TEG_STATUS scores_insert_player( PSPLAYER pJ );
@@ -35,4 +39,6 @@ TEG_STATUS scores_insert_player( PSPLAYER pJ );
 /*! dumps to top high scores in parseable protocol format */
 TEG_STATUS scores_dump(char *strout, size_t buflen );
 
-#endif /* __TEGS_XMLSCORES_H */
+#ifdef __cplusplus
+}
+#endif

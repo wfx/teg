@@ -27,6 +27,5 @@ void teg_dialog( char* title, char* bigtitle, char* data );
 GtkWidget* teg_dialog_new( char* title, char* bigtitle );
 void teg_dialog_gameover( int numjug, int mission );
 gchar *translate_to_utf8(const gchar *string );
-void string_copy(char* dest, size_t destlen, char const* source);
 
 #endif /* __TEG_GUI_GNOME_SUPPORT_H */

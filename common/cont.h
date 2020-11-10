@@ -17,12 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file cont.h
- */
 
-#ifndef __TEG_CONT_H
-#define __TEG_CONT_H
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 typedef enum {
 	CONTINENTE_AMERICASUR,
@@ -52,10 +52,27 @@ typedef struct _cont {
 
 extern CONT g_conts[];
 
-/* returns the total number of continents */
+/**
+ * \brief Calculates the sum of all additional armies given for completely
+ * conquered continents.
+ *
+ * \param conts A bitfield, where the bit for each completely conquered
+ *              continent is set to 1.
+ *
+ *              Example: if the player conquered oceania and asia, the bitfield
+ *              equals to (1 << CONTINENTE_OCEANIA) | (1 << CONTINENTE_ASIA)
+ *                      = (1 << 3)                  | (1 << 5)
+ *                      =     8                     |    32
+ *                      =                          40
+ *
+ * \return The total number of additional armies. For oceania and asia, this
+ *         would be 9 (2 for oceania + 7 for asia).
+ */
 int cont_tot( unsigned long conts );
 
-/* returns the name of a country */
-char * cont_get_name( int cont_number );
+/// \return the translated name of the continent with number \p cont_number
+char const* cont_get_name(unsigned cont_number);
 
-#endif /* __TEG_CONT_H */
+#ifdef __cplusplus
+}
+#endif

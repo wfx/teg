@@ -24,10 +24,6 @@
  *       y del archivo gnome-net (que ya no existe mas)
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif /* HAVE_CONFIG_H */
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -42,8 +38,7 @@
 #include <stdio.h>
 #include <netdb.h>
 
-#include "all.h"
-
+#include "protocol.h"
 
 static ssize_t
 writen(int fd, const void *vptr, size_t n )
@@ -210,28 +205,6 @@ int
 net_print(int sock, char *msg)
 {
 	return writen(sock, msg, strlen(msg));
-}
-
-int
-net_connect_unix(char *path )
-{
-	int sock;
-	struct sockaddr_un address;
-	size_t addrLenght;
-
-	if((sock= socket(AF_UNIX, SOCK_STREAM,0)) < 0 )
-		return -1;
-
-	address.sun_family = AF_UNIX ;
-	strncpy(address.sun_path,path,sizeof(address.sun_path)-1);
-	address.sun_path[sizeof(address.sun_path)-1]=0;
-
-	addrLenght = sizeof( address.sun_family) + strlen(address.sun_path);
-
-	if( connect(sock, (struct sockaddr *) &address, addrLenght ) <0) 
-		return -1;
-
-        return sock;
 }
 
 int

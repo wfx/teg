@@ -32,7 +32,6 @@
 #include <libxml/parser.h>
 #include <glib.h>
 
-#include "all.h"
 #include "themes.h"
 #include "globals.h"
 #include "common.h"
@@ -569,11 +568,9 @@ static TEG_STATUS theme_fill_continent_name()
 }
 
 /* Loads the 'name' theme */
-TEG_STATUS theme_load( char *name)
+TEG_STATUS theme_load(char *name)
 {
 	char filename[512];
-
-	if( g_theme ) theme_unload();
 
 	/* themes/%s/teg_theme.xml */
 	memset(filename,0,sizeof(filename));
@@ -606,10 +603,6 @@ TEG_STATUS theme_load( char *name)
 	theme_fill_country_name();
 
 	return TEG_STATUS_SUCCESS;
-}
-
-void theme_unload()
-{
 }
 
 TEG_STATUS theme_giveme_cards(pTCards pC)
@@ -814,12 +807,6 @@ TEG_STATUS theme_enum_themes( pTInfo pTI )
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS theme_init()
-{
-	g_tinfo = NULL;
-	return TEG_STATUS_SUCCESS;
-}
-
 void theme_free()
 {
 	pTInfo pI;
@@ -832,6 +819,7 @@ void theme_free()
 		pI = pI->next;
 		free(pI2);
 	}
+	g_tinfo = NULL;
 }
 
 /* Finds the path for a filename */
@@ -862,7 +850,7 @@ char * theme_load_file( char *name )
 }
 
 /* Loads a pixmap of a not loaded theme */
-char * theme_load_fake_file( char *name, char *theme )
+char * theme_load_fake_file(char *name, char *theme)
 {
 	FILE *fp;
 	static char buf[512];

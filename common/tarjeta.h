@@ -17,14 +17,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file tarjeta.h
- */
 
-#ifndef __TEG_TARJETA_H
-#define __TEG_TARJETA_H 
+#pragma once
+
+#include <stdbool.h>
 
 #include "common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define TARJETA_NULL { {NULL,NULL}, 0, TRUE, FALSE }
 #define TARJETA_NULL_COMODIN { {NULL,NULL}, TARJ_COMODIN, -1, FALSE }
@@ -36,7 +38,7 @@ typedef enum {
 	TARJ_GALEON = 1,		/**< valor del galeon */
 	TARJ_CANION = 4,		/**< valor del canion */
 	TARJ_GLOBO = 8,			/**< valor del globo */
-	TARJ_COMODIN = 32,		/**< valor del comodin */
+	TARJ_COMODIN = 16,		/**< valor del comodin */
 } TARJTIPO, *PTARJTIPO;
 
 typedef struct _tarjeta {
@@ -46,11 +48,15 @@ typedef struct _tarjeta {
 	BOOLEAN usada;			/**< si se pusieron las 2 fichas del country */
 } TARJETA, *PTARJETA;
 
+/// \todo: Remove this dangerous macro
 #define COUNTRY_FROM_TARJETA( pT ) ( ((char*)(pT)) - (( ((char*)&((PCOUNTRY)pT)->tarjeta) - ((char*)pT) )))
 
 /* 
  * Funciones y varialbes exportadas
  */
+bool card_belongs_to_player(int player, int country);
+bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c);
+
 BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 );
 void tarjeta_init( void );
 void tarjeta_inittarj( PTARJETA t );
@@ -61,4 +67,6 @@ void tarjeta_desusar( PTARJETA pT );
 int tarjeta_es_libre( int i );
 BOOLEAN tarjeta_es_usada( PTARJETA pT );
 
-#endif /* __TEG_TARJETA_H */
+#ifdef __cplusplus
+}
+#endif

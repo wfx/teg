@@ -17,28 +17,31 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file fow.h
- */
-#ifndef __TEGS_FOW_H
-#define __TEGS_FOW_H
 
-#include "server.h"
-#include "stats.h"
+#pragma once
 
-/* enables or disables FOW */
+#include "../common/common.h"
+#include "player.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/// enables or disables FOW
 TEG_STATUS fow_set_mode( BOOLEAN b );
 
-/* returns true if player pJ can see country pP */
+/// returns true if player pJ can see country pP
 BOOLEAN fow_can_player_see_country( PSPLAYER pJ, PCOUNTRY pP );
 
-/* fills in buffer the boundaries countries of 'country' */
+/// fills in buffer the boundaries countries of 'country'
 TEG_STATUS fow_fill_with_boundaries( int country, char *buffer, int buf_len );
 
-/* send the message to all players who has a country boundary with 'country' */
+/// send the message to all players who has a country boundary with 'country'
 int fow_netall_printf( int country, char *format, ...);
 
-/* send the message to all players who has a country boundary with  country1 and country2 */
+/// send the message to all players who has a country boundary with  country1 and country2
 int fow_2_netall_printf( int country1, int country2, char *format, ...);
 
-#endif /* __TEGS_FOW_H */
+#ifdef __cplusplus
+}
+#endif

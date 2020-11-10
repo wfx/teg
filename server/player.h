@@ -17,16 +17,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file player.h
- */
-#ifndef __TEGS_SPLAYER_H
-#define __TEGS_SPLAYER_H
 
-#include "server.h"
-#include "stats.h"
+#pragma once
 
-/* server player */
+#include <stdbool.h>
+
+#include "../common/stats.h"
+#include "../common/country.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/// server player data structure
 typedef struct _player{
 	LIST_ENTRY next;
 	int numjug;				/**< player number */
@@ -44,7 +47,7 @@ typedef struct _player{
 	int tot_countries;			/**< number of countries (optimization) */
 	int tot_armies;				/**< number of armies (") */
 	int tot_cards;				/**< number of cards (") */
-	int tot_exchanges;			/**< number of exchanges */
+	unsigned tot_exchanges;			/**< number of exchanges */
 	int fd;					/**< file descriptor */
 	PLAYER_STATUS estado;			/**< status of the player */
 	PLAYER_STATUS status_before_discon;	/**< status before disconn */
@@ -59,47 +62,121 @@ typedef struct _player{
 
 } SPLAYER, *PSPLAYER;
 
+/// \brief Mapping function type to traverse all players
 typedef void (*jug_map_func)( PSPLAYER pJ);
 
-/*
- * funciones y variables exportadas
- */
+/// \brief List of all connected players
 extern LIST_ENTRY g_list_player;
 
-void player_initplayer( PSPLAYER j );
+/** \brief Initialize a single player datastructure for a new game
+ *
+ * Only the fields needed to be reset for a new game are touched, all other
+ * fields are kept unchanged
+ */
+void player_initplayer(PSPLAYER j);
+
+/// \brief Initialize the entire player list
 void player_init( void );
+
+/// \brief Create a new player datastructure and populate it with \p j.
 PSPLAYER player_ins( PSPLAYER j, BOOLEAN esplayer );
+
+/// \brief Let a player join
 #define player_ins_player(a) player_ins(a,TRUE)
+
+/// \brief Let an observer join
 #define player_ins_ro(a) player_ins(a,FALSE)
+
+/// \brief Deletes a player
 void player_del_hard(PSPLAYER j);
+
+/// \brief Puts a player in a GAME OVER state
 TEG_STATUS player_del_soft( PSPLAYER pJ );
+
+/// \brief delete all players
 TEG_STATUS player_flush();
+
+/// \brief Assigns a country \p p to a player number \p numjug
 TEG_STATUS player_asignarcountry( int numjug, PCOUNTRY p);
+
+/// \brief given a players' number it returns a pointer the player
 TEG_STATUS player_whois( int numjug, PSPLAYER *j);
+
+/// \brief given a players' number it returns a pointer the player
 TEG_STATUS player_whoisfd( int fd, PSPLAYER *j);
-BOOLEAN player_esta_xxx( int fd, int condicion, int strict );
-BOOLEAN player_esta_xxx_plus( int fd, int condicion, int strict, PSPLAYER *j );
-TEG_STATUS player_listar_countries( PSPLAYER pJ, int *countries );
-TEG_STATUS player_listar_conts( PSPLAYER pJ, unsigned long *ret );
-TEG_STATUS player_clear_turn( PSPLAYER j );
+
+/**
+ * \brief tells if a player is in a given state
+ *
+ * This function checks, if the player behind \p fd is
+ *   * (\p exact == true ) in \p state
+ *   * (\p exact == false) at least in \p state
+ */
+bool player_esta_xxx(int fd, PLAYER_STATUS state, bool exact);
+
+/**
+ * \brief Search a player and tells if this player is in a given state
+ *
+ * This function checks, if the player behind \p fd is
+ *   * (\p exact == true ) in \p state
+ *   * (\p exact == false) at least in \p state
+ */
+bool player_esta_xxx_plus( int fd, PLAYER_STATUS state, bool exact, PSPLAYER *j );
+
+/// \brief quantity of countries per contient that a player has
+void player_listar_countries( PSPLAYER pJ, int *countries );
+
+/// \brief Calculate the bitfield where the player has at least one country
+void player_listar_conts(PSPLAYER pJ, unsigned long *ret);
+
+/// \brief Initialize the start turn variables
+void player_clear_turn( PSPLAYER j );
+
+/** Calculate the number of armies the player can place in the next turn,
+ *  without additional armies from card exchanges or complete conquered
+ *  continents.
+ */
 int player_fichasc_cant( PSPLAYER pJ );
-TEG_STATUS player_all_set_status( PLAYER_STATUS );
-BOOLEAN player_is_lost( PSPLAYER pJ );
-TEG_STATUS player_poner_perdio( PSPLAYER pJ );
+
+/// \brief put all the players in a given state
+void player_all_set_status( PLAYER_STATUS );
+
+/// \brief Tell if the player lost the game
+bool player_is_lost( PSPLAYER pJ );
+
+/// \brief Put the player in GAMEOVER state
+void player_poner_perdio( PSPLAYER pJ );
+
+/// \brief returns a free number for the player
 TEG_STATUS player_numjug_libre( int *libre);
+
+/// \brief  given an index of player [0..MAX_PLAYERS] return the numjug of it
 TEG_STATUS player_from_indice( int j, int *real_j );
-TEG_STATUS player_map( jug_map_func func );
+
+/// \brief perform \p func on every player
+void player_map(jug_map_func func);
+
+/// \brief finds a player given its name
 TEG_STATUS player_findbyname( char *name, PSPLAYER *pJ);
-TEG_STATUS player_fillname( PSPLAYER pJ, char *name);
-BOOLEAN player_is_playing( PSPLAYER pJ );
+
+/// \brief Assigns a name to the player that does not conflict with another names
+void player_fillname( PSPLAYER pJ, char *name);
+
+/// \brief Tells if a player is playing
+bool player_is_playing( PSPLAYER pJ );
+
 /*! return the PSPLAYER that is disconnected */
 PSPLAYER player_return_disconnected( PSPLAYER pJ );
+
 /*! return TRUE if pJ is a disconnected player */
 BOOLEAN player_is_disconnected( PSPLAYER pJ );
+
 /*! deletes the player if it disconnected */
 void player_delete_discon( PSPLAYER pJ );
+
 /*! insert all players in scores but the ones in GAMEOVER */
 void player_insert_scores( PSPLAYER pJ );
+
 /*! kick robots when there are no humans */
 TEG_STATUS player_kick_unparent_robots( void );
 
@@ -113,4 +190,6 @@ TEG_STATUS player_kick_unparent_robots( void );
 #define SPLAYER_TROPAS(a) player_esta_xxx(a,PLAYER_STATUS_TROPAS,1)
 #define SPLAYER_TROPAS_P(a,j) player_esta_xxx_plus(a,PLAYER_STATUS_TROPAS,1,j)
 
-#endif /* __TEGS_SPLAYER_H */
+#ifdef __cplusplus
+}
+#endif

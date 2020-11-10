@@ -17,18 +17,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file globals.h
- */
-#ifndef __TEGC_GLOBALS_H
-#define __TEGC_GLOBALS_H
+
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include "client.h"
 #include "themes.h"
 
 extern TEG_STATUS gui_init(int argc, char **argv);
 extern TEG_STATUS gui_main(void);
-extern TEG_STATUS gui_exit(char *str);
 extern TEG_STATUS gui_textmsg(char *aString );
 extern TEG_STATUS gui_disconnect(void);
 extern TEG_STATUS gui_habilitado(int numjug);
@@ -69,7 +69,6 @@ typedef struct _cgame {
 	LIST_ENTRY tarjetas_list;	/**< lista de tarjetas */
 	int tarjetas_cant;		/**< cantidad de tarjetas */
 	int secret_mission;		/**< which secret mission to accomplish */
-	int rules;			/**< rules of the game */
 	int dados_srccountry;		/**< utimo country que ataco */
 	int dados_src[3];		/**< ultimos dados del atacante */
 	int dados_dstcountry;		/**< ultimo country que se defendio */
@@ -89,4 +88,6 @@ typedef struct _cgame {
 /* funciones y variables exportadas */
 extern CJUEGO g_game;
 
-#endif /* __TEGC_GLOBALS_H */
+#ifdef __cplusplus
+}
+#endif

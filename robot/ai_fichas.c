@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "fcintl.h"
 #include "client.h"
 #include "ai.h"
 #include "ai_fichas.h"
@@ -201,11 +202,6 @@ TEG_STATUS ai_fichas_calc_puntaje_fichas( int country )
 	return TEG_STATUS_SUCCESS;
 }
 
-
-/**
- * @fn TEG_STATUS ai_fichas_calc_puntaje( int p )
- * Calls all the strategies of the robots to place armies
- */
 TEG_STATUS ai_fichas_calc_puntaje( int p )
 {
 	ai_fichas_calc_puntaje_conquer( p );
@@ -247,10 +243,8 @@ TEG_STATUS __ai_fichas( int cant )
 	}
 	return TEG_STATUS_SUCCESS;
 }
-/**
- * @fn TEG_STATUS ai_fichas( int cant )
- */
-TEG_STATUS ai_fichas( int cant )
+
+TEG_STATUS ai_fichas(int cant)
 {
 	ai_puntaje_clean();
 

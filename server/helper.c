@@ -32,9 +32,11 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
+#include "../common/parser.h"
+#include "../common/tegdebug.h"
+#include "../common/fcintl.h"
 #include "server.h"
 #include "fow.h"
-#include "my_inet_ntop.h"
 
 static char colors[TEG_MAX_PLAYERS];
 
@@ -126,8 +128,8 @@ TEG_STATUS aux_token_fichas( int fd, char *str, int maximo, unsigned long conts 
 
 	copia = str;
 
-	p.igualador = &igualador;
-	p.separador = &separador;
+	p.equals = &igualador;
+	p.separators = &separador;
 	p.data = str;
 
 	memset( cptr, 0, sizeof(cptr));
@@ -136,7 +138,7 @@ TEG_STATUS aux_token_fichas( int fd, char *str, int maximo, unsigned long conts 
 
 do_real:
 	do {
-		if( parser_call( &p )) {
+		if( parser_parse( &p )) {
 
 			country = atoi( p.token );		
 			cant = atoi( p.value );		
@@ -160,7 +162,7 @@ do_real:
 			goto error;
 		}
 
-	} while( p.hay_otro );
+	} while( p.can_continue );
 
 	if( fichas != maximo ) {
 		goto error;
@@ -338,7 +340,7 @@ again:
 }
 
 /* Sends the player the total number of armies it must place, and the continents he has conquered */
-TEG_STATUS aux_token_fichasc( PSPLAYER pJ )
+void aux_token_fichasc( PSPLAYER pJ )
 {
 	unsigned long conts=0;
 	int armies;
@@ -350,8 +352,7 @@ TEG_STATUS aux_token_fichasc( PSPLAYER pJ )
 		conts = pJ->fichasc_conts;
 		armies = pJ->fichasc_armies;
 	} else {
-		if( player_listar_conts( pJ, &conts ) != TEG_STATUS_SUCCESS )
-			return TEG_STATUS_UNEXPECTED;
+		player_listar_conts( pJ, &conts );
 		armies = player_fichasc_cant( pJ );
 
 		pJ->fichasc_conts = conts;
@@ -359,12 +360,10 @@ TEG_STATUS aux_token_fichasc( PSPLAYER pJ )
 	}
 
 	if( pJ->hizo_canje )
-		x_canje = cuantos_x_canje( pJ->tot_exchanges );
+		x_canje = cards_for_this_exchange( pJ->tot_exchanges );
 
 	pJ->estado = PLAYER_STATUS_FICHASC;
 	netall_printf( TOKEN_FICHASC"=%d,%d,%d\n",pJ->numjug,conts,armies + x_canje );
-
-	return TEG_STATUS_SUCCESS;
 }
 
 
@@ -445,17 +444,14 @@ TEG_STATUS aux_find_inaddr( PSPLAYER pJ )
 	switch(sa->sa_family) {
 	case AF_INET: {
 		struct sockaddr_in *sin = (struct sockaddr_in*) sa;
-		my_inet_ntop( AF_INET, &sin->sin_addr,pJ->addr, sizeof(pJ->addr)-1);
+		inet_ntop(AF_INET, &sin->sin_addr,pJ->addr, sizeof(pJ->addr)-1);
 		break;
 		}
 	case AF_INET6: {
 		struct sockaddr_in6 *sin6 = (struct sockaddr_in6*) sa;
-		my_inet_ntop( AF_INET6, &sin6->sin6_addr,pJ->addr, sizeof(pJ->addr)-1);
+		inet_ntop(AF_INET6, &sin6->sin6_addr,pJ->addr, sizeof(pJ->addr)-1);
 		break;
 		}
-	case AF_UNIX:
-		strncpy(pJ->addr,"127.0.0.1",sizeof(pJ->addr)-1);
-		break;
 	default:
 		break;
 	}

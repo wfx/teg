@@ -31,6 +31,7 @@
 #include "gui.h"
 #include "client.h"
 
+#include "../common/missions.h"
 #include "chatline.h"
 #include "callbacks.h"
 #include "interface.h"

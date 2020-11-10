@@ -17,11 +17,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file common.h
- */
-#ifndef __TEG_COMMON_H
-#define __TEG_COMMON_H
+
+#pragma once
+
+#include <stddef.h>
+#include <stdlib.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 
 #define TEG_MAX_PLAYERS 6
 #define TEG_MAX_CONNECTIONS 15
@@ -61,15 +66,6 @@ typedef enum {
 	TEG_STATUS_THEMEERROR = 13,
 } TEG_STATUS, *PTEG_STATUS;
 
-/* hacer sync con common.c */
-enum {
-	TEG_RULES_TEG,			/**< reglas tipo TEG */
-	TEG_RULES_RISK,			/**< reglas tipo RISK */
-	TEG_RULES_1914,			/**< reglas tipo 1914 */
-	TEG_RULES_MISC,			/**< reglas tipo otracosa */
-};
-extern char *g_reglas[];
-
 typedef enum {
 	ARMY_ROJO = 0,
 	ARMY_AMARILLO = 1,
@@ -81,8 +77,6 @@ typedef enum {
 extern char *g_colores[];
 
 #define RANDOM_MAX(_min,_max) (_min+(int)(((float)(1+_max-_min))*rand() / (RAND_MAX+1.0)))
-
-#define RANDOM_DEVICE "/dev/random"
 
 #define MODALIDAD_READONLY	0
 #define MODALIDAD_PLAYER	1
@@ -122,15 +116,6 @@ typedef enum {
 	PLAYER_STATUS_LAST		/**< unreacheble state */
 } PLAYER_STATUS, *PPLAYER_STATUS;
 extern char *g_estados[];
-
-#ifndef MAX
-#define MAX(a,b)	(((a) > (b)) ? (a): (b))
-#endif
-
-#ifndef MIN
-#define MIN(a,b)	(((a) < (b)) ? (a): (b))
-#endif
-
 
 typedef struct _LIST_ENTRY {
 	struct _LIST_ENTRY *Flink;
@@ -238,14 +223,43 @@ typedef struct _LIST_ENTRY {
     _EX_ListHead->Flink = (Entry);\
     }
 
+/// Read a random number from the linux/bsd kernel
+int get_int_from_dev_random(void);
 
-/* prototipos de funciones */
-int get_int_from_dev_random( void );
-int cuantos_x_canje( int c );
-TEG_STATUS strip_invalid( char *n );
-TEG_STATUS strip_invalid_msg( char *n );
+/**
+ * \brief Calculates the number of additional armies after already \p excanges
+ * had taken place.
+ *
+ * @return The number of additional armies.
+ */
+unsigned cards_for_this_exchange(unsigned exchanges);
 
-/**! like atoi, but if ! s, returns -1 */
-int my_atoi( char * s);
+/**
+ * @brief Removes invalid characters from the string, for use with player names
+ *        and remote addresses.
+ *
+ * @param[inout] n the string to strip
+ */
+void strip_invalid(char *n);
 
-#endif /* __TEG_COMMON_H */
+/**
+ * @brief Removes invalid characters from the string, for use in network
+ *        messages.
+ *
+ * @param[inout] n
+ */
+void strip_invalid_msg(char *n);
+
+/**! like atoi, but returns -1 when s==NULL*/
+int my_atoi(const char *s);
+
+/** @brief Copies a string respecting the size limit of the destination buffer.
+ *
+ * This function copies up to \p destlen bytes from \p source to \p dest. When
+ * the size limit is hit, it places a terminating zero byte at the end of the
+ * target buffer (unless \p destlen is 0). */
+void string_copy(char* dest, size_t destlen, char const* source);
+
+#ifdef __cplusplus
+}
+#endif
