@@ -14,7 +14,7 @@ rm -rf "$BUILD_DIR"
 mkdir "$BUILD_DIR"
 cd "$BUILD_DIR"
 echo '*' > .gitignore
-"$HERE/configure" --enable-maintainer-mode --prefix=$PWD/DD "CFLAGS=-Wall -Wextra"
+"$HERE/configure" --enable-warnings-as-errors --enable-maintainer-mode --prefix=$PWD/DD "CFLAGS=-Wall -Wextra"
 
 set +e
 # We need to do some work regardless if make succeedes or fails. So here we

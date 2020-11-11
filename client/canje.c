@@ -22,6 +22,8 @@
  * @brief Client side card management.
  */
 
+#include "../common/net.h"
+
 #include "protocol.h"
 #include "fcintl.h"
 #include "client.h"
@@ -53,31 +55,30 @@ TEG_STATUS canje_out( int p1, int p2, int p3 )
 TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 {
 	PLIST_ENTRY pL = g_game.tarjetas_list.Flink;
-	int i,j,k;
 	int a[TEG_MAX_TARJETAS];
 
 	if( g_game.tarjetas_cant < 3 )
 		return TEG_STATUS_ERROR;
 
-	for( i=0;i<sizeof(a)/sizeof(a[0]);i++)
-		a[i] = -1;
+	for(unsigned x=0;x<sizeof(a)/sizeof(*a);x++)
+		a[x] = -1;
 
-	i=0;
+	unsigned index=0;
 	while( !IsListEmpty( &g_game.tarjetas_list ) && (pL != &g_game.tarjetas_list )) {
 		PCOUNTRY pP;
 		PTARJETA pT = (PTARJETA) pL;
 		pP = (PCOUNTRY ) COUNTRY_FROM_TARJETA( pT );
 
-		a[i++] = pP->id;
-		if( i >= (sizeof(a)/sizeof(a[0])) )
+		a[index++] = pP->id;
+		if( index >= (sizeof(a)/sizeof(*a)) )
 			break;
 
 		pL = LIST_NEXT( pL );
 	}
 
-	for(i=0;i<g_game.tarjetas_cant;i++) {
-		for(j=i+1;j<g_game.tarjetas_cant;j++) {
-			for(k=j+1;k<g_game.tarjetas_cant;k++) {
+	for(int i=0;i<g_game.tarjetas_cant;i++) {
+		for(int j=i+1;j<g_game.tarjetas_cant;j++) {
+			for(int k=j+1;k<g_game.tarjetas_cant;k++) {
 				if( tarjeta_puedocanje(g_game.numjug,a[i],a[j],a[k])) {
 					if(p1) *p1 = a[i];
 					if(p2) *p2 = a[j];

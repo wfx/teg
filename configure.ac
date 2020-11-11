@@ -35,6 +35,9 @@ AC_ARG_ENABLE(debug,
 	enable_debug=minimum
 )
 
+AC_ARG_ENABLE(warnings-as-errors,
+    AS_HELP_STRING([--enable-warnings-as-errors],
+	               [Turn compiler warnings into errors.]))
 
 if test "x$enable_debug" = "xyes"; then
   test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
@@ -81,7 +84,12 @@ AC_DEFINE_UNQUOTED([LOCALEDIR], "$LOCALEDIR", [Localisation files location])
 
 
 if test -n "$GCC"; then
-   CFLAGS="$CFLAGS -Wall"
+   CFLAGS="$CFLAGS -Wall -Wno-unused-parameter"
+fi
+
+if test "x$enable_warnings_as_errors" = "xyes" ; then
+   CFLAGS="$CFLAGS -Werror"
+   CXXFLAGS="$CXXFLAGS -Werror"
 fi
 
 dnl check pthreads

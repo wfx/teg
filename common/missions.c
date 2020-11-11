@@ -18,12 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include "missions.h"
-
-#include "fcintl.h"
-
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+#include "fcintl.h"
+#include "missions.h"
+
 
 MISSIONS g_missions[]= {
     // common mission, all time active: conquer the whole world
@@ -175,7 +176,7 @@ const char *missions_get_name( int number )
 	int i,len;
 	char *tmp_ptr;
 
-	if( number < 0 || number >= NRMISSIONS )
+	if( (number < 0) || (((unsigned)number) >= NRMISSIONS) )
 		return _(_unknown);
 
 	snprintf( buf_tmp, sizeof(buf_tmp) -1, "%s", _( g_missions[number].name ) );
@@ -187,6 +188,7 @@ const char *missions_get_name( int number )
 
 	tmp_ptr = &buf_tmp[0];
 
+	int printf_result = -1;
 	for(i=0;i<len; )
 	{
 		char *ptr;
@@ -205,18 +207,26 @@ const char *missions_get_name( int number )
 				real_n = atoi( &n[0] );
 				ptr[0] = 0;
 				strncpy( old_buffer, mission, sizeof(old_buffer) -1 );
-				snprintf( mission, sizeof(mission) -1,  "%s%s%s", old_buffer, tmp_ptr, _(g_conts[real_n].name) );
+				printf_result = snprintf( mission, sizeof(mission),  "%s%s%s", old_buffer, tmp_ptr, _(g_conts[real_n].name) );
 
 				tmp_ptr = &ptr[2];
 			} else {
-				snprintf( mission, sizeof(mission) -1,  "Error: Unknown secret mission.\nPlease check translations!" );
+				printf_result = snprintf( mission, sizeof(mission),  "Error: Unknown secret mission.\nPlease check translations!" );
 				break;
 			}
 		} else {
 			strncpy( old_buffer, mission, sizeof(old_buffer) -1 );
-			snprintf( mission, sizeof(mission) -1,  "%s%s", old_buffer, tmp_ptr );
+			printf_result = snprintf( mission, sizeof(mission),  "%s%s", old_buffer, tmp_ptr );
 			break;
 		}
+	}
+
+	if(printf_result<0) { // printf signalled an error
+		return "Failure during mission printing";
+	}
+
+	if(((unsigned)printf_result)>=sizeof(mission)) { // string got truncated
+		mission[sizeof(mission)-1] = 0;
 	}
 
 	return mission;

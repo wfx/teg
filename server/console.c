@@ -38,6 +38,9 @@
 #include <readline/history.h>
 #endif /* HAVE_LIBREADLINE */
 
+#include "../common/common.h"
+#include "../common/net.h"
+
 #include "server.h"
 #include "fcintl.h"
 #include "scores.h"
@@ -248,10 +251,10 @@ STATIC TEG_STATUS con_start( int fd, char*unused )
 
 STATIC TEG_STATUS con_help ( int fd, char*unused )
 {
-	int i;
-	for(i=0;i<CONSOLE_TOKENS;i++) {
+	for(unsigned i=0; i<CONSOLE_TOKENS; i++) {
 		if(con_tokens[i].func)
-			net_printf(fd,"'%s' %s\n",con_tokens[i].label,_(con_tokens[i].help));
+			net_printf(fd,"'%s' %s\n",
+			           con_tokens[i].label, _(con_tokens[i].help));
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -274,9 +277,7 @@ STATIC TEG_STATUS con_test(int fd, char *str)
  */
 STATIC TEG_STATUS console_lookup( int fd, PARSER *p )
 {
-	int i;
-
-	for(i = 0; i < CONSOLE_TOKENS; i++) {
+	for(unsigned i=0; i<CONSOLE_TOKENS; i++) {
 		if(strcmp( p->token, con_tokens[i].label )==0 ){
 			if (con_tokens[i].func)
 				return( (con_tokens[i].func)(fd ,p->value));

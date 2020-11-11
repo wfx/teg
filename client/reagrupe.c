@@ -22,6 +22,8 @@
  * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_REAGRUPE'
  */
 
+#include "../common/net.h"
+
 #include "fcintl.h"
 #include "client.h"
 #include "protocol.h"

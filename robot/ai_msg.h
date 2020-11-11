@@ -41,13 +41,13 @@ enum {
 };
 
 /// Creates a random message, with a random frequency
-TEG_STATUS ai_msg( int type, char *n );
+TEG_STATUS ai_msg(int type, const char *n );
 
 /// Choose a random name
 char * ai_name();
 
 /// Checks if the name is a name the robot would use
-TEG_STATUS ai_findname( char *name );
+TEG_STATUS ai_findname(const char *name );
 
 #ifdef __cplusplus
 }

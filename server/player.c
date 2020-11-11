@@ -557,8 +557,8 @@ void player_fillname( PSPLAYER pJ, char *name )
 	strip_invalid(new_name);
 	if( player_findbyname(new_name,&pJ_new) == TEG_STATUS_SUCCESS && pJ_new->estado != PLAYER_STATUS_DESCONECTADO ) {
 		/* that name is already registered, assign a new name dynamically */
-		int n = strlen(new_name);
-		if( n < sizeof(pJ->name) - 2 ) {
+		size_t n = strlen(new_name);
+		if( n < (sizeof(pJ->name) - 2) ) {
 			new_name[n] = '_';
 			player_fillname( pJ, new_name );
 		} else {

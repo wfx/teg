@@ -31,12 +31,15 @@
 #	include <config.h>
 #endif
 
+#include "../common/net.h"
+
 #include "server.h"
 #include "tegdebug.h"
 #include "xmlscores.h"
 #include "fow.h"
 #include "fcintl.h"
 #include "parser.h"
+#include "missions.h"
 
 #undef DEBUG_PLAY
 #define PLAY_DEBUG PDEBUG
@@ -1292,7 +1295,7 @@ STATIC TEG_STATUS token_pversion( int fd, char *str )
 	PARSER p;
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
-	int hi,lo;
+	int hi;
 
 	PLAY_DEBUG("token_pversion()\n");
 
@@ -1309,7 +1312,7 @@ STATIC TEG_STATUS token_pversion( int fd, char *str )
 	} else goto error;
 
 	if( parser_parse( &p ) && !p.can_continue ) {
-		lo = atoi( p.token );		
+		// We don't use the this integer value
 	} else goto error;
 
 	net_printf(fd,"%s=%i,%i\n", TOKEN_PVERSION, PROTOCOL_HIVER,PROTOCOL_LOVER);
@@ -1374,10 +1377,10 @@ error:
 /* Ask for help */
 STATIC TEG_STATUS token_help ( int fd, char *unused )
 {
-	int i;
-	for(i=0;i<NTOKENS;i++) {
+	for(unsigned i=0; i<NTOKENS; i++) {
 		if(tokens[i].func)
-			net_printf(fd, "%s='%s' %s\n", TOKEN_REM, tokens[i].label,_(tokens[i].help));
+			net_printf(fd, "%s='%s' %s\n", TOKEN_REM,
+			           tokens[i].label, _(tokens[i].help));
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -1385,9 +1388,7 @@ STATIC TEG_STATUS token_help ( int fd, char *unused )
 /* Parses the tokens */
 STATIC TEG_STATUS token_lookup( int fd, PARSER *p )
 {
-	int i;
-
-	for(i = 0; i < NTOKENS; i++) {
+	for(unsigned i=0; i<NTOKENS; i++) {
 		if(strcasecmp( p->token, tokens[i].label )==0 ){
 			if (tokens[i].func)
 				return( (tokens[i].func)(fd,p->value));

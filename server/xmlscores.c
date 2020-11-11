@@ -251,7 +251,7 @@ void appendScoreString(PSCORES pS, void* user)
 	                       as->delim,
 	                       pS->name, pS->color, pS->date, pS->score, pS->human);
 	if((printed < 0) // some printf error
-	   || (printed >= as->storage_remaining)) // string truncation
+	   || (((unsigned)printed) >= as->storage_remaining)) // string truncation
 		as->valid = false;
 	as->dest += printed;
 	as->storage_remaining -= printed;

@@ -121,15 +121,6 @@ TEG_STATUS locate_country_init()
 	return TEG_STATUS_SUCCESS;
 }
 
-/* destructor */
-TEG_STATUS locate_country_exit()
-{
-	if( timeout_id >= 0 )
-		g_source_remove( timeout_id );
-
-	return TEG_STATUS_SUCCESS;
-}
-
 /* add a country to the list of countries to be shown */
 TEG_STATUS locate_country_add_country( PCOUNTRY p )
 {

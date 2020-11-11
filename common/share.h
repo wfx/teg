@@ -42,7 +42,7 @@ void init_nls();
  * \return The function either returns the parameter string for \p option_name,
  *  or NULL if the option could not be found.
 */
-char * get_option(const char *option_name, const char **argv, int *i, int argc);
+const char *get_option(const char *option_name, const char **argv, int *i, int argc);
 
 /** \brief Checks for long/short boolean program options
  *

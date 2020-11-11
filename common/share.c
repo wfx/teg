@@ -19,9 +19,11 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
+
 #include <sys/types.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #ifdef ENABLE_NLS
 #	include <locale.h>
@@ -30,7 +32,7 @@
 #include "share.h"
 #include "fcintl.h"
 
-char * get_option(const char *option_name,char const **argv,int *i,int argc)
+char const * get_option(const char *option_name, char const **argv, int *i, int argc)
 {
 	int len = strlen(option_name);
 
@@ -41,7 +43,7 @@ char * get_option(const char *option_name,char const **argv,int *i,int argc)
 		int offset = argv[*i][1] != '-'
 		                            ? 2 // minus sign + option character
 		                            : len;
-		char *opt = argv[*i] + offset;
+		char const *opt = argv[*i] + offset;
 
 		if (*opt == '=') {
 			opt++;

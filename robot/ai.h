@@ -25,6 +25,7 @@ extern "C" {
 #endif
 
 #include "../common/common.h"
+#include "cont.h"
 
 extern int ai_puntaje[COUNTRIES_CANT*10];
 extern int ai_sorted[COUNTRIES_CANT*10];
@@ -50,7 +51,7 @@ TEG_STATUS ai_tropas( int src, int dst, int cant);
 TEG_STATUS ai_puedocanje( int *p1, int *p2, int *p3 );
 
 /// Do I own the continent number \p c?
-BOOLEAN ai_own_continent( int c );
+BOOLEAN ai_own_continent(CONTINENTE c);
 
 /// \todo Find out what this function does
 TEG_STATUS ai_puntaje_sort(int cant);

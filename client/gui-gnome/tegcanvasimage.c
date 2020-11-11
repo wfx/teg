@@ -3,8 +3,12 @@
  * Released under the GNU LGPL license. See COPYING for details.
  */
 
+#define GLIB_DISABLE_DEPRECATION_WARNINGS
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 #include <glib/gi18n.h>
 #include "tegcanvasimage.h"
+
 
 typedef struct _TegCanvasImagePrivate TegCanvasImagePrivate;
 struct _TegCanvasImagePrivate {
@@ -581,7 +585,10 @@ teg_canvas_image_model_class_init (TegCanvasImageModelClass *klass)
 {
   GObjectClass *gobject_class = (GObjectClass*) klass;
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
   g_type_class_add_private (gobject_class, sizeof (TegCanvasImagePrivate));
+#pragma GCC diagnostic pop
 
   gobject_class->dispose      = teg_canvas_image_model_dispose;
 

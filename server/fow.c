@@ -23,8 +23,8 @@
 #include <string.h>
 #include <stdarg.h>
 
+#include "../common/net.h"
 #include "server.h"
-
 #include "fow.h"
 
 TEG_STATUS fow_set_mode( BOOLEAN b )

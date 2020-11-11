@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../common/share.h"
 #include "client.h"
 #include "version.h"
 #include "fcintl.h"
@@ -37,10 +38,11 @@ TEG_STATUS main_init()
 	return TEG_STATUS_SUCCESS;
 }
 
-int main( int argc, char **argv)
+int main( int argc, char **argv_var)
 {
 	int i,quiet=0;
-	char *option;
+	char const *option;
+	char const **argv = (char const**) argv_var; // save, since we add more constness here
 
 	init_nls();
 	dont_run_as_root();
@@ -91,7 +93,7 @@ int main( int argc, char **argv)
 	textmsg(M_IMP,_("Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"),VERSION);
 	textmsg(M_IMP,_("Robot intelligence: %d%%"),62);
 
-	gui_init(argc, argv);
+	gui_init(argc, argv_var);
 
 	gui_main();
 

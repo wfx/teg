@@ -52,7 +52,7 @@ extern TEG_STATUS gui_lost(int numjug);
 extern TEG_STATUS gui_surrender(int numjug);
 extern TEG_STATUS gui_winner(int numjug, int mission);
 extern TEG_STATUS gui_mission();
-extern TEG_STATUS gui_textplayermsg(char *n,int nj, char *m );
+extern TEG_STATUS gui_textplayermsg(char const *n, int nj, char const *m);
 extern TEG_STATUS gui_scores(void);
 
 typedef struct _cgame {

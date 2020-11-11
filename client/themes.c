@@ -28,10 +28,12 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <dirent.h>
+
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <glib.h>
 
+#include "../common/xml_support.h"
 #include "themes.h"
 #include "globals.h"
 #include "common.h"
@@ -763,7 +765,10 @@ TEG_STATUS theme_enum_themes( pTInfo pTI )
 		/* scan for directories with file teg_theme.xml */
 		while ((e = readdir (dir)) != NULL) {
 			FILE *fp;
-			snprintf(buf,sizeof(buf)-1,"%s/%s/teg_theme.xml",lugares[i],e->d_name);
+			const int written = snprintf(buf,sizeof(buf),"%s/%s/teg_theme.xml",lugares[i],e->d_name);
+			if(((written < 0)) || ((unsigned)written >= sizeof(buf))) {
+				continue;
+			}
 			if( (fp = fopen(buf,"r")) ) {
 				
 				fclose(fp);

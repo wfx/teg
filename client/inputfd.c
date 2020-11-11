@@ -24,10 +24,12 @@
 #include <string.h>
 #include <stdio.h>
 
+#include "../common/net.h"
+#include "../common/missions.h"
+
 #include "parser.h"
 #include "fcintl.h"
 #include "protocol.h"
-#include "../common/net.h"
 #include "client.h"
 
 TEG_STATUS clitok_rem(char *str);
@@ -60,7 +62,7 @@ TEG_STATUS clitok_serverfull(void);
 TEG_STATUS clitok_surrender(char *str);
 TEG_STATUS clitok_started(void);
 TEG_STATUS clitok_kick(char *str);
-TEG_STATUS clitok_scores(char *str);
+TEG_STATUS clitok_scores(const char *str);
 TEG_STATUS clitok_reconnect(char *str);
 TEG_STATUS clitok_enum_cards( char *str );
 TEG_STATUS clitok_playersscores( char *str );
@@ -323,14 +325,6 @@ error:
 /* ok */
 TEG_STATUS clitok_ok( char *str)
 {
-	PARSER p;
-	DELIM igualador={ ':', ':', ':' };
-	DELIM separador={ ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
-
 	if( strlen(str)==0 )
 		goto error;
 
@@ -343,12 +337,10 @@ error:
 /* your last request has an error */
 TEG_STATUS clitok_error( char *str)
 {
-	int i;
 	if( strlen(str)==0 )
 		goto error;
 
-
-	for(i = 0; i < NRERRCLITOKENS; i++) {
+	for(unsigned i = 0; i < NRERRCLITOKENS; i++) {
 		if(strcasecmp( str, err_tokens[i].label )==0 ){
 			if (err_tokens[i].func)
 				return( (err_tokens[i].func)());
@@ -1022,9 +1014,8 @@ error:
 }
 
 /* receives the players scores */
-TEG_STATUS clitok_scores( char *str)
+TEG_STATUS clitok_scores(char const *str)
 {
-	PSCORES pS;
 	SCORES score;
 	PARSER p;
 	DELIM separador={ '\\', '\\', '\\' };
@@ -1102,12 +1093,11 @@ TEG_STATUS clitok_enum_cards( char *str )
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
 	int country, used;
-	PLIST_ENTRY ltmp;
 
 	g_game.tarjetas_cant = 0;
 
 	while( ! IsListEmpty( &g_game.tarjetas_list ) )
-		ltmp = RemoveHeadList( &g_game.tarjetas_list );
+		(void) RemoveHeadList( &g_game.tarjetas_list );
 
 	if(  ! str || strlen(str) == 0 )
 		goto ok;
@@ -1190,12 +1180,9 @@ TEG_STATUS clitok_exchange(char *str)
 			pP = (PCOUNTRY ) COUNTRY_FROM_TARJETA( pT );
 
 			if( pP->id == p1 || pP->id == p2 || pP->id == p3 ) {
-				PLIST_ENTRY l;
-
 				g_countries[ pP->id ].tarjeta.numjug = -1;
-				l = RemoveHeadList( pL->Blink );
+				(void) RemoveHeadList( pL->Blink );
 				g_game.tarjetas_cant--;
-
 			}
 			pL = LIST_NEXT( pL );
 		}
@@ -1347,7 +1334,7 @@ TEG_STATUS clitok_pversion( char *str)
 	PARSER p;
 	DELIM igualador={ ':', ':', ':' };
 	DELIM separador={ ',', ',', ',' };
-	int hi,lo;
+	int hi;
 
 	p.equals = &igualador;
 	p.separators = &separador;
@@ -1361,7 +1348,7 @@ TEG_STATUS clitok_pversion( char *str)
 	} else goto error;
 
 	if( parser_parse( &p ) && !p.can_continue ) {
-		lo = atoi( p.token );
+		// integer value not used
 	} else goto error;
 
 	if( hi != PROTOCOL_HIVER ) {
@@ -1442,9 +1429,7 @@ error:
  */
 static TEG_STATUS client_lookup(PARSER *p)
 {
-	int i;
-
-	for(i = 0; i < NRCLITOKENS; i++) {
+	for(unsigned i = 0; i < NRCLITOKENS; i++) {
 		if(strcasecmp( p->token, tokens[i].label )==0 ){
 			if (tokens[i].func)
 				return( (tokens[i].func)(p->value));

@@ -36,7 +36,8 @@ void countries_repartir()
 		player_from_indice( j, &real_j );
 		player_asignarcountry(real_j,p);
 		p->ejercitos=1;	
-		j = (++j % g_game.playing);
+		j++;
+		j = j % g_game.playing;
 	}
 
 	/* toma un player al azar, y a partir de el le da un country a cada uno */
@@ -47,7 +48,8 @@ void countries_repartir()
 			player_from_indice( j, &real_j );
 			player_asignarcountry( real_j,p);
 			p->ejercitos=1;	
-			j = (++j % g_game.playing);
+			j++;
+			j = j % g_game.playing;
 		}
 	}
 }
