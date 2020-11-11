@@ -89,13 +89,6 @@ again:
 	return( n );
 }
 
-ssize_t
-net_read( int fd, void *vptr, size_t maxlen )
-{
-	return read( fd, vptr, maxlen );
-}
-
-
 int
 net_connect_tcp( const char *host, int port )
 {

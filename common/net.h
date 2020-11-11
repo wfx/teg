@@ -32,7 +32,6 @@ int net_print(int sock, char *msg);
 int net_listen(const char *host, int port );
 int net_connect_tcp( const char *host, int port );
 int net_close( int s );
-ssize_t net_read( int s, void *buf, size_t maxlen );
 
 #ifdef __cplusplus
 }
