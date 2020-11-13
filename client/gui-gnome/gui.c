@@ -35,7 +35,6 @@
 #include "interface.h"
 #include "support.h"
 #include "chatline.h"
-#include "priv.h"
 #include "g_country.h"
 #include "stock.h"
 #include "cards.h"
