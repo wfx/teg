@@ -84,7 +84,7 @@ static TEG_STATUS connect_real()
 
 	        gui_private.tag = g_io_add_watch_full( channel,
 	                                               G_PRIORITY_DEFAULT,
-	                                               G_IO_IN,
+			                                       G_IO_IN | G_IO_PRI | G_IO_ERR | G_IO_HUP | G_IO_NVAL,
 	                                               (GIOFunc) pre_client_recv,
 	                                               NULL, NULL );
 
