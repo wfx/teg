@@ -68,12 +68,18 @@ static GIOChannel *channel = NULL;
 
 void shutdown_channel(void)
 {
-	if ( gui_private.tag > 0 ) {
-	        g_source_remove (gui_private.tag);
-	        g_io_channel_shutdown (channel, FALSE, NULL);
-	        g_io_channel_unref (channel);
-	        channel = NULL;
+	if(channel == NULL) {
+		return;
 	}
+
+	if (gui_private.tag > 0) {
+		    g_source_remove(gui_private.tag);
+			gui_private.tag = 0;
+	}
+
+	g_io_channel_shutdown (channel, FALSE, NULL);
+	g_io_channel_unref (channel);
+	channel = NULL;
 }
 
 static TEG_STATUS connect_real()
