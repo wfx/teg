@@ -30,6 +30,8 @@
 #include <goocanvas.h>
 #include <glib/gi18n.h>
 
+#include "../../common/tegdebug.h"
+
 #include "gui.h"
 #include "client.h"
 #include "support.h"
@@ -75,8 +77,10 @@ static GIOChannel *channel = NULL;
  */
 static guint channel_watch_id;
 
-void shutdown_channel(void)
+void disconnect(enum DisconnectReason reason)
 {
+	PDEBUG("channel=%p wid=%u", channel, channel_watch_id);
+
 	if(channel == NULL) {
 		return;
 	}
@@ -87,6 +91,14 @@ void shutdown_channel(void)
 	g_io_channel_unref (channel);
 
 	channel = NULL;
+
+	if(DR_NORMAL_DISCONNECT == reason) {
+		textmsg( M_INF, _("Disconnected from the server."));
+	} else {
+		textmsg( M_ERR, _("We lost the connection to the server."));
+	}
+
+	teg_disconnect();
 }
 
 static TEG_STATUS connect_real()

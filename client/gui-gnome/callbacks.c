@@ -96,6 +96,8 @@ gboolean pre_client_recv (GIOChannel *source, GIOCondition cond, gpointer data)
 
 	if(ok) {
 		client_recv(fd);
+	} else {
+		disconnect(DR_IO_ERROR);
 	}
 
 	PDEBUG("--------------------------------------------\n"
@@ -117,8 +119,7 @@ void on_connect_activate (GtkMenuItem *menuitem, gpointer user_data)
 
 void on_disconnect_activate (GtkMenuItem *menuitem, gpointer user_data)
 {
-	shutdown_channel();
-	teg_disconnect();
+	disconnect(DR_NORMAL_DISCONNECT);
 }
 
 void on_launchrobot_activate (GtkMenuItem *menuitem, gpointer user_data)
@@ -134,8 +135,7 @@ void on_scores_activate(GtkMenuItem *widget, gpointer user_data)
 
 void on_exit_activate (GtkWidget *widget, gpointer user_data)
 {
-	shutdown_channel();
-	teg_disconnect();
+	disconnect(DR_NORMAL_DISCONNECT);
 	cards_free();
 	gtk_main_quit();
 }

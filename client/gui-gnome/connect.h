@@ -24,7 +24,24 @@
 extern "C" {
 #endif
 
-void shutdown_channel();
+enum DisconnectReason
+{
+	/// the client decided to terminate the connection (for example with the
+	/// disconnect button
+	DR_NORMAL_DISCONNECT,
+
+	/// There was an unrecoverable IO error
+	DR_IO_ERROR,
+};
+
+/**
+ * Shut down the connection to the server, reset the GUI and print a message
+ * about the disconnect.
+ *
+ * \param reason Why was the connectio shut down?
+ */
+void disconnect(enum DisconnectReason reason);
+
 void connect_view();
 void gametype_view();
 void colortype_view( char *colores);
