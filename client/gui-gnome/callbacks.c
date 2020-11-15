@@ -27,6 +27,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "../../common/tegdebug.h"
+
 #include "gui.h"
 #include "client.h"
 
@@ -71,12 +73,36 @@ void raise_and_focus (GtkWidget *widget)
 	gtk_widget_grab_focus (widget);
 }
 
-/*
- * otras funciones
- */
 gboolean pre_client_recv (GIOChannel *source, GIOCondition cond, gpointer data)
 {
-	client_recv( g_io_channel_unix_get_fd (source) );
+	int const fd=g_io_channel_unix_get_fd(source);
+	const bool ok = (cond == (cond & (G_IO_IN | G_IO_PRI)));
+
+	char const*const line = ok ? "++++++++++++++++++++++++++++++++++++++++++++"
+	                           : "++##++##++##++##++##++##++##++##++##++##++##";
+
+	PDEBUG("%s\n"
+	       "fd=%d, cond=%u (in=%u, out=%u, pri=%u, err=%u, hup=%u, inv=%u)\n",
+	       line,
+	       fd,
+	       (unsigned) cond,
+	       (unsigned) G_IO_IN,
+	       (unsigned) G_IO_OUT,
+	       (unsigned) G_IO_PRI,
+	       (unsigned) G_IO_ERR,
+	       (unsigned) G_IO_HUP,
+	       (unsigned) G_IO_NVAL
+	       );
+
+	if(ok) {
+		client_recv(fd);
+	}
+
+	PDEBUG("--------------------------------------------\n"
+	       "recv done");
+
+	/* no need to return false here, since the channel got already destroyed by
+	 * the call to disconnect() */
 	return TRUE;
 }
 
