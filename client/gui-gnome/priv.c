@@ -36,7 +36,6 @@ GSettings *settings = NULL;
 
 TEG_STATUS priv_init( void )
 {
-	gui_private.tag = -1;
 	gui_private.msg_show_colors
 	  = g_settings_get_boolean( settings, "msgshow-with-color" );
 	gui_private.country_i_am = -1;

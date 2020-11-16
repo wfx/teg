@@ -17,15 +17,35 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file connect.h
- */
-#ifndef __GUI_GNOME_CONECTAR_H
-#define __GUI_GNOME_CONECTAR_H
 
-void shutdown_channel();
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+enum DisconnectReason
+{
+	/// the client decided to terminate the connection (for example with the
+	/// disconnect button
+	DR_NORMAL_DISCONNECT,
+
+	/// There was an unrecoverable IO error
+	DR_IO_ERROR,
+};
+
+/**
+ * Shut down the connection to the server, reset the GUI and print a message
+ * about the disconnect.
+ *
+ * \param reason Why was the connectio shut down?
+ */
+void disconnect(enum DisconnectReason reason);
+
 void connect_view();
 void gametype_view();
 void colortype_view( char *colores);
 
-#endif /* __GUI_GNOME_CONECTAR_H */
+#ifdef __cplusplus
+}
+#endif

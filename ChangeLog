@@ -2,6 +2,9 @@
 
 *  #17: Add the ability to place Armies with the mouse wheel
 
+* [bug #16] Fix the client-side deadlock when the server shuts down and the
+  client tries to reconnect.
+
 - version 0.11.2
 
 Mar 13 2007

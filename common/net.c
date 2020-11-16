@@ -38,6 +38,8 @@
 #include <stdio.h>
 #include <netdb.h>
 
+#include "tegdebug.h"
+
 #include "protocol.h"
 
 static ssize_t
@@ -46,6 +48,8 @@ writen(int fd, const void *vptr, size_t n )
 	size_t nleft;
 	ssize_t nwritten;
 	const char *ptr;
+
+	PDEBUG("send to fd %d %zu bytes: »%.*s«\n", fd, n, (int)n, (char const*)vptr);
 
 	ptr = vptr;
 	nleft = n;
@@ -86,15 +90,10 @@ again:
 	}
 
 	*ptr = 0;
+	PDEBUG("read from fd %d %zu bytes: »%.*s«\n", fd, n, (int)n, (char const*)vptr);
+
 	return( n );
 }
-
-ssize_t
-net_read( int fd, void *vptr, size_t maxlen )
-{
-	return read( fd, vptr, maxlen );
-}
-
 
 int
 net_connect_tcp( const char *host, int port )

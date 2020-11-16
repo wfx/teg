@@ -257,7 +257,6 @@ TEG_STATUS gui_main(void)
 
 TEG_STATUS gui_disconnect(void)
 {
-	gui_private.tag=-1;
 	set_sensitive_tb();
 
 	dices_unview();

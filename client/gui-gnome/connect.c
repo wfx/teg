@@ -30,6 +30,8 @@
 #include <goocanvas.h>
 #include <glib/gi18n.h>
 
+#include "../../common/tegdebug.h"
+
 #include "gui.h"
 #include "client.h"
 #include "support.h"
@@ -64,16 +66,39 @@ static GtkWidget *gametype_spinner_armies2=NULL;
 
 static GtkWidget *boton_color[TEG_MAX_PLAYERS] = { NULL, NULL, NULL, NULL, NULL, NULL };
 
+/**
+ * The gnome main loop IO channel used to connect the server connection fd with
+ * the GTK main loop
+ */
 static GIOChannel *channel = NULL;
 
-void shutdown_channel(void)
+/**
+ * The event source ID assigned for the server connection fd
+ */
+static guint channel_watch_id;
+
+void disconnect(enum DisconnectReason reason)
 {
-	if ( gui_private.tag > 0 ) {
-	        g_source_remove (gui_private.tag);
-	        g_io_channel_shutdown (channel, FALSE, NULL);
-	        g_io_channel_unref (channel);
-	        channel = NULL;
+	PDEBUG("channel=%p wid=%u", channel, channel_watch_id);
+
+	if(channel == NULL) {
+		return;
 	}
+
+	g_source_remove(channel_watch_id);
+
+	g_io_channel_shutdown (channel, FALSE, NULL);
+	g_io_channel_unref (channel);
+
+	channel = NULL;
+
+	if(DR_NORMAL_DISCONNECT == reason) {
+		textmsg( M_INF, _("Disconnected from the server."));
+	} else {
+		textmsg( M_ERR, _("We lost the connection to the server."));
+	}
+
+	teg_disconnect();
 }
 
 static TEG_STATUS connect_real()
@@ -82,11 +107,11 @@ static TEG_STATUS connect_real()
 	        if ( !channel )
 	                channel = g_io_channel_unix_new ( g_game.fd );
 
-	        gui_private.tag = g_io_add_watch_full( channel,
+	        channel_watch_id = g_io_add_watch_full(channel,
 	                                               G_PRIORITY_DEFAULT,
-	                                               G_IO_IN,
+			                                       G_IO_IN | G_IO_PRI | G_IO_ERR | G_IO_HUP | G_IO_NVAL,
 	                                               (GIOFunc) pre_client_recv,
-	                                               NULL, NULL );
+			                                       NULL, NULL);
 
 		out_id();
 		for(size_t i=0; i<COUNTRIES_CANT; i++)

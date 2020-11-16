@@ -26,7 +26,9 @@
 #define TEGDEBUG
 
 #ifdef TEGDEBUG
-#	define PDEBUG(a...) fprintf(stderr, a)
+#	define PDEBUG(format, ...) fprintf(stderr, "%s:%d(%s)" format, \
+	                               __FILE__, __LINE__, __PRETTY_FUNCTION__ \
+	                               __VA_OPT__(, __VA_ARGS__))
 #else
 #	define PDEBUG(a)
 #endif
