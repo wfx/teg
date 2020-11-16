@@ -66,31 +66,34 @@ static GtkWidget *gametype_spinner_armies2=NULL;
 
 static GtkWidget *boton_color[TEG_MAX_PLAYERS] = { NULL, NULL, NULL, NULL, NULL, NULL };
 
-/**
- * The gnome main loop IO channel used to connect the server connection fd with
- * the GTK main loop
- */
-static GIOChannel *channel = NULL;
+static struct {
+	/**
+	 * The gnome main loop IO channel used to connect the server connection fd with
+	 * the GTK main loop
+	 */
+	GIOChannel *channel;
+	
+	/**
+	 * The event source ID assigned for the server connection fd
+	 */
+	guint watch_id;
+} io_channel = {NULL, 0};
 
-/**
- * The event source ID assigned for the server connection fd
- */
-static guint channel_watch_id;
 
 void disconnect(enum DisconnectReason reason)
 {
-	PDEBUG("channel=%p wid=%u", channel, channel_watch_id);
+	PDEBUG("channel=%p wid=%u", io_channel.channel, io_channel.watch_id);
 
-	if(channel == NULL) {
+	if(io_channel.channel == NULL) {
 		return;
 	}
 
-	g_source_remove(channel_watch_id);
+	g_source_remove(io_channel.watch_id);
 
-	g_io_channel_shutdown (channel, FALSE, NULL);
-	g_io_channel_unref (channel);
+	g_io_channel_shutdown(io_channel.channel, FALSE, NULL);
+	g_io_channel_unref(io_channel.channel);
 
-	channel = NULL;
+	io_channel.channel = NULL;
 
 	if(DR_NORMAL_DISCONNECT == reason) {
 		textmsg( M_INF, _("Disconnected from the server."));
@@ -104,10 +107,11 @@ void disconnect(enum DisconnectReason reason)
 static TEG_STATUS connect_real()
 {
 	if( teg_connect() == TEG_STATUS_SUCCESS ) {
-	        if ( !channel )
-	                channel = g_io_channel_unix_new ( g_game.fd );
+	        if (NULL == io_channel.channel) {
+	                io_channel.channel = g_io_channel_unix_new(g_game.fd);
+			}
 
-	        channel_watch_id = g_io_add_watch_full(channel,
+	        io_channel.watch_id = g_io_add_watch_full(io_channel.channel,
 	                                               G_PRIORITY_DEFAULT,
 			                                       G_IO_IN | G_IO_PRI | G_IO_ERR | G_IO_HUP | G_IO_NVAL,
 	                                               (GIOFunc) pre_client_recv,
