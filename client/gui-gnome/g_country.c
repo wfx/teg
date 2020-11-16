@@ -120,6 +120,40 @@ leave_notify_cb (GooCanvasItem *item, GooCanvasItem *target,
 }
 
 static gboolean
+button_scroll_cb (GooCanvasItem *item, GooCanvasItem *targent,
+                  GdkEventScroll *event, gpointer data)
+{
+	PCOUNTRY country = (PCOUNTRY) data;
+	switch( ESTADO_GET() ) {
+	    case PLAYER_STATUS_FICHAS:
+	    case PLAYER_STATUS_FICHAS2:
+	    case PLAYER_STATUS_FICHASC:
+		    switch(event->direction)
+			{
+			case GDK_SCROLL_UP:
+				if( fichas_add( country ) == TEG_STATUS_SUCCESS ) {
+					    G_country_draw_ejer(country->id);
+						armies_add( country->id );
+				}
+			            break;
+			case GDK_SCROLL_DOWN:
+				if( fichas_sub( country ) == TEG_STATUS_SUCCESS ) {
+					    G_country_draw_ejer(country->id);
+						armies_del( country->id );
+				}
+			default:
+			break;
+			}
+	break;
+	default:
+	break;
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
 button_press_cb (GooCanvasItem *item, GooCanvasItem *targent,
                  GdkEventButton *event, gpointer data)
 {
@@ -344,6 +378,8 @@ setup_dnd_handlers (GooCanvasItem *item, PCOUNTRY country)
                           G_CALLBACK (motion_notify_cb), country);
         g_signal_connect (item, "button-release-event",
                           G_CALLBACK (button_release_cb), country);
+		g_signal_connect (item, "scroll-event",
+		                  G_CALLBACK (button_scroll_cb), country);
 }
 
 /**
