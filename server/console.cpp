@@ -352,7 +352,7 @@ TEG_STATUS console_handle(int fd)
 }
 
 
-void con_text_out(int level, char *format, ...)
+void con_text_out(int level, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];

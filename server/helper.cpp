@@ -35,8 +35,12 @@
 #include "../common/parser.h"
 #include "../common/tegdebug.h"
 #include "../common/fcintl.h"
+#include "../common/execute.hpp"
+
 #include "server.h"
 #include "fow.h"
+
+using namespace teg;
 
 static char colors[TEG_MAX_PLAYERS];
 
@@ -442,8 +446,10 @@ TEG_STATUS fichasc_next(void)
 /* find the internet address of a player */
 TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
 {
-	struct sockaddr *sa;
-	socklen_t slen = 128;
+	union {
+		sockaddr addr;
+		char buf[128+sizeof(sockaddr)];
+	} addr;
 
 	assert(pJ);
 
@@ -453,26 +459,22 @@ TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
 		return TEG_STATUS_ERROR;
 	}
 
-	if((sa=malloc(slen)) == NULL) {
-		return TEG_STATUS_ERROR;
-	}
-
-	if(getpeername(pJ->fd, sa, &slen) == -1) {
+	socklen_t length=sizeof(addr);
+	if(getpeername(pJ->fd, &addr.addr, &length) == -1) {
 		con_text_out(M_ERR, "Error in getpeername()\n");
 		pJ->addr[sizeof(pJ->addr)-1]=0;
 
-		free(sa);
 		return TEG_STATUS_ERROR;
 	}
 
-	switch(sa->sa_family) {
+	switch(addr.addr.sa_family) {
 	case AF_INET: {
-		struct sockaddr_in *sin = (struct sockaddr_in*) sa;
+		sockaddr_in *sin = (struct sockaddr_in*) &addr.addr;
 		inet_ntop(AF_INET, &sin->sin_addr, pJ->addr, sizeof(pJ->addr)-1);
 		break;
 	}
 	case AF_INET6: {
-		struct sockaddr_in6 *sin6 = (struct sockaddr_in6*) sa;
+		sockaddr_in6 *sin6 = (struct sockaddr_in6*) &addr.addr;
 		inet_ntop(AF_INET6, &sin6->sin6_addr, pJ->addr, sizeof(pJ->addr)-1);
 		break;
 	}
@@ -483,8 +485,6 @@ TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
 	pJ->addr[sizeof(pJ->addr)-1]=0;
 
 	strip_invalid(pJ->addr);
-
-	free(sa);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -550,7 +550,7 @@ TEG_STATUS aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 TEG_STATUS launch_robot(int *robot_socket, char *mode)
 {
 	pid_t pid;
-	char *args[5];
+	char const *args[5];
 
 	int sockets[2];
 
@@ -580,7 +580,7 @@ TEG_STATUS launch_robot(int *robot_socket, char *mode)
 		}
 
 		con_text_out(M_ERR, _("Launching robot with options: %s %s\n"), args[0], args[1]);
-		if(execv(args[0], args) < 0) {
+		if(!execute_program(args)) {
 			fprintf(stderr, "Launching robot failed. Does the file `%s' exists ?", args[0]);
 			perror("exe:");
 		}

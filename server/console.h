@@ -38,7 +38,7 @@ void con_show_prompt();
  *
  * \note The parameter \p level is ignored
  */
-void con_text_out(int level, char *format, ...);
+void con_text_out(int level, const char *format, ...);
 
 /** \brief Print a text to the server console without printing a ready prompt
  *

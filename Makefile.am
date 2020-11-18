@@ -47,7 +47,7 @@ libtegserver_a_SOURCES = \
 	server/play.c server/play.h		\
 	server/turno.c server/turno.h		\
 	server/console.cpp server/console.h	\
-	server/helper.c server/helper.h	\
+	server/helper.cpp server/helper.h	\
 	server/missions.cpp server/missions.h \
 	server/options.c server/options.h	\
 	server/xmlscores.c server/xmlscores.h	\
