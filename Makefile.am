@@ -95,7 +95,7 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/callbacks.cpp client/gui-gnome/callbacks.h	\
 	client/gui-gnome/interface.c client/gui-gnome/interface.h	\
 	client/gui-gnome/chatline.cpp client/gui-gnome/chatline.h	\
-	client/gui-gnome/priv.c client/gui-gnome/priv.h		\
+	client/gui-gnome/priv.cpp client/gui-gnome/priv.h		\
 	client/gui-gnome/support.c client/gui-gnome/support.h	\
 	client/gui-gnome/g_cont.cpp client/gui-gnome/g_cont.h	\
 	client/gui-gnome/g_country.cpp client/gui-gnome/g_country.h	\
