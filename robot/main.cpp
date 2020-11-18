@@ -68,7 +68,7 @@ int main(int argc, char **argv_var)
 			fprintf(stderr, _("  -q, --quiet\t\tdont show messages\n"));
 			exit(0);
 		} else if(is_option("--version", argv[i])) {
-			fprintf(stderr, TEG_NAME" v"VERSION"\n");
+			fprintf(stderr, TEG_NAME" v" VERSION "\n");
 			exit(0);
 		} else if((option = get_option("--name", argv, &i, argc)) != NULL) {
 			strncpy(g_game.myname, option, PLAYERNAME_MAX_LEN);

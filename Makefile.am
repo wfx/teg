@@ -138,7 +138,7 @@ tegrobot_CPPFLAGS = \
 	-I$(top_srcdir)/common -I$(top_srcdir)/client
 
 tegrobot_SOURCES = 		\
-        robot/main.c \
+        robot/main.cpp \
         robot/gui.c \
 	robot/ai.c robot/ai.h		\
 	robot/ai_msg.c robot/ai_msg.h	\
