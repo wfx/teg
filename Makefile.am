@@ -53,7 +53,7 @@ libtegserver_a_SOURCES = \
 	server/fow.c server/fow.h
 
 tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
-tegserver_SOURCES = server/main.c
+tegserver_SOURCES = server/main.cpp
 tegserver_LDADD = libtegserver.a libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
 
 libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common \
@@ -158,6 +158,6 @@ tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_
 tegtest_LDFLAGS = -Wl,--as-needed
 
 tegservertest_CPPFLAGS = -DTEGSERVER_OMIT_MAIN=1
-tegservertest_SOURCES = server/main.c server/helper_check.cpp server/player_check.cpp
+tegservertest_SOURCES = server/main.cpp server/helper_check.cpp server/player_check.cpp
 tegservertest_LDADD = libtegserver.a libtegcommon.a \
     -lgmock_main -lgtest -lgmock @SERVER_LIBS@ @XML_LIBS@ -lpthread

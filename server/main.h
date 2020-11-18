@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "player.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -31,10 +33,10 @@ void game_init();
 void game_new();
 
 /**! called when a game in finish */
-void game_end();
+void game_end(PSPLAYER winner);
 
 /**! when the game is over */
-BOOLEAN game_is_finished(void);
+bool game_is_finished(void);
 
 void server_init();
 

@@ -30,6 +30,7 @@
 #include "scores.h"
 #include "xmlscores.h"
 #include "fcintl.h"
+#include "main.h"
 
 LIST_ENTRY g_list_player;		/**< list of players */
 
