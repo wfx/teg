@@ -44,7 +44,7 @@ libtegserver_a_SOURCES = \
 	server/player.c server/player.h	\
 	server/sernet.c server/sernet.h	\
 	server/countries.cpp server/countries.h	\
-	server/play.c server/play.h		\
+	server/play.cpp server/play.h		\
 	server/turno.c server/turno.h		\
 	server/console.cpp server/console.h	\
 	server/helper.cpp server/helper.h	\

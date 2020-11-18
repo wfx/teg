@@ -206,7 +206,7 @@ int net_printf(int sock, char const *format, ...)
 	return writen(sock, buf, strlen(buf));
 }
 
-int net_print(int sock, char *msg)
+int net_print(int sock, char const *msg)
 {
 	return writen(sock, msg, strlen(msg));
 }

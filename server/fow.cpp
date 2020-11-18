@@ -100,7 +100,7 @@ TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len)
 	return TEG_STATUS_SUCCESS;
 }
 
-int fow_netall_printf(int country, char *format, ...)
+int fow_netall_printf(int country, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
@@ -149,7 +149,7 @@ int fow_netall_printf(int country, char *format, ...)
  * After format is parsed, 2 "%d" should be present, because they will
  * be filled with src & dst
  */
-int fow_2_netall_printf(int src, int dst, char *format, ...)
+int fow_2_netall_printf(int src, int dst, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];

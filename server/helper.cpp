@@ -547,7 +547,7 @@ TEG_STATUS aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS launch_robot(int *robot_socket, char *mode)
+TEG_STATUS launch_robot(int *robot_socket, char const *mode)
 {
 	pid_t pid;
 	char const *args[5];

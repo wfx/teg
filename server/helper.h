@@ -50,7 +50,7 @@ TEG_STATUS fichasc_next(void);
 
 TEG_STATUS aux_find_inaddr(PSPLAYER pJ);
 
-TEG_STATUS launch_robot(int *robot_socket, char *mode);
+TEG_STATUS launch_robot(int *robot_socket, const char *mode);
 
 #ifdef __cplusplus
 }

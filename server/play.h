@@ -34,14 +34,14 @@ extern "C" {
  * \return TEG_STATUS_SUCCESS if a new game is started
  *         TEG_STATUS_PARSEERROR if there was any error.
  */
-TEG_STATUS token_start(int fd);
+TEG_STATUS token_start(int fd, char *);
 
 /** \brief Shut down the server
  *
  * \return This function always returns TEG_STATUS_CONNCLOSED. It can't be void
  *         since it is used as a callback function.
  */
-TEG_STATUS token_exit(int fd);
+TEG_STATUS token_exit(int fd, char *);
 
 /// \brief Read a message from a client fd and do the appropriate action
 TEG_STATUS play_teg(int fd);

@@ -85,9 +85,9 @@ STATIC TEG_STATUS token_new_round(int fd, char *str);
 STATIC TEG_STATUS token_typeofgame(int fd, char *str);
 
 struct {
-	char *label;
-	TEG_STATUS(*func)();
-	char *help;
+	char const *label;
+	TEG_STATUS(*func)(int, char*);
+	char const *help;
 } tokens[] = {
 	{ TOKEN_START,		token_start,	N_("to start the game") },
 	{ TOKEN_STATUS,		token_status,	N_("shows the status of the players") },
@@ -138,7 +138,7 @@ STATIC TEG_STATUS token_set(int fd, char *str)
 	}
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_SET"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_SET "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -172,7 +172,7 @@ STATIC TEG_STATUS token_loque(int fd, char *unused)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_LOQUE"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_LOQUE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -217,7 +217,7 @@ STATIC TEG_STATUS token_color(int fd, char *str)
 	netall_printf("%s=%s,%d,%d\n", TOKEN_NEWPLAYER, pJ->name, pJ->numjug, pJ->color);
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_COLOR"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_COLOR "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -243,7 +243,7 @@ STATIC TEG_STATUS token_mission(int fd, char *unused)
 	net_printf(fd, "%s=%d\n", TOKEN_MISSION, pJ->mission);
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_MISSION"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_MISSION "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -279,7 +279,7 @@ STATIC TEG_STATUS token_turn(int fd, char *unused)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_TURNO"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_TURNO "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -302,7 +302,7 @@ STATIC TEG_STATUS token_message(int fd, char *msg)
 	}
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_MESSAGE"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_MESSAGE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -436,7 +436,7 @@ STATIC TEG_STATUS token_playerid(int fd, char *str)
 	}
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_PLAYERID"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_PLAYERID "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -464,7 +464,7 @@ STATIC TEG_STATUS token_fichas(int fd, char *str)
 	}
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_FICHAS"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_FICHAS "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -485,7 +485,7 @@ STATIC TEG_STATUS token_fichas2(int fd, char *str)
 		return TEG_STATUS_SUCCESS;
 	}
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_FICHAS2"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_FICHAS2 "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -524,7 +524,7 @@ STATIC TEG_STATUS token_fichasc(int fd, char *str)
 	}
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_FICHASC"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_FICHASC "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -557,7 +557,7 @@ STATIC TEG_STATUS token_robot(int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_ROBOT"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_ROBOT "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -738,7 +738,7 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_ATAQUE"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_ATAQUE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -814,7 +814,7 @@ STATIC TEG_STATUS token_tropas(int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_TROPAS"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_TROPAS "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -875,7 +875,7 @@ STATIC TEG_STATUS token_card(int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_TARJETA"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_TARJETA "\n");
 	return TEG_STATUS_ERROR;
 }
 
@@ -917,7 +917,7 @@ STATIC TEG_STATUS token_enum_cards(int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_ENUM_CARDS"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_ENUM_CARDS "\n");
 	return TEG_STATUS_ERROR;
 }
 
@@ -943,7 +943,7 @@ STATIC TEG_STATUS token_new_round(int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_NEW_ROUND"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_NEW_ROUND "\n");
 	return TEG_STATUS_ERROR;
 }
 
@@ -1003,7 +1003,7 @@ STATIC TEG_STATUS token_ejer2(int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_EJER2"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_EJER2 "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -1073,7 +1073,7 @@ STATIC TEG_STATUS token_canje(int fd, char *str)
 	              pJ->numjug, canj_ejer, t1, t2, t3);
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_CANJE"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_CANJE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -1162,7 +1162,7 @@ STATIC TEG_STATUS token_regroup(int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_REAGRUPE"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_REAGRUPE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -1186,7 +1186,7 @@ STATIC TEG_STATUS token_status(int fd, char *unused)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_STATUS"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_STATUS "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -1210,7 +1210,7 @@ STATIC TEG_STATUS token_scores(int fd, char *unused)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_SCORES"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_SCORES "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -1283,12 +1283,12 @@ STATIC TEG_STATUS token_countries(int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_COUNTRIES"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_COUNTRIES "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* To start the game */
-TEG_STATUS token_start(int fd)
+TEG_STATUS token_start(int fd, char*)
 {
 	char strout[PROT_MAX_LEN + PLAYERNAME_MAX_LEN  * TEG_MAX_PLAYERS + 200];
 	PSPLAYER pJ;
@@ -1340,7 +1340,7 @@ TEG_STATUS token_start(int fd)
 	              g_game.fichas);	/* how many armies to place */
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_START"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_START "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -1367,7 +1367,7 @@ TEG_STATUS token_typeofgame(int fd, char *str)
 	             );
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_MODALIDAD"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_MODALIDAD "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
@@ -1436,11 +1436,11 @@ STATIC TEG_STATUS token_pversion(int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_PVERSION"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_PVERSION "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
-TEG_STATUS token_exit(int fd)
+TEG_STATUS token_exit(int fd, char*)
 {
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_exit\n");
@@ -1480,7 +1480,7 @@ TEG_STATUS token_surrender(int fd, char *unused)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR"="TOKEN_SURRENDER"\n");
+	net_print(fd, TOKEN_ERROR "=" TOKEN_SURRENDER "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 

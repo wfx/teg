@@ -247,7 +247,8 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 
 STATIC TEG_STATUS con_start(int fd, char*unused)
 {
-	return token_start(fd);
+	char ch = 0;
+	return token_start(fd, &ch);
 }
 
 STATIC TEG_STATUS con_help(int fd, char*unused)

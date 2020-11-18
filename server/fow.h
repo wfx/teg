@@ -37,10 +37,10 @@ BOOLEAN fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP);
 TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len);
 
 /// send the message to all players who has a country boundary with 'country'
-int fow_netall_printf(int country, char *format, ...);
+int fow_netall_printf(int country, const char *format, ...);
 
 /// send the message to all players who has a country boundary with  country1 and country2
-int fow_2_netall_printf(int country1, int country2, char *format, ...);
+int fow_2_netall_printf(int country1, int country2, const char *format, ...);
 
 #ifdef __cplusplus
 }
