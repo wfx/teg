@@ -107,7 +107,7 @@ aimsg_t mensajes_answer[] = {
 #define NR_MSGS_ANSWER ( sizeof(mensajes_answer) / sizeof(mensajes_answer[0]))
 
 
-static char *names[] = {
+static char const *names[] = {
 	N_("Coca Sarli"),
 	N_("Ciccolina"),
 	N_("Raton Perez"),
@@ -147,7 +147,7 @@ static char *names[] = {
 #define NR_NAMES ( sizeof(names) / sizeof(names[0]))
 
 
-TEG_STATUS ai_out_mensaje(int r, char *format, ...)
+TEG_STATUS ai_out_mensaje(int r, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
@@ -202,7 +202,7 @@ TEG_STATUS ai_msg(int type, char const *name)
 	return TEG_STATUS_SUCCESS;
 }
 
-char * ai_name()
+char const * ai_name()
 {
 	int i = RANDOM_MAX(0, NR_NAMES-1);
 	return _(names[i]);
