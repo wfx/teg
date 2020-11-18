@@ -52,7 +52,7 @@ struct _G_colores G_colores[] = {
 #define NR_COLORS (sizeof(G_colores)/sizeof(G_colores[0]))
 GdkRGBA colors_players[NR_COLORS];
 
-char *G_colores_common[] = {
+char const *G_colores_common[] = {
 	"white", "black"
 };
 #define NR_COLORS_COMMON (2)
@@ -67,9 +67,11 @@ GdkPixbuf *g_color_circle_over;
 
 TEG_STATUS colors_load_images(void)
 {
+	/** \todo transform those »load_from_file(filename)+g_free(filename)« into
+	 * a own function */
+
 	static int images_loaded = 0;
 	char name[512];
-	char *filename=NULL;
 
 	int i;
 
@@ -86,14 +88,14 @@ TEG_STATUS colors_load_images(void)
 		/* IMPORTANT:  Dont translate g_colores! */
 		if(! gui_theme.choose_colors_custom) {
 			snprintf(name, sizeof(name) -1, "color_player_%s.png", g_colores[i]);
-			filename = load_pixmap_file(name);
+			char *const filename = load_pixmap_file(name);
 			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
 			if(filename) {
 				g_free(filename);
 			}
 		} else {
 			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, g_colores[i]);
-			filename = theme_load_file(name);
+			char const*const filename = theme_load_file(name);
 			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
 		}
 
@@ -105,7 +107,7 @@ TEG_STATUS colors_load_images(void)
 		/* load color circles */
 		/* IMPORTANT:  Dont translate g_colores! */
 		snprintf(name, sizeof(name) -1, "disc_%s.png", g_colores[i]);
-		filename = load_pixmap_file(name);
+		char *const filename = load_pixmap_file(name);
 		g_color_circles[i] = gdk_pixbuf_new_from_file(filename, NULL);
 		if(filename) {
 			g_free(filename);
@@ -117,28 +119,32 @@ TEG_STATUS colors_load_images(void)
 		}
 	}
 
-	/* disc for the 'no color' */
-	filename = load_pixmap_file("disc_grey.png");
-	g_color_circles[TEG_MAX_PLAYERS] = gdk_pixbuf_new_from_file(filename, NULL);
-	if(filename) {
-		g_free(filename);
+	{
+		/* disc for the 'no color' */
+		char *const filename = load_pixmap_file("disc_grey.png");
+		g_color_circles[TEG_MAX_PLAYERS] = gdk_pixbuf_new_from_file(filename, NULL);
+		if(filename) {
+			g_free(filename);
+		}
+
+		if(g_color_circles[TEG_MAX_PLAYERS] == NULL) {
+			g_warning(_("Error, couldn't find file: %s"), "disc_grey.png");
+			return TEG_STATUS_ERROR;
+		}
 	}
 
-	if(g_color_circles[TEG_MAX_PLAYERS] == NULL) {
-		g_warning(_("Error, couldn't find file: %s"), "disc_grey.png");
-		return TEG_STATUS_ERROR;
-	}
+	{
+		/* disc over */
+		char *const filename = load_pixmap_file("disc_over.png");
+		g_color_circle_over = gdk_pixbuf_new_from_file(filename, NULL);
+		if(filename) {
+			g_free(filename);
+		}
 
-	/* disc over */
-	filename = load_pixmap_file("disc_over.png");
-	g_color_circle_over = gdk_pixbuf_new_from_file(filename, NULL);
-	if(filename) {
-		g_free(filename);
-	}
-
-	if(g_color_circle_over == NULL) {
-		g_warning(_("Error, couldn't find file: %s"), "disc_over.png");
-		return TEG_STATUS_ERROR;
+		if(g_color_circle_over == NULL) {
+			g_warning(_("Error, couldn't find file: %s"), "disc_over.png");
+			return TEG_STATUS_ERROR;
+		}
 	}
 
 	/* success */
@@ -256,7 +262,7 @@ char * get_tag_for_color(int color)
 }
 
 
-char * get_foreground_for_color(int c)
+char const* get_foreground_for_color(int c)
 {
 	if(!color_is_valid(c)) {
 		return G_colores[NR_COLORS-1].text_color;
@@ -264,7 +270,7 @@ char * get_foreground_for_color(int c)
 	return G_colores[c].text_color;
 }
 
-char * get_background_for_color(int c)
+char const* get_background_for_color(int c)
 {
 	if(!color_is_valid(c)) {
 		return G_colores[NR_COLORS-1].ellip_color;

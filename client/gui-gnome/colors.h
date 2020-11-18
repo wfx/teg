@@ -48,8 +48,8 @@ enum {
 };
 
 struct _G_colores {
-	char *ellip_color;
-	char *text_color;
+	char const *ellip_color;
+	char const *text_color;
 };
 extern struct _G_colores G_colores[];
 extern GdkPixbuf	*g_color_players[];
@@ -65,8 +65,8 @@ GdkRGBA* colors_get_player_ink_from_color(int color);
 GdkRGBA* colors_get_player_virtual(int n);
 GdkRGBA* colors_get_common(int n);
 char * get_tag_for_color(int color);
-char * get_background_for_color(int c);
-char * get_foreground_for_color(int c);
+const char *get_background_for_color(int c);
+const char *get_foreground_for_color(int c);
 
 #ifdef __cplusplus
 }

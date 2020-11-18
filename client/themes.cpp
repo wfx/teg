@@ -855,6 +855,7 @@ void theme_free()
 }
 
 /* Finds the path for a filename */
+/// \todo make this return std::string
 char * theme_load_file(char const *name)
 {
 	FILE *fp;
