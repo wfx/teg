@@ -61,7 +61,7 @@ libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common \
 libclient_a_SOURCES = \
 	client/client.h		\
 	client/globals.h	\
-	client/player.c client/player.h	\
+	client/player.cpp client/player.h	\
 	client/misc.cpp client/misc.h		\
 	client/inputfd.cpp client/inputfd.h	\
 	client/outputfd.c client/outputfd.h	\

@@ -60,14 +60,14 @@ error:
 
 void player_ins(PCPLAYER j)
 {
-	PCPLAYER new = (PCPLAYER) malloc(sizeof(CPLAYER));
-	if(new==NULL) {
+	PCPLAYER new_player = (PCPLAYER) malloc(sizeof(CPLAYER));
+	if(new_player==NULL) {
 		return;
 	}
 
-	memmove(new, j, sizeof(CPLAYER));
-	InitializeListHead(&new->next);
-	InsertTailList(&g_list_player, (PLIST_ENTRY) new);
+	memmove(new_player, j, sizeof(CPLAYER));
+	InitializeListHead(&new_player->next);
+	InsertTailList(&g_list_player, (PLIST_ENTRY) new_player);
 
 	g_game.playeres++;
 }
