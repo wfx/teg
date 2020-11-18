@@ -63,7 +63,7 @@ libclient_a_SOURCES = \
 	client/globals.h	\
 	client/player.c client/player.h	\
 	client/misc.c client/misc.h		\
-	client/inputfd.c client/inputfd.h	\
+	client/inputfd.cpp client/inputfd.h	\
 	client/outputfd.c client/outputfd.h	\
 	client/helper.cpp client/helper.h	\
 	client/fichas.c client/fichas.h	\

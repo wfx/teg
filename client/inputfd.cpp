@@ -59,19 +59,19 @@ TEG_STATUS clitok_lost(char *str);
 TEG_STATUS clitok_exit(char *str);
 TEG_STATUS clitok_pversion(char *str);
 TEG_STATUS clitok_sversion(char *str);
-TEG_STATUS clitok_serverfull(void);
+TEG_STATUS clitok_serverfull(char* str);
 TEG_STATUS clitok_surrender(char *str);
-TEG_STATUS clitok_started(void);
+TEG_STATUS clitok_started(char *);
 TEG_STATUS clitok_kick(char *str);
-TEG_STATUS clitok_scores(const char *str);
+TEG_STATUS clitok_scores(char *str);
 TEG_STATUS clitok_reconnect(char *str);
 TEG_STATUS clitok_enum_cards(char *str);
 TEG_STATUS clitok_playersscores(char *str);
 TEG_STATUS clitok_new_round(char *str);
 
 struct {
-	char *label;
-	TEG_STATUS(*func)();
+	char const *label;
+	TEG_STATUS(*func)(char*);
 } tokens[] = {
 	{ TOKEN_REM,		clitok_rem 	},
 	{ TOKEN_STATUS,		clitok_status 	},
@@ -112,7 +112,7 @@ struct {
 #define	NRCLITOKENS  (sizeof(tokens)/sizeof(tokens[0]))
 
 struct {
-	char *label;
+	char const *label;
 	TEG_STATUS(*func)();
 } err_tokens[] = {
 	{ TOKEN_FICHAS,		fichas_restore_from_error },
@@ -126,7 +126,7 @@ struct {
 #define	NRERRCLITOKENS  (sizeof(err_tokens)/sizeof(err_tokens[0]))
 
 /* the server is full */
-TEG_STATUS clitok_serverfull(void)
+TEG_STATUS clitok_serverfull(char *str)
 {
 	textmsg(M_ERR, _("The server is full. Try connecting as an observer"));
 	teg_disconnect();
@@ -134,7 +134,7 @@ TEG_STATUS clitok_serverfull(void)
 }
 
 /* the game is already started. you cant join it */
-TEG_STATUS clitok_started(void)
+TEG_STATUS clitok_started(char*)
 {
 	textmsg(M_ERR, _("The game has already started. Try connecting as an observer."));
 	teg_disconnect();
@@ -1121,7 +1121,7 @@ error:
 }
 
 /* receives the players scores */
-TEG_STATUS clitok_scores(char const *str)
+TEG_STATUS clitok_scores(char *str)
 {
 	SCORES score;
 	PARSER p;
