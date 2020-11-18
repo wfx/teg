@@ -42,7 +42,7 @@ libtegserver_a_SOURCES = \
         server/globals.h server/main.h		\
 	server/server.h		\
 	server/player.cpp server/player.h	\
-	server/sernet.c server/sernet.h	\
+	server/sernet.cpp server/sernet.h	\
 	server/countries.cpp server/countries.h	\
 	server/play.cpp server/play.h		\
 	server/turno.cpp server/turno.h		\
