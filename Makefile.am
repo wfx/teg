@@ -71,7 +71,7 @@ libclient_a_SOURCES = \
 	client/reagrupe.c client/reagrupe.h	\
 	client/ejer2.c client/ejer2.h		\
 	client/canje.c client/canje.h		\
-	client/themes.c client/themes.h
+	client/themes.cpp client/themes.h
 
 
 tegclient_CPPFLAGS = @XML_CFLAGS@ -I$(top_srcdir)/common

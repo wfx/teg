@@ -754,7 +754,7 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 /* builds a list of available themes */
 TEG_STATUS theme_enum_themes(pTInfo pTI)
 {
-	char *dname = "themes";
+	char const *const dname = "themes";
 	char buf[1000];
 	DIR *dir;
 	struct dirent *e;
@@ -795,7 +795,7 @@ TEG_STATUS theme_enum_themes(pTInfo pTI)
 			if((fp = fopen(buf, "r"))) {
 
 				fclose(fp);
-				pI = malloc(sizeof(*pI));
+				pI = static_cast<TInfo*>(malloc(sizeof(*pI)));
 				if(pI == NULL) {
 					return TEG_STATUS_NOMEM;
 				}
