@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 /// \brief send a message to all connected players.
-void netall_printf(char *format, ...);
+void netall_printf(char const *format, ...);
 
 #ifdef __cplusplus
 }

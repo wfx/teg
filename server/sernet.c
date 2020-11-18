@@ -28,7 +28,7 @@
 #include "../common/protocol.h"
 #include "player.h"
 
-void netall_printf(char *format, ...)
+void netall_printf(char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];

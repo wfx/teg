@@ -76,9 +76,9 @@ STATIC TEG_STATUS con_scores(int, char *);
 STATIC TEG_STATUS con_stats(int, char *);
 
 struct {
-	char *label;
-	TEG_STATUS(*func)();
-	char *help;
+	char const *label;
+	TEG_STATUS(*func)(int, char*);
+	char const *help;
 } con_tokens[] = {
 	{ TOKEN_START,		con_start,	N_("to start playing") },
 	{ TOKEN_STATUS,		con_status,	N_("shows status of players") },
