@@ -105,7 +105,7 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/mission.c client/gui-gnome/mission.h	\
 	client/gui-gnome/status.c client/gui-gnome/status.h	\
 	client/gui-gnome/connect.c client/gui-gnome/connect.h	\
-	client/gui-gnome/armies.c client/gui-gnome/armies.h	\
+	client/gui-gnome/armies.cpp client/gui-gnome/armies.h	\
 	client/gui-gnome/colors.c client/gui-gnome/colors.h	\
 	client/gui-gnome/preferences.c client/gui-gnome/preferences.h \
 	client/gui-gnome/g_scores.c client/gui-gnome/g_scores.h \

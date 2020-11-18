@@ -25,14 +25,14 @@
 #  include <config.h>
 #endif
 
-#include <goocanvas.h>
+#include "armies.h"
+
 #include <glib/gi18n.h>
 
 #include "gui.h"
 #include "client.h"
 #include "interface.h"
 #include "support.h"
-#include "armies.h"
 #include "themes.h"
 #include "fonts.h"
 
@@ -66,8 +66,9 @@ static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *target,
 		dragging = TRUE;
 		g_object_get(item, "x", &x, "y", &y, NULL);
 		goo_canvas_pointer_grab(canvas, item,
-		                        GDK_POINTER_MOTION_MASK |
-		                        GDK_BUTTON_RELEASE_MASK,
+		                        static_cast<GdkEventMask>(
+		                            GDK_POINTER_MOTION_MASK |
+		                            GDK_BUTTON_RELEASE_MASK),
 		                        NULL, event->time);
 	}
 

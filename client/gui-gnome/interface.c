@@ -49,6 +49,7 @@
 #include "themes.h"
 #include "fonts.h"
 #include "priv.h"
+#include "armies.h"
 
 #include "robot.xpm"
 
