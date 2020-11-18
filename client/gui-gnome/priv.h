@@ -18,10 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TEG_GUI_GNOME_PRIV_H
-#define __TEG_GUI_GNOME_PRIV_H
+#pragma once
 
 #include <gtk/gtk.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 enum {
 	DIALOG_ATTACK_TURN,
@@ -42,4 +45,6 @@ extern GSettings *settings;
 
 TEG_STATUS priv_init(void);
 
-#endif /* __TEG_GUI_GNOME_PRIV_H */
+#ifdef __cplusplus
+}
+#endif

@@ -18,12 +18,11 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef STOCK_H
-#define STOCK_H
+#pragma once
 
-
-
-/* Stock names */
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #define STOCK_ZOOM_1	"TEG_stock_zoom_1"
 #define STOCK_ZOOM_FIT	"TEG_stock_zoom_fit"
@@ -34,9 +33,8 @@
 #define STOCK_ENDTURN	"stock-endturn"
 #define STOCK_VIEWPLAYERS	"stock-viewplayers"
 
-
 void stock_init(void);
 
-
-
+#ifdef __cplusplus
+}
 #endif

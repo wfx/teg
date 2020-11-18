@@ -91,7 +91,7 @@ libguiclient_a_CPPFLAGS = \
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 
 
 libguiclient_a_SOURCES = \
-	client/gui-gnome/gui.c client/gui-gnome/gui.h		\
+	client/gui-gnome/gui.cpp client/gui-gnome/gui.h		\
 	client/gui-gnome/callbacks.cpp client/gui-gnome/callbacks.h	\
 	client/gui-gnome/interface.c client/gui-gnome/interface.h	\
 	client/gui-gnome/chatline.cpp client/gui-gnome/chatline.h	\
