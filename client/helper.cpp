@@ -73,7 +73,11 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 	}
 
 	if(parser_parse(&p) && p.can_continue) {
-		pj->estado = atoi(p.token);
+		const int statuscode = atoi(p.token);
+		if((statuscode < 0) || (statuscode >= PLAYER_STATUS_LAST)) {
+			goto error;
+		}
+		pj->estado = static_cast<PLAYER_STATUS>(statuscode);
 	} else {
 		goto error;
 	}
