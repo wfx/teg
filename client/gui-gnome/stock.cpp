@@ -22,7 +22,10 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include "stock.h"
+
+extern "C" {
 #include "stock_gresources.h"
+}
 
 void stock_init(void)
 {

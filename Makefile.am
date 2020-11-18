@@ -99,7 +99,7 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/support.c client/gui-gnome/support.h	\
 	client/gui-gnome/g_cont.cpp client/gui-gnome/g_cont.h	\
 	client/gui-gnome/g_country.cpp client/gui-gnome/g_country.h	\
-	client/gui-gnome/stock.c client/gui-gnome/stock.h		\
+	client/gui-gnome/stock.cpp client/gui-gnome/stock.h		\
 	client/gui-gnome/cards.cpp client/gui-gnome/cards.h		\
 	client/gui-gnome/dices.c client/gui-gnome/dices.h		\
 	client/gui-gnome/mission.c client/gui-gnome/mission.h	\
@@ -118,7 +118,7 @@ libguiclient_a_SOURCES = \
 CLEANFILES = stock_gresources.h stock_gresources.c
 RESOURCE = $(srcdir)/client/gui-gnome/stock.gresource.xml
 
-$(srcdir)/client/gui-gnome/stock.c: stock_gresources.h stock_gresources.c
+$(srcdir)/client/gui-gnome/stock.cpp: stock_gresources.h stock_gresources.c
 stock_gresources.c: $(RESOURCE) stock_gresources.h $(shell \
 	$(GLIB_COMPILE_RESOURCES) --generate-dependencies --sourcedir=$(srcdir)/client/gui-gnome $(RESOURCE))
 	$(GLIB_COMPILE_RESOURCES) --sourcedir=$(srcdir)/client/gui-gnome --target=$@ \
