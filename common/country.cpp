@@ -125,7 +125,7 @@ BOOLEAN country_libre(int i)
 }
 
 /* returns the name of a country */
-char * countries_get_name(int i)
+char const * countries_get_name(int i)
 {
 	if(i >= 0 && i < COUNTRIES_CANT) {
 		return _(g_countries[i].name);

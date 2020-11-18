@@ -28,7 +28,7 @@ libtegcommon_a_SOURCES = 	\
 	common/tegdebug.h		\
 	common/version.h		\
 	common/tarjeta.c common/tarjeta.h	\
-	common/country.c common/country.h	\
+	common/country.cpp common/country.h	\
 	common/limitrof.h		\
 	common/cont.cpp common/cont.h		\
 	common/missions.c common/missions.h	\

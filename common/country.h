@@ -33,7 +33,7 @@ extern "C" {
 typedef struct _country {
 	LIST_ENTRY next;
 	int id;					/**< numero de country */
-	char *name;				/**< name del country*/
+	char const *name;				/**< name del country*/
 	int numjug;				/**< numjug */
 	int ejercitos;				/**< cant de ejercitos */
 	int ejer_reagrupe;			/**< cant de ejercitos pasados en reagru */
@@ -68,7 +68,7 @@ BOOLEAN country_libre(int i);
 BOOLEAN countrynumber_is_valid(int country_number);
 
 /**! returns the name of 'country' */
-char * countries_get_name(int country);
+const char *countries_get_name(int country);
 
 #ifdef __cplusplus
 }
