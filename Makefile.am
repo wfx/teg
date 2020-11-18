@@ -30,7 +30,7 @@ libtegcommon_a_SOURCES = 	\
 	common/tarjeta.c common/tarjeta.h	\
 	common/country.c common/country.h	\
 	common/limitrof.h		\
-	common/cont.c common/cont.h		\
+	common/cont.cpp common/cont.h		\
 	common/missions.c common/missions.h	\
 	common/stats.c common/stats.h		\
         common/scores.c common/scores.h 	\
