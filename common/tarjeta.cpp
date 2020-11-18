@@ -37,7 +37,7 @@ bool card_belongs_to_player(int player, int country)
 
 bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
 {
-	TARJTIPO result = a | b | c;
+	TARJTIPO const result = static_cast<TARJTIPO>(a | b | c);
 
 	return (result & TARJ_COMODIN) // at least one joker
 	       || (result == TARJ_GALEON)
