@@ -49,7 +49,7 @@ libtegserver_a_SOURCES = \
 	server/console.cpp server/console.h	\
 	server/helper.cpp server/helper.h	\
 	server/missions.cpp server/missions.h \
-	server/options.c server/options.h	\
+	server/options.cpp server/options.h	\
 	server/xmlscores.c server/xmlscores.h	\
 	server/fow.cpp server/fow.h
 

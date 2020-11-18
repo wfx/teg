@@ -368,7 +368,7 @@ void con_text_out(int level, char const *format, ...)
 	}
 }
 
-TEG_STATUS con_text_out_wop(int level, char *format, ...)
+TEG_STATUS con_text_out_wop(int level, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];

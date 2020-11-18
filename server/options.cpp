@@ -51,10 +51,10 @@ TEG_STATUS option_help(int fd, char *str);
 TEG_STATUS option_lookup(int fd, PARSER *p);
 
 struct {
-	char *label;
-	TEG_STATUS(*func)();
+	char const *label;
+	TEG_STATUS(*func)(int, char*);
 	TEG_STATUS(*func_view)();
-	char *help;
+	char const *help;
 } options[] = {
 	{ OPTION_CONQWORLD, option_conqworld, option_conqworld_view, N_("Conquer the world, or play with secret missions") },
 	{ OPTION_CMISSION, option_cmission, option_cmission_view, N_("Enable/Disable common secret mission") },

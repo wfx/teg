@@ -44,7 +44,7 @@ void con_text_out(int level, const char *format, ...);
  *
  * \note The parameter \p level is ignored
  */
-TEG_STATUS con_text_out_wop(int level, char *format, ...);
+TEG_STATUS con_text_out_wop(int level, const char *format, ...);
 
 /// \brief Initialize the server console
 TEG_STATUS console_init(void);
