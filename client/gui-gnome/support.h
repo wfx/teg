@@ -18,8 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TEG_GUI_GNOME_SUPPORT_H
-#define __TEG_GUI_GNOME_SUPPORT_H
+#pragma once
+
+#include <glib.h>
+#include <gtk/gtk.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void generic_window_set_parent(GtkWidget * dialog, GtkWindow   * parent);
 char * load_pixmap_file(char *name);
@@ -28,4 +34,6 @@ GtkWidget* teg_dialog_new(char* title, char* bigtitle);
 void teg_dialog_gameover(int numjug, int mission);
 gchar *translate_to_utf8(const gchar *string);
 
-#endif /* __TEG_GUI_GNOME_SUPPORT_H */
+#ifdef __cplusplus
+}
+#endif

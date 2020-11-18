@@ -92,7 +92,7 @@ libguiclient_a_CPPFLAGS = \
 
 libguiclient_a_SOURCES = \
 	client/gui-gnome/gui.c client/gui-gnome/gui.h		\
-	client/gui-gnome/callbacks.c client/gui-gnome/callbacks.h	\
+	client/gui-gnome/callbacks.cpp client/gui-gnome/callbacks.h	\
 	client/gui-gnome/interface.c client/gui-gnome/interface.h	\
 	client/gui-gnome/chatline.c client/gui-gnome/chatline.h	\
 	client/gui-gnome/priv.c client/gui-gnome/priv.h		\

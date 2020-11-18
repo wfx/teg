@@ -359,9 +359,6 @@ static void fill_menu(GtkWidget *menu)
 
 #define GNOME_PAD 8
 
-/**
- * @fn void preferences_activate(void)
- */
 void preferences_activate(void)
 {
 	GtkWidget *label;

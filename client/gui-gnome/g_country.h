@@ -17,13 +17,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * \file g_country.h
- */
-#ifndef __TEG_GUI_GNOME_GCOUNTRY_H
-#define __TEG_GUI_GNOME_GCOUNTRY_H
 
+#include <glib.h>
 #include <goocanvas.h>
+
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 struct _G_countries {
 	char *gfx_name;			/**< name del archivo grafico del country */
@@ -49,4 +51,6 @@ int G_country_tot();
 /* gui */
 TEG_STATUS gui_country_select(int country);
 
-#endif /* __TEG_GUI_GNOME_GCOUNTRY_H */
+#ifdef __cplusplus
+}
+#endif

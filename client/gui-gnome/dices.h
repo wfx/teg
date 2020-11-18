@@ -17,14 +17,19 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file dices.h
- */
-#ifndef __TEG_GUI_GNOME_DICES_H
-#define __TEG_GUI_GNOME_DICES_H
+
+#pragma once
+
+#include <goocanvas.h>
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 void dices_view();
 void dices_unview();
 void dices_init(GooCanvasItem *root);
 
+#ifdef __cplusplus
+}
 #endif
