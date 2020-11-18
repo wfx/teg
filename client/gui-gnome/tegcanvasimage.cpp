@@ -193,7 +193,7 @@ GooCanvasItem* teg_canvas_image_new(GooCanvasItem *parent,
 	const char *first_property;
 	va_list var_args;
 
-	item = g_object_new(TEG_TYPE_CANVAS_IMAGE, NULL);
+	item = static_cast<GooCanvasItem*>(g_object_new(TEG_TYPE_CANVAS_IMAGE, NULL));
 
 	/* Put it in the parent first because other property setters might need
 	 * access to the parent.
@@ -315,7 +315,7 @@ static gboolean teg_canvas_image_set_common_property(GObject            *object,
 	switch(prop_id) {
 	case PROP_PATTERN:
 		cairo_pattern_destroy(image_data->pattern);
-		image_data->pattern = g_value_get_boxed(value);
+		image_data->pattern = static_cast<cairo_pattern_t*>(g_value_get_boxed(value));
 		cairo_pattern_reference(image_data->pattern);
 		break;
 	case PROP_X:
@@ -335,10 +335,10 @@ static gboolean teg_canvas_image_set_common_property(GObject            *object,
 		break;
 	case PROP_PIXBUF:
 		cairo_pattern_destroy(image_data->pattern);
-		pixbuf = g_value_get_object(value);
+		pixbuf = static_cast<GdkPixbuf*>(g_value_get_object(value));
 		image_data->pattern = pixbuf
 		                      ? goo_canvas_cairo_pattern_from_pixbuf(pixbuf)
-		                      : NULL;
+		                      : static_cast<cairo_pattern_t*>(nullptr);
 		image_data->width = pixbuf ? gdk_pixbuf_get_width(pixbuf) : 0;
 		image_data->height = pixbuf ? gdk_pixbuf_get_height(pixbuf) : 0;
 
@@ -586,7 +586,8 @@ GooCanvasItemModel* teg_canvas_image_model_new(GooCanvasItemModel *parent,
 	const char *first_property;
 	va_list var_args;
 
-	model = g_object_new(TEG_TYPE_CANVAS_IMAGE_MODEL, NULL);
+	model = static_cast<GooCanvasItemModel*>(
+	            g_object_new(TEG_TYPE_CANVAS_IMAGE_MODEL, NULL));
 	imodel = (TegCanvasImageModel*) model;
 
 	image_data = &imodel->image_data;
@@ -656,7 +657,7 @@ static GooCanvasItem* teg_canvas_image_model_create_item(GooCanvasItemModel *mod
 {
 	GooCanvasItem *item;
 
-	item = g_object_new(TEG_TYPE_CANVAS_IMAGE, NULL);
+	item = static_cast<GooCanvasItem*>(g_object_new(TEG_TYPE_CANVAS_IMAGE, NULL));
 	goo_canvas_item_set_model(item, model);
 
 	return item;

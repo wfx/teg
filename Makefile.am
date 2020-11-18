@@ -110,7 +110,7 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/preferences.cpp client/gui-gnome/preferences.h \
 	client/gui-gnome/g_scores.c client/gui-gnome/g_scores.h \
 	client/gui-gnome/locate_country.c client/gui-gnome/locate_country.h \
-	client/gui-gnome/tegcanvasimage.c client/gui-gnome/tegcanvasimage.h \
+	client/gui-gnome/tegcanvasimage.cpp client/gui-gnome/tegcanvasimage.h \
 	stock_gresources.c stock_gresources.h \
 	client/gui-gnome/fonts.h			\
 	client/gui-gnome/robot.xpm
