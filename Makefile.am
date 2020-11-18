@@ -23,7 +23,7 @@ libtegcommon_a_SOURCES = 	\
 	common/share.c	common/share.h		\
 	common/fcintl.h		\
 	common/protocol.h		\
-	common/common.c common/common.h	\
+	common/common.cpp common/common.h	\
 	common/parser.c common/parser.h	\
 	common/tegdebug.h		\
 	common/version.h		\

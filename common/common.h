@@ -74,7 +74,7 @@ typedef enum {
 	ARMY_ROSA = 4,
 	ARMY_VERDE = 5
 } ARMY, *PARMY;
-extern char *g_colores[];
+extern char const *g_colores[];
 
 #define RANDOM_MAX(_min,_max) (_min+(int)(((float)(1+_max-_min))*rand() / (RAND_MAX+1.0)))
 
@@ -115,7 +115,7 @@ typedef enum {
 
 	PLAYER_STATUS_LAST		/**< unreacheble state */
 } PLAYER_STATUS, *PPLAYER_STATUS;
-extern char *g_estados[];
+extern char const *g_estados[];
 
 typedef struct _LIST_ENTRY {
 	struct _LIST_ENTRY *Flink;

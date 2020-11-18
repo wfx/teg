@@ -34,7 +34,7 @@
 #include <assert.h>
 #include <string.h>
 
-char *g_colores[] = {
+char const *g_colores[] = {
 	N_("red"),
 	N_("yellow"),
 	N_("blue"),
@@ -45,7 +45,7 @@ char *g_colores[] = {
 };
 
 /* XXX: sync these status with the one in common.h */
-char *g_estados[] = {
+char const *g_estados[] = {
 	N_("disconnected"),
 	N_("connected"),
 	N_("game over"),
