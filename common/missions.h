@@ -31,7 +31,7 @@ typedef struct _missions {
 	int	player_number;
 
 	/// The name of the mission
-	char	*name;
+	char const *name;
 
 	/// number of countries to conquer on each continent
 	int	continents[CONTINENTE_LAST];

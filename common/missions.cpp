@@ -18,9 +18,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#include <type_traits>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
 
 #include "fcintl.h"
 #include "missions.h"
@@ -192,7 +193,7 @@ MISSIONS g_missions[]= {
 		.tot_countries=0
 	},
 };
-#define NRMISSIONS (sizeof(g_missions) /sizeof(g_missions[0]))
+constexpr auto NRMISSIONS = std::extent<decltype(g_missions)>::value;
 
 int missions_cant()
 {
@@ -202,7 +203,7 @@ int missions_cant()
 /* WARNING: it returns a pointer static buffer */
 const char *missions_get_name(int number)
 {
-	static char *_unknown = N_("Unknown");
+	static char const *_unknown = N_("Unknown");
 	static char mission[1024];
 	char buf_tmp[1024];
 	char old_buffer[1024];

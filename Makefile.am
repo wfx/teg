@@ -31,7 +31,7 @@ libtegcommon_a_SOURCES = 	\
 	common/country.cpp common/country.h	\
 	common/limitrof.h		\
 	common/cont.cpp common/cont.h		\
-	common/missions.c common/missions.h	\
+	common/missions.cpp common/missions.h	\
 	common/stats.c common/stats.h		\
         common/scores.c common/scores.h 	\
 	common/xml_support.c common/xml_support.h
