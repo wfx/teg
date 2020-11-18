@@ -38,9 +38,9 @@ TEG_STATUS main_init()
 	return TEG_STATUS_SUCCESS;
 }
 
-int main( int argc, char **argv_var)
+int main(int argc, char **argv_var)
 {
-	int i,quiet=0;
+	int i, quiet=0;
 	char const *option;
 	char const **argv = (char const**) argv_var; // save, since we add more constness here
 
@@ -56,8 +56,8 @@ int main( int argc, char **argv_var)
 	g_game.msg_show = M_ERR | M_IMP | M_MSG;
 
 	i = 1;
-	while (i < argc) {
-		if( is_option("--help", argv[i]) ) {
+	while(i < argc) {
+		if(is_option("--help", argv[i])) {
 			fprintf(stderr, _("Usage: %s [option ...]\nValid options are:\n"), argv[0]);
 			fprintf(stderr, _("  -h, --help\t\tPrint a summary of the options\n"));
 			fprintf(stderr, _("  -n, --name NAME\tUse NAME as name\n"));
@@ -67,19 +67,19 @@ int main( int argc, char **argv_var)
 			fprintf(stderr, _("  -c, --connected\t\tThe robot is already connected\n"));
 			fprintf(stderr, _("  -q, --quiet\t\tdont show messages\n"));
 			exit(0);
-		} else if (is_option("--version",argv[i])) {
+		} else if(is_option("--version", argv[i])) {
 			fprintf(stderr, TEG_NAME" v"VERSION"\n");
 			exit(0);
-		} else if ((option = get_option("--name",argv,&i,argc)) != NULL) {
-			strncpy( g_game.myname, option, PLAYERNAME_MAX_LEN );
-		} else if ((option = get_option("--port",argv,&i,argc)) != NULL) {
+		} else if((option = get_option("--name", argv, &i, argc)) != NULL) {
+			strncpy(g_game.myname, option, PLAYERNAME_MAX_LEN);
+		} else if((option = get_option("--port", argv, &i, argc)) != NULL) {
 			g_game.serport=atoi(option);
-		} else if ((option = get_option("--server",argv,&i,argc)) != NULL) {
-			strncpy( g_game.sername, option, SERVER_NAMELEN );
-		} else if ( is_option("--connected",argv[i])) {
+		} else if((option = get_option("--server", argv, &i, argc)) != NULL) {
+			strncpy(g_game.sername, option, SERVER_NAMELEN);
+		} else if(is_option("--connected", argv[i])) {
 			g_game.already_connected = 1;
 			quiet = 1;
-		} else if ( is_option("--quiet",argv[i])) {
+		} else if(is_option("--quiet", argv[i])) {
 			quiet = 1;
 		} else {
 			fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
@@ -88,10 +88,12 @@ int main( int argc, char **argv_var)
 		i++;
 	}
 
-	if(quiet) g_game.msg_show = M_MSG;
+	if(quiet) {
+		g_game.msg_show = M_MSG;
+	}
 
-	textmsg(M_IMP,_("Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"),VERSION);
-	textmsg(M_IMP,_("Robot intelligence: %d%%"),62);
+	textmsg(M_IMP, _("Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"), VERSION);
+	textmsg(M_IMP, _("Robot intelligence: %d%%"), 62);
 
 	gui_init(argc, argv_var);
 

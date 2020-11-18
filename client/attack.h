@@ -40,7 +40,7 @@ TEG_STATUS attack_init();
  * \todo This code should be moved to the GUI.
  * \param p the country which got clicked on.
  */
-TEG_STATUS attack_click( PCOUNTRY p );
+TEG_STATUS attack_click(PCOUNTRY p);
 
 /**
  * \brief Prepare the attack country numbers.
@@ -50,7 +50,7 @@ TEG_STATUS attack_click( PCOUNTRY p );
  *
  * \return TEG_STATUS_SUCCESS when the attack is possible.
  */
-TEG_STATUS attack_finish( int *ori, int *dst );
+TEG_STATUS attack_finish(int *ori, int *dst);
 
 /// \brief restores the last backed up attack state. Used for attackre_out
 void attack_restore();
@@ -89,7 +89,7 @@ TEG_STATUS attackre_out();
  *
  * \todo Refactor this so that the attack code does not call GUI code.
  */
-TEG_STATUS attack_enter( PCOUNTRY p );
+TEG_STATUS attack_enter(PCOUNTRY p);
 
 /**
  * \brief Accompanying function for attack_enter.
@@ -100,7 +100,7 @@ TEG_STATUS attack_enter( PCOUNTRY p );
  *
  * \todo: make this function disappear
  */
-TEG_STATUS attack_leave( PCOUNTRY p );
+TEG_STATUS attack_leave(PCOUNTRY p);
 
 /**
  * \brief Callback from the game controller when an attack is performed.
@@ -109,7 +109,7 @@ TEG_STATUS attack_leave( PCOUNTRY p );
  * attacking country number in \p src, and the attacked country number in
  * \p dst.
  */
-void attack_show( int src, int dst );
+void attack_show(int src, int dst);
 
 /**
  * \brief Callback from the game controller when all possible attacks are to

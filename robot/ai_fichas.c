@@ -38,7 +38,7 @@
  * @fn TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
  * Strategy: Try to conquer continent
  */
-TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
+TEG_STATUS ai_fichas_calc_puntaje_conquer(int country)
 {
 	int i;
 	int pc;			/* countries del continente */
@@ -49,20 +49,21 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
 	int ple=0;		/* countries limitrofes enemigos */
 
 
-	if( ai_own_continent( g_countries[country].continente ))
+	if(ai_own_continent(g_countries[country].continente)) {
 		return TEG_STATUS_SUCCESS;
+	}
 
 	pc = g_conts[ g_countries[country].continente ].cant_countries;
 
-	for(i=0;i<COUNTRIES_CANT;i++) {
-		if( g_countries[country].continente == g_countries[i].continente ) {
-			if( g_countries[i].numjug == WHOAMI() ) {
+	for(i=0; i<COUNTRIES_CANT; i++) {
+		if(g_countries[country].continente == g_countries[i].continente) {
+			if(g_countries[i].numjug == WHOAMI()) {
 				pm++;
 				em += g_countries[i].ejercitos;
 			} else {
 				pe++;
 				ee += g_countries[i].ejercitos;
-				if( countries_eslimitrofe(country,i)) {
+				if(countries_eslimitrofe(country, i)) {
 					ple++;
 				}
 			}
@@ -70,36 +71,60 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
 	}
 
 	/* si tengo mas del xx% de los countries del cont suma puntos */
-	if( pc != pm ) {
+	if(pc != pm) {
 		/* ASIA */
-		if( pc >= 12 ) {
-			if( pm >= 10 ) ai_puntaje[country] += 1;
-			if( pm >= 11 ) ai_puntaje[country] += 2;
-			if( pm >= 12 ) ai_puntaje[country] += 7;
-			if( pm < 7 ) ai_puntaje[country] -= 5;
+		if(pc >= 12) {
+			if(pm >= 10) {
+				ai_puntaje[country] += 1;
+			}
+			if(pm >= 11) {
+				ai_puntaje[country] += 2;
+			}
+			if(pm >= 12) {
+				ai_puntaje[country] += 7;
+			}
+			if(pm < 7) {
+				ai_puntaje[country] -= 5;
+			}
 		}
 		/* EUROPE, NORTH AMERICA */
-		else if( pc >= 8 ) {
-			if( pm >= 5 ) ai_puntaje[country] += 1;
-			if( pm >= 7 ) ai_puntaje[country] += 2;
-			if( pm >= 8 ) ai_puntaje[country] += 7;
+		else if(pc >= 8) {
+			if(pm >= 5) {
+				ai_puntaje[country] += 1;
+			}
+			if(pm >= 7) {
+				ai_puntaje[country] += 2;
+			}
+			if(pm >= 8) {
+				ai_puntaje[country] += 7;
+			}
 		}
 		/* SOUTH AMERICA, AFRICA */
-		else if( pc >= 6 ) {
-			if( pm >= 4 ) ai_puntaje[country] += 2;
-			if( pm >= 5 ) ai_puntaje[country] += 7;
+		else if(pc >= 6) {
+			if(pm >= 4) {
+				ai_puntaje[country] += 2;
+			}
+			if(pm >= 5) {
+				ai_puntaje[country] += 7;
+			}
 		}
 		/* OCEANIA */
-		if( pc >= 4 ) {
-			if( pm >= 2 ) ai_puntaje[country] += 2;
-			if( pm >= 3 ) ai_puntaje[country] += 3;
+		if(pc >= 4) {
+			if(pm >= 2) {
+				ai_puntaje[country] += 2;
+			}
+			if(pm >= 3) {
+				ai_puntaje[country] += 3;
+			}
 		}
 		ai_puntaje[country] += ple;
-		if( em > ee )
+		if(em > ee) {
 			ai_puntaje[country] += 3;
+		}
 
-		if(ple == 0)
+		if(ple == 0) {
 			ai_puntaje[country] -= 50;
+		}
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -108,40 +133,44 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
  * @fn TEG_STATUS ai_fichas_calc_puntaje_defense( int country )
  * Strategy: Try to defend continent
  */
-TEG_STATUS ai_fichas_calc_puntaje_defense( int country )
+TEG_STATUS ai_fichas_calc_puntaje_defense(int country)
 {
 	int i;
 	CONTINENTE c = g_countries[country].continente;
 	int suma=0;
 	int f=0;		/* fronteras que tiene */
 
-	if( !ai_own_continent(c) )
+	if(!ai_own_continent(c)) {
 		return TEG_STATUS_SUCCESS;
+	}
 
-	for(i=0;i< COUNTRIES_CANT;i++) {
-		if( countries_eslimitrofe(country,i) && g_countries[i].continente != c ) {
-			if (g_countries[i].numjug != WHOAMI() ) {
+	for(i=0; i< COUNTRIES_CANT; i++) {
+		if(countries_eslimitrofe(country, i) && g_countries[i].continente != c) {
+			if(g_countries[i].numjug != WHOAMI()) {
 
 				suma += 5;
 
 				/* increase points if the enemy has more armies */
-				if( g_countries[i].ejercitos > g_countries[country].ejercitos )
+				if(g_countries[i].ejercitos > g_countries[country].ejercitos) {
 					suma += 6;
-			}
-			else
+				}
+			} else {
 				suma += 1;
+			}
 
 			/* increase points if I have a few armies */
-			if( g_countries[country].ejercitos < 4 )
-				suma += 3; 
+			if(g_countries[country].ejercitos < 4) {
+				suma += 3;
+			}
 
 			f++;
 		}
 	}
 
 	/* if it is no border, dont place on him */
-	if( f == 0 )
+	if(f == 0) {
 		ai_puntaje[country] -= 50;
+	}
 
 	ai_puntaje[country] += suma + (f/2);
 
@@ -153,7 +182,7 @@ TEG_STATUS ai_fichas_calc_puntaje_defense( int country )
  * @fn TEG_STATUS ai_fichas_calc_puntaje_fichas( int country )
  * Strategy: Try to conquer other countries
  */
-TEG_STATUS ai_fichas_calc_puntaje_fichas( int country )
+TEG_STATUS ai_fichas_calc_puntaje_fichas(int country)
 {
 	int i;
 	int p1=0;
@@ -163,50 +192,56 @@ TEG_STATUS ai_fichas_calc_puntaje_fichas( int country )
 	int cant_country = g_conts[g_countries[country].continente].cant_countries;
 
 	/* suma las fichas de los countries limitrofes enemigos */
-	for(i=0;i< COUNTRIES_CANT;i++) {
-		if( g_countries[i].numjug != WHOAMI() && countries_eslimitrofe( country, i )) {
+	for(i=0; i< COUNTRIES_CANT; i++) {
+		if(g_countries[i].numjug != WHOAMI() && countries_eslimitrofe(country, i)) {
 
 			/* si es un enemigo ya tiene punto */
 			suma += 3;
 
-			if( g_countries[country].ejercitos >= g_countries[i].ejercitos )
+			if(g_countries[country].ejercitos >= g_countries[i].ejercitos) {
 				p2 += 2 + g_countries[country].ejercitos - g_countries[i].ejercitos;
-			else
+			} else {
 				p1 +=g_countries[i].ejercitos - g_countries[country].ejercitos;
+			}
 		}
 	}
 
-	if( suma == 0 )
+	if(suma == 0) {
 		return TEG_STATUS_SUCCESS;
+	}
 
 	suma += p1/2 + p2/2;
 
 	/* ASIA */
-	if( cant_country >= 12)
+	if(cant_country >= 12) {
 		suma -= 1;
+	}
 
 	/* EUROPE, NORTH AMERICA */
-	else if( cant_country >= 8 )
+	else if(cant_country >= 8) {
 		suma += 1;
+	}
 
 	/* SOUTH AMERICA, AFRICA */
-	else if( cant_country >= 6)
+	else if(cant_country >= 6) {
 		suma += 3;
+	}
 
 	/* OCENIA */
-	if( cant_country >= 4)
+	if(cant_country >= 4) {
 		suma += 3;
+	}
 
 	ai_puntaje[country] += suma;
 
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS ai_fichas_calc_puntaje( int p )
+TEG_STATUS ai_fichas_calc_puntaje(int p)
 {
-	ai_fichas_calc_puntaje_conquer( p );
-	ai_fichas_calc_puntaje_fichas( p );
-	ai_fichas_calc_puntaje_defense( p );
+	ai_fichas_calc_puntaje_conquer(p);
+	ai_fichas_calc_puntaje_fichas(p);
+	ai_fichas_calc_puntaje_defense(p);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -216,28 +251,28 @@ TEG_STATUS ai_fichas_calc_puntaje( int p )
  * @fn TEG_STATUS __ai_fichas( int cant )
  * Pone fichas en los countries.
  */
-TEG_STATUS __ai_fichas( int cant )
+TEG_STATUS __ai_fichas(int cant)
 {
 	int i;
 
 	/* all unavailble countries are -10000 */
 	ai_puntaje_clean();
 
-	for(i=0;i< COUNTRIES_CANT;i++ ) {
-		if( g_countries[i].numjug == WHOAMI() ) {
-			ai_puntaje[i]=0;	
+	for(i=0; i< COUNTRIES_CANT; i++) {
+		if(g_countries[i].numjug == WHOAMI()) {
+			ai_puntaje[i]=0;
 			ai_fichas_calc_puntaje(i);
 		}
 	}
 
-	if ( ai_puntaje_sort( cant ) != TEG_STATUS_SUCCESS ) {
-		textmsg(M_ERR,_("Error in ai_puntaje_sort, terminating the robot. Variable cant was %d"),cant );
+	if(ai_puntaje_sort(cant) != TEG_STATUS_SUCCESS) {
+		textmsg(M_ERR, _("Error in ai_puntaje_sort, terminating the robot. Variable cant was %d"), cant);
 		return TEG_STATUS_ERROR;
 	}
 
-	for(i=0;i<cant;i++) {
-		if( fichas_add( &g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS ) {
-			textmsg(M_ERR,_("Failed to fichas_add(%s)"),g_countries[ai_sorted[i]].name );
+	for(i=0; i<cant; i++) {
+		if(fichas_add(&g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
+			textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}
@@ -248,11 +283,13 @@ TEG_STATUS ai_fichas(int cant)
 {
 	ai_puntaje_clean();
 
-	if( __ai_fichas( cant ) != TEG_STATUS_SUCCESS )
+	if(__ai_fichas(cant) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_ERROR;
+	}
 
-	if( fichas_out() != TEG_STATUS_SUCCESS )
+	if(fichas_out() != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_ERROR;
+	}
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -262,7 +299,7 @@ TEG_STATUS ai_fichas(int cant)
  * @fn TEG_STATUS ai_fichas_en_cont( int cont )
  * Place armies in the continents
  */
-TEG_STATUS ai_fichas_en_cont( int cont )
+TEG_STATUS ai_fichas_en_cont(int cont)
 {
 	int cant = g_conts[cont].fichas_x_cont;
 	int i;
@@ -270,18 +307,18 @@ TEG_STATUS ai_fichas_en_cont( int cont )
 	/* all unavailble countries are -10000 */
 	ai_puntaje_clean();
 
-	for(i=0;i<COUNTRIES_CANT;i++) {
-		if( g_countries[i].continente == g_conts[cont].id ) {
+	for(i=0; i<COUNTRIES_CANT; i++) {
+		if(g_countries[i].continente == g_conts[cont].id) {
 			ai_puntaje[i] = 0;
-			ai_fichas_calc_puntaje_defense( i );
+			ai_fichas_calc_puntaje_defense(i);
 		}
 	}
 
-	ai_puntaje_sort( cant );
+	ai_puntaje_sort(cant);
 
-	for(i=0;i<cant;i++) {
-		if( fichas_add( &g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS ) {
-			textmsg(M_ERR,_("Failed to fichas_add(%s)"),g_countries[ai_sorted[i]].name);
+	for(i=0; i<cant; i++) {
+		if(fichas_add(&g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
+			textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}
@@ -293,7 +330,7 @@ TEG_STATUS ai_fichas_en_cont( int cont )
  * @fn TEG_STATUS ai_fichasc( int cant, int conts)
  * pone fichas de continente y de eso.
  */
-TEG_STATUS ai_fichasc( int cant, int conts)
+TEG_STATUS ai_fichasc(int cant, int conts)
 {
 	int i;
 	int conts_tmp;
@@ -302,9 +339,9 @@ TEG_STATUS ai_fichasc( int cant, int conts)
 
 	/* pongo las fichas del continente */
 	conts_tmp = conts;
-	for(i=0;i<CONT_CANT;i++) {
-		if( conts_tmp & 1 ) {
-			ai_fichas_en_cont( i );
+	for(i=0; i<CONT_CANT; i++) {
+		if(conts_tmp & 1) {
+			ai_fichas_en_cont(i);
 		}
 		conts_tmp >>= 1;
 	}
@@ -312,13 +349,13 @@ TEG_STATUS ai_fichasc( int cant, int conts)
 	ai_puntaje_clean();
 
 	/* y ahora las fichas donde creo conveniente */
-	if( __ai_fichas( cant ) != TEG_STATUS_SUCCESS ) {
-		textmsg(M_ERR,_("Failed to __ai_fichas( %d )"),cant );
+	if(__ai_fichas(cant) != TEG_STATUS_SUCCESS) {
+		textmsg(M_ERR, _("Failed to __ai_fichas( %d )"), cant);
 		return TEG_STATUS_ERROR;
 	}
 
-	if( fichas_out() != TEG_STATUS_SUCCESS ) {
-		textmsg(M_ERR,_("Failed to fichas_out()" ));
+	if(fichas_out() != TEG_STATUS_SUCCESS) {
+		textmsg(M_ERR, _("Failed to fichas_out()"));
 		return TEG_STATUS_ERROR;
 	}
 

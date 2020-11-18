@@ -39,11 +39,12 @@ void G_cont_init()
 	int i;
 	TContinent cont;
 
-	if( initialized )
+	if(initialized) {
 		return;
+	}
 
-	for( i=0; i < CONT_CANT ; i++ ) {
-		if( theme_giveme_continent(&cont,i) == TEG_STATUS_SUCCESS ) {
+	for(i=0; i < CONT_CANT ; i++) {
+		if(theme_giveme_continent(&cont, i) == TEG_STATUS_SUCCESS) {
 			G_conts[i].x = cont.pos_x;
 			G_conts[i].y = cont.pos_y;
 		}
@@ -52,15 +53,16 @@ void G_cont_init()
 	initialized = 1;
 }
 
-void G_cont_create( int cont, GooCanvasItem *root )
+void G_cont_create(int cont, GooCanvasItem *root)
 {
-	if(!initialized)
+	if(!initialized) {
 		G_cont_init();
+	}
 
 	G_conts[cont].cont_group =
-			goo_canvas_group_new (
-				root,
-				"x", (double) G_conts[cont].x,
-				"y", (double) G_conts[cont].y,
-				NULL);
+	    goo_canvas_group_new(
+	        root,
+	        "x", (double) G_conts[cont].x,
+	        "y", (double) G_conts[cont].y,
+	        NULL);
 }

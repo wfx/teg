@@ -42,23 +42,22 @@ void insert_highscore(struct HighScores* hs, SCORES const* score)
 {
 	size_t insert_pos;
 	for(insert_pos = 0;
-	    /* *** WARNING *** this loop can walk one element past the array.
-		 *
-		 * The code in the loop jumps out if the test index goes behind the
-		 * valid array elements. When you change this code, make sure to not
-		 * access invalid elements (index >= count) */
-	    (insert_pos <= hs->count);
-	    insert_pos++)
-	{
-		if (insert_pos >= SCORES_MAX) {
+	        /* *** WARNING *** this loop can walk one element past the array.
+	         *
+	         * The code in the loop jumps out if the test index goes behind the
+	         * valid array elements. When you change this code, make sure to not
+	         * access invalid elements (index >= count) */
+	        (insert_pos <= hs->count);
+	        insert_pos++) {
+		if(insert_pos >= SCORES_MAX) {
 			// the new high score is lower (or equal) to each existing one
 			return;
 		}
 
 		if((insert_pos >= hs->count) // behind the last existing element
 
-		   // the existing element has a lower score
-		   || (score->score > hs->highscores[insert_pos].score)) {
+		        // the existing element has a lower score
+		        || (score->score > hs->highscores[insert_pos].score)) {
 			// we found the insertion point
 			break;
 		}
@@ -72,8 +71,7 @@ void insert_highscore(struct HighScores* hs, SCORES const* score)
 	// do we need to move existing elements?
 	if(insert_pos < (hs->count-1)) {
 		assert(hs->count > 1);
-		for(size_t i=(hs->count-1); i>insert_pos; i--)
-		{
+		for(size_t i=(hs->count-1); i>insert_pos; i--) {
 			assert(i >= 1);
 			hs->highscores[i] = hs->highscores[i-1];
 		}

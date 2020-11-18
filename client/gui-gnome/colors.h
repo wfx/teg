@@ -51,16 +51,16 @@ extern GdkPixbuf	*g_color_players[];
 extern GdkPixbuf	*g_color_circles[];
 extern GdkPixbuf	*g_color_circle_over;
 
-TEG_STATUS colors_allocate( void );
-TEG_STATUS colors_load_images( void );
-GdkRGBA* colors_get_player( int n );
-GdkRGBA* colors_get_player_from_color( int color );
-GdkRGBA* colors_get_player_ink(int n );
-GdkRGBA* colors_get_player_ink_from_color(int color );
-GdkRGBA* colors_get_player_virtual( int n );
-GdkRGBA* colors_get_common( int n );
-char * get_tag_for_color( int color );
-char * get_background_for_color( int c );
-char * get_foreground_for_color( int c );
+TEG_STATUS colors_allocate(void);
+TEG_STATUS colors_load_images(void);
+GdkRGBA* colors_get_player(int n);
+GdkRGBA* colors_get_player_from_color(int color);
+GdkRGBA* colors_get_player_ink(int n);
+GdkRGBA* colors_get_player_ink_from_color(int color);
+GdkRGBA* colors_get_player_virtual(int n);
+GdkRGBA* colors_get_common(int n);
+char * get_tag_for_color(int color);
+char * get_background_for_color(int c);
+char * get_foreground_for_color(int c);
 
 #endif /* __TEG_GUI_GNOME_COLORS_H */

@@ -32,23 +32,23 @@ void on_scores_activate(GtkMenuItem *widget, gpointer user_data);
 
 void on_exit_activate(GtkWidget	*widget, gpointer user_data);
 
-void on_enviarfichas_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_enviarfichas_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_reagrupe_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_reagrupe_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_updatemap_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_updatemap_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_enviarattack_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_enviarattack_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_enviarreattack_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_enviarreattack_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_enviarattackreset_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_enviarattackreset_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_pedirtarjeta_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_pedirtarjeta_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_endturn_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_endturn_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void on_launchrobot_activate (GtkMenuItem *menuitem, gpointer user_data);
+void on_launchrobot_activate(GtkMenuItem *menuitem, gpointer user_data);
 
 void on_properties1_activate(GtkMenuItem     *menuitem, gpointer         user_data);
 
@@ -70,9 +70,9 @@ void on_start_activate(GtkMenuItem  *menuitem, gpointer         user_data);
 
 void on_help_activate(GtkMenuItem *menuitem, gpointer user_data);
 
-void destroy_window( GtkWidget * widget, GtkWidget **window );
+void destroy_window(GtkWidget * widget, GtkWidget **window);
 
-void raise_and_focus (GtkWidget *widget);
+void raise_and_focus(GtkWidget *widget);
 
 gboolean pre_client_recv(GIOChannel *source, GIOCondition cond, gpointer data);
 

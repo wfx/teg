@@ -30,7 +30,7 @@
 
 void netall_printf(char *format, ...)
 {
-        va_list args;
+	va_list args;
 	char buf[PROT_MAX_LEN];
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER j;
@@ -41,12 +41,12 @@ void netall_printf(char *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) ) {
+	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
 		j = (PSPLAYER) l;
 		if(j->fd>0) {
 			net_print(j->fd, buf);
 		}
 
-		l = LIST_NEXT( l );
+		l = LIST_NEXT(l);
 	}
 }

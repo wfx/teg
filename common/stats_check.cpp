@@ -29,10 +29,10 @@ bool operator == (const PLAYER_STATS &a, const PLAYER_STATS& b)
 TEST(Stats, init)
 {
 	PLAYER_STATS ps{.countries_won = 1,
-		            .armies_killed=  2,
-		            .continents_turn = {1, 2, 3, 4, 5, 6},
-		            .players_killed = 4,
-		            .score = 5};
+	                .armies_killed=  2,
+	                .continents_turn = {1, 2, 3, 4, 5, 6},
+	                .players_killed = 4,
+	                .score = 5};
 	stats_init(&ps);
 	EXPECT_EQ(PLAYER_STATS{}, ps);
 }
@@ -40,11 +40,11 @@ TEST(Stats, init)
 TEST(Stats, score)
 {
 	PLAYER_STATS ps{.countries_won = 1,
-		            .armies_killed=  2,
-		            .continents_turn = {1, 2, 3, 4, 5, 6},
-		            .players_killed = 4,
-		            .score = 5};
-	CONT const continents[CONTINENTE_LAST]{
+	                .armies_killed=  2,
+	                .continents_turn = {1, 2, 3, 4, 5, 6},
+	                .players_killed = 4,
+	                .score = 5};
+	CONT const continents[CONTINENTE_LAST] {
 		[CONTINENTE_AMERICASUR] = {.fichas_x_cont=23},
 		[CONTINENTE_AMERICANORTE] = {.fichas_x_cont=42},
 		[CONTINENTE_AFRICA] = {.fichas_x_cont=17},
@@ -53,15 +53,15 @@ TEST(Stats, score)
 		[CONTINENTE_ASIA] = {.fichas_x_cont=8},
 	};
 	PLAYER_STATS const expected{.countries_won = 1,
-		                        .armies_killed=  2,
-		                        .continents_turn = {1, 2, 3, 4, 5, 6},
-		                        .players_killed = 4,
-		                        .score = 1*5 // won countries*5
-		                                 + 2*2 // kiled armies * 2
+	                            .armies_killed=  2,
+	                            .continents_turn = {1, 2, 3, 4, 5, 6},
+	                            .players_killed = 4,
+	                            .score = 1*5 // won countries*5
+	                                     + 2*2 // kiled armies * 2
 
-		                                 // turns a continent was owned
-		                                 // * extra armies per continent
-		                                 + 1*23 + 2*42 + 3*17 + 4*5 + 5*99 + 6*8};
+	                                     // turns a continent was owned
+	                                     // * extra armies per continent
+	                                     + 1*23 + 2*42 + 3*17 + 4*5 + 5*99 + 6*8};
 
 	stats_score(&ps, continents);
 	EXPECT_EQ(expected, ps);

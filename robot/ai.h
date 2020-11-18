@@ -45,10 +45,10 @@ TEG_STATUS ai_turno();
 TEG_STATUS ai_reagrupe();
 
 /// Move armies from my counry to the new conquered country
-TEG_STATUS ai_tropas( int src, int dst, int cant);
+TEG_STATUS ai_tropas(int src, int dst, int cant);
 
 /// Try to exchange cards
-TEG_STATUS ai_puedocanje( int *p1, int *p2, int *p3 );
+TEG_STATUS ai_puedocanje(int *p1, int *p2, int *p3);
 
 /// Do I own the continent number \p c?
 BOOLEAN ai_own_continent(CONTINENTE c);

@@ -68,7 +68,7 @@ extern CONT g_conts[];
  * \return The total number of additional armies. For oceania and asia, this
  *         would be 9 (2 for oceania + 7 for asia).
  */
-int cont_tot( unsigned long conts );
+int cont_tot(unsigned long conts);
 
 /// \return the translated name of the continent with number \p cont_number
 char const* cont_get_name(unsigned cont_number);

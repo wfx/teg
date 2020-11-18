@@ -37,12 +37,12 @@ struct _G_countries {
 	GooCanvasItem *country_item;	/**< the figure of the map (png) */
 	GooCanvasItem *ellip_item;	/**< circle of armies of the country */
 	GooCanvasItem *text_item;	/**< the number of armies of the country */
-}; 
+};
 
 extern struct _G_countries G_countries[];
 
-void G_country_create( int country );
-void G_country_draw( int country );
+void G_country_create(int country);
+void G_country_draw(int country);
 void G_country_draw_ejer(int country) ;
 int G_country_tot();
 

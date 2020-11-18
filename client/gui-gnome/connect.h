@@ -24,8 +24,7 @@
 extern "C" {
 #endif
 
-enum DisconnectReason
-{
+enum DisconnectReason {
 	/// the client decided to terminate the connection (for example with the
 	/// disconnect button
 	DR_NORMAL_DISCONNECT,
@@ -44,7 +43,7 @@ void disconnect(enum DisconnectReason reason);
 
 void connect_view();
 void gametype_view();
-void colortype_view( char *colores);
+void colortype_view(char *colores);
 
 #ifdef __cplusplus
 }

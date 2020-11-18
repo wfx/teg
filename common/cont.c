@@ -34,13 +34,13 @@ CONT g_conts[] = {
 };
 #define NRCONTS ( sizeof(g_conts) /sizeof(g_conts[0]) )
 
-int cont_tot( unsigned long conts )
+int cont_tot(unsigned long conts)
 {
 	int max;
 
 	max = 0;
 	for(size_t i=0; i<NRCONTS; i++) {
-		if( conts & 1 ) {
+		if(conts & 1) {
 			max += g_conts[i].fichas_x_cont;
 		}
 		conts >>= 1;
@@ -51,8 +51,9 @@ int cont_tot( unsigned long conts )
 
 char const* cont_get_name(unsigned i)
 {
-	if(i < NRCONTS )
-		return _( g_conts[i].name );
-	else
+	if(i < NRCONTS) {
+		return _(g_conts[i].name);
+	} else {
 		return _("Unknown");
+	}
 }

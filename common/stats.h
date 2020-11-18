@@ -26,8 +26,7 @@
 extern "C" {
 #endif
 
-typedef struct _player_stats 
-{
+typedef struct _player_stats {
 	int countries_won;		/**< number of countries won */
 	int armies_killed;		/**< number of armies killed */
 	int continents_turn[CONT_CANT];	/**< number of turns that the conq was defended */

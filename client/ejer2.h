@@ -36,7 +36,7 @@ extern "C" {
  * \return TEG_STATUS_SUCCESS if the function sent the request to the
  *         game controller, TEG_STATUS_ERROR otherwise.
  */
-TEG_STATUS ejer2_out( int country );
+TEG_STATUS ejer2_out(int country);
 
 /** \brief Undo a previous army exchange.
  *

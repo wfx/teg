@@ -19,13 +19,13 @@ TEST(Share, is_option)
 TEST(Share, get_option)
 {
 	char const* argv[] = {
-	    "/foo/bar",
-	    "--bar=42",
-	    "--baz", "23",
-	    "--invalid=",
-	    "-x=y",
-	    "-z", "z",
-	    "-E"
+		"/foo/bar",
+		"--bar=42",
+		"--baz", "23",
+		"--invalid=",
+		"-x=y",
+		"-z", "z",
+		"-E"
 	};
 	constexpr auto argc = std::extent<decltype(argv)>::value;
 	int i = 1;

@@ -32,109 +32,143 @@
  * @fn TEG_STATUS aux_status( PCPLAYER pj, char *str )
  * parsea el status de los playeres
  */
-TEG_STATUS aux_status( PCPLAYER pj, char const *str )
+TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 {
 	PARSER p;
-	DELIM igualador={ ':', ':', ':' };
-	DELIM separador={ ',', ',', ',' };
+	DELIM igualador= { ':', ':', ':' };
+	DELIM separador= { ',', ',', ',' };
 
-	memset( pj, 0, sizeof(*pj));
+	memset(pj, 0, sizeof(*pj));
 
-	if( strlen(str)==0 )
+	if(strlen(str)==0) {
 		goto error;
+	}
 
 	p.equals = &igualador;
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		strncpy( pj->name, p.token, sizeof(pj->name)-1);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		strncpy(pj->name, p.token, sizeof(pj->name)-1);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->color = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->color = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->score = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->score = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->numjug = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->numjug = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->estado = atoi( p.token);
-	} else goto error;
-	
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->tot_countries = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->estado = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->tot_armies = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->tot_countries = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->tot_cards = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->tot_armies = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->empezo_turno = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->tot_cards = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pj->human = atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->empezo_turno = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && !p.can_continue ) {
-		strncpy( pj->addr, p.token, sizeof(pj->addr)-1);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pj->human = atoi(p.token);
+	} else {
+		goto error;
+	}
+
+	if(parser_parse(&p) && !p.can_continue) {
+		strncpy(pj->addr, p.token, sizeof(pj->addr)-1);
+	} else {
+		goto error;
+	}
 
 	return TEG_STATUS_SUCCESS;
 error:
-	textmsg(M_ERR,"error in aux_status()");
+	textmsg(M_ERR, "error in aux_status()");
 	return TEG_STATUS_ERROR;
 }
 
 
-TEG_STATUS aux_scores( PSCORES pS, char const *str )
+TEG_STATUS aux_scores(PSCORES pS, char const *str)
 {
 	PARSER p;
-	DELIM separador={ ',', ',', ',' };
+	DELIM separador= { ',', ',', ',' };
 
-	memset( pS, 0, sizeof(*pS));
+	memset(pS, 0, sizeof(*pS));
 
-	if( strlen(str)==0 )
+	if(strlen(str)==0) {
 		goto error;
+	}
 
 	p.equals = NULL;
 	p.separators = &separador;
 	p.data = str;
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		strncpy( pS->name, p.token, sizeof(pS->name)-1);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		strncpy(pS->name, p.token, sizeof(pS->name)-1);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pS->color= atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pS->color= atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		strncpy( pS->date, p.token, sizeof(pS->date)-1 );
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		strncpy(pS->date, p.token, sizeof(pS->date)-1);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && p.can_continue ) {
-		pS->score = atoi( p.token );
-	} else goto error;
+	if(parser_parse(&p) && p.can_continue) {
+		pS->score = atoi(p.token);
+	} else {
+		goto error;
+	}
 
-	if( parser_parse( &p ) && !p.can_continue ) {
-		pS->human= atoi( p.token);
-	} else goto error;
+	if(parser_parse(&p) && !p.can_continue) {
+		pS->human= atoi(p.token);
+	} else {
+		goto error;
+	}
 
 	return TEG_STATUS_SUCCESS;
 error:
-	textmsg(M_ERR,"error in aux_scores()");
+	textmsg(M_ERR, "error in aux_scores()");
 	return TEG_STATUS_ERROR;
 }
 
@@ -143,14 +177,14 @@ error:
  * @fn TEG_STATUS aux_countries( int numjug, char *str )
  * parsea los ejercitos en countries de un player
  */
-TEG_STATUS aux_countries( int numjug, char const *str )
+TEG_STATUS aux_countries(int numjug, char const *str)
 {
-	int i,country,cant;
+	int i, country, cant;
 	PARSER p;
-	DELIM igualador={ ':', ':', ':' };
-	DELIM separador={ ',', ',', ',' };
+	DELIM igualador= { ':', ':', ':' };
+	DELIM separador= { ',', ',', ',' };
 
-	if( strlen(str)==0 ) {
+	if(strlen(str)==0) {
 		return TEG_STATUS_SUCCESS;
 	}
 
@@ -159,16 +193,16 @@ TEG_STATUS aux_countries( int numjug, char const *str )
 	p.data = str;
 
 	do {
-		if((i = parser_parse( &p ))) {
+		if((i = parser_parse(&p))) {
 			country = atoi(p.token);
 			cant = atoi(p.value);
-			if( g_countries[country].numjug != numjug || g_countries[country].ejercitos != cant ) {
+			if(g_countries[country].numjug != numjug || g_countries[country].ejercitos != cant) {
 				g_countries[country].numjug = numjug;
 				g_countries[country].ejercitos = cant;
 				gui_country(g_countries[country].id);
 			}
 		}
-	} while(i && p.can_continue );
+	} while(i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -180,16 +214,17 @@ TEG_STATUS aux_countries( int numjug, char const *str )
 void aux_draw_all_countries()
 {
 	int i;
-	for(i=0;i<COUNTRIES_CANT;i++)
+	for(i=0; i<COUNTRIES_CANT; i++) {
 		gui_country(i);
+	}
 }
 
-TEG_STATUS aux_player_init( PCPLAYER pJ, int numjug, char *name, int color )
+TEG_STATUS aux_player_init(PCPLAYER pJ, int numjug, char *name, int color)
 {
-	memset(pJ,0,sizeof(*pJ));
+	memset(pJ, 0, sizeof(*pJ));
 
 	pJ->numjug = numjug;
-	strncpy( pJ->name, name, sizeof(pJ->name)-1);
+	strncpy(pJ->name, name, sizeof(pJ->name)-1);
 	pJ->name[sizeof(pJ->name)-1]=0;
 	pJ->color = color;
 	pJ->estado = PLAYER_STATUS_HABILITADO;
@@ -198,6 +233,6 @@ TEG_STATUS aux_player_init( PCPLAYER pJ, int numjug, char *name, int color )
 
 TEG_STATUS aux_start_error()
 {
-	textmsg(M_ERR,_("Error in start. Are there at least 2 players?"));
+	textmsg(M_ERR, _("Error in start. Are there at least 2 players?"));
 	return TEG_STATUS_SUCCESS;
 }

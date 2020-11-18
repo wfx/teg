@@ -22,26 +22,28 @@
 
 #include <assert.h>
 
-xmlNodePtr xml_get_element_children( xmlNodePtr cur )
+xmlNodePtr xml_get_element_children(xmlNodePtr cur)
 {
 	xmlNodePtr ret;
 
 	ret = cur->xmlChildrenNode;
 
-	while( ret && ret->type != XML_ELEMENT_NODE )
+	while(ret && ret->type != XML_ELEMENT_NODE) {
 		ret = ret->next;
+	}
 
 	return ret;
 }
 
-xmlNodePtr xml_get_element_next( xmlNodePtr cur )
+xmlNodePtr xml_get_element_next(xmlNodePtr cur)
 {
 	xmlNodePtr ret;
 
 	ret = cur->next;
 
-	while( ret && ret->type != XML_ELEMENT_NODE )
+	while(ret && ret->type != XML_ELEMENT_NODE) {
 		ret = ret->next;
+	}
 
 	return ret;
 }
@@ -51,5 +53,5 @@ void add_numeric_attribute(xmlNodePtr node, char const* name, int number)
 	char buf[22]; // enough for a 64bit integer with sign and zero terminator
 	int res = snprintf(buf, sizeof(buf), "%d", number);
 	assert((res > 0) && (((unsigned)res) < sizeof(buf)));
-	xmlSetProp(node, (xmlChar*)name, (xmlChar*)buf );
+	xmlSetProp(node, (xmlChar*)name, (xmlChar*)buf);
 }

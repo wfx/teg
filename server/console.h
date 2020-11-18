@@ -29,7 +29,7 @@ extern "C" {
 #define CONSOLE_FD 0
 
 /// \brief Try to read and handle one command from the console
-TEG_STATUS console_handle( int fd );
+TEG_STATUS console_handle(int fd);
 
 /// \brief Print the console ready prompt
 void con_show_prompt();
@@ -38,19 +38,19 @@ void con_show_prompt();
  *
  * \note The parameter \p level is ignored
  */
-void con_text_out( int level, char *format, ...);
+void con_text_out(int level, char *format, ...);
 
 /** \brief Print a text to the server console without printing a ready prompt
  *
  * \note The parameter \p level is ignored
  */
-TEG_STATUS con_text_out_wop( int level, char *format, ...);
+TEG_STATUS con_text_out_wop(int level, char *format, ...);
 
 /// \brief Initialize the server console
-TEG_STATUS console_init( void );
+TEG_STATUS console_init(void);
 
 /// \brief Deactivate the server console
-TEG_STATUS console_quit( void );
+TEG_STATUS console_quit(void);
 
 #ifdef __cplusplus
 }

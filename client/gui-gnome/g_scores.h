@@ -27,6 +27,6 @@
 void gui_scores_view();
 
 /**! place the scores insice an hbox */
-void gui_scores_embed( GtkWidget *hbox );
+void gui_scores_embed(GtkWidget *hbox);
 
 #endif /* __GUI_GNOME_SCORES_H */

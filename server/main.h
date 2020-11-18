@@ -34,15 +34,15 @@ void game_new();
 void game_end();
 
 /**! when the game is over */
-BOOLEAN game_is_finished( void );
+BOOLEAN game_is_finished(void);
 
 void server_init();
 
 /**! removes and closes an fd from the list of fd */
-void fd_remove( int fd );
+void fd_remove(int fd);
 
 /**! adds a new fd to the list of fd */
-void fd_add( int fd );
+void fd_add(int fd);
 
 #ifdef __cplusplus
 }

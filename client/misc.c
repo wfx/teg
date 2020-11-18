@@ -38,17 +38,19 @@
 
 CJUEGO g_game;			/**< client game */
 
-static void close_descriptors( void )
+static void close_descriptors(void)
 {
 	int i, open_max;
 
 	/* force manually the close of the socket */
-	if( g_game.fd >0 )
-		net_close (g_game.fd);
+	if(g_game.fd >0) {
+		net_close(g_game.fd);
+	}
 
-	open_max = sysconf (_SC_OPEN_MAX);
-	for (i = 3; i < open_max; i++)
-		fcntl (i, F_SETFD, FD_CLOEXEC);
+	open_max = sysconf(_SC_OPEN_MAX);
+	for(i = 3; i < open_max; i++) {
+		fcntl(i, F_SETFD, FD_CLOEXEC);
+	}
 }
 
 /* re-initializes a game. called every time a new game will start */
@@ -59,15 +61,16 @@ TEG_STATUS game_reinit()
 	g_game.playeres = 0;
 	g_game.dados_srccountry=-1;
 	g_game.dados_dstcountry=-1;
-	for(i=0;i<3;i++) {
+	for(i=0; i<3; i++) {
 		g_game.dados_src[i] = 0;
 		g_game.dados_dst[i] = 0;
 	}
 
-	InitializeListHead( &g_game.tarjetas_list );
+	InitializeListHead(&g_game.tarjetas_list);
 	g_game.tarjetas_cant = 0;
-	for(i=0;i<COUNTRIES_CANT;i++)
-		tarjeta_inittarj( &g_countries[i].tarjeta );
+	for(i=0; i<COUNTRIES_CANT; i++) {
+		tarjeta_inittarj(&g_countries[i].tarjeta);
+	}
 
 	g_game.secret_mission = -1;
 	g_game.whos_turn = -1;
@@ -112,21 +115,22 @@ void game_finalize()
 
 TEG_STATUS teg_connect()
 {
-	if( ESTADO_ES(PLAYER_STATUS_DESCONECTADO)) {
+	if(ESTADO_ES(PLAYER_STATUS_DESCONECTADO)) {
 
 		/* standar mode */
-		if( ! g_game.already_connected ) {
-			g_game.fd = net_connect_tcp( (char*) &g_game.sername, g_game.serport );
-			if( g_game.fd < 0) {
-				textmsg(M_ERR,_("Error while trying to connect to server '%s' at port %d"),g_game.sername,g_game.serport);
+		if(! g_game.already_connected) {
+			g_game.fd = net_connect_tcp((char*) &g_game.sername, g_game.serport);
+			if(g_game.fd < 0) {
+				textmsg(M_ERR, _("Error while trying to connect to server '%s' at port %d"), g_game.sername, g_game.serport);
 				return TEG_STATUS_ERROR;
 			}
-		} else if( g_game.already_connected )
+		} else if(g_game.already_connected) {
 			g_game.fd = 3;
+		}
 
 		return TEG_STATUS_SUCCESS;
 	} else {
-		textmsg(M_ERR,_("Error, you are already connected"));
+		textmsg(M_ERR, _("Error, you are already connected"));
 		return TEG_STATUS_ERROR;
 	}
 }
@@ -137,8 +141,8 @@ void teg_disconnect()
 
 	player_flush();
 
-	if( g_game.fd > 0 ) {
-			net_close( g_game.fd );
+	if(g_game.fd > 0) {
+		net_close(g_game.fd);
 		g_game.fd = -1;
 	}
 
@@ -148,23 +152,23 @@ void teg_disconnect()
 	gui_disconnect();
 }
 
-TEG_STATUS playerid_restore_from_error( void )
+TEG_STATUS playerid_restore_from_error(void)
 {
-	textmsg( M_ERR, _("The game has already started. Connect as an observer."));
+	textmsg(M_ERR, _("The game has already started. Connect as an observer."));
 	teg_disconnect();
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Launch a server in localost */
-TEG_STATUS launch_server( int port )
+TEG_STATUS launch_server(int port)
 {
 	pid_t pid;
 	char *args[6];
 
-	if ( (pid = fork()) < 0) {
+	if((pid = fork()) < 0) {
 		perror("tegclient:");
 		return TEG_STATUS_ERROR;
-	} else if (pid == 0) {
+	} else if(pid == 0) {
 
 		char buffer[100];
 		close_descriptors();
@@ -172,30 +176,30 @@ TEG_STATUS launch_server( int port )
 		args[1] = "-e";
 		args[2] = BINDIR"/tegserver";
 		args[3] = "--port";
-		snprintf(buffer, sizeof(buffer)-1, "%d", port); 
+		snprintf(buffer, sizeof(buffer)-1, "%d", port);
 		buffer[ sizeof(buffer)-1 ] = 0;
 		args[4] = buffer;
 		args[5] = NULL;
 
-		if( execvp(args[0], args) < 0) {
+		if(execvp(args[0], args) < 0) {
 			perror(args[0]);
 			/* last chance, launch tegserver without console */
 			args[0] = BINDIR"/tegserver";
 			args[1] = "--console";
 			args[2] = "0";
 			args[3] = "--port";
-			snprintf(buffer, sizeof(buffer)-1, "%d", port); 
+			snprintf(buffer, sizeof(buffer)-1, "%d", port);
 			buffer[ sizeof(buffer)-1 ] = 0;
 			args[4] = buffer;
 			args[5] = NULL;
-			if( execv(args[0], args) < 0) {
-				fprintf(stderr,"Launching server failed. Does the file '%s' exists ?\n",args[0]);
+			if(execv(args[0], args) < 0) {
+				fprintf(stderr, "Launching server failed. Does the file '%s' exists ?\n", args[0]);
 				perror("exe:");
 
 				/* This saves a crash */
 				args[0] = "/bin/true";
 				args[1] = NULL;
-				execv(args[0],args);
+				execv(args[0], args);
 				exit(1);
 			}
 		}
@@ -208,25 +212,26 @@ TEG_STATUS launch_server( int port )
 }
 
 /* Launch robot in localhost */
-TEG_STATUS launch_robot( void )
+TEG_STATUS launch_robot(void)
 {
 	pid_t pid;
 	char *args[7];
 	char port[50];
 
 	/* launch robot in the server */
-	if( g_game.robot_in_server )
+	if(g_game.robot_in_server) {
 		return out_robot();
+	}
 
 	/* launch robot in the client */
-	if ( (pid = fork()) < 0) {
+	if((pid = fork()) < 0) {
 		perror("tegclient:");
 		return TEG_STATUS_ERROR;
-	} else if (pid == 0) {
+	} else if(pid == 0) {
 
 		close_descriptors();
 
-		sprintf(port,"%d",g_game.serport);
+		sprintf(port, "%d", g_game.serport);
 
 		args[0] = BINDIR"/tegrobot";
 		args[1] = "--server";
@@ -235,15 +240,15 @@ TEG_STATUS launch_robot( void )
 		args[4] = port;
 		args[5] = "--quiet";
 		args[6] = NULL;
-	
-		if( execv(args[0], args) < 0) {
-			fprintf(stderr,"Launching robot failed. Does the file '%s' exists ?\n",args[0]);
+
+		if(execv(args[0], args) < 0) {
+			fprintf(stderr, "Launching robot failed. Does the file '%s' exists ?\n", args[0]);
 			perror("exe:");
 
 			/* This saves a crash */
 			args[0] = "/bin/true";
 			args[1] = NULL;
-			execv(args[0],args);
+			execv(args[0], args);
 			exit(1);
 		}
 		return TEG_STATUS_ERROR;
@@ -254,9 +259,9 @@ TEG_STATUS launch_robot( void )
 }
 
 /* display a message */
-TEG_STATUS textmsg( int level, char *format, ...)
+TEG_STATUS textmsg(int level, char *format, ...)
 {
-        va_list args;
+	va_list args;
 	char buf[PROT_MAX_LEN];
 
 	va_start(args, format);
@@ -265,8 +270,9 @@ TEG_STATUS textmsg( int level, char *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	if( g_game.msg_show & level )
+	if(g_game.msg_show & level) {
 		gui_textmsg(buf);
+	}
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -276,20 +282,22 @@ TEG_STATUS dirs_create()
 	DIR *dir;
 	char buf[1000];
 
-	memset(buf,0,sizeof(buf));
+	memset(buf, 0, sizeof(buf));
 
-	snprintf(buf,sizeof(buf)-1,"%s/%s",g_get_home_dir(),TEG_DIRRC);
+	snprintf(buf, sizeof(buf)-1, "%s/%s", g_get_home_dir(), TEG_DIRRC);
 
-	if( (dir = opendir(buf)) == NULL )
-		mkdir(buf,0755);
-	else
+	if((dir = opendir(buf)) == NULL) {
+		mkdir(buf, 0755);
+	} else {
 		closedir(dir);
+	}
 
-	snprintf(buf,sizeof(buf)-1,"%s/%s/themes",g_get_home_dir(),TEG_DIRRC);
-	if( (dir = opendir(buf)) == NULL )
-		mkdir(buf,0755);
-	else
+	snprintf(buf, sizeof(buf)-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
+	if((dir = opendir(buf)) == NULL) {
+		mkdir(buf, 0755);
+	} else {
 		closedir(dir);
+	}
 
 	return TEG_STATUS_SUCCESS;
 }

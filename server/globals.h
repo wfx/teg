@@ -79,7 +79,7 @@ typedef struct _server {
 	BOOLEAN kick_unparent_robots;	/* kick robots when there are no humans */
 } SERVER, *PSERVER;
 extern SERVER g_server;
-	
+
 
 #ifdef __cplusplus
 }

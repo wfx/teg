@@ -44,7 +44,7 @@ TEG_STATUS token_start(int fd);
 TEG_STATUS token_exit(int fd);
 
 /// \brief Read a message from a client fd and do the appropriate action
-TEG_STATUS play_teg( int fd );
+TEG_STATUS play_teg(int fd);
 
 #ifdef __cplusplus
 }

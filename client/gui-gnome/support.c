@@ -46,17 +46,19 @@
 #define TEG_DIALOG_Y	200
 #define TEG_DIALOG_Y_NEW 65
 
-void generic_window_set_parent (GtkWidget * dialog, GtkWindow   * parent)
+void generic_window_set_parent(GtkWidget * dialog, GtkWindow   * parent)
 {
 	g_return_if_fail(dialog != NULL);
 	g_return_if_fail(parent != NULL);
 	g_return_if_fail(GTK_IS_WINDOW(parent));
 
-	gtk_window_set_transient_for (GTK_WINDOW(dialog), parent);
+	gtk_window_set_transient_for(GTK_WINDOW(dialog), parent);
 
 
 
-	if ( ! gtk_widget_get_visible(GTK_WIDGET(parent))) return; /* Can't get its
+	if(! gtk_widget_get_visible(GTK_WIDGET(parent))) {
+		return;
+	} /* Can't get its
 						  size/pos */
 
 	gtk_window_set_position(GTK_WINDOW(dialog),
@@ -69,17 +71,18 @@ void generic_window_set_parent (GtkWidget * dialog, GtkWindow   * parent)
  * @param name Pixmap a buscar
  * @return NULL si no encontro o path del pixmap. Hay que g_free ese string
  */
-char * load_pixmap_file( char *name )
+char * load_pixmap_file(char *name)
 {
 	char *filename = NULL;
 	char *f = NULL;
 
-	f = g_strconcat( "teg_pix/", name, NULL );
-	if( f == NULL )
+	f = g_strconcat("teg_pix/", name, NULL);
+	if(f == NULL) {
 		return NULL;
+	}
 
-	filename = g_strconcat( PIXMAPDIR,f,NULL );
-	g_free( f );
+	filename = g_strconcat(PIXMAPDIR, f, NULL);
+	g_free(f);
 	return filename;
 }
 
@@ -90,7 +93,7 @@ char * load_pixmap_file( char *name )
  * @param bittitle Titulo del dialogo
  * @param data Informacion del dialogo
  */
-void teg_dialog( char* title, char* bigtitle, char* data )
+void teg_dialog(char* title, char* bigtitle, char* data)
 {
 	GtkWidget* dialog;
 	GtkWidget* canvas;
@@ -99,63 +102,63 @@ void teg_dialog( char* title, char* bigtitle, char* data )
 	                                     GTK_WINDOW(main_window),
 	                                     GTK_DIALOG_DESTROY_WITH_PARENT,
 	                                     _("_OK"), GTK_RESPONSE_OK,
-	                                     NULL );
+	                                     NULL);
 
 	canvas = goo_canvas_new();
-	gtk_widget_set_size_request ( canvas, TEG_DIALOG_X, TEG_DIALOG_Y );
-	goo_canvas_set_bounds (GOO_CANVAS (canvas), 0, 0, TEG_DIALOG_X,
-	                       TEG_DIALOG_Y);
+	gtk_widget_set_size_request(canvas, TEG_DIALOG_X, TEG_DIALOG_Y);
+	goo_canvas_set_bounds(GOO_CANVAS(canvas), 0, 0, TEG_DIALOG_X,
+	                      TEG_DIALOG_Y);
 
 	goo_canvas_rect_new(
-		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		0.0,
-		0.0,
-		(double) TEG_DIALOG_X,
+	    goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+	    0.0,
+	    0.0,
+	    (double) TEG_DIALOG_X,
 	    TEG_DIALOG_Y_NEW,
-		"fill-color","black",
-		"stroke-color","black",
-		NULL);
+	    "fill-color", "black",
+	    "stroke-color", "black",
+	    NULL);
 
 	goo_canvas_rect_new(
-		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		0.0,
+	    goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+	    0.0,
 	    TEG_DIALOG_Y_NEW,
-		(double) TEG_DIALOG_X,
-		(double) TEG_DIALOG_Y,
-		"fill-color","light green",
-		"stroke-color","light green",
-		NULL);
+	    (double) TEG_DIALOG_X,
+	    (double) TEG_DIALOG_Y,
+	    "fill-color", "light green",
+	    "stroke-color", "light green",
+	    NULL);
 
 	goo_canvas_text_new(
-		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		bigtitle,
-		(double) (TEG_DIALOG_X/2),
-		(double) 10,
-		-1,
-		GOO_CANVAS_ANCHOR_NORTH,
-		"font", HELVETICA_20_BFONT,
-		"fill-color", "white",
-		NULL);
+	    goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+	    bigtitle,
+	    (double)(TEG_DIALOG_X/2),
+	    (double) 10,
+	    -1,
+	    GOO_CANVAS_ANCHOR_NORTH,
+	    "font", HELVETICA_20_BFONT,
+	    "fill-color", "white",
+	    NULL);
 
 	goo_canvas_text_new(
-		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		data,
-		(double) 4,
-		(double) 60,
-		-1,
-		GOO_CANVAS_ANCHOR_NORTH_WEST,
-		"font", HELVETICA_12_FONT,
-		"fill-color", "black",
-		NULL);
+	    goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+	    data,
+	    (double) 4,
+	    (double) 60,
+	    -1,
+	    GOO_CANVAS_ANCHOR_NORTH_WEST,
+	    "font", HELVETICA_12_FONT,
+	    "fill-color", "black",
+	    NULL);
 
-	gtk_box_pack_start( GTK_BOX(gtk_dialog_get_content_area
-	                            (GTK_DIALOG(dialog))), GTK_WIDGET(canvas),
-	                    TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
+	                           (GTK_DIALOG(dialog))), GTK_WIDGET(canvas),
+	                   TRUE, TRUE, 0);
 
-	gtk_widget_show (canvas);
+	gtk_widget_show(canvas);
 	gtk_widget_show_all(dialog);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 
 	return;
 }
@@ -164,55 +167,55 @@ void teg_dialog( char* title, char* bigtitle, char* data )
  * @fn GtkWidget* teg_dialog_new( char* title, char* bigtitle )
  * Crea un gnome_dialog_new un poco diferente
  */
-GtkWidget* teg_dialog_new( char* title, char* bigtitle )
+GtkWidget* teg_dialog_new(char* title, char* bigtitle)
 {
 	GtkWidget* dialog;
 	GtkWidget* canvas;
 
-	dialog = gtk_dialog_new ();
+	dialog = gtk_dialog_new();
 
-	gtk_window_set_title (GTK_WINDOW (dialog), title);
-	gtk_window_set_transient_for ( GTK_WINDOW(dialog),
-	                               GTK_WINDOW(main_window) );
+	gtk_window_set_title(GTK_WINDOW(dialog), title);
+	gtk_window_set_transient_for(GTK_WINDOW(dialog),
+	                             GTK_WINDOW(main_window));
 
 	canvas = goo_canvas_new();
-	gtk_widget_set_size_request (canvas, TEG_DIALOG_X, TEG_DIALOG_Y_NEW);
-	gtk_widget_set_halign (canvas, GTK_ALIGN_CENTER);
-	goo_canvas_set_bounds (GOO_CANVAS (canvas), 0, 0, TEG_DIALOG_X,
-	                       TEG_DIALOG_Y_NEW);
+	gtk_widget_set_size_request(canvas, TEG_DIALOG_X, TEG_DIALOG_Y_NEW);
+	gtk_widget_set_halign(canvas, GTK_ALIGN_CENTER);
+	goo_canvas_set_bounds(GOO_CANVAS(canvas), 0, 0, TEG_DIALOG_X,
+	                      TEG_DIALOG_Y_NEW);
 
 	goo_canvas_rect_new(
-		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		0.0,
-		0.0,
-		(double) TEG_DIALOG_X,
+	    goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+	    0.0,
+	    0.0,
+	    (double) TEG_DIALOG_X,
 	    TEG_DIALOG_Y_NEW,
 	    "fill-color", "black",
 	    "stroke-color", "black",
-		NULL);
+	    NULL);
 
 	goo_canvas_text_new(
-		goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		bigtitle,
-		(double) (TEG_DIALOG_X/2),
-		(double) 10,
-		-1,
-		GOO_CANVAS_ANCHOR_NORTH,
-		"font", HELVETICA_20_BFONT,
-		"fill-color", "white",
-		NULL);
+	    goo_canvas_get_root_item(GOO_CANVAS(canvas)),
+	    bigtitle,
+	    (double)(TEG_DIALOG_X/2),
+	    (double) 10,
+	    -1,
+	    GOO_CANVAS_ANCHOR_NORTH,
+	    "font", HELVETICA_20_BFONT,
+	    "fill-color", "white",
+	    NULL);
 
 
-	gtk_box_pack_start( GTK_BOX(gtk_dialog_get_content_area
-	                            (GTK_DIALOG(dialog))), GTK_WIDGET(canvas),
-	                    TRUE, TRUE, 0 );
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
+	                           (GTK_DIALOG(dialog))), GTK_WIDGET(canvas),
+	                   TRUE, TRUE, 0);
 
-	gtk_widget_show (canvas);
+	gtk_widget_show(canvas);
 
 	return dialog;
 }
 
-void teg_dialog_gameover( int numjug, int mission )
+void teg_dialog_gameover(int numjug, int mission)
 {
 	GtkWidget *dialog;
 	PCPLAYER pJ;
@@ -220,74 +223,77 @@ void teg_dialog_gameover( int numjug, int mission )
 	GtkWidget *frame;
 	char buf[512];
 
-	if( player_whois( numjug, &pJ) != TEG_STATUS_SUCCESS) {
-		dialog = teg_dialog_new(_("Game Over"),_("A player won the game"));
+	if(player_whois(numjug, &pJ) != TEG_STATUS_SUCCESS) {
+		dialog = teg_dialog_new(_("Game Over"), _("A player won the game"));
 
-	} else  if( numjug == WHOAMI() ) {
-		dialog = teg_dialog_new(_("Game Over"),_("You are the winner"));
+	} else  if(numjug == WHOAMI()) {
+		dialog = teg_dialog_new(_("Game Over"), _("You are the winner"));
 
 	} else {
-		snprintf(buf,sizeof(buf)-1,_("%s is the winner"),pJ->name );
+		snprintf(buf, sizeof(buf)-1, _("%s is the winner"), pJ->name);
 		buf[ sizeof(buf) -1 ] = 0;
-		dialog = teg_dialog_new(_("Game Over"),buf);
+		dialog = teg_dialog_new(_("Game Over"), buf);
 	}
 
-	hbox = gtk_box_new ( GTK_ORIENTATION_HORIZONTAL, 3 );
+	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 3);
 
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
 	                           (GTK_DIALOG(dialog))), hbox, TRUE, TRUE, 0);
 
 
 	/* show mission */
-	frame = gtk_frame_new( _("Accomplished mission") );
-	gtk_container_set_border_width( GTK_CONTAINER(frame), 3 );
-	gtk_container_add( GTK_CONTAINER(hbox), frame );
+	frame = gtk_frame_new(_("Accomplished mission"));
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 3);
+	gtk_container_add(GTK_CONTAINER(hbox), frame);
 
-	mission_view_fake_number( frame, mission );
+	mission_view_fake_number(frame, mission);
 
 
 	/* show scores */
-	frame = gtk_frame_new( _("Players' Scores") );
-	gtk_container_set_border_width( GTK_CONTAINER(frame), 3 );
-	gtk_container_add( GTK_CONTAINER(hbox), frame );
+	frame = gtk_frame_new(_("Players' Scores"));
+	gtk_container_set_border_width(GTK_CONTAINER(frame), 3);
+	gtk_container_add(GTK_CONTAINER(hbox), frame);
 
-	gui_scores_embed( frame );
-	
+	gui_scores_embed(frame);
+
 	gtk_dialog_add_button(GTK_DIALOG(dialog), _("_OK"), GTK_RESPONSE_OK);
 
-	gtk_widget_show_all (dialog);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
+	gtk_widget_show_all(dialog);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
 }
 
-gchar *translate_to_utf8(const gchar *string )
+gchar *translate_to_utf8(const gchar *string)
 {
 	iconv_t	iconv_base;
 	size_t	input_length, output_length;
 	gchar	*input_string, *input_string_pointer;
 	gchar	*output_string, *output_string_pointer;
-	
-	if(!string)
-		return NULL;
 
-	if( g_utf8_validate( string, -1, NULL ) )
-		return g_strdup( string );
-	
+	if(!string) {
+		return NULL;
+	}
+
+	if(g_utf8_validate(string, -1, NULL)) {
+		return g_strdup(string);
+	}
+
 	iconv_base = iconv_open("UTF-8", "iso-8859-1");
 
-	if(iconv_base==(iconv_t) -1)
+	if(iconv_base==(iconv_t) -1) {
 		return g_strdup(string);
+	}
 
 	input_string = input_string_pointer = g_strdup(string);
 	input_length = (strlen(input_string) + 1);
-	
+
 	output_length = (input_length << 1);
 	output_string = output_string_pointer = g_malloc(output_length);
 
 	iconv(iconv_base, &input_string, &input_length, &output_string, &output_length);
 
-	free( input_string_pointer );
-	
+	free(input_string_pointer);
+
 	iconv_close(iconv_base);
 
 	return output_string_pointer;
