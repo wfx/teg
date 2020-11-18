@@ -6,15 +6,14 @@
 #include <goocanvas.h>
 
 /* This is a private GooCanvas function we can't do without.  */
-cairo_pattern_t* goo_canvas_cairo_pattern_from_pixbuf (GdkPixbuf *pixbuf);
+cairo_pattern_t* goo_canvas_cairo_pattern_from_pixbuf(GdkPixbuf *pixbuf);
 
 typedef struct _TegCanvasImageData   TegCanvasImageData;
 
-struct _TegCanvasImageData
-{
-  cairo_pattern_t *pattern;
+struct _TegCanvasImageData {
+	cairo_pattern_t *pattern;
 
-  gdouble x, y, width, height;
+	gdouble x, y, width, height;
 };
 
 #define TEG_TYPE_CANVAS_IMAGE (teg_canvas_image_get_type ())
@@ -34,26 +33,22 @@ struct _TegCanvasImageData
 typedef struct _TegCanvasImage       TegCanvasImage;
 typedef struct _TegCanvasImageClass  TegCanvasImageClass;
 
-struct _TegCanvasImage
-{
-  GooCanvasItemSimple parent_object;
-  TegCanvasImageData *image_data;
+struct _TegCanvasImage {
+	GooCanvasItemSimple parent_object;
+	TegCanvasImageData *image_data;
 };
 
-struct _TegCanvasImageClass
-{
-  GooCanvasItemSimpleClass parent_class;
+struct _TegCanvasImageClass {
+	GooCanvasItemSimpleClass parent_class;
 };
 
-GType
-teg_canvas_image_get_type (void) G_GNUC_CONST;
+GType teg_canvas_image_get_type(void) G_GNUC_CONST;
 
-GooCanvasItem*
-teg_canvas_image_new (GooCanvasItem      *parent,
-                      GdkPixbuf          *pixbuf,
-                      gdouble             x,
-                      gdouble             y,
-                      ...);
+GooCanvasItem* teg_canvas_image_new(GooCanvasItem      *parent,
+                                    GdkPixbuf          *pixbuf,
+                                    gdouble             x,
+                                    gdouble             y,
+                                    ...);
 
 #define TEG_TYPE_CANVAS_IMAGE_MODEL (teg_canvas_image_model_get_type ())
 #define TEG_CANVAS_IMAGE_MODEL(obj) \
@@ -73,23 +68,19 @@ teg_canvas_image_new (GooCanvasItem      *parent,
 typedef struct _TegCanvasImageModel       TegCanvasImageModel;
 typedef struct _TegCanvasImageModelClass  TegCanvasImageModelClass;
 
-struct _TegCanvasImageModel
-{
-  GooCanvasItemModelSimple parent_object;
-  TegCanvasImageData image_data;
+struct _TegCanvasImageModel {
+	GooCanvasItemModelSimple parent_object;
+	TegCanvasImageData image_data;
 };
 
-struct _TegCanvasImageModelClass
-{
-  GooCanvasItemModelSimpleClass parent_class;
+struct _TegCanvasImageModelClass {
+	GooCanvasItemModelSimpleClass parent_class;
 };
 
-GType
-teg_canvas_image_model_get_type (void) G_GNUC_CONST;
+GType teg_canvas_image_model_get_type(void) G_GNUC_CONST;
 
-GooCanvasItemModel*
-teg_canvas_image_model_new (GooCanvasItemModel *parent,
-                            GdkPixbuf          *pixbuf,
-                            gdouble             x,
-                            gdouble             y,
-                            ...);
+GooCanvasItemModel* teg_canvas_image_model_new(GooCanvasItemModel *parent,
+        GdkPixbuf          *pixbuf,
+        gdouble             x,
+        gdouble             y,
+        ...);

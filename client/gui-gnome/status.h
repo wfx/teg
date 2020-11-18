@@ -42,7 +42,7 @@ enum {
 extern GtkWidget *status_dialog;
 extern GtkWidget *status_clist;
 
-TEG_STATUS status_fill_clist( GtkWidget *clist );
+TEG_STATUS status_fill_clist(GtkWidget *clist);
 
 /**! to view the status */
 void status_view();
@@ -55,7 +55,7 @@ GtkWidget *ministatus_build();
 TEG_STATUS ministatus_update();
 
 /**! Creates the widget for the Main Status */
-TEG_STATUS mainstatus_create( GtkWidget **window );
+TEG_STATUS mainstatus_create(GtkWidget **window);
 
 /**! updated the contents of the mainstatus */
 TEG_STATUS mainstatus_update();
@@ -64,6 +64,6 @@ TEG_STATUS mainstatus_update();
 TEG_STATUS mainstatus_update_colors();
 
 /**!  update the visibility of the status columns */
-TEG_STATUS status_update_visibility_of_columns( void );
+TEG_STATUS status_update_visibility_of_columns(void);
 
 #endif /* __GUI_GNOME_STATUS_H */

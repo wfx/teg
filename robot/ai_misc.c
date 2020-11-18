@@ -30,19 +30,20 @@ char *ai_fetch_a_name()
 	PLIST_ENTRY l = g_list_player.Flink;
 	int n;
 
-	if( g_game.playeres < 2 ) {
+	if(g_game.playeres < 2) {
 		return NULL;
 	}
 
-	n = RANDOM_MAX(0, g_game.playeres -1 );
+	n = RANDOM_MAX(0, g_game.playeres -1);
 
-	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) ) {
-		if( (i++) == n ) {
+	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
+		if((i++) == n) {
 			pJ = (PCPLAYER) l;
-			if( pJ->numjug == WHOAMI() )
+			if(pJ->numjug == WHOAMI()) {
 				n++;
-			else
+			} else {
 				return pJ->name;
+			}
 		}
 		l = LIST_NEXT(l);
 	}

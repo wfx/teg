@@ -36,13 +36,13 @@ TEG_STATUS main_init()
 	return TEG_STATUS_SUCCESS;
 }
 
-int main( int argc, char **argv)
+int main(int argc, char **argv)
 {
 	dont_run_as_root();
 
 	main_init();
 
-	if( gui_init(argc, argv) != TEG_STATUS_SUCCESS ) {
+	if(gui_init(argc, argv) != TEG_STATUS_SUCCESS) {
 		printf("Aborting...\n");
 		exit(-1);
 	}

@@ -25,34 +25,34 @@
 
 static int last_country = -1;
 
-TEG_STATUS ejer2_out( int country )
+TEG_STATUS ejer2_out(int country)
 {
-	if( g_countries[ country ].numjug == WHOAMI() ) {
-		if( ESTADO_ES( PLAYER_STATUS_TARJETA ) ) {
-			if( !tarjeta_es_usada( &g_countries[ country ].tarjeta )) {
-				tarjeta_usar( &g_countries[ country ].tarjeta );
+	if(g_countries[ country ].numjug == WHOAMI()) {
+		if(ESTADO_ES(PLAYER_STATUS_TARJETA)) {
+			if(!tarjeta_es_usada(&g_countries[ country ].tarjeta)) {
+				tarjeta_usar(&g_countries[ country ].tarjeta);
 				last_country = country;
-				net_printf(g_game.fd,TOKEN_EJER2"=%d\n",country);
+				net_printf(g_game.fd, TOKEN_EJER2"=%d\n", country);
 				return TEG_STATUS_SUCCESS;
 			} else {
-				textmsg( M_ERR,_("Error, the 2 armies where placed before"));
+				textmsg(M_ERR, _("Error, the 2 armies where placed before"));
 				return TEG_STATUS_ERROR;
 			}
 		} else {
-			textmsg( M_ERR,_("Error, it's not the time to put 2 armies."));
+			textmsg(M_ERR, _("Error, it's not the time to put 2 armies."));
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR,_("Error, '%s' isnt one of your countries"),g_countries[country].name);
+		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), g_countries[country].name);
 		return TEG_STATUS_ERROR;
 	}
 }
 
 TEG_STATUS ejer2_restore_from_error()
 {
-	if( last_country != -1) {
-		tarjeta_desusar( &g_countries[ last_country ].tarjeta );
-		gui_tarjeta( -1 );
+	if(last_country != -1) {
+		tarjeta_desusar(&g_countries[ last_country ].tarjeta);
+		gui_tarjeta(-1);
 		last_country = -1;
 		return TEG_STATUS_SUCCESS;
 	}

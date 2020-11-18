@@ -1,0 +1,8 @@
+style=k&r
+indent=tab
+break-one-line-headers
+add-braces
+attach-return-type
+attach-return-type-decl
+pad-comma
+unpad-paren

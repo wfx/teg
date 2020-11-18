@@ -35,7 +35,7 @@
 #define STOCK_VIEWPLAYERS	"stock-viewplayers"
 
 
-void stock_init (void);
+void stock_init(void);
 
 
 

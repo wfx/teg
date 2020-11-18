@@ -28,21 +28,21 @@
 #include "fcintl.h"
 #include "client.h"
 
-TEG_STATUS canje_out( int p1, int p2, int p3 )
+TEG_STATUS canje_out(int p1, int p2, int p3)
 {
-	if( !ESTADO_ES( PLAYER_STATUS_FICHASC )) {
-		textmsg(M_ERR,_("Error, its not the moment to exchange the cards"));
+	if(!ESTADO_ES(PLAYER_STATUS_FICHASC)) {
+		textmsg(M_ERR, _("Error, its not the moment to exchange the cards"));
 		return TEG_STATUS_ERROR;
 	}
 
-	if( tarjeta_puedocanje( WHOAMI(), p1, p2, p3 )) {
-		net_printf(g_game.fd,TOKEN_CANJE"=%d,%d,%d\n",p1,p2,p3);
+	if(tarjeta_puedocanje(WHOAMI(), p1, p2, p3)) {
+		net_printf(g_game.fd, TOKEN_CANJE"=%d,%d,%d\n", p1, p2, p3);
 		tarjeta_poner(&g_countries[p1].tarjeta);
 		tarjeta_poner(&g_countries[p2].tarjeta);
 		tarjeta_poner(&g_countries[p3].tarjeta);
 		return TEG_STATUS_SUCCESS;
 	} else {
-		textmsg(M_ERR,_("Error, the cards must be all equal, or all different"));
+		textmsg(M_ERR, _("Error, the cards must be all equal, or all different"));
 		return TEG_STATUS_ERROR;
 	}
 }
@@ -57,32 +57,41 @@ TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 	PLIST_ENTRY pL = g_game.tarjetas_list.Flink;
 	int a[TEG_MAX_TARJETAS];
 
-	if( g_game.tarjetas_cant < 3 )
+	if(g_game.tarjetas_cant < 3) {
 		return TEG_STATUS_ERROR;
-
-	for(unsigned x=0;x<sizeof(a)/sizeof(*a);x++)
-		a[x] = -1;
-
-	unsigned index=0;
-	while( !IsListEmpty( &g_game.tarjetas_list ) && (pL != &g_game.tarjetas_list )) {
-		PCOUNTRY pP;
-		PTARJETA pT = (PTARJETA) pL;
-		pP = (PCOUNTRY ) COUNTRY_FROM_TARJETA( pT );
-
-		a[index++] = pP->id;
-		if( index >= (sizeof(a)/sizeof(*a)) )
-			break;
-
-		pL = LIST_NEXT( pL );
 	}
 
-	for(int i=0;i<g_game.tarjetas_cant;i++) {
-		for(int j=i+1;j<g_game.tarjetas_cant;j++) {
-			for(int k=j+1;k<g_game.tarjetas_cant;k++) {
-				if( tarjeta_puedocanje(g_game.numjug,a[i],a[j],a[k])) {
-					if(p1) *p1 = a[i];
-					if(p2) *p2 = a[j];
-					if(p3) *p3 = a[k];
+	for(unsigned x=0; x<sizeof(a)/sizeof(*a); x++) {
+		a[x] = -1;
+	}
+
+	unsigned index=0;
+	while(!IsListEmpty(&g_game.tarjetas_list) && (pL != &g_game.tarjetas_list)) {
+		PCOUNTRY pP;
+		PTARJETA pT = (PTARJETA) pL;
+		pP = (PCOUNTRY) COUNTRY_FROM_TARJETA(pT);
+
+		a[index++] = pP->id;
+		if(index >= (sizeof(a)/sizeof(*a))) {
+			break;
+		}
+
+		pL = LIST_NEXT(pL);
+	}
+
+	for(int i=0; i<g_game.tarjetas_cant; i++) {
+		for(int j=i+1; j<g_game.tarjetas_cant; j++) {
+			for(int k=j+1; k<g_game.tarjetas_cant; k++) {
+				if(tarjeta_puedocanje(g_game.numjug, a[i], a[j], a[k])) {
+					if(p1) {
+						*p1 = a[i];
+					}
+					if(p2) {
+						*p2 = a[j];
+					}
+					if(p3) {
+						*p3 = a[k];
+					}
 					return TEG_STATUS_SUCCESS;
 				}
 			}

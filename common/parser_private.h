@@ -51,7 +51,7 @@ enum CharClass parser_character_class(char a,
  * @return
  */
 PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
-    DELIM const* equals, DELIM const* separators, int maxlen);
+                                  DELIM const* equals, DELIM const* separators, int maxlen);
 
 #ifdef __cplusplus
 }

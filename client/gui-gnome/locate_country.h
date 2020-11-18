@@ -28,9 +28,9 @@ TEG_STATUS locate_country_init();
 
 
 /* adds a country to view */
-TEG_STATUS locate_country_add_country( PCOUNTRY p );
+TEG_STATUS locate_country_add_country(PCOUNTRY p);
 
 /* adds the country's army to view */
-TEG_STATUS locate_country_add_army( PCOUNTRY p );
+TEG_STATUS locate_country_add_army(PCOUNTRY p);
 
 #endif /* __TEG_GUI_GNOME_LOCATE_COUNTRY_H */

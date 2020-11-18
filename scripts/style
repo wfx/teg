@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -euo pipefail
+
+MYSELF="$(readlink -m "$0")"
+
+HERE="${MYSELF%/*}"
+
+function filter_sources() {
+    grep -E '\.[ch](pp)?$'
+}
+
+function get_changed_files() {
+    git status --porcelain | grep '^.M ' | sed -e 's/^...//' | filter_sources
+}
+
+function get_head_files() {
+    git ls-tree -r @ | cut -d\	 -f2 | filter_sources
+}
+
+case "${1:-}" in
+    --changed|-c)
+        readarray -t FILES <<<"$(get_changed_files)"
+    ;;
+
+    --head|-h)
+        readarray -t FILES <<<"$(get_head_files)"
+    ;;
+
+    *)
+        FILES=("$@")
+    ;;
+esac
+
+astyle --options="$HERE"/../.astylerc --suffix=none "${FILES[@]}"

@@ -37,7 +37,7 @@ extern "C" {
  *
  * \return TEG_STATUS_SUCCESS on success, TEG_STATUS_ERROR otherwise.
  */
-TEG_STATUS canje_out( int p1, int p2, int p3 );
+TEG_STATUS canje_out(int p1, int p2, int p3);
 
 /** \brief Check if the player has cards which can be exchanged.
  *

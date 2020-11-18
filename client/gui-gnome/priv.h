@@ -40,6 +40,6 @@ extern struct _gui_private gui_private;
 
 extern GSettings *settings;
 
-TEG_STATUS priv_init( void );
+TEG_STATUS priv_init(void);
 
 #endif /* __TEG_GUI_GNOME_PRIV_H */

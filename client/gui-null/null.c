@@ -18,7 +18,7 @@ TEG_STATUS gui_main(void)
 }
 
 /* to view messages */
-TEG_STATUS gui_textmsg(char *aString )
+TEG_STATUS gui_textmsg(char *aString)
 {
 	return TEG_STATUS_SUCCESS;
 }
@@ -54,7 +54,7 @@ TEG_STATUS gui_pais(int p)
 {
 	return TEG_STATUS_SUCCESS;
 }
-TEG_STATUS gui_pais_select( int pais )
+TEG_STATUS gui_pais_select(int pais)
 {
 	return TEG_STATUS_SUCCESS;
 }
@@ -62,7 +62,7 @@ TEG_STATUS gui_tropas(int src, int dst, int cant)
 {
 	return TEG_STATUS_SUCCESS;
 }
-TEG_STATUS gui_tarjeta(int pais )
+TEG_STATUS gui_tarjeta(int pais)
 {
 	return TEG_STATUS_SUCCESS;
 }
@@ -70,7 +70,7 @@ TEG_STATUS gui_dados()
 {
 	return TEG_STATUS_SUCCESS;
 }
-TEG_STATUS gui_reagrupe( int src, int dst, int cant )
+TEG_STATUS gui_reagrupe(int src, int dst, int cant)
 {
 	return TEG_STATUS_SUCCESS;
 }
@@ -78,7 +78,7 @@ TEG_STATUS gui_sensi()
 {
 	return TEG_STATUS_SUCCESS;
 }
-TEG_STATUS gui_ataque( int src, int dst )
+TEG_STATUS gui_ataque(int src, int dst)
 {
 	return TEG_STATUS_SUCCESS;
 }
@@ -102,7 +102,7 @@ TEG_STATUS gui_objetivo()
 {
 	return TEG_STATUS_SUCCESS;
 }
-TEG_STATUS gui_textplayermsg(char *n,int nj, char *m )
+TEG_STATUS gui_textplayermsg(char *n, int nj, char *m)
 {
 	return TEG_STATUS_SUCCESS;
 }

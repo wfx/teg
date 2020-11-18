@@ -38,7 +38,7 @@ extern "C" {
  *         are no more armies, or TEG_STATUS_UNEXPECTED if the current player
  *         does not match the current connection.
  */
-TEG_STATUS fichas_add( PCOUNTRY p );
+TEG_STATUS fichas_add(PCOUNTRY p);
 
 /**
  * \brief removes one army of the player from country \p p.
@@ -48,7 +48,7 @@ TEG_STATUS fichas_add( PCOUNTRY p );
  *         * TEG_STATUS_UNEXPECTED if the current active player does not match
  *           the current connection.
  */
-TEG_STATUS fichas_sub( PCOUNTRY p );
+TEG_STATUS fichas_sub(PCOUNTRY p);
 
 /**
  * \brief Prepares the array of changes in armies per country.
@@ -59,7 +59,7 @@ TEG_STATUS fichas_sub( PCOUNTRY p );
  *         * TEG_STATUS_ERROR if not all armies are placed, or not all
  *           continental armies are placed into their continents.
  */
-TEG_STATUS fichas_finish( int **ptr );
+TEG_STATUS fichas_finish(int **ptr);
 
 /**
  * \brief Set the armies cache
@@ -90,27 +90,27 @@ TEG_STATUS fichasc_restore_from_error();
 TEG_STATUS fichas_out();
 
 /// Set the ammount of additional armies got by a cards exchange.
-void fichas_add_wanted( int i );
+void fichas_add_wanted(int i);
 
 /** Set the selected bitfield of the country to represent if there are still
  * armies available to place.
  *
  * This function is called after an army got placed in the country or the mouse
  * pointer hoovers over a country. */
-TEG_STATUS fichas_enter( PCOUNTRY p );
+TEG_STATUS fichas_enter(PCOUNTRY p);
 
 /** Set the selected bitfield of the country to represent if there are still
  * armies available to place.
  *
  * This function is called after an army got removed from a country, or the
  * mouse pointer leaves a country. */
-TEG_STATUS fichas_leave( PCOUNTRY p );
+TEG_STATUS fichas_leave(PCOUNTRY p);
 
 /** Returns the numbers of armies to place, and the fully conquered bitfield.
  *
  * The army count (without the additional armies per continent) will be put in
  * \p cant, the continent bitfield will be placed in \p conts. */
-void fichas_get_wanted( int *cant, int *conts );
+void fichas_get_wanted(int *cant, int *conts);
 
 #ifdef __cplusplus
 }

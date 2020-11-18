@@ -30,7 +30,7 @@ extern "C" {
 #endif
 
 /// server player data structure
-typedef struct _player{
+typedef struct _player {
 	LIST_ENTRY next;
 	int numjug;				/**< player number */
 	char name[PLAYERNAME_MAX_LEN];		/**< name */
@@ -63,7 +63,7 @@ typedef struct _player{
 } SPLAYER, *PSPLAYER;
 
 /// \brief Mapping function type to traverse all players
-typedef void (*jug_map_func)( PSPLAYER pJ);
+typedef void (*jug_map_func)(PSPLAYER pJ);
 
 /// \brief List of all connected players
 extern LIST_ENTRY g_list_player;
@@ -76,10 +76,10 @@ extern LIST_ENTRY g_list_player;
 void player_initplayer(PSPLAYER j);
 
 /// \brief Initialize the entire player list
-void player_init( void );
+void player_init(void);
 
 /// \brief Create a new player datastructure and populate it with \p j.
-PSPLAYER player_ins( PSPLAYER j, BOOLEAN esplayer );
+PSPLAYER player_ins(PSPLAYER j, BOOLEAN esplayer);
 
 /// \brief Let a player join
 #define player_ins_player(a) player_ins(a,TRUE)
@@ -91,19 +91,19 @@ PSPLAYER player_ins( PSPLAYER j, BOOLEAN esplayer );
 void player_del_hard(PSPLAYER j);
 
 /// \brief Puts a player in a GAME OVER state
-TEG_STATUS player_del_soft( PSPLAYER pJ );
+TEG_STATUS player_del_soft(PSPLAYER pJ);
 
 /// \brief delete all players
 TEG_STATUS player_flush();
 
 /// \brief Assigns a country \p p to a player number \p numjug
-TEG_STATUS player_asignarcountry( int numjug, PCOUNTRY p);
+TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p);
 
 /// \brief given a players' number it returns a pointer the player
-TEG_STATUS player_whois( int numjug, PSPLAYER *j);
+TEG_STATUS player_whois(int numjug, PSPLAYER *j);
 
 /// \brief given a players' number it returns a pointer the player
-TEG_STATUS player_whoisfd( int fd, PSPLAYER *j);
+TEG_STATUS player_whoisfd(int fd, PSPLAYER *j);
 
 /**
  * \brief tells if a player is in a given state
@@ -121,64 +121,64 @@ bool player_esta_xxx(int fd, PLAYER_STATUS state, bool exact);
  *   * (\p exact == true ) in \p state
  *   * (\p exact == false) at least in \p state
  */
-bool player_esta_xxx_plus( int fd, PLAYER_STATUS state, bool exact, PSPLAYER *j );
+bool player_esta_xxx_plus(int fd, PLAYER_STATUS state, bool exact, PSPLAYER *j);
 
 /// \brief quantity of countries per contient that a player has
-void player_listar_countries( PSPLAYER pJ, int *countries );
+void player_listar_countries(PSPLAYER pJ, int *countries);
 
 /// \brief Calculate the bitfield where the player has at least one country
 void player_listar_conts(PSPLAYER pJ, unsigned long *ret);
 
 /// \brief Initialize the start turn variables
-void player_clear_turn( PSPLAYER j );
+void player_clear_turn(PSPLAYER j);
 
 /** Calculate the number of armies the player can place in the next turn,
  *  without additional armies from card exchanges or complete conquered
  *  continents.
  */
-int player_fichasc_cant( PSPLAYER pJ );
+int player_fichasc_cant(PSPLAYER pJ);
 
 /// \brief put all the players in a given state
-void player_all_set_status( PLAYER_STATUS );
+void player_all_set_status(PLAYER_STATUS);
 
 /// \brief Tell if the player lost the game
-bool player_is_lost( PSPLAYER pJ );
+bool player_is_lost(PSPLAYER pJ);
 
 /// \brief Put the player in GAMEOVER state
-void player_poner_perdio( PSPLAYER pJ );
+void player_poner_perdio(PSPLAYER pJ);
 
 /// \brief returns a free number for the player
-TEG_STATUS player_numjug_libre( int *libre);
+TEG_STATUS player_numjug_libre(int *libre);
 
 /// \brief  given an index of player [0..MAX_PLAYERS] return the numjug of it
-TEG_STATUS player_from_indice( int j, int *real_j );
+TEG_STATUS player_from_indice(int j, int *real_j);
 
 /// \brief perform \p func on every player
 void player_map(jug_map_func func);
 
 /// \brief finds a player given its name
-TEG_STATUS player_findbyname( char *name, PSPLAYER *pJ);
+TEG_STATUS player_findbyname(char *name, PSPLAYER *pJ);
 
 /// \brief Assigns a name to the player that does not conflict with another names
-void player_fillname( PSPLAYER pJ, char *name);
+void player_fillname(PSPLAYER pJ, char *name);
 
 /// \brief Tells if a player is playing
-bool player_is_playing( PSPLAYER pJ );
+bool player_is_playing(PSPLAYER pJ);
 
 /*! return the PSPLAYER that is disconnected */
-PSPLAYER player_return_disconnected( PSPLAYER pJ );
+PSPLAYER player_return_disconnected(PSPLAYER pJ);
 
 /*! return TRUE if pJ is a disconnected player */
-BOOLEAN player_is_disconnected( PSPLAYER pJ );
+BOOLEAN player_is_disconnected(PSPLAYER pJ);
 
 /*! deletes the player if it disconnected */
-void player_delete_discon( PSPLAYER pJ );
+void player_delete_discon(PSPLAYER pJ);
 
 /*! insert all players in scores but the ones in GAMEOVER */
-void player_insert_scores( PSPLAYER pJ );
+void player_insert_scores(PSPLAYER pJ);
 
 /*! kick robots when there are no humans */
-TEG_STATUS player_kick_unparent_robots( void );
+TEG_STATUS player_kick_unparent_robots(void);
 
 #define SPLAYER_CONNECTED(a) player_esta_xxx(a,PLAYER_STATUS_CONNECTED,0)
 #define SPLAYER_HABILITADO(a) player_esta_xxx(a,PLAYER_STATUS_HABILITADO,0)

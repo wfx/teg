@@ -175,13 +175,13 @@ TEG_STATUS theme_giveme_country(pTCountry pC, int cont, int n);
 TEG_STATUS theme_giveme_theme(pTTheme pT);
 
 /// \brief Return the list of all available themes
-TEG_STATUS theme_enum_themes( pTInfo pTI );
+TEG_STATUS theme_enum_themes(pTInfo pTI);
 
 /// \brief Delete the theme list
 void theme_free();
 
 /// \brief Tries to load the theme \p name.
-char * theme_load_file( char *name );
+char * theme_load_file(char *name);
 
 /// Tries to load the preview image
 char * theme_load_fake_file(char *name, char *theme);

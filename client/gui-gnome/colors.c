@@ -58,14 +58,14 @@ char *G_colores_common[] = {
 #define NR_COLORS_COMMON (2)
 GdkRGBA colors_common[NR_COLORS_COMMON];
 
-int colors_foreground[] = { 0,1,0,0,1,1,1 };
+int colors_foreground[] = { 0, 1, 0, 0, 1, 1, 1 };
 
 GdkPixbuf *g_color_players[TEG_MAX_PLAYERS];
 GdkPixbuf *g_color_circles[TEG_MAX_PLAYERS + 1];
 GdkPixbuf *g_color_circle_over;
 
 
-TEG_STATUS colors_load_images( void )
+TEG_STATUS colors_load_images(void)
 {
 	static int images_loaded = 0;
 	char name[512];
@@ -74,65 +74,70 @@ TEG_STATUS colors_load_images( void )
 	int i;
 
 
-	if( images_loaded )
+	if(images_loaded) {
 		return TEG_STATUS_SUCCESS;
+	}
 
-	for(i=0; i < TEG_MAX_PLAYERS ; i++ ) {
+	for(i=0; i < TEG_MAX_PLAYERS ; i++) {
 
-		memset(name, 0, sizeof(name) );
+		memset(name, 0, sizeof(name));
 
 		/* load player colors */
 		/* IMPORTANT:  Dont translate g_colores! */
-		if( ! gui_theme.choose_colors_custom ) {
-			snprintf( name, sizeof(name) -1, "color_player_%s.png", g_colores[i] );
-			filename = load_pixmap_file (name);
+		if(! gui_theme.choose_colors_custom) {
+			snprintf(name, sizeof(name) -1, "color_player_%s.png", g_colores[i]);
+			filename = load_pixmap_file(name);
 			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
-			if(filename)
-				g_free( filename );
+			if(filename) {
+				g_free(filename);
+			}
 		} else {
-			snprintf( name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, g_colores[i] );
-			filename = theme_load_file( name );
+			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, g_colores[i]);
+			filename = theme_load_file(name);
 			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
 		}
 
-		if( g_color_players[i] == NULL ) {
-			g_warning(_("Error, couldn't find file: %s"),name);
+		if(g_color_players[i] == NULL) {
+			g_warning(_("Error, couldn't find file: %s"), name);
 			return TEG_STATUS_ERROR;
 		}
 
 		/* load color circles */
 		/* IMPORTANT:  Dont translate g_colores! */
-		snprintf( name, sizeof(name) -1, "disc_%s.png", g_colores[i] );
-		filename = load_pixmap_file (name);
+		snprintf(name, sizeof(name) -1, "disc_%s.png", g_colores[i]);
+		filename = load_pixmap_file(name);
 		g_color_circles[i] = gdk_pixbuf_new_from_file(filename, NULL);
-		if(filename)
-			g_free( filename );
+		if(filename) {
+			g_free(filename);
+		}
 
-		if( g_color_circles[i] == NULL ) {
-			g_warning(_("Error, couldn't find file: %s"),name);
+		if(g_color_circles[i] == NULL) {
+			g_warning(_("Error, couldn't find file: %s"), name);
 			return TEG_STATUS_ERROR;
 		}
 	}
 
 	/* disc for the 'no color' */
-	filename = load_pixmap_file ("disc_grey.png");
-	g_color_circles[TEG_MAX_PLAYERS] = gdk_pixbuf_new_from_file( filename, NULL );
-	if(filename)
-		g_free( filename );
+	filename = load_pixmap_file("disc_grey.png");
+	g_color_circles[TEG_MAX_PLAYERS] = gdk_pixbuf_new_from_file(filename, NULL);
+	if(filename) {
+		g_free(filename);
+	}
 
-	if( g_color_circles[TEG_MAX_PLAYERS] == NULL ) {
-		g_warning(_("Error, couldn't find file: %s"),"disc_grey.png");
+	if(g_color_circles[TEG_MAX_PLAYERS] == NULL) {
+		g_warning(_("Error, couldn't find file: %s"), "disc_grey.png");
 		return TEG_STATUS_ERROR;
 	}
 
 	/* disc over */
 	filename = load_pixmap_file("disc_over.png");
-	g_color_circle_over = gdk_pixbuf_new_from_file( filename, NULL );
-	if(filename)
-		g_free( filename );
+	g_color_circle_over = gdk_pixbuf_new_from_file(filename, NULL);
+	if(filename) {
+		g_free(filename);
+	}
 
-	if( g_color_circle_over == NULL ) {
-		g_warning(_("Error, couldn't find file: %s"),"disc_over.png");
+	if(g_color_circle_over == NULL) {
+		g_warning(_("Error, couldn't find file: %s"), "disc_over.png");
 		return TEG_STATUS_ERROR;
 	}
 
@@ -143,17 +148,18 @@ TEG_STATUS colors_load_images( void )
 }
 
 /* allocate colors */
-TEG_STATUS colors_allocate( void )
+TEG_STATUS colors_allocate(void)
 {
-	if(allocated)
+	if(allocated) {
 		return TEG_STATUS_ERROR;
+	}
 
 	for(unsigned i=0; i<NR_COLORS; i++) {
-	        gdk_rgba_parse( &colors_players[i], G_colores[i].ellip_color );
+		gdk_rgba_parse(&colors_players[i], G_colores[i].ellip_color);
 	}
 
 	for(unsigned i=0; i<NR_COLORS_COMMON; i++) {
-	        gdk_rgba_parse( &colors_common[i], G_colores_common[i] );
+		gdk_rgba_parse(&colors_common[i], G_colores_common[i]);
 	}
 
 	colors_load_images();
@@ -166,91 +172,102 @@ TEG_STATUS colors_allocate( void )
 bool color_is_valid(int color)
 {
 	return (color >= 0)
-	        && (((unsigned)color) < NR_COLORS);
+	       && (((unsigned)color) < NR_COLORS);
 }
 
-GdkRGBA* colors_get_player( int n )
+GdkRGBA* colors_get_player(int n)
 {
 	PCPLAYER pJ;
 
-	if(player_whois(n,&pJ) != TEG_STATUS_SUCCESS)
+	if(player_whois(n, &pJ) != TEG_STATUS_SUCCESS) {
 		return &colors_players[NR_COLORS-1];
+	}
 
-	if(!color_is_valid(pJ->color))
+	if(!color_is_valid(pJ->color)) {
 		return &colors_players[NR_COLORS-1];
+	}
 	return &colors_players[pJ->color];
 }
 
-GdkRGBA* colors_get_player_from_color( int color )
+GdkRGBA* colors_get_player_from_color(int color)
 {
-	if(!color_is_valid(color))
+	if(!color_is_valid(color)) {
 		return &colors_players[NR_COLORS-1];
+	}
 	return &colors_players[color];
 }
 
-GdkRGBA* colors_get_player_ink(int n )
+GdkRGBA* colors_get_player_ink(int n)
 {
 	PCPLAYER pJ;
 
-	if(player_whois(n,&pJ) != TEG_STATUS_SUCCESS)
+	if(player_whois(n, &pJ) != TEG_STATUS_SUCCESS) {
 		return &colors_common[COLORS_BLACK];
+	}
 
-	if(!color_is_valid(pJ->color))
+	if(!color_is_valid(pJ->color)) {
 		return &colors_common[COLORS_BLACK];
+	}
 	return &colors_common[colors_foreground[pJ->color]];
 }
 
-GdkRGBA* colors_get_player_ink_from_color(int color )
+GdkRGBA* colors_get_player_ink_from_color(int color)
 {
-	if(!color_is_valid(color))
+	if(!color_is_valid(color)) {
 		return &colors_common[COLORS_BLACK];
+	}
 	return &colors_common[colors_foreground[color]];
 }
 
-GdkRGBA* colors_get_player_virtual( int n )
+GdkRGBA* colors_get_player_virtual(int n)
 {
-	if( n == g_game.numjug )
+	if(n == g_game.numjug) {
 		return &colors_players[COLORS_P_BLUE];
+	}
 	return &colors_players[COLORS_P_RED];
 }
 
-GdkRGBA* colors_get_common( int n )
+GdkRGBA* colors_get_common(int n)
 {
-	if(n<0 || n>=NR_COLORS_COMMON)
+	if(n<0 || n>=NR_COLORS_COMMON) {
 		return &colors_players[NR_COLORS_COMMON-1];
+	}
 	return &colors_common[n];
 }
 
 /* a non-reentrant funcion */
-char * get_tag_for_color( int color )
+char * get_tag_for_color(int color)
 {
 	static char buffer[256];
 	PCPLAYER pJ;
 
-	strcpy((char*)buffer,"default_tag");
+	strcpy((char*)buffer, "default_tag");
 
-	if(player_whois(color,&pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(color, &pJ) != TEG_STATUS_SUCCESS) {
 		return (char*)buffer;
 	}
 
-	if(!color_is_valid(pJ->color))
+	if(!color_is_valid(pJ->color)) {
 		return (char*)buffer;
+	}
 
-	snprintf(buffer,sizeof(buffer)-1,"%s_tag",g_colores[pJ->color]);
+	snprintf(buffer, sizeof(buffer)-1, "%s_tag", g_colores[pJ->color]);
 	return (char*)buffer;
 }
 
 
-char * get_foreground_for_color( int c )
+char * get_foreground_for_color(int c)
 {
-	if(!color_is_valid(c))
+	if(!color_is_valid(c)) {
 		return G_colores[NR_COLORS-1].text_color;
+	}
 	return G_colores[c].text_color;
 }
 
-char * get_background_for_color( int c )
+char * get_background_for_color(int c)
 {
-	if(!color_is_valid(c))
+	if(!color_is_valid(c)) {
 		return G_colores[NR_COLORS-1].ellip_color;
+	}
 	return G_colores[c].ellip_color;
 }

@@ -51,21 +51,21 @@ typedef struct _tarjeta {
 /// \todo: Remove this dangerous macro
 #define COUNTRY_FROM_TARJETA( pT ) ( ((char*)(pT)) - (( ((char*)&((PCOUNTRY)pT)->tarjeta) - ((char*)pT) )))
 
-/* 
+/*
  * Funciones y varialbes exportadas
  */
 bool card_belongs_to_player(int player, int country);
 bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c);
 
-BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 );
-void tarjeta_init( void );
-void tarjeta_inittarj( PTARJETA t );
-void tarjeta_poner( PTARJETA t );
-void tarjeta_sacar( PTARJETA t, int numjug );
-void tarjeta_usar( PTARJETA pT );
-void tarjeta_desusar( PTARJETA pT );
-int tarjeta_es_libre( int i );
-BOOLEAN tarjeta_es_usada( PTARJETA pT );
+BOOLEAN tarjeta_puedocanje(int numjug, int t1, int t2, int t3);
+void tarjeta_init(void);
+void tarjeta_inittarj(PTARJETA t);
+void tarjeta_poner(PTARJETA t);
+void tarjeta_sacar(PTARJETA t, int numjug);
+void tarjeta_usar(PTARJETA pT);
+void tarjeta_desusar(PTARJETA pT);
+int tarjeta_es_libre(int i);
+BOOLEAN tarjeta_es_usada(PTARJETA pT);
 
 #ifdef __cplusplus
 }

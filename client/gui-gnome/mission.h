@@ -24,6 +24,6 @@
 #define __TEG_GUI_GNOME_MISSION_H
 
 void mission_view();
-TEG_STATUS mission_view_fake_number( GtkWidget *dialog, int mission );
+TEG_STATUS mission_view_fake_number(GtkWidget *dialog, int mission);
 
 #endif /* __TEG_GUI_GNOME_MISSION_H */

@@ -40,37 +40,38 @@ bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
 	TARJTIPO result = a | b | c;
 
 	return (result & TARJ_COMODIN) // at least one joker
-	        || (result == TARJ_GALEON)
-	        || (result == TARJ_CANION)
-	        || (result == TARJ_GLOBO)
-	        || (result == (TARJ_GALEON | TARJ_CANION | TARJ_GLOBO));
+	       || (result == TARJ_GALEON)
+	       || (result == TARJ_CANION)
+	       || (result == TARJ_GLOBO)
+	       || (result == (TARJ_GALEON | TARJ_CANION | TARJ_GLOBO));
 }
 
 /**
  * @fn BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
  * Dice si es correcto el canje con las tarjetas t1,t2 y t3
  */
-BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
+BOOLEAN tarjeta_puedocanje(int numjug, int t1, int t2, int t3)
 {
 	/* chequear que las tarjetas sean del jugador */
 	if(!(card_belongs_to_player(numjug, t1)&&
-	     card_belongs_to_player(numjug, t2) &&
-	     card_belongs_to_player(numjug, t3) ))
+	        card_belongs_to_player(numjug, t2) &&
+	        card_belongs_to_player(numjug, t3))) {
 		return FALSE;
+	}
 
 	return can_trade_cards(g_countries[t1].tarjeta.tarjeta,
 	                       g_countries[t2].tarjeta.tarjeta,
 	                       g_countries[t3].tarjeta.tarjeta);
 }
 
-void tarjeta_init( void )
+void tarjeta_init(void)
 {
 }
 
 /**
  * @fn void tarjeta_usar( PTARJETA pT )
  */
-void tarjeta_usar( PTARJETA pT )
+void tarjeta_usar(PTARJETA pT)
 {
 	pT->usada = TRUE;
 }
@@ -78,7 +79,7 @@ void tarjeta_usar( PTARJETA pT )
 /**
  * @fn void tarjeta_desusar( PTARJETA pT )
  */
-void tarjeta_desusar( PTARJETA pT )
+void tarjeta_desusar(PTARJETA pT)
 {
 	pT->usada = FALSE;
 }
@@ -86,7 +87,7 @@ void tarjeta_desusar( PTARJETA pT )
 /**
  * @fn void tarjeta_inittarj( PTARJETA t )
  */
-void tarjeta_inittarj( PTARJETA t )
+void tarjeta_inittarj(PTARJETA t)
 {
 	t->usada = FALSE;
 	t->numjug = -1;
@@ -95,15 +96,15 @@ void tarjeta_inittarj( PTARJETA t )
 /**
  * @fn void tarjeta_poner( PTARJETA t )
  */
-void tarjeta_poner( PTARJETA t )
+void tarjeta_poner(PTARJETA t)
 {
-	tarjeta_inittarj( t );
+	tarjeta_inittarj(t);
 }
 
 /**
  * @fn void tarjeta_sacar( PTARJETA t, int numjug )
  */
-void tarjeta_sacar( PTARJETA t, int numjug )
+void tarjeta_sacar(PTARJETA t, int numjug)
 {
 	t->numjug = numjug;
 }
@@ -114,16 +115,16 @@ void tarjeta_sacar( PTARJETA t, int numjug )
  * @param i Pais que contiene a la tarjeta
  * @return TRUE si la tarjeta esta libre
  */
-int tarjeta_es_libre( int i )
+int tarjeta_es_libre(int i)
 {
-	return( g_countries[i].tarjeta.numjug == -1 );
+	return(g_countries[i].tarjeta.numjug == -1);
 }
 
 /**
  * @fn BOOLEAN tarjeta_es_usada( PTARJETA pT )
  */
-BOOLEAN tarjeta_es_usada( PTARJETA pT )
+BOOLEAN tarjeta_es_usada(PTARJETA pT)
 {
-	return ( pT->usada == TRUE );
+	return (pT->usada == TRUE);
 }
 

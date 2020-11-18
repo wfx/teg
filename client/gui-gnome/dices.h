@@ -27,4 +27,4 @@ void dices_view();
 void dices_unview();
 void dices_init(GooCanvasItem *root);
 
-#endif 
+#endif

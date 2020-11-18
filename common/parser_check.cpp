@@ -41,7 +41,7 @@ TEST(Parser, analyze)
 	char out[PARSER_TOKEN_MAX+1];
 
 	int pos;
-	auto const pat = [&pos, &out](char const* line, int end_offset = 1){
+	auto const pat = [&pos, &out](char const* line, int end_offset = 1) {
 		pos = -1;
 		memset(out, '#', sizeof(out));
 		DELIM const equals{'='}, separators{';'};
@@ -96,7 +96,7 @@ TEST(Parser, parse)
 	{
 		// single assignment
 		PARSER assignment{.data="foo=bar", .can_continue=true,
-			              .token={'x'}, .value={'y'}, .equals=&eql};
+		                  .token={'x'}, .value={'y'}, .equals=&eql};
 		EXPECT_TRUE(parser_parse(&assignment));
 		EXPECT_FALSE(assignment.can_continue);
 		EXPECT_STREQ("foo", assignment.token);
@@ -109,7 +109,7 @@ TEST(Parser, parse)
 		char const*const input = "foo;bar";
 		// single assignment
 		PARSER multitoken{.data=input, .can_continue=false,
-			              .token={'x'}, .value={'y'}, .separators=&sep};
+		                  .token={'x'}, .value={'y'}, .separators=&sep};
 		EXPECT_TRUE(parser_parse(&multitoken));
 		EXPECT_TRUE(multitoken.can_continue);
 		EXPECT_STREQ("foo", multitoken.token);
@@ -121,8 +121,8 @@ TEST(Parser, parse)
 		// non-exhaustive assignment
 		char const*const input = "foo=bar;baz";
 		PARSER multiassignment{.data=input, .can_continue=false,
-			                   .token={'x'}, .value={'y'},
-			                   .equals=&eql, .separators=&sep};
+		                       .token={'x'}, .value={'y'},
+		                       .equals=&eql, .separators=&sep};
 		EXPECT_TRUE(parser_parse(&multiassignment));
 		EXPECT_TRUE(multiassignment.can_continue);
 		EXPECT_STREQ("foo", multiassignment.token);

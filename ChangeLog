@@ -4,6 +4,9 @@
 
 * [bug #16] Fix the client-side deadlock when the server shuts down and the
   client tries to reconnect.
+* introduction of a new code style
+* removal of unused code
+* lots of refactorings
 
 - version 0.11.2
 

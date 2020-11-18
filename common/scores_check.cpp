@@ -7,7 +7,7 @@
 #include <gtest/gtest.h>
 
 template <std::size_t N>
-bool strneq(char const (&a)[N], char const (&b)[N])
+bool strneq(char const(&a)[N], char const(&b)[N])
 {
 	return std::strncmp(a, b, N) == 0;
 }
@@ -15,10 +15,10 @@ bool strneq(char const (&a)[N], char const (&b)[N])
 bool operator == (const SCORES& a, const SCORES& b)
 {
 	return strneq(a.name, b.name)
-	        && (a.color == b.color)
-	        && strneq(a.date, b.date)
-	        && (a.human == b.human)
-	        && (a.score == b.score);
+	       && (a.color == b.color)
+	       && strneq(a.date, b.date)
+	       && (a.human == b.human)
+	       && (a.score == b.score);
 }
 
 std::ostream& operator << (std::ostream& os, const SCORES& score)
@@ -36,8 +36,7 @@ void check_scores(SCS scores, HighScores const& hs, unsigned linenumber)
 {
 	EXPECT_EQ(scores.size(), hs.count) << " origin: " << linenumber;
 	size_t i=0;
-	for(const SCORES score: scores)
-	{
+	for(const SCORES score: scores) {
 		EXPECT_EQ(score, hs.highscores[i])
 		        << "Failed for dataset #" << i
 		        << " origin: " << linenumber;

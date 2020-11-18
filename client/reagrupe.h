@@ -30,7 +30,7 @@ extern "C" {
 void reagrupe_reset(void);
 
 /// \brief Reset the army movement state machine and prepare a new movement
-TEG_STATUS reagrupe_init( void );
+TEG_STATUS reagrupe_init(void);
 
 /**
  * \brief Handle the click into a country

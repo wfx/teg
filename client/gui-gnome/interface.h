@@ -34,8 +34,8 @@ extern GtkWidget *canvas_map;
 GtkWidget* create_mainwin(void);
 int create_canvas_items(GtkWidget *canvas);
 TEG_STATUS set_sensitive_tb(void);
-void tropas_window( int src, int dst, int cant );
-void reagrupe_window( int src, int dst, int cant );
+void tropas_window(int src, int dst, int cant);
+void reagrupe_window(int src, int dst, int cant);
 
 
 #endif /* __TEG_GUI_GNOME_INTERFACE_H */

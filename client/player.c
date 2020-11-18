@@ -31,9 +31,9 @@ TEG_STATUS player_whois(int numjug, PCPLAYER *j)
 	PLIST_ENTRY l = g_list_player.Flink;
 	PCPLAYER pJ;
 
-	while( !IsListEmpty( &g_list_player ) && (l != &g_list_player) ) {
+	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
 		pJ = (PCPLAYER) l;
-		if( pJ->numjug == numjug) {
+		if(pJ->numjug == numjug) {
 			*j = pJ;
 			return TEG_STATUS_SUCCESS;
 		}
@@ -46,11 +46,12 @@ TEG_STATUS player_update(PCPLAYER j)
 {
 	PCPLAYER i;
 
-	if( player_whois( j->numjug, &i ) != TEG_STATUS_SUCCESS )
-		goto error; 
+	if(player_whois(j->numjug, &i) != TEG_STATUS_SUCCESS) {
+		goto error;
+	}
 
-	memcpy(	&j->next, &i->next, sizeof(LIST_ENTRY));
-	memcpy( i,j,sizeof(CPLAYER));
+	memcpy(&j->next, &i->next, sizeof(LIST_ENTRY));
+	memcpy(i, j, sizeof(CPLAYER));
 	return TEG_STATUS_SUCCESS;
 
 error:
@@ -59,13 +60,14 @@ error:
 
 void player_ins(PCPLAYER j)
 {
-	PCPLAYER new = (PCPLAYER) malloc( sizeof(CPLAYER) );
-	if( new==NULL)
+	PCPLAYER new = (PCPLAYER) malloc(sizeof(CPLAYER));
+	if(new==NULL) {
 		return;
+	}
 
-	memmove( new, j, sizeof(CPLAYER));
-	InitializeListHead( &new->next );
-	InsertTailList( &g_list_player, (PLIST_ENTRY) new );
+	memmove(new, j, sizeof(CPLAYER));
+	InitializeListHead(&new->next);
+	InsertTailList(&g_list_player, (PLIST_ENTRY) new);
 
 	g_game.playeres++;
 }
@@ -74,8 +76,8 @@ void player_del(PCPLAYER pJ)
 {
 	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
 
-	l = RemoveHeadList( l->Blink );
-	free( l );
+	l = RemoveHeadList(l->Blink);
+	free(l);
 	g_game.playeres--;
 }
 
@@ -84,9 +86,9 @@ void player_flush(void)
 	PLIST_ENTRY tmp;
 
 	g_game.playeres=0;
-	while( !IsListEmpty( &g_list_player ) ) {
-		tmp = RemoveHeadList( &g_list_player );
-		free( tmp );
+	while(!IsListEmpty(&g_list_player)) {
+		tmp = RemoveHeadList(&g_list_player);
+		free(tmp);
 	}
 }
 

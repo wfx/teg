@@ -32,8 +32,7 @@ extern "C" {
 /* Top Ten only */
 #define SCORES_MAX	(10)
 
-typedef struct _scores
-{
+typedef struct _scores {
 	char name[PLAYERNAME_MAX_LEN];	/**< name of the player */
 	int color;			/**< color used */
 	char date[SCORES_DATE_MAX];	/**< date of the game */
@@ -41,8 +40,7 @@ typedef struct _scores
 	int score;
 } SCORES, * PSCORES;
 
-struct HighScores
-{
+struct HighScores {
 	size_t count; ///< the amount of valid high scores
 	SCORES highscores[SCORES_MAX]; ///< the actual highscore list
 };

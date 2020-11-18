@@ -35,7 +35,7 @@ extern "C" {
  */
 
 /// \brief Send message \p msg as chat message to all players
-TEG_STATUS out_mensaje( char *msg );
+TEG_STATUS out_mensaje(char *msg);
 
 /** \brief Tell the server who I am
  *
@@ -58,7 +58,7 @@ TEG_STATUS out_start();
 
 /** Tell the server the ammount of armies (\p cant) I'm sending into the
  *  conquered country p dst from the country \p src. */
-TEG_STATUS out_tropas( int src, int dst, int cant);
+TEG_STATUS out_tropas(int src, int dst, int cant);
 
 /// Tell the server I'm done with my turn
 TEG_STATUS out_endturn();

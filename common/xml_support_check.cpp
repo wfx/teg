@@ -16,19 +16,20 @@ char const*const xmlFile = R"(<?xml version="1.0"?>
   </bar>
 </foo>)";
 
-struct TegXmlTest: public ::testing::Test
-{
+struct TegXmlTest: public ::testing::Test {
 	xmlDocPtr doc = nullptr;
 	xmlNodePtr root = nullptr;
 
-	void SetUp() override {
+	void SetUp() override
+	{
 		doc = xmlParseDoc(reinterpret_cast<xmlChar const*>(xmlFile));
 		ASSERT_NE(nullptr, doc) << "Sample text parsing failed";
 		root = xmlDocGetRootElement(doc);
 		ASSERT_NE(nullptr, root) << "The root element could not be found";
 	}
 
-	void TearDown() override {
+	void TearDown() override
+	{
 		if(doc != nullptr) {
 			xmlFreeDoc(doc);
 		}
@@ -74,9 +75,11 @@ TEST_F(TegXmlTest, add_numeric_attribute)
 
 	auto gp = [this](const char* name) -> std::string {
 		auto value = xmlGetProp(root, reinterpret_cast<xmlChar const*>(name));
-		if (value != nullptr)
+		if(value != nullptr)
+		{
 			return std::string(reinterpret_cast<char *>(value));
-		else {
+		} else
+		{
 			return "<NULL>";
 		}
 	};

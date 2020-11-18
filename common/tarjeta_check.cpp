@@ -28,79 +28,78 @@ TEST(Tarjeta, card_belongs_to_player)
 TEST(TARJETA, can_trade_cards)
 {
 	struct TestCase {
-			bool expectation;
-			TARJTIPO a, b, c;
+		bool expectation;
+		TARJTIPO a, b, c;
 	};
 
 	TestCase const testTable[] = {
-	    { true,  TARJ_GALEON,  TARJ_GALEON,  TARJ_GALEON}, // only one kind of cards
-	    {false,  TARJ_GALEON,  TARJ_GALEON,  TARJ_CANION}, // no match
-	    {false,  TARJ_GALEON,  TARJ_GALEON,   TARJ_GLOBO}, // no match
-	    { true,  TARJ_GALEON,  TARJ_GALEON, TARJ_COMODIN}, // joker
-	    {false,  TARJ_GALEON,  TARJ_CANION,  TARJ_GALEON}, // no match
-	    {false,  TARJ_GALEON,  TARJ_CANION,  TARJ_CANION}, // no match
-	    { true,  TARJ_GALEON,  TARJ_CANION,   TARJ_GLOBO}, // 3 different cards
-	    { true,  TARJ_GALEON,  TARJ_CANION, TARJ_COMODIN}, // joker
-	    {false,  TARJ_GALEON,   TARJ_GLOBO,  TARJ_GALEON}, // no match
-	    { true,  TARJ_GALEON,   TARJ_GLOBO,  TARJ_CANION}, // 3 different cards
-	    {false,  TARJ_GALEON,   TARJ_GLOBO,   TARJ_GLOBO}, // no match
-	    { true,  TARJ_GALEON,   TARJ_GLOBO, TARJ_COMODIN}, // joker
-	    { true,  TARJ_GALEON, TARJ_COMODIN,  TARJ_GALEON}, // joker
-	    { true,  TARJ_GALEON, TARJ_COMODIN,  TARJ_CANION}, // joker
-	    { true,  TARJ_GALEON, TARJ_COMODIN,   TARJ_GLOBO}, // joker
-	    { true,  TARJ_GALEON, TARJ_COMODIN, TARJ_COMODIN}, // joker
-	    {false,  TARJ_CANION,  TARJ_GALEON,  TARJ_GALEON}, // no match
-	    {false,  TARJ_CANION,  TARJ_GALEON,  TARJ_CANION}, // no match
-	    { true,  TARJ_CANION,  TARJ_GALEON,   TARJ_GLOBO}, // 3 different cards
-	    { true,  TARJ_CANION,  TARJ_GALEON, TARJ_COMODIN}, // joker
-	    {false,  TARJ_CANION,  TARJ_CANION,  TARJ_GALEON}, // no match
-	    { true,  TARJ_CANION,  TARJ_CANION,  TARJ_CANION}, // only one kind of cards
-	    {false,  TARJ_CANION,  TARJ_CANION,   TARJ_GLOBO}, // no match
-	    { true,  TARJ_CANION,  TARJ_CANION, TARJ_COMODIN}, // joker
-	    { true,  TARJ_CANION,   TARJ_GLOBO,  TARJ_GALEON}, // 3 different cards
-	    {false,  TARJ_CANION,   TARJ_GLOBO,  TARJ_CANION}, // no match
-	    {false,  TARJ_CANION,   TARJ_GLOBO,   TARJ_GLOBO}, // no match
-	    { true,  TARJ_CANION,   TARJ_GLOBO, TARJ_COMODIN}, // joker
-	    { true,  TARJ_CANION, TARJ_COMODIN,  TARJ_GALEON}, // joker
-	    { true,  TARJ_CANION, TARJ_COMODIN,  TARJ_CANION}, // joker
-	    { true,  TARJ_CANION, TARJ_COMODIN,   TARJ_GLOBO}, // joker
-	    { true,  TARJ_CANION, TARJ_COMODIN, TARJ_COMODIN}, // joker
-	    {false,   TARJ_GLOBO,  TARJ_GALEON,  TARJ_GALEON}, // no match
-	    { true,   TARJ_GLOBO,  TARJ_GALEON,  TARJ_CANION}, // 3 different cards
-	    {false,   TARJ_GLOBO,  TARJ_GALEON,   TARJ_GLOBO}, // no match
-	    { true,   TARJ_GLOBO,  TARJ_GALEON, TARJ_COMODIN}, // joker
-	    { true,   TARJ_GLOBO,  TARJ_CANION,  TARJ_GALEON}, // 3 different cards
-	    {false,   TARJ_GLOBO,  TARJ_CANION,  TARJ_CANION}, // no match
-	    {false,   TARJ_GLOBO,  TARJ_CANION,   TARJ_GLOBO}, // no match
-	    { true,   TARJ_GLOBO,  TARJ_CANION, TARJ_COMODIN}, // joker
-	    {false,   TARJ_GLOBO,   TARJ_GLOBO,  TARJ_GALEON}, // no match
-	    {false,   TARJ_GLOBO,   TARJ_GLOBO,  TARJ_CANION}, // no match
-	    { true,   TARJ_GLOBO,   TARJ_GLOBO,   TARJ_GLOBO}, // only one kind of cards
-	    { true,   TARJ_GLOBO,   TARJ_GLOBO, TARJ_COMODIN}, // joker
-	    { true,   TARJ_GLOBO, TARJ_COMODIN,  TARJ_GALEON}, // joker
-	    { true,   TARJ_GLOBO, TARJ_COMODIN,  TARJ_CANION}, // joker
-	    { true,   TARJ_GLOBO, TARJ_COMODIN,   TARJ_GLOBO}, // joker
-	    { true,   TARJ_GLOBO, TARJ_COMODIN, TARJ_COMODIN}, // joker
-	    { true, TARJ_COMODIN,  TARJ_GALEON,  TARJ_GALEON}, // joker
-	    { true, TARJ_COMODIN,  TARJ_GALEON,  TARJ_CANION}, // joker
-	    { true, TARJ_COMODIN,  TARJ_GALEON,   TARJ_GLOBO}, // joker
-	    { true, TARJ_COMODIN,  TARJ_GALEON, TARJ_COMODIN}, // joker
-	    { true, TARJ_COMODIN,  TARJ_CANION,  TARJ_GALEON}, // joker
-	    { true, TARJ_COMODIN,  TARJ_CANION,  TARJ_CANION}, // joker
-	    { true, TARJ_COMODIN,  TARJ_CANION,   TARJ_GLOBO}, // joker
-	    { true, TARJ_COMODIN,  TARJ_CANION, TARJ_COMODIN}, // joker
-	    { true, TARJ_COMODIN,   TARJ_GLOBO,  TARJ_GALEON}, // joker
-	    { true, TARJ_COMODIN,   TARJ_GLOBO,  TARJ_CANION}, // joker
-	    { true, TARJ_COMODIN,   TARJ_GLOBO,   TARJ_GLOBO}, // joker
-	    { true, TARJ_COMODIN,   TARJ_GLOBO, TARJ_COMODIN}, // joker
-	    { true, TARJ_COMODIN, TARJ_COMODIN,  TARJ_GALEON}, // joker
-	    { true, TARJ_COMODIN, TARJ_COMODIN,  TARJ_CANION}, // joker
-	    { true, TARJ_COMODIN, TARJ_COMODIN,   TARJ_GLOBO}, // joker
-	    { true, TARJ_COMODIN, TARJ_COMODIN, TARJ_COMODIN}, // only one kind of cards
+		{ true,  TARJ_GALEON,  TARJ_GALEON,  TARJ_GALEON}, // only one kind of cards
+		{false,  TARJ_GALEON,  TARJ_GALEON,  TARJ_CANION}, // no match
+		{false,  TARJ_GALEON,  TARJ_GALEON,   TARJ_GLOBO}, // no match
+		{ true,  TARJ_GALEON,  TARJ_GALEON, TARJ_COMODIN}, // joker
+		{false,  TARJ_GALEON,  TARJ_CANION,  TARJ_GALEON}, // no match
+		{false,  TARJ_GALEON,  TARJ_CANION,  TARJ_CANION}, // no match
+		{ true,  TARJ_GALEON,  TARJ_CANION,   TARJ_GLOBO}, // 3 different cards
+		{ true,  TARJ_GALEON,  TARJ_CANION, TARJ_COMODIN}, // joker
+		{false,  TARJ_GALEON,   TARJ_GLOBO,  TARJ_GALEON}, // no match
+		{ true,  TARJ_GALEON,   TARJ_GLOBO,  TARJ_CANION}, // 3 different cards
+		{false,  TARJ_GALEON,   TARJ_GLOBO,   TARJ_GLOBO}, // no match
+		{ true,  TARJ_GALEON,   TARJ_GLOBO, TARJ_COMODIN}, // joker
+		{ true,  TARJ_GALEON, TARJ_COMODIN,  TARJ_GALEON}, // joker
+		{ true,  TARJ_GALEON, TARJ_COMODIN,  TARJ_CANION}, // joker
+		{ true,  TARJ_GALEON, TARJ_COMODIN,   TARJ_GLOBO}, // joker
+		{ true,  TARJ_GALEON, TARJ_COMODIN, TARJ_COMODIN}, // joker
+		{false,  TARJ_CANION,  TARJ_GALEON,  TARJ_GALEON}, // no match
+		{false,  TARJ_CANION,  TARJ_GALEON,  TARJ_CANION}, // no match
+		{ true,  TARJ_CANION,  TARJ_GALEON,   TARJ_GLOBO}, // 3 different cards
+		{ true,  TARJ_CANION,  TARJ_GALEON, TARJ_COMODIN}, // joker
+		{false,  TARJ_CANION,  TARJ_CANION,  TARJ_GALEON}, // no match
+		{ true,  TARJ_CANION,  TARJ_CANION,  TARJ_CANION}, // only one kind of cards
+		{false,  TARJ_CANION,  TARJ_CANION,   TARJ_GLOBO}, // no match
+		{ true,  TARJ_CANION,  TARJ_CANION, TARJ_COMODIN}, // joker
+		{ true,  TARJ_CANION,   TARJ_GLOBO,  TARJ_GALEON}, // 3 different cards
+		{false,  TARJ_CANION,   TARJ_GLOBO,  TARJ_CANION}, // no match
+		{false,  TARJ_CANION,   TARJ_GLOBO,   TARJ_GLOBO}, // no match
+		{ true,  TARJ_CANION,   TARJ_GLOBO, TARJ_COMODIN}, // joker
+		{ true,  TARJ_CANION, TARJ_COMODIN,  TARJ_GALEON}, // joker
+		{ true,  TARJ_CANION, TARJ_COMODIN,  TARJ_CANION}, // joker
+		{ true,  TARJ_CANION, TARJ_COMODIN,   TARJ_GLOBO}, // joker
+		{ true,  TARJ_CANION, TARJ_COMODIN, TARJ_COMODIN}, // joker
+		{false,   TARJ_GLOBO,  TARJ_GALEON,  TARJ_GALEON}, // no match
+		{ true,   TARJ_GLOBO,  TARJ_GALEON,  TARJ_CANION}, // 3 different cards
+		{false,   TARJ_GLOBO,  TARJ_GALEON,   TARJ_GLOBO}, // no match
+		{ true,   TARJ_GLOBO,  TARJ_GALEON, TARJ_COMODIN}, // joker
+		{ true,   TARJ_GLOBO,  TARJ_CANION,  TARJ_GALEON}, // 3 different cards
+		{false,   TARJ_GLOBO,  TARJ_CANION,  TARJ_CANION}, // no match
+		{false,   TARJ_GLOBO,  TARJ_CANION,   TARJ_GLOBO}, // no match
+		{ true,   TARJ_GLOBO,  TARJ_CANION, TARJ_COMODIN}, // joker
+		{false,   TARJ_GLOBO,   TARJ_GLOBO,  TARJ_GALEON}, // no match
+		{false,   TARJ_GLOBO,   TARJ_GLOBO,  TARJ_CANION}, // no match
+		{ true,   TARJ_GLOBO,   TARJ_GLOBO,   TARJ_GLOBO}, // only one kind of cards
+		{ true,   TARJ_GLOBO,   TARJ_GLOBO, TARJ_COMODIN}, // joker
+		{ true,   TARJ_GLOBO, TARJ_COMODIN,  TARJ_GALEON}, // joker
+		{ true,   TARJ_GLOBO, TARJ_COMODIN,  TARJ_CANION}, // joker
+		{ true,   TARJ_GLOBO, TARJ_COMODIN,   TARJ_GLOBO}, // joker
+		{ true,   TARJ_GLOBO, TARJ_COMODIN, TARJ_COMODIN}, // joker
+		{ true, TARJ_COMODIN,  TARJ_GALEON,  TARJ_GALEON}, // joker
+		{ true, TARJ_COMODIN,  TARJ_GALEON,  TARJ_CANION}, // joker
+		{ true, TARJ_COMODIN,  TARJ_GALEON,   TARJ_GLOBO}, // joker
+		{ true, TARJ_COMODIN,  TARJ_GALEON, TARJ_COMODIN}, // joker
+		{ true, TARJ_COMODIN,  TARJ_CANION,  TARJ_GALEON}, // joker
+		{ true, TARJ_COMODIN,  TARJ_CANION,  TARJ_CANION}, // joker
+		{ true, TARJ_COMODIN,  TARJ_CANION,   TARJ_GLOBO}, // joker
+		{ true, TARJ_COMODIN,  TARJ_CANION, TARJ_COMODIN}, // joker
+		{ true, TARJ_COMODIN,   TARJ_GLOBO,  TARJ_GALEON}, // joker
+		{ true, TARJ_COMODIN,   TARJ_GLOBO,  TARJ_CANION}, // joker
+		{ true, TARJ_COMODIN,   TARJ_GLOBO,   TARJ_GLOBO}, // joker
+		{ true, TARJ_COMODIN,   TARJ_GLOBO, TARJ_COMODIN}, // joker
+		{ true, TARJ_COMODIN, TARJ_COMODIN,  TARJ_GALEON}, // joker
+		{ true, TARJ_COMODIN, TARJ_COMODIN,  TARJ_CANION}, // joker
+		{ true, TARJ_COMODIN, TARJ_COMODIN,   TARJ_GLOBO}, // joker
+		{ true, TARJ_COMODIN, TARJ_COMODIN, TARJ_COMODIN}, // only one kind of cards
 	};
 
-	for (const auto& check: testTable)
-	{
+	for(const auto& check: testTable) {
 		EXPECT_EQ(check.expectation, can_trade_cards(check.a, check.b, check.c))
 		        << "Failed for " << check.a << check.b << check.c;
 	}

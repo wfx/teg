@@ -8,8 +8,8 @@
 TEST(player, init_player)
 {
 	SPLAYER player{.hizo_canje=23, .turno_conq=12, .tot_countries=5,
-		        .tot_armies=323, .tot_cards=8, .tot_exchanges=7,
-		        .fichasc_armies=17, .fichasc_conts = 9};
+	               .tot_armies=323, .tot_cards=8, .tot_exchanges=7,
+	               .fichasc_armies=17, .fichasc_conts = 9};
 	player_initplayer(&player);
 	EXPECT_FALSE(player.hizo_canje);
 	EXPECT_EQ(0, player.tot_exchanges);
@@ -59,12 +59,18 @@ TEST(player, is_playing)
 TEST(player, lister_countries)
 {
 	COUNTRY countries[] = {
-	    [0] = {.next = {.Flink=&countries[1].next},
-	           .continente = CONTINENTE_AMERICASUR},
-	    [1] = {.next = {.Flink=&countries[2].next},
-	           .continente=CONTINENTE_AMERICASUR},
-	    [2] = {.next = {.Flink=nullptr},
-	           .continente=CONTINENTE_ASIA}
+		[0] = {
+			.next = {.Flink=&countries[1].next},
+			.continente = CONTINENTE_AMERICASUR
+		},
+		[1] = {
+			.next = {.Flink=&countries[2].next},
+			.continente=CONTINENTE_AMERICASUR
+		},
+		[2] = {
+			.next = {.Flink=nullptr},
+			.continente=CONTINENTE_ASIA
+		}
 	};
 
 	SPLAYER player{.countries={.Flink=&countries[0].next}};
@@ -74,12 +80,12 @@ TEST(player, lister_countries)
 	player_listar_countries(&player, continent_counts);
 
 	int const ref[CONTINENTE_LAST] = {
-	    [CONTINENTE_AMERICASUR] = 2,
-	    [CONTINENTE_AMERICANORTE] = 0,
-	    [CONTINENTE_AFRICA] = 0,
-	    [CONTINENTE_OCEANIA] = 0,
-	    [CONTINENTE_EUROPA] = 0,
-	    [CONTINENTE_ASIA] = 1,
+		[CONTINENTE_AMERICASUR] = 2,
+		[CONTINENTE_AMERICANORTE] = 0,
+		[CONTINENTE_AFRICA] = 0,
+		[CONTINENTE_OCEANIA] = 0,
+		[CONTINENTE_EUROPA] = 0,
+		[CONTINENTE_ASIA] = 1,
 	};
 	for(std::size_t i=0; i<CONTINENTE_LAST; i++) {
 		EXPECT_EQ(ref[i], continent_counts[i]) << "Failed at index " << i;
@@ -104,15 +110,14 @@ TEST(player, clear_turn)
 {
 	const int player_number = 42;
 	SPLAYER player{.numjug = player_number, .turno_conq = 23,
-		           .estado=PLAYER_STATUS_POSTFICHAS2,
-		           .country_src=15, .country_dst=51};
+	               .estado=PLAYER_STATUS_POSTFICHAS2,
+	               .country_src=15, .country_dst=51};
 
 	auto const belongs_to_player = [](int country_number)->bool {
 		return (country_number==3) || (country_number==7) || (country_number==9);
 	};
 
-	for(std::size_t i=0; i<COUNTRIES_CANT; i++)
-	{
+	for(std::size_t i=0; i<COUNTRIES_CANT; i++) {
 		g_countries[i].numjug = belongs_to_player(i)
 		                        ? 42
 		                        : 14;
@@ -125,14 +130,10 @@ TEST(player, clear_turn)
 	EXPECT_EQ(-1, player.country_src);
 	EXPECT_EQ(-1, player.country_dst);
 
-	for(std::size_t i=0; i<COUNTRIES_CANT; i++)
-	{
-		if(belongs_to_player(i))
-		{
+	for(std::size_t i=0; i<COUNTRIES_CANT; i++) {
+		if(belongs_to_player(i)) {
 			EXPECT_EQ(0, g_countries[i].ejer_reagrupe) << i;
-		}
-		else
-		{
+		} else {
 			EXPECT_EQ(i, g_countries[i].ejer_reagrupe) << i;
 		}
 	}

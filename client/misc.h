@@ -47,16 +47,16 @@ void teg_disconnect();
  * This function terminates the connection and always returns TEG_STATUS_SUCCESS.
  * Since this is a callback, the return value can't be changed.
  */
-TEG_STATUS playerid_restore_from_error( void );
+TEG_STATUS playerid_restore_from_error(void);
 
 /// \brief Tries to start a server at the specified \p port.
-TEG_STATUS launch_server( int port );
+TEG_STATUS launch_server(int port);
 
 /// \brief Tries to start a robot
-TEG_STATUS launch_robot( void );
+TEG_STATUS launch_robot(void);
 
 /// Log-like function to display messages above \p level in the GUI
-TEG_STATUS textmsg( int level, char *format, ...);
+TEG_STATUS textmsg(int level, char *format, ...);
 
 /// Create the .teg directory structure in the users home directory
 TEG_STATUS dirs_create();

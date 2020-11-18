@@ -13,10 +13,9 @@ std::string printable_list(char const* input, std::size_t length)
 	result.reserve(2 // brackets
 	               + 4*length // maximum 4 chars per number (-128)
 	               + 2*(length-1) // ", " - separators
-	               );
+	              );
 	char const*sep = "";
-	for(std::size_t i=0; i<length; i++)
-	{
+	for(std::size_t i=0; i<length; i++) {
 		result += sep;
 		result += std::to_string(input[i]);
 		sep = ", ";
@@ -45,10 +44,10 @@ void check_ins_orden(CIOPattern pre_post, char value)
 	std::string const processed_printable{printable_list(precondition, pre_post.size())};
 	for(std::size_t i=0; i<sizeof(precondition); i++) {
 		EXPECT_EQ(postcondition[i], precondition[i])
-		    << "Failed at position " << i << ", "
-		       "input=" << pre_printable << ", "
-		       "wanted=" << post_printable << ", "
-		       "got=" << processed_printable << ", "
+		        << "Failed at position " << i << ", "
+		        "input=" << pre_printable << ", "
+		        "wanted=" << post_printable << ", "
+		        "got=" << processed_printable << ", "
 		        "inserted value=" << int(value);
 	}
 

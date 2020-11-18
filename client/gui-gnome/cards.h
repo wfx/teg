@@ -23,12 +23,12 @@
 #ifndef __TEG_GUI_GNOME_CARDS_H
 #define __TEG_GUI_GNOME_CARDS_H
 
-void cards_view( int country);
-void cards_update( void );
-void cards_update_para_canje( void );
-void cards_delete( int p1, int p2, int p3 );
+void cards_view(int country);
+void cards_update(void);
+void cards_update_para_canje(void);
+void cards_delete(int p1, int p2, int p3);
 void cards_flush();
 void cards_free();
-TEG_STATUS cards_select(int p1, int p2, int p3 );
+TEG_STATUS cards_select(int p1, int p2, int p3);
 
 #endif  /* __TEG_GUI_GNOME_CARDS_H */

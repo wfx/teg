@@ -32,22 +32,22 @@ void countries_repartir()
 	PCOUNTRY p;
 
 	for(i=0; i < COUNTRIES_CANT-resto; i++) {
-		p = get_random_country( country_libre );
-		player_from_indice( j, &real_j );
-		player_asignarcountry(real_j,p);
-		p->ejercitos=1;	
+		p = get_random_country(country_libre);
+		player_from_indice(j, &real_j);
+		player_asignarcountry(real_j, p);
+		p->ejercitos=1;
 		j++;
 		j = j % g_game.playing;
 	}
 
 	/* toma un player al azar, y a partir de el le da un country a cada uno */
-	if( resto ) {
-		j = RANDOM_MAX(0,g_game.playing-1);
-		for( i=0;i<resto;i++) {
-			p = get_random_country( country_libre );
-			player_from_indice( j, &real_j );
-			player_asignarcountry( real_j,p);
-			p->ejercitos=1;	
+	if(resto) {
+		j = RANDOM_MAX(0, g_game.playing-1);
+		for(i=0; i<resto; i++) {
+			p = get_random_country(country_libre);
+			player_from_indice(j, &real_j);
+			player_asignarcountry(real_j, p);
+			p->ejercitos=1;
 			j++;
 			j = j % g_game.playing;
 		}

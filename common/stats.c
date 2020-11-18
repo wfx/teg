@@ -29,7 +29,7 @@
 
 void stats_init(PPLAYER_STATS s)
 {
-	memset( s, 0, sizeof(*s) );
+	memset(s, 0, sizeof(*s));
 }
 
 void stats_score(PPLAYER_STATS s, CONT const* continents)
@@ -38,9 +38,10 @@ void stats_score(PPLAYER_STATS s, CONT const* continents)
 
 	/* points for armies, countries */
 	s->score =  s->countries_won * 5 +
-		s->armies_killed  * 2;
+	            s->armies_killed  * 2;
 
 	/* points for defending continents */
-	for(i=0;i<CONT_CANT;i++)
+	for(i=0; i<CONT_CANT; i++) {
 		s->score += s->continents_turn[i] * continents[i].fichas_x_cont;
+	}
 }
