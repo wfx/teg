@@ -34,7 +34,8 @@ libtegcommon_a_SOURCES = 	\
 	common/missions.cpp common/missions.h	\
 	common/stats.cpp common/stats.h		\
         common/scores.cpp common/scores.h 	\
-	common/xml_support.cpp common/xml_support.h
+	common/xml_support.cpp common/xml_support.h \
+	common/execute.cpp common/execute.hpp
 
 libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
 libtegserver_a_SOURCES = \

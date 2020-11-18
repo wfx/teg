@@ -32,9 +32,13 @@
 #include <glib.h>
 
 #include "../common/net.h"
+#include "../common/execute.hpp"
+
 #include "protocol.h"
 #include "fcintl.h"
 #include "client.h"
+
+using namespace teg;
 
 CJUEGO g_game;			/**< client game */
 
@@ -159,40 +163,6 @@ TEG_STATUS playerid_restore_from_error(void)
 	return TEG_STATUS_SUCCESS;
 }
 
-template <std::size_t N>
-bool exec_program(char const*const(&cargs)[N])
-{
-	struct ArgsHolder {
-		// Little RAII helper to not let any dangling pointers hang around
-		ArgsHolder(char const*const(&cargs)[N])
-		{
-			for(std::size_t i=0; i<N; i++) {
-				if(nullptr != cargs[i]) {
-					args[i] = strdup(cargs[i]);
-				} else {
-					args[i] = nullptr;
-					break;
-				}
-			}
-		}
-
-		~ArgsHolder()
-		{
-			for(char *p: args) {
-				free(p);
-			}
-		}
-
-		char *args[N] = {nullptr};
-	} holder{cargs};
-
-	auto *const exec_fn = (cargs[0][0] == '/')
-	                      ? execv
-	                      : execvp;
-	exec_fn(*holder.args, holder.args);
-	return false;
-}
-
 /* Launch a server in localost */
 TEG_STATUS launch_server(int port)
 {
@@ -215,7 +185,7 @@ TEG_STATUS launch_server(int port)
 		args[4] = buffer;
 		args[5] = NULL;
 
-		if(!exec_program(args)) {
+		if(!execute_program(args)) {
 			perror(args[0]);
 			/* last chance, launch tegserver without console */
 			args[0] = BINDIR"/tegserver";
@@ -226,14 +196,14 @@ TEG_STATUS launch_server(int port)
 			buffer[ sizeof(buffer)-1 ] = 0;
 			args[4] = buffer;
 			args[5] = NULL;
-			if(!exec_program(args)) {
+			if(!execute_program(args)) {
 				fprintf(stderr, "Launching server failed. Does the file '%s' exists ?\n", args[0]);
 				perror("exe:");
 
 				/* This saves a crash */
 				args[0] = "/bin/true";
 				args[1] = NULL;
-				!exec_program(args);
+				!execute_program(args);
 				exit(1);
 			}
 		}
@@ -275,14 +245,14 @@ TEG_STATUS launch_robot(void)
 		args[5] = "--quiet";
 		args[6] = NULL;
 
-		if(exec_program(args)) {
+		if(execute_program(args)) {
 			fprintf(stderr, "Launching robot failed. Does the file '%s' exists ?\n", args[0]);
 			perror("exe:");
 
 			/* This saves a crash */
 			args[0] = "/bin/true";
 			args[1] = NULL;
-			exec_program(args);
+			execute_program(args);
 			exit(1);
 		}
 		return TEG_STATUS_ERROR;
