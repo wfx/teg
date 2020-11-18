@@ -185,7 +185,7 @@ void theme_free();
 char * theme_load_file(const char *name);
 
 /// Tries to load the preview image
-char * theme_load_fake_file(char *name, char *theme);
+char * theme_load_fake_file(const char *name, char *theme);
 
 /**! returns 1 if dices extended are being used */
 int theme_using_extended_dices();

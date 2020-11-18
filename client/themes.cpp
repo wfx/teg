@@ -884,7 +884,7 @@ char * theme_load_file(char const *name)
 }
 
 /* Loads a pixmap of a not loaded theme */
-char * theme_load_fake_file(char *name, char *theme)
+char * theme_load_fake_file(char const *name, char *theme)
 {
 	FILE *fp;
 	static char buf[512];
