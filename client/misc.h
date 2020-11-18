@@ -22,10 +22,6 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /// \brief initialize the client game dataset
 void game_init();
 
@@ -68,7 +64,3 @@ TEG_STATUS dirs_create();
 #define WHOAMI() g_game.numjug
 #define ESTADO_GET() g_game.estado
 #define ESTADO_SET(a) (g_game.estado=(a))
-
-#ifdef __cplusplus
-}
-#endif

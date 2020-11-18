@@ -22,10 +22,6 @@
 
 #include "player.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**! initialize the game */
 void game_init();
 
@@ -45,7 +41,3 @@ void fd_remove(int fd);
 
 /**! adds a new fd to the list of fd */
 void fd_add(int fd);
-
-#ifdef __cplusplus
-}
-#endif

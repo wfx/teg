@@ -26,7 +26,6 @@
 #include <goocanvas.h>
 #include <assert.h>
 
-#include "gui.h"
 #include "client.h"
 
 #include "locate_country.h"

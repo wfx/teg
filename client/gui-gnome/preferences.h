@@ -20,12 +20,4 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void preferences_activate(void);
-
-#ifdef __cplusplus
-}
-#endif

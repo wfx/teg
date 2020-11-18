@@ -22,14 +22,6 @@
 
 #include <goocanvas.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void dices_view();
 void dices_unview();
 void dices_init(GooCanvasItem *root);
-
-#ifdef __cplusplus
-}
-#endif

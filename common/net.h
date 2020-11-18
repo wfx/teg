@@ -22,17 +22,9 @@
 
 #include <sys/types.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 ssize_t net_readline(int sock, void *gs, size_t maxlen);
 int net_printf(int sock, const char *format, ...);
 int net_print(int sock, const char *msg);
 int net_listen(const char *host, int port);
 int net_connect_tcp(const char *host, int port);
 int net_close(int s);
-
-#ifdef __cplusplus
-}
-#endif

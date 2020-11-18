@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include "gui.h"
 #include "../client.h"
 
 #include "priv.h"

@@ -32,7 +32,6 @@
 
 #include "../../common/tegdebug.h"
 
-#include "gui.h"
 #include "client.h"
 #include "support.h"
 #include "interface.h"

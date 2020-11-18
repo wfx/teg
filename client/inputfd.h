@@ -22,10 +22,6 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * Parses the server response from filsdescriptor \p pf and dispatch the
  * response.
@@ -34,7 +30,3 @@ extern "C" {
  *         TEG_STATUS_CONNCLOSED when a read error occured.
  */
 TEG_STATUS client_recv(int fd);
-
-#ifdef __cplusplus
-}
-#endif

@@ -25,10 +25,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "../common/common.h"
 #include "../common/country.h"
 
@@ -112,6 +108,3 @@ TEG_STATUS fichas_leave(PCOUNTRY p);
  * \p cant, the continent bitfield will be placed in \p conts. */
 void fichas_get_wanted(int *cant, int *conts);
 
-#ifdef __cplusplus
-}
-#endif

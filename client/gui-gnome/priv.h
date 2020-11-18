@@ -22,10 +22,6 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 enum {
 	DIALOG_ATTACK_TURN,
 	DIALOG_REGROUP_ARMIES,
@@ -44,7 +40,3 @@ extern struct _gui_private gui_private;
 extern GSettings *settings;
 
 TEG_STATUS priv_init(void);
-
-#ifdef __cplusplus
-}
-#endif

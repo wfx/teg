@@ -18,10 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "../common/scores.h"
 #include "player.h"
 
@@ -33,7 +29,3 @@ TEG_STATUS aux_start_error();
 
 /*! parse one score */
 TEG_STATUS aux_scores(PSCORES pS, char const *str);
-
-#ifdef __cplusplus
-}
-#endif

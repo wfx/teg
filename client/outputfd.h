@@ -23,10 +23,6 @@
 #include "client.h"
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /** \addtogroup TransmitProtocoll
  *
  * All functions in this group use g_game.fd as the file descriptor to send the
@@ -97,7 +93,3 @@ TEG_STATUS out_robot();
 TEG_STATUS out_new_round();
 
 /** \} */
-
-#ifdef __cplusplus
-}
-#endif

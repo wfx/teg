@@ -29,7 +29,6 @@
 #include <glib/gi18n.h>
 #include <assert.h>
 
-#include "gui.h"
 #include "client.h"
 
 #include "chatline.h"

@@ -22,7 +22,6 @@
 #include <string.h>
 
 #include "../../common/net.h"
-#include "gui.h"
 #include "client.h"
 #include "interface.h"
 #include "chatline.h"

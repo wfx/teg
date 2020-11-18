@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef enum {
 	CONTINENTE_AMERICASUR,
 	CONTINENTE_AMERICANORTE,
@@ -72,7 +68,3 @@ int cont_tot(unsigned long conts);
 
 /// \return the translated name of the continent with number \p cont_number
 char const* cont_get_name(unsigned cont_number);
-
-#ifdef __cplusplus
-}
-#endif

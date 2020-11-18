@@ -22,13 +22,5 @@
 
 #include "../../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void mission_view();
 TEG_STATUS mission_view_fake_number(GtkWidget *dialog, int mission);
-
-#ifdef __cplusplus
-}
-#endif

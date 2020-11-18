@@ -22,16 +22,8 @@
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**! view the hiscores */
 void gui_scores_view();
 
 /**! place the scores insice an hbox */
 void gui_scores_embed(GtkWidget *hbox);
-
-#ifdef __cplusplus
-}
-#endif

@@ -22,10 +22,6 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /** \brief Start a new game
  *
  * The function checks if the preconditions to (re)start the game are met. If it
@@ -45,7 +41,3 @@ TEG_STATUS token_exit(int fd, char *);
 
 /// \brief Read a message from a client fd and do the appropriate action
 TEG_STATUS play_teg(int fd);
-
-#ifdef __cplusplus
-}
-#endif

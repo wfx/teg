@@ -29,7 +29,6 @@
 
 #include "../../common/tegdebug.h"
 
-#include "gui.h"
 #include "client.h"
 
 #include "chatline.h"

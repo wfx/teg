@@ -22,10 +22,6 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define CONSOLE_FD 0
 
 /// \brief Try to read and handle one command from the console
@@ -51,7 +47,3 @@ TEG_STATUS console_init(void);
 
 /// \brief Deactivate the server console
 TEG_STATUS console_quit(void);
-
-#ifdef __cplusplus
-}
-#endif

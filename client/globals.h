@@ -23,10 +23,6 @@
 #include "client.h"
 #include "themes.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 extern TEG_STATUS gui_init(int argc, char **argv);
 extern TEG_STATUS gui_main(void);
 extern TEG_STATUS gui_textmsg(char *aString);
@@ -86,7 +82,3 @@ typedef struct _cgame {
 
 /* funciones y variables exportadas */
 extern CJUEGO g_game;
-
-#ifdef __cplusplus
-}
-#endif

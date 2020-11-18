@@ -17,16 +17,9 @@
 
 #include "../../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void inputline_return(GtkEntry *w, gpointer data);
 void output_window_clear(void);
 void set_output_window_text(const char *text);
 TEG_STATUS gui_textmsg(char *astring);
 TEG_STATUS chatline_init();
 
-#ifdef __cplusplus
-}
-#endif

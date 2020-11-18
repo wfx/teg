@@ -23,10 +23,6 @@
 #include "tarjeta.h"
 #include "cont.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define COUNTRYNAME_MAX_LEN	50
 #define COUNTRIES_CANT		50
 
@@ -69,7 +65,3 @@ BOOLEAN countrynumber_is_valid(int country_number);
 
 /**! returns the name of 'country' */
 const char *countries_get_name(int country);
-
-#ifdef __cplusplus
-}
-#endif

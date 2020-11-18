@@ -24,10 +24,6 @@
 
 #include "../../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 enum {
 	STATUS_COLUMN_COLOR,
 	STATUS_COLUMN_NUMBER,
@@ -70,7 +66,3 @@ TEG_STATUS mainstatus_update_colors();
 
 /**!  update the visibility of the status columns */
 TEG_STATUS status_update_visibility_of_columns(void);
-
-#ifdef __cplusplus
-}
-#endif

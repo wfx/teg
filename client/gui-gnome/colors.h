@@ -25,10 +25,6 @@
 
 #include "../../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 enum {
 	COLORS_WHITE,
 	COLORS_BLACK,
@@ -67,7 +63,3 @@ GdkRGBA* colors_get_common(int n);
 char * get_tag_for_color(int color);
 const char *get_background_for_color(int c);
 const char *get_foreground_for_color(int c);
-
-#ifdef __cplusplus
-}
-#endif

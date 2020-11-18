@@ -22,10 +22,6 @@
 
 #include "../../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void cards_view(int country);
 void cards_update(void);
 void cards_update_para_canje(void);
@@ -33,7 +29,3 @@ void cards_delete(int p1, int p2, int p3);
 void cards_flush();
 void cards_free();
 TEG_STATUS cards_select(int p1, int p2, int p3);
-
-#ifdef __cplusplus
-}
-#endif

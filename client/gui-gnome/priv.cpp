@@ -23,7 +23,6 @@
 #endif
 #include <gtk/gtk.h>
 
-#include "gui.h"
 #include "client.h"
 
 #include "interface.h"

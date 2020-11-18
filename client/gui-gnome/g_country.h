@@ -18,14 +18,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#pragma once
+
 #include <glib.h>
 #include <goocanvas.h>
 
-#pragma once
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "../../common/common.h"
 
 struct _G_countries {
 	char *gfx_name;			/**< name del archivo grafico del country */
@@ -48,9 +46,4 @@ void G_country_draw(int country);
 void G_country_draw_ejer(int country) ;
 int G_country_tot();
 
-/* gui */
 TEG_STATUS gui_country_select(int country);
-
-#ifdef __cplusplus
-}
-#endif

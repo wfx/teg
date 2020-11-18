@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "../../common/common.h"
 #include "../../common/country.h"
 
@@ -36,7 +32,3 @@ TEG_STATUS locate_country_add_country(PCOUNTRY p);
 
 /* adds the country's army to view */
 TEG_STATUS locate_country_add_army(PCOUNTRY p);
-
-#ifdef __cplusplus
-}
-#endif

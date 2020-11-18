@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define STOCK_ZOOM_1	"TEG_stock_zoom_1"
 #define STOCK_ZOOM_FIT	"TEG_stock_zoom_fit"
 #define STOCK_ZOOM_IN	"TEG_stock_zoom_in"
@@ -34,7 +30,3 @@ extern "C" {
 #define STOCK_VIEWPLAYERS	"stock-viewplayers"
 
 void stock_init(void);
-
-#ifdef __cplusplus
-}
-#endif
