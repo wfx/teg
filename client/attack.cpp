@@ -21,6 +21,8 @@
  * manages the client side of the attack
  */
 
+#include "attack.h"
+
 #include "protocol.h"
 #include "net.h"
 #include "fcintl.h"

@@ -259,7 +259,7 @@ TEG_STATUS launch_robot(void)
 }
 
 /* display a message */
-TEG_STATUS textmsg(int level, char *format, ...)
+TEG_STATUS textmsg(int level, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];

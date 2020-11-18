@@ -18,9 +18,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#pragma once
+
 #include "common.h"
 #include "country.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * \brief Checks if attacks are possible, and reset the current user attack
@@ -118,3 +123,7 @@ void attack_show(int src, int dst);
  * This function is called to reset any attack marks in the GUI.
  */
 void attack_unshow();
+
+#ifdef __cplusplus
+}
+#endif

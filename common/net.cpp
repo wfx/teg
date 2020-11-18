@@ -194,7 +194,7 @@ int net_listen(const char *host, int port)
 
 
 
-int net_printf(int sock, char *format, ...)
+int net_printf(int sock, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];

@@ -67,7 +67,7 @@ libclient_a_SOURCES = \
 	client/outputfd.c client/outputfd.h	\
 	client/helper.c client/helper.h	\
 	client/fichas.c client/fichas.h	\
-	client/attack.c client/attack.h	\
+	client/attack.cpp client/attack.h	\
 	client/reagrupe.c client/reagrupe.h	\
 	client/ejer2.c client/ejer2.h		\
 	client/canje.c client/canje.h		\
