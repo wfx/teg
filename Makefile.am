@@ -143,7 +143,7 @@ tegrobot_SOURCES = 		\
         robot/gui.cpp \
 	robot/ai.cpp robot/ai.h		\
 	robot/ai_msg.c robot/ai_msg.h	\
-	robot/ai_misc.c robot/ai_misc.h	\
+	robot/ai_misc.cpp robot/ai_misc.h	\
 	robot/ai_fichas.cpp robot/ai_fichas.h
 
 
