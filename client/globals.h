@@ -20,12 +20,12 @@
 
 #pragma once
 
+#include "client.h"
+#include "themes.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-#include "client.h"
-#include "themes.h"
 
 extern TEG_STATUS gui_init(int argc, char **argv);
 extern TEG_STATUS gui_main(void);

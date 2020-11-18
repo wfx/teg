@@ -21,7 +21,7 @@
 #pragma once
 
 #include "client.h"
-#include "common.h"
+#include "../common/common.h"
 
 #ifdef __cplusplus
 extern "C" {

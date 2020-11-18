@@ -29,8 +29,8 @@
 extern "C" {
 #endif
 
-#include "common.h"
-#include "country.h"
+#include "../common/common.h"
+#include "../common/country.h"
 
 /**
  * \brief places one army of the player into country \p p.

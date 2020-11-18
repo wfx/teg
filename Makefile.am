@@ -153,7 +153,7 @@ tegtest_CPPFLAGS = @XML_CFLAGS@
 tegtest_SOURCES = common/xml_support_check.cpp common/tarjeta_check.cpp \
     common/stats_check.cpp common/share_check.cpp common/scores_check.cpp \
     common/parser_check.cpp common/common_check.cpp \
-    client/helper_check.cpp client/gui-null/null.c
+    client/helper_check.cpp client/gui-null/null.cpp
 tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ -lpthread
 tegtest_LDFLAGS = -Wl,--as-needed
 

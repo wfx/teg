@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "common.h"
-#include "country.h"
+#include "../common/common.h"
+#include "../common/country.h"
 
 #ifdef __cplusplus
 extern "C" {
