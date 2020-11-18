@@ -281,7 +281,7 @@ gchar *translate_to_utf8(const gchar *string)
 	input_length = (strlen(input_string) + 1);
 
 	output_length = (input_length << 1);
-	output_string = output_string_pointer = g_malloc(output_length);
+	output_string = output_string_pointer = static_cast<gchar*>(g_malloc(output_length));
 
 	iconv(iconv_base, &input_string, &input_length, &output_string, &output_length);
 
