@@ -97,7 +97,7 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/chatline.cpp client/gui-gnome/chatline.h	\
 	client/gui-gnome/priv.c client/gui-gnome/priv.h		\
 	client/gui-gnome/support.c client/gui-gnome/support.h	\
-	client/gui-gnome/g_cont.c client/gui-gnome/g_cont.h	\
+	client/gui-gnome/g_cont.cpp client/gui-gnome/g_cont.h	\
 	client/gui-gnome/g_country.c client/gui-gnome/g_country.h	\
 	client/gui-gnome/stock.c client/gui-gnome/stock.h		\
 	client/gui-gnome/cards.cpp client/gui-gnome/cards.h		\
