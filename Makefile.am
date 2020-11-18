@@ -94,13 +94,13 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/gui.c client/gui-gnome/gui.h		\
 	client/gui-gnome/callbacks.cpp client/gui-gnome/callbacks.h	\
 	client/gui-gnome/interface.c client/gui-gnome/interface.h	\
-	client/gui-gnome/chatline.c client/gui-gnome/chatline.h	\
+	client/gui-gnome/chatline.cpp client/gui-gnome/chatline.h	\
 	client/gui-gnome/priv.c client/gui-gnome/priv.h		\
 	client/gui-gnome/support.c client/gui-gnome/support.h	\
 	client/gui-gnome/g_cont.c client/gui-gnome/g_cont.h	\
 	client/gui-gnome/g_country.c client/gui-gnome/g_country.h	\
 	client/gui-gnome/stock.c client/gui-gnome/stock.h		\
-	client/gui-gnome/cards.c client/gui-gnome/cards.h		\
+	client/gui-gnome/cards.cpp client/gui-gnome/cards.h		\
 	client/gui-gnome/dices.c client/gui-gnome/dices.h		\
 	client/gui-gnome/mission.c client/gui-gnome/mission.h	\
 	client/gui-gnome/status.c client/gui-gnome/status.h	\

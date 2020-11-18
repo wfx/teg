@@ -17,12 +17,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file colors.h
- */
 
-#ifndef __TEG_GUI_GNOME_COLORS_H
-#define __TEG_GUI_GNOME_COLORS_H
+#pragma once
+
+#include <gdk/gdk.h>
+#include <gtk/gtk.h>
+
+#include "../../common/common.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 enum {
 	COLORS_WHITE,
@@ -63,4 +68,6 @@ char * get_tag_for_color(int color);
 char * get_background_for_color(int c);
 char * get_foreground_for_color(int c);
 
-#endif /* __TEG_GUI_GNOME_COLORS_H */
+#ifdef __cplusplus
+}
+#endif

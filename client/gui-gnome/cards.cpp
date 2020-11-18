@@ -56,7 +56,7 @@ struct _tarjs_sensi {
 struct {
 	GdkPixbuf	*tar;
 	TARJTIPO	tipo;
-	char 		*filename;
+	char const *filename;
 } tarjs[] = {
 	{ NULL,	TARJ_CANION,	"tar_canon.png" },
 	{ NULL,	TARJ_GALEON,	"tar_galeon.png" },

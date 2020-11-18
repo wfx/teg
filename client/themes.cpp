@@ -855,7 +855,7 @@ void theme_free()
 }
 
 /* Finds the path for a filename */
-char * theme_load_file(char *name)
+char * theme_load_file(char const *name)
 {
 	FILE *fp;
 	static char buf[512];
