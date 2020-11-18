@@ -20,11 +20,11 @@ TESTS = $(check_PROGRAMS)
 libtegcommon_a_CPPFLAGS = @XML_CFLAGS@
 libtegcommon_a_SOURCES = 	\
 	common/net.cpp common/net.h		\
-	common/share.c	common/share.h		\
+	common/share.cpp	common/share.h		\
 	common/fcintl.h		\
 	common/protocol.h		\
 	common/common.cpp common/common.h	\
-	common/parser.c common/parser.h	\
+	common/parser.cpp common/parser.h	\
 	common/tegdebug.h		\
 	common/version.h		\
 	common/tarjeta.cpp common/tarjeta.h	\
@@ -32,9 +32,9 @@ libtegcommon_a_SOURCES = 	\
 	common/limitrof.h		\
 	common/cont.cpp common/cont.h		\
 	common/missions.cpp common/missions.h	\
-	common/stats.c common/stats.h		\
-        common/scores.c common/scores.h 	\
-	common/xml_support.c common/xml_support.h
+	common/stats.cpp common/stats.h		\
+        common/scores.cpp common/scores.h 	\
+	common/xml_support.cpp common/xml_support.h
 
 libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
 libtegserver_a_SOURCES = \
@@ -42,15 +42,15 @@ libtegserver_a_SOURCES = \
 	server/server.h		\
 	server/player.c server/player.h	\
 	server/sernet.c server/sernet.h	\
-        server/countries.c server/countries.h	\
+	server/countries.cpp server/countries.h	\
 	server/play.c server/play.h		\
 	server/turno.c server/turno.h		\
 	server/console.cpp server/console.h	\
 	server/helper.c server/helper.h	\
-	server/missions.c server/missions.h \
+	server/missions.cpp server/missions.h \
 	server/options.c server/options.h	\
 	server/xmlscores.c server/xmlscores.h	\
-	server/fow.c server/fow.h
+	server/fow.cpp server/fow.h
 
 tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
 tegserver_SOURCES = server/main.cpp
@@ -64,18 +64,18 @@ libclient_a_SOURCES = \
 	client/player.cpp client/player.h	\
 	client/misc.cpp client/misc.h		\
 	client/inputfd.cpp client/inputfd.h	\
-	client/outputfd.c client/outputfd.h	\
+	client/outputfd.cpp client/outputfd.h	\
 	client/helper.cpp client/helper.h	\
-	client/fichas.c client/fichas.h	\
+	client/fichas.cpp client/fichas.h	\
 	client/attack.cpp client/attack.h	\
-	client/reagrupe.c client/reagrupe.h	\
-	client/ejer2.c client/ejer2.h		\
-	client/canje.c client/canje.h		\
+	client/reagrupe.cpp client/reagrupe.h	\
+	client/ejer2.cpp client/ejer2.h		\
+	client/canje.cpp client/canje.h		\
 	client/themes.cpp client/themes.h
 
 
 tegclient_CPPFLAGS = @XML_CFLAGS@ -I$(top_srcdir)/common
-tegclient_SOURCES = client/main.c
+tegclient_SOURCES = client/main.cpp
 
 tegclient_DEPENDENCIES = libguiclient.a libclient.a libtegcommon.a $(INTLDEPS)
 tegclient_LDADD        = libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
@@ -93,7 +93,7 @@ libguiclient_a_CPPFLAGS = \
 libguiclient_a_SOURCES = \
 	client/gui-gnome/gui.cpp client/gui-gnome/gui.h		\
 	client/gui-gnome/callbacks.cpp client/gui-gnome/callbacks.h	\
-	client/gui-gnome/interface.c client/gui-gnome/interface.h	\
+	client/gui-gnome/interface.cpp client/gui-gnome/interface.h	\
 	client/gui-gnome/chatline.cpp client/gui-gnome/chatline.h	\
 	client/gui-gnome/priv.cpp client/gui-gnome/priv.h		\
 	client/gui-gnome/support.cpp client/gui-gnome/support.h	\
@@ -101,15 +101,15 @@ libguiclient_a_SOURCES = \
 	client/gui-gnome/g_country.cpp client/gui-gnome/g_country.h	\
 	client/gui-gnome/stock.cpp client/gui-gnome/stock.h		\
 	client/gui-gnome/cards.cpp client/gui-gnome/cards.h		\
-	client/gui-gnome/dices.c client/gui-gnome/dices.h		\
-	client/gui-gnome/mission.c client/gui-gnome/mission.h	\
-	client/gui-gnome/status.c client/gui-gnome/status.h	\
+	client/gui-gnome/dices.cpp client/gui-gnome/dices.h		\
+	client/gui-gnome/mission.cpp client/gui-gnome/mission.h	\
+	client/gui-gnome/status.cpp client/gui-gnome/status.h	\
 	client/gui-gnome/connect.cpp client/gui-gnome/connect.h	\
 	client/gui-gnome/armies.cpp client/gui-gnome/armies.h	\
 	client/gui-gnome/colors.cpp client/gui-gnome/colors.h	\
 	client/gui-gnome/preferences.cpp client/gui-gnome/preferences.h \
-	client/gui-gnome/g_scores.c client/gui-gnome/g_scores.h \
-	client/gui-gnome/locate_country.c client/gui-gnome/locate_country.h \
+	client/gui-gnome/g_scores.cpp client/gui-gnome/g_scores.h \
+	client/gui-gnome/locate_country.cpp client/gui-gnome/locate_country.h \
 	client/gui-gnome/tegcanvasimage.cpp client/gui-gnome/tegcanvasimage.h \
 	stock_gresources.c stock_gresources.h \
 	client/gui-gnome/fonts.h			\
