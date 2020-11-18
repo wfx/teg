@@ -41,16 +41,16 @@ libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -D
 libtegserver_a_SOURCES = \
         server/globals.h server/main.h		\
 	server/server.h		\
-	server/player.c server/player.h	\
+	server/player.cpp server/player.h	\
 	server/sernet.c server/sernet.h	\
 	server/countries.cpp server/countries.h	\
 	server/play.cpp server/play.h		\
-	server/turno.c server/turno.h		\
+	server/turno.cpp server/turno.h		\
 	server/console.cpp server/console.h	\
 	server/helper.cpp server/helper.h	\
 	server/missions.cpp server/missions.h \
 	server/options.cpp server/options.h	\
-	server/xmlscores.c server/xmlscores.h	\
+	server/xmlscores.cpp server/xmlscores.h	\
 	server/fow.cpp server/fow.h
 
 tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
@@ -140,11 +140,11 @@ tegrobot_CPPFLAGS = \
 
 tegrobot_SOURCES = 		\
         robot/main.cpp \
-        robot/gui.c \
-	robot/ai.c robot/ai.h		\
+        robot/gui.cpp \
+	robot/ai.cpp robot/ai.h		\
 	robot/ai_msg.c robot/ai_msg.h	\
 	robot/ai_misc.c robot/ai_misc.h	\
-	robot/ai_fichas.c robot/ai_fichas.h
+	robot/ai_fichas.cpp robot/ai_fichas.h
 
 
 tegrobot_DEPENDENCIES = libclient.a libtegcommon.a $(INTLDEPS)
