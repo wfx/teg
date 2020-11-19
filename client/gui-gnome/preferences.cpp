@@ -321,16 +321,18 @@ static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 
 static void fill_menu(GtkWidget *menu)
 {
-	AllThemes const &themes{theme_enum_themes()};
+	ThemeDirectories const &themes{theme_enum_themes()};
 
-	for(std::size_t i=0; i<themes.size(); i++) {
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(menu), themes[i].name);
+	std::size_t i=0;
+	for(const auto& dirname: themes) {
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(menu), dirname.c_str());
 		g_signal_connect(G_OBJECT(menu), "changed",
 		                 G_CALLBACK(theme_activated_callback), NULL);
 
-		if(!strcmp(themes[i].name, g_game.theme)) {
+		if(dirname == g_game.theme) {
 			gtk_combo_box_set_active(GTK_COMBO_BOX(menu), i);
 		}
+		i++;
 	}
 }
 

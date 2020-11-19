@@ -55,7 +55,7 @@
 #define TEG_THEME_VER_MINOR (5)
 
 static pTheme g_theme = NULL;	/**< Current theme */
-static AllThemes themes;
+static ThemeDirectories themes;
 
 static pCountry parseCountry(xmlDocPtr doc, xmlNodePtr cur)
 {
@@ -754,7 +754,7 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 	return TEG_STATUS_SUCCESS;
 }
 
-AllThemes const& theme_enum_themes()
+ThemeDirectories const& theme_enum_themes()
 {
 	char const *const dname = "themes";
 	char buf[1000];
@@ -790,16 +790,10 @@ AllThemes const& theme_enum_themes()
 			if(((written < 0)) || ((unsigned)written >= sizeof(buf))) {
 				continue;
 			}
-			if((fp = fopen(buf, "r"))) {
 
+			if((fp = fopen(buf, "r"))) {
 				fclose(fp);
-				auto const is_dir = [e](TItinfo const& info) {
-					return strcmp(info.name, e->d_name);
-				};
-				if(std::find_if(themes.begin(), themes.end(), is_dir) != themes.end()) {
-					TItinfo info{.name = strdup(e->d_name)};
-					themes.push_back(info);
-				}
+				themes.insert(e->d_name);
 			}
 		}
 		closedir(dir);
