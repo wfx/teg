@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include <libxml/parser.h>
 
 #include "../common/common.h"
@@ -146,15 +148,18 @@ typedef struct _ttheme {
 	char	*screenshot;
 } TTheme, *pTTheme;
 
-/* Theme Info */
-typedef struct _tinfo {
-	struct _tinfo *next;
+struct TItinfo {
+
+	~TItinfo()
+	{
+		free(name);
+	}
 	char *name;
 	char *author;
 	char *email;
 	char *version;
-} TInfo, *pTInfo;
-
+};
+using AllThemes = std::vector<TItinfo>;
 
 /// \brief Tries to load the theme named \p name from different directories
 TEG_STATUS theme_load(char *name);
@@ -172,10 +177,7 @@ TEG_STATUS theme_giveme_country(pTCountry pC, int cont, int n);
 TEG_STATUS theme_giveme_theme(pTTheme pT);
 
 /// \brief Return the list of all available themes
-TEG_STATUS theme_enum_themes(pTInfo pTI);
-
-/// \brief Delete the theme list
-void theme_free();
+AllThemes const& theme_enum_themes();
 
 /// \brief Tries to load the theme \p name.
 char * theme_load_file(const char *name);

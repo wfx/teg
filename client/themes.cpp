@@ -24,6 +24,9 @@
 
 #define _XOPEN_SOURCE 500
 
+#include <vector>
+#include <algorithm>
+
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
@@ -52,7 +55,7 @@
 #define TEG_THEME_VER_MINOR (5)
 
 static pTheme g_theme = NULL;	/**< Current theme */
-static pTInfo g_tinfo = NULL;	/**< info of all current themes */
+static AllThemes themes;
 
 static pCountry parseCountry(xmlDocPtr doc, xmlNodePtr cur)
 {
@@ -751,107 +754,58 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 	return TEG_STATUS_SUCCESS;
 }
 
-/* builds a list of available themes */
-TEG_STATUS theme_enum_themes(pTInfo pTI)
+AllThemes const& theme_enum_themes()
 {
 	char const *const dname = "themes";
 	char buf[1000];
 	DIR *dir;
 	struct dirent *e;
-	pTInfo pI, pInext;
-	char lugares[3][1000];
-	int i;
+	char dirnames[3][1000];
 
-	if(g_tinfo) {
-		*pTI = *g_tinfo;
-		return TEG_STATUS_SUCCESS;
+	if(themes.size() != 0) {
+		return themes;
 	}
 
-
-	memset(lugares, 0, sizeof(lugares));
+	memset(dirnames, 0, sizeof(dirnames));
 
 	/* themes */
-	strncpy(lugares[0], dname, sizeof(lugares[0])-1);
+	strncpy(dirnames[0], dname, sizeof(dirnames[0])-1);
 
 	/* ~/.teg/themes */
-	snprintf(lugares[1], sizeof(lugares[1])-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
+	snprintf(dirnames[1], sizeof(dirnames[1])-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
 
 	/* /usr/local/share/teg/themes */
-	strncpy(lugares[2], THEMEDIR, sizeof(buf)-1);
+	strncpy(dirnames[2], THEMEDIR, sizeof(buf)-1);
 
 
-	for(i=0; i<3; i++) {
-		if((dir = opendir(lugares[i]))==NULL) {
+	for(char const* dir_name: dirnames) {
+		if((dir = opendir(dir_name))==NULL) {
 			continue;
 		}
 
 		/* scan for directories with file teg_theme.xml */
 		while((e = readdir(dir)) != NULL) {
 			FILE *fp;
-			const int written = snprintf(buf, sizeof(buf), "%s/%s/teg_theme.xml", lugares[i], e->d_name);
+			const int written = snprintf(buf, sizeof(buf), "%s/%s/teg_theme.xml", dir_name, e->d_name);
 			if(((written < 0)) || ((unsigned)written >= sizeof(buf))) {
 				continue;
 			}
 			if((fp = fopen(buf, "r"))) {
 
 				fclose(fp);
-				pI = static_cast<TInfo*>(malloc(sizeof(*pI)));
-				if(pI == NULL) {
-					return TEG_STATUS_NOMEM;
-				}
-
-				memset(pI, 0, sizeof(*pI));
-				pI->name = strdup(e->d_name);
-
-				/* insert it in the list */
-				if(g_tinfo == NULL) {
-					pI->next = NULL;
-					g_tinfo = pI;
-				} else {
-					/* dont insert duplicated */
-					int repeated = 0;
-					for(pInext=g_tinfo; pInext; pInext = pInext->next) {
-						if(strncmp(pInext->name, pI->name, strlen(pI->name)) == 0) {
-							repeated = 1;
-							break;
-						}
-
-					}
-					if(!repeated) {
-						pI->next = g_tinfo->next;
-						g_tinfo->next = pI;
-					} else {
-						free(pI);
-					}
+				auto const is_dir = [e](TItinfo const& info) {
+					return strcmp(info.name, e->d_name);
+				};
+				if(std::find_if(themes.begin(), themes.end(), is_dir) != themes.end()) {
+					TItinfo info{.name = strdup(e->d_name)};
+					themes.push_back(info);
 				}
 			}
 		}
-
 		closedir(dir);
 	}
 
-	if(g_tinfo == NULL) {
-		return TEG_STATUS_ERROR;
-	}
-
-	*pTI = *g_tinfo;
-	return TEG_STATUS_SUCCESS;
-}
-
-void theme_free()
-{
-	pTInfo pI;
-
-	for(pI = g_tinfo; pI != NULL;)  {
-		pTInfo pI2;
-		if(pI->name) {
-			free(pI->name);
-		}
-		pI2 = pI;
-		pI = pI->next;
-		free(pI2);
-	}
-	g_tinfo = NULL;
+	return themes;
 }
 
 /* Finds the path for a filename */

@@ -142,12 +142,6 @@ static void show_toolbar_cb(GtkToggleButton *button, gpointer data)
 	}
 }
 
-static void free_str(GtkWidget *widget, void *data)
-{
-	free(data);
-}
-
-
 
 static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 {
@@ -325,33 +319,18 @@ static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 	g_settings_apply(settings);
 }
 
-
-
 static void fill_menu(GtkWidget *menu)
 {
-	TInfo Info;
-	pTInfo pI;
-	char *s;
-	int i=0;
+	AllThemes const &themes{theme_enum_themes()};
 
-	if(theme_enum_themes(&Info) != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Error while loading information about themes!"));
-		return;
-	}
-
-	for(pI=&Info; pI != NULL; pI = pI->next) {
-		s = strdup(pI->name);
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(menu), s);
+	for(std::size_t i=0; i<themes.size(); i++) {
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(menu), themes[i].name);
 		g_signal_connect(G_OBJECT(menu), "changed",
 		                 G_CALLBACK(theme_activated_callback), NULL);
 
-		g_signal_connect(G_OBJECT(menu), "destroy",
-		                 G_CALLBACK(free_str), s);
-
-		if(!strcmp(pI->name, g_game.theme)) {
+		if(!strcmp(themes[i].name, g_game.theme)) {
 			gtk_combo_box_set_active(GTK_COMBO_BOX(menu), i);
 		}
-		i++;
 	}
 }
 
