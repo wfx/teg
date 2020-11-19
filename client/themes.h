@@ -155,9 +155,6 @@ struct TItinfo {
 		free(name);
 	}
 	char *name;
-	char *author;
-	char *email;
-	char *version;
 };
 using AllThemes = std::vector<TItinfo>;
 
