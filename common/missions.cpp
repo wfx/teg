@@ -200,6 +200,10 @@ int missions_cant()
 	return NRMISSIONS;
 }
 
+/// \todo Refactor the following code into ideomatic c++ code, so that this
+/// hack is not needed anymore.
+#pragma GCC diagnostic ignored "-Wformat-truncation"
+
 /* WARNING: it returns a pointer static buffer */
 const char *missions_get_name(int number)
 {
