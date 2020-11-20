@@ -39,6 +39,7 @@
 #include <libxml/parser.h>
 #include <glib.h>
 
+#include "../common/tegdebug.h"
 #include "../common/xml_support.h"
 #include "themes.h"
 #include "globals.h"
@@ -756,44 +757,38 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 
 ThemeDirectories const& theme_enum_themes()
 {
-	char const *const dname = "themes";
-	char buf[1000];
-	DIR *dir;
-	struct dirent *e;
-	char dirnames[3][1000];
-
 	if(themes.size() != 0) {
 		return themes;
 	}
 
-	memset(dirnames, 0, sizeof(dirnames));
-
-	/* themes */
-	strncpy(dirnames[0], dname, sizeof(dirnames[0])-1);
-
-	/* ~/.teg/themes */
-	snprintf(dirnames[1], sizeof(dirnames[1])-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
-
+	// the search paths for theme files
+	std::string dirnames[3] {
+		"themes",
+		std::string(g_get_home_dir()) + "/" TEG_DIRRC "/themes",
+		THEMEDIR
+	};
 	/* /usr/local/share/teg/themes */
-	strncpy(dirnames[2], THEMEDIR, sizeof(buf)-1);
 
-
-	for(char const* dir_name: dirnames) {
-		if((dir = opendir(dir_name))==NULL) {
+	for(std::string const &dir_name: dirnames) {
+		DIR * const dir = opendir(dir_name.c_str());
+		if(dir==NULL) {
+			PDEBUG("Failed for dir %s\n", dir_name.c_str());
 			continue;
 		}
 
 		/* scan for directories with file teg_theme.xml */
+		struct dirent *e;
 		while((e = readdir(dir)) != NULL) {
 			FILE *fp;
-			const int written = snprintf(buf, sizeof(buf), "%s/%s/teg_theme.xml", dir_name, e->d_name);
-			if(((written < 0)) || ((unsigned)written >= sizeof(buf))) {
-				continue;
-			}
+			const auto theme_file_name =
+			    dir_name + '/' + e->d_name + "/teg_theme.xml";
 
-			if((fp = fopen(buf, "r"))) {
+			if((fp = fopen(theme_file_name.c_str(), "r"))) {
 				fclose(fp);
 				themes.insert(e->d_name);
+				PDEBUG("Insert %s\n", theme_file_name.c_str());
+			} else {
+				PDEBUG("Failed to open %s\n", theme_file_name.c_str());
 			}
 		}
 		closedir(dir);
