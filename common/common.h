@@ -23,6 +23,9 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#include <array>
+#include <string>
+
 #define TEG_MAX_PLAYERS 6
 #define TEG_MAX_CONNECTIONS 15
 #define TEG_DEFAULT_PORT	2000
@@ -254,3 +257,7 @@ int my_atoi(const char *s);
  * the size limit is hit, it places a terminating zero byte at the end of the
  * target buffer (unless \p destlen is 0). */
 void string_copy(char* dest, size_t destlen, char const* source);
+
+using ContinentNames = std::array<std::string, 6>;
+std::string replace_continents(std::string const& format,
+                               ContinentNames const& country_names);

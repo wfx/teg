@@ -150,3 +150,32 @@ void string_copy(char* dest, size_t destlen, char const* source)
 	strncpy(dest, source, destlen-1);
 	dest[destlen-1] = 0;
 }
+
+std::string replace_continents(std::string const& format,
+                               ContinentNames const& country_names)
+{
+	std::string result;
+	std::string::size_type last_start{0};
+	std::string::size_type start{0};
+	for(start=format.find('&');
+	        start < format.size();
+	        last_start = start+1, start=format.find('&', last_start)) {
+		result += std::string(format, last_start, start-last_start);
+
+		/* jump over the & to the next input character, which should be the
+		 * continent number */
+		start++;
+
+		if(start < format.size()) {
+			auto const code=format[start];
+			if((code >= '0') && (code <= '5')) {
+				unsigned country_index = code - '0';
+				result += country_names[country_index];
+			}
+		}
+	}
+	if(last_start < format.size()) {
+		result += std::string(format, last_start);
+	}
+	return result;
+}
