@@ -11,6 +11,9 @@ Wolfgang Morawetz (wfx) <wfx@users.sourceforge.net>
 Main Contributors
 -----------------
 
+Rüdiger Ranft <teg@qzzq.de>
+  172 commits and now we have TEG V0.12
+
 Eric Romanenghi <ericromanenghi@gmail.com>
   https://github.com/eternautaCAT
   Work on Gnome2 to GTK3 only porting.
