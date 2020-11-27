@@ -47,7 +47,7 @@ TEG_STATUS ai_tropas(int src, int dst, int cant);
 TEG_STATUS ai_puedocanje(int *p1, int *p2, int *p3);
 
 /// Do I own the continent number \p c?
-BOOLEAN ai_own_continent(CONTINENTE c);
+bool ai_own_continent(CONTINENTE c);
 
 /// \todo Find out what this function does
 TEG_STATUS ai_puntaje_sort(int cant);

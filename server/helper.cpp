@@ -61,25 +61,25 @@ void color_del(int i)
 }
 
 /* sets and set if the color is free */
-BOOLEAN color_libre(int *color)
+bool color_libre(int *color)
 {
 	int i;
 	if((*color) < 0 || (*color) > (TEG_MAX_PLAYERS-1)) {
-		return FALSE;
+		return false;
 	}
 	if(colors[*color]==0) {
 		colors[*color]=1;
-		return TRUE;
+		return true;
 	}
 	/* tries to find a free color */
 	for(i=0; i<TEG_MAX_PLAYERS; i++) {
 		if(colors[i]==0) {
 			colors[i]=1;
 			*color = i;
-			return TRUE;
+			return true;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 /* tells which colors are availables */

@@ -49,7 +49,7 @@ struct _tarjs_sensi {
 	GtkWidget	*button_armies;
 	GtkWidget	*button_select;
 	PCOUNTRY		country;
-	BOOLEAN		selected;
+	bool		selected;
 } tarjs_sensi[TEG_MAX_TARJETAS];
 
 struct {

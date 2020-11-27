@@ -160,9 +160,9 @@ void game_init()
 	/* default values */
 	g_game.fichas = 5;
 	g_game.fichas2 = 3;
-	g_game.mission = FALSE;
-	g_game.cmission = TRUE;
-	g_game.fog_of_war = FALSE;
+	g_game.mission = false;
+	g_game.cmission = true;
+	g_game.fog_of_war = false;
 	g_game.player_fow = NULL;
 
 	game_new();
@@ -172,9 +172,9 @@ void server_init(void)
 {
 	gethostname(g_server.name, SERVER_NAMELEN);
 	g_server.port=TEG_DEFAULT_PORT;
-	g_server.debug=FALSE;
-	g_server.with_console=TRUE;
-	g_server.kick_unparent_robots=TRUE;
+	g_server.debug=false;
+	g_server.with_console=true;
+	g_server.kick_unparent_robots=true;
 }
 
 void server_exit(int sock)

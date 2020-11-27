@@ -7,7 +7,7 @@
 
 TEST(player, init_player)
 {
-	SPLAYER player{.hizo_canje=23, .turno_conq=12, .tot_countries=5,
+	SPLAYER player{.hizo_canje=true, .turno_conq=12, .tot_countries=5,
 	               .tot_armies=323, .tot_cards=8, .tot_exchanges=7,
 	               .fichasc_armies=17, .fichasc_conts = 9};
 	player_initplayer(&player);

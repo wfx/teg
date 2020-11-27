@@ -113,19 +113,19 @@ int ai_many_country_enemigo(int p)
  * @fn BOOLEAN ai_is_country_border( int p )
  * Tells if a country border of its continent
  */
-BOOLEAN ai_is_country_border(int p)
+bool ai_is_country_border(int p)
 {
 	int i;
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		if(countries_eslimitrofe(i, p) && g_countries[i].continente != g_countries[p].continente) {
-			return TRUE;
+			return true;
 		}
 	}
 
-	return FALSE;
+	return false;
 }
 
-BOOLEAN ai_own_continent(CONTINENTE c)
+bool ai_own_continent(CONTINENTE c)
 {
 	int i;
 	int t=0;
@@ -151,10 +151,10 @@ TEG_STATUS ai_init()
  * Dice si un country el peligroso, dependiendo si este lo puede
  * atacar antes de que se acabe el turno
  */
-BOOLEAN ai_is_country_peligroso(int src, int dst)
+bool ai_is_country_peligroso(int src, int dst)
 {
-	int aparecio_empezo = FALSE;
-	int dst_jugo = FALSE;
+	int aparecio_empezo = false;
+	int dst_jugo = false;
 	PLIST_ENTRY l = g_list_player.Flink;
 	PCPLAYER pJ;
 	int tmp;
@@ -163,14 +163,14 @@ BOOLEAN ai_is_country_peligroso(int src, int dst)
 		pJ = (PCPLAYER) l;
 
 		if(pJ->empezo_turno) {
-			aparecio_empezo = TRUE;
+			aparecio_empezo = true;
 		}
 
 		if(pJ->numjug == g_countries[dst].numjug) {
 			if(aparecio_empezo) {
-				dst_jugo = TRUE;
+				dst_jugo = true;
 			} else {
-				dst_jugo = FALSE;
+				dst_jugo = false;
 			}
 			break;
 		}
@@ -179,14 +179,14 @@ BOOLEAN ai_is_country_peligroso(int src, int dst)
 	}
 
 	if(dst_jugo) {
-		return FALSE;
+		return false;
 	}
 
 	tmp = (g_countries[src].ejercitos > 3) ? 3: g_countries[src].ejercitos-1;
 	if(g_countries[dst].ejercitos > (g_countries[src].ejercitos-tmp)) {
-		return TRUE;
+		return true;
 	}
-	return FALSE;
+	return false;
 }
 
 /**

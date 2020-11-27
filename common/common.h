@@ -38,14 +38,7 @@
 
 #define TEG_DIRRC	".teg/"
 
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-#endif /* !TRUE */
-
 #define TEG_SOCKET "/tmp/tegsocket"
-
-typedef int BOOLEAN, *PBOOLEAN;
 
 typedef enum {
 	TEG_STATUS_SUCCESS = 0,

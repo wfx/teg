@@ -27,7 +27,7 @@
 #include "server.h"
 #include "fow.h"
 
-TEG_STATUS fow_set_mode(BOOLEAN b)
+TEG_STATUS fow_set_mode(bool b)
 {
 	if(JUEGO_EMPEZADO) {
 		return TEG_STATUS_ERROR;
@@ -40,13 +40,13 @@ TEG_STATUS fow_set_mode(BOOLEAN b)
 	return TEG_STATUS_SUCCESS;
 }
 
-BOOLEAN fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP)
+bool fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP)
 {
 	PLIST_ENTRY pL;
 	PCOUNTRY pcountry;
 
 	if(! pJ  || ! pP) {
-		return FALSE;
+		return false;
 	}
 
 	pL = pJ->countries.Flink;
@@ -54,17 +54,17 @@ BOOLEAN fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP)
 		pcountry = (PCOUNTRY) pL;
 
 		if(countries_eslimitrofe(pP->id, pcountry->id)) {
-			return TRUE;
+			return true;
 		}
 
 		if(pP->id == pcountry->id) {
-			return TRUE;
+			return true;
 		}
 
 		pL = LIST_NEXT(pL);
 	}
 
-	return FALSE;
+	return false;
 }
 
 TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len)

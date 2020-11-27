@@ -112,7 +112,7 @@ void player_initplayer(PSPLAYER pJ)
 
 	InitializeListHead(&pJ->countries);
 	InitializeListHead(&pJ->deals);
-	pJ->hizo_canje = FALSE;
+	pJ->hizo_canje = false;
 	pJ->tot_exchanges = 0;
 	pJ->tot_countries = 0;
 	pJ->tot_cards = 0;
@@ -167,7 +167,7 @@ TEG_STATUS player_numjug_libre(int *libre)
 }
 
 /* creates a player and initialize it */
-PSPLAYER player_ins(PSPLAYER pJ, BOOLEAN esplayer)
+PSPLAYER player_ins(PSPLAYER pJ, bool esplayer)
 {
 	int numjug;
 	PSPLAYER newJ;
@@ -421,7 +421,7 @@ bool player_esta_xxx_plus(int fd, PLAYER_STATUS state, bool strict, PSPLAYER *j)
 			return ((*j)->estado >= state);
 		}
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
@@ -613,7 +613,7 @@ PSPLAYER player_return_disconnected(PSPLAYER pJ)
 }
 
 /* return true if the player is disconnected */
-BOOLEAN player_is_disconnected(PSPLAYER pJ)
+bool player_is_disconnected(PSPLAYER pJ)
 {
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ_new;
@@ -624,12 +624,12 @@ BOOLEAN player_is_disconnected(PSPLAYER pJ)
 		if((pJ_new->estado == PLAYER_STATUS_DESCONECTADO) &&
 		        strcmp(pJ->name, pJ_new->name) == 0
 		  ) {
-			return TRUE;
+			return true;
 		}
 
 		l = LIST_NEXT(l);
 	}
-	return FALSE;
+	return false;
 }
 
 /* insert all the player but the ones in GAME OVER */

@@ -109,7 +109,7 @@ TEG_STATUS mission_asignar(PSPLAYER pJ)
 	}
 
 	/* Si se juega sin missions, es a conquistar el mundo */
-	if(g_game.mission == FALSE) {
+	if(!g_game.mission) {
 		pJ->mission = MISSION_CONQWORLD;	/* mission de conquistar al mundo */
 		return TEG_STATUS_SUCCESS;
 	}

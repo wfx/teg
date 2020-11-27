@@ -35,8 +35,8 @@ typedef struct _player {
 	LIST_ENTRY countries;			/**< countries that he owns */
 	LIST_ENTRY deals;			/**< FIXME: Not implemented yet */
 	int mission;				/**< mission that the player has */
-	BOOLEAN hizo_canje;			/**< exchange done ? */
-	BOOLEAN is_player;			/**< player or observer */
+	bool hizo_canje;			/**< exchange done ? */
+	bool is_player;			/**< player or observer */
 	int turno_conq;				/**< Countries conquered in the turn.
 						  A player must conquer 1 countrie to ask for cards.
 						  And 2 countries, after the 3rd exchange */
@@ -49,7 +49,7 @@ typedef struct _player {
 	PLAYER_STATUS status_before_discon;	/**< status before disconn */
 	int country_src;				/**< country source (TOKEN_TROPAS) */
 	int country_dst;				/**< country dst (TOKEN_TROPAS) */
-	BOOLEAN human;				/**< Is this player controlled by a human */
+	bool human;				/**< Is this player controlled by a human */
 
 	int fichasc_armies;			/**< Number of armies to place */
 	unsigned int fichasc_conts;		/**< Number of conquered continents */
@@ -75,13 +75,13 @@ void player_initplayer(PSPLAYER j);
 void player_init(void);
 
 /// \brief Create a new player datastructure and populate it with \p j.
-PSPLAYER player_ins(PSPLAYER j, BOOLEAN esplayer);
+PSPLAYER player_ins(PSPLAYER j, bool esplayer);
 
 /// \brief Let a player join
-#define player_ins_player(a) player_ins(a,TRUE)
+#define player_ins_player(a) player_ins(a,true)
 
 /// \brief Let an observer join
-#define player_ins_ro(a) player_ins(a,FALSE)
+#define player_ins_ro(a) player_ins(a,false)
 
 /// \brief Deletes a player
 void player_del_hard(PSPLAYER j);
@@ -165,7 +165,7 @@ bool player_is_playing(PSPLAYER pJ);
 PSPLAYER player_return_disconnected(PSPLAYER pJ);
 
 /*! return TRUE if pJ is a disconnected player */
-BOOLEAN player_is_disconnected(PSPLAYER pJ);
+bool player_is_disconnected(PSPLAYER pJ);
 
 /*! deletes the player if it disconnected */
 void player_delete_discon(PSPLAYER pJ);

@@ -24,10 +24,10 @@
 #include "player.h"
 
 /// enables or disables FOW
-TEG_STATUS fow_set_mode(BOOLEAN b);
+TEG_STATUS fow_set_mode(bool b);
 
 /// returns true if player pJ can see country pP
-BOOLEAN fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP);
+bool fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP);
 
 /// fills in buffer the boundaries countries of 'country'
 TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len);

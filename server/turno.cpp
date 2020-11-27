@@ -127,7 +127,7 @@ TEG_STATUS turno_init(void)
 }
 
 /* return true if the round is complete */
-BOOLEAN turno_is_round_complete()
+bool turno_is_round_complete()
 {
 	/* I want to know if the round is over. It is not enought to know
 	 * if newturn == started because if a player with the turn exit the game
@@ -139,11 +139,11 @@ BOOLEAN turno_is_round_complete()
 	PLIST_ENTRY first_node;
 
 	if(g_game.old_turn == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	if(g_game.empieza_turno == g_game.turno) {
-		return TRUE;
+		return true;
 	}
 
 	/*
@@ -158,9 +158,9 @@ BOOLEAN turno_is_round_complete()
 		pJ = (PSPLAYER) l;
 		if((l != &g_list_player) && pJ->is_player) {
 			if(pJ == g_game.empieza_turno) {
-				return TRUE;
+				return true;
 			} else if(pJ == g_game.turno) {
-				return FALSE;
+				return false;
 			}
 		}
 		l = LIST_NEXT(l);
@@ -168,7 +168,7 @@ BOOLEAN turno_is_round_complete()
 
 	/* abnormal error */
 	fprintf(stderr, "Abnormal error in turno_is_round_complete()\n");
-	return FALSE;
+	return false;
 }
 
 /* initialize variables for the new round */

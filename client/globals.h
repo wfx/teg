@@ -75,9 +75,9 @@ typedef struct _cgame {
 	int whos_turn;			/**< playernumber who has the turn */
 	int who_started_round;		/**< player who started the round */
 	int round_number;		/**< round number */
-	BOOLEAN	with_secret_mission;	/**< play with secret missions */
-	BOOLEAN	with_common_mission;	/**< if playing with secret mission, includes the common mission */
-	BOOLEAN	with_fog_of_war;	/**< playing in Fog of War type of game */
+	bool	with_secret_mission;	/**< play with secret missions */
+	bool	with_common_mission;	/**< if playing with secret mission, includes the common mission */
+	bool	with_fog_of_war;	/**< playing in Fog of War type of game */
 } CJUEGO, *PCJUEGO;
 
 /* funciones y variables exportadas */
