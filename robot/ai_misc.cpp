@@ -36,7 +36,7 @@ char *ai_fetch_a_name()
 		return NULL;
 	}
 
-	n = RANDOM_MAX(0, g_game.playeres -1);
+	n = random_between(0, g_game.playeres -1);
 
 	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
 		if((i++) == n) {

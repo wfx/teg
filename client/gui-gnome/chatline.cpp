@@ -88,7 +88,7 @@ TEG_STATUS gui_textmsg(char *astring)
 TEG_STATUS gui_textplayermsg(char const *n, int num, char const *msg)
 {
 	GtkTextIter iter;
-	char name[PLAYERNAME_MAX_LEN+30];
+	char name[max_playername_length+30];
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
 	gchar *ptr_name, *ptr_msg;
 

@@ -596,7 +596,7 @@ TEG_STATUS theme_load(char *name)
 	/* ~/.teg/themes/%s/teg_theme.xml */
 	if(g_theme == NULL) {
 		memset(filename, 0, sizeof(filename));
-		snprintf(filename, sizeof(filename)-1, "%s/%s/themes/%s/teg_theme.xml", g_get_home_dir(), TEG_DIRRC, name);
+		snprintf(filename, sizeof(filename)-1, "%s/%s/themes/%s/teg_theme.xml", g_get_home_dir(), rc_directory_name, name);
 		g_theme = parseTheme(filename);
 	}
 
@@ -714,7 +714,7 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 		pT->armies_dragable = (strcasecmp((char*)g_theme->armies_background, "true") == 0);
 	}
 
-	for(i=0; i<DICES_CANT; i++) {
+	for(i=0; i<sides_on_the_dice; i++) {
 		pT->dices_file[i] = (char*)g_theme->dices_file[i];
 	}
 
@@ -764,7 +764,7 @@ ThemeDirectories const& theme_enum_themes()
 	// the search paths for theme files
 	std::string dirnames[3] {
 		"themes",
-		std::string(g_get_home_dir()) + "/" TEG_DIRRC "/themes",
+		std::string(g_get_home_dir()) + "/" + rc_directory_name + "/themes",
 		THEMEDIR
 	};
 	/* /usr/local/share/teg/themes */
@@ -809,7 +809,7 @@ char * theme_load_file(char const *name)
 	snprintf(buf, sizeof(buf)-1, "themes/%s/%s", g_game.theme, name);
 	fp = fopen(buf, "r");
 	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), TEG_DIRRC, g_game.theme, name);
+		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), rc_directory_name, g_game.theme, name);
 		fp = fopen(buf, "r");
 	}
 
@@ -837,7 +837,7 @@ char * theme_load_fake_file(char const *name, char *theme)
 	snprintf(buf, sizeof(buf)-1, "themes/%s/%s", theme, name);
 	fp = fopen(buf, "r");
 	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), TEG_DIRRC, theme, name);
+		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), rc_directory_name, theme, name);
 		fp = fopen(buf, "r");
 	}
 

@@ -70,7 +70,7 @@ SERVER g_server;
 /* ends the game */
 void game_end(PSPLAYER winner)
 {
-	char strout[PROT_MAX_LEN + PLAYERNAME_MAX_LEN * TEG_MAX_PLAYERS + 200];
+	char strout[PROT_MAX_LEN + max_playername_length * maximum_player_count + 200];
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ;
 
@@ -170,8 +170,8 @@ void game_init()
 
 void server_init(void)
 {
-	gethostname(g_server.name, SERVER_NAMELEN);
-	g_server.port=TEG_DEFAULT_PORT;
+	gethostname(g_server.name, maximum_servername_length);
+	g_server.port=default_server_port;
 	g_server.debug=false;
 	g_server.with_console=true;
 	g_server.kick_unparent_robots=true;

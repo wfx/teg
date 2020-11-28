@@ -135,7 +135,7 @@ void player_init(void)
 
 TEG_STATUS player_numjug_libre(int *libre)
 {
-	char jugs[TEG_MAX_PLAYERS];
+	char jugs[maximum_player_count];
 	int i;
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ;
@@ -147,7 +147,7 @@ TEG_STATUS player_numjug_libre(int *libre)
 	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
 		pJ = (PSPLAYER) l;
 		if(pJ->is_player) {
-			if(pJ->numjug >= 0 && pJ->numjug < TEG_MAX_PLAYERS) {
+			if(pJ->numjug >= 0 && pJ->numjug < maximum_player_count) {
 				jugs[pJ->numjug] = 1;
 			}
 		}
@@ -155,7 +155,7 @@ TEG_STATUS player_numjug_libre(int *libre)
 		l = LIST_NEXT(l);
 	}
 
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(i=0; i<maximum_player_count; i++) {
 		if(jugs[i] == 0) {
 			*libre = i;
 			return TEG_STATUS_SUCCESS;
@@ -563,7 +563,7 @@ void player_poner_perdio(PSPLAYER pJ)
 void player_fillname(PSPLAYER pJ, char *name)
 {
 	PSPLAYER pJ_new;
-	char new_name [ PLAYERNAME_MAX_LEN ];
+	char new_name [ max_playername_length ];
 
 	memset(new_name, 0, sizeof(new_name));
 	strncpy(new_name, name, sizeof(new_name) -1);

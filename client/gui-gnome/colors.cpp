@@ -59,8 +59,8 @@ GdkRGBA colors_common[NR_COLORS_COMMON];
 
 int colors_foreground[] = { 0, 1, 0, 0, 1, 1, 1 };
 
-GdkPixbuf *g_color_players[TEG_MAX_PLAYERS];
-GdkPixbuf *g_color_circles[TEG_MAX_PLAYERS + 1];
+GdkPixbuf *g_color_players[maximum_player_count];
+GdkPixbuf *g_color_circles[maximum_player_count + 1];
 GdkPixbuf *g_color_circle_over;
 
 
@@ -72,14 +72,11 @@ TEG_STATUS colors_load_images(void)
 	static int images_loaded = 0;
 	char name[512];
 
-	int i;
-
-
 	if(images_loaded) {
 		return TEG_STATUS_SUCCESS;
 	}
 
-	for(i=0; i < TEG_MAX_PLAYERS ; i++) {
+	for(unsigned i=0; i < maximum_player_count ; i++) {
 
 		memset(name, 0, sizeof(name));
 
@@ -121,12 +118,12 @@ TEG_STATUS colors_load_images(void)
 	{
 		/* disc for the 'no color' */
 		char *const filename = load_pixmap_file("disc_grey.png");
-		g_color_circles[TEG_MAX_PLAYERS] = gdk_pixbuf_new_from_file(filename, NULL);
+		g_color_circles[maximum_player_count] = gdk_pixbuf_new_from_file(filename, NULL);
 		if(filename) {
 			g_free(filename);
 		}
 
-		if(g_color_circles[TEG_MAX_PLAYERS] == NULL) {
+		if(g_color_circles[maximum_player_count] == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), "disc_grey.png");
 			return TEG_STATUS_ERROR;
 		}

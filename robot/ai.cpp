@@ -230,7 +230,7 @@ int ai_puntaje_atacar_country(int src, int dst)
 
 	} else {
 
-		int r = RANDOM_MAX(1, 10);
+		int r = random_between(1, 10);
 
 		if((r>7) && (g_countries[src].ejercitos > 7)) {
 			p++;

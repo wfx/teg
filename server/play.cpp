@@ -201,7 +201,7 @@ STATIC TEG_STATUS token_color(int fd, char *str)
 	}
 
 	a = atoi(str);
-	if(a < 0 ||  a >= TEG_MAX_PLAYERS) {
+	if(a < 0 ||  a >= maximum_player_count) {
 		goto error;
 	}
 
@@ -343,7 +343,7 @@ STATIC TEG_STATUS token_playerid(int fd, char *str)
 	DELIM igualador= { ':', ':', ':' };
 	DELIM separador= { ',', ',', ',' };
 	SPLAYER j, *pJ;
-	char c[TEG_MAX_PLAYERS];
+	char c[maximum_player_count];
 	char colores[100];
 	int i;
 	int reconnect = false;
@@ -424,7 +424,7 @@ STATIC TEG_STATUS token_playerid(int fd, char *str)
 		colores_libres(c);
 		memset(colores, 0, sizeof(colores));
 
-		for(i=0; i<TEG_MAX_PLAYERS; i++) {
+		for(i=0; i<maximum_player_count; i++) {
 			char buf[100];
 			sprintf(buf, ",%d", c[i]);
 			strncat(colores, buf, sizeof(colores)-1);
@@ -836,7 +836,7 @@ STATIC TEG_STATUS token_card(int fd, char *str)
 		goto error;
 	}
 
-	if(pJ->tot_cards >= TEG_MAX_TARJETAS) {
+	if(pJ->tot_cards >= maximum_country_cards) {
 		goto error;
 	}
 
@@ -1169,7 +1169,7 @@ error:
 /* Show the status of all the players */
 STATIC TEG_STATUS token_status(int fd, char *unused)
 {
-	char strout[PROT_MAX_LEN + PLAYERNAME_MAX_LEN * TEG_MAX_PLAYERS + 200];
+	char strout[PROT_MAX_LEN + max_playername_length * maximum_player_count + 200];
 
 	PLAY_DEBUG("token_status()\n");
 
@@ -1193,7 +1193,7 @@ error:
 /* send the hi-scores to the player */
 STATIC TEG_STATUS token_scores(int fd, char *unused)
 {
-	char strout[PROT_MAX_LEN + PLAYERNAME_MAX_LEN * TEG_MAX_PLAYERS + 200];
+	char strout[PROT_MAX_LEN + max_playername_length * maximum_player_count + 200];
 
 	PLAY_DEBUG("token_scores()\n");
 
@@ -1290,7 +1290,7 @@ error:
 /* To start the game */
 TEG_STATUS token_start(int fd, char*)
 {
-	char strout[PROT_MAX_LEN + PLAYERNAME_MAX_LEN  * TEG_MAX_PLAYERS + 200];
+	char strout[PROT_MAX_LEN + max_playername_length  * maximum_player_count + 200];
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_start()\n");
 

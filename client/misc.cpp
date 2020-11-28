@@ -288,7 +288,7 @@ TEG_STATUS dirs_create()
 
 	memset(buf, 0, sizeof(buf));
 
-	snprintf(buf, sizeof(buf)-1, "%s/%s", g_get_home_dir(), TEG_DIRRC);
+	snprintf(buf, sizeof(buf)-1, "%s/%s", g_get_home_dir(), rc_directory_name);
 
 	if((dir = opendir(buf)) == NULL) {
 		mkdir(buf, 0755);
@@ -296,7 +296,7 @@ TEG_STATUS dirs_create()
 		closedir(dir);
 	}
 
-	snprintf(buf, sizeof(buf)-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
+	snprintf(buf, sizeof(buf)-1, "%s/%s/themes", g_get_home_dir(), rc_directory_name);
 	if((dir = opendir(buf)) == NULL) {
 		mkdir(buf, 0755);
 	} else {

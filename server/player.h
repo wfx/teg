@@ -29,8 +29,8 @@
 typedef struct _player {
 	LIST_ENTRY next;
 	int numjug;				/**< player number */
-	char name[PLAYERNAME_MAX_LEN];		/**< name */
-	char addr[PLAYERADDR_MAX_LEN];		/**< internet address */
+	char name[max_playername_length];		/**< name */
+	char addr[inet_addr_len];		/**< internet address */
 	int color;				/**< color */
 	LIST_ENTRY countries;			/**< countries that he owns */
 	LIST_ENTRY deals;			/**< FIXME: Not implemented yet */

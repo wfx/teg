@@ -112,7 +112,7 @@ TEG_STATUS turno_init(void)
 	int real_i;
 	PSPLAYER j;
 
-	i = RANDOM_MAX(0, g_game.playing-1);
+	i = random_between(0, g_game.playing-1);
 
 	player_from_indice(i, &real_i);
 	if(player_whois(real_i, &j) != TEG_STATUS_SUCCESS) {

@@ -836,7 +836,7 @@ error:
 /* who am i, and available colors */
 TEG_STATUS clitok_playerid(char *str)
 {
-	char c[TEG_MAX_PLAYERS];
+	char c[maximum_player_count];
 	PARSER p;
 	int i;
 	DELIM igualador= { ':', ':', ':' };
@@ -863,7 +863,7 @@ TEG_STATUS clitok_playerid(char *str)
 		goto error;
 	}
 
-	for(i=0; i<TEG_MAX_PLAYERS-1; i++) {
+	for(i=0; i<maximum_player_count-1; i++) {
 
 		if(parser_parse(&p) && p.can_continue) {
 			c[i] = atoi(p.token);
@@ -967,7 +967,7 @@ error:
 /* a new player enters the game */
 TEG_STATUS clitok_newplayer(char *str)
 {
-	char name[PLAYERNAME_MAX_LEN];
+	char name[max_playername_length];
 	int color, numjug;
 	PARSER p;
 	DELIM igualador= { ':', ':', ':' };
@@ -1031,7 +1031,7 @@ error:
 /* a new message has arrived */
 TEG_STATUS clitok_message(char *str)
 {
-	char name[PLAYERNAME_MAX_LEN];
+	char name[max_playername_length];
 	int numjug;
 	PARSER p;
 	DELIM igualador= { ':', ':', ':' };

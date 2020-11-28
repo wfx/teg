@@ -140,11 +140,11 @@ static TEG_STATUS paint_color(GtkWidget *dialog, int color, GdkPixbuf **pixmap)
 	PangoAttribute *attr;
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	int i, width;
+	int width;
 
 	assert(pixmap);
 
-	i = (color<0 || color>=TEG_MAX_PLAYERS) ? TEG_MAX_PLAYERS : color;
+	const unsigned i = (color<0 || color>=maximum_player_count) ? maximum_player_count : color;
 
 	window = gtk_widget_get_window(dialog);
 	surface = gdk_window_create_similar_image_surface(window,

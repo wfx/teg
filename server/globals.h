@@ -62,14 +62,14 @@ enum {
 #define JUEGO_EN_FICHAS2	(g_game.estado = JUEGO_ESTADO_FICHAS2)
 
 typedef struct _server {
-	char name[SERVER_NAMELEN];
+	char name[maximum_servername_length];
 	bool debug;		/* debug mode */
 	bool with_console;	/* enable console mode */
 	int port;		/* port to listen to (default: 2000) */
 	int max_players;	/* max players ( default: 6 ) */
 	int max_connections;	/* max connections ( default: 15 ) */
 
-	char metaserver_name[SERVER_NAMELEN];	/* metaserver name */
+	char metaserver_name[maximum_servername_length];	/* metaserver name */
 	int metaserver_port;	/* port of metaserver */
 	bool metaserver_on;	/* is the metaserver on */
 	bool kick_unparent_robots;	/* kick robots when there are no humans */

@@ -120,7 +120,7 @@ TEG_STATUS gui_init(int argc, char **argv)
 	srand(robot_seed);
 
 	if(!g_game.serport) {
-		g_game.serport = 2000;
+		g_game.serport = default_server_port;
 	}
 
 	if(!strlen(g_game.sername)) {
@@ -128,7 +128,7 @@ TEG_STATUS gui_init(int argc, char **argv)
 	}
 
 	if(!strlen(g_game.myname)) {
-		strncpy(g_game.myname, ai_name(), PLAYERNAME_MAX_LEN);
+		strncpy(g_game.myname, ai_name(), max_playername_length);
 	}
 	textmsg(M_IMP, _("Robot name: %s"), g_game.myname);
 
@@ -187,7 +187,7 @@ TEG_STATUS gui_disconnect(void)
 
 TEG_STATUS gui_connected(char *c)
 {
-	int s = RANDOM_MAX(0, TEG_MAX_PLAYERS-1);
+	int s = random_between(0, maximum_player_count-1);
 	out_color(s);
 	return TEG_STATUS_SUCCESS;
 }

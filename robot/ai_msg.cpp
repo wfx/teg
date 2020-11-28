@@ -151,7 +151,7 @@ TEG_STATUS ai_out_mensaje(int r, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
-	int i = RANDOM_MAX(0, r-1);
+	int i = random_between(0, r-1);
 
 	if(i > 3) {
 		return TEG_STATUS_ERROR;
@@ -170,32 +170,32 @@ TEG_STATUS ai_out_mensaje(int r, char const *format, ...)
 TEG_STATUS ai_msg(int type, char const *name)
 {
 	int i;
-	char dst_name[PLAYERNAME_MAX_LEN];
+	char dst_name[max_playername_length];
 
 	if(name) {
 		strncpy(dst_name, name, sizeof(dst_name)-1);
 		dst_name[sizeof(dst_name)-1]=0;
 	} else {
-		i = RANDOM_MAX(0, NR_NAMES-1);
+		i = random_between(0, NR_NAMES-1);
 		strncpy(dst_name, _(names[i]), sizeof(dst_name)-1);
 		dst_name[sizeof(dst_name)-1]=0;
 	}
 
 	switch(type) {
 	case AI_MSG_MISC:
-		i = RANDOM_MAX(0, NR_MSGS_MISC-1);
+		i = random_between(0, NR_MSGS_MISC-1);
 		ai_out_mensaje(500, _(mensajes_misc[i].msg), dst_name);
 		break;
 	case AI_MSG_HI:
-		i = RANDOM_MAX(0, NR_MSGS_HI-1);
+		i = random_between(0, NR_MSGS_HI-1);
 		ai_out_mensaje(30, _(mensajes_hi[i].msg), dst_name);
 		break;
 	case AI_MSG_BYE:
-		i = RANDOM_MAX(0, NR_MSGS_BYE-1);
+		i = random_between(0, NR_MSGS_BYE-1);
 		ai_out_mensaje(30, _(mensajes_bye[i].msg), dst_name);
 		break;
 	case AI_MSG_ANSWER:
-		i = RANDOM_MAX(0, NR_MSGS_ANSWER-1);
+		i = random_between(0, NR_MSGS_ANSWER-1);
 		ai_out_mensaje(4, _(mensajes_answer[i].msg), dst_name);
 		break;
 	}
@@ -204,7 +204,7 @@ TEG_STATUS ai_msg(int type, char const *name)
 
 char const * ai_name()
 {
-	int i = RANDOM_MAX(0, NR_NAMES-1);
+	int i = random_between(0, NR_NAMES-1);
 	return _(names[i]);
 }
 

@@ -59,7 +59,7 @@ static GtkWidget *ministatus = NULL;
 
 static GtkWidget* mainstatus_canvas = NULL;
 
-static GooCanvasItem *players_color[TEG_MAX_PLAYERS];
+static GooCanvasItem *players_color[maximum_player_count];
 static GooCanvasItem *color_started_item;
 static GooCanvasItem *round_number_item;
 static GooCanvasItem *players_color_over;
@@ -366,7 +366,6 @@ GtkWidget *ministatus_build()
 #define MAINSTATUS_Y (48)
 TEG_STATUS mainstatus_create(GtkWidget **window)
 {
-	int i;
 	int failed=1;
 
 	if(mainstatus_canvas) {
@@ -441,11 +440,11 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 
 	color_started_item = goo_canvas_image_new(
 	                         goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                         g_color_circles[TEG_MAX_PLAYERS],
+	                         g_color_circles[maximum_player_count],
 	                         (double) ROUND_OFFSET + 4,
 	                         (double) 4,
-	                         "width", (double) gdk_pixbuf_get_width(g_color_circles[TEG_MAX_PLAYERS]),
-	                         "height", (double) gdk_pixbuf_get_height(g_color_circles[TEG_MAX_PLAYERS]),
+	                         "width", (double) gdk_pixbuf_get_width(g_color_circles[maximum_player_count]),
+	                         "height", (double) gdk_pixbuf_get_height(g_color_circles[maximum_player_count]),
 	                         NULL);
 	g_object_set(color_started_item, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -489,14 +488,14 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	    NULL);
 
 	/* create canvas for the circles & and load the circles */
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(unsigned i=0; i<maximum_player_count; i++) {
 		players_color[i] = goo_canvas_image_new(
 		                       goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-		                       g_color_circles[TEG_MAX_PLAYERS],
+		                       g_color_circles[maximum_player_count],
 		                       0.0,
 		                       0.0,
-		                       "width", (double) gdk_pixbuf_get_width(g_color_circles[TEG_MAX_PLAYERS]),
-		                       "height", (double) gdk_pixbuf_get_height(g_color_circles[TEG_MAX_PLAYERS]),
+		                       "width", (double) gdk_pixbuf_get_width(g_color_circles[maximum_player_count]),
+		                       "height", (double) gdk_pixbuf_get_height(g_color_circles[maximum_player_count]),
 		                       NULL);
 		g_object_set(players_color[i], "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -573,7 +572,7 @@ TEG_STATUS mainstatus_update_colors()
 
 		l = LIST_NEXT(l);
 
-		if(i >= TEG_MAX_PLAYERS) {
+		if(i >= maximum_player_count) {
 			break;
 		}
 	}
@@ -582,7 +581,7 @@ TEG_STATUS mainstatus_update_colors()
 		PCPLAYER pJ;
 		g_object_set(color_started_item, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-		if(g_game.who_started_round >= 0 && g_game.who_started_round < TEG_MAX_PLAYERS) {
+		if(g_game.who_started_round >= 0 && g_game.who_started_round < maximum_player_count) {
 
 			if(player_whois(g_game.who_started_round, &pJ) == TEG_STATUS_SUCCESS) {
 				g_object_set(
@@ -594,7 +593,7 @@ TEG_STATUS mainstatus_update_colors()
 		}
 	}
 
-	for(; i < TEG_MAX_PLAYERS ; i++)
+	for(; i < maximum_player_count ; i++)
 		g_object_set(players_color[i], "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 

@@ -55,7 +55,7 @@ TEG_STATUS canje_out(int p1, int p2, int p3)
 TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 {
 	PLIST_ENTRY pL = g_game.tarjetas_list.Flink;
-	int a[TEG_MAX_TARJETAS];
+	int a[maximum_country_cards];
 
 	if(g_game.tarjetas_cant < 3) {
 		return TEG_STATUS_ERROR;

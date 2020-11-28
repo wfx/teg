@@ -57,9 +57,9 @@ typedef struct _cgame {
 	int human;			/**< Am I a human ? */
 	int observer;			/**< si soy observer o player */
 	int playeres;			/**< cantidad de playeres */
-	char myname[PLAYERNAME_MAX_LEN];
+	char myname[max_playername_length];
 	int mycolor;			/**< color preferido */
-	char sername[SERVER_NAMELEN];	/**< server name */
+	char sername[maximum_servername_length];	/**< server name */
 	int serport;			/**< server port */
 	LIST_ENTRY tarjetas_list;	/**< lista de tarjetas */
 	int tarjetas_cant;		/**< cantidad de tarjetas */

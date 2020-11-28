@@ -63,7 +63,7 @@ static GtkWidget *gametype_spinner_armies1=NULL;
 static GtkWidget *gametype_spinner_armies2=NULL;
 
 
-static GtkWidget *boton_color[TEG_MAX_PLAYERS] = { NULL, NULL, NULL, NULL, NULL, NULL };
+static GtkWidget *boton_color[maximum_player_count] = { NULL, NULL, NULL, NULL, NULL, NULL };
 
 static struct {
 	/**
@@ -252,7 +252,7 @@ static void colortype_ok_cb(GtkDialog *dialog, gint id, gpointer data)
 {
 	int i;
 
-	for(i=0; i<TEG_MAX_PLAYERS; i++)  {
+	for(i=0; i<maximum_player_count; i++)  {
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(boton_color[i]))) {
 			break;
 		}
@@ -267,7 +267,7 @@ static GtkWidget *create_color_button(int i)
 	GooCanvasItem *image;
 	GtkWidget	*canvas;
 
-	if(i < 0 || i >= TEG_MAX_PLAYERS) {
+	if(i < 0 || i >= maximum_player_count) {
 		return NULL;
 	}
 
@@ -321,7 +321,6 @@ void colortype_view(char *c)
 	GtkWidget *frame;
 	GtkWidget *vbox_dia;
 	GtkWidget *table;
-	int i;
 	int first_active =1;
 
 	colortype_dialog = teg_dialog_new(_("Select your color"), _("Select your color"));
@@ -344,7 +343,7 @@ void colortype_view(char *c)
 	gtk_grid_set_column_homogeneous(GTK_GRID(table), TRUE);
 
 
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(unsigned i=0; i<maximum_player_count; i++) {
 		GtkWidget *button = create_color_button(i);
 
 		if(i%2 == 0) {

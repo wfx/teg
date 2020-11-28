@@ -110,7 +110,7 @@ typedef struct _theme {
 	xmlChar	*dices_ext_y[6];
 	xmlChar	*dices_ext_text_x[2];
 	xmlChar	*dices_ext_text_y[2];
-	xmlChar *dices_file[DICES_CANT];	/**< 6 dices */
+	xmlChar *dices_file[sides_on_the_dice];	/**< 6 dices */
 	xmlChar	*dices_color;
 	xmlChar	*screenshot;
 	int	i_continent;
@@ -144,7 +144,7 @@ typedef struct _ttheme {
 	int	dices_ext_y[6];
 	int	dices_ext_text_x[2];
 	int	dices_ext_text_y[2];
-	char	*dices_file[DICES_CANT];
+	char	*dices_file[sides_on_the_dice];
 	char	*dices_color;
 	char	*screenshot;
 } TTheme, *pTTheme;

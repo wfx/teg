@@ -50,7 +50,7 @@ struct _tarjs_sensi {
 	GtkWidget	*button_select;
 	PCOUNTRY		country;
 	bool		selected;
-} tarjs_sensi[TEG_MAX_TARJETAS];
+} tarjs_sensi[maximum_country_cards];
 
 struct {
 	GdkPixbuf	*tar;
@@ -107,19 +107,19 @@ TEG_STATUS cards_init()
 {
 	int i;
 
-	for(i=0; i<TEG_MAX_TARJETAS; i++) {
+	for(i=0; i<maximum_country_cards; i++) {
 		memset(&tarjs_sensi[i], 0, sizeof(tarjs_sensi[i]));
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Callbacks de las funciones de los botones y funciones auxiliares */
-static int cuantos_selected(int countries[TEG_MAX_TARJETAS])
+static int cuantos_selected(int countries[maximum_country_cards])
 {
 	int i, j=0;
 	int selected=0;
 
-	for(i=0; i<TEG_MAX_TARJETAS; i++) {
+	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country != NULL) {
 			if(tarjs_sensi[i].selected) {
 				countries[j++] = tarjs_sensi[i].country->id;
@@ -133,7 +133,7 @@ static int cuantos_selected(int countries[TEG_MAX_TARJETAS])
 static void cards_cb_button_canje(GtkDialog *dialog, gint id, gpointer data)
 {
 	int sel;
-	int countries[TEG_MAX_TARJETAS];
+	int countries[maximum_country_cards];
 
 	assert(dialog);
 
@@ -387,7 +387,7 @@ void cards_view(int country)
 
 	} else if(country!=-1) { /* Ya estan las demas, solo hay que crear una sola tarjeta */
 		int x=0, y=0, i;
-		for(i=0; i<TEG_MAX_TARJETAS; i++) {
+		for(i=0; i<maximum_country_cards; i++) {
 
 			if(x >= 3) {
 				x=0;
@@ -424,7 +424,7 @@ void cards_delete(int p1, int p2, int p3)
 		return;
 	}
 
-	for(i=0; i<TEG_MAX_TARJETAS; i++) {
+	for(i=0; i<maximum_country_cards; i++) {
 
 		if(tarjs_sensi[i].country != NULL  &&
 		        (tarjs_sensi[i].country->id == p1 ||
@@ -451,7 +451,7 @@ void cards_flush()
 {
 	int i;
 
-	for(i=0; i<TEG_MAX_TARJETAS; i++) {
+	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country  && tarjs_sensi[i].card && cards_dialog) {
 			gtk_widget_destroy(tarjs_sensi[i].card);
 		}
@@ -472,7 +472,7 @@ void cards_update(void)
 		return;
 	}
 
-	for(i=0; i<TEG_MAX_TARJETAS; i++) {
+	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country != NULL) {
 			if(!ESTADO_ES(PLAYER_STATUS_TARJETA)
 			        || tarjeta_es_usada(&tarjs_sensi[i].country->tarjeta)
@@ -496,7 +496,7 @@ void cards_update_para_canje(void)
 		return;
 	}
 
-	for(i=0; i<TEG_MAX_TARJETAS; i++) {
+	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country != NULL) {
 			if(ESTADO_ES(PLAYER_STATUS_FICHASC) && canje_puedo(NULL, NULL, NULL)==TEG_STATUS_SUCCESS) {
 				gtk_widget_set_sensitive(tarjs_sensi[i].button_select, TRUE);
@@ -524,7 +524,7 @@ TEG_STATUS cards_select(int p1, int p2, int p3)
 
 	cards_view(-1);
 
-	for(i=0; i<TEG_MAX_TARJETAS; i++) {
+	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country == NULL) {
 			continue;
 		}
