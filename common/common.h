@@ -117,7 +117,6 @@ using PLIST_ENTRY = LIST_ENTRY*;
 #define LENTRY_NULL {NULL,NULL}
 
 #define LIST_NEXT(Entry) (((PLIST_ENTRY)Entry)->Flink)
-#define LIST_PREV(Entry) (((PLIST_ENTRY)Entry)->Blink)
 
 /*
   void
@@ -149,17 +148,6 @@ using PLIST_ENTRY = LIST_ENTRY*;
 #define RemoveHeadList(ListHead) \
     (ListHead)->Flink;\
     {RemoveEntryList((ListHead)->Flink)}
-
-/*
-  PLIST_ENTRY
-  RemoveTailList(
-      PLIST_ENTRY ListHead
-      );
-*/
-
-#define RemoveTailList(ListHead) \
-    (ListHead)->Blink;\
-    {RemoveEntryList((ListHead)->Blink)}
 
 /*
   void
@@ -194,24 +182,6 @@ using PLIST_ENTRY = LIST_ENTRY*;
     (Entry)->Blink = _EX_Blink;\
     _EX_Blink->Flink = (Entry);\
     _EX_ListHead->Blink = (Entry);\
-    }
-
-/*
-  void InsertHeadList(
-      PLIST_ENTRY ListHead,
-      PLIST_ENTRY Entry
-      );
-*/
-
-#define InsertHeadList(ListHead,Entry) {\
-    PLIST_ENTRY _EX_Flink;\
-    PLIST_ENTRY _EX_ListHead;\
-    _EX_ListHead = (ListHead);\
-    _EX_Flink = _EX_ListHead->Flink;\
-    (Entry)->Flink = _EX_Flink;\
-    (Entry)->Blink = _EX_ListHead;\
-    _EX_Flink->Blink = (Entry);\
-    _EX_ListHead->Flink = (Entry);\
     }
 
 /// Read a random number from the linux/bsd kernel
