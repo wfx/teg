@@ -23,6 +23,12 @@
 #include "client.h"
 #include "themes.h"
 
+namespace teg::client
+{
+
+namespace callbacks
+{
+
 extern TEG_STATUS gui_init(int argc, char **argv);
 extern TEG_STATUS gui_main(void);
 extern TEG_STATUS gui_textmsg(char *aString);
@@ -49,6 +55,8 @@ extern TEG_STATUS gui_winner(int numjug, int mission);
 extern TEG_STATUS gui_mission();
 extern TEG_STATUS gui_textplayermsg(char const *n, int nj, char const *m);
 extern TEG_STATUS gui_scores(void);
+
+}
 
 typedef struct _cgame {
 	int fd;				/**< mi fd */
@@ -82,3 +90,5 @@ typedef struct _cgame {
 
 /* funciones y variables exportadas */
 extern CJUEGO g_game;
+
+}

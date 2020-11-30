@@ -5,6 +5,9 @@
 
 #include <gtest/gtest.h>
 
+namespace teg::server
+{
+
 TEST(player, init_player)
 {
 	SPLAYER player{.hizo_canje=true, .turno_conq=12, .tot_countries=5,
@@ -137,4 +140,6 @@ TEST(player, clear_turn)
 			EXPECT_EQ(i, g_countries[i].ejer_reagrupe) << i;
 		}
 	}
+}
+
 }

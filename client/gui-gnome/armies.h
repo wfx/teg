@@ -23,6 +23,9 @@
 #include <goocanvas.h>
 #include "../../common/common.h"
 
+namespace teg::client::callbacks
+{
+
 typedef struct _armies_pos {
 	int cant;
 	int orig_cant;
@@ -35,3 +38,5 @@ TEG_STATUS armies_view(int cant, int conts);
 TEG_STATUS armies_view_more(int cant);
 TEG_STATUS armies_unview();
 TEG_STATUS armies_init(GooCanvasItem *group);
+
+}

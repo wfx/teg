@@ -22,6 +22,11 @@
 
 #include <gtk/gtk.h>
 
+#include "../../common/common.h"
+
+namespace teg::client::callbacks
+{
+
 enum {
 	DIALOG_ATTACK_TURN,
 	DIALOG_REGROUP_ARMIES,
@@ -40,3 +45,5 @@ extern struct _gui_private gui_private;
 extern GSettings *settings;
 
 TEG_STATUS priv_init(void);
+
+}

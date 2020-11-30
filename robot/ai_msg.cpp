@@ -30,6 +30,8 @@
 #include "client.h"
 #include "ai_msg.h"
 
+namespace teg::robot
+{
 
 aimsg_t mensajes_hi[] = {
 	{ N_("Hi %s"), 1},
@@ -164,7 +166,7 @@ TEG_STATUS ai_out_mensaje(int r, char const *format, ...)
 
 	va_end(args);
 
-	return out_mensaje(buf);
+	return ::teg::client::out_mensaje(buf);
 }
 
 TEG_STATUS ai_msg(int type, char const *name)
@@ -217,4 +219,6 @@ TEG_STATUS ai_findname(char const *name)
 	}
 
 	return TEG_STATUS_NOTFOUND;
+}
+
 }

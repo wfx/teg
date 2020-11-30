@@ -28,6 +28,8 @@
 #include "g_cont.h"
 #include "themes.h"
 
+namespace teg::client::callbacks
+{
 
 static int initialized = 0;
 
@@ -64,4 +66,6 @@ void G_cont_create(int cont, GooCanvasItem *root)
 	        "x", (double) G_conts[cont].x,
 	        "y", (double) G_conts[cont].y,
 	        NULL);
+}
+
 }

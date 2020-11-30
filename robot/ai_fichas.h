@@ -21,6 +21,9 @@
 
 #include "../common/common.h"
 
+namespace teg::robot
+{
+
 /// Place the regular armies
 TEG_STATUS ai_fichas(int cant);
 
@@ -29,3 +32,5 @@ TEG_STATUS ai_fichasc(int cant, int conts);
 
 /// Calls all the strategies of the robots to place armies
 TEG_STATUS ai_fichas_calc_puntaje(int p);
+
+}

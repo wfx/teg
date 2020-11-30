@@ -22,6 +22,9 @@
 
 #include "../common/common.h"
 
+namespace teg::server
+{
+
 #define CONSOLE_FD 0
 
 /// \brief Try to read and handle one command from the console
@@ -47,3 +50,5 @@ TEG_STATUS console_init(void);
 
 /// \brief Deactivate the server console
 TEG_STATUS console_quit(void);
+
+}

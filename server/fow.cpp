@@ -27,6 +27,9 @@
 #include "server.h"
 #include "fow.h"
 
+namespace teg::server
+{
+
 TEG_STATUS fow_set_mode(bool b)
 {
 	if(JUEGO_EMPEZADO) {
@@ -202,4 +205,6 @@ int fow_2_netall_printf(int src, int dst, char const *format, ...)
 		pLplayer = LIST_NEXT(pLplayer);
 	}
 	return 0;
+}
+
 }

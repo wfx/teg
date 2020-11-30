@@ -23,6 +23,9 @@
 #include "../common/common.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 /// enables or disables FOW
 TEG_STATUS fow_set_mode(bool b);
 
@@ -37,3 +40,5 @@ int fow_netall_printf(int country, const char *format, ...);
 
 /// send the message to all players who has a country boundary with  country1 and country2
 int fow_2_netall_printf(int country1, int country2, const char *format, ...);
+
+}

@@ -42,6 +42,9 @@
 #include "fonts.h"
 #include "locate_country.h"
 
+namespace teg::client::callbacks
+{
+
 static GtkWidget 	*cards_dialog=NULL;
 
 struct _tarjs_sensi {
@@ -554,4 +557,6 @@ void cards_free()
 			g_clear_object(&tarjs[i].tar);
 		}
 	}
+}
+
 }

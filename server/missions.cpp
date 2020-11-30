@@ -25,6 +25,9 @@
 #include "server.h"
 #include "missions.h"
 
+namespace teg::server
+{
+
 TEG_STATUS mission_chequear(PSPLAYER pJ)
 {
 	int i;
@@ -171,4 +174,6 @@ TEG_STATUS mission_common_mission(bool a)
 	}
 	g_game.cmission= a;
 	return TEG_STATUS_SUCCESS;
+}
+
 }

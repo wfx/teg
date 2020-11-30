@@ -52,6 +52,9 @@
 
 #include "robot.xpm"
 
+namespace teg::client::callbacks
+{
+
 extern TTheme gui_theme;
 
 GtkTextView *main_message_area = NULL;
@@ -1067,4 +1070,6 @@ void reagrupe_window(int src, int dst, int cant)
 	} else {
 		gtk_widget_destroy(reagrupe_dialog);
 	}
+}
+
 }

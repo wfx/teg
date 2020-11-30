@@ -32,6 +32,9 @@
 #include "fcintl.h"
 #include "main.h"
 
+namespace teg::server
+{
+
 LIST_ENTRY g_list_player;		/**< list of players */
 
 typedef struct {
@@ -659,4 +662,6 @@ TEG_STATUS player_kick_unparent_robots(void)
 		}
 	}
 	return TEG_STATUS_SUCCESS;
+}
+
 }

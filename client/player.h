@@ -22,6 +22,9 @@
 
 #include "../common/common.h"
 
+namespace teg::client
+{
+
 typedef struct _player {
 	LIST_ENTRY next;
 	char name[max_playername_length]; ///< Player name
@@ -75,3 +78,5 @@ void player_flush(void);
  *          ressource leak since the old list items become unfreeable
  */
 void player_init(void);
+
+}

@@ -55,6 +55,9 @@
 
 #define MAIN_DEBUG PDEBUG
 
+namespace teg::server
+{
+
 /*
  * private variables
  */
@@ -382,9 +385,12 @@ void argument_init(int argc, char **argv_var)
 	}
 }
 
+}
+
 #ifndef TEGSERVER_OMIT_MAIN
 int main(int argc, char **argv)
 {
+	using namespace teg::server;
 	init_nls();
 	printf("%s v%s server - by Ricardo Quesada\n\n", TEG_NAME, VERSION);
 

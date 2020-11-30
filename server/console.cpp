@@ -46,6 +46,9 @@
 #include "scores.h"
 #include "parser.h"
 
+namespace teg::server
+{
+
 #undef DEBUG_CONSOLE
 
 #define CONSOLE_DEBUG PDEBUG
@@ -417,4 +420,6 @@ TEG_STATUS console_quit(void)
 	}
 #endif /* HAVE_LIBREADLINE */
 	return TEG_STATUS_SUCCESS;
+}
+
 }

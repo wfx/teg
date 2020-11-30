@@ -52,6 +52,9 @@
 #endif
 
 
+namespace teg::server
+{
+
 STATIC TEG_STATUS token_status(int, char *);
 STATIC TEG_STATUS token_test(int, char *);
 STATIC TEG_STATUS token_sversion(int, char *);
@@ -1558,4 +1561,6 @@ TEG_STATUS play_teg(int fd)
 	} while(i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

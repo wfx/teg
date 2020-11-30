@@ -23,6 +23,9 @@
 #include "../common/common.h"
 #include "cont.h"
 
+namespace teg::robot
+{
+
 extern int ai_puntaje[COUNTRIES_CANT*10];
 extern int ai_sorted[COUNTRIES_CANT*10];
 
@@ -54,3 +57,5 @@ TEG_STATUS ai_puntaje_sort(int cant);
 
 /// Reset the sorting mechanism
 void ai_puntaje_clean();
+
+}

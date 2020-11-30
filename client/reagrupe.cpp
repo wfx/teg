@@ -28,6 +28,9 @@
 #include "client.h"
 #include "protocol.h"
 
+namespace teg::client
+{
+
 static int country_origen = -1;
 static int country_destino = -1;
 
@@ -60,7 +63,7 @@ TEG_STATUS reagrupe_click(PCOUNTRY p)
 			if(p->ejercitos - p->ejer_reagrupe > 1) {
 				p->selected &= ~COUNTRY_SELECT_REGROUP_ENTER;
 				p->selected |= COUNTRY_SELECT_REGROUP;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 				country_origen = p->id;
 				textmsg(M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(p->id));
 			} else {
@@ -82,10 +85,10 @@ TEG_STATUS reagrupe_click(PCOUNTRY p)
 			if(countries_eslimitrofe(country_origen, p->id)) {
 				p->selected &= ~COUNTRY_SELECT_REGROUP_ENTER;
 				p->selected |= COUNTRY_SELECT_REGROUP;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 				country_destino = p->id;
 				textmsg(M_INF, _("Destination country: '%s'. Now select the quantity of armies to move"), countries_get_name(p->id));
-				gui_reagrupe(country_origen, country_destino, g_countries[country_origen].ejercitos - g_countries[country_origen].ejer_reagrupe - 1);
+				callbacks::gui_reagrupe(country_origen, country_destino, g_countries[country_origen].ejercitos - g_countries[country_origen].ejer_reagrupe - 1);
 			} else {
 				textmsg(M_ERR, _("Error, '%s' isnt frontier with '%s'"), countries_get_name(p->id), countries_get_name(country_origen));
 				return TEG_STATUS_UNEXPECTED;
@@ -108,13 +111,13 @@ void reagrupe_reset(void)
 {
 	if(country_origen != -1) {
 		g_countries[country_origen].selected &= ~COUNTRY_SELECT_REGROUP;
-		gui_country_select(country_origen);
+		callbacks::gui_country_select(country_origen);
 		country_origen = -1;
 	}
 
 	if(country_destino != -1) {
 		g_countries[country_destino].selected &= ~COUNTRY_SELECT_REGROUP;
-		gui_country_select(country_origen);
+		callbacks::gui_country_select(country_origen);
 		country_destino = -1;
 	}
 }
@@ -196,14 +199,14 @@ TEG_STATUS reagrupe_enter(PCOUNTRY p)
 		if(p->numjug == WHOAMI()) {
 			if(p->ejercitos - p->ejer_reagrupe > 1) {
 				p->selected |= COUNTRY_SELECT_REGROUP_ENTER;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 			}
 		}
 	} else if(country_destino == -1) {
 		if(p->numjug == WHOAMI()) {
 			if(countries_eslimitrofe(country_origen, p->id)) {
 				p->selected |= COUNTRY_SELECT_REGROUP_ENTER;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 			}
 		}
 	}
@@ -217,7 +220,9 @@ TEG_STATUS reagrupe_leave(PCOUNTRY p)
 	}
 	if(p->selected & COUNTRY_SELECT_REGROUP_ENTER) {
 		p->selected &= ~COUNTRY_SELECT_REGROUP_ENTER;
-		gui_country_select(p->id);
+		callbacks::gui_country_select(p->id);
 	}
 	return TEG_STATUS_SUCCESS;
+}
+
 }

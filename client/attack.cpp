@@ -28,6 +28,9 @@
 #include "fcintl.h"
 #include "client.h"
 
+namespace teg::client
+{
+
 /// \internal The origin of the ongoing attack
 static int country_origen = -1;
 
@@ -66,13 +69,13 @@ void attack_reset()
 {
 	if(country_origen != -1) {
 		g_countries[country_origen].selected &= ~COUNTRY_SELECT_ATTACK;
-		gui_country_select(country_origen);
+		callbacks::gui_country_select(country_origen);
 		country_origen = -1;
 	}
 
 	if(country_destino != -1) {
 		g_countries[country_destino].selected &= ~COUNTRY_SELECT_ATTACK;
-		gui_country_select(country_destino);
+		callbacks::gui_country_select(country_destino);
 		country_destino = -1;
 	}
 }
@@ -113,7 +116,7 @@ TEG_STATUS attack_click(PCOUNTRY p)
 			if(p->ejercitos >1) {
 				p->selected &= ~COUNTRY_SELECT_ATTACK_ENTER;
 				p->selected |= COUNTRY_SELECT_ATTACK;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 				country_origen = p->id;
 				textmsg(M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(p->id));
 			} else {
@@ -135,7 +138,7 @@ TEG_STATUS attack_click(PCOUNTRY p)
 			if(countries_eslimitrofe(country_origen, p->id)) {
 				p->selected &= ~COUNTRY_SELECT_ATTACK_ENTER;
 				p->selected |= COUNTRY_SELECT_ATTACK;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 				country_destino = p->id;
 				textmsg(M_INF, _("Destination country: '%s'. Attacking..."), countries_get_name(p->id));
 				attack_out();
@@ -222,7 +225,7 @@ TEG_STATUS attack_enter(PCOUNTRY p)
 			if(p->ejercitos >1) {
 				if(!(p->selected & COUNTRY_SELECT_ATTACK_ENTER)) {
 					p->selected |= COUNTRY_SELECT_ATTACK_ENTER;
-					gui_country_select(p->id);
+					callbacks::gui_country_select(p->id);
 				}
 			}
 		}
@@ -231,7 +234,7 @@ TEG_STATUS attack_enter(PCOUNTRY p)
 			if(countries_eslimitrofe(country_origen, p->id)) {
 				if(!(p->selected & COUNTRY_SELECT_ATTACK_ENTER)) {
 					p->selected |= COUNTRY_SELECT_ATTACK_ENTER;
-					gui_country_select(p->id);
+					callbacks::gui_country_select(p->id);
 				}
 			}
 		}
@@ -246,7 +249,7 @@ TEG_STATUS attack_leave(PCOUNTRY p)
 	}
 	if(p->selected & COUNTRY_SELECT_ATTACK_ENTER) {
 		p->selected &= ~COUNTRY_SELECT_ATTACK_ENTER;
-		gui_country_select(p->id);
+		callbacks::gui_country_select(p->id);
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -257,13 +260,13 @@ void attack_unshow()
 
 	if(show_src != -1) {
 		g_countries[show_src].selected &= ~COUNTRY_SELECT_ATTACK_SRC;
-		gui_country_select(show_src);
+		callbacks::gui_country_select(show_src);
 		show_src = -1;
 	}
 
 	if(show_dst != -1) {
 		g_countries[show_dst].selected &= ~COUNTRY_SELECT_ATTACK_DST;
-		gui_country_select(show_dst);
+		callbacks::gui_country_select(show_dst);
 		show_dst = -1;
 	}
 }
@@ -276,12 +279,14 @@ void attack_show(int src, int dst)
 	if(src >= 0 && src < COUNTRIES_CANT) {
 		show_src = src;
 		g_countries[src].selected |= COUNTRY_SELECT_ATTACK_SRC;
-		gui_country_select(src);
+		callbacks::gui_country_select(src);
 	}
 
 	if(dst >= 0 && dst < COUNTRIES_CANT) {
 		show_dst = dst;
 		g_countries[dst].selected |= COUNTRY_SELECT_ATTACK_DST;
-		gui_country_select(dst);
+		callbacks::gui_country_select(dst);
 	}
+}
+
 }

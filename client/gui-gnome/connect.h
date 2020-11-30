@@ -20,6 +20,9 @@
 
 #pragma once
 
+namespace teg::client::callbacks
+{
+
 enum DisconnectReason {
 	/// the client decided to terminate the connection (for example with the
 	/// disconnect button
@@ -40,3 +43,5 @@ void disconnect(enum DisconnectReason reason);
 void connect_view();
 void gametype_view();
 void colortype_view(char *colores);
+
+}

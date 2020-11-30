@@ -28,6 +28,9 @@
 #include "fcintl.h"
 #include "client.h"
 
+namespace teg::client
+{
+
 /**
  * @fn TEG_STATUS aux_status( PCPLAYER pj, char *str )
  * parsea el status de los playeres
@@ -203,7 +206,7 @@ TEG_STATUS aux_countries(int numjug, char const *str)
 			if(g_countries[country].numjug != numjug || g_countries[country].ejercitos != cant) {
 				g_countries[country].numjug = numjug;
 				g_countries[country].ejercitos = cant;
-				gui_country(g_countries[country].id);
+				callbacks::gui_country(g_countries[country].id);
 			}
 		}
 	} while(i && p.can_continue);
@@ -219,7 +222,7 @@ void aux_draw_all_countries()
 {
 	int i;
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		gui_country(i);
+		callbacks::gui_country(i);
 	}
 }
 
@@ -239,4 +242,6 @@ TEG_STATUS aux_start_error()
 {
 	textmsg(M_ERR, _("Error in start. Are there at least 2 players?"));
 	return TEG_STATUS_SUCCESS;
+}
+
 }

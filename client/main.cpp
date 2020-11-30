@@ -27,6 +27,9 @@
 #include "../common/share.h"
 #include "client.h"
 
+namespace teg::client
+{
+
 TEG_STATUS main_init()
 {
 	game_init();
@@ -36,18 +39,21 @@ TEG_STATUS main_init()
 	return TEG_STATUS_SUCCESS;
 }
 
+}
+
 int main(int argc, char **argv)
 {
+	using namespace teg::client;
 	dont_run_as_root();
 
 	main_init();
 
-	if(gui_init(argc, argv) != TEG_STATUS_SUCCESS) {
+	if(callbacks::gui_init(argc, argv) != TEG_STATUS_SUCCESS) {
 		printf("Aborting...\n");
 		exit(-1);
 	}
 
-	gui_main();
+	callbacks::gui_main();
 
 	return 1;
 }

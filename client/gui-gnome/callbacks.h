@@ -23,6 +23,8 @@
 #include <gtk/gtk.h>
 #include "client.h"
 
+namespace teg::client::callbacks
+{
 
 void on_connect_activate(GtkMenuItem     *menuitem, gpointer         user_data);
 
@@ -75,3 +77,5 @@ void destroy_window(GtkWidget * widget, GtkWidget **window);
 void raise_and_focus(GtkWidget *widget);
 
 gboolean pre_client_recv(GIOChannel *source, GIOCondition cond, gpointer data);
+
+}

@@ -35,6 +35,9 @@
 #include "support.h"
 #include "status.h"
 
+namespace teg::client::callbacks
+{
+
 extern TTheme gui_theme;
 
 static GtkWidget	*pref_dialog=NULL;
@@ -626,4 +629,6 @@ void preferences_activate(void)
 	gtk_widget_show_all(pref_dialog);
 	gtk_dialog_run(GTK_DIALOG(pref_dialog));
 	gtk_widget_destroy(pref_dialog);
+}
+
 }

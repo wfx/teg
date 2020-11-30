@@ -20,6 +20,9 @@
 
 #pragma once
 
+namespace teg::client::callbacks
+{
+
 #define STOCK_ZOOM_1	"TEG_stock_zoom_1"
 #define STOCK_ZOOM_FIT	"TEG_stock_zoom_fit"
 #define STOCK_ZOOM_IN	"TEG_stock_zoom_in"
@@ -30,3 +33,5 @@
 #define STOCK_VIEWPLAYERS	"stock-viewplayers"
 
 void stock_init(void);
+
+}

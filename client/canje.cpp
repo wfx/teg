@@ -28,6 +28,9 @@
 #include "fcintl.h"
 #include "client.h"
 
+namespace teg::client
+{
+
 TEG_STATUS canje_out(int p1, int p2, int p3)
 {
 	if(!ESTADO_ES(PLAYER_STATUS_FICHASC)) {
@@ -99,4 +102,6 @@ TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 	}
 
 	return TEG_STATUS_ERROR;
+}
+
 }

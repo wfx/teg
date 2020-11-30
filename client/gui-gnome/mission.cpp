@@ -38,6 +38,9 @@
 #include "mission.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
+
 static GdkPixbuf *tar_mission = NULL;
 static int mission_number = -1;
 
@@ -304,4 +307,6 @@ void mission_view()
 
 	mission_view_number(dialog);
 	gtk_dialog_run(GTK_DIALOG(dialog));
+}
+
 }

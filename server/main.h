@@ -22,6 +22,9 @@
 
 #include "player.h"
 
+namespace teg::server
+{
+
 /**! initialize the game */
 void game_init();
 
@@ -41,3 +44,5 @@ void fd_remove(int fd);
 
 /**! adds a new fd to the list of fd */
 void fd_add(int fd);
+
+}

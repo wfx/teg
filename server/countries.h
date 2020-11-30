@@ -20,8 +20,13 @@
 
 #pragma once
 
+namespace teg::server
+{
+
 /**
  * This function takes place at the beginning of a game, and randomly assign
  * each country to a player.
  */
 void countries_repartir();
+
+}

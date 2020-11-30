@@ -26,6 +26,9 @@
 #include "protocol.h"
 #include "client.h"
 
+namespace teg::client
+{
+
 static int	aFichas[COUNTRIES_CANT];	/**< array de los countries */
 static int	aConts[CONT_CANT];	/**< array de los continentes */
 static int	fichas_tot;		/**< cantidad de fichas que hay en el array */
@@ -163,7 +166,7 @@ TEG_STATUS fichas_restore_from_error()
 	ESTADO_SET(PLAYER_STATUS_FICHAS);
 	fichas_reset();
 	aux_draw_all_countries();
-	gui_sensi();
+	callbacks::gui_sensi();
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -172,7 +175,7 @@ TEG_STATUS fichas2_restore_from_error()
 	ESTADO_SET(PLAYER_STATUS_FICHAS2);
 	fichas_reset();
 	aux_draw_all_countries();
-	gui_sensi();
+	callbacks::gui_sensi();
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -181,7 +184,7 @@ TEG_STATUS fichasc_restore_from_error()
 	ESTADO_SET(PLAYER_STATUS_FICHASC);
 	fichas_reset();
 	aux_draw_all_countries();
-	gui_sensi();
+	callbacks::gui_sensi();
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -254,13 +257,13 @@ TEG_STATUS fichas_enter(PCOUNTRY p)
 			if(!(p->selected & COUNTRY_SELECT_FICHAS_OUT)) {
 				p->selected &= ~COUNTRY_SELECT_FICHAS_IN;
 				p->selected |= COUNTRY_SELECT_FICHAS_OUT;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 			}
 		} else {
 			if(!(p->selected & COUNTRY_SELECT_FICHAS_IN)) {
 				p->selected &= ~COUNTRY_SELECT_FICHAS_OUT;
 				p->selected |= COUNTRY_SELECT_FICHAS_IN;
-				gui_country_select(p->id);
+				callbacks::gui_country_select(p->id);
 			}
 		}
 	}
@@ -276,7 +279,7 @@ TEG_STATUS fichas_leave(PCOUNTRY p)
 	if(p->numjug == WHOAMI()) {
 		p->selected &= ~COUNTRY_SELECT_FICHAS_IN;
 		p->selected &= ~COUNTRY_SELECT_FICHAS_OUT;
-		gui_country_select(p->id);
+		callbacks::gui_country_select(p->id);
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -285,4 +288,6 @@ void fichas_get_wanted(int *cant, int *conts)
 {
 	*cant = wanted_tot - cont_tot(wanted_conts);
 	*conts = wanted_conts;
+}
+
 }

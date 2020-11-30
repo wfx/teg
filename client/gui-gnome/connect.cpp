@@ -42,6 +42,9 @@
 
 #define GNOME_PAD_SMALL 4
 
+namespace teg::client::callbacks
+{
+
 static GtkWidget *connect_window = NULL;
 static GtkWidget *con_entry_name=NULL;
 static GtkWidget *con_spinner_port=NULL;
@@ -495,4 +498,6 @@ void gametype_view(void)
 	gtk_widget_show_all(gametype_dialog);
 	gtk_dialog_run(GTK_DIALOG(gametype_dialog));
 	gtk_widget_destroy(gametype_dialog);
+}
+
 }

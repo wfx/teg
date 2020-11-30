@@ -40,7 +40,8 @@
 #include "server.h"
 #include "fow.h"
 
-using namespace teg;
+namespace teg::server
+{
 
 static char colors[maximum_player_count];
 
@@ -594,4 +595,6 @@ TEG_STATUS launch_robot(int *robot_socket, char const *mode)
 	*robot_socket = sockets[1];
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

@@ -33,6 +33,9 @@
 
 #define TURNO_DEBUG PDEBUG
 
+namespace teg::server
+{
+
 /* Gives turn to the next player */
 TEG_STATUS turno_2nextplayer(PSPLAYER *ppJ)
 {
@@ -206,5 +209,7 @@ void turno_initialize_new_round(void)
 	}
 
 	netall_printf(TOKEN_NEW_ROUND"=%d,%d\n", g_game.turno->numjug, g_game.round_number);
+
+}
 
 }

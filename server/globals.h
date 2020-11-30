@@ -23,6 +23,9 @@
 #include "../common/common.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 typedef struct _sgame {
 	int connections;	/**< quantity of connections */
 	int players;		/**< quantity of players */
@@ -75,3 +78,5 @@ typedef struct _server {
 	bool kick_unparent_robots;	/* kick robots when there are no humans */
 } SERVER, *PSERVER;
 extern SERVER g_server;
+
+}

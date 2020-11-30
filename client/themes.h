@@ -27,6 +27,9 @@
 
 #include "../common/common.h"
 
+namespace teg::client
+{
+
 #define THEME_CONTINENT_MAX	(30)
 #define THEME_COUNTRY_MAX	(30)
 #define THEME_MAX_NAME		(50)
@@ -177,3 +180,5 @@ char * theme_load_fake_file(const char *name, char *theme);
 
 /**! returns 1 if dices extended are being used */
 int theme_using_extended_dices();
+
+}

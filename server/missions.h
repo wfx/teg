@@ -25,6 +25,9 @@
 #include "../common/common.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 /// \brief Does player pJ accomplished his secret mission ?
 TEG_STATUS mission_chequear(PSPLAYER pJ);
 
@@ -39,3 +42,5 @@ TEG_STATUS mission_set(bool a);
 
 /// \brief Enables/Disables playing with common secret mission
 TEG_STATUS mission_common_mission(bool a);
+
+}

@@ -25,6 +25,9 @@
 #include "../common/stats.h"
 #include "../common/country.h"
 
+namespace teg::server
+{
+
 /// server player data structure
 typedef struct _player {
 	LIST_ENTRY next;
@@ -185,3 +188,5 @@ TEG_STATUS player_kick_unparent_robots(void);
 #define SPLAYER_ATAQUE_P(a,j) player_esta_xxx_plus(a,PLAYER_STATUS_ATAQUE,1,j)
 #define SPLAYER_TROPAS(a) player_esta_xxx(a,PLAYER_STATUS_TROPAS,1)
 #define SPLAYER_TROPAS_P(a,j) player_esta_xxx_plus(a,PLAYER_STATUS_TROPAS,1,j)
+
+}

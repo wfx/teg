@@ -4,6 +4,9 @@
 
 #include <gtest/gtest.h>
 
+namespace teg::client
+{
+
 TEST(ClientHelper, aux_status)
 {
 	CPLAYER player{.name={'x'}, .addr={'y'}, .color=23, .score=42, .numjug=17,
@@ -36,4 +39,6 @@ TEST(ClientHelper, aux_scores)
 	EXPECT_STREQ("insertDateHere", sc.date);
 	EXPECT_EQ(42, sc.human);
 	EXPECT_EQ(23, sc.score);
+}
+
 }

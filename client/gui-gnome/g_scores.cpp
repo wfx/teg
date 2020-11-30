@@ -37,6 +37,8 @@
 #include "fonts.h"
 #include "support.h"
 
+namespace teg::client::callbacks
+{
 
 static GtkWidget *gui_scores_dialog=NULL;
 static GtkListStore *store=NULL;
@@ -378,4 +380,6 @@ void gui_scores_embed(GtkWidget *frame)
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(mini_scores_clist));
 
 	gtk_container_add(GTK_CONTAINER(frame), GTK_WIDGET(mini_scores_clist));
+}
+
 }

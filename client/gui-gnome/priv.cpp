@@ -28,6 +28,9 @@
 #include "interface.h"
 #include "priv.h"
 
+namespace teg::client::callbacks
+{
+
 struct _gui_private gui_private;
 
 /* Prefs */
@@ -40,4 +43,6 @@ TEG_STATUS priv_init(void)
 	gui_private.country_i_am = -1;
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

@@ -52,6 +52,9 @@
 
 #undef _DEBUG
 
+namespace teg::client
+{
+
 #define TEG_THEME_VER_MAJOR (1)
 #define TEG_THEME_VER_MINOR (5)
 
@@ -862,4 +865,6 @@ int theme_using_extended_dices()
 	}
 
 	return (my_atoi((char*)g_theme->dices_ext_x[0]) != -1);
+}
+
 }

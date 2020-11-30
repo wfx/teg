@@ -23,6 +23,9 @@
 #include "../../common/common.h"
 #include "../../common/country.h"
 
+namespace teg::client::callbacks
+{
+
 /* constructor */
 TEG_STATUS locate_country_init();
 
@@ -32,3 +35,5 @@ TEG_STATUS locate_country_add_country(PCOUNTRY p);
 
 /* adds the country's army to view */
 TEG_STATUS locate_country_add_army(PCOUNTRY p);
+
+}

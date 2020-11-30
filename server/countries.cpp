@@ -23,6 +23,9 @@
 
 #include "server.h"
 
+namespace teg::server
+{
+
 void countries_repartir()
 {
 	int i;
@@ -52,4 +55,6 @@ void countries_repartir()
 			j = j % g_game.playing;
 		}
 	}
+}
+
 }

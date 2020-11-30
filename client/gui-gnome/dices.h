@@ -22,6 +22,11 @@
 
 #include <goocanvas.h>
 
+namespace teg::client::callbacks
+{
+
 void dices_view();
 void dices_unview();
 void dices_init(GooCanvasItem *root);
+
+}

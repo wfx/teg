@@ -23,6 +23,9 @@
 #include "../common/common.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 typedef bool(*get_random_func)(int i);
 
 void ins_orden(char d, char *array, int len);
@@ -47,3 +50,5 @@ TEG_STATUS fichasc_next(void);
 TEG_STATUS aux_find_inaddr(PSPLAYER pJ);
 
 TEG_STATUS launch_robot(int *robot_socket, const char *mode);
+
+}

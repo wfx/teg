@@ -34,6 +34,8 @@
 #include "fonts.h"
 #include "themes.h"
 
+namespace teg::client::callbacks
+{
 
 extern TTheme gui_theme;
 
@@ -272,4 +274,6 @@ char const* get_background_for_color(int c)
 		return G_colores[NR_COLORS-1].ellip_color;
 	}
 	return G_colores[c].ellip_color;
+}
+
 }

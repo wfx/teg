@@ -27,6 +27,9 @@ extern "C" {
 #include "stock_gresources.h"
 }
 
+namespace teg::client::callbacks
+{
+
 void stock_init(void)
 {
 	GtkIconTheme *theme;
@@ -34,4 +37,6 @@ void stock_init(void)
 	stock_register_resource();
 	theme = gtk_icon_theme_get_default();
 	gtk_icon_theme_add_resource_path(theme, "/net/sf/teg/icons");
+}
+
 }

@@ -39,6 +39,9 @@
 #include "status.h"
 #include "tegcanvasimage.h"
 
+namespace teg::client::callbacks
+{
+
 #undef GENERATE_LIMITROFE
 #undef DRAG_DROP_COUNTRIES
 
@@ -668,4 +671,6 @@ TEG_STATUS gui_country_select(int country)
 TEG_STATUS g_country_init()
 {
 	return TEG_STATUS_SUCCESS;
+}
+
 }

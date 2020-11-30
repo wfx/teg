@@ -41,9 +41,10 @@
 #include "priv.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
+
 extern TTheme gui_theme;
-
-
 
 /* some defines for the position */
 #define RECT_SIZE (8)
@@ -706,4 +707,6 @@ TEG_STATUS mainstatus_update()
 	mainstatus_update_colors();
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

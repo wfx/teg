@@ -40,6 +40,8 @@
 #include "themes.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
 
 extern TTheme gui_theme;
 
@@ -286,4 +288,6 @@ void dices_view()
 		dices_show_image(g_game.dados_dst[i]-1, DICES_DEFENDER, i);
 	}
 	dices_show_text(g_game.dados_dstcountry, DICES_DEFENDER);
+}
+
 }

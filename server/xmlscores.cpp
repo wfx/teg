@@ -46,6 +46,8 @@
 #define xmlRootNode root
 #endif
 
+namespace teg::server
+{
 
 static bool parseScore(xmlDocPtr doc, xmlNodePtr cur, PSCORES ret)
 {
@@ -290,4 +292,6 @@ TEG_STATUS scores_dump(char *strout, size_t len)
 	}
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

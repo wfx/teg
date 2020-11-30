@@ -20,5 +20,10 @@
 
 #pragma once
 
+namespace teg::robot
+{
+
 /// Select a random player name.
 char *ai_fetch_a_name();
+
+}

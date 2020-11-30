@@ -40,6 +40,9 @@
 #include "g_scores.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
+
 /* FONTS */
 #define TEG_DIALOG_X	450
 #define TEG_DIALOG_Y	200
@@ -289,4 +292,6 @@ gchar *translate_to_utf8(const gchar *string)
 	iconv_close(iconv_base);
 
 	return output_string_pointer;
+}
+
 }
