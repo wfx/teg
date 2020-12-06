@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 # name: build.sh
 # desc: Helper script to build teg
