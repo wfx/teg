@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# name: build.sh
-# desc: Helper script to build teg
+# Create the build system, configure a out-of-source build and run the build
+# once there.
 
 handle_exit() {
   local FOUND_FILE
@@ -63,4 +63,6 @@ EXIT_CODE=23
 bash -eu autogen.sh
 
 # build the software
-teg_build "$SCRIPT_DIR/bd"
+# the default build directory is TOP_SRCDIR/bd, but can be overridden on the
+# command line.
+teg_build "$SCRIPT_DIR/${1:-bd}"
