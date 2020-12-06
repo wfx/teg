@@ -10,9 +10,12 @@ handle_exit() {
 
   for FILE_NAME in teg*test.log
   do
-    FOUND_FILE=1
-    echo "---8<----8<----8<----8<----8<- $FILE_NAME ---8<----8<----8<----8<-"
-    cat "$FILE_NAME"
+    if test -e "$FILE_NAME"
+	then
+      FOUND_FILE=1
+      echo "---8<----8<----8<----8<----8<- $FILE_NAME ---8<----8<----8<----8<-"
+      cat "$FILE_NAME"
+	fi
   done
 
   if test "$FOUND_FILE" = "0"
