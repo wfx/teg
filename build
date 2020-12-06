@@ -26,6 +26,7 @@ handle_exit() {
 teg_build(){
   local BUILD_DIR="$1"
 
+  rm -rf "${BUILD_DIR}"
   mkdir "${BUILD_DIR}"
   cd "${BUILD_DIR}"
 
