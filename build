@@ -24,11 +24,7 @@ handle_exit() {
 }
 
 teg_build(){
-  local SCRIPT_DIR="$1"
-  local BUILD_DIR="$2"
-
-  # create the autotools build machinery. 
-  (cd "${SCRIPT_DIR}" && bash -eu autogen.sh)
+  local BUILD_DIR="$1"
 
   mkdir "${BUILD_DIR}"
   cd "${BUILD_DIR}"
@@ -62,5 +58,8 @@ readonly SCRIPT_DIR
 
 EXIT_CODE=23
 
-# Main
-teg_build "$SCRIPT_DIR" "$SCRIPT_DIR/bd"
+# create the autotools build machinery. 
+bash -eu autogen.sh
+
+# build the software
+teg_build "$SCRIPT_DIR/bd"
