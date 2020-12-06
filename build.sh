@@ -9,20 +9,6 @@ handle_exit() {
   else 
     echo "No *test.log found."
   fi
-
-  echo "Cleanup..."
-  rm -rf "${BUILD_DIR}"
-  cd "${SCRIPT_DIR}"
-  rm po/Makefile.in.in
-  rm po/Makevars.template
-  rm po/Rules-quot
-  rm po/boldquot.sed
-  rm po/en@boldquot.header
-  rm po/en@quot.header
-  rm po/insert-header.sin
-  rm po/quot.sed
-  rm po/remove-potcdate.sin
-  echo "Cleanup... done"
   exit "${EXIT_CODE}"
 }
 
