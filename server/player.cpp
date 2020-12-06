@@ -114,7 +114,6 @@ void player_initplayer(PSPLAYER pJ)
 	assert(pJ);
 
 	InitializeListHead(&pJ->countries);
-	InitializeListHead(&pJ->deals);
 	pJ->hizo_canje = false;
 	pJ->tot_exchanges = 0;
 	pJ->tot_countries = 0;

@@ -36,7 +36,6 @@ typedef struct _player {
 	char addr[inet_addr_len];		/**< internet address */
 	int color;				/**< color */
 	LIST_ENTRY countries;			/**< countries that he owns */
-	LIST_ENTRY deals;			/**< FIXME: Not implemented yet */
 	int mission;				/**< mission that the player has */
 	bool hizo_canje;			/**< exchange done ? */
 	bool is_player;			/**< player or observer */

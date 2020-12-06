@@ -27,8 +27,6 @@ TEST(player, init_player)
 	EXPECT_EQ(0, player.fichasc_conts);
 	EXPECT_EQ(&player.countries, player.countries.Blink);
 	EXPECT_EQ(&player.countries, player.countries.Flink);
-	EXPECT_EQ(&player.deals, player.deals.Blink);
-	EXPECT_EQ(&player.deals, player.deals.Flink);
 }
 
 TEST(player, is_playing)
