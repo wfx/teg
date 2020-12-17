@@ -16,4 +16,4 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build the software
-      run: ./build.sh
+      run: bash -x build
