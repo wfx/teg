@@ -99,36 +99,33 @@ AC_CHECK_LIB(pthread, pthread_create,
 		SERVER_CFLAGS="-D_REENTRANT $SERVER_CFLAGS"
 		])
 
-dnl Checks for additional server libraries:
-if test x$server = xtrue; then
-    dnl The use of AC_CHECK_FUNC is to avoid wrong libs on IRIX.
-    AC_CHECK_FUNC(gethostbyname)
-    if test $ac_cv_func_gethostbyname = no; then
-        AC_CHECK_LIB(nsl, gethostbyname, SERVER_LIBS="-lnsl $SERVER_LIBS")
-    fi
-    AC_CHECK_FUNC(connect)
-    if test $ac_cv_func_connect = no; then
-        AC_CHECK_LIB(socket, connect, SERVER_LIBS="-lsocket $SERVER_LIBS")
-    fi
+dnl The use of AC_CHECK_FUNC is to avoid wrong libs on IRIX.
+AC_CHECK_FUNC(gethostbyname)
+if test $ac_cv_func_gethostbyname = no; then
+	AC_CHECK_LIB(nsl, gethostbyname, SERVER_LIBS="-lnsl $SERVER_LIBS")
+fi
+AC_CHECK_FUNC(connect)
+if test $ac_cv_func_connect = no; then
+	AC_CHECK_LIB(socket, connect, SERVER_LIBS="-lsocket $SERVER_LIBS")
+fi
 
-    dnl looking for readline library and header
-    if test "$WITH_READLINE" = "yes"; then
+dnl looking for readline library and header
+if test "$WITH_READLINE" = "yes"; then
 	AC_CHECK_LIB(readline, rl_callback_handler_install, 
-	    [SERVER_LIBS="-lreadline $SERVER_LIBS"
-	     AC_DEFINE_UNQUOTED([HAVE_LIBREADLINE], 1, [Check for readline availability])],
-	    AC_MSG_ERROR([Specified --with-readline but did not find library.]),
-	    $SERVER_LIBS)
+		[SERVER_LIBS="-lreadline $SERVER_LIBS"
+		 AC_DEFINE_UNQUOTED([HAVE_LIBREADLINE], 1, [Check for readline availability])],
+		AC_MSG_ERROR([Specified --with-readline but did not find library.]),
+		$SERVER_LIBS)
 	AC_CHECK_HEADER(readline/readline.h, ,
 	AC_MSG_ERROR([Specified --with-readline; found library but not header file. You may need to install a readline development package.]))
-    elif test "$WITH_READLINE" = "maybe"; then
+elif test "$WITH_READLINE" = "maybe"; then
 	AC_CHECK_HEADER(readline/readline.h, have_readline_h=1, have_readline_h=0)
 	if test "$have_readline_h" = "1"; then
-	    AC_CHECK_LIB(readline, rl_callback_handler_install, 
+		AC_CHECK_LIB(readline, rl_callback_handler_install, 
 		[SERVER_LIBS="-lreadline $SERVER_LIBS"
 		 AC_DEFINE_UNQUOTED([HAVE_LIBREADLINE], 1, [Check for readline availability])
 		], , $SERVER_LIBS)
 	fi
-    fi
 fi
 
 SERVER_CFLAGS="$SERVER_CFLAGS $TEG_COMMONLIBS_CFLAGS"
