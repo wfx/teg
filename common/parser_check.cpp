@@ -131,7 +131,9 @@ TEST(Parser, parse)
 	}
 	{
 		// defect input string.
-		PARSER error{.data="err\"or"};
+		char buf[PARSER_TOKEN_MAX+1]{};
+		strcpy(buf, "err\"or");
+		PARSER error{.data=buf};
 		EXPECT_FALSE(parser_parse(&error));
 	}
 }
