@@ -39,6 +39,9 @@ AC_ARG_ENABLE(warnings-as-errors,
     AS_HELP_STRING([--enable-warnings-as-errors],
 	               [Turn compiler warnings into errors.]))
 
+CFLAGS="$CFLAGS -fsigned-char"
+CXXFLAGS="$CXXFLAGS -fsigned-char"
+
 if test "x$enable_debug" = "xyes"; then
   test "$cflags_set" = set || CFLAGS="$CFLAGS -g"
   CPPFLAGS="$CPPFLAGS -DDEBUG"
