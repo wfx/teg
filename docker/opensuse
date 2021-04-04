@@ -1,0 +1,7 @@
+# vim: filetype=dockerfile sw=4 ts=4 et
+FROM opensuse/leap:latest
+
+RUN zypper update && \
+    zypper install -y automake autoconf libtool gcc-c++ gettext make tidy \
+	'pkgconfig(glib-2.0)' 'pkgconfig(libgnomeui-2.0)' 'pkgconfig(libxml-2.0)' \
+	'perl(XML::Parser)' 'pkgconfig(goocanvas-2.0)' pkgconfig xmlto
