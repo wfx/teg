@@ -273,7 +273,7 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 
 		hbox = gtk_hbox_new (TRUE, 0);
-		href = gnome_href_new ("http://teg.sourceforge.net", _("TEG Home Page"));
+		href = gnome_href_new ("https://github.com/wfx/teg", _("TEG Home Page"));
 		gtk_box_pack_start (GTK_BOX (hbox), href, FALSE, FALSE, 0);
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (about)->vbox),
 			    hbox, TRUE, FALSE, 0);
