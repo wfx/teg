@@ -49,8 +49,6 @@
 #include "locate_country.h"
 
 
-struct _gui_private gui_private;
-
 TTheme	gui_theme;
 
 static TEG_STATUS get_default_values(void);
