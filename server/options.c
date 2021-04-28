@@ -26,6 +26,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <stdlib.h>
 
 #include "../common/net.h"
@@ -244,7 +245,7 @@ TEG_STATUS option_seed(int fd, char *str)
 
 		seed = atoi(str);
 		g_game.seed = seed;
-		srandom(seed);
+		srand(seed);
 	}
 
 	option_seed_view();

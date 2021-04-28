@@ -24,6 +24,8 @@
  *       y del archivo gnome-net (que ya no existe mas)
  */
 
+#define _POSIX_C_SOURCE 200112L
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/un.h>
@@ -34,6 +36,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <strings.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <netdb.h>

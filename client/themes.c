@@ -22,8 +22,11 @@
  * File based in the job example from libxml
  */
 
+#define _XOPEN_SOURCE 500
+
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <unistd.h>
