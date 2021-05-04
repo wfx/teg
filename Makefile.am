@@ -85,6 +85,7 @@ libguiclient_a_CPPFLAGS = \
 	@XML_CFLAGS@					\
 	-I$(top_srcdir)/common				\
 	-I$(top_srcdir)/client				\
+	-DTEGDATADIR=\"$(datadir)/teg/\"		\
 	-DPIXMAPDIR=\"$(datadir)/pixmaps/\"		\
 	-DTHEMEDIR=\"$(datadir)/pixmaps/teg_pix/themes/\"	\
 	-DG_LOG_DOMAIN=\"TEG\"				\
