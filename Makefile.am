@@ -86,10 +86,8 @@ libguiclient_a_CPPFLAGS = \
 	-I$(top_srcdir)/common				\
 	-I$(top_srcdir)/client				\
 	-DTEGDATADIR=\"$(datadir)/teg/\"		\
-	-DPIXMAPDIR=\"$(datadir)/pixmaps/\"		\
 	-DTHEMEDIR=\"$(datadir)/teg/themes/\"		\
 	-DG_LOG_DOMAIN=\"TEG\"				\
-	-DDATADIR=\""$(datadir)"\"		   	\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 
 
 libguiclient_a_SOURCES = \
