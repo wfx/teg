@@ -1,4 +1,4 @@
-pixmapdir=$(datadir)/pixmaps/teg_pix/themes/m2
+pixmapdir=$(datadir)/teg/themes/m2
 
 pixmap_DATA =	\
 	Africa-Egipto Africa-Etiopia Africa-Madagascar Africa-Sahara Africa-Sudafrica Africa-Zaire	\

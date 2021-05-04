@@ -57,7 +57,7 @@ tegserver_SOURCES = server/main.c
 tegserver_LDADD = libtegserver.a libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
 
 libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common \
-	-DBINDIR=\"$(bindir)\" -DTHEMEDIR=\"$(datadir)/pixmaps/teg_pix/themes/\"
+	-DBINDIR=\"$(bindir)\" -DTHEMEDIR=\"$(datadir)/teg/themes/\"
 libclient_a_SOURCES = \
 	client/client.h		\
 	client/globals.h	\
@@ -87,7 +87,7 @@ libguiclient_a_CPPFLAGS = \
 	-I$(top_srcdir)/client				\
 	-DTEGDATADIR=\"$(datadir)/teg/\"		\
 	-DPIXMAPDIR=\"$(datadir)/pixmaps/\"		\
-	-DTHEMEDIR=\"$(datadir)/pixmaps/teg_pix/themes/\"	\
+	-DTHEMEDIR=\"$(datadir)/teg/themes/\"		\
 	-DG_LOG_DOMAIN=\"TEG\"				\
 	-DDATADIR=\""$(datadir)"\"		   	\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 

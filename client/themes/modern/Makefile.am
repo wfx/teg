@@ -1,4 +1,4 @@
-pixmapdir=$(datadir)/pixmaps/teg_pix/themes/modern
+pixmapdir=$(datadir)/teg/themes/modern
 
 pixmap_DATA =	\
 	teg_theme.xml		\
