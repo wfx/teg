@@ -1,4 +1,4 @@
-pixmapdir=$(datadir)/pixmaps/teg_pix
+pixmapdir=$(datadir)/teg
 appicondir=$(datadir)/pixmaps
 
 pixmap_DATA =	\
