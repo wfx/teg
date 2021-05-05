@@ -1,7 +1,7 @@
 dnl configure.ac for teg
 AC_PREREQ([2.53])
 
-AC_INIT([Tenes Empanadas Graciela], [0.12.0], [teg-list@lists.sourceforge.net], [teg])
+AC_INIT([Tenes Empanadas Graciela], [0.12.1], [teg-list@lists.sourceforge.net], [teg])
 AM_INIT_AUTOMAKE(subdir-objects)
 AC_CONFIG_SRCDIR([server/main.c])
 AC_CONFIG_MACRO_DIR([macros])
