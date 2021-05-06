@@ -98,6 +98,11 @@ void ins_orden(char d, char *array, int len)
 			break;
 		}
 	}
+
+	if(i==len) {
+		return;
+	}
+
 	if(array[i] == 0) {
 		array[i] = d;
 		return;
