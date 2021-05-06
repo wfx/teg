@@ -53,8 +53,8 @@ static int initialized=0;
 GooCanvasItem *armies_group;
 
 static double x, y;
-double new_x, new_y;
-double item_x, item_y;
+static double new_x, new_y;
+static double item_x, item_y;
 static gboolean dragging;
 
 static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *target,
