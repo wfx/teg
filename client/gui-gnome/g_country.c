@@ -47,6 +47,8 @@ struct _G_countries G_countries[COUNTRIES_CANT];
 
 static int initialized = 0;
 static double x, y;
+double new_x, new_y;
+double item_x, item_y;
 static int dragging;
 
 static gboolean enter_notify_cb(GooCanvasItem *item, GooCanvasItem *target,
