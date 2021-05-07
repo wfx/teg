@@ -36,7 +36,4 @@ TEG_STATUS armies_view_more(int cant);
 TEG_STATUS armies_unview();
 TEG_STATUS armies_init();
 
-extern double new_x, new_y;
-extern double item_x, item_y;
-
 #endif /* __GUI_GNOME_ARMIES_H */
