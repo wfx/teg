@@ -34,8 +34,6 @@ void netall_printf(char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER j;
 
 	va_start(args, format);
 	vsnprintf(buf, sizeof(buf) -1, format, args);
@@ -43,14 +41,11 @@ void netall_printf(char const *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		j = (PSPLAYER) l;
+	player_map([buf](PSPLAYER j) {
 		if(j->fd>0) {
 			net_print(j->fd, buf);
 		}
-
-		l = LIST_NEXT(l);
-	}
+	}, PlayerMapPolicy::everyone);
 }
 
 }
