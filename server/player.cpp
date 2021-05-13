@@ -664,4 +664,25 @@ TEG_STATUS player_kick_unparent_robots(void)
 	return TEG_STATUS_SUCCESS;
 }
 
+SPLAYER *find_next_player(SPLAYER* after, std::function<bool(SPLAYER*)> acceptable)
+{
+	// TODO: add tests
+	PLIST_ENTRY first_node = (PLIST_ENTRY)after;
+
+	if(IsListEmpty(first_node)) {
+		return nullptr;
+	}
+
+	PLIST_ENTRY l = LIST_NEXT(first_node);
+	while(l != first_node)  {
+		PSPLAYER pJ = (PSPLAYER) l;
+		if((l != &g_list_player) && acceptable(pJ)) {
+			return pJ;
+		}
+		l = LIST_NEXT(l);
+	}
+
+	return nullptr;
+}
+
 }

@@ -185,6 +185,14 @@ void player_insert_scores(PSPLAYER pJ);
 /*! kick robots when there are no humans */
 TEG_STATUS player_kick_unparent_robots(void);
 
+/** Find the entry after \p after in the player list which fullfills predicate
+ * \p acceptable. This function will roll over after the end of the list and
+ * search for other players at the beginning.
+ *
+ * \return The following player if there is one fullfilling the predicate,
+ *         nullptr otherwise. */
+PSPLAYER find_next_player(SPLAYER* after, std::function<bool(PSPLAYER)> acceptable);
+
 #define SPLAYER_CONNECTED(a) player_esta_xxx(a,PLAYER_STATUS_CONNECTED,0)
 #define SPLAYER_HABILITADO(a) player_esta_xxx(a,PLAYER_STATUS_HABILITADO,0)
 #define SPLAYER_HABILITADO_P(a,j) player_esta_xxx_plus(a,PLAYER_STATUS_HABILITADO,0,j)
