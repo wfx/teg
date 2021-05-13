@@ -1254,33 +1254,23 @@ STATIC TEG_STATUS token_countries(int fd, char *str)
 
 	if(i!=-1) {
 		/* ask just for 1 player */
-		if(aux_token_countries(pJ, strout, sizeof(strout)-1) !=TEG_STATUS_SUCCESS) {
-			goto error;
-		}
+		aux_token_countries(pJ, strout, sizeof(strout)-1);
 		net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, pJ->numjug, strout);
 	} else  {
 		/* ask for all the players */
-		PLIST_ENTRY pL = g_list_player.Flink;
 
-		while(!IsListEmpty(&g_list_player) && (pL != &g_list_player)) {
-			pJ = (PSPLAYER) pL;
-			if(pJ->is_player) {
-				if(aux_token_countries(pJ, strout, sizeof(strout)-1) !=TEG_STATUS_SUCCESS) {
-					goto error;
-				}
-				net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, pJ->numjug, strout);
-			}
-			pL = LIST_NEXT(pL);
-		}
+		player_map([&strout, fd](PSPLAYER pJ) {
+			aux_token_countries(pJ, strout, sizeof(strout)-1);
+			net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, pJ->numjug, strout);
+		});
 
 		if(g_game.fog_of_war) {
 			SPLAYER j;
 
 			j.numjug = -1;
 
-			if(aux_token_countries(&j, strout, sizeof(strout)-1) == TEG_STATUS_SUCCESS) {
-				net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, j.numjug, strout);
-			}
+			aux_token_countries(&j, strout, sizeof(strout)-1);
+			net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, j.numjug, strout);
 		}
 	}
 	return TEG_STATUS_SUCCESS;

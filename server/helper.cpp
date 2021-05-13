@@ -490,7 +490,7 @@ TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
+void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 {
 	PLIST_ENTRY pL;
 	PCOUNTRY country;
@@ -517,7 +517,7 @@ TEG_STATUS aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 				strncat(buf, strtmp, buflen);
 			}
 		}
-		return TEG_STATUS_SUCCESS;
+		return;
 	}
 
 	/* the other case */
@@ -544,8 +544,6 @@ TEG_STATUS aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 		pL = LIST_NEXT(pL);
 	}
 	buf[buflen]=0;
-
-	return TEG_STATUS_SUCCESS;
 }
 
 TEG_STATUS launch_robot(int *robot_socket, char const *mode)
