@@ -527,7 +527,7 @@ void player_map(jug_map_func func)
 		l = LIST_NEXT(l);
 
 		if(pJ->is_player) {
-			(func)(pJ);
+			func(pJ);
 		}
 	}
 }

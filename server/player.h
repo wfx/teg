@@ -21,6 +21,7 @@
 #pragma once
 
 #include <stdbool.h>
+#include <functional>
 
 #include "../common/stats.h"
 #include "../common/country.h"
@@ -60,8 +61,8 @@ typedef struct _player {
 
 } SPLAYER, *PSPLAYER;
 
-/// \brief Mapping function type to traverse all players
-typedef void (*jug_map_func)(PSPLAYER pJ);
+/// \brief Sipmle mapping function type to traverse all players
+using jug_map_func=std::function<void(PSPLAYER pJ)>;
 
 /// \brief List of all connected players
 extern LIST_ENTRY g_list_player;
