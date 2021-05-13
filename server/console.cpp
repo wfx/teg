@@ -196,9 +196,6 @@ STATIC TEG_STATUS con_message(int fd, char *msg)
 
 STATIC TEG_STATUS con_status(int fd, char*unused)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
-
 	net_printf(fd, _("players:%d, connections:%d, game number:%d, round:%d, mission:%s\n"),
 	           g_game.players,
 	           g_game.connections,
@@ -208,9 +205,8 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 	          );
 	net_printf(fd, _("fd, number, countries, armies, cards, exch, name, human, color, status, address\n"));
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
+	player_map([fd](PSPLAYER pJ) {
 		int color;
-		pJ = (PSPLAYER) l;
 
 		color = (pJ->color==-1) ? maximum_player_count : pJ->color;
 		if(pJ->is_player) {
@@ -242,9 +238,7 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 			           pJ->addr
 			          );
 		}
-
-		l = LIST_NEXT(l);
-	}
+	}, PlayerMapPolicy::everyone);
 	return TEG_STATUS_SUCCESS;
 }
 
