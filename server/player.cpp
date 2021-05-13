@@ -512,7 +512,8 @@ void player_all_set_status(PLAYER_STATUS estado)
 	}
 }
 
-void player_map(jug_map_func func)
+void player_map(jug_map_func func,
+                PlayerMapPolicy policy)
 {
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ;
@@ -526,7 +527,7 @@ void player_map(jug_map_func func)
 		 * next element now */
 		l = LIST_NEXT(l);
 
-		if(pJ->is_player) {
+		if(pJ->is_player || (policy==PlayerMapPolicy::everyone)) {
 			func(pJ);
 		}
 	}

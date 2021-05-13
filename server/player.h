@@ -152,8 +152,14 @@ TEG_STATUS player_numjug_libre(int *libre);
 /// \brief  given an index of player [0..MAX_PLAYERS] return the numjug of it
 TEG_STATUS player_from_indice(int j, int *real_j);
 
+enum class PlayerMapPolicy {
+	players_only,
+	everyone
+};
+
 /// \brief perform \p func on every player
-void player_map(jug_map_func func);
+void player_map(jug_map_func func,
+                PlayerMapPolicy policy=PlayerMapPolicy::players_only);
 
 /// \brief finds a player given its name
 TEG_STATUS player_findbyname(char *name, PSPLAYER *pJ);
