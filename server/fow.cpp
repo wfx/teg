@@ -107,10 +107,6 @@ int fow_netall_printf(int country, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
-	PLIST_ENTRY pLplayer = g_list_player.Flink;
-	PLIST_ENTRY pLcountry;
-	PSPLAYER pJ;
-	PCOUNTRY pP;
 
 	if(country < 0 || country >= COUNTRIES_CANT) {
 		return -1;
@@ -122,13 +118,12 @@ int fow_netall_printf(int country, char const *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	while(!IsListEmpty(&g_list_player) && (pLplayer != &g_list_player)) {
-		pJ = (PSPLAYER) pLplayer;
-		if(pJ->fd > 0 && pJ->is_player) {
-			pLcountry = pJ->countries.Flink;
+	player_map([buf, country](PSPLAYER pJ) {
+		if(pJ->fd > 0) {
+			PLIST_ENTRY pLcountry = pJ->countries.Flink;
 			/* check if he has a boundry country wih 'country' */
 			while(!IsListEmpty(&pJ->countries) && (pLcountry != &pJ->countries)) {
-				pP = (PCOUNTRY) pLcountry;
+				PCOUNTRY pP = (PCOUNTRY) pLcountry;
 
 				if(countries_eslimitrofe(pP->id, country) || pP->id == country) {
 					net_print(pJ->fd, buf);
@@ -137,11 +132,8 @@ int fow_netall_printf(int country, char const *format, ...)
 
 				pLcountry = LIST_NEXT(pLcountry);
 			}
-
 		}
-
-		pLplayer = LIST_NEXT(pLplayer);
-	}
+	});
 	return 0;
 }
 
@@ -156,12 +148,6 @@ int fow_2_netall_printf(int src, int dst, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
-	PLIST_ENTRY pLplayer = g_list_player.Flink;
-	PLIST_ENTRY pLcountry;
-	PSPLAYER pJ;
-	PCOUNTRY pP;
-	int src_country;
-	int dst_country;
 
 	if(src<0 || src>=COUNTRIES_CANT || dst<0 || dst>=COUNTRIES_CANT) {
 		return -1;
@@ -173,16 +159,15 @@ int fow_2_netall_printf(int src, int dst, char const *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	while(!IsListEmpty(&g_list_player) && (pLplayer != &g_list_player)) {
-		pJ = (PSPLAYER) pLplayer;
-		if(pJ->fd > 0 && pJ->is_player) {
-			pLcountry = pJ->countries.Flink;
+	player_map([buf, src, dst](PSPLAYER pJ) {
+		if(pJ->fd > 0) {
+			PLIST_ENTRY pLcountry = pJ->countries.Flink;
 			/* check if he has a boundry country wih src && dst */
 
-			src_country = -1;
-			dst_country = -1;
+			int src_country = -1;
+			int dst_country = -1;
 			while(!IsListEmpty(&pJ->countries) && (pLcountry != &pJ->countries)) {
-				pP = (PCOUNTRY) pLcountry;
+				PCOUNTRY pP = (PCOUNTRY) pLcountry;
 
 				if(countries_eslimitrofe(pP->id, src) || pP->id == src) {
 					src_country = src;
@@ -201,9 +186,7 @@ int fow_2_netall_printf(int src, int dst, char const *format, ...)
 
 			net_printf(pJ->fd, buf, src_country, dst_country);
 		}
-
-		pLplayer = LIST_NEXT(pLplayer);
-	}
+	});
 	return 0;
 }
 
