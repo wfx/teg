@@ -776,7 +776,7 @@ TEG_STATUS theme_enum_themes(pTInfo pTI)
 	/* ~/.teg/themes */
 	snprintf(lugares[1], sizeof(lugares[1])-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
 
-	/* /usr/local/share/pixmap/teg_pix/themes */
+	/* /usr/local/share/teg/themes */
 	strncpy(lugares[2], THEMEDIR, sizeof(buf)-1);
 
 

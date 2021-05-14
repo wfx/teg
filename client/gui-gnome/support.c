@@ -74,15 +74,8 @@ void generic_window_set_parent(GtkWidget * dialog, GtkWindow   * parent)
 char * load_pixmap_file(char *name)
 {
 	char *filename = NULL;
-	char *f = NULL;
 
-	f = g_strconcat("teg_pix/", name, NULL);
-	if(f == NULL) {
-		return NULL;
-	}
-
-	filename = g_strconcat(PIXMAPDIR, f, NULL);
-	g_free(f);
+	filename = g_strconcat(TEGDATADIR, name, NULL);
 	return filename;
 }
 

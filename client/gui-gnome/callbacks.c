@@ -280,7 +280,7 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 	{
 		gchar* logo_filename = NULL;
-		logo_filename = g_strdup(PIXMAPDIR"/teg_icono.png");
+		logo_filename = g_strdup(TEGDATADIR "teg_icono.png");
 
 		if(logo_filename != NULL) {
 			pixbuf = gdk_pixbuf_new_from_file(logo_filename, NULL);
