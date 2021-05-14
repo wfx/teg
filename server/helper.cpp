@@ -264,14 +264,11 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len)
 	int n;
 	char strtmp[ max_playername_length + 200];
 
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER j;
-
 	strout[0]=0;
 
 	n=0;
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		j = (PSPLAYER) l;
+
+	player_map([&n, strout, &strtmp, len](PSPLAYER j) {
 
 		if(j->is_player) {
 			int color = (j->color==-1) ? maximum_player_count : j->color;
@@ -307,9 +304,7 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len)
 
 			strncat(strout, strtmp, len - strlen(strout));
 		}
-
-		l = l->Flink;
-	}
+	},  PlayerMapPolicy::everyone);
 	return TEG_STATUS_SUCCESS;
 }
 
