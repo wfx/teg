@@ -35,7 +35,7 @@
 namespace teg::server
 {
 
-LIST_ENTRY g_list_player;		/**< list of players */
+static LIST_ENTRY g_list_player;		/**< list of players */
 
 typedef struct {
 	int humans;

@@ -64,9 +64,6 @@ typedef struct _player {
 /// \brief Sipmle mapping function type to traverse all players
 using jug_map_func=std::function<void(PSPLAYER pJ)>;
 
-/// \brief List of all connected players
-extern LIST_ENTRY g_list_player;
-
 /** \brief Initialize a single player datastructure for a new game
  *
  * Only the fields needed to be reset for a new game are touched, all other
