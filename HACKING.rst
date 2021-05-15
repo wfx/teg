@@ -20,6 +20,9 @@ development packages of the used libraries. For Debian based environments, you
 can use the list in the file `docker/debian`
 
 When you have the requirements, you can run ``./build`` in the root directory.
+
+.. warning:: This script always erases the build directory first.
+
 This script
 
 * creates the autotools build infrastructure
