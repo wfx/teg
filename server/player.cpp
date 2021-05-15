@@ -46,54 +46,38 @@ PlayerCount player_count(void)
 {
 	PlayerCount result = {0, 0};
 
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-
-		if(pJ->is_player) {
-			if(pJ->human) {
-				result.humans++;
-			} else {
-				result.robots++;
-			}
+	player_map([&result](PSPLAYER pJ) {
+		if(pJ->human) {
+			result.humans++;
+		} else {
+			result.robots++;
 		}
-		l = LIST_NEXT(l);
-	}
+	});
 	return result;
 }
 
 TEG_STATUS player_whois(int numjug, PSPLAYER *pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
+	TEG_STATUS result=TEG_STATUS_PLAYERNOTFOUND;
+	player_map([numjug, &result, pJ](PSPLAYER pJ_new) {
 		if(pJ_new->numjug == numjug) {
 			*pJ = pJ_new;
-			return TEG_STATUS_SUCCESS;
+			result = TEG_STATUS_SUCCESS;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+	});
+	return result;
 }
 
-TEG_STATUS player_findbyname(char *name, PSPLAYER *pJ)
+TEG_STATUS player_findbyname(char const *name, PSPLAYER *pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
+	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
+	player_map([name, &pJ, &result](PSPLAYER pJ_new) {
 		if(!strncmp(pJ_new->name, name, sizeof(pJ_new->name))) {
 			*pJ = pJ_new;
-			return TEG_STATUS_SUCCESS;
+			result = TEG_STATUS_SUCCESS;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+	});
+	return result;
 }
 
 void player_delete_discon(PSPLAYER pJ)
@@ -137,25 +121,16 @@ void player_init(void)
 
 TEG_STATUS player_numjug_libre(int *libre)
 {
-	char jugs[maximum_player_count];
+	char jugs[maximum_player_count] = {0};
 	int i;
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
 
 	assert(libre);
 
-	memset(jugs, 0, sizeof(jugs));
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-		if(pJ->is_player) {
-			if(pJ->numjug >= 0 && pJ->numjug < maximum_player_count) {
-				jugs[pJ->numjug] = 1;
-			}
+	player_map([&jugs](PSPLAYER pJ) {
+		if(pJ->numjug >= 0 && pJ->numjug < maximum_player_count) {
+			jugs[pJ->numjug] = 1;
 		}
-
-		l = LIST_NEXT(l);
-	}
+	});
 
 	for(i=0; i<maximum_player_count; i++) {
 		if(jugs[i] == 0) {
@@ -281,22 +256,19 @@ TEG_STATUS player_del_soft(PSPLAYER pJ)
 
 		/* game with just one player... the winner */
 	} else if(g_game.playing == 1 && JUEGO_EMPEZADO) {
-		PLIST_ENTRY l = g_list_player.Flink;
-		PSPLAYER pJ2=NULL;
 
-		while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-			pJ2 = (PSPLAYER) l;
+		PSPLAYER winner=NULL;
+		player_map([pJ, &winner](PSPLAYER pJ2) {
 			if(pJ2->numjug!=pJ->numjug && player_is_playing(pJ2)) {
 				con_text_out(M_INF, _("Game with one player. Player %s(%d) is the winner\n"), pJ2->name, pJ2->numjug);
 				pJ2->estado = PLAYER_STATUS_GAMEOVER;
-				break;
+				winner = pJ2;
 			}
+		});
 
-			pJ2 = NULL;
-			l = LIST_NEXT(l);
+		if(winner != nullptr) {
+			game_end(winner);
 		}
-
-		game_end(pJ2);
 
 		/* game may continue normally */
 	} else {
@@ -358,22 +330,19 @@ void player_del_hard(PSPLAYER pJ)
 
 TEG_STATUS player_from_indice(int j, int *real_j)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
+	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
 	int i=0;
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-		if(pJ->is_player && pJ->estado>=PLAYER_STATUS_HABILITADO) {
+	player_map([&i, j, &real_j, &result](PSPLAYER pJ) {
+		if(pJ->estado>=PLAYER_STATUS_HABILITADO) {
 			if(j == i) {
 				*real_j = pJ->numjug;
-				return TEG_STATUS_SUCCESS;
+				result = TEG_STATUS_SUCCESS;
 			}
 			i++;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+	});
+	return result;
 }
 
 TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p)
@@ -394,18 +363,15 @@ TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p)
 /* given a fd, return the player who owns it */
 TEG_STATUS player_whoisfd(int fd, PSPLAYER *j)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER i;
+	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		i = (PSPLAYER) l;
+	player_map([fd, &j, &result](PSPLAYER i) {
 		if(i->fd == fd) {
 			*j = i;
-			return TEG_STATUS_SUCCESS;
+			result = TEG_STATUS_SUCCESS;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+	}, PlayerMapPolicy::everyone);
+	return result;
 }
 
 bool player_esta_xxx(int fd, PLAYER_STATUS state, bool exact)
@@ -500,16 +466,11 @@ int player_fichasc_cant(PSPLAYER pJ)
 
 void player_all_set_status(PLAYER_STATUS estado)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-		if(pJ->is_player && pJ->estado >= PLAYER_STATUS_GAMEOVER) {
+	player_map([estado](PSPLAYER pJ) {
+		if(pJ->estado >= PLAYER_STATUS_GAMEOVER) {
 			pJ->estado = estado;
 		}
-		l = LIST_NEXT(l);
-	}
+	});
 }
 
 void player_map(jug_map_func func,
@@ -595,44 +556,35 @@ void player_fillname(PSPLAYER pJ, char *name)
 /* return a disconected player with the same name as pJ */
 PSPLAYER player_return_disconnected(PSPLAYER pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
-
+	PSPLAYER result = nullptr;
+	player_map([pJ, &result](PSPLAYER pJ_new) {
 		if((pJ_new->estado == PLAYER_STATUS_DESCONECTADO) &&
 		        strcmp(pJ->name, pJ_new->name) == 0
 		  ) {
 			g_game.players++;
 			g_game.playing++;
 			g_game.connections++;
-			return pJ_new;
+			result = pJ_new;
 		}
-
-		l = LIST_NEXT(l);
-	}
-	return NULL;
+	}, PlayerMapPolicy::everyone);
+	return result;
 }
 
 /* return true if the player is disconnected */
 bool player_is_disconnected(PSPLAYER pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
+	/// \todo replace the parameter by a char pointer
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
-
+	bool result = false;
+	player_map([&result, pJ](PSPLAYER pJ_new) {
 		if((pJ_new->estado == PLAYER_STATUS_DESCONECTADO) &&
 		        strcmp(pJ->name, pJ_new->name) == 0
 		  ) {
-			return true;
+			result = true;
 		}
-
-		l = LIST_NEXT(l);
-	}
-	return false;
+	}, PlayerMapPolicy::everyone);
+	return result;
 }
 
 /* insert all the player but the ones in GAME OVER */

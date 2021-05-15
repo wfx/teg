@@ -159,7 +159,7 @@ void player_map(jug_map_func func,
                 PlayerMapPolicy policy=PlayerMapPolicy::players_only);
 
 /// \brief finds a player given its name
-TEG_STATUS player_findbyname(char *name, PSPLAYER *pJ);
+TEG_STATUS player_findbyname(const char *name, PSPLAYER *pJ);
 
 /// \brief Assigns a name to the player that does not conflict with another names
 void player_fillname(PSPLAYER pJ, char *name);
