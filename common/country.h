@@ -23,17 +23,13 @@
 #include "tarjeta.h"
 #include "cont.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define COUNTRYNAME_MAX_LEN	50
 #define COUNTRIES_CANT		50
 
 typedef struct _country {
 	LIST_ENTRY next;
 	int id;					/**< numero de country */
-	char *name;				/**< name del country*/
+	char const *name;				/**< name del country*/
 	int numjug;				/**< numjug */
 	int ejercitos;				/**< cant de ejercitos */
 	int ejer_reagrupe;			/**< cant de ejercitos pasados en reagru */
@@ -68,8 +64,4 @@ BOOLEAN country_libre(int i);
 BOOLEAN countrynumber_is_valid(int country_number);
 
 /**! returns the name of 'country' */
-char * countries_get_name(int country);
-
-#ifdef __cplusplus
-}
-#endif
+const char *countries_get_name(int country);

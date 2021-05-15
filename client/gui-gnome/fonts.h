@@ -6,8 +6,7 @@
 // "size", pixel size,
 // but it is not working :-(
 
-#ifndef __TEGG_FONTS_H
-#define __TEGG_FONTS_H
+#pragma once
 
 /* TEG Fonts */
 #ifndef HELVETICA_8_FONT
@@ -64,5 +63,3 @@
 /* #define HELVETICA_20_FONT  "-adobe-helvetica-medium-r-normal-*-20-*-*-*-p-*-iso8859-1" */
 #define HELVETICA_20_FONT  "Helvetica 20"
 #endif
-
-#endif /* __TEGG_FONTS_H */

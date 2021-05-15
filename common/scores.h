@@ -23,10 +23,6 @@
 #include "stats.h"
 #include "common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define SCORES_DATE_MAX (40)
 
 /* Top Ten only */
@@ -57,7 +53,3 @@ void scores_init();
 /**! a map function over the scores. (like in functional programming) */
 typedef void(*scores_map_func)(PSCORES pJ, void* user);
 void scores_map(scores_map_func func, void *user);
-
-#ifdef __cplusplus
-}
-#endif

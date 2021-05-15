@@ -21,11 +21,8 @@
 #pragma once
 
 #include <libxml/parser.h>
-#include "common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "../common/common.h"
 
 #define THEME_CONTINENT_MAX	(30)
 #define THEME_COUNTRY_MAX	(30)
@@ -181,14 +178,10 @@ TEG_STATUS theme_enum_themes(pTInfo pTI);
 void theme_free();
 
 /// \brief Tries to load the theme \p name.
-char * theme_load_file(char *name);
+char * theme_load_file(const char *name);
 
 /// Tries to load the preview image
-char * theme_load_fake_file(char *name, char *theme);
+char * theme_load_fake_file(const char *name, char *theme);
 
 /**! returns 1 if dices extended are being used */
 int theme_using_extended_dices();
-
-#ifdef __cplusplus
-}
-#endif

@@ -12,8 +12,7 @@
 ***********************************************************************/
 /* Macros sacadas del freeciv con algunas modificaciones */
 
-#ifndef TEG_FCINTL_H
-#define TEG_FCINTL_H
+#pragma once
 
 #ifdef HAVE_CONFIG_H
 #ifndef FC_CONFIG_H		/* this should be defined in config.h */
@@ -43,5 +42,3 @@
 #define bindtextdomain(Package, Directory)
 
 #endif
-
-#endif  /* TEG_FCINTL_H */

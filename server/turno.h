@@ -23,10 +23,6 @@
 #include "../common/common.h"
 #include "player.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*! give turn to next player */
 TEG_STATUS turno_next(void);
 
@@ -44,7 +40,3 @@ BOOLEAN turno_is_round_complete(void);
 
 /*! called when a round is complete */
 void turno_initialize_new_round(void);
-
-#ifdef __cplusplus
-}
-#endif

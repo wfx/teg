@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "client.h"
 #include "themes.h"
 
@@ -45,9 +41,8 @@ extern TEG_STATUS gui_tarjeta(int country);
 extern TEG_STATUS gui_dados();
 extern TEG_STATUS gui_reagrupe(int src, int dst, int cant);
 extern TEG_STATUS gui_sensi();
-extern TEG_STATUS gui_canje();
 extern TEG_STATUS gui_attack(int src, int dst);
-extern TEG_STATUS gui_canje();
+extern TEG_STATUS gui_canje(int cant, int p1, int p2, int p3);
 extern TEG_STATUS gui_lost(int numjug);
 extern TEG_STATUS gui_surrender(int numjug);
 extern TEG_STATUS gui_winner(int numjug, int mission);
@@ -87,7 +82,3 @@ typedef struct _cgame {
 
 /* funciones y variables exportadas */
 extern CJUEGO g_game;
-
-#ifdef __cplusplus
-}
-#endif

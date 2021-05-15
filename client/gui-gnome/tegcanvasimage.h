@@ -3,10 +3,12 @@
  * Released under the GNU LGPL license. See COPYING for details.
  */
 
+#pragma once
+
 #include <goocanvas.h>
 
 /* This is a private GooCanvas function we can't do without.  */
-cairo_pattern_t* goo_canvas_cairo_pattern_from_pixbuf(GdkPixbuf *pixbuf);
+extern "C" cairo_pattern_t* goo_canvas_cairo_pattern_from_pixbuf(GdkPixbuf *pixbuf);
 
 typedef struct _TegCanvasImageData   TegCanvasImageData;
 

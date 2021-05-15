@@ -3,7 +3,7 @@ AC_PREREQ([2.53])
 
 AC_INIT([Tenes Empanadas Graciela], [0.13.0], [teg-list@lists.sourceforge.net], [teg])
 AM_INIT_AUTOMAKE(subdir-objects)
-AC_CONFIG_SRCDIR([server/main.c])
+AC_CONFIG_SRCDIR([.astylerc])
 AC_CONFIG_MACRO_DIR([macros])
 AC_CONFIG_HEADERS([config.h])
 AM_MAINTAINER_MODE

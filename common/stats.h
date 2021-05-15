@@ -22,10 +22,6 @@
 
 #include "cont.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef struct _player_stats {
 	int countries_won;		/**< number of countries won */
 	int armies_killed;		/**< number of armies killed */
@@ -41,7 +37,3 @@ void stats_init(PPLAYER_STATS s);
 
 /*! calculate the score */
 void stats_score(PPLAYER_STATS s, CONT const* continents);
-
-#ifdef __cplusplus
-}
-#endif

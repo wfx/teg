@@ -88,7 +88,7 @@ bad things if it does not see a function declaration.
 Language
 --------
 
-New code uses C17 and C++20. We don't try to support ancient compilers.
+New code uses C++20. We don't try to support ancient compilers.
 
 Built in data types
 ...................

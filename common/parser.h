@@ -25,9 +25,6 @@
 
 #include <stdbool.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 #define PARSER_TOKEN_MAX 1024
 #define PARSER_VALUE_MAX 1024
@@ -52,7 +49,3 @@ typedef struct {
  * @return true if the parse succeded, false otherwise.
  */
 bool parser_parse(PPARSER);
-
-#ifdef __cplusplus
-}
-#endif

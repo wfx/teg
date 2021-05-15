@@ -17,11 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file cards.h
- */
-#ifndef __TEG_GUI_GNOME_LOCATE_COUNTRY_H
-#define __TEG_GUI_GNOME_LOCATE_COUNTRY_H
+
+#pragma once
+
+#include "../../common/common.h"
+#include "../../common/country.h"
 
 /* constructor */
 TEG_STATUS locate_country_init();
@@ -32,5 +32,3 @@ TEG_STATUS locate_country_add_country(PCOUNTRY p);
 
 /* adds the country's army to view */
 TEG_STATUS locate_country_add_army(PCOUNTRY p);
-
-#endif /* __TEG_GUI_GNOME_LOCATE_COUNTRY_H */

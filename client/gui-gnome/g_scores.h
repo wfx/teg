@@ -17,16 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file g_scores.h
- */
-#ifndef __GUI_GNOME_SCORES_H
-#define __GUI_GNOME_SCORES_H
+
+#pragma once
+
+#include <gtk/gtk.h>
 
 /**! view the hiscores */
 void gui_scores_view();
 
 /**! place the scores insice an hbox */
 void gui_scores_embed(GtkWidget *hbox);
-
-#endif /* __GUI_GNOME_SCORES_H */

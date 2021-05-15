@@ -17,9 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifndef __GUI_GNOME_PREFERENCES_H
-#define __GUI_GNOME_PREFERENCES_H
+
+#pragma once
 
 void preferences_activate(void);
-
-#endif /* __GUI_GNOME_PREFERENCES_H */

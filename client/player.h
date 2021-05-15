@@ -22,10 +22,6 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef struct _player {
 	LIST_ENTRY next;
 	char name[PLAYERNAME_MAX_LEN]; ///< Player name
@@ -79,7 +75,3 @@ void player_flush(void);
  *          ressource leak since the old list items become unfreeable
  */
 void player_init(void);
-
-#ifdef __cplusplus
-}
-#endif

@@ -10,11 +10,12 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-/*
- * Modificado para que se adapte
- */
-#ifndef __TEG_GUI_GNOME_CHATLINE_H
-#define __TEG_GUI_GNOME_CHATLINE_H
+
+#pragma once
+
+#include <gtk/gtk.h>
+
+#include "../../common/common.h"
 
 void inputline_return(GtkEntry *w, gpointer data);
 void output_window_clear(void);
@@ -22,4 +23,3 @@ void set_output_window_text(const char *text);
 TEG_STATUS gui_textmsg(char *astring);
 TEG_STATUS chatline_init();
 
-#endif  /* __TEG_GUI_GNOME_CHATLINE_H */

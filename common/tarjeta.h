@@ -24,10 +24,6 @@
 
 #include "common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define TARJETA_NULL { {NULL,NULL}, 0, TRUE, FALSE }
 #define TARJETA_NULL_COMODIN { {NULL,NULL}, TARJ_COMODIN, -1, FALSE }
 #define TARJETA_NULL_GALEON { {NULL,NULL}, TARJ_GALEON, -1, FALSE }
@@ -66,7 +62,3 @@ void tarjeta_usar(PTARJETA pT);
 void tarjeta_desusar(PTARJETA pT);
 int tarjeta_es_libre(int i);
 BOOLEAN tarjeta_es_usada(PTARJETA pT);
-
-#ifdef __cplusplus
-}
-#endif

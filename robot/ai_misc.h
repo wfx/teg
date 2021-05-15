@@ -20,13 +20,5 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /// Select a random player name.
 char *ai_fetch_a_name();
-
-#ifdef __cplusplus
-}
-#endif

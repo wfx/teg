@@ -22,10 +22,6 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /// \brief Cancel the current army movement, and call the GUI to reflect this
 void reagrupe_reset(void);
 
@@ -70,7 +66,3 @@ TEG_STATUS reagrupe_enter(PCOUNTRY p);
  * Reset the movement-parts of the selected-bitfield
  */
 TEG_STATUS reagrupe_leave(PCOUNTRY p);
-
-#ifdef __cplusplus
-}
-#endif

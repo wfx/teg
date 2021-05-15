@@ -17,12 +17,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file colors.h
- */
 
-#ifndef __TEG_GUI_GNOME_COLORS_H
-#define __TEG_GUI_GNOME_COLORS_H
+#pragma once
+
+#include <gdk/gdk.h>
+#include <gtk/gtk.h>
+
+#include "../../common/common.h"
 
 enum {
 	COLORS_WHITE,
@@ -43,8 +44,8 @@ enum {
 };
 
 struct _G_colores {
-	char *ellip_color;
-	char *text_color;
+	char const *ellip_color;
+	char const *text_color;
 };
 extern struct _G_colores G_colores[];
 extern GdkPixbuf	*g_color_players[];
@@ -60,7 +61,5 @@ GdkRGBA* colors_get_player_ink_from_color(int color);
 GdkRGBA* colors_get_player_virtual(int n);
 GdkRGBA* colors_get_common(int n);
 char * get_tag_for_color(int color);
-char * get_background_for_color(int c);
-char * get_foreground_for_color(int c);
-
-#endif /* __TEG_GUI_GNOME_COLORS_H */
+const char *get_background_for_color(int c);
+const char *get_foreground_for_color(int c);

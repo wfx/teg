@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef enum {
 	CONTINENTE_AMERICASUR,
 	CONTINENTE_AMERICANORTE,
@@ -44,7 +40,7 @@ typedef enum {
 #define CONT_ASIA_CANT		15
 
 typedef struct _cont {
-	char	*name;		/**< name del continenete */
+	char const *name;		/**< name del continenete */
 	CONTINENTE id;			/**< id del continente */
 	int	cant_countries;		/**< cantidad de countries que tiene el continenete */
 	int	fichas_x_cont;		/**< cantidad de fichas adicionales por tener el cont*/
@@ -72,7 +68,3 @@ int cont_tot(unsigned long conts);
 
 /// \return the translated name of the continent with number \p cont_number
 char const* cont_get_name(unsigned cont_number);
-
-#ifdef __cplusplus
-}
-#endif

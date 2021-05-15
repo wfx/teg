@@ -17,11 +17,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file cards.h
- */
-#ifndef __TEG_GUI_GNOME_CARDS_H
-#define __TEG_GUI_GNOME_CARDS_H
+
+#pragma once
+
+#include "../../common/common.h"
 
 void cards_view(int country);
 void cards_update(void);
@@ -30,5 +29,3 @@ void cards_delete(int p1, int p2, int p3);
 void cards_flush();
 void cards_free();
 TEG_STATUS cards_select(int p1, int p2, int p3);
-
-#endif  /* __TEG_GUI_GNOME_CARDS_H */

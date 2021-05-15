@@ -17,11 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file status.h
- */
-#ifndef __GUI_GNOME_ARMIES_H
-#define __GUI_GNOME_ARMIES_H
+
+#pragma once
+
+#include <goocanvas.h>
+#include "../../common/common.h"
 
 typedef struct _armies_pos {
 	int cant;
@@ -34,6 +34,4 @@ TEG_STATUS armies_del(int country);
 TEG_STATUS armies_view(int cant, int conts);
 TEG_STATUS armies_view_more(int cant);
 TEG_STATUS armies_unview();
-TEG_STATUS armies_init();
-
-#endif /* __GUI_GNOME_ARMIES_H */
+TEG_STATUS armies_init(GooCanvasItem *group);

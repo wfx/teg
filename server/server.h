@@ -17,13 +17,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file server.h
- * Includes generales para todos los archivos del server TEG
- */
 
-#ifndef __TEGS_SERVER_H
-#define __TEGS_SERVER_H
+#pragma once
 
 #include "../common/tarjeta.h"
 #include "countries.h"
@@ -38,5 +33,3 @@
 #include "main.h"
 #include "../common/missions.h"
 #include "options.h"
-
-#endif /* __TEGS_SERVER_H */

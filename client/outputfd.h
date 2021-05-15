@@ -21,11 +21,7 @@
 #pragma once
 
 #include "client.h"
-#include "common.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "../common/common.h"
 
 /** \addtogroup TransmitProtocoll
  *
@@ -97,7 +93,3 @@ TEG_STATUS out_robot();
 TEG_STATUS out_new_round();
 
 /** \} */
-
-#ifdef __cplusplus
-}
-#endif
