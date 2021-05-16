@@ -66,6 +66,18 @@ Maxim Sobolev <sobomax@freebsd.org>
 Random contributors
 -------------------
 
+Reiner Herrmann <reiner@reiner-h.de>
+	Bugfixes to the build system and parser code.
+
+cheese1 <cheese@nosuchhost.net>
+	Documentation fix
+
+Ferdinand Thiessen <rpm@fthiessen.de>
+	Pointing out a double definition bug
+
+Francisco Demartino <demartino.francisco@gmail.com>
+	Documentation fix
+
 Harmen <harm@millionmonkeys.nl>
 	GUI patches
 
@@ -96,7 +108,6 @@ David Haller <david@dhaller.de>
 
 Rich West <Rich.West@wesmo.com>
 	Contributed RedHat binary & source for v0.9.4
-
 
 Special thanks to
 -----------------

@@ -1,3 +1,12 @@
+- version 0.12.1
+
+* Improve the build helper script
+  * Allways delete an recreate an existing build directory
+* [bugfix/pr #24] Autoconf library detection bugfix
+* [pr #27] The project can be build on OpenSuse
+* fix to memory related bug in the parser and parser test code (bffb51 and
+  fd5f42).
+
 - version 0.12.0
 
 *  #17: Add the ability to place Armies with the mouse wheel
