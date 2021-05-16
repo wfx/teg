@@ -89,3 +89,38 @@ TEST(Common, replace_continents)
 	              "Conquer &3, &4, &1, &2, &0 with the focus on &3 -- &5",
 	              replacements));
 }
+
+TEST(Common, insertTailList)
+{
+	// Check that insertTailList works like std::push_back
+	LIST_ENTRY start, foos[3];
+
+	InitializeListHead(&start);
+	InitializeListHead(foos + 0);
+	InitializeListHead(foos + 1);
+	InitializeListHead(foos + 2);
+
+	InsertTailList(&start, foos+0);
+	EXPECT_EQ(start.Flink, foos+0);
+	EXPECT_EQ(start.Blink, foos+0);
+	EXPECT_EQ(foos[0].Flink, &start);
+	EXPECT_EQ(foos[0].Blink, &start);
+
+	InsertTailList(&start, foos+1);
+	EXPECT_EQ(start.Flink, foos+0);
+	EXPECT_EQ(start.Blink, foos+1);
+	EXPECT_EQ(foos[0].Flink, foos+1);
+	EXPECT_EQ(foos[0].Blink, &start);
+	EXPECT_EQ(foos[1].Flink, &start);
+	EXPECT_EQ(foos[1].Blink, foos+0);
+
+	InsertTailList(&start, foos+2);
+	EXPECT_EQ(start.Flink, foos+0);
+	EXPECT_EQ(start.Blink, foos+2);
+	EXPECT_EQ(foos[0].Flink, foos+1);
+	EXPECT_EQ(foos[0].Blink, &start);
+	EXPECT_EQ(foos[1].Flink, foos+2);
+	EXPECT_EQ(foos[1].Blink, foos+0);
+	EXPECT_EQ(foos[2].Flink, &start);
+	EXPECT_EQ(foos[2].Blink, foos+1);
+}
