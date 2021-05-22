@@ -646,8 +646,6 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 
 	/* conquisto el country */
 	if(g_countries[dst].ejercitos == 0) {
-		PLIST_ENTRY l;
-
 		conq = 1;
 
 		pJ_src->turno_conq++;
@@ -670,8 +668,7 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 
 		pJ_dst->tot_countries--;
 
-		l= RemoveHeadList(g_countries[dst].next.Blink);
-		InsertTailList(&pJ_src->countries, l);
+		g_countries[dst].numjug = pJ_src->numjug;
 
 		/* updated statistics */
 		pJ_src->player_stats.countries_won ++;

@@ -49,6 +49,7 @@ TEG_STATUS ejer2_out(int country)
 		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), g_countries[country].name);
 		return TEG_STATUS_ERROR;
 	}
+	return TEG_STATUS_ERROR;
 }
 
 TEG_STATUS ejer2_restore_from_error()

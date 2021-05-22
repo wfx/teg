@@ -57,30 +57,24 @@ TEG_STATUS canje_out(int p1, int p2, int p3)
  */
 TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 {
-	PLIST_ENTRY pL = g_game.tarjetas_list.Flink;
-	int a[maximum_country_cards];
 
 	if(g_game.tarjetas_cant < 3) {
 		return TEG_STATUS_ERROR;
 	}
 
-	for(unsigned x=0; x<sizeof(a)/sizeof(*a); x++) {
-		a[x] = -1;
+	int a[maximum_country_cards];
+	for(int& ai: a) {
+		ai = -1;
 	}
 
 	unsigned index=0;
-	while(!IsListEmpty(&g_game.tarjetas_list) && (pL != &g_game.tarjetas_list)) {
-		PCOUNTRY pP;
-		PTARJETA pT = (PTARJETA) pL;
-		pP = (PCOUNTRY) COUNTRY_FROM_TARJETA(pT);
-
-		a[index++] = pP->id;
-		if(index >= (sizeof(a)/sizeof(*a))) {
-			break;
+	countries_map([&a, &index](COUNTRY& country) {
+		if((country.tarjeta.numjug == WHOAMI())
+		        && (index < std::extent<decltype(a)>::value)) {
+			a[index] = country.id;
+			index++;
 		}
-
-		pL = LIST_NEXT(pL);
-	}
+	});
 
 	for(int i=0; i<g_game.tarjetas_cant; i++) {
 		for(int j=i+1; j<g_game.tarjetas_cant; j++) {

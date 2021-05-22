@@ -487,8 +487,6 @@ TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
 
 void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 {
-	PLIST_ENTRY pL;
-	PCOUNTRY country;
 	int i, n=0;
 	char strtmp[2048];
 
@@ -516,19 +514,17 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 	}
 
 	/* the other case */
-	pL = pJ->countries.Flink;
-	while(!IsListEmpty(&pJ->countries) && (pL != &pJ->countries)) {
-		country = (PCOUNTRY) pL;
-
+	countries_map(pJ->numjug,
+	[&buf, &n, &strtmp, &buflen](COUNTRY &country) {
 		if(
 		    (! g_game.fog_of_war) ||
-		    (g_game.fog_of_war && fow_can_player_see_country(g_game.player_fow, country))) {
+		    (g_game.fog_of_war && fow_can_player_see_country(g_game.player_fow, &country))) {
 
 			if(n==0) {
-				snprintf(strtmp, sizeof(strtmp)-1, "%i:%d", country->id, country->ejercitos);
+				snprintf(strtmp, sizeof(strtmp)-1, "%i:%d", country.id, country.ejercitos);
 				n=1;
 			} else {
-				snprintf(strtmp, sizeof(strtmp)-1, ",%i:%d", country->id, country->ejercitos);
+				snprintf(strtmp, sizeof(strtmp)-1, ",%i:%d", country.id, country.ejercitos);
 			}
 
 			strtmp[ sizeof(strtmp) -1 ] = 0;
@@ -536,8 +532,7 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 			strncat(buf, strtmp, buflen);
 		}
 
-		pL = LIST_NEXT(pL);
-	}
+	});
 	buf[buflen]=0;
 }
 

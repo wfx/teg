@@ -25,8 +25,6 @@ TEST(player, init_player)
 	EXPECT_EQ(-1, player.mission);
 	EXPECT_EQ(0, player.fichasc_armies);
 	EXPECT_EQ(0, player.fichasc_conts);
-	EXPECT_EQ(&player.countries, player.countries.Blink);
-	EXPECT_EQ(&player.countries, player.countries.Flink);
 }
 
 TEST(player, is_playing)
@@ -59,23 +57,13 @@ TEST(player, is_playing)
 
 TEST(player, lister_countries)
 {
-	COUNTRY countries[] = {
-		[0] = {
-			.next = {.Flink=&countries[1].next},
-			.continente = CONTINENTE_AMERICASUR
-		},
-		[1] = {
-			.next = {.Flink=&countries[2].next},
-			.continente=CONTINENTE_AMERICASUR
-		},
-		[2] = {
-			.next = {.Flink=nullptr},
-			.continente=CONTINENTE_ASIA
-		}
-	};
+	countries_init();
+	g_countries[0].numjug = 23;
+	g_countries[1].numjug = 23;
+	g_countries[35].numjug = 23;
 
-	SPLAYER player{.countries={.Flink=&countries[0].next}};
-	countries[2].next.Flink = &player.countries;
+	SPLAYER player{.numjug = 23};
+
 	int continent_counts[CONTINENTE_LAST] = {0};
 
 	player_listar_countries(&player, continent_counts);
@@ -88,6 +76,7 @@ TEST(player, lister_countries)
 		[CONTINENTE_EUROPA] = 0,
 		[CONTINENTE_ASIA] = 1,
 	};
+
 	for(std::size_t i=0; i<CONTINENTE_LAST; i++) {
 		EXPECT_EQ(ref[i], continent_counts[i]) << "Failed at index " << i;
 	}

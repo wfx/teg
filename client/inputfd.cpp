@@ -1210,10 +1210,6 @@ TEG_STATUS clitok_enum_cards(char *str)
 
 	g_game.tarjetas_cant = 0;
 
-	while(! IsListEmpty(&g_game.tarjetas_list)) {
-		(void) RemoveHeadList(&g_game.tarjetas_list);
-	}
-
 	if(! str || strlen(str) == 0) {
 		goto ok;
 	}
@@ -1234,7 +1230,6 @@ TEG_STATUS clitok_enum_cards(char *str)
 			goto error;
 		}
 
-		InsertTailList(&g_game.tarjetas_list, (PLIST_ENTRY) &g_countries[ country ].tarjeta);
 		g_game.tarjetas_cant++;
 
 		if(used) {
@@ -1304,20 +1299,17 @@ TEG_STATUS clitok_exchange(char *str)
 	}
 
 	if(numjug == WHOAMI()) {
-		PLIST_ENTRY pL = g_game.tarjetas_list.Flink;
 
-		while(!IsListEmpty(&g_game.tarjetas_list) && (pL != &g_game.tarjetas_list)) {
-			PCOUNTRY pP;
-			PTARJETA pT = (PTARJETA) pL;
-			pP = (PCOUNTRY) COUNTRY_FROM_TARJETA(pT);
+		countries_map([p1, p2, p3](COUNTRY& country) {
+			if(country.tarjeta.numjug != WHOAMI()) {
+				return;
+			}
 
-			if(pP->id == p1 || pP->id == p2 || pP->id == p3) {
-				g_countries[ pP->id ].tarjeta.numjug = -1;
-				(void) RemoveHeadList(pL->Blink);
+			if(country.id == p1 || country.id == p2 || country.id == p3) {
+				g_countries[country.id].tarjeta.numjug = -1;
 				g_game.tarjetas_cant--;
 			}
-			pL = LIST_NEXT(pL);
-		}
+		});
 
 		fichas_add_wanted(cant);
 		textmsg(M_IMP, _("Exchanged approved. Now you can place %d more armies!"), cant);
@@ -1458,7 +1450,6 @@ TEG_STATUS clitok_tarjeta(char *str)
 
 	ESTADO_SET(PLAYER_STATUS_TARJETA);
 
-	InsertTailList(&g_game.tarjetas_list, (PLIST_ENTRY) &g_countries[ country ].tarjeta);
 	g_game.tarjetas_cant++;
 
 	if(used) {
