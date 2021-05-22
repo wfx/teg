@@ -39,7 +39,10 @@ namespace teg::server
 /* Gives turn to the next player */
 TEG_STATUS turno_2nextplayer(PSPLAYER *ppJ)
 {
-	PSPLAYER next = find_next_player(*ppJ, player_is_playing);
+	PSPLAYER next = find_next_player(*ppJ,
+	[](SPLAYER &p) {
+		return player_is_playing(&p);
+	});
 	if(!next) {
 		con_text_out_wop(M_ERR, "Abnormal error in turno_2nextplayer\n");
 		return TEG_STATUS_PLAYERNOTFOUND;
@@ -139,8 +142,8 @@ bool turno_is_round_complete()
 	 * the round is over
 	 */
 	auto *next = find_next_player(g_game.old_turn,
-	[](SPLAYER* player) {
-		return player->is_player;
+	[](SPLAYER& player) {
+		return player.is_player;
 	});
 	if(next) {
 		if(next == g_game.empieza_turno) {

@@ -96,7 +96,7 @@ void game_end(PSPLAYER winner)
 	}
 
 	/* delete disconn players */
-	player_map(player_delete_discon);
+	player_delete_all_disconnected();
 
 	/* send who is the winner */
 	if(winner) {

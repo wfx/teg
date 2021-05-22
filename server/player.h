@@ -30,8 +30,7 @@ namespace teg::server
 {
 
 /// server player data structure
-typedef struct _player {
-	LIST_ENTRY next;
+struct SPLAYER {
 	int numjug;				/**< player number */
 	char name[max_playername_length];		/**< name */
 	char addr[inet_addr_len];		/**< internet address */
@@ -59,7 +58,8 @@ typedef struct _player {
 
 	PLAYER_STATS player_stats;		/**< player statistics */
 
-} SPLAYER, *PSPLAYER;
+};
+using PSPLAYER = SPLAYER*;
 
 /// \brief Sipmle mapping function type to traverse all players
 using jug_map_func=std::function<void(PSPLAYER pJ)>;
@@ -141,6 +141,9 @@ void player_all_set_status(PLAYER_STATUS);
 bool player_is_lost(PSPLAYER pJ);
 
 /// \brief Put the player in GAMEOVER state
+///
+/// \warning This function must NEVER be called from within player_map, since it
+/// can remove players from the list.
 void player_poner_perdio(PSPLAYER pJ);
 
 /// \brief returns a free number for the player
@@ -173,8 +176,8 @@ PSPLAYER player_return_disconnected(PSPLAYER pJ);
 /*! return TRUE if pJ is a disconnected player */
 bool player_is_disconnected(PSPLAYER pJ);
 
-/*! deletes the player if it disconnected */
-void player_delete_discon(PSPLAYER pJ);
+/// Removes all disconnected players from the players list
+void player_delete_all_disconnected();
 
 /*! insert all players in scores but the ones in GAMEOVER */
 void player_insert_scores(PSPLAYER pJ);
@@ -188,7 +191,7 @@ TEG_STATUS player_kick_unparent_robots(void);
  *
  * \return The following player if there is one fullfilling the predicate,
  *         nullptr otherwise. */
-PSPLAYER find_next_player(SPLAYER* after, std::function<bool(PSPLAYER)> acceptable);
+PSPLAYER find_next_player(SPLAYER* after, std::function<bool(SPLAYER&)> acceptable);
 
 #define SPLAYER_CONNECTED(a) player_esta_xxx(a,PLAYER_STATUS_CONNECTED,0)
 #define SPLAYER_HABILITADO(a) player_esta_xxx(a,PLAYER_STATUS_HABILITADO,0)
