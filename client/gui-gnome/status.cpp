@@ -517,28 +517,21 @@ error:
 
 TEG_STATUS mainstatus_update_colors()
 {
-	int i;
-	PLIST_ENTRY l;
-	PCPLAYER pJ;
-
 	if(! mainstatus_canvas) {
 		return TEG_STATUS_ERROR;
 	}
 
-	l = g_list_player.Flink;
-
-	i=0;
+	int i=0;
 
 	g_object_set(players_color_over, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PCPLAYER) l;
+	players_map_int([&i](CPLAYER& player) {
 
-		if(pJ->color >= 0 && pJ->numjug >= 0) {
+		if(player.color >= 0 && player.numjug >= 0) {
 			g_object_set(players_color[i], "visibility",
 			             GOO_CANVAS_ITEM_VISIBLE, NULL);
 
-			if(g_game.whos_turn == pJ->numjug) {
+			if(g_game.whos_turn == player.numjug) {
 				g_object_set(
 				    players_color_over,
 				    "pixbuf", g_color_circle_over,
@@ -552,22 +545,18 @@ TEG_STATUS mainstatus_update_colors()
 
 			g_object_set(
 			    players_color[i],
-			    "pixbuf", g_color_circles[pJ->color],
+			    "pixbuf", g_color_circles[player.color],
 			    "x", (double) PLAYERS_COLORS_OFFSET + (i%3) * 14,
 			    "y", (double) 4 + 13 * (i<3?0:1),
-			    "width", (double) gdk_pixbuf_get_width(g_color_circles[pJ->color]),
-			    "height", (double) gdk_pixbuf_get_height(g_color_circles[pJ->color]),
+			    "width", (double) gdk_pixbuf_get_width(g_color_circles[player.color]),
+			    "height", (double) gdk_pixbuf_get_height(g_color_circles[player.color]),
 			    NULL);
 
 			i++;
 		}
 
-		l = LIST_NEXT(l);
-
-		if(i >= maximum_player_count) {
-			break;
-		}
-	}
+		return i < maximum_player_count;
+	});
 
 	{
 		PCPLAYER pJ;
