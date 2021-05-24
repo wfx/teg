@@ -32,30 +32,26 @@ char *ai_fetch_a_name()
 {
 	namespace c = ::teg::client;
 
-	int i=0;
-	c::PCPLAYER pJ;
-	PLIST_ENTRY l = c::g_list_player.Flink;
-	int n;
-
 	if(c::g_game.playeres < 2) {
 		return NULL;
 	}
 
-	n = random_between(0, c::g_game.playeres -1);
+	int n = random_between(0, c::g_game.playeres -1);
+	int i=0;
 
-	while(!IsListEmpty(&c::g_list_player) && (l != &c::g_list_player)) {
+	char *result{nullptr};
+	c::players_map_int([&i, &n, &result](c::CPLAYER &player) {
 		if((i++) == n) {
-			pJ = (c::PCPLAYER) l;
-			if(pJ->numjug == c::WHOAMI()) {
+			if(player.numjug == c::WHOAMI()) {
 				n++;
 			} else {
-				return pJ->name;
+				result = player.name;
 			}
 		}
-		l = LIST_NEXT(l);
-	}
+		return nullptr == result;
+	});
 
-	return NULL;
+	return result;
 }
 
 }
