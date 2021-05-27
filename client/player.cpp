@@ -100,4 +100,31 @@ void player_init(void)
 	InitializeListHead(&g_list_player);
 }
 
+
+void players_map(PlayersCallback cb)
+{
+	PLIST_ENTRY l = g_list_player.Flink;
+	PCPLAYER pJ;
+
+	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
+		pJ = (PCPLAYER) l;
+		cb(*pJ);
+		l = LIST_NEXT(l);
+	}
+}
+
+void players_map_int(InterruptablePlayersCallback cb)
+{
+	PLIST_ENTRY l = g_list_player.Flink;
+	PCPLAYER pJ;
+
+	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
+		pJ = (PCPLAYER) l;
+		if(!cb(*pJ)) {
+			return;
+		}
+		l = LIST_NEXT(l);
+	}
+}
+
 }
