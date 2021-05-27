@@ -31,18 +31,16 @@ LIST_ENTRY g_list_player;
 
 TEG_STATUS player_whois(int numjug, PCPLAYER *j)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PCPLAYER pJ;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PCPLAYER) l;
-		if(pJ->numjug == numjug) {
-			*j = pJ;
-			return TEG_STATUS_SUCCESS;
+	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
+	players_map_int([&result, &j, numjug](CPLAYER& player) {
+		if((result != TEG_STATUS_SUCCESS) && (player.numjug == numjug)) {
+			*j = &player;
+			result = TEG_STATUS_SUCCESS;
+			return false;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+		return true;
+	});
+	return result;
 }
 
 TEG_STATUS player_update(PCPLAYER j)
