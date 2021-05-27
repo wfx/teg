@@ -56,14 +56,11 @@ TEG_STATUS player_update(PCPLAYER j)
 	PCPLAYER i{nullptr};
 
 	if(player_whois(j->numjug, &i) != TEG_STATUS_SUCCESS) {
-		goto error;
+		return TEG_STATUS_PLAYERNOTFOUND;
 	}
 
 	*i = *j;
 	return TEG_STATUS_SUCCESS;
-
-error:
-	return TEG_STATUS_PLAYERNOTFOUND;
 }
 
 void player_ins(PCPLAYER j)
@@ -96,7 +93,6 @@ void player_flush(void)
 void player_init(void)
 {
 }
-
 
 void players_map(PlayersCallback cb)
 {
