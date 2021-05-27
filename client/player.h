@@ -27,8 +27,7 @@
 namespace teg::client
 {
 
-typedef struct _player {
-	LIST_ENTRY next;
+struct CPLAYER {
 	char name[max_playername_length]; ///< Player name
 	char addr[inet_addr_len]; ///< server address
 	int color;
@@ -40,11 +39,9 @@ typedef struct _player {
 	int tot_cards; ///< \todo find out what the meaning of this field is
 	int empezo_turno; ///< did this player start the turn?
 	int human; ///< is this a human?
-} CPLAYER, *PCPLAYER;
+};
+using PCPLAYER = CPLAYER*;
 
-
-/// Client game state
-extern LIST_ENTRY g_list_player;
 
 /**
  * \brief Fill in the details for the player with number \p numjug into the

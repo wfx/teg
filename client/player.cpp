@@ -21,13 +21,21 @@
  * client side player functions
  */
 
+#include "player.h"
+
+#include <list>
+#include <algorithm>
+#include <cassert>
 #include <string.h>
+
 #include "client.h"
 
 namespace teg::client
 {
 
-LIST_ENTRY g_list_player;
+using ClientPlayerList = std::list<CPLAYER>;
+
+ClientPlayerList players;
 
 TEG_STATUS player_whois(int numjug, PCPLAYER *j)
 {
@@ -45,14 +53,13 @@ TEG_STATUS player_whois(int numjug, PCPLAYER *j)
 
 TEG_STATUS player_update(PCPLAYER j)
 {
-	PCPLAYER i;
+	PCPLAYER i{nullptr};
 
 	if(player_whois(j->numjug, &i) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
-	memcpy(&j->next, &i->next, sizeof(LIST_ENTRY));
-	memcpy(i, j, sizeof(CPLAYER));
+	*i = *j;
 	return TEG_STATUS_SUCCESS;
 
 error:
@@ -61,67 +68,47 @@ error:
 
 void player_ins(PCPLAYER j)
 {
-	PCPLAYER new_player = (PCPLAYER) malloc(sizeof(CPLAYER));
-	if(new_player==NULL) {
-		return;
-	}
-
-	memmove(new_player, j, sizeof(CPLAYER));
-	InitializeListHead(&new_player->next);
-	InsertTailList(&g_list_player, (PLIST_ENTRY) new_player);
-
-	g_game.playeres++;
+	players.push_back(*j);
+	g_game.playeres = players.size();
 }
 
 void player_del(PCPLAYER pJ)
 {
-	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
+	assert(players.size() > 0);
 
-	l = RemoveHeadList(l->Blink);
-	free(l);
-	g_game.playeres--;
+	auto it = std::find_if(players.begin(), players.end(),
+	[pJ](CPLAYER &p) {
+		return &p == pJ;
+	});
+	assert(it!=players.end());
+
+	players.erase(it);
+
+	g_game.playeres = players.size();
 }
 
 void player_flush(void)
 {
-	PLIST_ENTRY tmp;
-
-	g_game.playeres=0;
-	while(!IsListEmpty(&g_list_player)) {
-		tmp = RemoveHeadList(&g_list_player);
-		free(tmp);
-	}
+	players.clear();
+	g_game.playeres = players.size();
 }
 
 void player_init(void)
 {
-	InitializeListHead(&g_list_player);
 }
 
 
 void players_map(PlayersCallback cb)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PCPLAYER pJ;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PCPLAYER) l;
-		cb(*pJ);
-		l = LIST_NEXT(l);
-	}
+	std::for_each(players.begin(), players.end(), cb);
 }
 
 void players_map_int(InterruptablePlayersCallback cb)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PCPLAYER pJ;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PCPLAYER) l;
-		if(!cb(*pJ)) {
+	for(CPLAYER& p: players) {
+		if(!cb(p)) {
 			return;
 		}
-		l = LIST_NEXT(l);
 	}
 }
 
