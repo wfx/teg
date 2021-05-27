@@ -940,7 +940,7 @@ TEG_STATUS clitok_reconnect(char *str)
 
 	{
 		/* insert myself in the list of players */
-		CPLAYER j;
+		Player j;
 		PCPLAYER pJ;
 
 		if(player_whois(g_game.numjug, &pJ) != TEG_STATUS_SUCCESS) {
@@ -975,7 +975,7 @@ TEG_STATUS clitok_newplayer(char *str)
 	PARSER p;
 	DELIM igualador= { ':', ':', ':' };
 	DELIM separador= { ',', ',', ',' };
-	CPLAYER j;
+	Player j;
 	PCPLAYER pJ;
 
 	if(strlen(str)==0) {
@@ -1084,7 +1084,7 @@ TEG_STATUS clitok_rem(char *str)
 /* shows the status of the players */
 TEG_STATUS clitok_status(char *str)
 {
-	CPLAYER j, *j_tmp;
+	Player j, *j_tmp;
 	PARSER p;
 	DELIM igualador= { ':', ':', ':' };
 	DELIM separador= { '/', '/', '/' };
@@ -1163,7 +1163,7 @@ error:
 /* the game have just started */
 TEG_STATUS clitok_start(char *str)
 {
-	CPLAYER j;
+	Player j;
 	PARSER p;
 	DELIM igualador= { ':', ':', ':' };
 	DELIM separador= { '/', '/', '/' };

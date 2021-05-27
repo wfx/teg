@@ -303,7 +303,7 @@ static TEG_STATUS update_mini_clist(GtkWidget *dialog, GtkListStore *store,
 	/// \todo clean up variables and adjust return type
 
 	int row = 0;
-	players_map([dialog, store, clist, &row](CPLAYER& player) {
+	players_map([dialog, store, clist, &row](Player& player) {
 		gchar *name, *score;
 
 		name = translate_to_utf8(player.name);

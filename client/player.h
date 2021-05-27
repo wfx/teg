@@ -27,7 +27,7 @@
 namespace teg::client
 {
 
-struct CPLAYER {
+struct Player {
 	char name[max_playername_length]; ///< Player name
 	char addr[inet_addr_len]; ///< server address
 	int color;
@@ -40,7 +40,7 @@ struct CPLAYER {
 	int empezo_turno; ///< did this player start the turn?
 	int human; ///< is this a human?
 };
-using PCPLAYER = CPLAYER*;
+using PCPLAYER = Player*;
 
 
 /**
@@ -79,13 +79,13 @@ void player_flush(void);
 void player_init(void);
 
 /// \brief Callback function to process a single player entry
-using PlayersCallback = std::function<void(CPLAYER&)>;
+using PlayersCallback = std::function<void(Player&)>;
 
 /// \brief Map function \p cb over the active player list
 void players_map(PlayersCallback cb);
 
 /// \brief Callback function for an interruptable mapping function
-using InterruptablePlayersCallback = std::function<bool(CPLAYER&)>;
+using InterruptablePlayersCallback = std::function<bool(Player&)>;
 
 /**
  * \brief Maps over the player list with the possibility to abort.
