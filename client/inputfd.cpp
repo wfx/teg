@@ -139,7 +139,8 @@ TEG_STATUS clitok_serverfull(char *str)
 /* the game is already started. you cant join it */
 TEG_STATUS clitok_started(char*)
 {
-	textmsg(M_ERR, _("The game has already started. Try connecting as an observer."));
+	textmsg(M_ERR,
+	        _("The game has already started. Try connecting as an observer."));
 	teg_disconnect();
 	return TEG_STATUS_SUCCESS;
 }
@@ -451,7 +452,8 @@ TEG_STATUS clitok_dados(char *str)
 	/* attacker */
 	if(parser_parse(&p) && p.can_continue) {
 		g_game.dados_srccountry = atoi(p.token);
-		if(g_game.dados_srccountry >= COUNTRIES_CANT || g_game.dados_srccountry < -1) {
+		if(g_game.dados_srccountry >= COUNTRIES_CANT
+		        || g_game.dados_srccountry < -1) {
 			g_game.dados_srccountry = -1;
 			goto error;
 		}
@@ -468,7 +470,8 @@ TEG_STATUS clitok_dados(char *str)
 	/* defender */
 	if(parser_parse(&p) && p.can_continue) {
 		g_game.dados_dstcountry = atoi(p.token);
-		if(g_game.dados_dstcountry >= COUNTRIES_CANT || g_game.dados_dstcountry < -1) {
+		if(g_game.dados_dstcountry >= COUNTRIES_CANT
+		        || g_game.dados_dstcountry < -1) {
 			g_game.dados_dstcountry = -1;
 			goto error;
 		}
@@ -557,10 +560,12 @@ TEG_STATUS clitok_attack(char *str)
 	}
 
 	if(pJsrc && pJdst)
-		textmsg(M_INF, _("%s(%s) is attacking %s(%s)"), countries_get_name(src), _(g_colores[pJsrc->color])
+		textmsg(M_INF, _("%s(%s) is attacking %s(%s)"), countries_get_name(src),
+		        _(g_colores[pJsrc->color])
 		        , countries_get_name(dst), _(g_colores[pJdst->color]));
 	else {
-		textmsg(M_INF, _("%s is attacking %s"), countries_get_name(src), countries_get_name(dst));
+		textmsg(M_INF, _("%s is attacking %s"), countries_get_name(src),
+		        countries_get_name(dst));
 	}
 
 	return TEG_STATUS_SUCCESS;
@@ -936,7 +941,8 @@ TEG_STATUS clitok_reconnect(char *str)
 
 	ESTADO_SET(PLAYER_STATUS_IDLE);
 
-	textmsg(M_IMP, _("Successful reconnection. I'm player number:%d"), g_game.numjug);
+	textmsg(M_IMP,
+	        _("Successful reconnection. I'm player number:%d"), g_game.numjug);
 
 	{
 		/* insert myself in the list of players */
@@ -1021,7 +1027,8 @@ TEG_STATUS clitok_newplayer(char *str)
 		ESTADO_SET(PLAYER_STATUS_HABILITADO);
 		textmsg(M_IMP, _("My color is: %s"), _(g_colores[color]));
 	} else {
-		textmsg(M_IMP, _("Player[%d] '%s' is connected with color %s"), numjug, name, _(g_colores[color]));
+		textmsg(M_IMP, _("Player[%d] '%s' is connected with color %s"), numjug,
+		        name, _(g_colores[color]));
 	}
 	callbacks::gui_habilitado(numjug);
 
@@ -1312,7 +1319,9 @@ TEG_STATUS clitok_exchange(char *str)
 		});
 
 		fichas_add_wanted(cant);
-		textmsg(M_IMP, _("Exchanged approved. Now you can place %d more armies!"), cant);
+		textmsg(M_IMP,
+		        _("Exchanged approved. Now you can place %d more armies!"),
+		        cant);
 		callbacks::gui_canje(cant, p1, p2, p3);
 	} else {
 		textmsg(M_IMP, _("Player %s(%s) exchanged 3 cards for %d armies"),
@@ -1458,9 +1467,12 @@ TEG_STATUS clitok_tarjeta(char *str)
 	g_countries[ country ].tarjeta.numjug = WHOAMI();
 
 	if(used) {
-		textmsg(M_IMP, _("You received card: '%s' and 2 armies where placed there"), countries_get_name(country));
+		textmsg(M_IMP,
+		        _("You received card: '%s' and 2 armies where placed there"),
+		        countries_get_name(country));
 	} else {
-		textmsg(M_IMP, _("You received card: '%s'"), countries_get_name(country));
+		textmsg(M_IMP, _("You received card: '%s'"),
+		        countries_get_name(country));
 	}
 
 	callbacks::gui_tarjeta(country);
@@ -1500,7 +1512,9 @@ TEG_STATUS clitok_pversion(char *str)
 	}
 
 	if(hi != PROTOCOL_HIVER) {
-		textmsg(M_ERR, _("Aborting: Different protocols version. Server:%d Client:%d"), hi, PROTOCOL_HIVER);
+		textmsg(M_ERR,
+		        _("Aborting: Different protocols version. Server:%d Client:%d"),
+		        hi, PROTOCOL_HIVER);
 		teg_disconnect();
 		return TEG_STATUS_ERROR;
 	}
@@ -1563,7 +1577,8 @@ TEG_STATUS clitok_new_round(char *str)
 
 	if(player_whois(numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		/* no lo tengo en la base */
-		textmsg(M_IMP, _("Player %d started round number: %d"), numjug, round_number);
+		textmsg(M_IMP, _("Player %d started round number: %d"),
+		        numjug, round_number);
 	} else {
 		textmsg(M_IMP, _("Player %s(%s) started round number: %d"),
 		        pJ->name,
