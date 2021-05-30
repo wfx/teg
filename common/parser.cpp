@@ -40,22 +40,25 @@
 #include <ctype.h>
 #include <stdio.h>
 
-bool parser_belongs_to_class(char ch, DELIM const* which)
+bool parser_belongs_to_class(char ch, DELIM const& which)
 {
-	if(which == NULL) {
-		return false;
+	if(which.valid) {
+		for(char const c: which.accept) {
+			if(c == ch) {
+				return true;
+			}
+		}
 	}
-	return (which->a == ch)
-	       || (which->b == ch)
-	       || (which->c == ch);
+
+	return false;
 }
 
 DELIM const delim_fin = {0, '\n', '\r'};
 enum CharClass parser_character_class(char a,
-                                      DELIM const* igualador,
-                                      DELIM const* separador)
+                                      DELIM const& igualador,
+                                      DELIM const& separador)
 {
-	if(parser_belongs_to_class(a, &delim_fin)) {
+	if(parser_belongs_to_class(a, delim_fin)) {
 		return ccEnd;
 	}
 	if(parser_belongs_to_class(a, igualador)) {
@@ -69,7 +72,7 @@ enum CharClass parser_character_class(char a,
 }
 
 PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
-                                  DELIM const* equals, DELIM const* separators, int maxlen)
+                                  DELIM const& equals, DELIM const& separators, int maxlen)
 {
 	PARSER_VALUE pval=PARSER_DATA;
 	int i, j;
@@ -103,12 +106,15 @@ PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
 }
 
 /* Unica funcion exportable */
-bool parser_parse(PPARSER p_in)
+bool PARSER::parse()
 {
+	PARSER *const p_in{this};
 	PARSER_VALUE pval;
 	int i;
 
-	if((pval=parser_analyze_token(&i, p_in->data, p_in->token, p_in->equals, p_in->separators, PARSER_TOKEN_MAX)) == PARSER_ERROR) {
+	if((pval=parser_analyze_token(&i, p_in->data, p_in->token,
+	                              p_in->equals, p_in->separators,
+	                              PARSER_TOKEN_MAX)) == PARSER_ERROR) {
 		return false;
 	}
 
@@ -127,7 +133,9 @@ bool parser_parse(PPARSER p_in)
 
 	case PARSER_IGUAL: {
 		int j;
-		pval = parser_analyze_token(&j, &p_in->data[i+1], p_in->value, NULL, p_in->separators, PARSER_VALUE_MAX);
+		pval = parser_analyze_token(&j, &p_in->data[i+1], p_in->value,
+		                            DELIM{.valid=false}, p_in->separators,
+		                            PARSER_VALUE_MAX);
 
 		if(pval==PARSER_IGUAL || pval==PARSER_ERROR) {
 			return false;

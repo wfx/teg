@@ -231,13 +231,13 @@ TEG_STATUS clitok_winner(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		mission = atoi(p.token);
 	} else {
 		goto error;
@@ -317,19 +317,19 @@ TEG_STATUS clitok_tropas(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		src = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		dst = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		cant = atoi(p.token);
 	} else {
 		goto error;
@@ -387,19 +387,19 @@ TEG_STATUS clitok_country(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		country = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		jug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		ejer = atoi(p.token);
 	} else {
 		goto error;
@@ -436,7 +436,7 @@ TEG_STATUS clitok_dados(char *str)
 	/* src and dst country can be -1 */
 
 	/* attacker */
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		g_game.dados_srccountry = atoi(p.token);
 		if(g_game.dados_srccountry >= COUNTRIES_CANT
 		        || g_game.dados_srccountry < -1) {
@@ -446,7 +446,7 @@ TEG_STATUS clitok_dados(char *str)
 	}
 
 	for(i=0; i<3; i++) {
-		if(parser_parse(&p) && p.can_continue) {
+		if(p.parse_fragment()) {
 			g_game.dados_src[i] = atoi(p.token);
 		} else {
 			goto error;
@@ -454,7 +454,7 @@ TEG_STATUS clitok_dados(char *str)
 	}
 
 	/* defender */
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		g_game.dados_dstcountry = atoi(p.token);
 		if(g_game.dados_dstcountry >= COUNTRIES_CANT
 		        || g_game.dados_dstcountry < -1) {
@@ -464,14 +464,14 @@ TEG_STATUS clitok_dados(char *str)
 	}
 
 	for(i=0; i<2; i++) {
-		if(parser_parse(&p) && p.can_continue) {
+		if(p.parse_fragment()) {
 			g_game.dados_dst[i] = atoi(p.token);
 		} else {
 			goto error;
 		}
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		g_game.dados_dst[2] = atoi(p.token);
 	} else {
 		goto error;
@@ -512,13 +512,13 @@ TEG_STATUS clitok_attack(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		src = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		dst = atoi(p.token);
 	} else {
 		goto error;
@@ -577,7 +577,7 @@ TEG_STATUS clitok_turno(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
@@ -631,13 +631,13 @@ TEG_STATUS clitok_fichas(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		cant = atoi(p.token);
 	} else {
 		goto error;
@@ -688,13 +688,13 @@ TEG_STATUS clitok_fichas2(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		cant = atoi(p.token);
 	} else {
 		goto error;
@@ -745,19 +745,19 @@ TEG_STATUS clitok_fichasc(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		conts = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		cant = atoi(p.token);
 	} else {
 		goto error;
@@ -812,7 +812,7 @@ TEG_STATUS clitok_countries(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
@@ -844,14 +844,14 @@ TEG_STATUS clitok_playerid(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(g_game.myname, p.token, sizeof(g_game.myname)-1);
 		g_game.myname[sizeof(g_game.myname)-1]=0;
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		g_game.numjug = atoi(p.token);
 	} else {
 		goto error;
@@ -859,14 +859,14 @@ TEG_STATUS clitok_playerid(char *str)
 
 	for(i=0; i<maximum_player_count-1; i++) {
 
-		if(parser_parse(&p) && p.can_continue) {
+		if(p.parse_fragment()) {
 			c[i] = atoi(p.token);
 		} else {
 			goto error;
 		}
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		c[i] = atoi(p.token);
 	} else {
 		goto error;
@@ -905,20 +905,20 @@ TEG_STATUS clitok_reconnect(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(g_game.myname, p.token, sizeof(g_game.myname)-1);
 		g_game.myname[sizeof(g_game.myname)-1]=0;
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		g_game.numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		g_game.mycolor  = atoi(p.token);
 	} else {
 		goto error;
@@ -978,20 +978,20 @@ TEG_STATUS clitok_newplayer(char *str)
 	p.separators = &separador;
 	p.data = str;
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(name, p.token, sizeof(name)-1);
 		name[sizeof(name)-1]=0;
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		color = atoi(p.token);
 	} else {
 		goto error;
@@ -1041,14 +1041,14 @@ TEG_STATUS clitok_message(char *str)
 	p.separators = &separador;
 	p.data = str;
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(name, p.token, sizeof(name)-1);
 		name[sizeof(name)-1]=0;
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
@@ -1096,7 +1096,7 @@ TEG_STATUS clitok_status(char *str)
 
 
 	do {
-		if((i=parser_parse(&p))) {
+		if((i=p.parse())) {
 			if(aux_status(&j, p.token) != TEG_STATUS_SUCCESS) {
 				goto error;
 			}
@@ -1136,7 +1136,7 @@ TEG_STATUS clitok_scores(char *str)
 	scores_init();
 
 	do {
-		if((i=parser_parse(&p))) {
+		if((i=p.parse())) {
 			if(aux_scores(&score, p.token) != TEG_STATUS_SUCCESS) {
 				goto error;
 			}
@@ -1172,7 +1172,7 @@ TEG_STATUS clitok_start(char *str)
 
 	player_flush();
 	do {
-		if((i=parser_parse(&p))) {
+		if((i=p.parse())) {
 			if(aux_status(&j, p.token) != TEG_STATUS_SUCCESS) {
 				goto error;
 			}
@@ -1212,7 +1212,7 @@ TEG_STATUS clitok_enum_cards(char *str)
 	p.data = str;
 
 	do {
-		if(parser_parse(&p)) {
+		if(p.parse()) {
 			country = atoi(p.token);
 			used = atoi(p.value);
 		} else {
@@ -1257,31 +1257,31 @@ TEG_STATUS clitok_exchange(char *str)
 	p.separators = &separador;
 	p.data = str;
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		cant = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		p1 = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		p2 = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		p3 = atoi(p.token);
 	} else {
 		goto error;
@@ -1339,26 +1339,26 @@ TEG_STATUS clitok_modalidad(char *str)
 	p.separators = &separador;
 	p.data = str;
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		with_secret_mission = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		with_common_mission = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		with_fog_of_war = atoi(p.token);
 	} else {
 		goto error;
 	}
 
 	/* not used */
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		// rules = atoi( p.token );
 	} else {
 		goto error;
@@ -1392,7 +1392,7 @@ TEG_STATUS clitok_mission(char *str)
 	p.separators = &separador;
 	p.data = str;
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		mission = atoi(p.token);
 	} else {
 		goto error;
@@ -1427,13 +1427,13 @@ TEG_STATUS clitok_tarjeta(char *str)
 	p.data = str;
 
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		country = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		used = atoi(p.token);
 	} else {
 		goto error;
@@ -1485,13 +1485,13 @@ TEG_STATUS clitok_pversion(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		hi = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		// integer value not used
 	} else {
 		goto error;
@@ -1542,13 +1542,13 @@ TEG_STATUS clitok_new_round(char *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		round_number = atoi(p.token);
 	} else {
 		goto error;
@@ -1621,7 +1621,7 @@ TEG_STATUS client_recv(int fd)
 	p.data = str;
 
 	do {
-		if((i=parser_parse(&p))) {
+		if((i=p.parse())) {
 			if(client_lookup(&p) == TEG_STATUS_CONNCLOSED) {
 				return TEG_STATUS_CONNCLOSED;
 			}

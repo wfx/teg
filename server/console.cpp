@@ -310,7 +310,7 @@ TEG_STATUS console_parse(int fd, char *str)
 
 	p.data = str;
 	do {
-		if((i=parser_parse(&p))) {
+		if((i=p.parse())) {
 			TEG_STATUS ts = console_lookup(fd, &p);
 			if(ts != TEG_STATUS_SUCCESS) {
 				return ts;

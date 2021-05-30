@@ -205,13 +205,13 @@ TEG_STATUS option_armies(int fd, char *str)
 			goto error;
 		}
 
-		if(parser_parse(&p) && p.can_continue) {
+		if(p.parse_fragment()) {
 			armies1 = atoi(p.token);
 		} else {
 			goto error;
 		}
 
-		if(parser_parse(&p) && !p.can_continue) {
+		if(p.parse_everything()) {
 			armies2 = atoi(p.token);
 		} else {
 			goto error;
@@ -303,7 +303,7 @@ TEG_STATUS option_parse(int fd, char *str)
 	p.data = str;
 
 	do {
-		if((i=parser_parse(&p))) {
+		if((i=p.parse())) {
 			if(option_lookup(fd, &p) == TEG_STATUS_CONNCLOSED) {
 				return TEG_STATUS_CONNCLOSED;
 			}

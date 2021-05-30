@@ -51,31 +51,31 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 	p.separators = &separador;
 	p.data = str;
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(pj->name, p.token, sizeof(pj->name)-1);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->color = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->score = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		const int statuscode = atoi(p.token);
 		if((statuscode < 0) || (statuscode >= PLAYER_STATUS_LAST)) {
 			goto error;
@@ -85,37 +85,37 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->tot_countries = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->tot_armies = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->tot_cards = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->empezo_turno = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->human = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		strncpy(pj->addr, p.token, sizeof(pj->addr)-1);
 	} else {
 		goto error;
@@ -143,31 +143,31 @@ TEG_STATUS aux_scores(PSCORES pS, char const *str)
 	p.separators = &separador;
 	p.data = str;
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(pS->name, p.token, sizeof(pS->name)-1);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pS->color= atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(pS->date, p.token, sizeof(pS->date)-1);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pS->score = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		pS->human= atoi(p.token);
 	} else {
 		goto error;
@@ -200,7 +200,7 @@ TEG_STATUS aux_countries(int numjug, char const *str)
 	p.data = str;
 
 	do {
-		if((i = parser_parse(&p))) {
+		if((i = p.parse())) {
 			country = atoi(p.token);
 			cant = atoi(p.value);
 			if(g_countries[country].numjug != numjug || g_countries[country].ejercitos != cant) {

@@ -29,23 +29,41 @@
 #define PARSER_TOKEN_MAX 1024
 #define PARSER_VALUE_MAX 1024
 
-typedef struct _DELIM {
-	char a;
-	char b;
-	char c;
-} DELIM, *PDELIM;
+struct DELIM {
+	char accept[3];
+	bool valid=true;
 
-typedef struct {
+	DELIM& operator = (DELIM const* other)
+	{
+		if(other) {
+			*this = *other;
+		} else {
+			valid = false;
+		}
+		return *this;
+	}
+};
+
+struct PARSER {
 	char const *data;
-	int can_continue;
+	bool can_continue;
 	char token[PARSER_TOKEN_MAX];
 	char value[PARSER_VALUE_MAX];
-	DELIM const *equals;
-	DELIM const *separators;
-} PARSER, *PPARSER;
+	DELIM equals;
+	DELIM separators;
 
-/**
- * @brief Parse an input string into the command token and optional value token.
- * @return true if the parse succeded, false otherwise.
- */
-bool parser_parse(PPARSER);
+	/// Try to parse the input text, and return if it was successful
+	bool parse();
+
+	/// Parse with the expectation that there will something remain
+	bool parse_fragment()
+	{
+		return parse() && can_continue;
+	}
+
+	/// parse with the expectation that everything is captured
+	bool parse_everything()
+	{
+		return parse() && !can_continue;
+	}
+};
