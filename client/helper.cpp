@@ -37,19 +37,13 @@ namespace teg::client
  */
 TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 
 	memset(pj, 0, sizeof(*pj));
 
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(p.parse_fragment()) {
 		strncpy(pj->name, p.token, sizeof(pj->name)-1);
@@ -130,18 +124,13 @@ error:
 
 TEG_STATUS aux_scores(PSCORES pS, char const *str)
 {
-	PARSER p;
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str, DELIM{.valid=false}, DELIM{','}};
 
 	memset(pS, 0, sizeof(*pS));
 
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = NULL;
-	p.separators = &separador;
-	p.data = str;
 
 	if(p.parse_fragment()) {
 		strncpy(pS->name, p.token, sizeof(pS->name)-1);
@@ -187,17 +176,11 @@ error:
 TEG_STATUS aux_countries(int numjug, char const *str)
 {
 	int i, country, cant;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		return TEG_STATUS_SUCCESS;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	do {
 		if((i = p.parse())) {

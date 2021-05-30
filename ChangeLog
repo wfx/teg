@@ -4,6 +4,10 @@
 * First trivial C++ refactorings (introduction of namespaces, fewer
   preprocessor magic, idiomatic data structures)
 * Remove the hand written double linked lists and use standard containers
+* big internal rework
+* the server console now only supports '=' to assign option values (this is due
+  to a refactoring, supporting the old behavior is too much of a hassle, as I
+  don't expect that anyone on this planet uses the console)
 
 - version 0.12.0
 

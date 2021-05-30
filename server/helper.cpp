@@ -122,9 +122,7 @@ void ins_orden(char d, char *array, int len)
 /* Validates the total number of armies placed */
 TEG_STATUS aux_token_fichas(int fd, char *str, int maximo, unsigned long conts)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str, ':', ','};
 	PSPLAYER j;
 	int fichas, country, cant, real;
 	char *copia;
@@ -143,10 +141,6 @@ TEG_STATUS aux_token_fichas(int fd, char *str, int maximo, unsigned long conts)
 	}
 
 	copia = str;
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	memset(cptr, 0, sizeof(cptr));
 	fichas=0;
@@ -204,7 +198,7 @@ do_real:
 		fichas=0;
 		real=1;
 		memset(cptr, 0, sizeof(cptr));
-		p.data = copia;
+		p.reset(copia);
 		goto do_real; /// \todo Remove this
 	}
 

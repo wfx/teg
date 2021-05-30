@@ -216,16 +216,10 @@ TEG_STATUS clitok_exit(char *str)
 /* a player won the game */
 TEG_STATUS clitok_winner(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int numjug;
 	int mission;
 	PCPLAYER pJ;
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(strlen(str)==0) {
 		goto error;
@@ -304,14 +298,8 @@ error:
 /* you can move some armies to the conquered country */
 TEG_STATUS clitok_tropas(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int src, dst, cant;
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(strlen(str)==0) {
 		goto error;
@@ -375,13 +363,7 @@ TEG_STATUS clitok_country(char *str)
 	int jug;
 	int ejer;
 
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -421,13 +403,7 @@ TEG_STATUS clitok_dados(char *str)
 {
 	int i;
 
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -499,14 +475,8 @@ error:
 TEG_STATUS clitok_attack(char *str)
 {
 	int src, dst;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	PCPLAYER pJsrc, pJdst;
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(strlen(str)==0) {
 		goto error;
@@ -565,13 +535,7 @@ TEG_STATUS clitok_turno(char *str)
 {
 	int numjug;
 	PCPLAYER pJ;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -619,13 +583,7 @@ TEG_STATUS clitok_fichas(char *str)
 	int numjug;
 	int cant;
 	PCPLAYER j;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -676,13 +634,7 @@ TEG_STATUS clitok_fichas2(char *str)
 	int numjug;
 	int cant;
 	PCPLAYER j;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -733,13 +685,7 @@ TEG_STATUS clitok_fichasc(char *str)
 	int cant, tot_cant;
 	unsigned long conts;
 	PCPLAYER j;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -799,14 +745,7 @@ TEG_STATUS clitok_countries(char *str)
 {
 	int numjug;
 	PCPLAYER j;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { '/', '/', '/' };
-
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str, ':', '/'};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -820,7 +759,7 @@ TEG_STATUS clitok_countries(char *str)
 
 	/* XXX: numjug == -1 in fog of war. Need to check if in FOW */
 	if(numjug == -1 || player_whois(numjug, &j) == TEG_STATUS_SUCCESS) {
-		return aux_countries(numjug, p.data);
+		return aux_countries(numjug, p.remainder());
 	}
 error:
 	textmsg(M_ERR, "Error in clitok_countries()");
@@ -831,14 +770,8 @@ error:
 TEG_STATUS clitok_playerid(char *str)
 {
 	char c[maximum_player_count];
-	PARSER p;
+	PARSER p{str};
 	int i;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(strlen(str)==0) {
 		goto error;
@@ -893,13 +826,7 @@ error:
 /* I reconnected to the server */
 TEG_STATUS clitok_reconnect(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		goto error;
@@ -964,19 +891,13 @@ TEG_STATUS clitok_newplayer(char *str)
 {
 	char name[max_playername_length];
 	int color, numjug;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	Player j;
 	PCPLAYER pJ;
 
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(p.parse_fragment()) {
 		strncpy(name, p.token, sizeof(name)-1);
@@ -1029,17 +950,11 @@ TEG_STATUS clitok_message(char *str)
 {
 	char name[max_playername_length];
 	int numjug;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 
 	if(strlen(str) == 0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(p.parse_fragment()) {
 		strncpy(name, p.token, sizeof(name)-1);
@@ -1057,7 +972,7 @@ TEG_STATUS clitok_message(char *str)
 	/* I dont care if there is one more or not */
 
 	if(g_game.msg_show & M_MSG) {
-		callbacks::gui_textplayermsg(name, numjug, p.data);
+		callbacks::gui_textplayermsg(name, numjug, p.remainder());
 	}
 	return TEG_STATUS_SUCCESS;
 error:
@@ -1078,9 +993,7 @@ TEG_STATUS clitok_rem(char *str)
 TEG_STATUS clitok_status(char *str)
 {
 	Player j, *j_tmp;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { '/', '/', '/' };
+	PARSER p{str, ':', '/'};
 
 	int i;
 
@@ -1089,11 +1002,6 @@ TEG_STATUS clitok_status(char *str)
 	if(strlen(str)==0) {
 		goto ok;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
-
 
 	do {
 		if((i=p.parse())) {
@@ -1120,18 +1028,13 @@ error:
 TEG_STATUS clitok_scores(char *str)
 {
 	SCORES score;
-	PARSER p;
-	DELIM separador= { '\\', '\\', '\\' };
+	PARSER p{str, DELIM{.valid=false}, DELIM{'\\'}};
 
 	int i;
 
 	if(strlen(str)==0) {
 		goto ok;
 	}
-
-	p.equals = NULL;
-	p.separators = &separador;
-	p.data = str;
 
 	scores_init();
 
@@ -1157,18 +1060,12 @@ error:
 TEG_STATUS clitok_start(char *str)
 {
 	Player j;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { '/', '/', '/' };
+	PARSER p{str, ':', '/'};
 	int i;
 
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	player_flush();
 	do {
@@ -1196,9 +1093,7 @@ error:
 /* what cards do I have */
 TEG_STATUS clitok_enum_cards(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int country, used;
 
 	g_game.tarjetas_cant = 0;
@@ -1206,10 +1101,6 @@ TEG_STATUS clitok_enum_cards(char *str)
 	if(! str || strlen(str) == 0) {
 		goto ok;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	do {
 		if(p.parse()) {
@@ -1242,9 +1133,7 @@ error:
 /* someone has exchanged cards for armies. maybe its me */
 TEG_STATUS clitok_exchange(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int p1, p2, p3;
 	int numjug, cant;
 	PCPLAYER pJ;
@@ -1252,10 +1141,6 @@ TEG_STATUS clitok_exchange(char *str)
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(p.parse_fragment()) {
 		numjug = atoi(p.token);
@@ -1326,18 +1211,12 @@ error:
 /* tells the rules of the game */
 TEG_STATUS clitok_modalidad(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int with_secret_mission, with_common_mission, with_fog_of_war;
 
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(p.parse_fragment()) {
 		with_secret_mission = atoi(p.token);
@@ -1379,18 +1258,12 @@ error:
 /* tells what is your secret mission */
 TEG_STATUS clitok_mission(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int mission;
 
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(p.parse_everything()) {
 		mission = atoi(p.token);
@@ -1413,19 +1286,12 @@ error:
 /* I'm receiving the card I've requested after finishing my turn */
 TEG_STATUS clitok_tarjeta(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int country, used;
 
 	if(strlen(str)==0) {
 		goto error;
 	}
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
-
 
 	if(p.parse_fragment()) {
 		country = atoi(p.token);
@@ -1472,14 +1338,8 @@ error:
 /* Servers's Protocol version. HIVER MUST be equal, otherwise wont work */
 TEG_STATUS clitok_pversion(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int hi;
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(strlen(str)==0) {
 		goto error;
@@ -1528,15 +1388,9 @@ error:
 /* says who starts the round and the round number */
 TEG_STATUS clitok_new_round(char *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 	int numjug, round_number;
 	PCPLAYER pJ;
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
 
 	if(strlen(str)==0) {
 		goto error;
@@ -1602,13 +1456,7 @@ static TEG_STATUS client_lookup(PARSER *p)
 TEG_STATUS client_recv(int fd)
 {
 	int i, j;
-	PARSER p;
 	char str[PROT_MAX_LEN];
-	DELIM igualador= { '=', '=', '=' };
-	DELIM separador= { ';', ';', ';' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
 
 	memset(str, 0, sizeof(str));
 	j=net_readline(fd, str, PROT_MAX_LEN);
@@ -1618,7 +1466,7 @@ TEG_STATUS client_recv(int fd)
 		return TEG_STATUS_CONNCLOSED;
 	}
 
-	p.data = str;
+	PARSER p{str, '=', ';'};
 
 	do {
 		if((i=p.parse())) {

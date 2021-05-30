@@ -191,13 +191,7 @@ TEG_STATUS option_armies(int fd, char *str)
 {
 	int armies1;
 	int armies2;
-	PARSER p;
-	DELIM igualador= { '|', '|', '|' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str, '|', ','};
 
 	if(str && strlen(str)!=0) {
 
@@ -295,12 +289,7 @@ TEG_STATUS option_view(int fd, char *str)
 TEG_STATUS option_parse(int fd, char *str)
 {
 	int i;
-	PARSER p;
-	DELIM igualador= { '=', ' ', ':' };
-
-	p.equals = &igualador;
-	p.separators = NULL;
-	p.data = str;
+	PARSER p{str, DELIM{':'}, DELIM{.valid=false}};
 
 	do {
 		if((i=p.parse())) {

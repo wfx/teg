@@ -30,7 +30,7 @@
 #define PARSER_VALUE_MAX 1024
 
 struct DELIM {
-	char accept[3];
+	char accept;
 	bool valid=true;
 
 	DELIM& operator = (DELIM const* other)
@@ -45,12 +45,25 @@ struct DELIM {
 };
 
 struct PARSER {
-	char const *data;
-	bool can_continue;
-	char token[PARSER_TOKEN_MAX];
-	char value[PARSER_VALUE_MAX];
-	DELIM equals;
-	DELIM separators;
+	PARSER(char const *data, char eq=':', char sep=',')
+		: data{data}, equals{eq}, separators{sep}
+	{
+	}
+
+	PARSER(char const *data, DELIM const& eq, DELIM const& sep)
+		: data{data}, equals{eq}, separators{sep}
+	{
+	}
+
+	void reset(char const* retry)
+	{
+		data = retry;
+	}
+
+	char const* remainder() const
+	{
+		return data;
+	}
 
 	/// Try to parse the input text, and return if it was successful
 	bool parse();
@@ -66,4 +79,13 @@ struct PARSER {
 	{
 		return parse() && !can_continue;
 	}
+
+	bool can_continue;
+	char token[PARSER_TOKEN_MAX];
+	char value[PARSER_VALUE_MAX];
+
+private:
+	DELIM const equals;
+	DELIM const separators;
+	char const *data;
 };

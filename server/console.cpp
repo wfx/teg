@@ -299,24 +299,17 @@ void con_show_prompt()
 
 TEG_STATUS console_parse(int fd, char *str)
 {
-	int i;
-	PARSER p;
-	DELIM igualador= { '=', ' ', '=' };
-	DELIM separador= { ';', ';', ';' };
+	PARSER p{str, '=', ';'};
 
-	p.equals = &igualador;
-	p.separators = &separador;
-
-
-	p.data = str;
 	do {
-		if((i=p.parse())) {
-			TEG_STATUS ts = console_lookup(fd, &p);
-			if(ts != TEG_STATUS_SUCCESS) {
-				return ts;
-			}
+		if(!p.parse()) {
+			break;
 		}
-	} while(i && p.can_continue);
+		TEG_STATUS const ts = console_lookup(fd, &p);
+		if(ts != TEG_STATUS_SUCCESS) {
+			return ts;
+		}
+	} while(p.can_continue);
 	return TEG_STATUS_SUCCESS;
 }
 

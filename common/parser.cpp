@@ -42,24 +42,17 @@
 
 bool parser_belongs_to_class(char ch, DELIM const& which)
 {
-	if(which.valid) {
-		for(char const c: which.accept) {
-			if(c == ch) {
-				return true;
-			}
-		}
-	}
-
-	return false;
+	return which.valid && (which.accept == ch);
 }
 
-DELIM const delim_fin = {0, '\n', '\r'};
 enum CharClass parser_character_class(char a,
                                       DELIM const& igualador,
                                       DELIM const& separador)
 {
-	if(parser_belongs_to_class(a, delim_fin)) {
-		return ccEnd;
+	for(char const ch: "\n\r") {
+		if(ch == a) {
+			return ccEnd;
+		}
 	}
 	if(parser_belongs_to_class(a, igualador)) {
 		return ccEquals;

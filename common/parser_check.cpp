@@ -12,11 +12,9 @@ TEST(Parser, belongs_to_class)
 	EXPECT_FALSE(parser_belongs_to_class('x', delim_null));
 	EXPECT_TRUE(parser_belongs_to_class(0, delim_null));
 
-	DELIM const abc{'a', 'b', 'c'};
+	DELIM const abc{'a'};
 	EXPECT_FALSE(parser_belongs_to_class('x', abc));
 	EXPECT_TRUE(parser_belongs_to_class('a', abc));
-	EXPECT_TRUE(parser_belongs_to_class('b', abc));
-	EXPECT_TRUE(parser_belongs_to_class('c', abc));
 }
 
 TEST(Parser, character_class)
@@ -88,57 +86,51 @@ TEST(Parser, parse)
 	{
 		// single token parse
 		char const*const fb = "foobar";
-		PARSER foobar{.data=fb, .can_continue=true, .token={'x'}, .value={'y'}};
+		PARSER foobar{fb, invalid, invalid};
 		EXPECT_TRUE(foobar.parse());
 		EXPECT_FALSE(foobar.can_continue);
 		EXPECT_STREQ(fb, foobar.token);
 		EXPECT_EQ(0, foobar.value[0]);
-		EXPECT_EQ(nullptr, foobar.data);
+		EXPECT_EQ(nullptr, foobar.remainder());
 	}
 
 	{
 		// single assignment
-		PARSER assignment{.data="foo=bar", .can_continue=true,
-		                  .token={'x'}, .value={'y'},
-		                  .equals=eql, .separators=invalid};
+		PARSER assignment{"foo=bar", eql, invalid};
 		EXPECT_TRUE(assignment.parse());
 		EXPECT_FALSE(assignment.can_continue);
 		EXPECT_STREQ("foo", assignment.token);
 		EXPECT_STREQ("bar", assignment.value);
-		EXPECT_EQ(nullptr, assignment.data);
+		EXPECT_EQ(nullptr, assignment.remainder());
 	}
 
 	{
 		// non-exhaustive single token
 		char const*const input = "foo;bar";
 		// single assignment
-		PARSER multitoken{.data=input, .can_continue=false,
-		                  .token={'x'}, .value={'y'},
-		                  .equals=invalid, .separators=sep};
+		PARSER multitoken{input, invalid, sep};
 		EXPECT_TRUE(multitoken.parse());
 		EXPECT_TRUE(multitoken.can_continue);
 		EXPECT_STREQ("foo", multitoken.token);
 		EXPECT_EQ(0, multitoken.value[0]);
-		EXPECT_EQ(input+4, multitoken.data);
+		EXPECT_EQ(input+4, multitoken.remainder());
 	}
 
 	{
 		// non-exhaustive assignment
 		char const*const input = "foo=bar;baz";
-		PARSER multiassignment{.data=input, .can_continue=false,
-		                       .token={'x'}, .value={'y'},
-		                       .equals=eql, .separators=sep};
+		PARSER multiassignment{input, eql, sep};
 		EXPECT_TRUE(multiassignment.parse());
 		EXPECT_TRUE(multiassignment.can_continue);
 		EXPECT_STREQ("foo", multiassignment.token);
 		EXPECT_STREQ("bar", multiassignment.value);
-		EXPECT_EQ(8+input, multiassignment.data);
+		EXPECT_EQ(8+input, multiassignment.remainder());
 	}
 	{
 		// defect input string.
 		char buf[PARSER_TOKEN_MAX+1] {};
 		strcpy(buf, "err\"or");
-		PARSER error{.data=buf};
+		PARSER error{buf, invalid, invalid};
 		EXPECT_FALSE(error.parse());
 	}
 }
