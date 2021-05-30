@@ -91,7 +91,6 @@ struct {
 	{ TOKEN_DADOS,		clitok_dados	},
 	{ TOKEN_COUNTRY,		clitok_country	},
 	{ TOKEN_ERROR,		clitok_error	},
-	{ TOKEN_OK,		clitok_ok	},
 	{ TOKEN_TROPAS,		clitok_tropas	},
 	{ TOKEN_TARJETA,	clitok_tarjeta	},
 	{ TOKEN_CANJE,		clitok_exchange	},
@@ -343,19 +342,6 @@ TEG_STATUS clitok_tropas(char *str)
 	return TEG_STATUS_SUCCESS;
 error:
 	textmsg(M_ERR, "Error in clitok_tropas()");
-	return TEG_STATUS_ERROR;
-}
-
-/* ok */
-TEG_STATUS clitok_ok(char *str)
-{
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	return TEG_STATUS_SUCCESS;
-error:
-	textmsg(M_ERR, "Error in clitok_ok()");
 	return TEG_STATUS_ERROR;
 }
 
