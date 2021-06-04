@@ -297,7 +297,7 @@ TEG_STATUS option_parse(int fd, char *str)
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 
 	return TEG_STATUS_SUCCESS;
 }

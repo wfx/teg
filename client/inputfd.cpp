@@ -1015,7 +1015,7 @@ TEG_STATUS clitok_status(char *str)
 				player_ins(&j);
 			}
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 ok:
 	callbacks::gui_status();
 	return TEG_STATUS_SUCCESS;
@@ -1045,7 +1045,7 @@ TEG_STATUS clitok_scores(char *str)
 			}
 			insert_score(&score);
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 
 ok:
 	callbacks::gui_scores();
@@ -1076,7 +1076,7 @@ TEG_STATUS clitok_start(char *str)
 
 			player_ins(&j);
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 
 	ESTADO_SET(PLAYER_STATUS_START);
 
@@ -1121,7 +1121,7 @@ TEG_STATUS clitok_enum_cards(char *str)
 		}
 		g_countries[ country ].tarjeta.numjug = WHOAMI();
 
-	} while(p.can_continue);
+	} while(p.can_continue());
 
 ok:
 	return TEG_STATUS_SUCCESS;
@@ -1474,7 +1474,7 @@ TEG_STATUS client_recv(int fd)
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 
 	return TEG_STATUS_SUCCESS;
 }

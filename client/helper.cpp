@@ -192,7 +192,7 @@ TEG_STATUS aux_countries(int numjug, char const *str)
 				callbacks::gui_country(g_countries[country].id);
 			}
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 
 	return TEG_STATUS_SUCCESS;
 }

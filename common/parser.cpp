@@ -37,8 +37,8 @@
 #include "parser.h"
 #include "parser_private.h"
 
-#include <ctype.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
 
 bool parser_belongs_to_class(char ch, DELIM const& which)
 {
@@ -105,6 +105,10 @@ bool PARSER::parse()
 	PARSER_VALUE pval;
 	int i;
 
+	if(!can_continue()) {
+		return false;
+	}
+
 	if((pval=parser_analyze_token(&i, p_in->data, p_in->token,
 	                              p_in->equals, p_in->separators,
 	                              PARSER_TOKEN_MAX)) == PARSER_ERROR) {
@@ -116,12 +120,12 @@ bool PARSER::parse()
 	switch(pval) {
 	case PARSER_FIN:
 		p_in->data=NULL;
-		p_in->can_continue = false;
+		p_in->m_can_continue = false;
 		return true;
 
 	case PARSER_SEPARADOR:
 		p_in->data=&p_in->data[i+1];
-		p_in->can_continue = true;
+		p_in->m_can_continue = true;
 		return true;
 
 	case PARSER_IGUAL: {
@@ -136,14 +140,46 @@ bool PARSER::parse()
 
 		if(pval==PARSER_SEPARADOR) {
 			p_in->data = &p_in->data[j+1 + i+1];
-			p_in->can_continue = true;
+			p_in->m_can_continue = true;
 		} else { /* PARSER_FIN */
 			p_in->data = NULL;
-			p_in->can_continue = false;
+			p_in->m_can_continue = false;
 		}
 		return true;
 	}
 	default:
 		return false;
 	}
+}
+
+PARSER& operator >> (PARSER& source, int &value)
+{
+	if(source.parse_token()) {
+		value=std::atoi(source.token);
+	}
+	return source;
+}
+
+PARSER& operator >> (PARSER& source, Limited&& limit)
+{
+	int dest;
+	source >> dest;
+	if(source.ok() && (dest <= limit.max) && (dest >= limit.min)) {
+		limit.dest = dest;
+	} else {
+		source.fail();
+		limit.dest = limit.reset_to;
+	}
+	return source;
+}
+
+PARSER& operator >> (PARSER& source, CString&& dest)
+{
+	if(source.ok() && source.parse_token()) {
+		if(dest.count > 0) {
+			strncpy(dest.dest, source.token, dest.count);
+			dest.dest[dest.count-1] = 0;
+		}
+	}
+	return source;
 }

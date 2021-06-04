@@ -173,7 +173,7 @@ do_real:
 			goto error;
 		}
 
-	} while(p.can_continue);
+	} while(p.can_continue());
 
 	if(fichas != maximo) {
 		goto error;

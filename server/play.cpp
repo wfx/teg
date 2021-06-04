@@ -1488,7 +1488,7 @@ TEG_STATUS play_teg(int fd)
 		if(token_lookup(fd, &p) == TEG_STATUS_CONNCLOSED) {
 			return TEG_STATUS_CONNCLOSED;
 		}
-	} while(p.can_continue);
+	} while(p.can_continue());
 
 	return TEG_STATUS_SUCCESS;
 }

@@ -88,7 +88,7 @@ TEST(Parser, parse)
 		char const*const fb = "foobar";
 		PARSER foobar{fb, invalid, invalid};
 		EXPECT_TRUE(foobar.parse());
-		EXPECT_FALSE(foobar.can_continue);
+		EXPECT_FALSE(foobar.can_continue());
 		EXPECT_STREQ(fb, foobar.token);
 		EXPECT_EQ(0, foobar.value[0]);
 		EXPECT_EQ(nullptr, foobar.remainder());
@@ -98,7 +98,7 @@ TEST(Parser, parse)
 		// single assignment
 		PARSER assignment{"foo=bar", eql, invalid};
 		EXPECT_TRUE(assignment.parse());
-		EXPECT_FALSE(assignment.can_continue);
+		EXPECT_FALSE(assignment.can_continue());
 		EXPECT_STREQ("foo", assignment.token);
 		EXPECT_STREQ("bar", assignment.value);
 		EXPECT_EQ(nullptr, assignment.remainder());
@@ -110,7 +110,7 @@ TEST(Parser, parse)
 		// single assignment
 		PARSER multitoken{input, invalid, sep};
 		EXPECT_TRUE(multitoken.parse());
-		EXPECT_TRUE(multitoken.can_continue);
+		EXPECT_TRUE(multitoken.can_continue());
 		EXPECT_STREQ("foo", multitoken.token);
 		EXPECT_EQ(0, multitoken.value[0]);
 		EXPECT_EQ(input+4, multitoken.remainder());
@@ -121,7 +121,7 @@ TEST(Parser, parse)
 		char const*const input = "foo=bar;baz";
 		PARSER multiassignment{input, eql, sep};
 		EXPECT_TRUE(multiassignment.parse());
-		EXPECT_TRUE(multiassignment.can_continue);
+		EXPECT_TRUE(multiassignment.can_continue());
 		EXPECT_STREQ("foo", multiassignment.token);
 		EXPECT_STREQ("bar", multiassignment.value);
 		EXPECT_EQ(8+input, multiassignment.remainder());
@@ -133,4 +133,83 @@ TEST(Parser, parse)
 		PARSER error{buf, invalid, invalid};
 		EXPECT_FALSE(error.parse());
 	}
+}
+
+TEST(Parser, op_int)
+{
+	PARSER p{"123,456"};
+	int a{0}, b{0}, c{23};
+
+	p >> a;
+	EXPECT_FALSE(p.finished());
+	EXPECT_TRUE(p.ok());
+	EXPECT_EQ(123, a);
+
+	p >> b;
+	EXPECT_TRUE(p.finished());
+	EXPECT_TRUE(p.ok());
+	EXPECT_EQ(456, b);
+
+	p >> c;
+	EXPECT_FALSE(p.finished());
+	EXPECT_FALSE(p.ok());
+	EXPECT_EQ(23, c);
+}
+
+TEST(Parser, op_limit)
+{
+	PARSER p{"1,2,3"};
+
+	{
+		// values in between the limits
+		int a{0}, b{0};
+		p >> Limited{a, 0, 5, 100} >> Limited{b, 0, 5, 100};
+		EXPECT_FALSE(p.finished());
+		EXPECT_TRUE(p.ok());
+		EXPECT_EQ(1, a);
+		EXPECT_EQ(2, b);
+	}
+
+	{
+		// value above upper limit
+		int c{0};
+		p >> Limited{c, 0, 2, 100};
+		EXPECT_FALSE(p.finished());
+		EXPECT_FALSE(p.ok());
+		EXPECT_EQ(100, c);
+	}
+
+	{
+		// value below lower limit
+		int d{0};
+		p.reset("4");
+		p >> Limited{d, 5, 6, 100};
+		EXPECT_FALSE(p.finished());
+		EXPECT_FALSE(p.ok());
+		EXPECT_EQ(100, d);
+	}
+
+	{
+		// value exact on the upper/lower limit
+		int e{0}, f{0};
+		p.reset("23,42");
+		p >> Limited{e, 23, 42, 100} >> Limited{f, 23, 42, 100};
+		EXPECT_TRUE(p.finished());
+		EXPECT_TRUE(p.ok());
+		EXPECT_EQ(23, e);
+		EXPECT_EQ(42, f);
+	}
+}
+
+TEST(Parser, op_str)
+{
+	PARSER p{"qwert,asdfg"};
+
+	char a[100], b[4];
+
+	p >> CString{a} >> CString{b};
+	EXPECT_TRUE(p.finished());
+	EXPECT_TRUE(p.ok());
+	EXPECT_STREQ("qwert", a);
+	EXPECT_STREQ("asd", b);
 }
