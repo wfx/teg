@@ -42,6 +42,6 @@ void disconnect(enum DisconnectReason reason);
 
 void connect_view();
 void gametype_view();
-void colortype_view(char *colores);
+void colortype_view(const int *colores);
 
 }

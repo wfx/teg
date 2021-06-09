@@ -217,26 +217,14 @@ TEG_STATUS clitok_exit(char *str)
 TEG_STATUS clitok_winner(char *str)
 {
 	PARSER p{str};
-	int numjug;
-	int mission;
+	int numjug, mission;
+
+	p >> numjug >> mission;
+	if(!p.finished()) {
+		goto error;
+	}
+
 	PCPLAYER pJ;
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		mission = atoi(p.token);
-	} else {
-		goto error;
-	}
-
 
 	if(player_whois(numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
@@ -301,26 +289,11 @@ TEG_STATUS clitok_tropas(char *str)
 	PARSER p{str};
 	int src, dst, cant;
 
-	if(strlen(str)==0) {
-		goto error;
-	}
+	p >> src >> dst >> cant;
 
-	if(p.parse_fragment()) {
-		src = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		dst = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		cant = atoi(p.token);
-	} else {
-		goto error;
+	if(!p.finished()) {
+		textmsg(M_ERR, "Error in clitok_tropas()");
+		return TEG_STATUS_ERROR;
 	}
 
 	ESTADO_SET(PLAYER_STATUS_TROPAS);
@@ -328,9 +301,6 @@ TEG_STATUS clitok_tropas(char *str)
 	callbacks::gui_tropas(src, dst, cant);
 
 	return TEG_STATUS_SUCCESS;
-error:
-	textmsg(M_ERR, "Error in clitok_tropas()");
-	return TEG_STATUS_ERROR;
 }
 
 /* your last request has an error */
@@ -359,32 +329,13 @@ error:
 /* update just one country */
 TEG_STATUS clitok_country(char *str)
 {
-	int country;
-	int jug;
-	int ejer;
-
+	int country, jug, ejer;
 	PARSER p{str};
+	p >> country >> jug >> ejer;
 
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		country = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		jug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		ejer = atoi(p.token);
-	} else {
-		goto error;
+	if(!p.finished()) {
+		textmsg(M_ERR, "Error in clitok_country()");
+		return TEG_STATUS_ERROR;
 	}
 
 	g_countries[country].numjug = jug;
@@ -393,65 +344,25 @@ TEG_STATUS clitok_country(char *str)
 	callbacks::gui_country(country);
 
 	return TEG_STATUS_SUCCESS;
-error:
-	textmsg(M_ERR, "Error in clitok_country()");
-	return TEG_STATUS_ERROR;
 }
 
 /* dices result */
 TEG_STATUS clitok_dados(char *str)
 {
-	int i;
-
 	PARSER p{str};
-
-	if(strlen(str)==0) {
-		goto error;
-	}
 
 	/* src and dst country can be -1 */
 
-	/* attacker */
-	if(p.parse_fragment()) {
-		g_game.dados_srccountry = atoi(p.token);
-		if(g_game.dados_srccountry >= COUNTRIES_CANT
-		        || g_game.dados_srccountry < -1) {
-			g_game.dados_srccountry = -1;
-			goto error;
-		}
+	p >> Limited{g_game.dados_srccountry, 0, COUNTRIES_CANT-1, -1}
+	  >> g_game.dados_src[0] >> g_game.dados_src[2] >> g_game.dados_src[2]
+	  >> Limited{g_game.dados_dstcountry, 0, COUNTRIES_CANT-1, -1}
+	  >> g_game.dados_dst[0] >> g_game.dados_dst[2] >> g_game.dados_dst[2];
+
+	if(!p.finished()) {
+		textmsg(M_ERR, "Error in clitok_dados()");
+		return TEG_STATUS_ERROR;
 	}
 
-	for(i=0; i<3; i++) {
-		if(p.parse_fragment()) {
-			g_game.dados_src[i] = atoi(p.token);
-		} else {
-			goto error;
-		}
-	}
-
-	/* defender */
-	if(p.parse_fragment()) {
-		g_game.dados_dstcountry = atoi(p.token);
-		if(g_game.dados_dstcountry >= COUNTRIES_CANT
-		        || g_game.dados_dstcountry < -1) {
-			g_game.dados_dstcountry = -1;
-			goto error;
-		}
-	}
-
-	for(i=0; i<2; i++) {
-		if(p.parse_fragment()) {
-			g_game.dados_dst[i] = atoi(p.token);
-		} else {
-			goto error;
-		}
-	}
-
-	if(p.parse_everything()) {
-		g_game.dados_dst[2] = atoi(p.token);
-	} else {
-		goto error;
-	}
 
 	textmsg(M_INF, _("Dices: %s: %d %d %d vs. %s: %d %d %d")
 	        , countries_get_name(g_game.dados_srccountry)
@@ -466,9 +377,6 @@ TEG_STATUS clitok_dados(char *str)
 	callbacks::gui_dados();
 
 	return TEG_STATUS_SUCCESS;
-error:
-	textmsg(M_ERR, "Error in clitok_dados()");
-	return TEG_STATUS_ERROR;
 }
 
 /* src is attacking dst */
@@ -478,19 +386,8 @@ TEG_STATUS clitok_attack(char *str)
 	PARSER p{str};
 	PCPLAYER pJsrc, pJdst;
 
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		src = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		dst = atoi(p.token);
-	} else {
+	p >> src >> dst;
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -535,15 +432,10 @@ TEG_STATUS clitok_turno(char *str)
 {
 	int numjug;
 	PCPLAYER pJ;
+
 	PARSER p{str};
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		numjug = atoi(p.token);
-	} else {
+	p >> numjug;
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -580,24 +472,12 @@ error:
 /* someone is placing the initial armies */
 TEG_STATUS clitok_fichas(char *str)
 {
-	int numjug;
-	int cant;
+	int numjug, cant;
 	PCPLAYER j;
+
 	PARSER p{str};
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		cant = atoi(p.token);
-	} else {
+	p >> numjug >> cant;
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -631,24 +511,12 @@ error:
 /* someone is placing the initial armies (2nd time) */
 TEG_STATUS clitok_fichas2(char *str)
 {
-	int numjug;
-	int cant;
+	int numjug, cant;
 	PCPLAYER j;
+
 	PARSER p{str};
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		cant = atoi(p.token);
-	} else {
+	p >> numjug >> cant;
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -681,31 +549,14 @@ error:
 /* someone is placing the continents armies */
 TEG_STATUS clitok_fichasc(char *str)
 {
-	int numjug;
-	int cant, tot_cant;
-	unsigned long conts;
+	/// \todo refactor out the common code of clitok_fichas, clitok_fichas2
+	///	      and clitok_fichasc
+	int numjug, cant, conts;
 	PCPLAYER j;
+
 	PARSER p{str};
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		conts = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		cant = atoi(p.token);
-	} else {
+	p >> numjug >> conts >> cant;
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -718,11 +569,10 @@ TEG_STATUS clitok_fichasc(char *str)
 	g_game.whos_turn = numjug;
 	callbacks::gui_sensi();
 
-	tot_cant = cont_tot(conts) + cant;
-
 	out_countries();
 
 	if(numjug == g_game.numjug) {
+		int const tot_cant = cont_tot(conts) + cant;
 		ESTADO_SET(PLAYER_STATUS_FICHASC);
 		fichas_init(tot_cant, conts);
 		callbacks::gui_fichas(cant, conts);
@@ -747,13 +597,8 @@ TEG_STATUS clitok_countries(char *str)
 	PCPLAYER j;
 	PARSER p{str, ':', '/'};
 
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
+	p >> numjug;
+	if(!p.ok()) {
 		goto error;
 	}
 
@@ -769,42 +614,15 @@ error:
 /* who am i, and available colors */
 TEG_STATUS clitok_playerid(char *str)
 {
-	char c[maximum_player_count];
+	static_assert(maximum_player_count == 6);
+	int c[maximum_player_count];
+
 	PARSER p{str};
-	int i;
-
-	if(strlen(str)==0) {
+	p >> CString{g_game.myname} >> g_game.numjug
+	  >> c[0] >> c[1] >> c[2] >> c[3] >> c[4] >> c[5];
+	if(!p.finished()) {
 		goto error;
 	}
-
-	if(p.parse_fragment()) {
-		strncpy(g_game.myname, p.token, sizeof(g_game.myname)-1);
-		g_game.myname[sizeof(g_game.myname)-1]=0;
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		g_game.numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	for(i=0; i<maximum_player_count-1; i++) {
-
-		if(p.parse_fragment()) {
-			c[i] = atoi(p.token);
-		} else {
-			goto error;
-		}
-	}
-
-	if(p.parse_everything()) {
-		c[i] = atoi(p.token);
-	} else {
-		goto error;
-	}
-
 
 	ESTADO_SET(PLAYER_STATUS_CONNECTED);
 
@@ -828,29 +646,10 @@ TEG_STATUS clitok_reconnect(char *str)
 {
 	PARSER p{str};
 
-	if(strlen(str)==0) {
+	p >> CString{g_game.myname} >> g_game.numjug >> g_game.mycolor;
+	if(!p.finished()) {
 		goto error;
 	}
-
-	if(p.parse_fragment()) {
-		strncpy(g_game.myname, p.token, sizeof(g_game.myname)-1);
-		g_game.myname[sizeof(g_game.myname)-1]=0;
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		g_game.numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		g_game.mycolor  = atoi(p.token);
-	} else {
-		goto error;
-	}
-
 
 	ESTADO_SET(PLAYER_STATUS_IDLE);
 
@@ -891,30 +690,12 @@ TEG_STATUS clitok_newplayer(char *str)
 {
 	char name[max_playername_length];
 	int color, numjug;
-	PARSER p{str};
 	Player j;
 	PCPLAYER pJ;
 
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		strncpy(name, p.token, sizeof(name)-1);
-		name[sizeof(name)-1]=0;
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		color = atoi(p.token);
-	} else {
+	PARSER p{str};
+	p >> CString{name} >> numjug >> color;
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -950,26 +731,12 @@ TEG_STATUS clitok_message(char *str)
 {
 	char name[max_playername_length];
 	int numjug;
+
 	PARSER p{str};
-
-	if(strlen(str) == 0) {
+	p >> CString{name} >> numjug;
+	if(!p.ok()) {
 		goto error;
 	}
-
-	if(p.parse_fragment()) {
-		strncpy(name, p.token, sizeof(name)-1);
-		name[sizeof(name)-1]=0;
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	/* I dont care if there is one more or not */
 
 	if(g_game.msg_show & M_MSG) {
 		callbacks::gui_textplayermsg(name, numjug, p.remainder());
@@ -995,8 +762,6 @@ TEG_STATUS clitok_status(char *str)
 	Player j, *j_tmp;
 	PARSER p{str, ':', '/'};
 
-	int i;
-
 	player_flush();
 
 	if(strlen(str)==0) {
@@ -1004,18 +769,19 @@ TEG_STATUS clitok_status(char *str)
 	}
 
 	do {
-		if((i=p.parse())) {
-			if(aux_status(&j, p.token) != TEG_STATUS_SUCCESS) {
-				goto error;
-			}
-
-			if(player_whois(j.numjug, &j_tmp) == TEG_STATUS_SUCCESS) {
-				player_update(&j);
-			} else {
-				player_ins(&j);
-			}
+		if(!p.parse()) {
+			break;
 		}
-	} while(i && p.can_continue());
+		if(aux_status(&j, p.token) != TEG_STATUS_SUCCESS) {
+			goto error;
+		}
+
+		if(player_whois(j.numjug, &j_tmp) == TEG_STATUS_SUCCESS) {
+			player_update(&j);
+		} else {
+			player_ins(&j);
+		}
+	} while(p.can_continue());
 ok:
 	callbacks::gui_status();
 	return TEG_STATUS_SUCCESS;
@@ -1030,8 +796,6 @@ TEG_STATUS clitok_scores(char *str)
 	SCORES score;
 	PARSER p{str, DELIM{.valid=false}, DELIM{'\\'}};
 
-	int i;
-
 	if(strlen(str)==0) {
 		goto ok;
 	}
@@ -1039,13 +803,15 @@ TEG_STATUS clitok_scores(char *str)
 	scores_init();
 
 	do {
-		if((i=p.parse())) {
-			if(aux_scores(&score, p.token) != TEG_STATUS_SUCCESS) {
-				goto error;
-			}
-			insert_score(&score);
+		if(!p.parse()) {
+			break;
 		}
-	} while(i && p.can_continue());
+		if(aux_scores(&score, p.token) != TEG_STATUS_SUCCESS) {
+			goto error;
+		}
+		insert_score(&score);
+
+	} while(p.can_continue());
 
 ok:
 	callbacks::gui_scores();
@@ -1061,7 +827,6 @@ TEG_STATUS clitok_start(char *str)
 {
 	Player j;
 	PARSER p{str, ':', '/'};
-	int i;
 
 	if(strlen(str)==0) {
 		goto error;
@@ -1069,14 +834,16 @@ TEG_STATUS clitok_start(char *str)
 
 	player_flush();
 	do {
-		if((i=p.parse())) {
-			if(aux_status(&j, p.token) != TEG_STATUS_SUCCESS) {
-				goto error;
-			}
-
-			player_ins(&j);
+		if((!p.parse())) {
+			break;
 		}
-	} while(i && p.can_continue());
+
+		if(aux_status(&j, p.token) != TEG_STATUS_SUCCESS) {
+			goto error;
+		}
+
+		player_ins(&j);
+	} while(p.can_continue());
 
 	ESTADO_SET(PLAYER_STATUS_START);
 
@@ -1133,45 +900,15 @@ error:
 /* someone has exchanged cards for armies. maybe its me */
 TEG_STATUS clitok_exchange(char *str)
 {
+	int p1, p2, p3, numjug, cant;
 	PARSER p{str};
-	int p1, p2, p3;
-	int numjug, cant;
+
+	p >> numjug >> cant >> p1 >> p2 >> p3;
+	if(!p.finished()) {
+		goto error;
+	}
+
 	PCPLAYER pJ;
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		cant = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		p1 = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		p2 = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		p3 = atoi(p.token);
-	} else {
-		goto error;
-	}
-
 	if(player_whois(numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
@@ -1211,36 +948,14 @@ error:
 /* tells the rules of the game */
 TEG_STATUS clitok_modalidad(char *str)
 {
+	int with_secret_mission, with_common_mission, with_fog_of_war, _unused;
 	PARSER p{str};
-	int with_secret_mission, with_common_mission, with_fog_of_war;
+	p >> with_secret_mission >> with_common_mission >> with_fog_of_war
+	  >> _unused;
 
-	if(strlen(str)==0) {
+	if(!p.finished()) {
 		goto error;
-	}
 
-	if(p.parse_fragment()) {
-		with_secret_mission = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		with_common_mission = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		with_fog_of_war = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	/* not used */
-	if(p.parse_everything()) {
-		// rules = atoi( p.token );
-	} else {
-		goto error;
 	}
 
 	g_game.with_common_mission = with_common_mission;
@@ -1258,20 +973,10 @@ error:
 /* tells what is your secret mission */
 TEG_STATUS clitok_mission(char *str)
 {
-	PARSER p{str};
 	int mission;
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		mission = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(mission < 0 || mission >= missions_cant()) {
+	PARSER p{str};
+	p >> Limited{mission, 0, missions_cant()-1, 0};
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -1286,28 +991,9 @@ error:
 /* I'm receiving the card I've requested after finishing my turn */
 TEG_STATUS clitok_tarjeta(char *str)
 {
-	PARSER p{str};
 	int country, used;
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		country = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		used = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(country < 0 || country >= COUNTRIES_CANT) {
-		goto error;
-	}
+	PARSER p{str};
+	p >> Limited{country, 0, COUNTRIES_CANT-1, 0} >> used;
 
 	ESTADO_SET(PLAYER_STATUS_TARJETA);
 
@@ -1315,10 +1001,6 @@ TEG_STATUS clitok_tarjeta(char *str)
 
 	if(used) {
 		tarjeta_usar(&g_countries[ country ].tarjeta);
-	}
-	g_countries[ country ].tarjeta.numjug = WHOAMI();
-
-	if(used) {
 		textmsg(M_IMP,
 		        _("You received card: '%s' and 2 armies where placed there"),
 		        countries_get_name(country));
@@ -1326,6 +1008,7 @@ TEG_STATUS clitok_tarjeta(char *str)
 		textmsg(M_IMP, _("You received card: '%s'"),
 		        countries_get_name(country));
 	}
+	g_countries[ country ].tarjeta.numjug = WHOAMI();
 
 	callbacks::gui_tarjeta(country);
 	return TEG_STATUS_SUCCESS;
@@ -1338,22 +1021,11 @@ error:
 /* Servers's Protocol version. HIVER MUST be equal, otherwise wont work */
 TEG_STATUS clitok_pversion(char *str)
 {
+	int hi, _low;
 	PARSER p{str};
-	int hi;
+	p >> hi >> _low;
 
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		hi = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		// integer value not used
-	} else {
+	if(!p.finished()) {
 		goto error;
 	}
 
@@ -1374,47 +1046,25 @@ error:
 /* server version */
 TEG_STATUS clitok_sversion(char *str)
 {
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	textmsg(M_ALL, "%s", str);
+	textmsg(M_ALL, "Server version is '%s'", str);
 	return TEG_STATUS_SUCCESS;
-error:
-	textmsg(M_ERR, "Error in clitok_pversion()");
-	return TEG_STATUS_ERROR;
 }
 
 /* says who starts the round and the round number */
 TEG_STATUS clitok_new_round(char *str)
 {
-	PARSER p{str};
 	int numjug, round_number;
+	PARSER p{str};
+	p >> Limited{numjug, 0, maximum_player_count-1, -1}
+	  >> Limited{round_number, 0, std::numeric_limits<int>::max(), -1};
+	if(!p.finished()) {
+		goto error;
+	}
+
+	g_game.round_number = round_number;
+	g_game.who_started_round = numjug;
+
 	PCPLAYER pJ;
-
-	if(strlen(str)==0) {
-		goto error;
-	}
-
-	if(p.parse_fragment()) {
-		numjug = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(p.parse_everything()) {
-		round_number = atoi(p.token);
-	} else {
-		goto error;
-	}
-
-	if(round_number >=0 && numjug >= 0) {
-		g_game.round_number = round_number;
-		g_game.who_started_round = numjug;
-	} else {
-		goto error;
-	}
-
 	if(player_whois(numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		/* no lo tengo en la base */
 		textmsg(M_IMP, _("Player %d started round number: %d"),
@@ -1455,13 +1105,10 @@ static TEG_STATUS client_lookup(PARSER *p)
 /* read from the fd, then parse the data */
 TEG_STATUS client_recv(int fd)
 {
-	int i, j;
 	char str[PROT_MAX_LEN];
-
 	memset(str, 0, sizeof(str));
-	j=net_readline(fd, str, PROT_MAX_LEN);
 
-	if(j<1) {
+	if(net_readline(fd, str, PROT_MAX_LEN)<1) {
 		teg_disconnect();
 		return TEG_STATUS_CONNCLOSED;
 	}
@@ -1469,12 +1116,13 @@ TEG_STATUS client_recv(int fd)
 	PARSER p{str, '=', ';'};
 
 	do {
-		if((i=p.parse())) {
-			if(client_lookup(&p) == TEG_STATUS_CONNCLOSED) {
-				return TEG_STATUS_CONNCLOSED;
-			}
+		if(!p.parse()) {
+			break;
 		}
-	} while(i && p.can_continue());
+		if(client_lookup(&p) == TEG_STATUS_CONNCLOSED) {
+			return TEG_STATUS_CONNCLOSED;
+		}
+	} while(p.can_continue());
 
 	return TEG_STATUS_SUCCESS;
 }

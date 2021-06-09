@@ -262,7 +262,7 @@ TEG_STATUS gui_disconnect(void)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_connected(char *c)
+TEG_STATUS gui_connected(int const *c)
 {
 	set_sensitive_tb();
 	if(!g_game.observer) {
