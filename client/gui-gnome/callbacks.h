@@ -17,12 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-#ifndef __GUI_GNOME_CALLBACKS_H
-#define __GUI_GNOME_CALLBACKS_H
+
+#pragma once
 
 #include <gtk/gtk.h>
-#include "gui.h"
 #include "client.h"
+
 
 void on_connect_activate(GtkMenuItem     *menuitem, gpointer         user_data);
 
@@ -75,5 +75,3 @@ void destroy_window(GtkWidget * widget, GtkWidget **window);
 void raise_and_focus(GtkWidget *widget);
 
 gboolean pre_client_recv(GIOChannel *source, GIOCondition cond, gpointer data);
-
-#endif /* __GUI_GNOME_CALLBACKS_H */

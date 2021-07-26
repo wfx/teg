@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "../common/common.h"
 #include "cont.h"
 
@@ -58,7 +54,3 @@ TEG_STATUS ai_puntaje_sort(int cant);
 
 /// Reset the sorting mechanism
 void ai_puntaje_clean();
-
-#ifdef __cplusplus
-}
-#endif

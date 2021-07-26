@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 void dont_run_as_root();
 void init_nls();
 
@@ -62,7 +58,3 @@ const char *get_option(const char *option_name, const char **argv, int *i, int a
  *   option_name="--foo", option="-xf" -> false       # combining of short options is not supported
  */
 int is_option(const char *option_name, char const *option);
-
-#ifdef __cplusplus
-}
-#endif

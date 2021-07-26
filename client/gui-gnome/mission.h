@@ -17,13 +17,10 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * \file mission.h
- */
-#ifndef __TEG_GUI_GNOME_MISSION_H
-#define __TEG_GUI_GNOME_MISSION_H
+
+#pragma once
+
+#include "../../common/common.h"
 
 void mission_view();
 TEG_STATUS mission_view_fake_number(GtkWidget *dialog, int mission);
-
-#endif /* __TEG_GUI_GNOME_MISSION_H */

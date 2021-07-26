@@ -22,12 +22,8 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef struct _aimsg {
-	char *msg;
+	char const *msg;
 	int args;
 } aimsg_t, *paimsg_t;
 
@@ -44,11 +40,7 @@ enum {
 TEG_STATUS ai_msg(int type, const char *n);
 
 /// Choose a random name
-char * ai_name();
+const char *ai_name();
 
 /// Checks if the name is a name the robot would use
 TEG_STATUS ai_findname(const char *name);
-
-#ifdef __cplusplus
-}
-#endif

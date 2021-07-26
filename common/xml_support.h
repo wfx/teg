@@ -22,10 +22,6 @@
 
 #include <libxml/tree.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 xmlNodePtr xml_get_element_children(xmlNodePtr);
 xmlNodePtr xml_get_element_next(xmlNodePtr);
 
@@ -36,7 +32,3 @@ xmlNodePtr xml_get_element_next(xmlNodePtr);
  * @param number the number to store
  */
 void add_numeric_attribute(xmlNodePtr node, char const* name, int number);
-
-#ifdef __cplusplus
-}
-#endif

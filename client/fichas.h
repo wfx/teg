@@ -25,12 +25,8 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "common.h"
-#include "country.h"
+#include "../common/common.h"
+#include "../common/country.h"
 
 /**
  * \brief places one army of the player into country \p p.
@@ -112,6 +108,3 @@ TEG_STATUS fichas_leave(PCOUNTRY p);
  * \p cant, the continent bitfield will be placed in \p conts. */
 void fichas_get_wanted(int *cant, int *conts);
 
-#ifdef __cplusplus
-}
-#endif

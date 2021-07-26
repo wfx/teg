@@ -20,9 +20,7 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "player.h"
 
 /**! initialize the game */
 void game_init();
@@ -31,10 +29,10 @@ void game_init();
 void game_new();
 
 /**! called when a game in finish */
-void game_end();
+void game_end(PSPLAYER winner);
 
 /**! when the game is over */
-BOOLEAN game_is_finished(void);
+bool game_is_finished(void);
 
 void server_init();
 
@@ -43,7 +41,3 @@ void fd_remove(int fd);
 
 /**! adds a new fd to the list of fd */
 void fd_add(int fd);
-
-#ifdef __cplusplus
-}
-#endif

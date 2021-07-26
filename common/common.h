@@ -23,11 +23,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
 #define TEG_MAX_PLAYERS 6
 #define TEG_MAX_CONNECTIONS 15
 #define TEG_DEFAULT_PORT	2000
@@ -74,7 +69,7 @@ typedef enum {
 	ARMY_ROSA = 4,
 	ARMY_VERDE = 5
 } ARMY, *PARMY;
-extern char *g_colores[];
+extern char const *g_colores[];
 
 #define RANDOM_MAX(_min,_max) (_min+(int)(((float)(1+_max-_min))*rand() / (RAND_MAX+1.0)))
 
@@ -115,7 +110,7 @@ typedef enum {
 
 	PLAYER_STATUS_LAST		/**< unreacheble state */
 } PLAYER_STATUS, *PPLAYER_STATUS;
-extern char *g_estados[];
+extern char const *g_estados[];
 
 typedef struct _LIST_ENTRY {
 	struct _LIST_ENTRY *Flink;
@@ -259,7 +254,3 @@ int my_atoi(const char *s);
  * the size limit is hit, it places a terminating zero byte at the end of the
  * target buffer (unless \p destlen is 0). */
 void string_copy(char* dest, size_t destlen, char const* source);
-
-#ifdef __cplusplus
-}
-#endif
