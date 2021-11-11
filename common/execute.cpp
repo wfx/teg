@@ -2,11 +2,11 @@
 
 #include "execute.hpp"
 
-#include <vector>
 #include <cstdlib>
-
 #include <cstring>
 
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 namespace teg
@@ -50,6 +50,21 @@ bool execute_program(const char * const *prog_and_args, std::size_t arg_count)
 	                      : execvp;
 	exec_fn(holder.args[0], holder.args.data());
 	return false;
+}
+
+std::filesystem::path binary_path()
+{
+	return std::filesystem::read_symlink("/proc/self/exe");
+}
+
+std::filesystem::path program_directory()
+{
+	return binary_path().parent_path();
+}
+
+std::filesystem::path installation_directory()
+{
+	return binary_path().parent_path().parent_path();
 }
 
 }

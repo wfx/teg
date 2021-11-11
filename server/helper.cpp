@@ -21,6 +21,7 @@
  * helper functions used by play*
  */
 
+#include <filesystem>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -553,8 +554,9 @@ TEG_STATUS launch_robot(int *robot_socket, char const *mode)
 		return TEG_STATUS_ERROR;
 	} else if(pid == 0) {
 
+		auto const robot = program_directory() / "tegrobot";
 		close(sockets[1]);
-		args[0] = BINDIR"/tegrobot";
+		args[0] = robot.c_str();
 		args[1] = mode;
 		args[2] = NULL;
 
