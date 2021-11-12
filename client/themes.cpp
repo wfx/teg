@@ -804,29 +804,7 @@ ThemeDirectories const& theme_enum_themes()
 /// \todo make this return std::string
 char * theme_load_file(char const *name)
 {
-	FILE *fp;
-	static char buf[512];
-
-	memset(buf, 0, sizeof(buf));
-
-	snprintf(buf, sizeof(buf)-1, "themes/%s/%s", g_game.theme, name);
-	fp = fopen(buf, "r");
-	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), rc_directory_name, g_game.theme, name);
-		fp = fopen(buf, "r");
-	}
-
-	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/%s", THEMEDIR, g_game.theme, name);
-		fp = fopen(buf, "r");
-	}
-
-	if(!fp) {
-		return NULL;
-	}
-
-	fclose(fp);
-	return buf;
+	return theme_load_fake_file(g_game.theme, name);
 }
 
 /* Loads a pixmap of a not loaded theme */
