@@ -153,36 +153,30 @@ TEG_STATUS ai_init()
 }
 
 /**
- * @fn BOOLEAN ai_is_country_peligroso( int src, int dst )
- * Dice si un country el peligroso, dependiendo si este lo puede
- * atacar antes de que se acabe el turno
+ * This function decides if it is dangerous to attack country dst by src. It is
+ * taken into consideration if the the player of the country to be attacked has
+ * already done with the turn.
  */
 bool ai_is_country_peligroso(int src, int dst)
 {
-	int aparecio_empezo = false;
-	int dst_jugo = false;
-	PLIST_ENTRY l = c::g_list_player.Flink;
-	c::PCPLAYER pJ;
+	/// \todo rename and scope limit variables
+	bool aparecio_empezo = false;
+	bool dst_jugo = false;
 	int tmp;
 
-	while(!IsListEmpty(&c::g_list_player) && (l != &c::g_list_player)) {
-		pJ = (c::PCPLAYER) l;
+	c::players_map_int(
+	[&aparecio_empezo, dst, &dst_jugo](c::CPLAYER& player) {
 
-		if(pJ->empezo_turno) {
+		if(player.empezo_turno) {
 			aparecio_empezo = true;
 		}
 
-		if(pJ->numjug == g_countries[dst].numjug) {
-			if(aparecio_empezo) {
-				dst_jugo = true;
-			} else {
-				dst_jugo = false;
-			}
-			break;
+		if(player.numjug == g_countries[dst].numjug) {
+			dst_jugo = aparecio_empezo;
+			return false;
 		}
-
-		l = LIST_NEXT(l);
-	}
+		return true;
+	});
 
 	if(dst_jugo) {
 		return false;

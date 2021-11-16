@@ -3,9 +3,7 @@
 * Change the code to C++20 only
 * First trivial C++ refactorings (introduction of namespaces, fewer
   preprocessor magic, idiomatic data structures)
-* Remove the hand written double linked lists
-  * from the server code
-  * from country and card handling
+* Remove the hand written double linked lists and use standard containers
 
 - version 0.12.0
 
