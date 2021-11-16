@@ -22,6 +22,7 @@
  * Funciones auxiliares del cliente
  */
 
+#include <filesystem>
 #include <string.h>
 
 #include "parser.h"

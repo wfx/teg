@@ -21,6 +21,7 @@
  * messages that the robot might say
  */
 
+#include <filesystem>
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>

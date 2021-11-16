@@ -22,6 +22,7 @@
  * @brief Client side card management.
  */
 
+#include <filesystem>
 #include "../common/net.h"
 
 #include "protocol.h"
