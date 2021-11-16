@@ -7,6 +7,13 @@
 * big internal rework
 * the server console now only supports '=' to assign option values (this is due
   to a refactoring, supporting the old behavior is too much of a hassle, as I
+* Improve the build helper script
+  * Allways delete and recreate an existing build directory
+* [bugfix/pr #24] Autoconf library detection bugfix
+* [pr #27] The project can be build on OpenSuse
+* fix to memory related bug in the parser and parser test code (bffb51 and
+  fd5f42).
+
   don't expect that anyone on this planet uses the console)
 
 - version 0.12.0
