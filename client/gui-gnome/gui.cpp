@@ -27,6 +27,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include "../../common/execute.hpp"
+
 #include "../client.h"
 
 #include "priv.h"
@@ -192,7 +194,8 @@ TEG_STATUS gui_init(int argc, char **argv)
 	 * example does not use them
 	 */
 	/* setlocale(LC_ALL,""); */
-	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
+	bindtextdomain(PACKAGE,
+	               (installation_directory() / "share" / "locale").c_str());
 	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 	textdomain(PACKAGE);
 #endif

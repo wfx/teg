@@ -91,8 +91,7 @@ libguiclient_a_CPPFLAGS = \
 	@XML_CFLAGS@					\
 	-I$(top_srcdir)/common				\
 	-I$(top_srcdir)/client				\
-	-DG_LOG_DOMAIN=\"TEG\"				\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 
+	-DG_LOG_DOMAIN=\"TEG\"
 
 libguiclient_a_SOURCES = \
 	client/gui-gnome/gui.cpp client/gui-gnome/gui.h		\
