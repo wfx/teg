@@ -40,7 +40,7 @@ char *ai_fetch_a_name()
 	int i=0;
 
 	char *result{nullptr};
-	c::players_map_int([&i, &n, &result](c::CPLAYER &player) {
+	c::players_map_int([&i, &n, &result](c::Player &player) {
 		if((i++) == n) {
 			if(player.numjug == c::WHOAMI()) {
 				n++;

@@ -190,7 +190,7 @@ TEG_STATUS gui_disconnect(void)
 	return TEG_STATUS_CONNCLOSED;
 }
 
-TEG_STATUS gui_connected(char *c)
+TEG_STATUS gui_connected(int const *_ignored)
 {
 	int s = random_between(0, maximum_player_count-1);
 	out_color(s);

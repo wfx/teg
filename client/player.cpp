@@ -33,14 +33,14 @@
 namespace teg::client
 {
 
-using ClientPlayerList = std::list<CPLAYER>;
+using ClientPlayerList = std::list<Player>;
 
 ClientPlayerList players;
 
 TEG_STATUS player_whois(int numjug, PCPLAYER *j)
 {
 	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
-	players_map_int([&result, &j, numjug](CPLAYER& player) {
+	players_map_int([&result, &j, numjug](Player& player) {
 		if((result != TEG_STATUS_SUCCESS) && (player.numjug == numjug)) {
 			*j = &player;
 			result = TEG_STATUS_SUCCESS;
@@ -74,7 +74,7 @@ void player_del(PCPLAYER pJ)
 	assert(players.size() > 0);
 
 	auto it = std::find_if(players.begin(), players.end(),
-	[pJ](CPLAYER &p) {
+	[pJ](Player &p) {
 		return &p == pJ;
 	});
 	assert(it!=players.end());
@@ -101,7 +101,7 @@ void players_map(PlayersCallback cb)
 
 void players_map_int(InterruptablePlayersCallback cb)
 {
-	for(CPLAYER& p: players) {
+	for(Player& p: players) {
 		if(!cb(p)) {
 			return;
 		}

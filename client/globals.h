@@ -34,7 +34,7 @@ extern TEG_STATUS gui_main(void);
 extern TEG_STATUS gui_textmsg(char *aString);
 extern TEG_STATUS gui_disconnect(void);
 extern TEG_STATUS gui_habilitado(int numjug);
-extern TEG_STATUS gui_connected(char *c);
+extern TEG_STATUS gui_connected(const int *c);
 extern TEG_STATUS gui_reconnected();
 extern TEG_STATUS gui_status(void);
 extern TEG_STATUS gui_start(void);

@@ -37,26 +37,22 @@
 #include "parser.h"
 #include "parser_private.h"
 
-#include <ctype.h>
-#include <stdio.h>
+#include <cstdlib>
+#include <cstring>
 
-bool parser_belongs_to_class(char ch, DELIM const* which)
+bool parser_belongs_to_class(char ch, DELIM const& which)
 {
-	if(which == NULL) {
-		return false;
-	}
-	return (which->a == ch)
-	       || (which->b == ch)
-	       || (which->c == ch);
+	return which.valid && (which.accept == ch);
 }
 
-DELIM const delim_fin = {0, '\n', '\r'};
 enum CharClass parser_character_class(char a,
-                                      DELIM const* igualador,
-                                      DELIM const* separador)
+                                      DELIM const& igualador,
+                                      DELIM const& separador)
 {
-	if(parser_belongs_to_class(a, &delim_fin)) {
-		return ccEnd;
+	for(char const ch: "\n\r") {
+		if(ch == a) {
+			return ccEnd;
+		}
 	}
 	if(parser_belongs_to_class(a, igualador)) {
 		return ccEquals;
@@ -69,7 +65,7 @@ enum CharClass parser_character_class(char a,
 }
 
 PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
-                                  DELIM const* equals, DELIM const* separators, int maxlen)
+                                  DELIM const& equals, DELIM const& separators, int maxlen)
 {
 	PARSER_VALUE pval=PARSER_DATA;
 	int i, j;
@@ -103,12 +99,19 @@ PARSER_VALUE parser_analyze_token(int *pos, char const *in, char *out,
 }
 
 /* Unica funcion exportable */
-bool parser_parse(PPARSER p_in)
+bool PARSER::parse()
 {
+	PARSER *const p_in{this};
 	PARSER_VALUE pval;
 	int i;
 
-	if((pval=parser_analyze_token(&i, p_in->data, p_in->token, p_in->equals, p_in->separators, PARSER_TOKEN_MAX)) == PARSER_ERROR) {
+	if(!can_continue()) {
+		return false;
+	}
+
+	if((pval=parser_analyze_token(&i, p_in->data, p_in->token,
+	                              p_in->equals, p_in->separators,
+	                              PARSER_TOKEN_MAX)) == PARSER_ERROR) {
 		return false;
 	}
 
@@ -117,17 +120,19 @@ bool parser_parse(PPARSER p_in)
 	switch(pval) {
 	case PARSER_FIN:
 		p_in->data=NULL;
-		p_in->can_continue = false;
+		p_in->m_can_continue = false;
 		return true;
 
 	case PARSER_SEPARADOR:
 		p_in->data=&p_in->data[i+1];
-		p_in->can_continue = true;
+		p_in->m_can_continue = true;
 		return true;
 
 	case PARSER_IGUAL: {
 		int j;
-		pval = parser_analyze_token(&j, &p_in->data[i+1], p_in->value, NULL, p_in->separators, PARSER_VALUE_MAX);
+		pval = parser_analyze_token(&j, &p_in->data[i+1], p_in->value,
+		                            DELIM{.valid=false}, p_in->separators,
+		                            PARSER_VALUE_MAX);
 
 		if(pval==PARSER_IGUAL || pval==PARSER_ERROR) {
 			return false;
@@ -135,14 +140,46 @@ bool parser_parse(PPARSER p_in)
 
 		if(pval==PARSER_SEPARADOR) {
 			p_in->data = &p_in->data[j+1 + i+1];
-			p_in->can_continue = true;
+			p_in->m_can_continue = true;
 		} else { /* PARSER_FIN */
 			p_in->data = NULL;
-			p_in->can_continue = false;
+			p_in->m_can_continue = false;
 		}
 		return true;
 	}
 	default:
 		return false;
 	}
+}
+
+PARSER& operator >> (PARSER& source, int &value)
+{
+	if(source.parse_token()) {
+		value=std::atoi(source.token);
+	}
+	return source;
+}
+
+PARSER& operator >> (PARSER& source, Limited&& limit)
+{
+	int dest;
+	source >> dest;
+	if(source.ok() && (dest <= limit.max) && (dest >= limit.min)) {
+		limit.dest = dest;
+	} else {
+		source.fail();
+		limit.dest = limit.reset_to;
+	}
+	return source;
+}
+
+PARSER& operator >> (PARSER& source, CString&& dest)
+{
+	if(source.ok() && source.parse_token()) {
+		if(dest.count > 0) {
+			strncpy(dest.dest, source.token, dest.count);
+			dest.dest[dest.count-1] = 0;
+		}
+	}
+	return source;
 }

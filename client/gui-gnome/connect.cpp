@@ -319,7 +319,7 @@ static GtkWidget *create_color_button(int i)
 }
 
 /* show dialog of 'choose color' */
-void colortype_view(char *c)
+void colortype_view(int const *c)
 {
 	GtkWidget *frame;
 	GtkWidget *vbox_dia;

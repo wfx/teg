@@ -193,7 +193,7 @@ static TEG_STATUS status_update_model(GtkListStore *store)
 {
 	gtk_list_store_clear(store);
 
-	players_map([store](CPLAYER &player) {
+	players_map([store](Player &player) {
 		gchar *const name = translate_to_utf8(player.name);
 
 		GtkTreeIter iter;
@@ -525,7 +525,7 @@ TEG_STATUS mainstatus_update_colors()
 
 	g_object_set(players_color_over, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-	players_map_int([&i](CPLAYER& player) {
+	players_map_int([&i](Player& player) {
 
 		if(player.color >= 0 && player.numjug >= 0) {
 			g_object_set(players_color[i], "visibility",

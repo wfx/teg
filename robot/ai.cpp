@@ -165,7 +165,7 @@ bool ai_is_country_peligroso(int src, int dst)
 	int tmp;
 
 	c::players_map_int(
-	[&aparecio_empezo, dst, &dst_jugo](c::CPLAYER& player) {
+	[&aparecio_empezo, dst, &dst_jugo](c::Player& player) {
 
 		if(player.empezo_turno) {
 			aparecio_empezo = true;

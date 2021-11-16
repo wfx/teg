@@ -191,13 +191,7 @@ TEG_STATUS option_armies(int fd, char *str)
 {
 	int armies1;
 	int armies2;
-	PARSER p;
-	DELIM igualador= { '|', '|', '|' };
-	DELIM separador= { ',', ',', ',' };
-
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
+	PARSER p{str, '|', ','};
 
 	if(str && strlen(str)!=0) {
 
@@ -205,13 +199,13 @@ TEG_STATUS option_armies(int fd, char *str)
 			goto error;
 		}
 
-		if(parser_parse(&p) && p.can_continue) {
+		if(p.parse_fragment()) {
 			armies1 = atoi(p.token);
 		} else {
 			goto error;
 		}
 
-		if(parser_parse(&p) && !p.can_continue) {
+		if(p.parse_everything()) {
 			armies2 = atoi(p.token);
 		} else {
 			goto error;
@@ -295,20 +289,15 @@ TEG_STATUS option_view(int fd, char *str)
 TEG_STATUS option_parse(int fd, char *str)
 {
 	int i;
-	PARSER p;
-	DELIM igualador= { '=', ' ', ':' };
-
-	p.equals = &igualador;
-	p.separators = NULL;
-	p.data = str;
+	PARSER p{str, DELIM{':'}, DELIM{.valid=false}};
 
 	do {
-		if((i=parser_parse(&p))) {
+		if((i=p.parse())) {
 			if(option_lookup(fd, &p) == TEG_STATUS_CONNCLOSED) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 
 	return TEG_STATUS_SUCCESS;
 }
