@@ -1,3 +1,7 @@
+- version 0.13.0
+
+* Change the code to C++20 only
+
 - version 0.12.0
 
 *  #17: Add the ability to place Armies with the mouse wheel
