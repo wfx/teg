@@ -1,3 +1,6 @@
+ACLOCAL_AMFLAGS = -I macros
+AUTOMAKE_OPTIONS = foreign
+
 SUBDIRS = . docs po client/themes client/teg_pix
 
 EXTRA_DIST= README HACKING PEOPLE protocol.txt \
