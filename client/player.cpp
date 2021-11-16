@@ -24,6 +24,9 @@
 #include <string.h>
 #include "client.h"
 
+namespace teg::client
+{
+
 LIST_ENTRY g_list_player;
 
 TEG_STATUS player_whois(int numjug, PCPLAYER *j)
@@ -95,4 +98,6 @@ void player_flush(void)
 void player_init(void)
 {
 	InitializeListHead(&g_list_player);
+}
+
 }

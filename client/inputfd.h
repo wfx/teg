@@ -22,6 +22,9 @@
 
 #include "../common/common.h"
 
+namespace teg::client
+{
+
 /**
  * Parses the server response from filsdescriptor \p pf and dispatch the
  * response.
@@ -30,3 +33,5 @@
  *         TEG_STATUS_CONNCLOSED when a read error occured.
  */
 TEG_STATUS client_recv(int fd);
+
+}

@@ -40,12 +40,14 @@
 #include "themes.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
 
 extern TTheme gui_theme;
 
 
-static GdkPixbuf *dices[DICES_CANT] = { NULL, NULL, NULL, NULL, NULL, NULL };
-static GooCanvasItem *images[DICES_CANT] = { NULL, NULL, NULL, NULL, NULL, NULL };
+static GdkPixbuf *dices[sides_on_the_dice] = { NULL, NULL, NULL, NULL, NULL, NULL };
+static GooCanvasItem *images[sides_on_the_dice] = { NULL, NULL, NULL, NULL, NULL, NULL };
 static GooCanvasItem *text[2] = {NULL, NULL};
 static GooCanvasItem* dices_group=NULL;
 static int dices_initialized=0;
@@ -94,7 +96,7 @@ static TEG_STATUS dices_load()
 		return TEG_STATUS_SUCCESS;
 	}
 
-	for(i=0; i<DICES_CANT; i++) {
+	for(i=0; i<sides_on_the_dice; i++) {
 		char name[40];
 		memset(name, 0, sizeof(name));
 		snprintf(name, sizeof(name)-1, "dice-%d.png", i+1);
@@ -235,7 +237,7 @@ void dices_unview()
 {
 	int i;
 
-	for(i=0; i<DICES_CANT; i++) {
+	for(i=0; i<sides_on_the_dice; i++) {
 		if(images[i])
 			g_object_set(images[i], "visibility",
 			             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -263,7 +265,7 @@ void dices_view()
 
 
 	/* hide all dices */
-	for(i=0; i<DICES_CANT; i++) {
+	for(i=0; i<sides_on_the_dice; i++) {
 		if(images[i])
 			g_object_set(images[i], "visibility",
 			             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -286,4 +288,6 @@ void dices_view()
 		dices_show_image(g_game.dados_dst[i]-1, DICES_DEFENDER, i);
 	}
 	dices_show_text(g_game.dados_dstcountry, DICES_DEFENDER);
+}
+
 }

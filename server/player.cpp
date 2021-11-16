@@ -32,6 +32,9 @@
 #include "fcintl.h"
 #include "main.h"
 
+namespace teg::server
+{
+
 LIST_ENTRY g_list_player;		/**< list of players */
 
 typedef struct {
@@ -111,8 +114,7 @@ void player_initplayer(PSPLAYER pJ)
 	assert(pJ);
 
 	InitializeListHead(&pJ->countries);
-	InitializeListHead(&pJ->deals);
-	pJ->hizo_canje = FALSE;
+	pJ->hizo_canje = false;
 	pJ->tot_exchanges = 0;
 	pJ->tot_countries = 0;
 	pJ->tot_cards = 0;
@@ -135,7 +137,7 @@ void player_init(void)
 
 TEG_STATUS player_numjug_libre(int *libre)
 {
-	char jugs[TEG_MAX_PLAYERS];
+	char jugs[maximum_player_count];
 	int i;
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ;
@@ -147,7 +149,7 @@ TEG_STATUS player_numjug_libre(int *libre)
 	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
 		pJ = (PSPLAYER) l;
 		if(pJ->is_player) {
-			if(pJ->numjug >= 0 && pJ->numjug < TEG_MAX_PLAYERS) {
+			if(pJ->numjug >= 0 && pJ->numjug < maximum_player_count) {
 				jugs[pJ->numjug] = 1;
 			}
 		}
@@ -155,7 +157,7 @@ TEG_STATUS player_numjug_libre(int *libre)
 		l = LIST_NEXT(l);
 	}
 
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(i=0; i<maximum_player_count; i++) {
 		if(jugs[i] == 0) {
 			*libre = i;
 			return TEG_STATUS_SUCCESS;
@@ -167,7 +169,7 @@ TEG_STATUS player_numjug_libre(int *libre)
 }
 
 /* creates a player and initialize it */
-PSPLAYER player_ins(PSPLAYER pJ, BOOLEAN esplayer)
+PSPLAYER player_ins(PSPLAYER pJ, bool esplayer)
 {
 	int numjug;
 	PSPLAYER newJ;
@@ -421,7 +423,7 @@ bool player_esta_xxx_plus(int fd, PLAYER_STATUS state, bool strict, PSPLAYER *j)
 			return ((*j)->estado >= state);
 		}
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
@@ -563,7 +565,7 @@ void player_poner_perdio(PSPLAYER pJ)
 void player_fillname(PSPLAYER pJ, char *name)
 {
 	PSPLAYER pJ_new;
-	char new_name [ PLAYERNAME_MAX_LEN ];
+	char new_name [ max_playername_length ];
 
 	memset(new_name, 0, sizeof(new_name));
 	strncpy(new_name, name, sizeof(new_name) -1);
@@ -613,7 +615,7 @@ PSPLAYER player_return_disconnected(PSPLAYER pJ)
 }
 
 /* return true if the player is disconnected */
-BOOLEAN player_is_disconnected(PSPLAYER pJ)
+bool player_is_disconnected(PSPLAYER pJ)
 {
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ_new;
@@ -624,12 +626,12 @@ BOOLEAN player_is_disconnected(PSPLAYER pJ)
 		if((pJ_new->estado == PLAYER_STATUS_DESCONECTADO) &&
 		        strcmp(pJ->name, pJ_new->name) == 0
 		  ) {
-			return TRUE;
+			return true;
 		}
 
 		l = LIST_NEXT(l);
 	}
-	return FALSE;
+	return false;
 }
 
 /* insert all the player but the ones in GAME OVER */
@@ -659,4 +661,6 @@ TEG_STATUS player_kick_unparent_robots(void)
 		}
 	}
 	return TEG_STATUS_SUCCESS;
+}
+
 }

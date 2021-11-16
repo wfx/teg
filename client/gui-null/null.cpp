@@ -6,6 +6,9 @@
 #include "../../common/common.h"
 #include "../globals.h"
 
+namespace teg::client::callbacks
+{
+
 /* called with at the very beginning, with the originals argc & argv */
 TEG_STATUS gui_init(int argc, char **argv)
 {
@@ -114,4 +117,6 @@ TEG_STATUS gui_country(int country_number)
 TEG_STATUS gui_country_select(int country_number)
 {
 	return TEG_STATUS_SUCCESS;
+}
+
 }

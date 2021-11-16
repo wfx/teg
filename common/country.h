@@ -55,13 +55,13 @@ enum {
  */
 extern COUNTRY g_countries[];
 
-BOOLEAN countries_eslimitrofe(int a, int b);
+bool countries_eslimitrofe(int a, int b);
 void countries_initcountry(PCOUNTRY p);
 void countries_init();
-BOOLEAN country_libre(int i);
+bool country_libre(int i);
 
 /// \brief decides if the country number is valid.
-BOOLEAN countrynumber_is_valid(int country_number);
+bool countrynumber_is_valid(int country_number);
 
 /**! returns the name of 'country' */
 const char *countries_get_name(int country);

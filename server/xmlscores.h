@@ -23,6 +23,9 @@
 #include "../common/common.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 /*! loads the scores from and xml file */
 TEG_STATUS xmlscores_load(void);
 
@@ -34,3 +37,5 @@ TEG_STATUS scores_insert_player(PSPLAYER pJ);
 
 /*! dumps to top high scores in parseable protocol format */
 TEG_STATUS scores_dump(char *strout, size_t buflen);
+
+}

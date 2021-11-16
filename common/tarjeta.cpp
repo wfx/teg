@@ -50,13 +50,13 @@ bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
  * @fn BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
  * Dice si es correcto el canje con las tarjetas t1,t2 y t3
  */
-BOOLEAN tarjeta_puedocanje(int numjug, int t1, int t2, int t3)
+bool tarjeta_puedocanje(int numjug, int t1, int t2, int t3)
 {
 	/* chequear que las tarjetas sean del jugador */
 	if(!(card_belongs_to_player(numjug, t1)&&
 	        card_belongs_to_player(numjug, t2) &&
 	        card_belongs_to_player(numjug, t3))) {
-		return FALSE;
+		return false;
 	}
 
 	return can_trade_cards(g_countries[t1].tarjeta.tarjeta,
@@ -73,7 +73,7 @@ void tarjeta_init(void)
  */
 void tarjeta_usar(PTARJETA pT)
 {
-	pT->usada = TRUE;
+	pT->usada = true;
 }
 
 /**
@@ -81,7 +81,7 @@ void tarjeta_usar(PTARJETA pT)
  */
 void tarjeta_desusar(PTARJETA pT)
 {
-	pT->usada = FALSE;
+	pT->usada = false;
 }
 
 /**
@@ -89,7 +89,7 @@ void tarjeta_desusar(PTARJETA pT)
  */
 void tarjeta_inittarj(PTARJETA t)
 {
-	t->usada = FALSE;
+	t->usada = false;
 	t->numjug = -1;
 }
 
@@ -115,7 +115,7 @@ void tarjeta_sacar(PTARJETA t, int numjug)
  * @param i Pais que contiene a la tarjeta
  * @return TRUE si la tarjeta esta libre
  */
-int tarjeta_es_libre(int i)
+bool tarjeta_es_libre(int i)
 {
 	return(g_countries[i].tarjeta.numjug == -1);
 }
@@ -123,8 +123,8 @@ int tarjeta_es_libre(int i)
 /**
  * @fn BOOLEAN tarjeta_es_usada( PTARJETA pT )
  */
-BOOLEAN tarjeta_es_usada(PTARJETA pT)
+bool tarjeta_es_usada(PTARJETA pT)
 {
-	return (pT->usada == TRUE);
+	return (pT->usada == true);
 }
 

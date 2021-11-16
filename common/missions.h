@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <string>
+
 #include "cont.h"
 
 typedef struct _missions {
@@ -51,4 +53,4 @@ extern MISSIONS g_missions[];
 int missions_cant();
 
 /* return the name of a mission (translated) */
-char const* missions_get_name(int number);
+std::string missions_get_name(int number);

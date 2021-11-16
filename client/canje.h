@@ -22,6 +22,9 @@
 
 #include "../common/common.h"
 
+namespace teg::client
+{
+
 /**
  * \brief Sends the request to exchange cards.
  *
@@ -46,3 +49,5 @@ TEG_STATUS canje_out(int p1, int p2, int p3);
  * \return TEG_STATUS_SUCCESS on success, TEG_STATUS_ERROR otherwise.
  */
 TEG_STATUS canje_puedo(int *p1, int *p2, int *p3);
+
+}

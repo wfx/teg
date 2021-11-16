@@ -9,6 +9,8 @@
 #include <glib/gi18n.h>
 #include "tegcanvasimage.h"
 
+namespace teg::client::callbacks
+{
 
 typedef struct _TegCanvasImagePrivate TegCanvasImagePrivate;
 struct _TegCanvasImagePrivate {
@@ -666,4 +668,6 @@ static GooCanvasItem* teg_canvas_image_model_create_item(GooCanvasItemModel *mod
 static void item_model_interface_init(GooCanvasItemModelIface *iface)
 {
 	iface->create_item    = teg_canvas_image_model_create_item;
+}
+
 }

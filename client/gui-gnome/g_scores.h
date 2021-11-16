@@ -22,8 +22,13 @@
 
 #include <gtk/gtk.h>
 
+namespace teg::client::callbacks
+{
+
 /**! view the hiscores */
 void gui_scores_view();
 
 /**! place the scores insice an hbox */
 void gui_scores_embed(GtkWidget *hbox);
+
+}

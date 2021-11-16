@@ -23,7 +23,10 @@
 #include "../common/common.h"
 #include "player.h"
 
-typedef int (*get_random_func)(int i);
+namespace teg::server
+{
+
+typedef bool(*get_random_func)(int i);
 
 void ins_orden(char d, char *array, int len);
 
@@ -36,7 +39,7 @@ TEG_STATUS aux_token_countries(PSPLAYER pJ, char *buf, int buflen);
 PCOUNTRY get_random_country(get_random_func func);
 
 void color_init();
-BOOLEAN color_libre(int *color);
+bool color_libre(int *color);
 void color_del(int i);
 TEG_STATUS colores_libres(char *c);
 
@@ -47,3 +50,5 @@ TEG_STATUS fichasc_next(void);
 TEG_STATUS aux_find_inaddr(PSPLAYER pJ);
 
 TEG_STATUS launch_robot(int *robot_socket, const char *mode);
+
+}

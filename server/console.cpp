@@ -46,6 +46,9 @@
 #include "scores.h"
 #include "parser.h"
 
+namespace teg::server
+{
+
 #undef DEBUG_CONSOLE
 
 #define CONSOLE_DEBUG PDEBUG
@@ -132,7 +135,7 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 {
 	(void) unused;
 	int color;
-	color = ((pS->color >= TEG_MAX_PLAYERS || pS->color < 0) ? TEG_MAX_PLAYERS : pS->color);
+	color = ((pS->color >= maximum_player_count || pS->color < 0) ? maximum_player_count : pS->color);
 	printf("  %4d   %s   %-15s   %-8s %s\n",
 	       pS->score,
 	       pS->date,
@@ -209,7 +212,7 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 		int color;
 		pJ = (PSPLAYER) l;
 
-		color = (pJ->color==-1) ? TEG_MAX_PLAYERS : pJ->color;
+		color = (pJ->color==-1) ? maximum_player_count : pJ->color;
 		if(pJ->is_player) {
 			net_printf(fd, "%-3d %d  %-3u  %-3u  %d  %d  %-15s  %s  %s  %s  %s\n",
 			           pJ->fd,
@@ -417,4 +420,6 @@ TEG_STATUS console_quit(void)
 	}
 #endif /* HAVE_LIBREADLINE */
 	return TEG_STATUS_SUCCESS;
+}
+
 }

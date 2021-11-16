@@ -38,7 +38,8 @@
 #include "fcintl.h"
 #include "client.h"
 
-using namespace teg;
+namespace teg::client
+{
 
 CJUEGO g_game;			/**< client game */
 
@@ -153,7 +154,7 @@ void teg_disconnect()
 	game_finalize();
 	game_init();
 
-	gui_disconnect();
+	callbacks::gui_disconnect();
 }
 
 TEG_STATUS playerid_restore_from_error(void)
@@ -275,7 +276,7 @@ TEG_STATUS textmsg(int level, char const *format, ...)
 	buf[ sizeof(buf) -1 ] = 0;
 
 	if(g_game.msg_show & level) {
-		gui_textmsg(buf);
+		callbacks::gui_textmsg(buf);
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -288,7 +289,7 @@ TEG_STATUS dirs_create()
 
 	memset(buf, 0, sizeof(buf));
 
-	snprintf(buf, sizeof(buf)-1, "%s/%s", g_get_home_dir(), TEG_DIRRC);
+	snprintf(buf, sizeof(buf)-1, "%s/%s", g_get_home_dir(), rc_directory_name);
 
 	if((dir = opendir(buf)) == NULL) {
 		mkdir(buf, 0755);
@@ -296,7 +297,7 @@ TEG_STATUS dirs_create()
 		closedir(dir);
 	}
 
-	snprintf(buf, sizeof(buf)-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
+	snprintf(buf, sizeof(buf)-1, "%s/%s/themes", g_get_home_dir(), rc_directory_name);
 	if((dir = opendir(buf)) == NULL) {
 		mkdir(buf, 0755);
 	} else {
@@ -304,4 +305,6 @@ TEG_STATUS dirs_create()
 	}
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

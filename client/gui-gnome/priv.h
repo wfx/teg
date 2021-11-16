@@ -22,6 +22,11 @@
 
 #include <gtk/gtk.h>
 
+#include "../../common/common.h"
+
+namespace teg::client::callbacks
+{
+
 enum {
 	DIALOG_ATTACK_TURN,
 	DIALOG_REGROUP_ARMIES,
@@ -29,7 +34,7 @@ enum {
 };
 
 struct _gui_private {
-	BOOLEAN msg_show_colors;
+	bool msg_show_colors;
 	unsigned int status_show;	/* what columns to show in the status window */
 	unsigned int dialog_show;	/* what dialogs to show */
 	int country_i_am;		/* what country i'm pointing */
@@ -40,3 +45,5 @@ extern struct _gui_private gui_private;
 extern GSettings *settings;
 
 TEG_STATUS priv_init(void);
+
+}

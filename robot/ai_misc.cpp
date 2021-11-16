@@ -25,23 +25,28 @@
 
 #include "client.h"
 
+namespace teg::robot
+{
+
 char *ai_fetch_a_name()
 {
+	namespace c = ::teg::client;
+
 	int i=0;
-	PCPLAYER pJ;
-	PLIST_ENTRY l = g_list_player.Flink;
+	c::PCPLAYER pJ;
+	PLIST_ENTRY l = c::g_list_player.Flink;
 	int n;
 
-	if(g_game.playeres < 2) {
+	if(c::g_game.playeres < 2) {
 		return NULL;
 	}
 
-	n = RANDOM_MAX(0, g_game.playeres -1);
+	n = random_between(0, c::g_game.playeres -1);
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
+	while(!IsListEmpty(&c::g_list_player) && (l != &c::g_list_player)) {
 		if((i++) == n) {
-			pJ = (PCPLAYER) l;
-			if(pJ->numjug == WHOAMI()) {
+			pJ = (c::PCPLAYER) l;
+			if(pJ->numjug == c::WHOAMI()) {
 				n++;
 			} else {
 				return pJ->name;
@@ -51,4 +56,6 @@ char *ai_fetch_a_name()
 	}
 
 	return NULL;
+}
+
 }

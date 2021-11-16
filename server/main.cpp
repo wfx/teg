@@ -55,6 +55,9 @@
 
 #define MAIN_DEBUG PDEBUG
 
+namespace teg::server
+{
+
 /*
  * private variables
  */
@@ -70,7 +73,7 @@ SERVER g_server;
 /* ends the game */
 void game_end(PSPLAYER winner)
 {
-	char strout[PROT_MAX_LEN + PLAYERNAME_MAX_LEN * TEG_MAX_PLAYERS + 200];
+	char strout[PROT_MAX_LEN + max_playername_length * maximum_player_count + 200];
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER pJ;
 
@@ -160,9 +163,9 @@ void game_init()
 	/* default values */
 	g_game.fichas = 5;
 	g_game.fichas2 = 3;
-	g_game.mission = FALSE;
-	g_game.cmission = TRUE;
-	g_game.fog_of_war = FALSE;
+	g_game.mission = false;
+	g_game.cmission = true;
+	g_game.fog_of_war = false;
 	g_game.player_fow = NULL;
 
 	game_new();
@@ -170,11 +173,11 @@ void game_init()
 
 void server_init(void)
 {
-	gethostname(g_server.name, SERVER_NAMELEN);
-	g_server.port=TEG_DEFAULT_PORT;
-	g_server.debug=FALSE;
-	g_server.with_console=TRUE;
-	g_server.kick_unparent_robots=TRUE;
+	gethostname(g_server.name, maximum_servername_length);
+	g_server.port=default_server_port;
+	g_server.debug=false;
+	g_server.with_console=true;
+	g_server.kick_unparent_robots=true;
 }
 
 void server_exit(int sock)
@@ -382,9 +385,12 @@ void argument_init(int argc, char **argv_var)
 	}
 }
 
+}
+
 #ifndef TEGSERVER_OMIT_MAIN
 int main(int argc, char **argv)
 {
+	using namespace teg::server;
 	init_nls();
 	printf("%s v%s server - by Ricardo Quesada\n\n", TEG_NAME, VERSION);
 

@@ -25,6 +25,7 @@
 
 #include "fcintl.h"
 #include "missions.h"
+#include "common.h"
 
 
 MISSIONS g_missions[]= {
@@ -200,72 +201,18 @@ int missions_cant()
 	return NRMISSIONS;
 }
 
-/// \todo Refactor the following code into ideomatic c++ code, so that this
-/// hack is not needed anymore.
-#pragma GCC diagnostic ignored "-Wformat-truncation"
-
-/* WARNING: it returns a pointer static buffer */
-const char *missions_get_name(int number)
+std::string missions_get_name(int number)
 {
-	static char const *_unknown = N_("Unknown");
-	static char mission[1024];
-	char buf_tmp[1024];
-	char old_buffer[1024];
-	int i, len;
-	char *tmp_ptr;
-
 	if((number < 0) || (((unsigned)number) >= NRMISSIONS)) {
-		return _(_unknown);
+		return _("Unknown");
 	}
-
-	snprintf(buf_tmp, sizeof(buf_tmp) -1, "%s", _(g_missions[number].name));
-
-	/* find &0 - &5 and replace for the correct name */
-	len = strlen(buf_tmp);
-
-	memset(mission, 0,  sizeof(mission));
-
-	tmp_ptr = &buf_tmp[0];
-
-	int printf_result = -1;
-	for(i=0; i<len;) {
-		char *ptr;
-
-		ptr = strchr(tmp_ptr, '&');
-
-		if(ptr) {
-			if(strlen(ptr)>1 && ptr[1] >= '0' && ptr[1] <= '5') {
-				int real_n;
-				char n[4];
-
-				/* XXX: yuck, this is ugly */
-				n[0] = ptr[1];
-				n[1] = 0;
-
-				real_n = atoi(&n[0]);
-				ptr[0] = 0;
-				strncpy(old_buffer, mission, sizeof(old_buffer) -1);
-				printf_result = snprintf(mission, sizeof(mission),  "%s%s%s", old_buffer, tmp_ptr, _(g_conts[real_n].name));
-
-				tmp_ptr = &ptr[2];
-			} else {
-				printf_result = snprintf(mission, sizeof(mission),  "Error: Unknown secret mission.\nPlease check translations!");
-				break;
-			}
-		} else {
-			strncpy(old_buffer, mission, sizeof(old_buffer) -1);
-			printf_result = snprintf(mission, sizeof(mission),  "%s%s", old_buffer, tmp_ptr);
-			break;
-		}
-	}
-
-	if(printf_result<0) { // printf signalled an error
-		return "Failure during mission printing";
-	}
-
-	if(((unsigned)printf_result)>=sizeof(mission)) { // string got truncated
-		mission[sizeof(mission)-1] = 0;
-	}
-
-	return mission;
+	ContinentNames names{
+		_(g_conts[0].name),
+		_(g_conts[1].name),
+		_(g_conts[2].name),
+		_(g_conts[3].name),
+		_(g_conts[4].name),
+		_(g_conts[5].name),
+	};
+	return replace_continents(_(g_missions[number].name), names);
 }

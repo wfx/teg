@@ -90,7 +90,7 @@ COUNTRY g_countries[] = {
 #include "limitrof.h"
 
 /* returns true if country a and b are border */
-BOOLEAN countries_eslimitrofe(int a, int b)
+bool countries_eslimitrofe(int a, int b)
 {
 	if(a > b) {
 		return(mat_ady[b][a]==1);
@@ -119,7 +119,7 @@ void countries_init()
 }
 
 /* says if a country is free or not */
-BOOLEAN country_libre(int i)
+bool country_libre(int i)
 {
 	return(g_countries[i].numjug == -1);
 }
@@ -134,7 +134,7 @@ char const * countries_get_name(int i)
 	}
 }
 
-BOOLEAN countrynumber_is_valid(int country_number)
+bool countrynumber_is_valid(int country_number)
 {
 	return (country_number >= 0) && (country_number < COUNTRIES_CANT);
 }

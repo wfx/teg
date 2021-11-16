@@ -27,6 +27,9 @@
 #include "../common/protocol.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 void netall_printf(char const *format, ...)
 {
 	va_list args;
@@ -48,4 +51,6 @@ void netall_printf(char const *format, ...)
 
 		l = LIST_NEXT(l);
 	}
+}
+
 }

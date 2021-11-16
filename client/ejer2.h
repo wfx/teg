@@ -20,6 +20,11 @@
 
 #pragma once
 
+#include "../common/common.h"
+
+namespace teg::client
+{
+
 /** \brief Try to get two armies for one country.
  *
  * This function tries to request two armies for the \p country. This works when
@@ -44,3 +49,5 @@ TEG_STATUS ejer2_out(int country);
  *         TEG_STATUS_ERROR otherwise.
  */
 TEG_STATUS ejer2_restore_from_error();
+
+}

@@ -22,6 +22,9 @@
 
 #include <goocanvas.h>
 
+namespace teg::client::callbacks
+{
+
 struct _G_conts {
 	GooCanvasItem *cont_group;
 	int x;
@@ -32,3 +35,5 @@ extern struct _G_conts G_conts[];
 
 void G_cont_create(int cont, GooCanvasItem *root);
 int G_cont_tot();
+
+}

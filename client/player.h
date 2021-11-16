@@ -22,10 +22,13 @@
 
 #include "../common/common.h"
 
+namespace teg::client
+{
+
 typedef struct _player {
 	LIST_ENTRY next;
-	char name[PLAYERNAME_MAX_LEN]; ///< Player name
-	char addr[PLAYERADDR_MAX_LEN]; ///< server address
+	char name[max_playername_length]; ///< Player name
+	char addr[inet_addr_len]; ///< server address
 	int color;
 	int score; ///< final score
 	int numjug; ///< player number
@@ -75,3 +78,5 @@ void player_flush(void);
  *          ressource leak since the old list items become unfreeable
  */
 void player_init(void);
+
+}

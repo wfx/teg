@@ -31,6 +31,8 @@
 #include "locate_country.h"
 #include "g_country.h"
 
+namespace teg::client::callbacks
+{
 
 static guint timeout_id = -1;
 
@@ -168,4 +170,6 @@ TEG_STATUS locate_country_add_army(PCOUNTRY p)
 		return TEG_STATUS_ERROR;
 	}
 	return TEG_STATUS_SUCCESS;
+}
+
 }

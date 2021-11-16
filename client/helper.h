@@ -21,6 +21,9 @@
 #include "../common/scores.h"
 #include "player.h"
 
+namespace teg::client
+{
+
 TEG_STATUS aux_status(PCPLAYER pj, char const *str);
 TEG_STATUS aux_countries(int numjug, const char *str);
 void aux_draw_all_countries();
@@ -29,3 +32,5 @@ TEG_STATUS aux_start_error();
 
 /*! parse one score */
 TEG_STATUS aux_scores(PSCORES pS, char const *str);
+
+}

@@ -34,6 +34,11 @@
 #include "ai.h"
 #include "ai_fichas.h"
 
+namespace teg::robot
+{
+
+namespace c = ::teg::client;
+
 /**
  * @fn TEG_STATUS ai_fichas_calc_puntaje_conquer( int country )
  * Strategy: Try to conquer continent
@@ -57,7 +62,7 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer(int country)
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		if(g_countries[country].continente == g_countries[i].continente) {
-			if(g_countries[i].numjug == WHOAMI()) {
+			if(g_countries[i].numjug == c::WHOAMI()) {
 				pm++;
 				em += g_countries[i].ejercitos;
 			} else {
@@ -146,7 +151,7 @@ TEG_STATUS ai_fichas_calc_puntaje_defense(int country)
 
 	for(i=0; i< COUNTRIES_CANT; i++) {
 		if(countries_eslimitrofe(country, i) && g_countries[i].continente != c) {
-			if(g_countries[i].numjug != WHOAMI()) {
+			if(g_countries[i].numjug != c::WHOAMI()) {
 
 				suma += 5;
 
@@ -193,7 +198,7 @@ TEG_STATUS ai_fichas_calc_puntaje_fichas(int country)
 
 	/* suma las fichas de los countries limitrofes enemigos */
 	for(i=0; i< COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug != WHOAMI() && countries_eslimitrofe(country, i)) {
+		if(g_countries[i].numjug != c::WHOAMI() && countries_eslimitrofe(country, i)) {
 
 			/* si es un enemigo ya tiene punto */
 			suma += 3;
@@ -251,7 +256,7 @@ TEG_STATUS ai_fichas_calc_puntaje(int p)
  * @fn TEG_STATUS __ai_fichas( int cant )
  * Pone fichas en los countries.
  */
-TEG_STATUS __ai_fichas(int cant)
+TEG_STATUS ai_fichas_helper(int cant)
 {
 	int i;
 
@@ -259,20 +264,20 @@ TEG_STATUS __ai_fichas(int cant)
 	ai_puntaje_clean();
 
 	for(i=0; i< COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug == WHOAMI()) {
+		if(g_countries[i].numjug == c::WHOAMI()) {
 			ai_puntaje[i]=0;
 			ai_fichas_calc_puntaje(i);
 		}
 	}
 
 	if(ai_puntaje_sort(cant) != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Error in ai_puntaje_sort, terminating the robot. Variable cant was %d"), cant);
+		c::textmsg(M_ERR, _("Error in ai_puntaje_sort, terminating the robot. Variable cant was %d"), cant);
 		return TEG_STATUS_ERROR;
 	}
 
 	for(i=0; i<cant; i++) {
-		if(fichas_add(&g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
-			textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
+		if(c::fichas_add(&g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
+			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}
@@ -283,11 +288,11 @@ TEG_STATUS ai_fichas(int cant)
 {
 	ai_puntaje_clean();
 
-	if(__ai_fichas(cant) != TEG_STATUS_SUCCESS) {
+	if(ai_fichas_helper(cant) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(fichas_out() != TEG_STATUS_SUCCESS) {
+	if(c::fichas_out() != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_ERROR;
 	}
 
@@ -317,8 +322,8 @@ TEG_STATUS ai_fichas_en_cont(int cont)
 	ai_puntaje_sort(cant);
 
 	for(i=0; i<cant; i++) {
-		if(fichas_add(&g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
-			textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
+		if(c::fichas_add(&g_countries[ai_sorted[i]]) != TEG_STATUS_SUCCESS) {
+			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}
@@ -349,15 +354,17 @@ TEG_STATUS ai_fichasc(int cant, int conts)
 	ai_puntaje_clean();
 
 	/* y ahora las fichas donde creo conveniente */
-	if(__ai_fichas(cant) != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Failed to __ai_fichas( %d )"), cant);
+	if(ai_fichas_helper(cant) != TEG_STATUS_SUCCESS) {
+		c::textmsg(M_ERR, _("Failed to __ai_fichas( %d )"), cant);
 		return TEG_STATUS_ERROR;
 	}
 
-	if(fichas_out() != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Failed to fichas_out()"));
+	if(c::fichas_out() != TEG_STATUS_SUCCESS) {
+		c::textmsg(M_ERR, _("Failed to fichas_out()"));
 		return TEG_STATUS_ERROR;
 	}
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

@@ -29,6 +29,8 @@
 #include "priv.h"
 #include "support.h"
 
+namespace teg::client::callbacks
+{
 
 static void update_scrollbar(GtkTextBuffer *buf)
 {
@@ -88,7 +90,7 @@ TEG_STATUS gui_textmsg(char *astring)
 TEG_STATUS gui_textplayermsg(char const *n, int num, char const *msg)
 {
 	GtkTextIter iter;
-	char name[PLAYERNAME_MAX_LEN+30];
+	char name[max_playername_length+30];
 	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
 	gchar *ptr_name, *ptr_msg;
 
@@ -150,4 +152,6 @@ TEG_STATUS chatline_init()
 	gtk_text_buffer_create_tag(buffer, "default_tag", "background", "grey", "foreground", "black",  NULL);
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

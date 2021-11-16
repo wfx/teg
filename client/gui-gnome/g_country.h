@@ -25,6 +25,9 @@
 
 #include "../../common/common.h"
 
+namespace teg::client::callbacks
+{
+
 struct _G_countries {
 	char *gfx_name;			/**< name del archivo grafico del country */
 	gint x;				/**< x relativo al continente */
@@ -47,3 +50,5 @@ void G_country_draw_ejer(int country) ;
 int G_country_tot();
 
 TEG_STATUS gui_country_select(int country);
+
+}

@@ -7,6 +7,9 @@
 
 #include <gtest/gtest.h>
 
+namespace teg::server
+{
+
 std::string printable_list(char const* input, std::size_t length)
 {
 	std::string result{'['};
@@ -61,4 +64,6 @@ TEST(ServerHelper, ins_orden)
 	check_ins_orden(CIOPattern{{2, 2}, {1, 2}, {0, 1}}, 2);
 	check_ins_orden(CIOPattern{{2, 3}, {1, 2}, {0, 1}}, 3);
 	check_ins_orden(CIOPattern{{40, 40}, {30, 30}, {20, 25}, {10, 20}, {0, 10}}, 25);
+}
+
 }

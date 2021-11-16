@@ -37,6 +37,8 @@
 #include "fonts.h"
 #include "support.h"
 
+namespace teg::client::callbacks
+{
 
 static GtkWidget *gui_scores_dialog=NULL;
 static GtkListStore *store=NULL;
@@ -140,11 +142,11 @@ static TEG_STATUS paint_color(GtkWidget *dialog, int color, GdkPixbuf **pixmap)
 	PangoAttribute *attr;
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	int i, width;
+	int width;
 
 	assert(pixmap);
 
-	i = (color<0 || color>=TEG_MAX_PLAYERS) ? TEG_MAX_PLAYERS : color;
+	const unsigned i = (color<0 || color>=maximum_player_count) ? maximum_player_count : color;
 
 	window = gtk_widget_get_window(dialog);
 	surface = gdk_window_create_similar_image_surface(window,
@@ -378,4 +380,6 @@ void gui_scores_embed(GtkWidget *frame)
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(mini_scores_clist));
 
 	gtk_container_add(GTK_CONTAINER(frame), GTK_WIDGET(mini_scores_clist));
+}
+
 }

@@ -36,6 +36,9 @@
 #include "fcintl.h"
 #include "missions.h"
 
+namespace teg::server
+{
+
 TEG_STATUS option_conqworld(int fd, char *str);
 TEG_STATUS option_conqworld_view(void);
 TEG_STATUS option_cmission(int fd, char *str);
@@ -308,4 +311,6 @@ TEG_STATUS option_parse(int fd, char *str)
 	} while(i && p.can_continue);
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

@@ -49,6 +49,9 @@
 #include "g_scores.h"
 
 
+namespace teg::client::callbacks
+{
+
 /*
  * funciones auxiliares
  */
@@ -308,4 +311,6 @@ void on_help_activate(GtkMenuItem *item, gpointer user_data)
 {
 	gtk_show_uri_on_window(GTK_WINDOW(main_window), "ghelp:teg",
 	                       GDK_CURRENT_TIME, NULL);
+}
+
 }

@@ -35,6 +35,9 @@
 #include "support.h"
 #include "status.h"
 
+namespace teg::client::callbacks
+{
+
 extern TTheme gui_theme;
 
 static GtkWidget	*pref_dialog=NULL;
@@ -141,12 +144,6 @@ static void show_toolbar_cb(GtkToggleButton *button, gpointer data)
 		gtk_widget_hide(toolbar_main);
 	}
 }
-
-static void free_str(GtkWidget *widget, void *data)
-{
-	free(data);
-}
-
 
 
 static void apply_cb(GtkDialog *widget, gint id, gpointer data)
@@ -325,30 +322,17 @@ static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 	g_settings_apply(settings);
 }
 
-
-
 static void fill_menu(GtkWidget *menu)
 {
-	TInfo Info;
-	pTInfo pI;
-	char *s;
-	int i=0;
+	ThemeDirectories const &themes{theme_enum_themes()};
 
-	if(theme_enum_themes(&Info) != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Error while loading information about themes!"));
-		return;
-	}
-
-	for(pI=&Info; pI != NULL; pI = pI->next) {
-		s = strdup(pI->name);
-		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(menu), s);
+	std::size_t i=0;
+	for(const auto& dirname: themes) {
+		gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(menu), dirname.c_str());
 		g_signal_connect(G_OBJECT(menu), "changed",
 		                 G_CALLBACK(theme_activated_callback), NULL);
 
-		g_signal_connect(G_OBJECT(menu), "destroy",
-		                 G_CALLBACK(free_str), s);
-
-		if(!strcmp(pI->name, g_game.theme)) {
+		if(dirname == g_game.theme) {
 			gtk_combo_box_set_active(GTK_COMBO_BOX(menu), i);
 		}
 		i++;
@@ -645,4 +629,6 @@ void preferences_activate(void)
 	gtk_widget_show_all(pref_dialog);
 	gtk_dialog_run(GTK_DIALOG(pref_dialog));
 	gtk_widget_destroy(pref_dialog);
+}
+
 }

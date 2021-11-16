@@ -40,9 +40,10 @@
 #include "server.h"
 #include "fow.h"
 
-using namespace teg;
+namespace teg::server
+{
 
-static char colors[TEG_MAX_PLAYERS];
+static char colors[maximum_player_count];
 
 #ifdef MACOSX
 #define socklen_t int
@@ -61,32 +62,32 @@ void color_del(int i)
 }
 
 /* sets and set if the color is free */
-BOOLEAN color_libre(int *color)
+bool color_libre(int *color)
 {
 	int i;
-	if((*color) < 0 || (*color) > (TEG_MAX_PLAYERS-1)) {
-		return FALSE;
+	if((*color) < 0 || (*color) > (maximum_player_count-1)) {
+		return false;
 	}
 	if(colors[*color]==0) {
 		colors[*color]=1;
-		return TRUE;
+		return true;
 	}
 	/* tries to find a free color */
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(i=0; i<maximum_player_count; i++) {
 		if(colors[i]==0) {
 			colors[i]=1;
 			*color = i;
-			return TRUE;
+			return true;
 		}
 	}
-	return FALSE;
+	return false;
 }
 
 /* tells which colors are availables */
 TEG_STATUS colores_libres(char *c)
 {
 	int i;
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(i=0; i<maximum_player_count; i++) {
 		c[i] = colors[i];
 	}
 	return TEG_STATUS_SUCCESS;
@@ -235,12 +236,12 @@ TEG_STATUS aux_token_attack(int src, int dst, int *src_lost, int *dst_lost, char
 	}
 
 	for(i=0; i<src; i++) {
-		tmp = RANDOM_MAX(1, 6);
+		tmp = random_between(1, 6);
 		ins_orden((char) tmp, src_d, 3);
 	}
 
 	for(i=0; i<dst; i++) {
-		tmp = RANDOM_MAX(1, 6);
+		tmp = random_between(1, 6);
 		ins_orden((char) tmp, dst_d, 3);
 	}
 
@@ -261,7 +262,7 @@ TEG_STATUS aux_token_attack(int src, int dst, int *src_lost, int *dst_lost, char
 TEG_STATUS aux_token_stasta(char *strout, size_t len)
 {
 	int n;
-	char strtmp[ PLAYERNAME_MAX_LEN + 200];
+	char strtmp[ max_playername_length + 200];
 
 	PLIST_ENTRY l = g_list_player.Flink;
 	PSPLAYER j;
@@ -273,7 +274,7 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len)
 		j = (PSPLAYER) l;
 
 		if(j->is_player) {
-			int color = (j->color==-1) ? TEG_MAX_PLAYERS : j->color;
+			int color = (j->color==-1) ? maximum_player_count : j->color;
 			if(n==0) {
 				snprintf(strtmp, sizeof(strtmp)-1, "%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s"
 				         , j->name
@@ -319,11 +320,11 @@ PCOUNTRY get_random_country(get_random_func func)
 	int i;
 
 again:
-	i = RANDOM_MAX(0, COUNTRIES_CANT-1);
+	i = random_between(0, COUNTRIES_CANT-1);
 	if(func(i)) {
 		return &g_countries[i];
 	} else {
-		int r = RANDOM_MAX(0, 2);
+		int r = random_between(0, 2);
 		switch(r) {
 		/* search going down */
 		case 0:
@@ -594,4 +595,6 @@ TEG_STATUS launch_robot(int *robot_socket, char const *mode)
 	*robot_socket = sockets[1];
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }
