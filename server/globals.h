@@ -23,10 +23,6 @@
 #include "../common/common.h"
 #include "player.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef struct _sgame {
 	int connections;	/**< quantity of connections */
 	int players;		/**< quantity of players */
@@ -79,8 +75,3 @@ typedef struct _server {
 	BOOLEAN kick_unparent_robots;	/* kick robots when there are no humans */
 } SERVER, *PSERVER;
 extern SERVER g_server;
-
-
-#ifdef __cplusplus
-}
-#endif

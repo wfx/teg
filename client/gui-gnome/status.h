@@ -17,11 +17,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/**
- * @file status.h
- */
-#ifndef __GUI_GNOME_STATUS_H
-#define __GUI_GNOME_STATUS_H
+
+#pragma once
+
+#include <gtk/gtk.h>
+
+#include "../../common/common.h"
 
 enum {
 	STATUS_COLUMN_COLOR,
@@ -65,5 +66,3 @@ TEG_STATUS mainstatus_update_colors();
 
 /**!  update the visibility of the status columns */
 TEG_STATUS status_update_visibility_of_columns(void);
-
-#endif /* __GUI_GNOME_STATUS_H */

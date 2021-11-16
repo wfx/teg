@@ -18,8 +18,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __TEG_GUI_GNOME_GCONT_H
-#define __TEG_GUI_GNOME_GCONT_H
+#pragma once
 
 #include <goocanvas.h>
 
@@ -33,5 +32,3 @@ extern struct _G_conts G_conts[];
 
 void G_cont_create(int cont, GooCanvasItem *root);
 int G_cont_tot();
-
-#endif /* __TEG_GUI_GNOME_GCONT_H */

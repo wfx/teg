@@ -20,16 +20,8 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /**
  * This function takes place at the beginning of a game, and randomly assign
  * each country to a player.
  */
 void countries_repartir();
-
-#ifdef __cplusplus
-}
-#endif

@@ -20,10 +20,6 @@
 
 #pragma once
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "cont.h"
 
 typedef struct _missions {
@@ -31,7 +27,7 @@ typedef struct _missions {
 	int	player_number;
 
 	/// The name of the mission
-	char	*name;
+	char const *name;
 
 	/// number of countries to conquer on each continent
 	int	continents[CONTINENTE_LAST];
@@ -56,7 +52,3 @@ int missions_cant();
 
 /* return the name of a mission (translated) */
 char const* missions_get_name(int number);
-
-#ifdef __cplusplus
-}
-#endif

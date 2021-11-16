@@ -22,16 +22,8 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /// \brief Parses a game option received from a client
 TEG_STATUS option_parse(int fd, char *str);
 
 /// \brief Print the current game options on the console
 TEG_STATUS option_view(int fd, char *str);
-
-#ifdef __cplusplus
-}
-#endif

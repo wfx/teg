@@ -21,8 +21,7 @@
  *	Definicion del protocolo
  */
 
-#ifndef __TEG_PROTOCOL_H
-#define __TEG_PROTOCOL_H
+#pragma once
 
 #define PROTOCOL_HIVER	6
 #define PROTOCOL_LOVER	0
@@ -101,5 +100,3 @@
 #define OPTION_META_OFF		"off"
 #define OPTION_META_ADDRESS	"address"
 #define OPTION_META_STATUS	"status"
-
-#endif /* __TEG_PROTOCOL_H */

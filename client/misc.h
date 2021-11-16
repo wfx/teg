@@ -22,10 +22,6 @@
 
 #include "../common/common.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /// \brief initialize the client game dataset
 void game_init();
 
@@ -56,7 +52,7 @@ TEG_STATUS launch_server(int port);
 TEG_STATUS launch_robot(void);
 
 /// Log-like function to display messages above \p level in the GUI
-TEG_STATUS textmsg(int level, char *format, ...);
+TEG_STATUS textmsg(int level, const char *format, ...);
 
 /// Create the .teg directory structure in the users home directory
 TEG_STATUS dirs_create();
@@ -68,7 +64,3 @@ TEG_STATUS dirs_create();
 #define WHOAMI() g_game.numjug
 #define ESTADO_GET() g_game.estado
 #define ESTADO_SET(a) (g_game.estado=(a))
-
-#ifdef __cplusplus
-}
-#endif
