@@ -75,9 +75,8 @@ typedef enum dices_type {
  */
 static TEG_STATUS dices_load_from_file(char *name, int i)
 {
-	char *filename = NULL;
-
-	filename = theme_load_file(name);
+	auto const fpath = theme_load_file(name);
+	char const*const filename = fpath ? fpath->c_str() : nullptr;
 
 	dices[i] = gdk_pixbuf_new_from_file(filename, NULL);
 	if(dices[i] == NULL) {

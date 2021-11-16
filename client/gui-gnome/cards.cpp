@@ -75,8 +75,6 @@ struct {
  */
 TEG_STATUS cards_load()
 {
-	char *filename;
-
 	TCards cards;
 	/* obtain cards from theme */
 	if(theme_giveme_cards(&cards) == TEG_STATUS_SUCCESS) {
@@ -97,7 +95,8 @@ TEG_STATUS cards_load()
 	for(unsigned i=0; i<NRTARJS; i++) {
 
 		if(!tarjs[i].tar) {
-			filename = theme_load_file(tarjs[i].filename);
+			auto const fpath = theme_load_file(tarjs[i].filename);
+			char const*const filename = fpath ? fpath->c_str() : nullptr;
 			tarjs[i].tar = gdk_pixbuf_new_from_file(filename, NULL);
 			if(tarjs[i].tar == NULL) {
 				g_warning("Error, couldn't find file:%s", tarjs[i].filename);

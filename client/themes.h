@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <filesystem>
+#include <optional>
 #include <set>
 #include <string>
 
@@ -173,10 +175,10 @@ TEG_STATUS theme_giveme_theme(pTTheme pT);
 ThemeDirectories const& theme_enum_themes();
 
 /// \brief Tries to load the theme \p name.
-char * theme_load_file(const char *name);
+std::optional<std::filesystem::path> theme_load_file(const char *name);
 
 /// Tries to load the preview image
-char * theme_load_fake_file(const char *name, char *theme);
+std::optional<std::filesystem::path> theme_load_fake_file(const char *name, const char *theme);
 
 /**! returns 1 if dices extended are being used */
 int theme_using_extended_dices();

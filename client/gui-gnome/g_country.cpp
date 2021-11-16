@@ -415,12 +415,12 @@ void G_country_draw(int country)
 {
 	GdkPixbuf *im;
 	char name[200];
-	char *filename=NULL;
 
 	snprintf(name, sizeof(name)-1, "%s", G_countries[country].gfx_name);
 	name[sizeof(name)-1]=0;
 
-	filename = theme_load_file(name);
+	auto fpath = theme_load_file(name);
+	char const*const filename = fpath ? fpath->c_str() : nullptr;
 
 	im = gdk_pixbuf_new_from_file(filename, NULL);
 

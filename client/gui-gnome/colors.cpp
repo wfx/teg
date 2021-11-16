@@ -93,7 +93,8 @@ TEG_STATUS colors_load_images(void)
 			}
 		} else {
 			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, g_colores[i]);
-			char const*const filename = theme_load_file(name);
+			auto const fpath = theme_load_file(name);
+			char const*const filename = fpath ? fpath->c_str() : nullptr;
 			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
 		}
 

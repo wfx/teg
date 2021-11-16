@@ -89,8 +89,6 @@ static void free_pixmap(GtkWidget *widget, void *data)
 
 static void load_preview(char *theme)
 {
-	char *filename;
-
 	if(theme_widget) {
 		gtk_widget_destroy(theme_widget);
 		theme_widget = NULL;
@@ -100,7 +98,8 @@ static void load_preview(char *theme)
 		return;
 	}
 
-	filename = theme_load_fake_file("mini_shot.png", theme);
+	auto const fpath = theme_load_fake_file("mini_shot.png", theme);
+	char const*const filename = fpath ? fpath->c_str() : nullptr;
 	theme_widget = gtk_image_new_from_file(filename);
 	if(theme_widget) {
 		gtk_container_add(GTK_CONTAINER(theme_frame_prev), theme_widget);
