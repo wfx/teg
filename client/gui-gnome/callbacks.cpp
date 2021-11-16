@@ -301,7 +301,7 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 	                      "documenters", documenters,
 	                      "artists", artists,
 	                      "translator-credits", translator_credits,
-	                      "website", "http://teg.sourceforge.net",
+	                      "website", "https://github.com/wfx/teg",
 	                      "website-label", _("TEG Home Page"),
 	                      "logo", pixbuf,
 	                      NULL);
