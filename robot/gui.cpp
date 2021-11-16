@@ -301,22 +301,16 @@ TEG_STATUS gui_reagrupe(int src, int dst, int cant)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_tarjeta(int country)
+TEG_STATUS gui_tarjeta(int country_id_unused)
 {
-	PTARJETA pT;
-	PCOUNTRY pP;
-	PLIST_ENTRY l = g_game.tarjetas_list.Flink;
+	countries_map([](COUNTRY& country) {
+		if(country.tarjeta.numjug == WHOAMI()) {
 
-	while(!IsListEmpty(&g_game.tarjetas_list) && (l != &g_game.tarjetas_list)) {
-		pT = (PTARJETA) l;
-		pP = (PCOUNTRY) COUNTRY_FROM_TARJETA(pT);
-
-		if(!pT->usada && g_countries[pP->id].numjug==WHOAMI()) {
-			ejer2_out(pP->id);
+			if(!country.tarjeta.usada && country.numjug==WHOAMI()) {
+				ejer2_out(country.id);
+			}
 		}
-
-		l = LIST_NEXT(l);
-	}
+	});
 	return TEG_STATUS_SUCCESS;
 }
 

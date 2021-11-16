@@ -69,7 +69,6 @@ typedef struct _cgame {
 	int mycolor;			/**< color preferido */
 	char sername[maximum_servername_length];	/**< server name */
 	int serport;			/**< server port */
-	LIST_ENTRY tarjetas_list;	/**< lista de tarjetas */
 	int tarjetas_cant;		/**< cantidad de tarjetas */
 	int secret_mission;		/**< which secret mission to accomplish */
 	int dados_srccountry;		/**< utimo country que ataco */

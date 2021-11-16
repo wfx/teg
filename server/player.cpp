@@ -144,7 +144,6 @@ void player_initplayer(PSPLAYER pJ)
 {
 	assert(pJ);
 
-	InitializeListHead(&pJ->countries);
 	pJ->hizo_canje = false;
 	pJ->tot_exchanges = 0;
 	pJ->tot_countries = 0;
@@ -386,7 +385,6 @@ TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p)
 		return TEG_STATUS_PLAYERNOTFOUND;
 	}
 
-	InsertTailList(&pJ->countries, (PLIST_ENTRY) p);
 	p->numjug = numjug;
 	pJ->tot_countries++;
 	pJ->tot_armies++;		/* cada country viene con un ejercito */
@@ -428,22 +426,13 @@ bool player_esta_xxx_plus(int fd, PLAYER_STATUS state, bool strict, PSPLAYER *j)
 
 void player_listar_countries(PSPLAYER pJ, int *countries)
 {
-	PLIST_ENTRY list;
-	PCOUNTRY pP;
-
 	assert(pJ);
 	assert(countries);
 
-
-	list = pJ->countries.Flink;
-
-	while(!IsListEmpty(&pJ->countries) && (list != &pJ->countries)) {
-		pP = (PCOUNTRY) list;
-
-		countries[ pP->continente ]++;
-
-		list = LIST_NEXT(list);
-	}
+	countries_map(pJ->numjug,
+	[&countries](COUNTRY &country) {
+		countries[country.continente]++;
+	});
 }
 
 void player_listar_conts(PSPLAYER pJ, unsigned long *ret)

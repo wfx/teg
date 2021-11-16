@@ -5,6 +5,7 @@
   preprocessor magic, idiomatic data structures)
 * Remove the hand written double linked lists
   * from the server code
+  * from country and card handling
 
 - version 0.12.0
 

@@ -71,7 +71,6 @@ TEG_STATUS game_reinit()
 		g_game.dados_dst[i] = 0;
 	}
 
-	InitializeListHead(&g_game.tarjetas_list);
 	g_game.tarjetas_cant = 0;
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		tarjeta_inittarj(&g_countries[i].tarjeta);

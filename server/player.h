@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include <stdbool.h>
 #include <functional>
 
 #include "../common/stats.h"
@@ -35,7 +34,6 @@ struct SPLAYER {
 	char name[max_playername_length];		/**< name */
 	char addr[inet_addr_len];		/**< internet address */
 	int color;				/**< color */
-	LIST_ENTRY countries;			/**< countries that he owns */
 	int mission;				/**< mission that the player has */
 	bool hizo_canje;			/**< exchange done ? */
 	bool is_player;			/**< player or observer */
