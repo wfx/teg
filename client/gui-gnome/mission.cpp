@@ -46,14 +46,9 @@ static int mission_number = -1;
 
 static TEG_STATUS mission_load()
 {
-	char *filename=NULL;
-
 	if(!tar_mission) {
-		filename = load_pixmap_file("objetivo.png");
-		tar_mission = gdk_pixbuf_new_from_file(filename, NULL);
-		if(filename) {
-			g_free(filename);
-		}
+		tar_mission = gdk_pixbuf_new_from_file(
+		                  load_pixmap_file("objetivo.png").c_str(), NULL);
 		if(tar_mission == NULL) {
 			g_warning(_("Error, couldn't find file: objetivo.png"));
 			return TEG_STATUS_ERROR;

@@ -86,11 +86,8 @@ TEG_STATUS colors_load_images(void)
 		/* IMPORTANT:  Dont translate g_colores! */
 		if(! gui_theme.choose_colors_custom) {
 			snprintf(name, sizeof(name) -1, "color_player_%s.png", g_colores[i]);
-			char *const filename = load_pixmap_file(name);
-			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
-			if(filename) {
-				g_free(filename);
-			}
+			g_color_players[i] = gdk_pixbuf_new_from_file(
+			                         load_pixmap_file(name).c_str(), NULL);
 		} else {
 			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, g_colores[i]);
 			auto const fpath = theme_load_file(name);
@@ -106,11 +103,8 @@ TEG_STATUS colors_load_images(void)
 		/* load color circles */
 		/* IMPORTANT:  Dont translate g_colores! */
 		snprintf(name, sizeof(name) -1, "disc_%s.png", g_colores[i]);
-		char *const filename = load_pixmap_file(name);
-		g_color_circles[i] = gdk_pixbuf_new_from_file(filename, NULL);
-		if(filename) {
-			g_free(filename);
-		}
+		g_color_circles[i] = gdk_pixbuf_new_from_file(
+		                         load_pixmap_file(name).c_str(), NULL);
 
 		if(g_color_circles[i] == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), name);
@@ -120,11 +114,8 @@ TEG_STATUS colors_load_images(void)
 
 	{
 		/* disc for the 'no color' */
-		char *const filename = load_pixmap_file("disc_grey.png");
-		g_color_circles[maximum_player_count] = gdk_pixbuf_new_from_file(filename, NULL);
-		if(filename) {
-			g_free(filename);
-		}
+		g_color_circles[maximum_player_count]
+		    = gdk_pixbuf_new_from_file(load_pixmap_file("disc_grey.png").c_str(), NULL);
 
 		if(g_color_circles[maximum_player_count] == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), "disc_grey.png");
@@ -134,11 +125,8 @@ TEG_STATUS colors_load_images(void)
 
 	{
 		/* disc over */
-		char *const filename = load_pixmap_file("disc_over.png");
-		g_color_circle_over = gdk_pixbuf_new_from_file(filename, NULL);
-		if(filename) {
-			g_free(filename);
-		}
+		g_color_circle_over
+		    = gdk_pixbuf_new_from_file(load_pixmap_file("disc_over.png").c_str(), NULL);
 
 		if(g_color_circle_over == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), "disc_over.png");

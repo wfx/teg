@@ -91,7 +91,6 @@ libguiclient_a_CPPFLAGS = \
 	@XML_CFLAGS@					\
 	-I$(top_srcdir)/common				\
 	-I$(top_srcdir)/client				\
-	-DTEGDATADIR=\"$(datadir)/teg/\"		\
 	-DG_LOG_DOMAIN=\"TEG\"				\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 
 
