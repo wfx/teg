@@ -21,6 +21,7 @@
  * @file inputfd.c
  * manages the 'in' tokens
  */
+#include <filesystem>
 #include <string.h>
 #include <strings.h>
 #include <stdio.h>

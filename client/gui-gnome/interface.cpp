@@ -172,7 +172,6 @@ static TEG_STATUS canvas_create_countries(GooCanvasItem *group)
 
 static TEG_STATUS canvas_create_map(void)
 {
-	char *filename;
 	GooCanvasItem* root;
 	GdkPixbuf *im;
 
@@ -180,7 +179,8 @@ static TEG_STATUS canvas_create_map(void)
 	g_object_set(canvas_map, "anchor", GOO_CANVAS_ANCHOR_CENTER, NULL);
 	root = goo_canvas_get_root_item(GOO_CANVAS(canvas_map));
 
-	filename = theme_load_file(gui_theme.board);
+	auto fpath = theme_load_file(gui_theme.board);
+	char const*const filename = fpath ? fpath->c_str() : nullptr;
 
 	im = gdk_pixbuf_new_from_file(filename, NULL);
 

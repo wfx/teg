@@ -28,6 +28,7 @@
 #include <glib/gi18n.h>
 
 #include "../../common/tegdebug.h"
+#include "../../common/execute.hpp"
 
 #include "client.h"
 
@@ -281,13 +282,9 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 	};
 
 	{
-		gchar* logo_filename = NULL;
-		logo_filename = g_strdup(TEGDATADIR "teg_icono.png");
-
-		if(logo_filename != NULL) {
-			pixbuf = gdk_pixbuf_new_from_file(logo_filename, NULL);
-			g_free(logo_filename);
-		}
+		auto const icon_name = installation_directory()
+		                       / "share" / "teg" / "teg_icono.png";
+		pixbuf = gdk_pixbuf_new_from_file(icon_name.c_str(), NULL);
 	}
 
 	gtk_show_about_dialog(GTK_WINDOW(main_window),

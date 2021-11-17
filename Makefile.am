@@ -40,7 +40,7 @@ libtegcommon_a_SOURCES = 	\
 	common/xml_support.cpp common/xml_support.h \
 	common/execute.cpp common/execute.hpp
 
-libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common -DBINDIR=\"$(bindir)\"
+libtegserver_a_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
 libtegserver_a_SOURCES = \
         server/globals.h server/main.h		\
 	server/server.h		\
@@ -58,10 +58,10 @@ libtegserver_a_SOURCES = \
 
 tegserver_CPPFLAGS = @XML_CFLAGS@ @SERVER_CFLAGS@ -I$(top_srcdir)/common
 tegserver_SOURCES = server/main.cpp
-tegserver_LDADD = libtegserver.a libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) @XML_LIBS@
+tegserver_LDADD = libtegserver.a libtegcommon.a $(INTLLIBS) $(SERVER_LIBS) \
+                  @XML_LIBS@ @CXXLIBS@
 
-libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common \
-	-DBINDIR=\"$(bindir)\" -DTHEMEDIR=\"$(datadir)/teg/themes/\"
+libclient_a_CPPFLAGS = @CLIENT_CFLAGS@ @XML_CFLAGS@ -I$(top_srcdir)/common
 libclient_a_SOURCES = \
 	client/client.h		\
 	client/globals.h	\
@@ -82,17 +82,16 @@ tegclient_CPPFLAGS = @XML_CFLAGS@ -I$(top_srcdir)/common
 tegclient_SOURCES = client/main.cpp
 
 tegclient_DEPENDENCIES = libguiclient.a libclient.a libtegcommon.a $(INTLDEPS)
-tegclient_LDADD        = libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@
+tegclient_LDADD        = libguiclient.a @TEG_LIBGNOME_LIBS@ libclient.a \
+                         libtegcommon.a $(INTLLIBS) @CLIENT_LIBS@ @XML_LIBS@ \
+                         @CXXLIBS@
 
 libguiclient_a_CPPFLAGS = \
 	$(TEG_LIBGNOME_CFLAGS)				\
 	@XML_CFLAGS@					\
 	-I$(top_srcdir)/common				\
 	-I$(top_srcdir)/client				\
-	-DTEGDATADIR=\"$(datadir)/teg/\"		\
-	-DTHEMEDIR=\"$(datadir)/teg/themes/\"		\
-	-DG_LOG_DOMAIN=\"TEG\"				\
-	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 
+	-DG_LOG_DOMAIN=\"TEG\"
 
 libguiclient_a_SOURCES = \
 	client/gui-gnome/gui.cpp client/gui-gnome/gui.h		\
@@ -151,17 +150,17 @@ tegrobot_SOURCES = 		\
 
 
 tegrobot_DEPENDENCIES = libclient.a libtegcommon.a $(INTLDEPS)
-tegrobot_LDADD        = libclient.a @CLIENT_LIBS@ libtegcommon.a $(INTLLIBS) @XML_LIBS@
+tegrobot_LDADD        = libclient.a @CLIENT_LIBS@ libtegcommon.a $(INTLLIBS) @XML_LIBS@ @CXXLIBS@
 
 tegtest_CPPFLAGS = @XML_CFLAGS@
 tegtest_SOURCES = common/xml_support_check.cpp common/tarjeta_check.cpp \
     common/stats_check.cpp common/share_check.cpp common/scores_check.cpp \
     common/parser_check.cpp common/common_check.cpp \
     client/helper_check.cpp client/gui-null/null.cpp
-tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ -lpthread
+tegtest_LDADD = -lgmock_main -lgtest -lgmock libclient.a libtegcommon.a @CLIENT_LIBS@ @XML_LIBS@ @CXXLIBS@ -lpthread
 tegtest_LDFLAGS = -Wl,--as-needed
 
 tegservertest_CPPFLAGS = -DTEGSERVER_OMIT_MAIN=1
 tegservertest_SOURCES = server/main.cpp server/helper_check.cpp server/player_check.cpp
 tegservertest_LDADD = libtegserver.a libtegcommon.a \
-    -lgmock_main -lgtest -lgmock @SERVER_LIBS@ @XML_LIBS@ -lpthread
+    -lgmock_main -lgtest -lgmock @SERVER_LIBS@ @XML_LIBS@ @CXXLIBS@ -lpthread

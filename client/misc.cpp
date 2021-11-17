@@ -174,11 +174,12 @@ TEG_STATUS launch_server(int port)
 		return TEG_STATUS_ERROR;
 	} else if(pid == 0) {
 
+		auto const servername = program_directory() / "tegserver";
 		char buffer[100];
 		close_descriptors();
 		args[0] = "x-terminal-emulator";
 		args[1] = "-e";
-		args[2] = BINDIR"/tegserver";
+		args[2] = servername.c_str();
 		args[3] = "--port";
 		snprintf(buffer, sizeof(buffer)-1, "%d", port);
 		buffer[ sizeof(buffer)-1 ] = 0;
@@ -188,7 +189,7 @@ TEG_STATUS launch_server(int port)
 		if(!execute_program(args)) {
 			perror(args[0]);
 			/* last chance, launch tegserver without console */
-			args[0] = BINDIR"/tegserver";
+			args[0] = servername.c_str();
 			args[1] = "--console";
 			args[2] = "0";
 			args[3] = "--port";
@@ -199,11 +200,6 @@ TEG_STATUS launch_server(int port)
 			if(!execute_program(args)) {
 				fprintf(stderr, "Launching server failed. Does the file '%s' exists ?\n", args[0]);
 				perror("exe:");
-
-				/* This saves a crash */
-				args[0] = "/bin/true";
-				args[1] = NULL;
-				!execute_program(args);
 				exit(1);
 			}
 		}
@@ -236,8 +232,8 @@ TEG_STATUS launch_robot(void)
 		close_descriptors();
 
 		sprintf(port, "%d", g_game.serport);
-
-		args[0] = BINDIR"/tegrobot";
+		auto const robot = program_directory() / "tegrobot";
+		args[0] = robot.c_str();
 		args[1] = "--server";
 		args[2] = g_game.sername;
 		args[3] = "--port";
@@ -248,11 +244,6 @@ TEG_STATUS launch_robot(void)
 		if(execute_program(args)) {
 			fprintf(stderr, "Launching robot failed. Does the file '%s' exists ?\n", args[0]);
 			perror("exe:");
-
-			/* This saves a crash */
-			args[0] = "/bin/true";
-			args[1] = NULL;
-			execute_program(args);
 			exit(1);
 		}
 		return TEG_STATUS_ERROR;

@@ -382,7 +382,9 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	/* background */
 	if(gui_theme.toolbar_custom && gui_theme.toolbar_name) {
 		GdkPixbuf *im;
-		char *filename = theme_load_file(gui_theme.toolbar_name);
+
+		const auto fpath = theme_load_file(gui_theme.toolbar_name);
+		char const*const filename = fpath ? fpath->c_str() : nullptr;
 		im = gdk_pixbuf_new_from_file(filename, NULL);
 
 		if(im) {

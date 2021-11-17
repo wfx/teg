@@ -16,6 +16,8 @@ AC_PROG_LIBTOOL
 AC_PROG_LN_S
 
 AX_CXX_COMPILE_STDCXX(17, [ext])
+CXXLIBS="-lstdc++fs"
+AC_SUBST(CXXLIBS)
 
 dnl
 dnl Common libraries for the server, client & robot

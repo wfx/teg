@@ -41,6 +41,7 @@
 
 #include "../common/tegdebug.h"
 #include "../common/xml_support.h"
+#include "../common/execute.hpp"
 #include "themes.h"
 #include "globals.h"
 #include "common.h"
@@ -60,6 +61,11 @@ namespace teg::client
 
 static pTheme g_theme = NULL;	/**< Current theme */
 static ThemeDirectories themes;
+
+std::filesystem::path theme_dir()
+{
+	return installation_directory() / "share" / "teg" / "themes";
+}
 
 static pCountry parseCountry(xmlDocPtr doc, xmlNodePtr cur)
 {
@@ -235,7 +241,7 @@ static pCards parseCards(xmlDocPtr doc, xmlNodePtr cur)
 	return(ret);
 }
 
-static pTheme parseTheme(char *filename)
+static pTheme parseTheme(std::string const& filename)
 {
 	xmlDocPtr doc = NULL;
 	pContinent curcontinent = NULL;
@@ -247,7 +253,7 @@ static pTheme parseTheme(char *filename)
 	/*
 	 * build an XML tree from a the file;
 	 */
-	doc = xmlParseFile(filename);
+	doc = xmlParseFile(filename.c_str());
 	if(doc == NULL) {
 		return(NULL);
 	}
@@ -589,25 +595,19 @@ static TEG_STATUS theme_fill_continent_name()
 /* Loads the 'name' theme */
 TEG_STATUS theme_load(char *name)
 {
-	char filename[512];
-
+	using p = std::filesystem::path;
 	/* themes/%s/teg_theme.xml */
-	memset(filename, 0, sizeof(filename));
-	snprintf(filename, sizeof(filename)-1, "themes/%s/teg_theme.xml", name);
-	g_theme = parseTheme(filename);
+	g_theme = parseTheme(p("themes") / name /"teg_theme.xml");
 
 	/* ~/.teg/themes/%s/teg_theme.xml */
 	if(g_theme == NULL) {
-		memset(filename, 0, sizeof(filename));
-		snprintf(filename, sizeof(filename)-1, "%s/%s/themes/%s/teg_theme.xml", g_get_home_dir(), rc_directory_name, name);
-		g_theme = parseTheme(filename);
+		g_theme = parseTheme(p(g_get_home_dir()) / rc_directory_name / "themes" / name / "teg_theme.xml");
 	}
 
 	/* /usr/local/share/teg/themes/%s/teg_theme.xml */
 	if(g_theme == NULL) {
-		memset(filename, 0, sizeof(filename));
-		snprintf(filename, sizeof(filename)-1, "%s/%s/teg_theme.xml", THEMEDIR, name);
-		g_theme = parseTheme(filename);
+		auto const path = (theme_dir() / name / "teg_theme.xml");
+		g_theme = parseTheme(path.c_str());
 	}
 
 	if(g_theme == NULL) {
@@ -768,7 +768,7 @@ ThemeDirectories const& theme_enum_themes()
 	std::string dirnames[3] {
 		"themes",
 		std::string(g_get_home_dir()) + "/" + rc_directory_name + "/themes",
-		THEMEDIR
+		theme_dir().string()
 	};
 	/* /usr/local/share/teg/themes */
 
@@ -802,59 +802,41 @@ ThemeDirectories const& theme_enum_themes()
 
 /* Finds the path for a filename */
 /// \todo make this return std::string
-char * theme_load_file(char const *name)
+std::optional<std::filesystem::path> theme_load_file(char const *name)
 {
-	FILE *fp;
-	static char buf[512];
+	return theme_load_fake_file(name, g_game.theme);
+}
 
-	memset(buf, 0, sizeof(buf));
-
-	snprintf(buf, sizeof(buf)-1, "themes/%s/%s", g_game.theme, name);
-	fp = fopen(buf, "r");
-	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), rc_directory_name, g_game.theme, name);
-		fp = fopen(buf, "r");
+std::optional<std::filesystem::path> valid_filename(std::initializer_list<char const*> parts)
+{
+	std::filesystem::path to_check;
+	for(auto const*const part: parts) {
+		to_check /= part;
 	}
-
-	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/%s", THEMEDIR, g_game.theme, name);
-		fp = fopen(buf, "r");
+	if(std::filesystem::exists(to_check)) {
+		return to_check;
+	} else {
+		return std::nullopt;
 	}
-
-	if(!fp) {
-		return NULL;
-	}
-
-	fclose(fp);
-	return buf;
 }
 
 /* Loads a pixmap of a not loaded theme */
-char * theme_load_fake_file(char const *name, char *theme)
+std::optional<std::filesystem::path> theme_load_fake_file(char const *name, char const *theme)
 {
-	FILE *fp;
-	static char buf[512];
+	std::optional<std::filesystem::path> result;
+	using P = std::initializer_list<char const*>;
 
-	memset(buf, 0, sizeof(buf));
-
-	snprintf(buf, sizeof(buf)-1, "themes/%s/%s", theme, name);
-	fp = fopen(buf, "r");
-	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), rc_directory_name, theme, name);
-		fp = fopen(buf, "r");
+	result = valid_filename(P{"themes", theme, name});
+	if(result) {
+		return result;
 	}
 
-	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/%s", THEMEDIR, theme, name);
-		fp = fopen(buf, "r");
+	result = valid_filename(P{g_get_home_dir(), rc_directory_name, "themes", theme, name});
+	if(result) {
+		return result;
 	}
 
-	if(!fp) {
-		return NULL;
-	}
-
-	fclose(fp);
-	return buf;
+	return valid_filename(P{theme_dir().c_str(), theme, name});
 }
 
 int theme_using_extended_dices()

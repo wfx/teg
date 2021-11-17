@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <filesystem>
+
 #include <glib.h>
 #include <gtk/gtk.h>
 
@@ -27,7 +29,9 @@ namespace teg::client::callbacks
 {
 
 void generic_window_set_parent(GtkWidget * dialog, GtkWindow   * parent);
-char * load_pixmap_file(const char *name);
+
+/// Calculate the absolute file path for a given ressource file (in /share/teg)
+std::filesystem::path load_pixmap_file(const char *name);
 void teg_dialog(char* title, char* bigtitle, char* data);
 GtkWidget* teg_dialog_new(char* title, char* bigtitle);
 void teg_dialog_gameover(int numjug, int mission);

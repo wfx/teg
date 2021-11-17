@@ -21,6 +21,7 @@
  * manages the client side of the attack
  */
 
+#include <filesystem>
 #include "attack.h"
 
 #include "protocol.h"

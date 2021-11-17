@@ -22,6 +22,7 @@
  * Contiene algunas funciones auxiliares para el manejo del estado 'ESTADO_REAGRUPE'
  */
 
+#include <filesystem>
 #include "../common/net.h"
 
 #include "fcintl.h"

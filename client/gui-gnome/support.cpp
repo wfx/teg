@@ -32,6 +32,7 @@
 #include <goocanvas.h>
 #include <glib/gi18n.h>
 
+#include "../../common/execute.hpp"
 #include "client.h"
 #include "support.h"
 #include "callbacks.h"
@@ -67,18 +68,9 @@ void generic_window_set_parent(GtkWidget * dialog, GtkWindow   * parent)
 	                        GTK_WIN_POS_CENTER_ON_PARENT);
 }
 
-/**
- * @fn char * load_pixmap_file( char *name )
- * Carga un pixmap. Busca en $prefix, localdir & $datadir
- * @param name Pixmap a buscar
- * @return NULL si no encontro o path del pixmap. Hay que g_free ese string
- */
-char * load_pixmap_file(char const *name)
+std::filesystem::path load_pixmap_file(char const *name)
 {
-	char *filename = NULL;
-
-	filename = g_strconcat(TEGDATADIR, name, NULL);
-	return filename;
+	return installation_directory() / "share" / "teg" / name;
 }
 
 /**
