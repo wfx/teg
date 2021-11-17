@@ -7,14 +7,14 @@
 * big internal rework
 * the server console now only supports '=' to assign option values (this is due
   to a refactoring, supporting the old behavior is too much of a hassle, as I
+  don't expect that anyone on this planet uses the console)
 * Improve the build helper script
-  * Allways delete and recreate an existing build directory
+  * Always delete and recreate an existing build directory
 * [bugfix/pr #24] Autoconf library detection bugfix
 * [pr #27] The project can be build on OpenSuse
 * fix to memory related bug in the parser and parser test code (bffb51 and
   fd5f42).
-
-  don't expect that anyone on this planet uses the console)
+* Remove usage of deprecated glib functions.
 * [bug #21] Determine ressource paths at run time relative to the executable
   file
 
