@@ -2,6 +2,7 @@
 
 #include "execute.hpp"
 
+#include <vector>
 #include <cstdlib>
 #include <cstring>
 
