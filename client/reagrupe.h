@@ -22,6 +22,9 @@
 
 #include "../common/common.h"
 
+namespace teg::client
+{
+
 /// \brief Cancel the current army movement, and call the GUI to reflect this
 void reagrupe_reset(void);
 
@@ -66,3 +69,5 @@ TEG_STATUS reagrupe_enter(PCOUNTRY p);
  * Reset the movement-parts of the selected-bitfield
  */
 TEG_STATUS reagrupe_leave(PCOUNTRY p);
+
+}

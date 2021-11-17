@@ -24,6 +24,9 @@
 
 #define _XOPEN_SOURCE 500
 
+#include <vector>
+#include <algorithm>
+
 #include <stdio.h>
 #include <string.h>
 #include <strings.h>
@@ -36,6 +39,7 @@
 #include <libxml/parser.h>
 #include <glib.h>
 
+#include "../common/tegdebug.h"
 #include "../common/xml_support.h"
 #include "themes.h"
 #include "globals.h"
@@ -48,11 +52,14 @@
 
 #undef _DEBUG
 
+namespace teg::client
+{
+
 #define TEG_THEME_VER_MAJOR (1)
 #define TEG_THEME_VER_MINOR (5)
 
 static pTheme g_theme = NULL;	/**< Current theme */
-static pTInfo g_tinfo = NULL;	/**< info of all current themes */
+static ThemeDirectories themes;
 
 static pCountry parseCountry(xmlDocPtr doc, xmlNodePtr cur)
 {
@@ -592,7 +599,7 @@ TEG_STATUS theme_load(char *name)
 	/* ~/.teg/themes/%s/teg_theme.xml */
 	if(g_theme == NULL) {
 		memset(filename, 0, sizeof(filename));
-		snprintf(filename, sizeof(filename)-1, "%s/%s/themes/%s/teg_theme.xml", g_get_home_dir(), TEG_DIRRC, name);
+		snprintf(filename, sizeof(filename)-1, "%s/%s/themes/%s/teg_theme.xml", g_get_home_dir(), rc_directory_name, name);
 		g_theme = parseTheme(filename);
 	}
 
@@ -710,7 +717,7 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 		pT->armies_dragable = (strcasecmp((char*)g_theme->armies_background, "true") == 0);
 	}
 
-	for(i=0; i<DICES_CANT; i++) {
+	for(i=0; i<sides_on_the_dice; i++) {
 		pT->dices_file[i] = (char*)g_theme->dices_file[i];
 	}
 
@@ -751,107 +758,46 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 	return TEG_STATUS_SUCCESS;
 }
 
-/* builds a list of available themes */
-TEG_STATUS theme_enum_themes(pTInfo pTI)
+ThemeDirectories const& theme_enum_themes()
 {
-	char const *const dname = "themes";
-	char buf[1000];
-	DIR *dir;
-	struct dirent *e;
-	pTInfo pI, pInext;
-	char lugares[3][1000];
-	int i;
-
-	if(g_tinfo) {
-		*pTI = *g_tinfo;
-		return TEG_STATUS_SUCCESS;
+	if(themes.size() != 0) {
+		return themes;
 	}
 
-
-	memset(lugares, 0, sizeof(lugares));
-
-	/* themes */
-	strncpy(lugares[0], dname, sizeof(lugares[0])-1);
-
-	/* ~/.teg/themes */
-	snprintf(lugares[1], sizeof(lugares[1])-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
-
+	// the search paths for theme files
+	std::string dirnames[3] {
+		"themes",
+		std::string(g_get_home_dir()) + "/" + rc_directory_name + "/themes",
+		THEMEDIR
+	};
 	/* /usr/local/share/teg/themes */
-	strncpy(lugares[2], THEMEDIR, sizeof(buf)-1);
 
-
-	for(i=0; i<3; i++) {
-		if((dir = opendir(lugares[i]))==NULL) {
+	for(std::string const &dir_name: dirnames) {
+		DIR * const dir = opendir(dir_name.c_str());
+		if(dir==NULL) {
+			PDEBUG("Failed for dir %s\n", dir_name.c_str());
 			continue;
 		}
 
 		/* scan for directories with file teg_theme.xml */
+		struct dirent *e;
 		while((e = readdir(dir)) != NULL) {
 			FILE *fp;
-			const int written = snprintf(buf, sizeof(buf), "%s/%s/teg_theme.xml", lugares[i], e->d_name);
-			if(((written < 0)) || ((unsigned)written >= sizeof(buf))) {
-				continue;
-			}
-			if((fp = fopen(buf, "r"))) {
+			const auto theme_file_name =
+			    dir_name + '/' + e->d_name + "/teg_theme.xml";
 
+			if((fp = fopen(theme_file_name.c_str(), "r"))) {
 				fclose(fp);
-				pI = static_cast<TInfo*>(malloc(sizeof(*pI)));
-				if(pI == NULL) {
-					return TEG_STATUS_NOMEM;
-				}
-
-				memset(pI, 0, sizeof(*pI));
-				pI->name = strdup(e->d_name);
-
-				/* insert it in the list */
-				if(g_tinfo == NULL) {
-					pI->next = NULL;
-					g_tinfo = pI;
-				} else {
-					/* dont insert duplicated */
-					int repeated = 0;
-					for(pInext=g_tinfo; pInext; pInext = pInext->next) {
-						if(strncmp(pInext->name, pI->name, strlen(pI->name)) == 0) {
-							repeated = 1;
-							break;
-						}
-
-					}
-					if(!repeated) {
-						pI->next = g_tinfo->next;
-						g_tinfo->next = pI;
-					} else {
-						free(pI);
-					}
-				}
+				themes.insert(e->d_name);
+				PDEBUG("Insert %s\n", theme_file_name.c_str());
+			} else {
+				PDEBUG("Failed to open %s\n", theme_file_name.c_str());
 			}
 		}
-
 		closedir(dir);
 	}
 
-	if(g_tinfo == NULL) {
-		return TEG_STATUS_ERROR;
-	}
-
-	*pTI = *g_tinfo;
-	return TEG_STATUS_SUCCESS;
-}
-
-void theme_free()
-{
-	pTInfo pI;
-
-	for(pI = g_tinfo; pI != NULL;)  {
-		pTInfo pI2;
-		if(pI->name) {
-			free(pI->name);
-		}
-		pI2 = pI;
-		pI = pI->next;
-		free(pI2);
-	}
-	g_tinfo = NULL;
+	return themes;
 }
 
 /* Finds the path for a filename */
@@ -866,7 +812,7 @@ char * theme_load_file(char const *name)
 	snprintf(buf, sizeof(buf)-1, "themes/%s/%s", g_game.theme, name);
 	fp = fopen(buf, "r");
 	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), TEG_DIRRC, g_game.theme, name);
+		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), rc_directory_name, g_game.theme, name);
 		fp = fopen(buf, "r");
 	}
 
@@ -894,7 +840,7 @@ char * theme_load_fake_file(char const *name, char *theme)
 	snprintf(buf, sizeof(buf)-1, "themes/%s/%s", theme, name);
 	fp = fopen(buf, "r");
 	if(fp == NULL) {
-		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), TEG_DIRRC, theme, name);
+		snprintf(buf, sizeof(buf)-1, "%s/%s/themes/%s/%s", g_get_home_dir(), rc_directory_name, theme, name);
 		fp = fopen(buf, "r");
 	}
 
@@ -919,4 +865,6 @@ int theme_using_extended_dices()
 	}
 
 	return (my_atoi((char*)g_theme->dices_ext_x[0]) != -1);
+}
+
 }

@@ -4,9 +4,12 @@
 
 #include <gtest/gtest.h>
 
+namespace teg::client
+{
+
 TEST(ClientHelper, aux_status)
 {
-	CPLAYER player{.name={'x'}, .addr={'y'}, .color=23, .score=42, .numjug=17,
+	Player player{.name={'x'}, .addr={'y'}, .color=23, .score=42, .numjug=17,
 	               .estado=PLAYER_STATUS_CONNECTED, .tot_countries=9,
 	               .tot_cards=3, .empezo_turno=5, .human=12};
 	const char*const input = "name,2,3,1,7,5,4,9,7,8,addr";
@@ -36,4 +39,6 @@ TEST(ClientHelper, aux_scores)
 	EXPECT_STREQ("insertDateHere", sc.date);
 	EXPECT_EQ(42, sc.human);
 	EXPECT_EQ(23, sc.score);
+}
+
 }

@@ -28,6 +28,9 @@
 #include "../common/common.h"
 #include "../common/country.h"
 
+namespace teg::client
+{
+
 /**
  * \brief places one army of the player into country \p p.
  * \return TEG_STATUS_SUCCESS if the army got placed, TEG_STATUS_ERROR if there
@@ -108,3 +111,4 @@ TEG_STATUS fichas_leave(PCOUNTRY p);
  * \p cant, the continent bitfield will be placed in \p conts. */
 void fichas_get_wanted(int *cant, int *conts);
 
+}

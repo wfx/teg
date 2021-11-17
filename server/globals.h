@@ -23,13 +23,16 @@
 #include "../common/common.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 typedef struct _sgame {
 	int connections;	/**< quantity of connections */
 	int players;		/**< quantity of players */
 	int playing;		/**< quantity of players playing */
-	BOOLEAN mission;	/**< with secret mission or not */
-	BOOLEAN cmission;	/**< with common secret mission or not */
-	BOOLEAN fog_of_war;	/**< play with fog of war */
+	bool mission;	/**< with secret mission or not */
+	bool cmission;	/**< with common secret mission or not */
+	bool fog_of_war;	/**< play with fog of war */
 	PSPLAYER player_fow;	/**< player who request a Fog of War command */
 	int reglas;		/**< reglas a jugar: TEG o RISK */
 	PSPLAYER turno;		/**< de quien es el turno */
@@ -62,16 +65,18 @@ enum {
 #define JUEGO_EN_FICHAS2	(g_game.estado = JUEGO_ESTADO_FICHAS2)
 
 typedef struct _server {
-	char name[SERVER_NAMELEN];
-	BOOLEAN debug;		/* debug mode */
-	BOOLEAN with_console;	/* enable console mode */
+	char name[maximum_servername_length];
+	bool debug;		/* debug mode */
+	bool with_console;	/* enable console mode */
 	int port;		/* port to listen to (default: 2000) */
 	int max_players;	/* max players ( default: 6 ) */
 	int max_connections;	/* max connections ( default: 15 ) */
 
-	char metaserver_name[SERVER_NAMELEN];	/* metaserver name */
+	char metaserver_name[maximum_servername_length];	/* metaserver name */
 	int metaserver_port;	/* port of metaserver */
-	BOOLEAN metaserver_on;	/* is the metaserver on */
-	BOOLEAN kick_unparent_robots;	/* kick robots when there are no humans */
+	bool metaserver_on;	/* is the metaserver on */
+	bool kick_unparent_robots;	/* kick robots when there are no humans */
 } SERVER, *PSERVER;
 extern SERVER g_server;
+
+}

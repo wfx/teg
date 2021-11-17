@@ -20,25 +20,15 @@
 
 #pragma once
 
+#include <functional>
+
 #include "tarjeta.h"
 #include "cont.h"
 
-#define COUNTRYNAME_MAX_LEN	50
-#define COUNTRIES_CANT		50
+constexpr std::size_t COUNTRYNAME_MAX_LEN{50};
+constexpr std::size_t COUNTRIES_CANT{50};
 
-typedef struct _country {
-	LIST_ENTRY next;
-	int id;					/**< numero de country */
-	char const *name;				/**< name del country*/
-	int numjug;				/**< numjug */
-	int ejercitos;				/**< cant de ejercitos */
-	int ejer_reagrupe;			/**< cant de ejercitos pasados en reagru */
-	CONTINENTE continente;			/**< continente al que pertenece */
-	TARJETA tarjeta;			/**< tipo de dibujo de tarjeta */
-	int selected;				/**< util para la gui. Dice si esta seleccionado */
-} COUNTRY, *PCOUNTRY;
-
-enum {
+enum CountrySelectionStatusDetail: unsigned {
 	COUNTRY_SELECT_NONE = 0,
 	COUNTRY_SELECT_FICHAS_IN = 1 << 0,
 	COUNTRY_SELECT_FICHAS_OUT = 1 << 1,
@@ -50,18 +40,46 @@ enum {
 	COUNTRY_SELECT_ATTACK_DST = 1 << 7,
 };
 
+using CountrySelectionStatus = std::underlying_type<CountrySelectionStatusDetail>::type;
+
+struct COUNTRY {
+	COUNTRY();
+	COUNTRY(CountryId id, char const* name, CONTINENTE continente, TARJTIPO kindOfCard);
+
+	CountryId id;					/**< numero de country */
+	char const *name;				/**< name del country*/
+	int numjug=-1;				/**< Number of owning player */
+	int ejercitos=0;				/**< cant de ejercitos */
+	int ejer_reagrupe=0;			/**< cant de ejercitos pasados en reagru */
+	CONTINENTE continente;			/**< continente al que pertenece */
+	TARJETA tarjeta;			/**< tipo de dibujo de tarjeta */
+	CountrySelectionStatus selected = COUNTRY_SELECT_NONE;	/**< util para la gui. Dice si esta seleccionado */
+};
+using PCOUNTRY=COUNTRY*;
+
+
 /*
  * Funciones, variables exportadas
  */
 extern COUNTRY g_countries[];
 
-BOOLEAN countries_eslimitrofe(int a, int b);
+bool countries_eslimitrofe(int a, int b);
 void countries_initcountry(PCOUNTRY p);
 void countries_init();
-BOOLEAN country_libre(int i);
+bool country_libre(int i);
 
 /// \brief decides if the country number is valid.
-BOOLEAN countrynumber_is_valid(int country_number);
+bool countrynumber_is_valid(int country_number);
 
 /**! returns the name of 'country' */
 const char *countries_get_name(int country);
+
+using CountryMapFn = std::function<void(COUNTRY&)>;
+using InterruptableCountryMapFn = std::function<bool(COUNTRY&)>;
+
+void countries_map(CountryMapFn fn);
+void countries_map(int player, CountryMapFn fn);
+void countries_map_int(int player, InterruptableCountryMapFn fn);
+
+
+COUNTRY& COUNTRY_FROM_TARJETA(TARJETA& tarjeta);

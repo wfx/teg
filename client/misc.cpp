@@ -38,7 +38,8 @@
 #include "fcintl.h"
 #include "client.h"
 
-using namespace teg;
+namespace teg::client
+{
 
 CJUEGO g_game;			/**< client game */
 
@@ -70,7 +71,6 @@ TEG_STATUS game_reinit()
 		g_game.dados_dst[i] = 0;
 	}
 
-	InitializeListHead(&g_game.tarjetas_list);
 	g_game.tarjetas_cant = 0;
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		tarjeta_inittarj(&g_countries[i].tarjeta);
@@ -153,7 +153,7 @@ void teg_disconnect()
 	game_finalize();
 	game_init();
 
-	gui_disconnect();
+	callbacks::gui_disconnect();
 }
 
 TEG_STATUS playerid_restore_from_error(void)
@@ -275,7 +275,7 @@ TEG_STATUS textmsg(int level, char const *format, ...)
 	buf[ sizeof(buf) -1 ] = 0;
 
 	if(g_game.msg_show & level) {
-		gui_textmsg(buf);
+		callbacks::gui_textmsg(buf);
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -288,7 +288,7 @@ TEG_STATUS dirs_create()
 
 	memset(buf, 0, sizeof(buf));
 
-	snprintf(buf, sizeof(buf)-1, "%s/%s", g_get_home_dir(), TEG_DIRRC);
+	snprintf(buf, sizeof(buf)-1, "%s/%s", g_get_home_dir(), rc_directory_name);
 
 	if((dir = opendir(buf)) == NULL) {
 		mkdir(buf, 0755);
@@ -296,7 +296,7 @@ TEG_STATUS dirs_create()
 		closedir(dir);
 	}
 
-	snprintf(buf, sizeof(buf)-1, "%s/%s/themes", g_get_home_dir(), TEG_DIRRC);
+	snprintf(buf, sizeof(buf)-1, "%s/%s/themes", g_get_home_dir(), rc_directory_name);
 	if((dir = opendir(buf)) == NULL) {
 		mkdir(buf, 0755);
 	} else {
@@ -304,4 +304,6 @@ TEG_STATUS dirs_create()
 	}
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

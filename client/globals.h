@@ -23,12 +23,18 @@
 #include "client.h"
 #include "themes.h"
 
+namespace teg::client
+{
+
+namespace callbacks
+{
+
 extern TEG_STATUS gui_init(int argc, char **argv);
 extern TEG_STATUS gui_main(void);
 extern TEG_STATUS gui_textmsg(char *aString);
 extern TEG_STATUS gui_disconnect(void);
 extern TEG_STATUS gui_habilitado(int numjug);
-extern TEG_STATUS gui_connected(char *c);
+extern TEG_STATUS gui_connected(const int *c);
 extern TEG_STATUS gui_reconnected();
 extern TEG_STATUS gui_status(void);
 extern TEG_STATUS gui_start(void);
@@ -50,6 +56,8 @@ extern TEG_STATUS gui_mission();
 extern TEG_STATUS gui_textplayermsg(char const *n, int nj, char const *m);
 extern TEG_STATUS gui_scores(void);
 
+}
+
 typedef struct _cgame {
 	int fd;				/**< mi fd */
 	PLAYER_STATUS estado;		/**< estado del game */
@@ -57,11 +65,10 @@ typedef struct _cgame {
 	int human;			/**< Am I a human ? */
 	int observer;			/**< si soy observer o player */
 	int playeres;			/**< cantidad de playeres */
-	char myname[PLAYERNAME_MAX_LEN];
+	char myname[max_playername_length];
 	int mycolor;			/**< color preferido */
-	char sername[SERVER_NAMELEN];	/**< server name */
+	char sername[maximum_servername_length];	/**< server name */
 	int serport;			/**< server port */
-	LIST_ENTRY tarjetas_list;	/**< lista de tarjetas */
 	int tarjetas_cant;		/**< cantidad de tarjetas */
 	int secret_mission;		/**< which secret mission to accomplish */
 	int dados_srccountry;		/**< utimo country que ataco */
@@ -75,10 +82,12 @@ typedef struct _cgame {
 	int whos_turn;			/**< playernumber who has the turn */
 	int who_started_round;		/**< player who started the round */
 	int round_number;		/**< round number */
-	BOOLEAN	with_secret_mission;	/**< play with secret missions */
-	BOOLEAN	with_common_mission;	/**< if playing with secret mission, includes the common mission */
-	BOOLEAN	with_fog_of_war;	/**< playing in Fog of War type of game */
+	bool	with_secret_mission;	/**< play with secret missions */
+	bool	with_common_mission;	/**< if playing with secret mission, includes the common mission */
+	bool	with_fog_of_war;	/**< playing in Fog of War type of game */
 } CJUEGO, *PCJUEGO;
 
 /* funciones y variables exportadas */
 extern CJUEGO g_game;
+
+}

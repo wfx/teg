@@ -39,6 +39,9 @@
 #include "status.h"
 #include "tegcanvasimage.h"
 
+namespace teg::client::callbacks
+{
+
 #undef GENERATE_LIMITROFE
 #undef DRAG_DROP_COUNTRIES
 
@@ -460,11 +463,11 @@ void G_country_draw_ejer(int country)
 
 	color = 6;
 	if(player_whois(g_countries[country].numjug, &j) == TEG_STATUS_SUCCESS) {
-		if(j->color >=0 && j->color < TEG_MAX_PLAYERS) {
+		if(j->color >=0 && j->color < maximum_player_count) {
 			color = j->color;
 		}
 	} else {
-		color = TEG_MAX_PLAYERS;
+		color = maximum_player_count;
 	}
 
 	switch(g_countries[country].ejercitos) {
@@ -668,4 +671,6 @@ TEG_STATUS gui_country_select(int country)
 TEG_STATUS g_country_init()
 {
 	return TEG_STATUS_SUCCESS;
+}
+
 }

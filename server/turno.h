@@ -23,6 +23,9 @@
 #include "../common/common.h"
 #include "player.h"
 
+namespace teg::server
+{
+
 /*! give turn to next player */
 TEG_STATUS turno_next(void);
 
@@ -36,7 +39,9 @@ TEG_STATUS turno_2nextplayer(PSPLAYER *j);
 TEG_STATUS turno_end(PSPLAYER pJ);
 
 /*! says if the round is completed */
-BOOLEAN turno_is_round_complete(void);
+bool turno_is_round_complete(void);
 
 /*! called when a round is complete */
 void turno_initialize_new_round(void);
+
+}

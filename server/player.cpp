@@ -17,22 +17,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
-/*
- * Functions that manage the PLAYERS
- */
+
+#include <list>
+#include <algorithm>
+#include <iterator>
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <assert.h>
 #include <unistd.h>
 
+#include "../common/tegdebug.h"
 #include "server.h"
 #include "scores.h"
 #include "xmlscores.h"
 #include "fcintl.h"
 #include "main.h"
 
-LIST_ENTRY g_list_player;		/**< list of players */
+namespace teg::server
+{
+
+using PlayersList = std::list<SPLAYER>;
+
+PlayersList players;
 
 typedef struct {
 	int humans;
@@ -43,76 +51,100 @@ PlayerCount player_count(void)
 {
 	PlayerCount result = {0, 0};
 
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-
-		if(pJ->is_player) {
-			if(pJ->human) {
-				result.humans++;
-			} else {
-				result.robots++;
-			}
+	player_map([&result](PSPLAYER pJ) {
+		if(pJ->human) {
+			result.humans++;
+		} else {
+			result.robots++;
 		}
-		l = LIST_NEXT(l);
-	}
+	});
 	return result;
 }
 
 TEG_STATUS player_whois(int numjug, PSPLAYER *pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
+	TEG_STATUS result=TEG_STATUS_PLAYERNOTFOUND;
+	player_map([numjug, &result, pJ](PSPLAYER pJ_new) {
 		if(pJ_new->numjug == numjug) {
 			*pJ = pJ_new;
-			return TEG_STATUS_SUCCESS;
+			result = TEG_STATUS_SUCCESS;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+	});
+	return result;
 }
 
-TEG_STATUS player_findbyname(char *name, PSPLAYER *pJ)
+TEG_STATUS player_findbyname(char const *name, PSPLAYER *pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
+	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
+	player_map([name, &pJ, &result](PSPLAYER pJ_new) {
 		if(!strncmp(pJ_new->name, name, sizeof(pJ_new->name))) {
 			*pJ = pJ_new;
-			return TEG_STATUS_SUCCESS;
+			result = TEG_STATUS_SUCCESS;
 		}
-		l = LIST_NEXT(l);
+	});
+	return result;
+}
+
+void player_erase(PSPLAYER pJ)
+{
+	auto player_it{std::find_if(players.begin(), players.end(),
+	                            [pJ](SPLAYER& p)
+	{
+		return pJ == &p;
+	})};
+	if(player_it != players.end()) {
+		players.erase(player_it);
 	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+}
+
+void player_yield_color(SPLAYER& player)
+{
+	if(player.color != -1) {
+		color_del(player.color);
+	}
+}
+
+bool player_is_to_be_deleted(SPLAYER const& player)
+{
+	return (PLAYER_STATUS_DESCONECTADO==player.estado)
+	       || (-1 == player.fd);
 }
 
 void player_delete_discon(PSPLAYER pJ)
 {
-	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
-
-	if(pJ->estado == PLAYER_STATUS_DESCONECTADO || pJ->fd == -1) {
-		if(pJ->color != -1) {
-			color_del(pJ->color);
-		}
-		l = RemoveHeadList(l->Blink);
-		free(l);
+	if(player_is_to_be_deleted(*pJ)) {
+		player_yield_color(*pJ);
+		player_erase(pJ);
 	}
+}
+
+void player_map_erasable(std::function<void(PlayersList::iterator it)> fn)
+{
+	for(auto it=players.begin(); it!=players.end(); /*advance in body*/) {
+		auto follow=std::next(it); // Make a copy of the following iterator
+		fn(it);
+		/* it may be now invalid, and so is (it++). This is why we already
+		 * stored the following iterator */
+		it=follow;
+	}
+}
+
+void player_delete_all_disconnected()
+{
+	player_map_erasable([](PlayersList::iterator it) {
+		if(player_is_to_be_deleted(*it)) {
+			player_yield_color(*it);
+			players.erase(it);
+
+		}
+	});
 }
 
 void player_initplayer(PSPLAYER pJ)
 {
 	assert(pJ);
 
-	InitializeListHead(&pJ->countries);
-	InitializeListHead(&pJ->deals);
-	pJ->hizo_canje = FALSE;
+	pJ->hizo_canje = false;
 	pJ->tot_exchanges = 0;
 	pJ->tot_countries = 0;
 	pJ->tot_cards = 0;
@@ -130,32 +162,22 @@ void player_initplayer(PSPLAYER pJ)
 /* main initialization */
 void player_init(void)
 {
-	InitializeListHead(&g_list_player);
 }
 
 TEG_STATUS player_numjug_libre(int *libre)
 {
-	char jugs[TEG_MAX_PLAYERS];
+	char jugs[maximum_player_count] = {0};
 	int i;
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
 
 	assert(libre);
 
-	memset(jugs, 0, sizeof(jugs));
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-		if(pJ->is_player) {
-			if(pJ->numjug >= 0 && pJ->numjug < TEG_MAX_PLAYERS) {
-				jugs[pJ->numjug] = 1;
-			}
+	player_map([&jugs](PSPLAYER pJ) {
+		if(pJ->numjug >= 0 && pJ->numjug < maximum_player_count) {
+			jugs[pJ->numjug] = 1;
 		}
+	});
 
-		l = LIST_NEXT(l);
-	}
-
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(i=0; i<maximum_player_count; i++) {
 		if(jugs[i] == 0) {
 			*libre = i;
 			return TEG_STATUS_SUCCESS;
@@ -167,10 +189,9 @@ TEG_STATUS player_numjug_libre(int *libre)
 }
 
 /* creates a player and initialize it */
-PSPLAYER player_ins(PSPLAYER pJ, BOOLEAN esplayer)
+PSPLAYER player_ins(PSPLAYER pJ, bool esplayer)
 {
 	int numjug;
-	PSPLAYER newJ;
 
 	assert(pJ);
 
@@ -178,44 +199,36 @@ PSPLAYER player_ins(PSPLAYER pJ, BOOLEAN esplayer)
 		return NULL;
 	}
 
-	newJ = (PSPLAYER) malloc(sizeof(SPLAYER));
-	if(newJ==NULL) {
-		return NULL;
-	}
-
 	pJ->numjug = -1;
 	pJ->color = -1;
-	memmove(newJ, pJ, sizeof(SPLAYER));
-	player_initplayer(newJ);
-	InitializeListHead(&newJ->next);
+	players.push_back(*pJ);
 
-	newJ->is_player = esplayer;
-	newJ->estado = PLAYER_STATUS_CONNECTED;
+	SPLAYER &newJ{players.back()};
+	player_initplayer(&newJ);
+
+	newJ.is_player = esplayer;
+	newJ.estado = PLAYER_STATUS_CONNECTED;
 
 	if(esplayer) {
-		newJ->numjug = numjug;
+		newJ.numjug = numjug;
 		g_game.players++;
 	}
 
 	g_game.connections++;
-	InsertTailList(&g_list_player, (PLIST_ENTRY) newJ);
 
-	return newJ;
+	return &newJ;
 }
 
 TEG_STATUS player_flush()
 {
-	PLIST_ENTRY tmp;
-
-	while(!IsListEmpty(&g_list_player)) {
-		tmp = RemoveHeadList(&g_list_player);
-		if(((PSPLAYER)tmp)->fd > 0) {
-			fd_remove(((PSPLAYER)tmp)->fd);
-			((PSPLAYER)tmp)->fd = 0;
+	for(SPLAYER &player: players) {
+		if(player.fd > 0) {
+			fd_remove(player.fd);
+			player.fd = -1;
 		}
-		con_text_out(M_INF, ("Deleting %s\n"), ((PSPLAYER)tmp)->name);
-		free(tmp);
+		con_text_out(M_INF, ("Deleting %s\n"), player.name);
 	}
+
 	g_game.connections = 0;
 	g_game.players = 0;
 	return TEG_STATUS_SUCCESS;
@@ -279,22 +292,19 @@ TEG_STATUS player_del_soft(PSPLAYER pJ)
 
 		/* game with just one player... the winner */
 	} else if(g_game.playing == 1 && JUEGO_EMPEZADO) {
-		PLIST_ENTRY l = g_list_player.Flink;
-		PSPLAYER pJ2=NULL;
 
-		while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-			pJ2 = (PSPLAYER) l;
+		PSPLAYER winner=NULL;
+		player_map([pJ, &winner](PSPLAYER pJ2) {
 			if(pJ2->numjug!=pJ->numjug && player_is_playing(pJ2)) {
 				con_text_out(M_INF, _("Game with one player. Player %s(%d) is the winner\n"), pJ2->name, pJ2->numjug);
 				pJ2->estado = PLAYER_STATUS_GAMEOVER;
-				break;
+				winner = pJ2;
 			}
+		});
 
-			pJ2 = NULL;
-			l = LIST_NEXT(l);
+		if(winner != nullptr) {
+			game_end(winner);
 		}
-
-		game_end(pJ2);
 
 		/* game may continue normally */
 	} else {
@@ -307,8 +317,6 @@ TEG_STATUS player_del_soft(PSPLAYER pJ)
 
 void player_del_hard(PSPLAYER pJ)
 {
-	PLIST_ENTRY l = (PLIST_ENTRY) pJ;
-
 	assert(pJ);
 
 	g_game.connections--;
@@ -347,31 +355,26 @@ void player_del_hard(PSPLAYER pJ)
 		con_text_out(M_INF, _("Observer %s(%d) quit the game\n"), pJ->name, pJ->numjug);
 	}
 
-	/* free the player */
-	l = RemoveHeadList(l->Blink);
-	free(l);
+	player_erase(pJ);
 
 	return;
 }
 
 TEG_STATUS player_from_indice(int j, int *real_j)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
+	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
 	int i=0;
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-		if(pJ->is_player && pJ->estado>=PLAYER_STATUS_HABILITADO) {
+	player_map([&i, j, &real_j, &result](PSPLAYER pJ) {
+		if(pJ->estado>=PLAYER_STATUS_HABILITADO) {
 			if(j == i) {
 				*real_j = pJ->numjug;
-				return TEG_STATUS_SUCCESS;
+				result = TEG_STATUS_SUCCESS;
 			}
 			i++;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+	});
+	return result;
 }
 
 TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p)
@@ -382,7 +385,6 @@ TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p)
 		return TEG_STATUS_PLAYERNOTFOUND;
 	}
 
-	InsertTailList(&pJ->countries, (PLIST_ENTRY) p);
 	p->numjug = numjug;
 	pJ->tot_countries++;
 	pJ->tot_armies++;		/* cada country viene con un ejercito */
@@ -392,18 +394,15 @@ TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p)
 /* given a fd, return the player who owns it */
 TEG_STATUS player_whoisfd(int fd, PSPLAYER *j)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER i;
+	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		i = (PSPLAYER) l;
+	player_map([fd, &j, &result](PSPLAYER i) {
 		if(i->fd == fd) {
 			*j = i;
-			return TEG_STATUS_SUCCESS;
+			result = TEG_STATUS_SUCCESS;
 		}
-		l = LIST_NEXT(l);
-	}
-	return TEG_STATUS_PLAYERNOTFOUND;
+	}, PlayerMapPolicy::everyone);
+	return result;
 }
 
 bool player_esta_xxx(int fd, PLAYER_STATUS state, bool exact)
@@ -421,28 +420,19 @@ bool player_esta_xxx_plus(int fd, PLAYER_STATUS state, bool strict, PSPLAYER *j)
 			return ((*j)->estado >= state);
 		}
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
 void player_listar_countries(PSPLAYER pJ, int *countries)
 {
-	PLIST_ENTRY list;
-	PCOUNTRY pP;
-
 	assert(pJ);
 	assert(countries);
 
-
-	list = pJ->countries.Flink;
-
-	while(!IsListEmpty(&pJ->countries) && (list != &pJ->countries)) {
-		pP = (PCOUNTRY) list;
-
-		countries[ pP->continente ]++;
-
-		list = LIST_NEXT(list);
-	}
+	countries_map(pJ->numjug,
+	[&countries](COUNTRY &country) {
+		countries[country.continente]++;
+	});
 }
 
 void player_listar_conts(PSPLAYER pJ, unsigned long *ret)
@@ -498,36 +488,24 @@ int player_fichasc_cant(PSPLAYER pJ)
 
 void player_all_set_status(PLAYER_STATUS estado)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
-
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-		if(pJ->is_player && pJ->estado >= PLAYER_STATUS_GAMEOVER) {
+	player_map([estado](PSPLAYER pJ) {
+		if(pJ->estado >= PLAYER_STATUS_GAMEOVER) {
 			pJ->estado = estado;
 		}
-		l = LIST_NEXT(l);
-	}
+	});
 }
 
-void player_map(jug_map_func func)
+void player_map(jug_map_func func,
+                PlayerMapPolicy policy)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
-
 	assert(func);
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-
-		/* The function might remove the current element, so we determine the
-		 * next element now */
-		l = LIST_NEXT(l);
-
-		if(pJ->is_player) {
-			(func)(pJ);
+	std::for_each(players.begin(), players.end(),
+	[func, policy](SPLAYER& p) {
+		if(p.is_player || (policy==PlayerMapPolicy::everyone)) {
+			func(&p);
 		}
-	}
+	});
 }
 
 bool player_is_lost(PSPLAYER pJ)
@@ -563,7 +541,7 @@ void player_poner_perdio(PSPLAYER pJ)
 void player_fillname(PSPLAYER pJ, char *name)
 {
 	PSPLAYER pJ_new;
-	char new_name [ PLAYERNAME_MAX_LEN ];
+	char new_name [ max_playername_length ];
 
 	memset(new_name, 0, sizeof(new_name));
 	strncpy(new_name, name, sizeof(new_name) -1);
@@ -592,44 +570,35 @@ void player_fillname(PSPLAYER pJ, char *name)
 /* return a disconected player with the same name as pJ */
 PSPLAYER player_return_disconnected(PSPLAYER pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
-
+	PSPLAYER result = nullptr;
+	player_map([pJ, &result](PSPLAYER pJ_new) {
 		if((pJ_new->estado == PLAYER_STATUS_DESCONECTADO) &&
 		        strcmp(pJ->name, pJ_new->name) == 0
 		  ) {
 			g_game.players++;
 			g_game.playing++;
 			g_game.connections++;
-			return pJ_new;
+			result = pJ_new;
 		}
-
-		l = LIST_NEXT(l);
-	}
-	return NULL;
+	}, PlayerMapPolicy::everyone);
+	return result;
 }
 
 /* return true if the player is disconnected */
-BOOLEAN player_is_disconnected(PSPLAYER pJ)
+bool player_is_disconnected(PSPLAYER pJ)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ_new;
+	/// \todo replace the parameter by a char pointer
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ_new = (PSPLAYER) l;
-
+	bool result = false;
+	player_map([&result, pJ](PSPLAYER pJ_new) {
 		if((pJ_new->estado == PLAYER_STATUS_DESCONECTADO) &&
 		        strcmp(pJ->name, pJ_new->name) == 0
 		  ) {
-			return TRUE;
+			result = true;
 		}
-
-		l = LIST_NEXT(l);
-	}
-	return FALSE;
+	}, PlayerMapPolicy::everyone);
+	return result;
 }
 
 /* insert all the player but the ones in GAME OVER */
@@ -655,8 +624,46 @@ TEG_STATUS player_kick_unparent_robots(void)
 
 		if(counts.robots && ! counts.humans) {
 			con_text_out_wop(M_INF, _("Kicking unwanted robots...\n"));
-			player_map(player_kick_robot);
+			player_map_erasable([](PlayersList::iterator it) {
+				player_kick_robot(&*it);
+			});
 		}
 	}
 	return TEG_STATUS_SUCCESS;
+}
+
+SPLAYER *find_next_player(SPLAYER* after, std::function<bool(SPLAYER&)> acceptable)
+{
+	using It = PlayersList::iterator; // just a shortcut for the iterator type
+
+	// find the element after which we search for the next one
+	It const playerIt = std::find_if(players.begin(), players.end(),
+	[after](SPLAYER& p) {
+		return after == &p;
+	});
+
+	if(playerIt == players.end()) {
+		PDEBUG("Internal error: request for non-existing player (%p).", after);
+		return nullptr;
+	}
+
+	{
+		// Search in the interval after playerIt to the end, if one wanted element is there
+		It inEnd = std::find_if(std::next(playerIt), players.end(), acceptable);
+		if(inEnd != players.end()) {
+			return &*inEnd;
+		}
+	}
+
+	{
+		// There was nothing in the second part of the list, search the [begin, playerIt) interval
+		It inBeginning = std::find_if(players.begin(), playerIt, acceptable);
+		if(inBeginning != playerIt) {
+			return &*inBeginning;
+		}
+	}
+
+	return nullptr;
+}
+
 }

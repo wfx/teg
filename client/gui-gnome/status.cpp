@@ -41,9 +41,10 @@
 #include "priv.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
+
 extern TTheme gui_theme;
-
-
 
 /* some defines for the position */
 #define RECT_SIZE (8)
@@ -59,7 +60,7 @@ static GtkWidget *ministatus = NULL;
 
 static GtkWidget* mainstatus_canvas = NULL;
 
-static GooCanvasItem *players_color[TEG_MAX_PLAYERS];
+static GooCanvasItem *players_color[maximum_player_count];
 static GooCanvasItem *color_started_item;
 static GooCanvasItem *round_number_item;
 static GooCanvasItem *players_color_over;
@@ -190,37 +191,28 @@ static void status_add_columns(GtkTreeView *treeview)
 
 static TEG_STATUS status_update_model(GtkListStore *store)
 {
-	GtkTreeIter iter;
-	PCPLAYER pJ;
-	PLIST_ENTRY l = g_list_player.Flink;
-
-
 	gtk_list_store_clear(store);
 
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		gchar *name;
-		pJ = (PCPLAYER) l;
+	players_map([store](Player &player) {
+		gchar *const name = translate_to_utf8(player.name);
 
-		name = translate_to_utf8(pJ->name);
-
+		GtkTreeIter iter;
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter,
-		                   STATUS_COLUMN_COLOR, _(g_colores[pJ->color]),
-		                   STATUS_COLUMN_NUMBER, pJ->numjug,
+		                   STATUS_COLUMN_COLOR, _(g_colores[player.color]),
+		                   STATUS_COLUMN_NUMBER, player.numjug,
 		                   STATUS_COLUMN_NAME, name,
-		                   STATUS_COLUMN_SCORE, pJ->score,
-		                   STATUS_COLUMN_ADDR, pJ->addr,
-		                   STATUS_COLUMN_HUMAN, pJ->human,
-		                   STATUS_COLUMN_COUNTRIES, pJ->tot_countries,
-		                   STATUS_COLUMN_ARMIES, pJ->tot_armies,
-		                   STATUS_COLUMN_CARDS, pJ->tot_cards,
-		                   STATUS_COLUMN_STATUS, _(g_estados[pJ->estado]),
-		                   STATUS_COLUMN_WHO, pJ->empezo_turno,
+		                   STATUS_COLUMN_SCORE, player.score,
+		                   STATUS_COLUMN_ADDR, player.addr,
+		                   STATUS_COLUMN_HUMAN, player.human,
+		                   STATUS_COLUMN_COUNTRIES, player.tot_countries,
+		                   STATUS_COLUMN_ARMIES, player.tot_armies,
+		                   STATUS_COLUMN_CARDS, player.tot_cards,
+		                   STATUS_COLUMN_STATUS, _(g_estados[player.estado]),
+		                   STATUS_COLUMN_WHO, player.empezo_turno,
 		                   -1);
 		free(name);
-
-		l = LIST_NEXT(l);
-	}
+	});
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -366,7 +358,6 @@ GtkWidget *ministatus_build()
 #define MAINSTATUS_Y (48)
 TEG_STATUS mainstatus_create(GtkWidget **window)
 {
-	int i;
 	int failed=1;
 
 	if(mainstatus_canvas) {
@@ -441,11 +432,11 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 
 	color_started_item = goo_canvas_image_new(
 	                         goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                         g_color_circles[TEG_MAX_PLAYERS],
+	                         g_color_circles[maximum_player_count],
 	                         (double) ROUND_OFFSET + 4,
 	                         (double) 4,
-	                         "width", (double) gdk_pixbuf_get_width(g_color_circles[TEG_MAX_PLAYERS]),
-	                         "height", (double) gdk_pixbuf_get_height(g_color_circles[TEG_MAX_PLAYERS]),
+	                         "width", (double) gdk_pixbuf_get_width(g_color_circles[maximum_player_count]),
+	                         "height", (double) gdk_pixbuf_get_height(g_color_circles[maximum_player_count]),
 	                         NULL);
 	g_object_set(color_started_item, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -489,14 +480,14 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	    NULL);
 
 	/* create canvas for the circles & and load the circles */
-	for(i=0; i<TEG_MAX_PLAYERS; i++) {
+	for(unsigned i=0; i<maximum_player_count; i++) {
 		players_color[i] = goo_canvas_image_new(
 		                       goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-		                       g_color_circles[TEG_MAX_PLAYERS],
+		                       g_color_circles[maximum_player_count],
 		                       0.0,
 		                       0.0,
-		                       "width", (double) gdk_pixbuf_get_width(g_color_circles[TEG_MAX_PLAYERS]),
-		                       "height", (double) gdk_pixbuf_get_height(g_color_circles[TEG_MAX_PLAYERS]),
+		                       "width", (double) gdk_pixbuf_get_width(g_color_circles[maximum_player_count]),
+		                       "height", (double) gdk_pixbuf_get_height(g_color_circles[maximum_player_count]),
 		                       NULL);
 		g_object_set(players_color[i], "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -526,28 +517,21 @@ error:
 
 TEG_STATUS mainstatus_update_colors()
 {
-	int i;
-	PLIST_ENTRY l;
-	PCPLAYER pJ;
-
 	if(! mainstatus_canvas) {
 		return TEG_STATUS_ERROR;
 	}
 
-	l = g_list_player.Flink;
-
-	i=0;
+	int i=0;
 
 	g_object_set(players_color_over, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PCPLAYER) l;
+	players_map_int([&i](Player& player) {
 
-		if(pJ->color >= 0 && pJ->numjug >= 0) {
+		if(player.color >= 0 && player.numjug >= 0) {
 			g_object_set(players_color[i], "visibility",
 			             GOO_CANVAS_ITEM_VISIBLE, NULL);
 
-			if(g_game.whos_turn == pJ->numjug) {
+			if(g_game.whos_turn == player.numjug) {
 				g_object_set(
 				    players_color_over,
 				    "pixbuf", g_color_circle_over,
@@ -561,28 +545,24 @@ TEG_STATUS mainstatus_update_colors()
 
 			g_object_set(
 			    players_color[i],
-			    "pixbuf", g_color_circles[pJ->color],
+			    "pixbuf", g_color_circles[player.color],
 			    "x", (double) PLAYERS_COLORS_OFFSET + (i%3) * 14,
 			    "y", (double) 4 + 13 * (i<3?0:1),
-			    "width", (double) gdk_pixbuf_get_width(g_color_circles[pJ->color]),
-			    "height", (double) gdk_pixbuf_get_height(g_color_circles[pJ->color]),
+			    "width", (double) gdk_pixbuf_get_width(g_color_circles[player.color]),
+			    "height", (double) gdk_pixbuf_get_height(g_color_circles[player.color]),
 			    NULL);
 
 			i++;
 		}
 
-		l = LIST_NEXT(l);
-
-		if(i >= TEG_MAX_PLAYERS) {
-			break;
-		}
-	}
+		return i < maximum_player_count;
+	});
 
 	{
 		PCPLAYER pJ;
 		g_object_set(color_started_item, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-		if(g_game.who_started_round >= 0 && g_game.who_started_round < TEG_MAX_PLAYERS) {
+		if(g_game.who_started_round >= 0 && g_game.who_started_round < maximum_player_count) {
 
 			if(player_whois(g_game.who_started_round, &pJ) == TEG_STATUS_SUCCESS) {
 				g_object_set(
@@ -594,7 +574,7 @@ TEG_STATUS mainstatus_update_colors()
 		}
 	}
 
-	for(; i < TEG_MAX_PLAYERS ; i++)
+	for(; i < maximum_player_count ; i++)
 		g_object_set(players_color[i], "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 
@@ -707,4 +687,6 @@ TEG_STATUS mainstatus_update()
 	mainstatus_update_colors();
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

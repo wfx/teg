@@ -20,12 +20,16 @@
 
 #pragma once
 
+#include <functional>
+
 #include "../common/common.h"
 
-typedef struct _player {
-	LIST_ENTRY next;
-	char name[PLAYERNAME_MAX_LEN]; ///< Player name
-	char addr[PLAYERADDR_MAX_LEN]; ///< server address
+namespace teg::client
+{
+
+struct Player {
+	char name[max_playername_length]; ///< Player name
+	char addr[inet_addr_len]; ///< server address
 	int color;
 	int score; ///< final score
 	int numjug; ///< player number
@@ -35,11 +39,9 @@ typedef struct _player {
 	int tot_cards; ///< \todo find out what the meaning of this field is
 	int empezo_turno; ///< did this player start the turn?
 	int human; ///< is this a human?
-} CPLAYER, *PCPLAYER;
+};
+using PCPLAYER = Player*;
 
-
-/// Client game state
-extern LIST_ENTRY g_list_player;
 
 /**
  * \brief Fill in the details for the player with number \p numjug into the
@@ -75,3 +77,22 @@ void player_flush(void);
  *          ressource leak since the old list items become unfreeable
  */
 void player_init(void);
+
+/// \brief Callback function to process a single player entry
+using PlayersCallback = std::function<void(Player&)>;
+
+/// \brief Map function \p cb over the active player list
+void players_map(PlayersCallback cb);
+
+/// \brief Callback function for an interruptable mapping function
+using InterruptablePlayersCallback = std::function<bool(Player&)>;
+
+/**
+ * \brief Maps over the player list with the possibility to abort.
+ *
+ * This function calls \p cb with each active player. When the function returns
+ * true, the mapping continutes, a return value of false stops the mapping.
+ */
+void players_map_int(InterruptablePlayersCallback cb);
+
+}

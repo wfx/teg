@@ -24,6 +24,9 @@
 
 #include "../../common/common.h"
 
+namespace teg::client::callbacks
+{
+
 extern GtkTextView *main_message_area;
 extern GtkWidget *text_scrollbar;
 extern GtkWidget *main_window;
@@ -36,3 +39,5 @@ int create_canvas_items(GtkWidget *canvas);
 TEG_STATUS set_sensitive_tb(void);
 void tropas_window(int src, int dst, int cant);
 void reagrupe_window(int src, int dst, int cant);
+
+}

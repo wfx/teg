@@ -49,6 +49,9 @@
 #include "g_scores.h"
 
 
+namespace teg::client::callbacks
+{
+
 /*
  * funciones auxiliares
  */
@@ -298,7 +301,7 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 	                      "documenters", documenters,
 	                      "artists", artists,
 	                      "translator-credits", translator_credits,
-	                      "website", "http://teg.sourceforge.net",
+	                      "website", "https://github.com/wfx/teg",
 	                      "website-label", _("TEG Home Page"),
 	                      "logo", pixbuf,
 	                      NULL);
@@ -308,4 +311,6 @@ void on_help_activate(GtkMenuItem *item, gpointer user_data)
 {
 	gtk_show_uri_on_window(GTK_WINDOW(main_window), "ghelp:teg",
 	                       GDK_CURRENT_TIME, NULL);
+}
+
 }

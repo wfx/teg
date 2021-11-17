@@ -23,6 +23,9 @@
 #include "fcintl.h"
 #include "client.h"
 
+namespace teg::client
+{
+
 static int last_country = -1;
 
 TEG_STATUS ejer2_out(int country)
@@ -46,15 +49,18 @@ TEG_STATUS ejer2_out(int country)
 		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), g_countries[country].name);
 		return TEG_STATUS_ERROR;
 	}
+	return TEG_STATUS_ERROR;
 }
 
 TEG_STATUS ejer2_restore_from_error()
 {
 	if(last_country != -1) {
 		tarjeta_desusar(&g_countries[ last_country ].tarjeta);
-		gui_tarjeta(-1);
+		callbacks::gui_tarjeta(-1);
 		last_country = -1;
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;
+}
+
 }

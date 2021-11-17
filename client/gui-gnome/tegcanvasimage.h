@@ -10,6 +10,9 @@
 /* This is a private GooCanvas function we can't do without.  */
 extern "C" cairo_pattern_t* goo_canvas_cairo_pattern_from_pixbuf(GdkPixbuf *pixbuf);
 
+namespace teg::client::callbacks
+{
+
 typedef struct _TegCanvasImageData   TegCanvasImageData;
 
 struct _TegCanvasImageData {
@@ -86,3 +89,5 @@ GooCanvasItemModel* teg_canvas_image_model_new(GooCanvasItemModel *parent,
         gdouble             x,
         gdouble             y,
         ...);
+
+}

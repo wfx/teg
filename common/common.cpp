@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#include <type_traits>
+
 #include "common.h"
 
 #ifdef HAVE_CONFIG_H
@@ -35,37 +37,36 @@
 #include <string.h>
 
 char const *g_colores[] = {
-	N_("red"),
-	N_("yellow"),
-	N_("blue"),
-	N_("black"),
-	N_("pink"),
-	N_("green"),
-	N_("n/a")			/* color is not assigned yet */
+	[ARMY_ROJO]     = N_("red"),
+	[ARMY_AMARILLO] = N_("yellow"),
+	[ARMY_AZUL]     = N_("blue"),
+	[ARMY_NEGRO]    = N_("black"),
+	[ARMY_ROSA]     = N_("pink"),
+	[ARMY_VERDE]    = N_("green"),
 };
+static_assert(std::extent<decltype(g_colores)>::value == maximum_player_count);
 
-/* XXX: sync these status with the one in common.h */
 char const *g_estados[] = {
-	N_("disconnected"),
-	N_("connected"),
-	N_("game over"),
-	N_("enabled"),
-	N_("started"),
-	N_("placing armies"),
-	N_("postarmies"),
-	N_("placing armies 2"),
-	N_("postarmies 2"),
-	N_("idle"),
-	N_("placing armies 3"),
-	N_("exchanging cards"),
-	N_("postarmies 3"),
-	N_("making a pact"),
-	N_("starting turn"),
-	N_("attacking"),
-	N_("moving armies"),
-	N_("regrouping"),
-	N_("getting card"),
-	N_("ending turn")
+	[PLAYER_STATUS_DESCONECTADO] = N_("disconnected"),
+	[PLAYER_STATUS_CONNECTED]    = N_("connected"),
+	[PLAYER_STATUS_GAMEOVER]     = N_("game over"),
+	[PLAYER_STATUS_HABILITADO]   = N_("enabled"),
+	[PLAYER_STATUS_START]        = N_("started"),
+	[PLAYER_STATUS_FICHAS]       = N_("placing armies"),
+	[PLAYER_STATUS_POSTFICHAS]   = N_("postarmies"),
+	[PLAYER_STATUS_FICHAS2]      = N_("placing armies 2"),
+	[PLAYER_STATUS_POSTFICHAS2]  = N_("postarmies 2"),
+	[PLAYER_STATUS_IDLE]         = N_("idle"),
+	[PLAYER_STATUS_FICHASC]      = N_("placing armies 3"),
+	[PLAYER_STATUS_CANJE]        = N_("exchanging cards"),
+	[PLAYER_STATUS_POSTFICHASC]  = N_("postarmies 3"),
+	[PLAYER_STATUS_PACTO]        = N_("making a pact"),
+	[PLAYER_STATUS_TURNOSTART]   = N_("starting turn"),
+	[PLAYER_STATUS_ATAQUE]       = N_("attacking"),
+	[PLAYER_STATUS_TROPAS]       = N_("moving armies"),
+	[PLAYER_STATUS_REAGRUPE]     = N_("regrouping"),
+	[PLAYER_STATUS_TARJETA]      = N_("getting card"),
+	[PLAYER_STATUS_TURNOEND]     = N_("ending turn")
 };
 
 /* returns an integer from /dev/random or 0 if it can't */
@@ -149,4 +150,33 @@ void string_copy(char* dest, size_t destlen, char const* source)
 	}
 	strncpy(dest, source, destlen-1);
 	dest[destlen-1] = 0;
+}
+
+std::string replace_continents(std::string const& format,
+                               ContinentNames const& country_names)
+{
+	std::string result;
+	std::string::size_type last_start{0};
+	std::string::size_type start{0};
+	for(start=format.find('&');
+	        start < format.size();
+	        last_start = start+1, start=format.find('&', last_start)) {
+		result += std::string(format, last_start, start-last_start);
+
+		/* jump over the & to the next input character, which should be the
+		 * continent number */
+		start++;
+
+		if(start < format.size()) {
+			auto const code=format[start];
+			if((code >= '0') && (code <= '5')) {
+				unsigned country_index = code - '0';
+				result += country_names[country_index];
+			}
+		}
+	}
+	if(last_start < format.size()) {
+		result += std::string(format, last_start);
+	}
+	return result;
 }

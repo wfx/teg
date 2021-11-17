@@ -38,6 +38,9 @@
 #include "mission.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
+
 static GdkPixbuf *tar_mission = NULL;
 static int mission_number = -1;
 
@@ -120,7 +123,7 @@ static TEG_STATUS mission_view_number(GtkWidget *dialog)
 
 	imagetxt = goo_canvas_text_new(
 	               goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	               missions_get_name(mission_number),
+	               missions_get_name(mission_number).c_str(),
 	               (double) 4,
 	               (double) 10,
 	               (double) -1,
@@ -197,7 +200,7 @@ TEG_STATUS mission_view_fake_number(GtkWidget *frame, int mission)
 
 	goo_canvas_text_new(
 	    goo_canvas_get_root_item(GOO_CANVAS(fcanvas)),
-	    missions_get_name(mission),
+	    missions_get_name(mission).c_str(),
 	    (double) 4,
 	    (double) 10,
 	    (double) -1,
@@ -304,4 +307,6 @@ void mission_view()
 
 	mission_view_number(dialog);
 	gtk_dialog_run(GTK_DIALOG(dialog));
+}
+
 }

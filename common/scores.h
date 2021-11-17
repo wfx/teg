@@ -29,7 +29,7 @@
 #define SCORES_MAX	(10)
 
 typedef struct _scores {
-	char name[PLAYERNAME_MAX_LEN];	/**< name of the player */
+	char name[max_playername_length];	/**< name of the player */
 	int color;			/**< color used */
 	char date[SCORES_DATE_MAX];	/**< date of the game */
 	int human;			/**< human or robot */

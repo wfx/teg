@@ -28,15 +28,16 @@
 #include "fcintl.h"
 #include "client.h"
 
+namespace teg::client
+{
+
 /**
  * @fn TEG_STATUS aux_status( PCPLAYER pj, char *str )
  * parsea el status de los playeres
  */
 TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 {
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 
 	memset(pj, 0, sizeof(*pj));
 
@@ -44,35 +45,31 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 		goto error;
 	}
 
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
-
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(pj->name, p.token, sizeof(pj->name)-1);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->color = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->score = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->numjug = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		const int statuscode = atoi(p.token);
 		if((statuscode < 0) || (statuscode >= PLAYER_STATUS_LAST)) {
 			goto error;
@@ -82,37 +79,37 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->tot_countries = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->tot_armies = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->tot_cards = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->empezo_turno = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pj->human = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		strncpy(pj->addr, p.token, sizeof(pj->addr)-1);
 	} else {
 		goto error;
@@ -127,8 +124,7 @@ error:
 
 TEG_STATUS aux_scores(PSCORES pS, char const *str)
 {
-	PARSER p;
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str, DELIM{.valid=false}, DELIM{','}};
 
 	memset(pS, 0, sizeof(*pS));
 
@@ -136,35 +132,31 @@ TEG_STATUS aux_scores(PSCORES pS, char const *str)
 		goto error;
 	}
 
-	p.equals = NULL;
-	p.separators = &separador;
-	p.data = str;
-
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(pS->name, p.token, sizeof(pS->name)-1);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pS->color= atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		strncpy(pS->date, p.token, sizeof(pS->date)-1);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && p.can_continue) {
+	if(p.parse_fragment()) {
 		pS->score = atoi(p.token);
 	} else {
 		goto error;
 	}
 
-	if(parser_parse(&p) && !p.can_continue) {
+	if(p.parse_everything()) {
 		pS->human= atoi(p.token);
 	} else {
 		goto error;
@@ -184,29 +176,23 @@ error:
 TEG_STATUS aux_countries(int numjug, char const *str)
 {
 	int i, country, cant;
-	PARSER p;
-	DELIM igualador= { ':', ':', ':' };
-	DELIM separador= { ',', ',', ',' };
+	PARSER p{str};
 
 	if(strlen(str)==0) {
 		return TEG_STATUS_SUCCESS;
 	}
 
-	p.equals = &igualador;
-	p.separators = &separador;
-	p.data = str;
-
 	do {
-		if((i = parser_parse(&p))) {
+		if((i = p.parse())) {
 			country = atoi(p.token);
 			cant = atoi(p.value);
 			if(g_countries[country].numjug != numjug || g_countries[country].ejercitos != cant) {
 				g_countries[country].numjug = numjug;
 				g_countries[country].ejercitos = cant;
-				gui_country(g_countries[country].id);
+				callbacks::gui_country(g_countries[country].id);
 			}
 		}
-	} while(i && p.can_continue);
+	} while(i && p.can_continue());
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -219,7 +205,7 @@ void aux_draw_all_countries()
 {
 	int i;
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		gui_country(i);
+		callbacks::gui_country(i);
 	}
 }
 
@@ -239,4 +225,6 @@ TEG_STATUS aux_start_error()
 {
 	textmsg(M_ERR, _("Error in start. Are there at least 2 players?"));
 	return TEG_STATUS_SUCCESS;
+}
+
 }

@@ -23,6 +23,9 @@
 #include "../common/common.h"
 #include "../common/country.h"
 
+namespace teg::client
+{
+
 /**
  * \brief Checks if attacks are possible, and reset the current user attack
  * if it is so.
@@ -119,3 +122,5 @@ void attack_show(int src, int dst);
  * This function is called to reset any attack marks in the GUI.
  */
 void attack_unshow();
+
+}

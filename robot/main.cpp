@@ -30,6 +30,7 @@
 #include "version.h"
 #include "fcintl.h"
 
+using namespace teg::client;
 TEG_STATUS main_init()
 {
 	game_init();
@@ -71,11 +72,11 @@ int main(int argc, char **argv_var)
 			fprintf(stderr, TEG_NAME" v" VERSION "\n");
 			exit(0);
 		} else if((option = get_option("--name", argv, &i, argc)) != NULL) {
-			strncpy(g_game.myname, option, PLAYERNAME_MAX_LEN);
+			strncpy(g_game.myname, option, max_playername_length);
 		} else if((option = get_option("--port", argv, &i, argc)) != NULL) {
 			g_game.serport=atoi(option);
 		} else if((option = get_option("--server", argv, &i, argc)) != NULL) {
-			strncpy(g_game.sername, option, SERVER_NAMELEN);
+			strncpy(g_game.sername, option, maximum_servername_length);
 		} else if(is_option("--connected", argv[i])) {
 			g_game.already_connected = 1;
 			quiet = 1;
@@ -95,9 +96,9 @@ int main(int argc, char **argv_var)
 	textmsg(M_IMP, _("Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"), VERSION);
 	textmsg(M_IMP, _("Robot intelligence: %d%%"), 62);
 
-	gui_init(argc, argv_var);
+	teg::client::callbacks::gui_init(argc, argv_var);
 
-	gui_main();
+	teg::client::callbacks::gui_main();
 
 	return 1;
 }

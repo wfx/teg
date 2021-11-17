@@ -23,6 +23,9 @@
 
 #include "server.h"
 
+namespace teg::server
+{
+
 void countries_repartir()
 {
 	int i;
@@ -42,7 +45,7 @@ void countries_repartir()
 
 	/* toma un player al azar, y a partir de el le da un country a cada uno */
 	if(resto) {
-		j = RANDOM_MAX(0, g_game.playing-1);
+		j = random_between(0, g_game.playing-1);
 		for(i=0; i<resto; i++) {
 			p = get_random_country(country_libre);
 			player_from_indice(j, &real_j);
@@ -52,4 +55,6 @@ void countries_repartir()
 			j = j % g_game.playing;
 		}
 	}
+}
+
 }

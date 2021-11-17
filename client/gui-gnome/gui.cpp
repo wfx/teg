@@ -48,6 +48,9 @@
 #include "locate_country.h"
 
 
+namespace teg::client::callbacks
+{
+
 TTheme	gui_theme;
 
 static TEG_STATUS get_default_values(void);
@@ -259,7 +262,7 @@ TEG_STATUS gui_disconnect(void)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_connected(char *c)
+TEG_STATUS gui_connected(int const *c)
 {
 	set_sensitive_tb();
 	if(!g_game.observer) {
@@ -505,4 +508,6 @@ TEG_STATUS gui_attack(int src, int dst)
 	gui_country_select(src);
 	gui_country_select(dst);
 	return TEG_STATUS_SUCCESS;
+}
+
 }

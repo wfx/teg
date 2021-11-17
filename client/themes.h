@@ -20,9 +20,15 @@
 
 #pragma once
 
+#include <set>
+#include <string>
+
 #include <libxml/parser.h>
 
 #include "../common/common.h"
+
+namespace teg::client
+{
 
 #define THEME_CONTINENT_MAX	(30)
 #define THEME_COUNTRY_MAX	(30)
@@ -107,7 +113,7 @@ typedef struct _theme {
 	xmlChar	*dices_ext_y[6];
 	xmlChar	*dices_ext_text_x[2];
 	xmlChar	*dices_ext_text_y[2];
-	xmlChar *dices_file[DICES_CANT];	/**< 6 dices */
+	xmlChar *dices_file[sides_on_the_dice];	/**< 6 dices */
 	xmlChar	*dices_color;
 	xmlChar	*screenshot;
 	int	i_continent;
@@ -141,20 +147,12 @@ typedef struct _ttheme {
 	int	dices_ext_y[6];
 	int	dices_ext_text_x[2];
 	int	dices_ext_text_y[2];
-	char	*dices_file[DICES_CANT];
+	char	*dices_file[sides_on_the_dice];
 	char	*dices_color;
 	char	*screenshot;
 } TTheme, *pTTheme;
 
-/* Theme Info */
-typedef struct _tinfo {
-	struct _tinfo *next;
-	char *name;
-	char *author;
-	char *email;
-	char *version;
-} TInfo, *pTInfo;
-
+using ThemeDirectories = std::set<std::string>;
 
 /// \brief Tries to load the theme named \p name from different directories
 TEG_STATUS theme_load(char *name);
@@ -172,10 +170,7 @@ TEG_STATUS theme_giveme_country(pTCountry pC, int cont, int n);
 TEG_STATUS theme_giveme_theme(pTTheme pT);
 
 /// \brief Return the list of all available themes
-TEG_STATUS theme_enum_themes(pTInfo pTI);
-
-/// \brief Delete the theme list
-void theme_free();
+ThemeDirectories const& theme_enum_themes();
 
 /// \brief Tries to load the theme \p name.
 char * theme_load_file(const char *name);
@@ -185,3 +180,5 @@ char * theme_load_fake_file(const char *name, char *theme);
 
 /**! returns 1 if dices extended are being used */
 int theme_using_extended_dices();
+
+}

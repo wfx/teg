@@ -33,33 +33,27 @@
 
 #define TURNO_DEBUG PDEBUG
 
+namespace teg::server
+{
+
 /* Gives turn to the next player */
 TEG_STATUS turno_2nextplayer(PSPLAYER *ppJ)
 {
-	PSPLAYER pJ;
-	PLIST_ENTRY first_node = (PLIST_ENTRY)*ppJ;
-	PLIST_ENTRY l = LIST_NEXT((*ppJ));
+	PSPLAYER next = find_next_player(*ppJ,
+	[](SPLAYER &p) {
+		return player_is_playing(&p);
+	});
+	if(!next) {
+		con_text_out_wop(M_ERR, "Abnormal error in turno_2nextplayer\n");
+		return TEG_STATUS_PLAYERNOTFOUND;
+	}
 
 	TURNO_DEBUG("Old turn: '%s'\n", (*ppJ)->name);
-
 	g_game.old_turn = *ppJ;
 
-	if(IsListEmpty(first_node)) {
-		return TEG_STATUS_ERROR;
-	}
-
-	while(l != first_node)  {
-		pJ = (PSPLAYER) l;
-		if((l != &g_list_player) && player_is_playing(pJ)) {
-			(*ppJ) = pJ;
-			TURNO_DEBUG("New turn: '%s'\n", pJ->name);
-			return TEG_STATUS_SUCCESS;
-		}
-		l = LIST_NEXT(l);
-	}
-
-	con_text_out_wop(M_ERR, "Abnormal error in turno_2nextplayer\n");
-	return TEG_STATUS_PLAYERNOTFOUND;
+	TURNO_DEBUG("New turn: '%s'\n", next->name);
+	*ppJ = next;
+	return TEG_STATUS_SUCCESS;
 }
 
 /* Ends the player turn */
@@ -112,7 +106,7 @@ TEG_STATUS turno_init(void)
 	int real_i;
 	PSPLAYER j;
 
-	i = RANDOM_MAX(0, g_game.playing-1);
+	i = random_between(0, g_game.playing-1);
 
 	player_from_indice(i, &real_i);
 	if(player_whois(real_i, &j) != TEG_STATUS_SUCCESS) {
@@ -127,56 +121,46 @@ TEG_STATUS turno_init(void)
 }
 
 /* return true if the round is complete */
-BOOLEAN turno_is_round_complete()
+bool turno_is_round_complete()
 {
 	/* I want to know if the round is over. It is not enought to know
 	 * if newturn == started because if a player with the turn exit the game
 	 * he will never receive the turn again, but the started turn will point
 	 * to him
 	 */
-	PSPLAYER pJ;
-	PLIST_ENTRY l;
-	PLIST_ENTRY first_node;
 
 	if(g_game.old_turn == NULL) {
-		return FALSE;
+		return false;
 	}
 
 	if(g_game.empieza_turno == g_game.turno) {
-		return TRUE;
+		return true;
 	}
 
 	/*
 	 * if the previous playing player of 'empieza turn' is 'old turn' then
 	 * the round is over
 	 */
-	first_node = (PLIST_ENTRY) g_game.old_turn;
-	l = LIST_NEXT(first_node);
-
-
-	while(l != first_node)  {
-		pJ = (PSPLAYER) l;
-		if((l != &g_list_player) && pJ->is_player) {
-			if(pJ == g_game.empieza_turno) {
-				return TRUE;
-			} else if(pJ == g_game.turno) {
-				return FALSE;
-			}
+	auto *next = find_next_player(g_game.old_turn,
+	[](SPLAYER& player) {
+		return player.is_player;
+	});
+	if(next) {
+		if(next == g_game.empieza_turno) {
+			return true;
+		} else if(next == g_game.turno) {
+			return false;
 		}
-		l = LIST_NEXT(l);
 	}
 
 	/* abnormal error */
 	fprintf(stderr, "Abnormal error in turno_is_round_complete()\n");
-	return FALSE;
+	return false;
 }
 
 /* initialize variables for the new round */
 void turno_initialize_new_round(void)
 {
-	PLIST_ENTRY l = g_list_player.Flink;
-	PSPLAYER pJ;
-
 	/* So, a new round is started */
 	turno_2nextplayer(&g_game.empieza_turno);
 	g_game.turno = g_game.empieza_turno;
@@ -184,27 +168,24 @@ void turno_initialize_new_round(void)
 	g_game.round_number++;
 
 	/* add the continents that it defend */
-	while(!IsListEmpty(&g_list_player) && (l != &g_list_player)) {
-		pJ = (PSPLAYER) l;
-
-		l = LIST_NEXT(l);
-
-		if(pJ->is_player) {
-			unsigned long conts;
-			player_listar_conts(pJ, &conts);
-			int i;
-			for(i=0; i<CONT_CANT; i++) {
-				if(conts & 1) {
-					pJ->player_stats.continents_turn[i]++;
-				}
-				conts >>= 1;
+	player_map(
+	[](PSPLAYER pJ) {
+		unsigned long conts;
+		player_listar_conts(pJ, &conts);
+		int i;
+		for(i=0; i<CONT_CANT; i++) {
+			if(conts & 1) {
+				pJ->player_stats.continents_turn[i]++;
 			}
-
-			/* update the score */
-			stats_score(&pJ->player_stats, g_conts);
+			conts >>= 1;
 		}
-	}
+
+		/* update the score */
+		stats_score(&pJ->player_stats, g_conts);
+	});
 
 	netall_printf(TOKEN_NEW_ROUND"=%d,%d\n", g_game.turno->numjug, g_game.round_number);
+
+}
 
 }

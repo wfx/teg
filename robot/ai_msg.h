@@ -22,6 +22,9 @@
 
 #include "../common/common.h"
 
+namespace teg::robot
+{
+
 typedef struct _aimsg {
 	char const *msg;
 	int args;
@@ -44,3 +47,5 @@ const char *ai_name();
 
 /// Checks if the name is a name the robot would use
 TEG_STATUS ai_findname(const char *name);
+
+}

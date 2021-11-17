@@ -62,3 +62,30 @@ TEST(Common, string_copy)
 	string_copy(dest, 1, "abcdefg");
 	EXPECT_STREQ("", dest);
 }
+
+TEST(Common, replace_continents)
+{
+	ContinentNames const replacements{
+		"Foo",
+		"Bar",
+		"Baz",
+		"BigBigBigContinentName",
+		"!'§$%&/()=?",
+		"No. 6"
+	};
+	EXPECT_EQ("", replace_continents("", replacements));
+	EXPECT_EQ("Foo", replace_continents("&0", replacements));
+	EXPECT_EQ("Bar", replace_continents("&1", replacements));
+	EXPECT_EQ("Baz", replace_continents("&2", replacements));
+	EXPECT_EQ("BigBigBigContinentName", replace_continents("&3", replacements));
+	EXPECT_EQ("!'§$%&/()=?", replace_continents("&4", replacements));
+	EXPECT_EQ("No. 6", replace_continents("&5", replacements));
+	EXPECT_EQ("", replace_continents("&6", replacements));
+
+	EXPECT_EQ("x Bar y", replace_continents("x &1 y", replacements));
+	EXPECT_EQ("Conquer BigBigBigContinentName, !'§$%&/()=?, Bar, Baz, Foo "
+	          "with the focus on BigBigBigContinentName -- No. 6",
+	          replace_continents(
+	              "Conquer &3, &4, &1, &2, &0 with the focus on &3 -- &5",
+	              replacements));
+}

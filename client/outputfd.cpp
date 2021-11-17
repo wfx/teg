@@ -30,6 +30,9 @@
 #include "client.h"
 #include "protocol.h"
 
+namespace teg::client
+{
+
 TEG_STATUS out_mensaje(char *msg)
 {
 	if(ESTADO_MENOR(PLAYER_STATUS_CONNECTED)) {
@@ -266,4 +269,6 @@ TEG_STATUS out_robot()
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;
+}
+
 }

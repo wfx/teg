@@ -20,4 +20,9 @@
 
 #pragma once
 
+namespace teg::client::callbacks
+{
+
 void preferences_activate(void);
+
+}

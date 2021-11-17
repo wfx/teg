@@ -22,8 +22,13 @@
 
 #include "../common/common.h"
 
+namespace teg::server
+{
+
 /// \brief Parses a game option received from a client
 TEG_STATUS option_parse(int fd, char *str);
 
 /// \brief Print the current game options on the console
 TEG_STATUS option_view(int fd, char *str);
+
+}

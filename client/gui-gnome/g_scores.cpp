@@ -37,6 +37,8 @@
 #include "fonts.h"
 #include "support.h"
 
+namespace teg::client::callbacks
+{
 
 static GtkWidget *gui_scores_dialog=NULL;
 static GtkListStore *store=NULL;
@@ -140,11 +142,11 @@ static TEG_STATUS paint_color(GtkWidget *dialog, int color, GdkPixbuf **pixmap)
 	PangoAttribute *attr;
 	cairo_surface_t *surface;
 	cairo_t *cr;
-	int i, width;
+	int width;
 
 	assert(pixmap);
 
-	i = (color<0 || color>=TEG_MAX_PLAYERS) ? TEG_MAX_PLAYERS : color;
+	const unsigned i = (color<0 || color>=maximum_player_count) ? maximum_player_count : color;
 
 	window = gtk_widget_get_window(dialog);
 	surface = gdk_window_create_similar_image_surface(window,
@@ -298,22 +300,16 @@ enum {
 static TEG_STATUS update_mini_clist(GtkWidget *dialog, GtkListStore *store,
                                     GtkWidget *clist)
 {
-	PLIST_ENTRY list = &g_list_player;
-	PLIST_ENTRY l = list->Flink;
-	PCPLAYER pJ;
-	int row;
-	GdkPixbuf *pixmap;
-	GtkTreeIter iter;
+	/// \todo clean up variables and adjust return type
 
-	row = 0;
-	while(!IsListEmpty(list)&& (l != list)) {
+	int row = 0;
+	players_map([dialog, store, clist, &row](Player& player) {
 		gchar *name, *score;
 
-		pJ = (PCPLAYER) l;
+		name = translate_to_utf8(player.name);
+		score = g_strdup_printf("%d", player.score);
 
-		name = translate_to_utf8(pJ->name);
-		score = g_strdup_printf("%d", pJ->score);
-
+		GtkTreeIter iter;
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter,
 		                   MINISCORE_CLIST_NAME, name,
@@ -321,15 +317,15 @@ static TEG_STATUS update_mini_clist(GtkWidget *dialog, GtkListStore *store,
 		free(name);
 		g_free(score);
 
-		paint_color(dialog, pJ->color, &pixmap);
+		GdkPixbuf *pixmap;
+		paint_color(dialog, player.color, &pixmap);
 
 		gtk_list_store_set(store, &iter, MINISCORE_CLIST_COLOR,
 		                   pixmap, -1);
 		g_object_unref(pixmap);
 
-		l = LIST_NEXT(l);
 		row ++;
-	}
+	});
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -378,4 +374,6 @@ void gui_scores_embed(GtkWidget *frame)
 	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(mini_scores_clist));
 
 	gtk_container_add(GTK_CONTAINER(frame), GTK_WIDGET(mini_scores_clist));
+}
+
 }

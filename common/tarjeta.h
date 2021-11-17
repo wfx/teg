@@ -20,32 +20,37 @@
 
 #pragma once
 
-#include <stdbool.h>
+#include <type_traits>
 
 #include "common.h"
 
-#define TARJETA_NULL { {NULL,NULL}, 0, TRUE, FALSE }
-#define TARJETA_NULL_COMODIN { {NULL,NULL}, TARJ_COMODIN, -1, FALSE }
-#define TARJETA_NULL_GALEON { {NULL,NULL}, TARJ_GALEON, -1, FALSE }
-#define TARJETA_NULL_CANION { {NULL,NULL}, TARJ_CANION, -1, FALSE }
-#define TARJETA_NULL_GLOBO { {NULL,NULL}, TARJ_GLOBO, -1, FALSE }
+/** \brief The data type for country numbers.
+ *
+ * This is defined here to break a dependency cycle between the Country and
+ * Tarjeta structures. */
+using CountryId = int;
 
-typedef enum {
+#define TARJETA_NULL { 0, true, false }
+#define TARJETA_NULL_COMODIN TARJ_COMODIN
+#define TARJETA_NULL_GALEON TARJ_GALEON
+#define TARJETA_NULL_CANION TARJ_CANION
+#define TARJETA_NULL_GLOBO TARJ_GLOBO
+
+enum CardKind: unsigned {
 	TARJ_GALEON = 1,		/**< valor del galeon */
 	TARJ_CANION = 4,		/**< valor del canion */
 	TARJ_GLOBO = 8,			/**< valor del globo */
 	TARJ_COMODIN = 16,		/**< valor del comodin */
-} TARJTIPO, *PTARJTIPO;
+};
+using TARJTIPO = std::underlying_type<CardKind>::type;
 
-typedef struct _tarjeta {
-	LIST_ENTRY next;		/**< siguiente */
-	TARJTIPO tarjeta;		/**< tipo de tarjeta */
+struct TARJETA {
+	TARJTIPO tarjeta; /**< tipo de tarjeta */
 	int	numjug;			/**< si la tiene algun jugador y que jugador */
-	BOOLEAN usada;			/**< si se pusieron las 2 fichas del country */
-} TARJETA, *PTARJETA;
-
-/// \todo: Remove this dangerous macro
-#define COUNTRY_FROM_TARJETA( pT ) ( ((char*)(pT)) - (( ((char*)&((PCOUNTRY)pT)->tarjeta) - ((char*)pT) )))
+	bool usada;			/**< si se pusieron las 2 fichas del country */
+	CountryId country; ///< The country id for this card
+};
+using PTARJETA = TARJETA*;
 
 /*
  * Funciones y varialbes exportadas
@@ -53,12 +58,12 @@ typedef struct _tarjeta {
 bool card_belongs_to_player(int player, int country);
 bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c);
 
-BOOLEAN tarjeta_puedocanje(int numjug, int t1, int t2, int t3);
+bool tarjeta_puedocanje(int numjug, int t1, int t2, int t3);
 void tarjeta_init(void);
 void tarjeta_inittarj(PTARJETA t);
 void tarjeta_poner(PTARJETA t);
 void tarjeta_sacar(PTARJETA t, int numjug);
 void tarjeta_usar(PTARJETA pT);
 void tarjeta_desusar(PTARJETA pT);
-int tarjeta_es_libre(int i);
-BOOLEAN tarjeta_es_usada(PTARJETA pT);
+bool tarjeta_es_libre(int i);
+bool tarjeta_es_usada(PTARJETA pT);

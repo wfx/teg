@@ -35,6 +35,9 @@
 #include "themes.h"
 #include "fonts.h"
 
+namespace teg::client::callbacks
+{
+
 extern TTheme	gui_theme;
 
 static ARMIES_POS armies_prop[CONT_CANT+1] = {
@@ -350,4 +353,6 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 
 	initialized=1;
 	return TEG_STATUS_SUCCESS;
+}
+
 }

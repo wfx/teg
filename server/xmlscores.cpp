@@ -46,6 +46,8 @@
 #define xmlRootNode root
 #endif
 
+namespace teg::server
+{
 
 static bool parseScore(xmlDocPtr doc, xmlNodePtr cur, PSCORES ret)
 {
@@ -106,7 +108,11 @@ TEG_STATUS xmlscores_load(void)
 	 * build an XML tree from a the file;
 	 */
 
-	snprintf(filename, sizeof(filename)-1, "%s/%s/server_scores.xml", g_get_home_dir(), TEG_DIRRC);
+	snprintf(filename,
+	         sizeof(filename)-1,
+	         "%s/%s/server_scores.xml",
+	         g_get_home_dir(),
+	         rc_directory_name);
 	filename[ sizeof(filename)-1 ] = 0;
 
 	doc = xmlParseFile(filename);
@@ -186,7 +192,11 @@ void xmlscores_save(void)
 	xmlDocSetRootElement(doc, child);
 	scores_map(save_single_score, (void*) child);
 
-	snprintf(filename, sizeof(filename)-1, "%s/%s/server_scores.xml", g_get_home_dir(), TEG_DIRRC);
+	snprintf(filename,
+	         sizeof(filename)-1,
+	         "%s/%s/server_scores.xml",
+	         g_get_home_dir(),
+	         rc_directory_name);
 	filename[ sizeof(filename)-1 ] = 0;
 
 	xmlSaveFile(filename, doc);
@@ -282,4 +292,6 @@ TEG_STATUS scores_dump(char *strout, size_t len)
 	}
 
 	return TEG_STATUS_SUCCESS;
+}
+
 }

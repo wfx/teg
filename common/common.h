@@ -20,31 +20,25 @@
 
 #pragma once
 
-#include <stddef.h>
-#include <stdlib.h>
+#include <cstddef>
+#include <cstdlib>
+#include <cstdint>
 
-#define TEG_MAX_PLAYERS 6
-#define TEG_MAX_CONNECTIONS 15
-#define TEG_DEFAULT_PORT	2000
-#define PLAYERNAME_MAX_LEN	50
-#define PLAYERADDR_MAX_LEN	(sizeof "ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255")
-#define SERVER_NAMELEN 50
-#define TEG_MAX_TARJETAS 5
-#define DICES_CANT	(6)
+#include <array>
+#include <string>
+
+constexpr unsigned maximum_player_count{6};
+constexpr std::uint16_t default_server_port{2000};
+constexpr unsigned max_playername_length{50};
+constexpr std::size_t inet_addr_len	{sizeof "ffff:ffff:ffff:ffff:ffff:ffff:255.255.255.255"};
+constexpr std::size_t maximum_servername_length{50};
+constexpr std::size_t maximum_country_cards{5};
+constexpr std::size_t sides_on_the_dice{6};
 
 
-#define TEG_DIRRC	".teg/"
+constexpr char const* rc_directory_name{".teg/"};
 
-#ifndef TRUE
-#define TRUE 1
-#define FALSE 0
-#endif /* !TRUE */
-
-#define TEG_SOCKET "/tmp/tegsocket"
-
-typedef int BOOLEAN, *PBOOLEAN;
-
-typedef enum {
+enum TEG_STATUS {
 	TEG_STATUS_SUCCESS = 0,
 	TEG_STATUS_ERROR = 1,
 	TEG_STATUS_NOTFOUND = 2,
@@ -59,22 +53,23 @@ typedef enum {
 	TEG_STATUS_FILENOTFOUND = 11,
 	TEG_STATUS_GAMEOVER = 12,
 	TEG_STATUS_THEMEERROR = 13,
-} TEG_STATUS, *PTEG_STATUS;
+};
 
-typedef enum {
+enum ARMY {
 	ARMY_ROJO = 0,
 	ARMY_AMARILLO = 1,
 	ARMY_AZUL = 2,
 	ARMY_NEGRO = 3,
 	ARMY_ROSA = 4,
 	ARMY_VERDE = 5
-} ARMY, *PARMY;
+};
 extern char const *g_colores[];
 
-#define RANDOM_MAX(_min,_max) (_min+(int)(((float)(1+_max-_min))*rand() / (RAND_MAX+1.0)))
-
-#define MODALIDAD_READONLY	0
-#define MODALIDAD_PLAYER	1
+inline int random_between(int min, int max)
+{
+	auto const random_fract{static_cast<double>(rand())/(RAND_MAX+1.0)};
+	return min + (1+max-min)*random_fract;
+}
 
 enum {
 	M_INF = 1,
@@ -85,8 +80,7 @@ enum {
 };
 
 
-/* XXX: must be synced with the one in common.c */
-typedef enum {
+enum PLAYER_STATUS {
 	PLAYER_STATUS_DESCONECTADO,	/**< not connected */
 	PLAYER_STATUS_CONNECTED,	/**< connected */
 	PLAYER_STATUS_GAMEOVER,		/**< game over */
@@ -109,114 +103,8 @@ typedef enum {
 	PLAYER_STATUS_TURNOEND,		/**< ending turn */
 
 	PLAYER_STATUS_LAST		/**< unreacheble state */
-} PLAYER_STATUS, *PPLAYER_STATUS;
+};
 extern char const *g_estados[];
-
-typedef struct _LIST_ENTRY {
-	struct _LIST_ENTRY *Flink;
-	struct _LIST_ENTRY *Blink;
-} LIST_ENTRY, *PLIST_ENTRY;
-
-
-#define LENTRY_NULL {NULL,NULL}
-
-#define LIST_NEXT(Entry) (((PLIST_ENTRY)Entry)->Flink)
-#define LIST_PREV(Entry) (((PLIST_ENTRY)Entry)->Blink)
-
-/*
-  void
-  InitializeListHead(
-      PLIST_ENTRY ListHead
-      );
-*/
-
-#define InitializeListHead(ListHead) (\
-    (ListHead)->Flink = (ListHead)->Blink = (ListHead))
-
-/*
-  int
-  IsListEmpty(
-      PLIST_ENTRY ListHead
-      );
-*/
-
-#define IsListEmpty(ListHead) \
-    ((ListHead)->Flink == (ListHead))
-
-/*
-  PLIST_ENTRY
-  RemoveHeadList(
-      PLIST_ENTRY ListHead
-      );
-*/
-
-#define RemoveHeadList(ListHead) \
-    (ListHead)->Flink;\
-    {RemoveEntryList((ListHead)->Flink)}
-
-/*
-  PLIST_ENTRY
-  RemoveTailList(
-      PLIST_ENTRY ListHead
-      );
-*/
-
-#define RemoveTailList(ListHead) \
-    (ListHead)->Blink;\
-    {RemoveEntryList((ListHead)->Blink)}
-
-/*
-  void
-  RemoveEntryList(
-      PLIST_ENTRY Entry
-      );
-*/
-
-#define RemoveEntryList(Entry) {\
-    PLIST_ENTRY _EX_Blink;\
-    PLIST_ENTRY _EX_Flink;\
-    _EX_Flink = (Entry)->Flink;\
-    _EX_Blink = (Entry)->Blink;\
-    _EX_Blink->Flink = _EX_Flink;\
-    _EX_Flink->Blink = _EX_Blink;\
-    }
-
-/*
-  void
-  InsertTailList(
-      PLIST_ENTRY ListHead,
-      PLIST_ENTRY Entry
-      );
-*/
-
-#define InsertTailList(ListHead,Entry) {\
-    PLIST_ENTRY _EX_Blink;\
-    PLIST_ENTRY _EX_ListHead;\
-    _EX_ListHead = (ListHead);\
-    _EX_Blink = _EX_ListHead->Blink;\
-    (Entry)->Flink = _EX_ListHead;\
-    (Entry)->Blink = _EX_Blink;\
-    _EX_Blink->Flink = (Entry);\
-    _EX_ListHead->Blink = (Entry);\
-    }
-
-/*
-  void InsertHeadList(
-      PLIST_ENTRY ListHead,
-      PLIST_ENTRY Entry
-      );
-*/
-
-#define InsertHeadList(ListHead,Entry) {\
-    PLIST_ENTRY _EX_Flink;\
-    PLIST_ENTRY _EX_ListHead;\
-    _EX_ListHead = (ListHead);\
-    _EX_Flink = _EX_ListHead->Flink;\
-    (Entry)->Flink = _EX_Flink;\
-    (Entry)->Blink = _EX_ListHead;\
-    _EX_Flink->Blink = (Entry);\
-    _EX_ListHead->Flink = (Entry);\
-    }
 
 /// Read a random number from the linux/bsd kernel
 int get_int_from_dev_random(void);
@@ -254,3 +142,7 @@ int my_atoi(const char *s);
  * the size limit is hit, it places a terminating zero byte at the end of the
  * target buffer (unless \p destlen is 0). */
 void string_copy(char* dest, size_t destlen, char const* source);
+
+using ContinentNames = std::array<std::string, 6>;
+std::string replace_continents(std::string const& format,
+                               ContinentNames const& country_names);
