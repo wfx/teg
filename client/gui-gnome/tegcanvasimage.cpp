@@ -3,11 +3,10 @@
  * Released under the GNU LGPL license. See COPYING for details.
  */
 
-#define GLIB_DISABLE_DEPRECATION_WARNINGS
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#include "tegcanvasimage.h"
 
 #include <glib/gi18n.h>
-#include "tegcanvasimage.h"
+#include <glib-object.h>
 
 namespace teg::client::callbacks
 {
@@ -19,12 +18,6 @@ struct _TegCanvasImagePrivate {
 	gdouble scale_to_units;
 };
 
-#define TEG_CANVAS_IMAGE_GET_PRIVATE(image) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((image), TEG_TYPE_CANVAS_IMAGE, \
-                                TegCanvasImagePrivate))
-#define TEG_CANVAS_IMAGE_MODEL_GET_PRIVATE(image) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((image), TEG_TYPE_CANVAS_IMAGE_MODEL, \
-                                TegCanvasImagePrivate))
 
 enum {
 	PROP_0,
@@ -52,13 +45,41 @@ static void teg_canvas_image_set_property(GObject      *object,
         const GValue *value,
         GParamSpec   *pspec);
 
+static void item_model_interface_init(GooCanvasItemModelIface *iface);
+static void teg_canvas_image_model_dispose(GObject *object);
+static void teg_canvas_image_model_get_property(GObject    *object,
+        guint       param_id,
+        GValue     *value,
+        GParamSpec *pspec);
+static void teg_canvas_image_model_set_property(GObject       *object,
+        guint         param_id,
+        const GValue *value,
+        GParamSpec   *pspec);
+
+
 G_DEFINE_TYPE_WITH_CODE(TegCanvasImage, teg_canvas_image,
                         GOO_TYPE_CANVAS_ITEM_SIMPLE,
                         G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM,
-                                canvas_item_interface_init))
+                                canvas_item_interface_init)
+                        G_ADD_PRIVATE(TegCanvasImage))
 
-static void
-teg_canvas_image_install_common_properties(GObjectClass *gobject_class)
+G_DEFINE_TYPE_WITH_CODE(TegCanvasImageModel, teg_canvas_image_model,
+                        GOO_TYPE_CANVAS_ITEM_MODEL_SIMPLE,
+                        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM_MODEL,
+                                item_model_interface_init)
+                        G_ADD_PRIVATE(TegCanvasImage))
+
+TegCanvasImagePrivate* TEG_CANVAS_IMAGE_GET_PRIVATE(TegCanvasImage* image)
+{
+	return static_cast<TegCanvasImagePrivate*>(teg_canvas_image_get_instance_private(image));
+}
+
+TegCanvasImagePrivate* TEG_CANVAS_IMAGE_MODEL_GET_PRIVATE(TegCanvasImageModel* model)
+{
+	return static_cast<TegCanvasImagePrivate*>(teg_canvas_image_model_get_instance_private(model));
+}
+
+static void teg_canvas_image_install_common_properties(GObjectClass *gobject_class)
 {
 	g_object_class_install_property(gobject_class, PROP_PATTERN,
 	                                g_param_spec_boxed("pattern",
@@ -139,12 +160,15 @@ static TegCanvasImagePrivate* teg_canvas_image_get_private(gpointer object)
 	if(TEG_IS_CANVAS_IMAGE(object)) {
 		simple = (GooCanvasItemSimple*) object;
 		if(simple->model) {
-			return TEG_CANVAS_IMAGE_MODEL_GET_PRIVATE(simple->model);
+			return TEG_CANVAS_IMAGE_MODEL_GET_PRIVATE(
+			           reinterpret_cast<TegCanvasImageModel*>(simple->model));
 		} else {
-			return TEG_CANVAS_IMAGE_GET_PRIVATE(object);
+			return TEG_CANVAS_IMAGE_GET_PRIVATE(
+			           reinterpret_cast<TegCanvasImage*>(object));
 		}
 	} else {
-		return TEG_CANVAS_IMAGE_MODEL_GET_PRIVATE(object);
+		return TEG_CANVAS_IMAGE_MODEL_GET_PRIVATE(
+		           reinterpret_cast<TegCanvasImageModel*>(object));
 	}
 }
 
@@ -520,8 +544,6 @@ static void teg_canvas_image_class_init(TegCanvasImageClass *klass)
 	GObjectClass *gobject_class = (GObjectClass*) klass;
 	GooCanvasItemSimpleClass *simple_class = (GooCanvasItemSimpleClass*) klass;
 
-	g_type_class_add_private(gobject_class, sizeof(TegCanvasImagePrivate));
-
 	gobject_class->dispose  = teg_canvas_image_dispose;
 	gobject_class->finalize = teg_canvas_image_finalize;
 
@@ -535,24 +557,9 @@ static void teg_canvas_image_class_init(TegCanvasImageClass *klass)
 	teg_canvas_image_install_common_properties(gobject_class);
 }
 
-static void item_model_interface_init(GooCanvasItemModelIface *iface);
-static void teg_canvas_image_model_dispose(GObject *object);
-static void teg_canvas_image_model_get_property(GObject    *object,
-        guint       param_id,
-        GValue     *value,
-        GParamSpec *pspec);
-static void teg_canvas_image_model_set_property(GObject       *object,
-        guint         param_id,
-        const GValue *value,
-        GParamSpec   *pspec);
+//------------------------------------------------------------------------------
 
-G_DEFINE_TYPE_WITH_CODE(TegCanvasImageModel, teg_canvas_image_model,
-                        GOO_TYPE_CANVAS_ITEM_MODEL_SIMPLE,
-                        G_IMPLEMENT_INTERFACE(GOO_TYPE_CANVAS_ITEM_MODEL,
-                                item_model_interface_init))
-
-static void
-teg_canvas_image_model_class_init(TegCanvasImageModelClass *klass)
+static void teg_canvas_image_model_class_init(TegCanvasImageModelClass *klass)
 {
 	GObjectClass *gobject_class = (GObjectClass*) klass;
 
