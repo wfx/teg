@@ -652,47 +652,6 @@ static void teg_canvas_image_model_init(TegCanvasImageModel *emodel)
 	priv->alpha = 1.0;
 }
 
-GooCanvasItemModel* teg_canvas_image_model_new(GooCanvasItemModel *parent,
-        GdkPixbuf          *pixbuf,
-        gdouble             x,
-        gdouble             y,
-        ...)
-{
-	GooCanvasItemModel *model;
-	TegCanvasImageModel *imodel;
-	TegCanvasImageData *image_data;
-	const char *first_property;
-	va_list var_args;
-
-	model = static_cast<GooCanvasItemModel*>(
-	            g_object_new(TEG_TYPE_CANVAS_IMAGE_MODEL, NULL));
-	imodel = (TegCanvasImageModel*) model;
-
-	image_data = &imodel->image_data;
-	image_data->x = x;
-	image_data->y = y;
-
-	if(pixbuf) {
-		image_data->pattern = goo_canvas_cairo_pattern_from_pixbuf(pixbuf);
-		image_data->width = gdk_pixbuf_get_width(pixbuf);
-		image_data->height = gdk_pixbuf_get_height(pixbuf);
-	}
-
-	va_start(var_args, y);
-	first_property = va_arg(var_args, char*);
-	if(first_property) {
-		g_object_set_valist((GObject*) model, first_property, var_args);
-	}
-	va_end(var_args);
-
-	if(parent) {
-		goo_canvas_item_model_add_child(parent, model, -1);
-		g_object_unref(model);
-	}
-
-	return model;
-}
-
 static void teg_canvas_image_model_dispose(GObject *object)
 {
 	TegCanvasImageModel *imodel = (TegCanvasImageModel*) object;
