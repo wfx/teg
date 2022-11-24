@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="64"
+   height="64"
+   viewBox="0 0 16.933333 16.933334"
+   version="1.1"
+   id="svg236025"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="stock-sendarmies-symbolic.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview236027"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="3.68"
+     inkscape:cx="45.788043"
+     inkscape:cy="40.48913"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs236022" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g103444"
+       transform="matrix(3.3973361,0,0,4.6604433,591.32416,-1067.1611)">
+      <path
+         id="path4100-6"
+         d="m -172.80719,228.98275 c -0.34464,0 -0.62402,0.27938 -0.62402,0.62403 0,0.34463 0.27938,0.62402 0.62402,0.62402 0.34464,0 0.62403,-0.27939 0.62403,-0.62402 0,-0.34465 -0.27939,-0.62403 -0.62403,-0.62403 z m -0.31201,1.45606 c -0.51857,0 -0.93604,0.41747 -0.93604,0.93603 v 0.10401 c 0,0.23047 0.18555,0.41602 0.41602,0.41602 h 1.66406 c 0.23048,0 0.41602,-0.18555 0.41602,-0.41602 v -0.10401 c 0,-0.51856 -0.41747,-0.93603 -0.93604,-0.93603 z"
+         style="fill:#2e3436;fill-opacity:1;stroke-width:0.208008" />
+      <path
+         id="ellipse13453-2"
+         style="fill:#2e3434;fill-opacity:0.34902;stroke-width:0.163671"
+         d="m -171.39637,231.2626 a 0.2765178,0.87189085 88.703799 0 0 -0.46906,0.37126 0.2765178,0.87189085 88.703799 0 0 0.0481,0.0296 l -1.04921,0.40716 a 0.2765178,0.87189085 88.703799 0 0 -0.65251,0.0156 0.2765178,0.87189085 88.703799 0 0 -0.46906,0.37126 0.2765178,0.87189085 88.703799 0 0 1.14002,0.12564 0.2765178,0.87189085 88.703799 0 0 0.46245,-0.15489 l 1.60404,0.002 a 0.2765178,0.87189085 88.703799 0 0 0.0344,0.0316 0.2765178,0.87189085 88.703799 0 0 1.14002,0.12564 0.2765178,0.87189085 88.703799 0 0 0.46908,-0.37128 0.2765178,0.87189085 88.703799 0 0 -1.14004,-0.12562 0.2765178,0.87189085 88.703799 0 0 -0.46191,0.15478 l -1.60507,-0.002 a 0.2765178,0.87189085 88.703799 0 0 -0.0341,-0.0317 0.2765178,0.87189085 88.703799 0 0 -0.0481,-0.0296 l 1.05057,-0.40754 a 0.2765178,0.87189085 88.703799 0 0 0.65116,-0.0151 0.2765178,0.87189085 88.703799 0 0 0.46907,-0.37126 0.2765178,0.87189085 88.703799 0 0 -1.14003,-0.12564 z" />
+    </g>
+  </g>
+</svg>
