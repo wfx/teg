@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/net/sf/teg/icons">
-    <file alias="stock-endturn.xpm">stock/stock-endturn.xpm</file>
-    <file alias="stock-getcard.xpm">stock/stock-getcard.xpm</file>
-    <file alias="stock-sendarmies.xpm">stock/stock-sendarmies.xpm</file>
-    <file alias="stock-viewplayers.xpm">stock/stock-viewplayers.xpm</file>
+    <file alias="stock-connect-symbolic.svg">stock/stock-connect-symbolic.svg</file>
+    <file alias="stock-startgame-symbolic.svg">stock/stock-startgame-symbolic.svg</file>
+    <file alias="stock-sendarmies-symbolic.svg">stock/stock-sendarmies-symbolic.svg</file>
+    <file alias="stock-regrouparmies-symbolic.svg">stock/stock-regrouparmies-symbolic.svg</file>
+    <file alias="stock-getcard-symbolic.svg">stock/stock-getcard-symbolic.svg</file>
+    <file alias="stock-endturn-symbolic.svg">stock/stock-endturn-symbolic.svg</file>
+    <file alias="stock-viewplayers-symbolic.svg">stock/stock-viewplayers-symbolic.svg</file>
   </gresource>
 </gresources>
