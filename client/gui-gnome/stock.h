@@ -27,11 +27,13 @@ namespace teg::client::callbacks
 #define STOCK_ZOOM_FIT	"TEG_stock_zoom_fit"
 #define STOCK_ZOOM_IN	"TEG_stock_zoom_in"
 #define STOCK_ZOOM_OUT	"TEG_stock_zoom_out"
-#define STOCK_GETCARD	"stock-getcard"
-#define STOCK_SENDARMIES	"stock-sendarmies"
-#define STOCK_ENDTURN	"stock-endturn"
-#define STOCK_VIEWPLAYERS	"stock-viewplayers"
-
+#define STOCK_CONNECT   "stock-connect-symbolic"
+#define STOCK_STARTGAME    "stock-startgame-symbolic"
+#define STOCK_SENDARMIES    "stock-sendarmies-symbolic"
+#define STOCK_REGROUPARMIES "stock-regrouparmies-symbolic"
+#define STOCK_GETCARD   "stock-getcard-symbolic"
+#define STOCK_ENDTURN	"stock-endturn-symbolic"
+#define STOCK_VIEWPLAYERS	"stock-viewplayers-symbolic"
 void stock_init(void);
 
 }
