@@ -533,7 +533,7 @@ GtkWidget* create_mainwin(void)
 	gtk_widget_show(toolbar_main);
 	gtk_container_add(GTK_CONTAINER(dock1), toolbar_main);
 
-	image = gtk_image_new_from_icon_name("document-new",
+	image = gtk_image_new_from_icon_name(STOCK_CONNECT,
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button1 = gtk_tool_button_new(image, _("Connect"));
 	gtk_tool_item_set_tooltip_text(button1, _("Connect to server"));
@@ -541,7 +541,7 @@ GtkWidget* create_mainwin(void)
 	g_signal_connect(button1, "clicked",
 	                 G_CALLBACK(on_connect_activate), NULL);
 
-	image = gtk_image_new_from_icon_name("appointment-new",
+	image = gtk_image_new_from_icon_name(STOCK_STARTGAME,
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button2 = gtk_tool_button_new(image, _("Start"));
 	gtk_tool_item_set_tooltip_text(button2, _("Start the game"));
@@ -560,7 +560,7 @@ GtkWidget* create_mainwin(void)
 	g_signal_connect(button3, "clicked",
 	                 G_CALLBACK(on_enviarfichas_activate), NULL);
 
-	image = gtk_image_new_from_icon_name("view-refresh",
+	image = gtk_image_new_from_icon_name(STOCK_REGROUPARMIES,
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button4 = gtk_tool_button_new(image, _("1. Regroup"));
 	gtk_tool_item_set_tooltip_text(button4,
