@@ -1,55 +1,55 @@
-../common/common.cpp
-../common/cont.cpp
-../common/net.cpp
-../common/missions.cpp
-../common/country.cpp
-../common/parser.cpp
-../common/share.cpp
-../common/tarjeta.cpp
-../robot/gui.cpp
-../robot/main.cpp
-../robot/ai_msg.cpp
-../robot/ai.cpp
-../client/helper.cpp
-../client/attack.cpp
-../client/canje.cpp
-../client/ejer2.cpp
-../client/fichas.cpp
-../client/inputfd.cpp
-../client/player.cpp
-../client/main.cpp
-../client/misc.cpp
-../client/outputfd.cpp
-../client/reagrupe.cpp
-../client/themes/m2/translate.c
-../client/themes/sentimental/translate.c
-../client/gui-gnome/armies.cpp
-../client/gui-gnome/callbacks.cpp
-../client/gui-gnome/cards.cpp
-../client/gui-gnome/chatline.cpp
-../client/gui-gnome/colors.cpp
-../client/gui-gnome/connect.cpp
-../client/gui-gnome/dices.cpp
-../client/gui-gnome/g_cont.cpp
-../client/gui-gnome/g_country.cpp
-../client/gui-gnome/g_scores.cpp
-../client/gui-gnome/gui.cpp
-../client/gui-gnome/interface.cpp
-../client/gui-gnome/mission.cpp
-../client/gui-gnome/priv.cpp
-../client/gui-gnome/status.cpp
-../client/gui-gnome/stock.cpp
-../client/gui-gnome/support.cpp
-../client/gui-gnome/preferences.cpp
-../client/gui-gnome/net.sf.teg.gschema.xml
-../server/helper.cpp
-../server/console.cpp
-../server/player.cpp
-../server/main.cpp
-../server/missions.cpp
-../server/options.cpp
-../server/countries.cpp
-../server/play.cpp
-../server/sernet.cpp
-../server/turno.cpp
-../server/xmlscores.cpp
+     ../common/common.cpp \
+     ../common/cont.cpp \
+     ../common/net.cpp \
+     ../common/missions.cpp \
+     ../common/country.cpp \
+     ../common/parser.cpp \
+     ../common/share.cpp \
+     ../common/tarjeta.cpp \
+     ../robot/gui.cpp \
+     ../robot/main.cpp \
+     ../robot/ai_msg.cpp \
+     ../robot/ai.cpp \
+     ../client/helper.cpp \
+     ../client/attack.cpp \
+     ../client/canje.cpp \
+     ../client/ejer2.cpp \
+     ../client/fichas.cpp \
+     ../client/inputfd.cpp \
+     ../client/player.cpp \
+     ../client/main.cpp \
+     ../client/misc.cpp \
+     ../client/outputfd.cpp \
+     ../client/reagrupe.cpp \
+     ../client/themes/m2/translate.c \
+     ../client/themes/sentimental/translate.c \
+     ../client/gui-gnome/armies.cpp \
+     ../client/gui-gnome/callbacks.cpp \
+     ../client/gui-gnome/cards.cpp \
+     ../client/gui-gnome/chatline.cpp \
+     ../client/gui-gnome/colors.cpp \
+     ../client/gui-gnome/connect.cpp \
+     ../client/gui-gnome/dices.cpp \
+     ../client/gui-gnome/g_cont.cpp \
+     ../client/gui-gnome/g_country.cpp \
+     ../client/gui-gnome/g_scores.cpp \
+     ../client/gui-gnome/gui.cpp \
+     ../client/gui-gnome/interface.cpp \
+     ../client/gui-gnome/mission.cpp \
+     ../client/gui-gnome/priv.cpp \
+     ../client/gui-gnome/status.cpp \
+     ../client/gui-gnome/stock.cpp \
+     ../client/gui-gnome/support.cpp \
+     ../client/gui-gnome/preferences.cpp \
+     ../client/gui-gnome/net.sf.teg.gschema.xml \
+     ../server/helper.cpp \
+     ../server/console.cpp \
+     ../server/player.cpp \
+     ../server/main.cpp \
+     ../server/missions.cpp \
+     ../server/options.cpp \
+     ../server/countries.cpp \
+     ../server/play.cpp \
+     ../server/sernet.cpp \
+     ../server/turno.cpp \
+     ../server/xmlscores.cpp

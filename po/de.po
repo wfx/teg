@@ -8,13 +8,14 @@ msgstr ""
 "Project-Id-Version: teg 0.11.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-25 11:54+0100\n"
-"PO-Revision-Date: 2007-03-12 09:28+0200\n"
+"PO-Revision-Date: 2022-11-25 13:19+0100\n"
 "Last-Translator: Stefan Nordhausen <nordi@users.sourceforge.net>\n"
 "Language-Team: de@li.org\n"
-"Language: \n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #: ../common/cont.cpp:57 ../common/missions.cpp:207 ../common/country.cpp:146
 #: ../server/helper.cpp:447
@@ -107,6 +108,7 @@ msgid "Robot intelligence: %d%%"
 msgstr "Roboter Intelligenz: %d%%"
 
 #: ../client/helper.cpp:227
+#, fuzzy
 msgid "Error in start. Are there at least 2 players?"
 msgstr "Fehler beim Starten. Es müssen mindestens 2 Spieler sein!"
 
@@ -150,13 +152,12 @@ msgid "Error, you cant attack your own countries ('%s')"
 msgstr "Fehler, du kannst nicht dein eigenes Land angreifen ('%s')"
 
 #: ../client/attack.cpp:158
-#, fuzzy
 msgid "Error, unexpected error in attack_click(). Report this bug!"
 msgstr "Unerwarteter Fehler in ataque_click(). Bitte melde diesen Fehler!"
 
 #: ../client/attack.cpp:200
 msgid "Error, make sure to select the countries first."
-msgstr "Fehler, erst die Länder auswählen"
+msgstr "Fehler, erst die Länder auswählen."
 
 #: ../client/canje.cpp:38
 msgid "Error, its not the moment to exchange the cards"
@@ -172,7 +173,7 @@ msgstr "Fehler, die 2 Armeen wurden bereits platziert"
 
 #: ../client/ejer2.cpp:46
 msgid "Error, it's not the time to put 2 armies."
-msgstr "Fehler, es ist nicht der Zeitpunkt um die 2 Armeen zu setzen"
+msgstr "Fehler, es ist nicht der Zeitpunkt um die 2 Armeen zu setzen."
 
 #: ../client/fichas.cpp:60
 msgid "Error, you cant add armies now"
@@ -201,7 +202,7 @@ msgstr "Fehler, du kannst jetzt keine Armeen schicken"
 
 #: ../client/inputfd.cpp:134
 msgid "The server is full. Try connecting as an observer"
-msgstr "Der Server ist voll :( Versuch dich als Beobachter einzuloggen."
+msgstr "Der Server ist voll :( Versuch dich als Beobachter einzuloggen"
 
 #: ../client/inputfd.cpp:143
 msgid "The game has already started. Try connecting as an observer."
@@ -265,7 +266,7 @@ msgstr "%s greift %s an"
 
 #: ../client/inputfd.cpp:457
 msgid "Its your turn to attack!!"
-msgstr "Du bist mit Angreifen an der Reihe"
+msgstr "Du bist mit Angreifen an der Reihe!!"
 
 #: ../client/inputfd.cpp:460
 #, c-format
@@ -363,7 +364,7 @@ msgstr "Das Spiel hat schon längst begonnen. Log dich also Beobachter ein."
 #: ../client/outputfd.cpp:82 ../client/outputfd.cpp:94
 #: ../client/outputfd.cpp:106
 msgid "Error, you must be connected"
-msgstr "Fehler, du must verbunden sein."
+msgstr "Fehler, du must verbunden sein"
 
 #: ../client/outputfd.cpp:138
 msgid "Error, it's not the moment to get a card"
@@ -371,11 +372,11 @@ msgstr "Fehler, du kannst jetzt keine Karte erhalten"
 
 #: ../client/outputfd.cpp:172
 msgid "Error, it's not your turn."
-msgstr "Fehler, du bist nicht an der Reihe"
+msgstr "Fehler, du bist nicht an der Reihe."
 
 #: ../client/outputfd.cpp:198 ../client/outputfd.cpp:212
 msgid "Error, the game is not started"
-msgstr "Fehler, das Spiel hat noch nicht begonnen."
+msgstr "Fehler, das Spiel hat noch nicht begonnen"
 
 #: ../client/outputfd.cpp:224
 msgid "Error, the game is started so you cant change the type of game"
@@ -385,7 +386,7 @@ msgstr ""
 
 #: ../client/reagrupe.cpp:58
 msgid "Error, It's not the time to regroup"
-msgstr "Fehler, du kannst deine Truppen jetzt nicht neu anordnen."
+msgstr "Fehler, du kannst deine Truppen jetzt nicht neu anordnen"
 
 #: ../client/reagrupe.cpp:71
 #, c-format
@@ -412,7 +413,7 @@ msgstr "Fehler, du kannst deine Armeen jetzt nicht neu verteilen"
 
 #: ../client/reagrupe.cpp:181
 msgid "Error, you cant regroup now."
-msgstr "Fehler, du kannst deine Armeen jetzt nicht neu verteilen"
+msgstr "Fehler, du kannst deine Armeen jetzt nicht neu verteilen."
 
 #: ../client/gui-gnome/armies.cpp:320
 msgid "Total"
@@ -508,9 +509,8 @@ msgid "You need to be connected"
 msgstr "Du musst verbunden sein"
 
 #: ../client/gui-gnome/chatline.cpp:130
-#, fuzzy
 msgid "Cleared output window"
-msgstr "Ausgabefenster gelöscht\n"
+msgstr "Ausgabefenster gelöscht"
 
 #: ../client/gui-gnome/colors.cpp:99 ../client/gui-gnome/colors.cpp:110
 #: ../client/gui-gnome/colors.cpp:121 ../client/gui-gnome/colors.cpp:132
@@ -520,9 +520,8 @@ msgid "Error, couldn't find file: %s"
 msgstr "Fehler, konnte Datei nicht finden: %s"
 
 #: ../client/gui-gnome/connect.cpp:101
-#, fuzzy
 msgid "Disconnected from the server."
-msgstr "Vom Server unterbrochen"
+msgstr "Verbindung zum Server unterbrochen."
 
 #: ../client/gui-gnome/connect.cpp:103
 msgid "We lost the connection to the server."
@@ -541,9 +540,8 @@ msgid "_OK"
 msgstr ""
 
 #: ../client/gui-gnome/connect.cpp:188 ../client/gui-gnome/preferences.cpp:595
-#, fuzzy
 msgid "_Cancel"
-msgstr "Frankreich"
+msgstr "Abbruch"
 
 #: ../client/gui-gnome/connect.cpp:207
 msgid "Server Options"
@@ -654,9 +652,8 @@ msgid "Color"
 msgstr "Farbe"
 
 #: ../client/gui-gnome/g_scores.cpp:127 ../client/gui-gnome/status.cpp:140
-#, fuzzy
 msgid "Human?"
-msgstr "Mensch"
+msgstr "Menschlich?"
 
 #: ../client/gui-gnome/g_scores.cpp:264
 msgid "High Scores"
@@ -820,14 +817,12 @@ msgid "Launch a robot"
 msgstr "Starte einen Roboter"
 
 #: ../client/gui-gnome/interface.cpp:338
-#, fuzzy
 msgid "_Scores..."
-msgstr "Punkte"
+msgstr "Punkte..."
 
 #: ../client/gui-gnome/interface.cpp:339
-#, fuzzy
 msgid "View the scores"
-msgstr "um die höchsten Punktestände zu sehen"
+msgstr "Zeige die höchsten Punktestände"
 
 #: ../client/gui-gnome/interface.cpp:347
 msgid "_Quit"
@@ -862,14 +857,12 @@ msgid "_Update Map"
 msgstr "_Aktualisiere Karte"
 
 #: ../client/gui-gnome/interface.cpp:377
-#, fuzzy
 msgid "Show the armies that other players had placed"
 msgstr "Zeige die Armeen die andere Spieler gesetzt haben"
 
 #: ../client/gui-gnome/interface.cpp:383
-#, fuzzy
 msgid "_Reattack"
-msgstr "Attacke _wiederholen"
+msgstr "Attacke wiederholen"
 
 #: ../client/gui-gnome/interface.cpp:385
 msgid "Attack your enemy, again using same source and destination"
@@ -940,9 +933,8 @@ msgid "View _cards"
 msgstr "Zeige _Karten"
 
 #: ../client/gui-gnome/interface.cpp:454
-#, fuzzy
 msgid "View all the cards that you won"
-msgstr "Schau dir die Karten die du gewonnen hast an"
+msgstr "Anzeigen alle Karten die du gewonnen hast"
 
 #: ../client/gui-gnome/interface.cpp:462
 msgid "Zoom In"
@@ -953,9 +945,8 @@ msgid "Increase zoom factor by 5%"
 msgstr "Spielansicht um 5% vergrößern"
 
 #: ../client/gui-gnome/interface.cpp:472
-#, fuzzy
 msgid "Zoom out"
-msgstr "Ver_kleinern"
+msgstr "Verkleinern"
 
 #: ../client/gui-gnome/interface.cpp:474
 msgid "Decrease zoom factor by 5%"
@@ -974,9 +965,8 @@ msgid "_Settings"
 msgstr ""
 
 #: ../client/gui-gnome/interface.cpp:498
-#, fuzzy
 msgid "Prefere_nces"
-msgstr "TEG Einstellungen"
+msgstr "Einstellungen"
 
 #: ../client/gui-gnome/interface.cpp:500
 msgid "Configure the application"
@@ -984,12 +974,11 @@ msgstr ""
 
 #: ../client/gui-gnome/interface.cpp:508
 msgid "_Help"
-msgstr ""
+msgstr "Hilfe"
 
 #: ../client/gui-gnome/interface.cpp:512
-#, fuzzy
 msgid "_Contents"
-msgstr "_Verbinde"
+msgstr "Verbinde"
 
 #: ../client/gui-gnome/interface.cpp:514
 msgid "View help for this application"
@@ -1028,9 +1017,8 @@ msgid "View players"
 msgstr "Spielerübersicht"
 
 #: ../client/gui-gnome/interface.cpp:596
-#, fuzzy
 msgid "View players' status"
-msgstr "Zeige Spieler Status"
+msgstr "Zeige den Spieler Status"
 
 #: ../client/gui-gnome/interface.cpp:722
 msgid "Welcome to TEG!"
@@ -1123,13 +1111,12 @@ msgid "Your mission"
 msgstr "Deine Mission"
 
 #: ../client/gui-gnome/mission.cpp:285
-#, fuzzy
 msgid "_Previous"
 msgstr "Vorschau"
 
 #: ../client/gui-gnome/mission.cpp:286
 msgid "_Next"
-msgstr ""
+msgstr "Nächstes"
 
 #: ../client/gui-gnome/status.cpp:132
 msgid "Address"
@@ -1148,9 +1135,8 @@ msgid "Status"
 msgstr "Status"
 
 #: ../client/gui-gnome/status.cpp:183
-#, fuzzy
 msgid "Started Turn?"
-msgstr "startet Runde"
+msgstr "starte Runde?"
 
 #: ../client/gui-gnome/status.cpp:267 ../client/gui-gnome/status.cpp:268
 msgid "Status of Players"
@@ -1195,7 +1181,7 @@ msgstr "Punkte der Spieler"
 
 #: ../client/gui-gnome/preferences.cpp:313
 msgid "You have to restart TEG to use the new theme."
-msgstr "Du musst TEG neu starten um das neue Aussehen zu benutzen"
+msgstr "Du musst TEG neu starten um das neue Aussehen zu benutzen."
 
 #: ../client/gui-gnome/preferences.cpp:359
 #: ../client/gui-gnome/preferences.cpp:365
@@ -1313,9 +1299,8 @@ msgid "Toolbar Visibility & Style"
 msgstr ""
 
 #: ../client/gui-gnome/preferences.cpp:558
-#, fuzzy
 msgid "Show toolbar"
-msgstr "Zeige Farbe"
+msgstr "Zeige die Toolbar"
 
 #: ../client/gui-gnome/preferences.cpp:567
 msgid "Toolbar style:"
@@ -1358,22 +1343,18 @@ msgid "The port where the TEG sever is listen to"
 msgstr ""
 
 #: ../client/gui-gnome/net.sf.teg.gschema.xml:17
-#, fuzzy
 msgid "The TEG server name"
-msgstr "Server Name:"
+msgstr "Server Name"
 
 #: ../client/gui-gnome/net.sf.teg.gschema.xml:21
-#, fuzzy
 msgid "Your name in the game"
-msgstr "um das Spiel zu verlassen"
+msgstr "Dein Name im Spiel"
 
 #: ../client/gui-gnome/net.sf.teg.gschema.xml:25
-#, fuzzy
 msgid "TEG's theme name"
-msgstr "speichert das Spiel"
+msgstr "Name des Spiel Themes"
 
 #: ../client/gui-gnome/net.sf.teg.gschema.xml:29
-#, fuzzy
 msgid "Desired color"
 msgstr "Wähle deine gewünschte Farbe"
 
@@ -1382,7 +1363,6 @@ msgid "Which messages to show"
 msgstr ""
 
 #: ../client/gui-gnome/net.sf.teg.gschema.xml:37
-#, fuzzy
 msgid "Show names with color"
 msgstr "Zeige Spieler Nachrichten mit Farben"
 
@@ -1395,7 +1375,6 @@ msgid "Which dialogs should be shown"
 msgstr ""
 
 #: ../client/gui-gnome/net.sf.teg.gschema.xml:49
-#, fuzzy
 msgid "Toolbar visibility"
 msgstr "Sichtbarkeit"
 
@@ -1408,7 +1387,6 @@ msgid "Valid values are \"both\", \"both-horiz\", \"icons\" and \"text\"."
 msgstr ""
 
 #: ../client/gui-gnome/net.sf.teg.gschema.xml:59
-#, fuzzy
 msgid "Launch robot in server"
 msgstr "Starte _Roboter"
 
@@ -1473,7 +1451,6 @@ msgid "FALSE"
 msgstr "FALSE"
 
 #: ../server/console.cpp:206
-#, fuzzy
 msgid ""
 "fd, number, countries, armies, cards, exch, name, human, color, status, "
 "address\n"
@@ -1483,7 +1460,7 @@ msgstr ""
 
 #: ../server/console.cpp:236
 msgid "n/a"
-msgstr "n. m."
+msgstr "n/a"
 
 #: ../server/console.cpp:237
 msgid "observer"
@@ -1514,19 +1491,18 @@ msgid "Player %s(%d) quit the game\n"
 msgstr "Spieler %s(%d) hat das Spiel verlassen\n"
 
 #: ../server/player.cpp:355
-#, fuzzy, c-format
+#, c-format
 msgid "Observer %s(%d) quit the game\n"
-msgstr "Spieler %s(%d) hat das Spiel verlassen\n"
+msgstr "Beobachter %s(%d) hat das Spiel verlassen\n"
 
 #: ../server/player.cpp:615
-#, fuzzy, c-format
+#, c-format
 msgid "Robot %s was kicked from the game\n"
-msgstr "Spieler %s wurde aus dem Spiel geworfen\n"
+msgstr "Roboter %s wurde aus dem Spiel geworfen\n"
 
 #: ../server/player.cpp:626
-#, fuzzy
 msgid "Kicking unwanted robots...\n"
-msgstr "Unerwünschter Robot wird entfernt"
+msgstr "Unerwünschter Robot wird entfernt\n"
 
 #: ../server/main.cpp:185
 #, c-format
@@ -1574,7 +1550,7 @@ msgstr ""
 "0)\n"
 
 #: ../server/main.cpp:359
-#, fuzzy, c-format
+#, c-format
 msgid "  -d, --debug\tEnable verbosity in server\n"
 msgstr ""
 " -c, --console BOOLEAN\tErmöglicht die Konsole, oder nicht (Standard 1)\n"
