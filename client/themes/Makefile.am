@@ -1,2 +1,2 @@
-SUBDIRS= m2 sentimental draco
+SUBDIRS= m2 m3 sentimental
 EXTRA_DIST = README
