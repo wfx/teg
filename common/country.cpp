@@ -21,6 +21,7 @@
 #include "country.h"
 
 #include <stdexcept>
+#include <algorithm> // std::for_each
 
 #include "fcintl.h"
 

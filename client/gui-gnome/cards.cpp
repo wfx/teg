@@ -25,6 +25,7 @@
 #  include <config.h>
 #endif
 
+#include <algorithm> // std::for_each
 #include <vector>
 
 #include <goocanvas.h>
