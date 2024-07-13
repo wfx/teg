@@ -5,7 +5,7 @@
 	<version>1.0.1</version>
 	<screenshot>mini_shot.png</screenshot>
 	<board file="board.jpg"/>
-	<toolbar custom="true" name="Infobar.png" text_color="black" offset_left="40" offset_right="-35"/>
+	<toolbar custom="false" name="Infobar.png" text_color="black" offset_left="40" offset_right="-35"/>
 	<dices_pos x="56" y="240"/>
 	<dices_ext_pos x1="2" y1="12" x2="32" y2="12" x3="62" y3="12" x4="2" y4="55" x5="32" y5="55" x6="62" y6="55"/>
 	<dices_text color="black" x1="48" y1="2" x2="48" y2="46"/>

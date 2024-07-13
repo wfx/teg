@@ -9,7 +9,7 @@
 	<email>wfx@users.sourceforge.net</email>
 	<version>0.10.0</version>
 	<screenshot>mini_shot.png</screenshot>
-	<toolbar custom="true" name="infobar.png" text_color="black" offset_left="40" offset_right="-35"/>
+	<toolbar custom="false" name="infobar.png" text_color="black" offset_left="40" offset_right="-35"/>
 	<cards>
 		<card type="jocker">tar_jocker.png</card>
 		<card type="balloon">tar_infantry.png</card>
