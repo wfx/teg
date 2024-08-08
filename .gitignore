@@ -30,6 +30,15 @@
 *.dylib
 config.h.in
 Makefile.in
+Makefile.in.in
+Makevars.template
+Rules-quot
+boldquot.sed
+en@boldquot.header
+en@quot.header
+insert-header.sin
+quot.sed
+remove-potcdate.sin
 aclocal.m4
 autom4te.cache
 configure
