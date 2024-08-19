@@ -72,6 +72,10 @@ for:
   * add a server test mode (single player only)
     where we can set all game data (to find bugs).
 
+0.13.1
+  * move the config from ~/.teg to ~/.config/teg
+  * change all sf entries
+
 0.14.0
   * save/resume the game (5)
   * add tools to view a game in fast forward and that
