@@ -269,7 +269,7 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 		"Ricardo Quesada, main coder",
 		"",
 		"Main Contributors:",
-		"    Rüdiger Ranft",
+		"    Rüdiger Ranft-Driscoll",
 		"    Thomas R. Koll",
 		"    Raymond Ostertag",
 		"",
