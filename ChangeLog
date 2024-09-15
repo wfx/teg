@@ -17,6 +17,7 @@
 * Remove usage of deprecated glib functions.
 * [bug #21] Determine ressource paths at run time relative to the executable
   file
+* [bug #53] Fix use-after-free memory corruption error.
 
 - version 0.12.0
 

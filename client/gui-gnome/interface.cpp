@@ -890,6 +890,7 @@ static void tropas_response_cb(GtkDialog *dialog, gint id, gpointer data)
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(dialog));
+	tropas_hscale_cant = nullptr;
 }
 
 /* shows how many armies you can move after an attack */
