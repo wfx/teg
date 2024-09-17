@@ -1,1 +1,1 @@
-SUBDIRS = gnome-help
+#SUBDIRS = gnome-help
