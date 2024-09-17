@@ -1,0 +1,64 @@
+site_name: Tenes Empanadas Graciela (TEG)
+repo_url: https://github.com/wfx/teg
+
+plugins:
+  - search
+
+nav:
+  - Home:    index.md
+  - Manual:  manual.md
+  - Install: install.md
+  - Hacking: hacking.md
+  - People:  people.md
+  - ToDo:    todo.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - def_list
+  - tables
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji 
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+theme:
+  name: material
+  logo: assets/teg_icono.png
+  primary: blue grey
+      
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+
+
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode  
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.prune 
+    - toc.follow
+    - toc.integrate
+    - search.suggest
+    - search.share
+    - content.code.copy
