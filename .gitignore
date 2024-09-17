@@ -70,3 +70,6 @@ install-sh
 missing
 test-driver
 teg.sublime-project
+
+#mkocs
+venv
