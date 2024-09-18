@@ -1,5 +1,4 @@
 name: Deploy MkDocs site to GitHub Pages
-name: Build GitHub Pages
 on:
   push:
     branches:
