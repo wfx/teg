@@ -32,7 +32,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./site
+          path: ./docs
 
   deploy:
     if: github.ref == 'refs/heads/main'
