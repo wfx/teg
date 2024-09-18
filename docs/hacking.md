@@ -1,4 +1,6 @@
-# So you want to help the developent of TEG? cool!
+# So you want to help the developent of TEG?
+
+cool!!!
 
 ## How to send changes
 
