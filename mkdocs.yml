@@ -13,6 +13,8 @@ nav:
   - ToDo:    todo.md
 
 markdown_extensions:
+  - toc:
+      baselevel: 2
   - attr_list
   - md_in_html
   - pymdownx.highlight:
@@ -27,9 +29,6 @@ markdown_extensions:
   - pymdownx.superfences
   - def_list
   - tables
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji 
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
 
 theme:
   name: material
@@ -40,23 +39,22 @@ theme:
     # Palette toggle for light mode
     - scheme: default
       toggle:
-        icon: material/brightness-7 
-
-
+        icon: material/brightness-7
         name: Switch to dark mode
-
     # Palette toggle for dark mode
     - scheme: slate
       toggle:
         icon: material/brightness-4
-        name: Switch to light mode  
+        name: Switch to light mode
+
   features:
     - navigation.instant
     - navigation.instant.progress
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
-    - navigation.prune 
+    - navigation.prune
+    - navigation.footer
     - toc.follow
     - toc.integrate
     - search.suggest
