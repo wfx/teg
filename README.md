@@ -1,4 +1,4 @@
-![icon](https://github.com/wfx/teg/docs/assets/teg_icono.png)Tenes Emapandas Graciela (TEG)
+![icon](https://github.com/wfx/teg/blob/master/docs/assets/teg_icono.png)Tenes Emapandas Graciela (TEG)
 ===========================================================================================
 
 [Documentation](https://wfx.github.io/teg/)
