@@ -419,8 +419,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -449,8 +447,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -459,6 +455,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installation-instructions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation Instructions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation Instructions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#build-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       Build dependencies
@@ -490,8 +496,8 @@
     </nav>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#basic-installation" class="md-nav__link">
     <span class="md-ellipsis">
       Basic Installation
@@ -499,8 +505,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#compilers-and-options" class="md-nav__link">
     <span class="md-ellipsis">
       Compilers and Options
@@ -523,8 +529,8 @@
     </nav>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#installation-names" class="md-nav__link">
     <span class="md-ellipsis">
       Installation Names
@@ -532,8 +538,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#optional-features" class="md-nav__link">
     <span class="md-ellipsis">
       Optional Features
@@ -541,8 +547,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#specifying-the-system-type" class="md-nav__link">
     <span class="md-ellipsis">
       Specifying the System Type
@@ -550,8 +556,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#sharing-defaults" class="md-nav__link">
     <span class="md-ellipsis">
       Sharing Defaults
@@ -559,8 +565,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#defining-variables" class="md-nav__link">
     <span class="md-ellipsis">
       Defining Variables
@@ -568,13 +574,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#configure-invocation" class="md-nav__link">
     <span class="md-ellipsis">
       'configure' Invocation
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -664,20 +675,22 @@
   
 
 
-<h1 id="installation-instructions">Installation Instructions</h1>
+  <h1>Install</h1>
+
+<h2 id="installation-instructions">Installation Instructions</h2>
 <p>Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005 Free
 Software Foundation, Inc.</p>
 <p>This file is free documentation; the Free Software Foundation gives
 unlimited permission to copy, distribute and modify it.</p>
-<h2 id="build-dependencies">Build dependencies</h2>
-<h3 id="debian">Debian</h3>
+<h3 id="build-dependencies">Build dependencies</h3>
+<h4 id="debian">Debian</h4>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>apt-get update &amp;&amp; \
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    DEBIAN_FRONTEND=noninteractive apt-get install --yes \
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>            build-essential debhelper gettext \
 </span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>            libgoocanvas-2.0-dev libtool libxml2-dev \
 </span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>            xmlto libgmock-dev
 </span></code></pre></div>
-<h3 id="suse">SuSE</h3>
+<h4 id="suse">SuSE</h4>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>zypper --non-interactive  update &amp;&amp; \
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    zypper --non-interactive install -y automake autoconf libtool gcc10-c++ \
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    gettext gettext-tools make tidy gmock \
@@ -685,7 +698,7 @@ unlimited permission to copy, distribute and modify it.</p>
 </span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    &#39;perl(XML::Parser)&#39; &#39;pkgconfig(goocanvas-2.0)&#39; pkgconfig xmlto xz &amp;&amp; \
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    cd /usr/bin &amp;&amp; ln -s gcc-10 gcc &amp;&amp; ln -s g++-10 g++
 </span></code></pre></div>
-<h2 id="basic-installation">Basic Installation</h2>
+<h3 id="basic-installation">Basic Installation</h3>
 <p>These are generic installation instructions.</p>
 <p>The 'configure' shell script attempts to guess correct values for
 various system-dependent variables used during compilation.  It uses
@@ -743,7 +756,7 @@ a newer version of 'autoconf'.</p>
      with the distribution.</p>
 </li>
 </ol>
-<h2 id="compilers-and-options">Compilers and Options</h2>
+<h3 id="compilers-and-options">Compilers and Options</h3>
 <p>Some systems require unusual options for compilation or linking that the
 'configure' script does not know about.  Run './configure --help' for
 details on some of the pertinent environment variables.</p>
@@ -756,7 +769,7 @@ is an example:
 <summary>Note</summary>
 <p>Defining Variables::, for more details.</p>
 </details>
-<h3 id="compiling-for-multiple-architectures">Compiling For Multiple Architectures</h3>
+<h4 id="compiling-for-multiple-architectures">Compiling For Multiple Architectures</h4>
 <p>You can compile the package for more than one kind of computer at the
 same time, by placing the object files for each architecture in their
 own directory.  To do this, you must use a version of 'make' that
@@ -769,7 +782,7 @@ variable, you have to compile the package for one architecture at a
 time in the source code directory.  After you have installed the
 package for one architecture, use 'make distclean' before reconfiguring
 for another architecture.</p>
-<h2 id="installation-names">Installation Names</h2>
+<h3 id="installation-names">Installation Names</h3>
 <p>By default, 'make install' installs the package's commands under
 '/usr/local/bin', include files under '/usr/local/include', etc.  You
 can specify an installation prefix other than '/usr/local' by giving
@@ -786,7 +799,7 @@ you can set and what kinds of files go in them.</p>
 <p>If the package supports it, you can cause programs to be installed
 with an extra prefix or suffix on their names by giving 'configure' the
 option '--program-prefix=PREFIX' or --program-suffix=SUFFIX'.</p>
-<h2 id="optional-features">Optional Features</h2>
+<h3 id="optional-features">Optional Features</h3>
 <p>Some packages pay attention to '--enable-FEATURE' options to
 'configure', where FEATURE indicates an optional part of the package.
 They may also pay attention to '--with-PACKAGE' options, where PACKAGE
@@ -797,7 +810,7 @@ package recognizes.</p>
 find the X include and library files automatically, but if it doesn't,
 you can use the 'configure' options '--x-includes=DIR' and
 '--x-libraries=DIR' to specify their locations.</p>
-<h2 id="specifying-the-system-type">Specifying the System Type</h2>
+<h3 id="specifying-the-system-type">Specifying the System Type</h3>
 <p>There may be some features 'configure' cannot figure out automatically,
 but needs to determine by the type of machine the package will run on.
 Usually, assuming the package is built to be run on the <em>same</em>
@@ -820,7 +833,7 @@ produce code for.</p>
 platform different from the build platform, you should specify the
 "host" platform (i.e., that on which the generated programs will
 eventually be run) with '--host=TYPE'.</p>
-<h2 id="sharing-defaults">Sharing Defaults</h2>
+<h3 id="sharing-defaults">Sharing Defaults</h3>
 <p>If you want to set default values for 'configure' scripts to share, you
 can create a site shell script called 'config.site' that gives default
 values for variables like 'CC', 'cache_file', and 'prefix'.
@@ -828,7 +841,7 @@ values for variables like 'CC', 'cache_file', and 'prefix'.
 'PREFIX/etc/config.site' if it exists.  Or, you can set the
 'CONFIG_SITE' environment variable to the location of the site script.
 A warning: not all 'configure' scripts look for a site script.</p>
-<h2 id="defining-variables">Defining Variables</h2>
+<h3 id="defining-variables">Defining Variables</h3>
 <p>Variables not defined in a site shell script can be set in the
 environment passed to 'configure'.  However, some packages may run
 configure again during the build, and the customized values of these
@@ -842,7 +855,7 @@ overridden in the site shell script).  Here is a another example:</p>
 </code></pre></div>
 <p>Here the 'CONFIG_SHELL=/bin/bash' operand causes subsequent
 configuration-related scripts to be executed by '/bin/bash'.</p>
-<h2 id="configure-invocation">'configure' Invocation</h2>
+<h3 id="configure-invocation">'configure' Invocation</h3>
 <p>'configure' recognizes the following options to control how it operates.</p>
 <p>'--help'
 '-h'
@@ -893,6 +906,46 @@ configuration-related scripts to be executed by '/bin/bash'.</p>
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../manual/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Manual">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Manual
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../hacking/" class="md-footer__link md-footer__link--next" aria-label="Next: Hacking">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Hacking
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
@@ -917,7 +970,7 @@ configuration-related scripts to be executed by '/bin/bash'.</p>
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>

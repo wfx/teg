@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#so-you-want-to-help-the-developent-of-teg" class="md-skip">
+        <a href="#how-to-send-changes" class="md-skip">
           Skip to content
         </a>
       
@@ -439,8 +439,6 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
@@ -469,8 +467,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -493,21 +489,6 @@
       First steps
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="First steps">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#this-script" class="md-nav__link">
-    <span class="md-ellipsis">
-      This script
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -537,7 +518,8 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="General style rules">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#functions-and-code-blocks" class="md-nav__link">
@@ -566,6 +548,11 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
   <a href="#language" class="md-nav__link">
     <span class="md-ellipsis">
@@ -573,7 +560,8 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Language">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#built-in-data-types" class="md-nav__link">
@@ -581,6 +569,11 @@
       Built in data types
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -621,17 +614,17 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-        
           <li class="md-nav__item">
   <a href="#scope-and-variable-reuse" class="md-nav__link">
     <span class="md-ellipsis">
       Scope and variable reuse
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -653,12 +646,7 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#tests" class="md-nav__link">
     <span class="md-ellipsis">
       Tests
@@ -666,13 +654,60 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       Documentation
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checklist-for-a-new-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checklist for a new release
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Checklist for a new release">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparing-the-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preparing the release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doing-the-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      Doing the release
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-the-release" class="md-nav__link">
+    <span class="md-ellipsis">
+      After the release
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -742,8 +777,10 @@
   
 
 
-<h1 id="so-you-want-to-help-the-developent-of-teg">So you want to help the developent of TEG?</h1>
-<p>cool!!!</p>
+  <h1>Hacking</h1>
+
+<p>So you want to help the developent of TEG? cool!</p>
+<hr />
 <h2 id="how-to-send-changes">How to send changes</h2>
 <p>The easiest way to get your changes included is to fork the project, and let us
 know about your changes with a pull request. If you don't like to have an
@@ -758,7 +795,7 @@ development packages of the used libraries. For Debian based environments, you
 can use the list in the file <code>docker/debian</code></p>
 <p>When you have the requirements, you can run <code>./build</code> in the root directory.</p>
 <p>.. warning:: This script always erases the build directory first.</p>
-<h3 id="this-script">This script</h3>
+<p>This script</p>
 <ul>
 <li>creates the autotools build infrastructure</li>
 <li>creates a local build directory (<code>bd</code>), which is ignored by git</li>
@@ -773,15 +810,14 @@ can use the list in the file <code>docker/debian</code></p>
 <li>installs the software into <code>bd/DD</code></li>
 <li>build the software an run the unit tests</li>
 </ul>
-<p>Once the script finished, you can "install" and then run the software with
-<div class="language-sh highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>make<span class="w"> </span>-C<span class="w"> </span>bd<span class="w"> </span>install<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>bd/DD/bin/tegclient
-</span></code></pre></div></td></tr></table></div></p>
+<p>Once the <code>build</code> script finished, you can "install" the software with
+<code>make -C bd install</code>, and then run it with <code>bd/DD/bin/tegclient</code>.</p>
 <h2 id="coding-style">Coding style</h2>
 <p>This code style describes how the code should look at the end. We know that at
 the moment the current code does not look like it. When you change existing
 code, or write new functionality, please try to follow this style.</p>
 <h3 id="whitespaces-and-braces">Whitespaces and braces</h3>
-<p>We use the K&amp;R-Style with tabs for block indentation, and spaces for
+<p>We use the <a href="https://en.wikipedia.org/wiki/Indentation_style#K&amp;R">K&amp;R-Style</a> with tabs for block indentation, and spaces for
 continuation indentation.</p>
 <p>Braces are set unconditionally, even if there is only one statement in your
 if/while/for block. See the famous "goto fail" bug why this is a good idea.</p>
@@ -789,7 +825,7 @@ if/while/for block. See the famous "goto fail" bug why this is a good idea.</p>
 style. When you use an IDE, you probably can also set it up that it will
 reformat on every save.</p>
 <h3 id="general-style-rules">General style rules</h3>
-<h3 id="functions-and-code-blocks">Functions and code blocks</h3>
+<h4 id="functions-and-code-blocks">Functions and code blocks</h4>
 <p>Limit the size of your functions. Every function spanning more than one page or
 is deeply nested is hard to comprehend. You should split those functions into
 smaller ones and give them appropriate names.</p>
@@ -797,18 +833,18 @@ smaller ones and give them appropriate names.</p>
 of function is much easier to test. Also when you use such a function, you can
 be sure that it behaves always the same way when you give it the same
 parameters.</p>
-<h3 id="comments">Comments</h3>
+<h4 id="comments">Comments</h4>
 <p>Good comments can make the code better understandable. But bad comments can make
 everything worse. In case of doubt try to clean up your code and introduce
 little helper functions. It is better to have easy to understand code than to
 have good comments which explain bad code.</p>
-<h3 id="general-quality">General quality</h3>
+<h4 id="general-quality">General quality</h4>
 <p>Don't introduce new compiler warnings, they usually point to underlying
 problems. This is especially true for C code, where the compiler can do very
 bad things if it does not see a function declaration.</p>
 <h3 id="language">Language</h3>
 <p>New code uses C++20. We don't try to support ancient compilers.</p>
-<h3 id="built-in-data-types">Built in data types</h3>
+<h4 id="built-in-data-types">Built in data types</h4>
 <p>Use the correct data type for each fact. When you have something which can be
 expressed as boolean, use bool (use <code>#include &lt;stdbool.h&gt;</code> in C code to get
 this type). If the thing can't be negative, use unsigned. If you need an integer
@@ -817,21 +853,22 @@ iterate through an array by index, use std::size_t (or unsigned for some legacy
 code).</p>
 <p>Prefer enumerations over integer or boolean types. Especially when they appear
 in function calls, enumerations can make the situation easier to understand.</p>
-<p><div class="language-c highlight"><span class="filename">c example</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">  </span><span class="n">frobnicate</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">frobnicate</span><span class="p">(</span><span class="n">first_thing_from_left</span><span class="p">,</span><span class="w"> </span><span class="n">with_foo</span><span class="p">,</span><span class="w"> </span><span class="n">without_bar</span><span class="p">);</span>
+<p><div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w">  </span><span class="n">frobnicate</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="nb">true</span><span class="p">,</span><span class="w"> </span><span class="nb">false</span><span class="p">);</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="n">frobnicate</span><span class="p">(</span><span class="n">first_thing_from_left</span><span class="p">,</span><span class="w"> </span><span class="n">with_foo</span><span class="p">,</span><span class="w"> </span><span class="n">without_bar</span><span class="p">);</span>
 </span></code></pre></div>
 Use class enums in C++ code.</p>
 <h3 id="error-handling">Error handling</h3>
 <p>Use <code>assert()</code> to check conditions in the code which are pre and
 postconditions (like that an output pointer is not NULL). Don't use assert on
 functions with side effects (assert calls can be disabled by configuration).</p>
-<div class="language-c highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">  </span><span class="c1">// do</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">ok</span><span class="o">=</span><span class="n">frobnicate</span><span class="p">();</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">ok</span><span class="p">);</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">  </span><span class="c1">// don&#39;t: the call to frobnicate can be eliminated in non-debug builds</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">frobnicate</span><span class="p">());</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">  </span><span class="c1">// do</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">ok</span><span class="o">=</span><span class="n">frobnicate</span><span class="p">();</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">ok</span><span class="p">);</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="c1">// don&#39;t: the call to frobnicate can be eliminated in non-debug builds</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="n">assert</span><span class="p">(</span><span class="n">frobnicate</span><span class="p">());</span>
 </span></code></pre></div>
 <h3 id="variables">Variables</h3>
 <h4 id="const">Const</h4>
@@ -840,36 +877,40 @@ functions with side effects (assert calls can be disabled by configuration).</p>
 <p>Try to avoid split variable definition and initialization. Especially don't put
 variable definitions at the top of functions. The time when compilers needed
 this is gone.</p>
-<h3 id="scope-and-variable-reuse">Scope and variable reuse</h3>
+<h4 id="scope-and-variable-reuse">Scope and variable reuse</h4>
 <p>Limit the scope of variables to the most inner block possible. This make the
 code more readable and reduces the possibility to introduce errors.</p>
-<div class="language-c++ highlight"><span class="filename">Good:</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">));</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">      </span><span class="c1">// for C code</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">extent</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">      </span><span class="c1">// for C++ code</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">  </span><span class="p">}</span>
+<p><strong>Good</strong>:</p>
+<div class="language-C++ highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">));</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">      </span><span class="c1">// for C code</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span><span class="w"> </span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">extent</span><span class="o">&lt;</span><span class="k">decltype</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">      </span><span class="c1">// for C++ code</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">  </span><span class="p">}</span>
 </span></code></pre></div>
-<div class="language-c++ highlight"><span class="filename">Better:</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">array</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">        </span><span class="c1">// when you don&#39;t need the array position you can just iterate over the</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="c1">// fields</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="p">}</span>
+<p><strong>Better</strong>:</p>
+<div class="language-C++ highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="k">const</span><span class="o">&amp;</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">array</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">      </span><span class="c1">// when you don&#39;t need the array position you can just iterate over the</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="c1">// fields</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span><span class="p">}</span>
 </span></code></pre></div>
-<div class="language-c++ highlight"><span class="filename">Bad:</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="c1">// no initialization</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="p">...</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">));</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// signed loop variable</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">      </span><span class="p">...</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N_ARRAY_COUNT</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// limit not calculated from the array</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">      </span><span class="p">...</span>
-</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">  </span><span class="p">}</span>
-</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
-</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">23</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// magic number and variable recycling</span>
-</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">      </span><span class="p">...</span>
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">  </span><span class="p">}</span>
+<p><strong>Bad</strong>:</p>
+<div class="language-C++ highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"> </span><span class="c1">// no initialization</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span><span class="p">...</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">array</span><span class="p">));</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// signed loop variable</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">      </span><span class="p">...</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="n">N_ARRAY_COUNT</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// limit not calculated from the array</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">      </span><span class="p">...</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">  </span><span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">&lt;</span><span class="mi">23</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// magic number and variable recycling</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">      </span><span class="p">...</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">  </span><span class="p">}</span>
 </span></code></pre></div>
 <h3 id="return-values">Return values</h3>
 <p>Don't use <code>TEG_STATUS</code> for new code. This type is a dependency magnet, and
@@ -883,14 +924,35 @@ natural to this. Like <code>can_start_game()</code> or <code>is_human_player()</
 <h3 id="objects-in-global-space">Objects in global space</h3>
 <p>Avoid global space. The code right now uses much of it, and this makes it very
 painful to work with.</p>
-<h2 id="tests">Tests</h2>
+<h3 id="tests">Tests</h3>
 <p>New functionality has to be accompanied with unit tests.</p>
-<h2 id="documentation">Documentation</h2>
-<p>Put doxygen comments into the header for newly added parts (should the day come,
+<h3 id="documentation">Documentation</h3>
+<p>Put <a href="https://en.wikipedia.org/wiki/Doxygen">doxygen</a> comments into the header for newly added parts (should the day come,
 and parts of teg wander into a library, the header are the parts which are
 available, while the sources are not).</p>
 <p>Write down what the reason for this function is, together with pre and post
 conditions.</p>
+<h2 id="checklist-for-a-new-release">Checklist for a new release</h2>
+<h3 id="preparing-the-release">Preparing the release</h3>
+<ul>
+<li>Does it compile on the CI?</li>
+<li>Append all new contributors to /PEOPLE</li>
+<li>Fill out /CHANGELOG</li>
+<li>use <code>gitk »previous-release-tag« »current-release-branch«</code> to review the
+    changes since the last release</li>
+<li>summary of the most important changes</li>
+<li>reference issues,pull requests or git commit hashes when needed, especially
+    for security related events</li>
+</ul>
+<h3 id="doing-the-release">Doing the release</h3>
+<p>Create an annotated tag in the form <code>»num«.»num«.»num«</code>. Don't add any prefix
+or suffix. The tag has to match the version of <code>AC_INIT</code> in <code>/configure.ac</code></p>
+<h3 id="after-the-release">After the release</h3>
+<ul>
+<li>Do a version bump in <code>/configure.ac</code> for the following bug fix release</li>
+<li>Merge the release branch to <code>master</code> (keep an eye on the Changelog and
+  version, since they tend to get messed up during the merge)</li>
+</ul>
 
 
 
@@ -914,6 +976,46 @@ conditions.</p>
       </main>
       
         <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../install/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Install">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Install
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../people/" class="md-footer__link md-footer__link--next" aria-label="Next: People">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                People
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -939,7 +1041,7 @@ conditions.</p>
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
