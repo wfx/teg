@@ -38,11 +38,11 @@ After clicking on the start button, the 'Type of Game' dialog will appear.
 
 The server, will then distribute all the countries at random among the players, providing each country with an army.
 
-???+ note
+!!! note
 
-	One can also connect to the server as an observer.
-	This enables to follow the game, but not to play.
-	It is noteworthy to keep in mind that there is a maximum number of 9 connections permitted in this mode.
+    One can also connect to the server as an observer.
+    This enables to follow the game, but not to play.
+    It is noteworthy to keep in mind that there is a maximum number of 9 connections permitted in this mode.
 
 ## Placing the armies for 1st time
 
@@ -91,9 +91,8 @@ Do we still have this dialog?
 ![Dices window](assets/figures/dices.jpg)
 -->
 
-???+ tip
-
-  Don't attack a country that has more armies than yours
+!!! tip
+    Don't attack a country that has more armies than yours.
 
 ## After the attack
 

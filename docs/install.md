@@ -8,24 +8,26 @@ unlimited permission to copy, distribute and modify it.
 
 ## Build dependencies
 
-### Debian
-```
-apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --yes \
-            build-essential debhelper gettext \
-            libgoocanvas-2.0-dev libtool libxml2-dev \
-            xmlto libgmock-dev
-```
+=== "Debian"
 
-### SuSE
-```
-zypper --non-interactive  update && \
-    zypper --non-interactive install -y automake autoconf libtool gcc10-c++ \
-    gettext gettext-tools make tidy gmock \
-    'pkgconfig(glib-2.0)' 'pkgconfig(libgnomeui-2.0)' 'pkgconfig(libxml-2.0)' \
-    'perl(XML::Parser)' 'pkgconfig(goocanvas-2.0)' pkgconfig xmlto xz && \
-    cd /usr/bin && ln -s gcc-10 gcc && ln -s g++-10 g++
-```
+    ``` sh
+    apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+                build-essential debhelper gettext \
+                libgoocanvas-2.0-dev libtool libxml2-dev \
+                xmlto libgmock-dev
+    ```
+
+=== "SuSE"
+
+    ``` sh
+    zypper --non-interactive  update && \
+        zypper --non-interactive install -y automake autoconf libtool gcc10-c++ \
+        gettext gettext-tools make tidy gmock \
+        'pkgconfig(glib-2.0)' 'pkgconfig(libgnomeui-2.0)' 'pkgconfig(libxml-2.0)' \
+        'perl(XML::Parser)' 'pkgconfig(goocanvas-2.0)' pkgconfig xmlto xz && \
+        cd /usr/bin && ln -s gcc-10 gcc && ln -s g++-10 g++
+    ```
 
 
 ## Basic Installation
@@ -100,7 +102,7 @@ is an example:
 ```
 ./configure CC=c89 CFLAGS=-O2 LIBS=-lposix
 ```
-???+ note
+!!! note
     Defining Variables::, for more details.
 
 ### Compiling For Multiple Architectures

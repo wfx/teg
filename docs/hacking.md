@@ -1,3 +1,11 @@
+---
+title: Hacking
+summary: A brief description of the document.
+authors:
+    - ranf
+date: 2024-09-21
+---
+
 So you want to help the developent of TEG? cool!
 ___
 
@@ -141,49 +149,52 @@ this is gone.
 Limit the scope of variables to the most inner block possible. This make the
 code more readable and reduces the possibility to introduce errors.
 
-**Good**:
+=== "Good"
 
-```C++
+    
+    ``` c++
+    
+      for(std::size_t i=0; i<(sizeof(array)/sizeof(*array)); i++) {
+          // for C code
+      }
+    
+      for(std::size_t i=0; i<std::extent<decltype(array)>::value; i++) {
+          // for C++ code
+      }
+    ```
 
-  for(std::size_t i=0; i<(sizeof(array)/sizeof(*array)); i++) {
-      // for C code
-  }
+=== "Better"
+    
 
-  for(std::size_t i=0; i<std::extent<decltype(array)>::value; i++) {
-      // for C++ code
-  }
-```
+    ``` c++
+    
+      for(auto const& value: array) {
+          // when you don't need the array position you can just iterate over the
+        // fields
+      }
+    ```
 
-**Better**:
+=== "Bad"
 
-```C++
-
-  for(auto const& value: array) {
-      // when you don't need the array position you can just iterate over the
-    // fields
-  }
-```
-
-**Bad**:
-
-```C++
-
-  int i; // no initialization
-
-  ...
-
-  for(i=0; i<(sizeof(array)/sizeof(*array)); i++) { // signed loop variable
+    
+    ``` c++
+    
+      int i; // no initialization
+    
       ...
-  }
-
-  for(i=0; i<N_ARRAY_COUNT; i++) { // limit not calculated from the array
-      ...
-  }
-
-  for(i=0; i<23; i++) { // magic number and variable recycling
-      ...
-  }
-```
+    
+      for(i=0; i<(sizeof(array)/sizeof(*array)); i++) { // signed loop variable
+          ...
+      }
+    
+      for(i=0; i<N_ARRAY_COUNT; i++) { // limit not calculated from the array
+          ...
+      }
+    
+      for(i=0; i<23; i++) { // magic number and variable recycling
+          ...
+      }
+    ```
 
 ## Return values
 

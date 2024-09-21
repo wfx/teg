@@ -1,8 +1,11 @@
 site_name: Tenes Empanadas Graciela (TEG)
+repo_name: TEG
 repo_url: https://github.com/wfx/teg
 
 plugins:
   - search
+  - pdf-export:
+        combined: true
 
 nav:
   - Home:    index.md
@@ -23,10 +26,11 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
   - def_list
   - tables
 
@@ -48,6 +52,7 @@ theme:
         name: Switch to light mode
 
   features:
+    - navigation.indexes
     - navigation.instant
     - navigation.instant.progress
     - navigation.tabs
@@ -60,3 +65,4 @@ theme:
     - search.suggest
     - search.share
     - content.code.copy
+    - content.tabs.link
