@@ -180,17 +180,3 @@ The server has very useful commands to configure it. Just type help and you will
 ![Server commands](assets/figures/server.jpg)
 
 
-## History
-
-### Brief history of TEG
-
-__riq__
-
-Sebastián Cativa Tolosa, once told me to do this game.
-I think that was in 1996, in a chat we were having in the University.
-Well, we started to think the game. But I don't know why, the project died after 3 or 4 months.
-In 1998, the project was reactivated, but after 2 weeks it died again :(.
-Finally, in February 2000, I started the game again, and it seems that it is not dead :-).
-
-__wfx__, now we have 2024 and it is still alive :fontawesome-regular-face-laugh-wink:
-
