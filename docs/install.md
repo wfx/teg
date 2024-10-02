@@ -1,4 +1,4 @@
-#Installation Instructions
+__Installation Instructions__
 
 Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005 Free
 Software Foundation, Inc.

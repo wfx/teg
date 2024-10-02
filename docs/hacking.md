@@ -6,11 +6,11 @@ authors:
 date: 2024-09-21
 ---
 
-So you want to help the developent of TEG? cool!
-___
+So you want to help the development of TEG? Cool!
+
 
 # How to send changes
-
+___
 The easiest way to get your changes included is to fork the project, and let us
 know about your changes with a pull request. If you don't like to have an
 account on github, you still can clone our repository (via https), and push
@@ -21,7 +21,7 @@ prefer to have a "real" git repository to deal with, since it is much easier to
 work with than patches.
 
 # First steps
-
+___
 If you want to join the development of the software, you need to install the
 development packages of the used libraries. For Debian based environments, you
 can use the list in the file `docker/debian`
@@ -46,12 +46,12 @@ Once the ``build`` script finished, you can "install" the software with
 ``make -C bd install``, and then run it with ``bd/DD/bin/tegclient``.
 
 # Coding style
-
+---
 This code style describes how the code should look at the end. We know that at
 the moment the current code does not look like it. When you change existing
 code, or write new functionality, please try to follow this style.
 
-## Whitespaces and braces
+## White spaces and braces
 
 We use the [K&R-Style](https://en.wikipedia.org/wiki/Indentation_style#K&R) with tabs for block indentation, and spaces for
 continuation indentation.
@@ -116,7 +116,7 @@ Use class enums in C++ code.
 ## Error handling
 
 Use ``assert()`` to check conditions in the code which are pre and
-postconditions (like that an output pointer is not NULL). Don't use assert on
+post conditions (like that an output pointer is not NULL). Don't use assert on
 functions with side effects (assert calls can be disabled by configuration).
 
 ```C
@@ -227,8 +227,9 @@ available, while the sources are not).
 Write down what the reason for this function is, together with pre and post
 conditions.
 
-# Checklist for a new release
 
+# Checklist for a new release
+___
 ## Preparing the release
 
 * Does it compile on the CI?

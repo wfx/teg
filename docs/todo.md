@@ -1,6 +1,5 @@
-#ToDo
-
-##Roadmap
+# Roadmap
+---
 
 This file represents what I would like to be included, in more or less
 a chronological time.

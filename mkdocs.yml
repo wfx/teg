@@ -8,7 +8,7 @@ plugins:
         combined: true
 
 nav:
-  - Home:    index.md
+  - TEG:    index.md
   - Manual:  manual.md
   - Install: install.md
   - Hacking: hacking.md
@@ -33,11 +33,16 @@ markdown_extensions:
       alternate_style: true
   - def_list
   - tables
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
 
 theme:
   name: material
   logo: assets/teg_icono.png
   primary: blue grey
+  font:
+    text: Noto Sans
       
   palette:
     # Palette toggle for light mode
@@ -59,6 +64,7 @@ theme:
     - navigation.tabs.sticky
     - navigation.sections
     - navigation.prune
+    - navigation.top
     - navigation.footer
     - toc.follow
     - toc.integrate

@@ -1,5 +1,5 @@
-##Authors of TEG
---------------
+# Authors of TEG
+---
 
 Ricardo Quesada (riq) <riq@corest.com>
 	The main author
@@ -8,8 +8,8 @@ Wolfgang Morawetz (wfx) <wfx.gihub@mailbox.org>
 	The main artist
 
 
-##Main Contributors
------------------
+# Main Contributors
+---
 
 Rüdiger Ranft-Driscoll <teg@qzzq.de>
   172 commits and now we have TEG V0.12
@@ -26,8 +26,9 @@ Thomas R. Koll <tomk32@tomk32.de>
 	Gave the idea of the 'Fog of War' mode
 
 
-##Translators
------------
+# Translators
+---
+
 Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
 	Polish translator and Polish Documentator
 
@@ -50,21 +51,21 @@ Ricardo Quesada <riq@corest.com>
 	Spanish translator
 
 
-##Packages mantainers
--------------------
+# Packages mantainers
+---
 
 Davide Puricelli <evo@debian.org>
 	Debian package maintainer
 
-Guillaume Cottenceau <gc@mandrakesoft.com>
-	Mandrake package maintainer
+Guillaume Cottenceau ~~<gc@mandrakesoft.com>
+	Mandrake package maintainer~~
 
 Maxim Sobolev <sobomax@freebsd.org>
 	FreeBSD port maintainer
 
 
-##Random contributors
--------------------
+# Random contributors
+---
 
 Reiner Herrmann <reiner@reiner-h.de>
 	Bugfixes to the build system and parser code.
@@ -109,14 +110,11 @@ David Haller <david@dhaller.de>
 Rich West <Rich.West@wesmo.com>
 	Contributed RedHat binary & source for v0.9.4
 
-##Special thanks to
------------------
+# Special thanks to
+---
 
 Sebastian Cativa Tolosa <scativa@dc.uba.ar>
 	The one who give the idea of doing the game!
 
 Hernan Ochoa <hochoa@corest.com>
 	the first Beta tester
-
-Rüdiger Ranft-Driscoll <teg@qzzq.de>
-  ... to mutch to write :)
