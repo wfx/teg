@@ -41,8 +41,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans";--md-code-font:"Roboto Mono"}</style>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation-instructions" class="md-skip">
+        <a href="#build-dependencies" class="md-skip">
           Skip to content
         </a>
       
@@ -220,7 +220,7 @@
   
     
   
-  Home
+  TEG
 
       </a>
     </li>
@@ -377,7 +377,7 @@
         
   
   <span class="md-ellipsis">
-    Home
+    TEG
   </span>
   
 
@@ -455,16 +455,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installation-instructions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Installation Instructions
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Installation Instructions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#build-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
       Build dependencies
@@ -472,8 +462,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#basic-installation" class="md-nav__link">
     <span class="md-ellipsis">
       Basic Installation
@@ -481,8 +471,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#compilers-and-options" class="md-nav__link">
     <span class="md-ellipsis">
       Compilers and Options
@@ -505,8 +495,8 @@
     </nav>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#installation-names" class="md-nav__link">
     <span class="md-ellipsis">
       Installation Names
@@ -514,8 +504,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#optional-features" class="md-nav__link">
     <span class="md-ellipsis">
       Optional Features
@@ -523,8 +513,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#specifying-the-system-type" class="md-nav__link">
     <span class="md-ellipsis">
       Specifying the System Type
@@ -532,8 +522,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#sharing-defaults" class="md-nav__link">
     <span class="md-ellipsis">
       Sharing Defaults
@@ -541,8 +531,8 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#defining-variables" class="md-nav__link">
     <span class="md-ellipsis">
       Defining Variables
@@ -550,18 +540,13 @@
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#configure-invocation" class="md-nav__link">
     <span class="md-ellipsis">
       'configure' Invocation
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -653,7 +638,7 @@
 
   <h1>Install</h1>
 
-<h2 id="installation-instructions">Installation Instructions</h2>
+<p><strong>Installation Instructions</strong></p>
 <p>Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005 Free
 Software Foundation, Inc.</p>
 <p>This file is free documentation; the Free Software Foundation gives
@@ -886,6 +871,12 @@ configuration-related scripts to be executed by '/bin/bash'.</p>
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
         <footer class="md-footer">
@@ -954,7 +945,7 @@ configuration-related scripts to be executed by '/bin/bash'.</p>
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>

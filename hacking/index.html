@@ -41,8 +41,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans";--md-code-font:"Roboto Mono"}</style>
       
     
     
@@ -220,7 +220,7 @@
   
     
   
-  Home
+  TEG
 
       </a>
     </li>
@@ -377,7 +377,7 @@
         
   
   <span class="md-ellipsis">
-    Home
+    TEG
   </span>
   
 
@@ -503,9 +503,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#whitespaces-and-braces" class="md-nav__link">
+  <a href="#white-spaces-and-braces" class="md-nav__link">
     <span class="md-ellipsis">
-      Whitespaces and braces
+      White spaces and braces
     </span>
   </a>
   
@@ -779,9 +779,9 @@
 
   <h1>Hacking</h1>
 
-<p>So you want to help the developent of TEG? cool!</p>
-<hr />
+<p>So you want to help the development of TEG? Cool!</p>
 <h2 id="how-to-send-changes">How to send changes</h2>
+<hr />
 <p>The easiest way to get your changes included is to fork the project, and let us
 know about your changes with a pull request. If you don't like to have an
 account on github, you still can clone our repository (via https), and push
@@ -790,6 +790,7 @@ your changes to a different service.</p>
 prefer to have a "real" git repository to deal with, since it is much easier to
 work with than patches.</p>
 <h2 id="first-steps">First steps</h2>
+<hr />
 <p>If you want to join the development of the software, you need to install the
 development packages of the used libraries. For Debian based environments, you
 can use the list in the file <code>docker/debian</code></p>
@@ -813,10 +814,11 @@ can use the list in the file <code>docker/debian</code></p>
 <p>Once the <code>build</code> script finished, you can "install" the software with
 <code>make -C bd install</code>, and then run it with <code>bd/DD/bin/tegclient</code>.</p>
 <h2 id="coding-style">Coding style</h2>
+<hr />
 <p>This code style describes how the code should look at the end. We know that at
 the moment the current code does not look like it. When you change existing
 code, or write new functionality, please try to follow this style.</p>
-<h3 id="whitespaces-and-braces">Whitespaces and braces</h3>
+<h3 id="white-spaces-and-braces">White spaces and braces</h3>
 <p>We use the <a href="https://en.wikipedia.org/wiki/Indentation_style#K&amp;R">K&amp;R-Style</a> with tabs for block indentation, and spaces for
 continuation indentation.</p>
 <p>Braces are set unconditionally, even if there is only one statement in your
@@ -860,7 +862,7 @@ in function calls, enumerations can make the situation easier to understand.</p>
 Use class enums in C++ code.</p>
 <h3 id="error-handling">Error handling</h3>
 <p>Use <code>assert()</code> to check conditions in the code which are pre and
-postconditions (like that an output pointer is not NULL). Don't use assert on
+post conditions (like that an output pointer is not NULL). Don't use assert on
 functions with side effects (assert calls can be disabled by configuration).</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w">  </span><span class="c1">// do</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
@@ -940,6 +942,7 @@ available, while the sources are not).</p>
 <p>Write down what the reason for this function is, together with pre and post
 conditions.</p>
 <h2 id="checklist-for-a-new-release">Checklist for a new release</h2>
+<hr />
 <h3 id="preparing-the-release">Preparing the release</h3>
 <ul>
 <li>Does it compile on the CI?</li>
@@ -984,6 +987,12 @@ or suffix. The tag has to match the version of <code>AC_INIT</code> in <code>/co
 
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
         
       </main>
       
@@ -1053,7 +1062,7 @@ or suffix. The tag has to match the version of <code>AC_INIT</code> in <code>/co
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.prune", "navigation.top", "navigation.footer", "toc.follow", "toc.integrate", "search.suggest", "search.share", "content.code.copy", "content.tabs.link"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
