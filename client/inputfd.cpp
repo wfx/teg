@@ -24,6 +24,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdio.h>
+#include <limits>
 
 #include "../common/net.h"
 #include "../common/missions.h"
