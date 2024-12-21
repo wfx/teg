@@ -25,6 +25,7 @@
 #include <string.h>
 #include <strings.h>
 #include <stdio.h>
+#include <limits>
 
 #include "../common/net.h"
 #include "../common/missions.h"
@@ -355,9 +356,9 @@ TEG_STATUS clitok_dados(char *str)
 	/* src and dst country can be -1 */
 
 	p >> Limited{g_game.dados_srccountry, 0, COUNTRIES_CANT-1, -1}
-	  >> g_game.dados_src[0] >> g_game.dados_src[2] >> g_game.dados_src[2]
+	  >> g_game.dados_src[0] >> g_game.dados_src[1] >> g_game.dados_src[2]
 	  >> Limited{g_game.dados_dstcountry, 0, COUNTRIES_CANT-1, -1}
-	  >> g_game.dados_dst[0] >> g_game.dados_dst[2] >> g_game.dados_dst[2];
+	  >> g_game.dados_dst[0] >> g_game.dados_dst[1] >> g_game.dados_dst[2];
 
 	if(!p.finished()) {
 		textmsg(M_ERR, "Error in clitok_dados()");
