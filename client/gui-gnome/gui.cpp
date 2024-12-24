@@ -236,7 +236,8 @@ TEG_STATUS gui_main(void)
 {
 
 	/* show welcome message */
-	textmsg(M_ALL, _("Tenes Empanadas Graciela - Gnome client v%s - by Ricardo Quesada"), VERSION);
+	textmsg(M_ALL, _("Tenes Empanadas Graciela - by Ricardo Quesada"));
+	textmsg(M_ALL, _("Gnome client v%s - by Rüdiger Ranft-Driscoll"), VERSION);
 	textmsg(M_ALL, _("Using theme '%s - v%s' by %s\n"), g_game.theme, gui_theme.version, gui_theme.author);
 
 	if(msg) {
@@ -308,7 +309,7 @@ static TEG_STATUS get_default_values(void)
 	    = g_settings_get_boolean(settings, "msgshow-with-color");
 	gui_private.dialog_show = g_settings_get_int(settings, "dialog-show");
 	get_settings_into(g_game.theme, sizeof(g_game.theme),
-	                  "theme", "m2");
+	                  "theme", "teg_game");
 
 	g_game.robot_in_server = g_settings_get_boolean(settings,
 	                         "robot-in-server");
