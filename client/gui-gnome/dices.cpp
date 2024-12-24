@@ -122,7 +122,7 @@ static void dices_show_text(int country, dices_type_t type)
 	                 (double) -1,
 	                 GOO_CANVAS_ANCHOR_NORTH,
 	                 "height", (double) -1,
-	                 "font", HELVETICA_12_BFONT,
+	                 "font", HELVETICA_10_BFONT,
 	                 "fill-color", gui_theme.dices_color,
 	                 NULL);
 }
@@ -261,7 +261,6 @@ void dices_view()
 	if(g_game.dados_srccountry == -1 || g_game.dados_dstcountry == -1) {
 		return;
 	}
-
 
 	/* hide all dices */
 	for(i=0; i<sides_on_the_dice; i++) {
