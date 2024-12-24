@@ -204,9 +204,9 @@ AC_CONFIG_FILES([
 	po/Makefile
 	client/teg_pix/Makefile
 	client/themes/Makefile
+	client/themes/teg_game/Makefile
+	client/themes/teg_classic/Makefile
 	client/themes/m2/Makefile
-	client/themes/sentimental/Makefile
-	client/themes/draco/Makefile
 	docs/Makefile
 	docs/gnome-help/Makefile
 	docs/gnome-help/C/Makefile
