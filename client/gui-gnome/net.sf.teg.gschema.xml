@@ -21,7 +21,7 @@
       <summary>Your name in the game</summary>
     </key>
     <key name="theme" type="s">
-      <default>'m2'</default>
+      <default>'teg_game'</default>
       <summary>TEG's theme name</summary>
     </key>
     <key name="color" type="i">
