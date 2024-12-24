@@ -282,7 +282,7 @@ GtkWidget* create_mainwin(void)
 	app1 = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW(app1), "Tenes Empanadas Graciela");
 	g_object_set_data(G_OBJECT(app1), "app1", app1);
-	gtk_window_set_default_size(GTK_WINDOW(app1), 664, 650);
+	gtk_window_set_default_size(GTK_WINDOW(app1), 860, 800);
 
 	dock1 = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	g_object_ref(dock1);
@@ -653,9 +653,9 @@ GtkWidget* create_mainwin(void)
 	                               GTK_POLICY_AUTOMATIC,
 	                               GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_min_content_width(GTK_SCROLLED_WINDOW
-	        (scrolledwindow), 641);
+	        (scrolledwindow), 860);
 	gtk_scrolled_window_set_min_content_height(GTK_SCROLLED_WINDOW
-	        (scrolledwindow), 394);
+	        (scrolledwindow), 600);
 
 	if(canvas_create_map() != TEG_STATUS_SUCCESS) {
 		goto error;
@@ -677,7 +677,7 @@ GtkWidget* create_mainwin(void)
 	                               GTK_POLICY_ALWAYS);
 	gtk_box_pack_start(GTK_BOX(ahbox), sw, TRUE, TRUE, 0);
 
-	gtk_widget_set_size_request(sw, 620, 60);
+	gtk_widget_set_size_request(sw, 860, 60);
 
 	text = gtk_text_view_new();
 	gtk_text_view_set_editable(GTK_TEXT_VIEW(text), FALSE);
