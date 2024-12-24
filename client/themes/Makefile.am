@@ -1,2 +1,2 @@
-SUBDIRS= m2 sentimental
+SUBDIRS= teg_game teg_classic m2
 EXTRA_DIST = README
