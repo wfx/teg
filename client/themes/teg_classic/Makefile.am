@@ -10,7 +10,7 @@ pixmap_DATA =	\
 	sahara.png zaire.png etiopia.png egipto.png madagascar.png sudafrica.png \
 	australia.png java.png sumatra.png borneo.png \
 	espania.png francia.png italia.png alemania.png polonia.png rusia.png gran_bretania.png suecia.png islandia.png \
-	arabia.png israel.png turquia.png iran.png india.png malasia.png gobi.png mongolia.png china.png japon.png aral.png siberia.png tartaria.png taimir.png katchatka.png japon.png \
+	arabia.png israel.png turquia.png iran.png india.png malasia.png gobi.png mongolia.png china.png aral.png siberia.png tartaria.png taimir.png katchatka.png japon.png \
 	tar_canon.png tar_galeon.png tar_globo.png tar_comodin.png
 
 EXTRA_DIST = $(pixmap_DATA) translate.c
