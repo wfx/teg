@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<teg_theme version="1.5">
+<teg_theme version="1.4">
 	<author>Wolfgang Morawetz</author>
 	<email>wfx.github@mailbox.org</email>
 	<version>0.13.0</version>
@@ -7,15 +7,15 @@
 	<armies_pos x="368" y="24" background="false" dragable="false"/>
 	<dices_pos x="344" y="342"/>
 	<dices_ext_pos x1="16" y1="70" x2="56" y2="70" x3="96" y3="70" x4="16" y4="124" x5="56" y5="124" x6="96" y6="124"/>
-	<dices_text color="white" x1="78" y1="54" x2="78" y2="108"/>
+	<dices_text color="black" x1="78" y1="54" x2="78" y2="108"/>
 	<screen size_x="860" size_y="520"/>
 	<toolbar custom="true" name="bar.png" text_color="black" offset_x="10" offset_y="0"/>
 	<map offset_x="0" offset_y="0" file="board.png"/>
 	<cards>
-		<card type="jocker" file="tar_comodin.png"/>
-		<card type="balloon" file="tar_globo.png"/>
-		<card type="cannon" file="tar_caballo.png"/>
-		<card type="ship" file="tar_galeon.png"/>
+		<card type="jocker">tar_comodin.png</card>
+		<card type="balloon">tar_globo.png</card>
+		<card type="cannon">tar_caballo.png</card>
+		<card type="ship">tar_galeon.png</card>
 		<pos_y>110</pos_y>
 	</cards>
 	<continent name="America del Sur" pos_x="-124" pos_y="-223">
@@ -66,7 +66,7 @@
 	<continent name="Asia" pos_x="-123" pos_y="-222">
         <country name="Arabia" file="Asia_Arabia.png" pos_x="775" pos_y="481" army_x="14" army_y="20"/>
         <country name="Israel" file="Asia_Israel.png" pos_x="750" pos_y="471" army_x="-10" army_y="10"/>
-        <country name="Turquia" file="Asia_Turquia.png" pos_x="731" pos_y="433" army_x="-20" army_y="20"/>
+        <country name="Turquia" file="Asia_Turquia.png" pos_x="731" pos_y="433" army_x="10" army_y="-25"/>
         <country name="India" file="Asia_India.png" pos_x="854" pos_y="449" army_x="6" army_y="0"/>
         <country name="Malasia" file="Asia_Malasia.png" pos_x="909" pos_y="422" army_x="6" army_y="10"/>
         <country name="Iran" file="Asia_Iran.png" pos_x="767" pos_y="344" army_x="-14" army_y="-24"/>
