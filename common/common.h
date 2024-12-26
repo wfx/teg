@@ -36,7 +36,7 @@ constexpr std::size_t maximum_country_cards{5};
 constexpr std::size_t sides_on_the_dice{6};
 
 
-constexpr char const* rc_directory_name{".teg/"};
+constexpr char const* rc_directory_name{".local/share/teg/"};
 
 enum TEG_STATUS {
 	TEG_STATUS_SUCCESS = 0,
