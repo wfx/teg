@@ -309,7 +309,7 @@ static TEG_STATUS get_default_values(void)
 	    = g_settings_get_boolean(settings, "msgshow-with-color");
 	gui_private.dialog_show = g_settings_get_int(settings, "dialog-show");
 	get_settings_into(g_game.theme, sizeof(g_game.theme),
-	                  "theme", "teg_game");
+	                  "theme", "TEG");
 
 	g_game.robot_in_server = g_settings_get_boolean(settings,
 	                         "robot-in-server");
