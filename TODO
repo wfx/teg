@@ -73,7 +73,7 @@ for:
     where we can set all game data (to find bugs).
 
 0.13.1
-  * move the config from ~/.teg to ~/.config/teg
+  * [100%} move the config from ~/.teg to ~/.config/teg
   * change all sf entries
 
 0.14.0
