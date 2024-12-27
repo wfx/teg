@@ -125,12 +125,12 @@ static TEG_STATUS armies_view_cant_x_cont(int i)
 	armies_prop[i].armies_text = goo_canvas_text_new(
 	                                 armies_group,
 	                                 buffer,
-	                                 (double) 100,
-	                                 (double) i*12+15,
+	                                 (double) 120,
+	                                 (double) i*12+16,
 	                                 (double) -1,
 	                                 GOO_CANVAS_ANCHOR_NORTH_EAST,
 	                                 "height", (double) -1,
-	                                 "font", HELVETICA_12_FONT,
+	                                 "font", HELVETICA_10_FONT,
 	                                 "fill-color", (armies_prop[i].cant > 0) ? "black" : "grey",
 	                                 NULL);
 
@@ -160,7 +160,7 @@ static void armies_view_cant()
 	armies_prop[CONT_CANT].armies_text = goo_canvas_text_new(
 	        armies_group,
 	        buffer,
-	        (double) 100,
+	        (double) 120,
 	        (double) 1,
 	        (double) -1,
 	        GOO_CANVAS_ANCHOR_NORTH_EAST,
@@ -305,6 +305,8 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 		           0.0,
 		           (double) 100,
 		           (double) 90,
+				   "stroke-color", "none",
+                   "line-width", 0.0,
 		           NULL);
 
 		if(gui_theme.armies_background)
@@ -334,7 +336,7 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 			           armies_group,
 			           cont_get_name(i),
 			           (double) 1,
-			           (double) i*12+15,
+			           (double) i*12+16,
 			           (double) -1,
 			           GOO_CANVAS_ANCHOR_NORTH_WEST,
 			           "height", (double) -1,
