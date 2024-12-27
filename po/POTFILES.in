@@ -21,7 +21,6 @@ client/main.cpp
 client/misc.cpp
 client/outputfd.cpp
 client/reagrupe.cpp
-client/themes/teg_game/translate.c
 client/themes/teg_classic/translate.c
 client/themes/m2/translate.c
 client/gui-gnome/armies.cpp
