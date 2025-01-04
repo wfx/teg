@@ -93,12 +93,14 @@ void tarjeta_inittarj(PTARJETA t)
 	t->numjug = -1;
 }
 
+void tarjeta_piladescarte( PTARJETA t ) { t->usada = false; t->numjug = -2; }
+
 /**
  * @fn void tarjeta_poner( PTARJETA t )
  */
 void tarjeta_poner(PTARJETA t)
 {
-	tarjeta_inittarj(t);
+	tarjeta_piladescarte(t);
 }
 
 /**
@@ -115,10 +117,17 @@ void tarjeta_sacar(PTARJETA t, int numjug)
  * @param i Pais que contiene a la tarjeta
  * @return TRUE si la tarjeta esta libre
  */
-bool tarjeta_es_libre(int i)
-{
-	return(g_countries[i].tarjeta.numjug == -1);
-}
+ bool tarjeta_es_libre(int i)
+ {
+     if (g_countries[i].tarjeta.numjug != -1) {
+         for (int j = 0; j < COUNTRIES_CANT; ++j) {
+             if (g_countries[j].tarjeta.numjug == -2) {
+                 g_countries[j].tarjeta.numjug = -1;
+             }
+         }
+     }
+     return (g_countries[i].tarjeta.numjug == -1);
+ }
 
 /**
  * @fn BOOLEAN tarjeta_es_usada( PTARJETA pT )
@@ -127,4 +136,3 @@ bool tarjeta_es_usada(PTARJETA pT)
 {
 	return (pT->usada == true);
 }
-

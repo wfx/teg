@@ -61,6 +61,7 @@ bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c);
 bool tarjeta_puedocanje(int numjug, int t1, int t2, int t3);
 void tarjeta_init(void);
 void tarjeta_inittarj(PTARJETA t);
+void tarjeta_pilasdescarte( PTARJETA t );
 void tarjeta_poner(PTARJETA t);
 void tarjeta_sacar(PTARJETA t, int numjug);
 void tarjeta_usar(PTARJETA pT);
