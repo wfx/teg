@@ -39,12 +39,15 @@ namespace teg::client
 
 /* country */
 typedef struct _theme_country {
+    int id;             /**< unique ID of the country */
 	xmlChar *name;		/**< name of the country */
 	xmlChar *file;		/**< name of the file .png */
-	xmlChar *pos_x;
-	xmlChar *pos_y;
-	xmlChar *army_x;
-	xmlChar *army_y;
+	xmlChar *pos_x;     /**< x position on the map */
+	xmlChar *pos_y;     /**< y position on the map */
+	xmlChar *army_x;    /**< x offset for the army */
+	xmlChar *army_y;    /**< y offset for the army */
+	int *neighbors;     /**< dynamic array of neighbor IDs */
+	int neighbor_count;    /**< number of neighbors */
 } Country, *pCountry;
 
 typedef struct _tcountry {
