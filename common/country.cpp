@@ -19,16 +19,12 @@
  */
 
 #include "country.h"
-
 #include <stdexcept>
 #include <algorithm> // std::for_each
-
 #include "fcintl.h"
 
 #include "limitrof.h"
-void ensureMatAdyLinkage() {
-    (void)&teg::client::mat_ady;
-}
+Limitrof limitrof;
 
 COUNTRY g_countries[] = {
 	/* AMERICA DEL SUR */
@@ -113,9 +109,9 @@ COUNTRY::COUNTRY(CountryId id, char const* name, CONTINENTE continente, TARJTIPO
 bool countries_eslimitrofe(int a, int b)
 {
 	if(a > b) {
-		return(teg::client::mat_ady[b][a]==1);
+		return limitrof.areNeighbors(b, a);
 	} else {
-		return(teg::client::mat_ady[a][b]==1);
+		return limitrof.areNeighbors(a, b);
 	}
 }
 

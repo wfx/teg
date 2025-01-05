@@ -29,10 +29,18 @@
  #define LIMITROF_H
 
  #include <vector>
+#include <libxml/parser.h>
 
- namespace teg::client
- {
-     extern std::vector<std::vector<int>> mat_ady;
- }
+ class Limitrof {
+ public:
+     Limitrof() = default;
+     void initialize(xmlDocPtr doc);
+     bool areNeighbors(int a, int b) const;
+
+ private:
+     std::vector<std::vector<int>> mat_ady;  // Adjazenzmatrix
+ };
+
+ extern Limitrof limitrof;
 
  #endif // LIMITROF_H

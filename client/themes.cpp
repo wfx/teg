@@ -50,6 +50,8 @@
 
 #include "../common/fcintl.h"
 
+#include "../common/limitrof.h"
+
 #ifndef xmlChildrenNode
 #define xmlChildrenNode childs
 #define xmlRootNode root
@@ -65,7 +67,7 @@ namespace teg::client
 
 static pTheme g_theme = NULL;	/**< Current theme */
 static ThemeDirectories themes;
-std::vector<std::vector<int>> mat_ady;
+Limitrof limitrof;
 
 std::filesystem::path theme_dir()
 {
@@ -321,6 +323,9 @@ static pTheme parseTheme(std::string const& filename)
 	}
 	memset(ret, 0, sizeof(*ret));
 
+	/* Initializes the adjacency border (limit) matrix */
+	limitrof.initialize(doc);
+
 	/*
 	 * Now, walk the tree.
 	 */
@@ -550,8 +555,6 @@ static pTheme parseTheme(std::string const& filename)
 
 		cur = xml_get_element_next(cur);
 	}
-
-	generateAdjacencyMatrix(xmlDocPtr);
 
 	xmlFreeDoc(doc);
 	return(ret);
@@ -844,82 +847,6 @@ std::optional<std::filesystem::path> theme_load_fake_file(char const *name, char
 	}
 
 	return valid_filename(P{theme_dir().c_str(), theme, name});
-}
-
-// Adjacency matrix (global variable for simplicity)
-void generateAdjacencyMatrix(xmlDocPtr doc)
-{
-    mat_ady.clear();
-
-    std::vector<std::vector<int>> adjacencyMatrix;
-
-    if (doc == nullptr) {
-        std::cerr << "Invalid XML document pointer.\n";
-        return;
-    }
-
-    xmlNodePtr root = xmlDocGetRootElement(doc);
-    if (root == nullptr) {
-        std::cerr << "Empty XML Document.\n";
-        return;
-    }
-
-    int max_id = -1;
-
-    // First pass: Determine max_id and initialize matrix
-    for (xmlNodePtr continentNode = root->children; continentNode; continentNode = continentNode->next) {
-        if (!xmlStrcmp(continentNode->name, (const xmlChar*)"continent")) {
-            // Iterate over countries within each continent
-            for (xmlNodePtr countryNode = continentNode->children; countryNode; countryNode = countryNode->next) {
-                if (!xmlStrcmp(countryNode->name, (const xmlChar*)"country")) {
-                    xmlChar* id_prop = xmlGetProp(countryNode, (const xmlChar*)"id");
-                    if (id_prop) {
-                        int id = std::stoi((char*)id_prop);
-                        max_id = std::max(max_id, id);
-                        xmlFree(id_prop);
-                    }
-                }
-            }
-        }
-    }
-
-    // Initialize the adjacency matrix
-    mat_ady.resize(max_id + 1, std::vector<int>(max_id + 1, 0));
-
-    // Second pass: Populate matrix
-    for (xmlNodePtr continentNode = root->children; continentNode; continentNode = continentNode->next) {
-        if (!xmlStrcmp(continentNode->name, (const xmlChar*)"continent")) {
-            for (xmlNodePtr countryNode = continentNode->children; countryNode; countryNode = countryNode->next) {
-                if (!xmlStrcmp(countryNode->name, (const xmlChar*)"country")) {
-                    xmlChar* id_prop = xmlGetProp(countryNode, (const xmlChar*)"id");
-                    int country_id = std::stoi((char*)id_prop);
-                    xmlFree(id_prop);
-
-                    // Set self-connection
-                    mat_ady[country_id][country_id] = 2;
-
-                    xmlNodePtr neighborsNode = countryNode->children;
-                    while (neighborsNode) {
-                        if (!xmlStrcmp(neighborsNode->name, (const xmlChar*)"neighbors")) {
-                            for (xmlNodePtr neighborNode = neighborsNode->children; neighborNode; neighborNode = neighborNode->next) {
-                                if (!xmlStrcmp(neighborNode->name, (const xmlChar*)"neighbor")) {
-                                    xmlChar* neighbor_id_prop = xmlGetProp(neighborNode, (const xmlChar*)"id");
-                                    int neighbor_id = std::stoi((char*)neighbor_id_prop);
-                                    xmlFree(neighbor_id_prop);
-
-                                    // Only set the lower triangle of the matrix
-                                    if (country_id < neighbor_id) {
-                                        mat_ady[country_id][neighbor_id] = 1;
-                                    }
-                                }
-                            }
-                        }
-                        neighborsNode = neighborsNode->next;
-                    }
-                }
-            }
-        }
-    }
 }
 
 
