@@ -25,6 +25,11 @@
 
 #include "fcintl.h"
 
+#include "limitrof.h"
+void ensureMatAdyLinkage() {
+    (void)&mat_ady;
+}
+
 COUNTRY g_countries[] = {
 	/* AMERICA DEL SUR */
 	COUNTRY{0, N_("Argentina"), CONTINENTE_AMERICASUR, TARJETA_NULL_COMODIN },
@@ -103,7 +108,6 @@ COUNTRY::COUNTRY(CountryId id, char const* name, CONTINENTE continente, TARJTIPO
 {
 }
 
-#include "limitrof.h"
 
 /* returns true if country a and b are border */
 bool countries_eslimitrofe(int a, int b)
