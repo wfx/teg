@@ -30,6 +30,9 @@
 
  #include <vector>
 
- extern std::vector<std::vector<int>> mat_ady;
+ namespace teg::client
+ {
+     extern std::vector<std::vector<int>> mat_ady;
+ }
 
  #endif // LIMITROF_H

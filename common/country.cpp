@@ -27,7 +27,7 @@
 
 #include "limitrof.h"
 void ensureMatAdyLinkage() {
-    (void)&mat_ady;
+    (void)&teg::client::mat_ady;
 }
 
 COUNTRY g_countries[] = {
@@ -113,9 +113,9 @@ COUNTRY::COUNTRY(CountryId id, char const* name, CONTINENTE continente, TARJTIPO
 bool countries_eslimitrofe(int a, int b)
 {
 	if(a > b) {
-		return(mat_ady[b][a]==1);
+		return(teg::client::mat_ady[b][a]==1);
 	} else {
-		return(mat_ady[a][b]==1);
+		return(teg::client::mat_ady[a][b]==1);
 	}
 }
 
