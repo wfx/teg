@@ -50,7 +50,7 @@
 
 #include "../common/fcintl.h"
 
-#include "../common/limitrof.h"
+#include "../common/limitrof.hpp"
 
 #ifndef xmlChildrenNode
 #define xmlChildrenNode childs

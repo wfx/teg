@@ -22,9 +22,7 @@
 #include <stdexcept>
 #include <algorithm> // std::for_each
 #include "fcintl.h"
-
-#include "limitrof.h"
-Limitrof limitrof;
+#include "limitrof.hpp"
 
 COUNTRY g_countries[] = {
 	/* AMERICA DEL SUR */
