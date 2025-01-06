@@ -67,7 +67,7 @@ namespace teg::client
 
 static pTheme g_theme = NULL;	/**< Current theme */
 static ThemeDirectories themes;
-Limitrof limitrof;
+
 
 std::filesystem::path theme_dir()
 {
@@ -124,13 +124,24 @@ static pCountry parseCountry(xmlDocPtr doc, xmlNodePtr cur)
 	}
 
 	cur = xml_get_element_children(cur);
+	while (cur != NULL) {
+        if (xmlStrcmp(cur->name, (const xmlChar *)"neighbors") == 0) {
+            // Ignore the neighbors node:
+            cur = cur->next;
+            continue;
+        }
 
+        fprintf(stderr, "Warning: Unexpected child element '%s' in 'country'\n", cur->name);
+        cur = cur->next;
+    }
+
+/*
 	if(cur != NULL) {
 		fprintf(stderr, "Wrong type (%s). Nothing was expected\n", cur->name);
 		free(ret);
 		return(NULL);
 	}
-
+*/
 	return(ret);
 
 error:
@@ -322,9 +333,6 @@ static pTheme parseTheme(std::string const& filename)
 		goto error;
 	}
 	memset(ret, 0, sizeof(*ret));
-
-	/* Initializes the adjacency border (limit) matrix */
-	limitrof.initialize(doc);
 
 	/*
 	 * Now, walk the tree.
@@ -555,6 +563,9 @@ static pTheme parseTheme(std::string const& filename)
 
 		cur = xml_get_element_next(cur);
 	}
+
+	/* Initializes the mat_ady matrix */
+	limitrof.initialize(doc);
 
 	xmlFreeDoc(doc);
 	return(ret);
