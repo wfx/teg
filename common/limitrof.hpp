@@ -37,12 +37,12 @@ class Limitrof {
 public:
     Limitrof() = default;
     void initialize(xmlDocPtr doc);
-    void initializeFallback(std::vector<std::vector<int>>& mat_ady);
     bool areNeighbors(int a, int b) const;
-    void printMatrix() const;
+    static std::vector<std::vector<int>> mat_ady;  // Adjazenzmatrix
 
 private:
-    std::vector<std::vector<int>> mat_ady;  // Adjazenzmatrix
+    void printMatrix() const;
+    void initializeFallback(std::vector<std::vector<int>>& mat_ady);
 };
 
 extern Limitrof limitrof;

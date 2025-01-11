@@ -2,6 +2,7 @@
 
 #include "limitrof.hpp"
 
+std::vector<std::vector<int>> Limitrof::mat_ady;
 Limitrof limitrof;
 
 void Limitrof::initialize(xmlDocPtr doc) {
@@ -19,7 +20,6 @@ void Limitrof::initialize(xmlDocPtr doc) {
     // Iterate over continents to find max_id
     for (xmlNodePtr continentNode = root->children; continentNode; continentNode = continentNode->next) {
         if (!xmlStrcmp(continentNode->name, (const xmlChar*)"continent")) {
-            std::cout << "Processing continent: " << xmlGetProp(continentNode, (const xmlChar*)"name") << std::endl;
 
             // Iterate over countries within each continent
             for (xmlNodePtr countryNode = continentNode->children; countryNode; countryNode = countryNode->next) {
@@ -32,28 +32,24 @@ void Limitrof::initialize(xmlDocPtr doc) {
                     int country_id = std::stoi((char*)id_prop);
                     max_id = std::max(max_id, country_id);
                     xmlFree(id_prop);
-                    std::cout << "Country ID: " << country_id << std::endl;
 
                     xmlNodePtr neighborsNode = countryNode->children;
                     while (neighborsNode) {
                         if (!xmlStrcmp(neighborsNode->name, (const xmlChar*)"neighbors")) {
-                            std::cout << "  Found <neighbors> for country ID " << country_id << std::endl;
                             for (xmlNodePtr neighborNode = neighborsNode->children; neighborNode; neighborNode = neighborNode->next) {
                                 if (neighborNode->type == XML_TEXT_NODE || xmlIsBlankNode(neighborNode)) {
-                                    std::cout << "Skipping text node: '" << (char*)xmlNodeGetContent(neighborNode) << "'" << std::endl;
                                     continue;
                                 }
                                 if (!xmlStrcmp(neighborNode->name, (const xmlChar*)"neighbor")) {
                                     xmlChar* neighbor_id_prop = xmlGetProp(neighborNode, (const xmlChar*)"id");
                                     if (!neighbor_id_prop) {
-                                        std::cerr << "  Error: <neighbor> without 'id'!" << std::endl;
+                                        std::cerr << "Error: <neighbor> without 'id'!" << std::endl;
                                         continue;
                                     }
                                     int neighbor_id = std::stoi((char*)neighbor_id_prop);
-                                    std::cout << "  Neighbor ID: " << neighbor_id << std::endl;
                                     xmlFree(neighbor_id_prop);
                                 } else {
-                                    std::cerr << "  Unexpected node in <neighbors>: " << neighborNode->name << std::endl;
+                                    std::cerr << "Error: Unexpected node in <neighbors>: " << neighborNode->name << std::endl;
                                 }
                             }
                         }
@@ -107,7 +103,9 @@ void Limitrof::initialize(xmlDocPtr doc) {
         std::cout << "No valid countries found in XML. ... initialize fallback!";
         initializeFallback(mat_ady);
     }
+    #ifdef _DEBUG
     printMatrix();
+    #endif
 }
 
 bool Limitrof::areNeighbors(int a, int b) const {
