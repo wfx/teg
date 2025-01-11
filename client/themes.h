@@ -46,13 +46,11 @@ typedef struct _theme_country {
 	xmlChar *pos_y;     /**< y position on the map */
 	xmlChar *army_x;    /**< x offset for the army */
 	xmlChar *army_y;    /**< y offset for the army */
-	int *neighbors;     /**< dynamic array of neighbor IDs */
-	int neighbor_count;    /**< number of neighbors */
 } Country, *pCountry;
 
 typedef struct _tcountry {
-	char	*name;		/**< name of the country */
-	char	*file;		/**< name of the file .png */
+	char   *name;		/**< name of the country */
+	char   *file;		/**< name of the file .png */
 	int	pos_x;
 	int	pos_y;
 	int	army_x;
