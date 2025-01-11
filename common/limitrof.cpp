@@ -2,7 +2,7 @@
 
 #include "limitrof.hpp"
 
-std::vector<std::vector<int>> Limitrof::mat_ady;
+std::vector<std::vector<char>> Limitrof::mat_ady;
 Limitrof limitrof;
 
 void Limitrof::initialize(xmlDocPtr doc) {
@@ -61,7 +61,7 @@ void Limitrof::initialize(xmlDocPtr doc) {
     }
 
     if (max_id > 0) {
-        mat_ady.resize(max_id + 1, std::vector<int>(max_id + 1, 0));
+        mat_ady.resize(max_id + 1, std::vector<char>(max_id + 1, 0));
 
         // Populate the matrix with neighbor data
         for (xmlNodePtr continentNode = root->children; continentNode; continentNode = continentNode->next) {
@@ -115,7 +115,7 @@ bool Limitrof::areNeighbors(int a, int b) const {
     return mat_ady[a][b] == 1;
 }
 
-void Limitrof::initializeFallback(std::vector<std::vector<int>>& mat_ady) {
+void Limitrof::initializeFallback(std::vector<std::vector<char>>& mat_ady) {
     const int temp_matrix[50][50] = {
 	/*	         +              1              +              2              +              3              +              4              +              5
 	 0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5  6  7  8  9
@@ -172,9 +172,9 @@ void Limitrof::initializeFallback(std::vector<std::vector<int>>& mat_ady) {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2,}, /* Japon (49) */
     };
 
-    mat_ady.resize(50, std::vector<int>(50));
-    for (size_t i = 0; i < 50; ++i) {
-        for (size_t j = 0; j < 50; ++j) {
+    mat_ady.resize(50, std::vector<char>(50));
+    for (size_t i = 1; i < 50; ++i) {
+        for (size_t j = 1; j < 50; ++j) {
             mat_ady[i][j] = temp_matrix[i][j];
         }
     }
