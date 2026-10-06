@@ -1,0 +1,15 @@
+option('debug_mode',
+  type: 'combo',
+  choices: ['minimum', 'yes', 'no'],
+  value: 'minimum',
+  description: 'Debug build: "yes" defines DEBUG, "no" defines NDEBUG, "minimum" defines neither.')
+
+option('readline',
+  type: 'feature',
+  value: 'auto',
+  description: 'Use readline for the server console if available.')
+
+option('tests',
+  type: 'boolean',
+  value: true,
+  description: 'Build the unit tests (requires gtest/gmock).')

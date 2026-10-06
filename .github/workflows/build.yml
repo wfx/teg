@@ -15,5 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Meson
+      run: python3 -m pip install --upgrade meson ninja
+
     - name: Build the software
       run: bash -x build

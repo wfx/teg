@@ -1,76 +1,33 @@
-.deps/
-*.log
-*.status
-*.gmo
+# Meson build directories (out-of-source, e.g. "bd")
+/bd/
+/bd-*/
+/build/
+/_build/
+builddir/
 
-# Object files
+# Meson generated files
+subprojects/
+meson-private/
+meson-logs/
+meson-info/
+compile_commands.json
+
+# Object and library files
 *.o
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
 *.a
-*.la
 *.lo
-*.o
-*.ko
-*.obj
-*.elf
-
-# Shared objects (inc. Windows DLLs)
-*.dll
+*.la
 *.so
 *.so.*
-*.dylib
-config.h.in
-Makefile.in
-Makefile.in.in
-Makevars.template
-Rules-quot
-boldquot.sed
-en@boldquot.header
-en@quot.header
-insert-header.sin
-quot.sed
-remove-potcdate.sin
-aclocal.m4
-autom4te.cache
-configure
-ltmain.sh
-macros
-compile
+*.gmo
+*.log
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
-
-# Debug files
-*.dSYM/
-
-# Something else
-*.Po
-Makefile
-ABOUT-NLS
+# Editor / OS cruft
 *~
-config.rpath
-config.guess
-config.sub
-depcomp
-install-sh
-missing
-test-driver
-teg.sublime-project
+*.swp
+*.swo
 
-#mkocs
-venv
-site
+# Python / docs
+venv/
+.venv/
+site/

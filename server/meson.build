@@ -1,0 +1,27 @@
+libtegserver = static_library('teg_server',
+  files(
+    'player.cpp',
+    'sernet.cpp',
+    'countries.cpp',
+    'play.cpp',
+    'turno.cpp',
+    'console.cpp',
+    'helper.cpp',
+    'missions.cpp',
+    'options.cpp',
+    'xmlscores.cpp',
+    'fow.cpp',
+  ),
+  include_directories: top_inc,
+  dependencies: [glib_dep, xml_dep, threads_dep],
+  c_args: ['-D_REENTRANT'],
+  cpp_args: ['-D_REENTRANT'],
+)
+
+executable('tegserver',
+  'main.cpp',
+  include_directories: top_inc,
+  link_with: [libtegserver, libtegcommon],
+  dependencies: [glib_dep, xml_dep, threads_dep] + server_extra_deps,
+  install: true,
+)

@@ -1,0 +1,18 @@
+/*
+ * Generated from config.h.in by Meson. Do not edit by hand.
+ */
+#pragma once
+
+#define PACKAGE "teg"
+#define PACKAGE_NAME "Tenes Empanadas Graciela"
+#define PACKAGE_VERSION "@VERSION@"
+#define PACKAGE_STRING "Tenes Empanadas Graciela @VERSION@"
+#define VERSION "@VERSION@"
+#define GETTEXT_PACKAGE "teg"
+#define LOCALEDIR "@LOCALEDIR@"
+
+#mesondefine ENABLE_NLS
+#mesondefine HAVE_LOCALE_H
+#mesondefine HAVE_UNISTD_H
+#mesondefine HAVE_LIBREADLINE
+#mesondefine HAVE_PTHREADS

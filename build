@@ -1,71 +1,34 @@
 #!/bin/bash
 
-# Create the build system, configure a out-of-source build and run the build
-# once there.
+# Configure and build TEG out-of-source with Meson/Ninja.
+#
+# Usage: ./build [BUILD_DIR]
+#
+# BUILD_DIR defaults to "bd". The build never touches the source tree; the
+# install prefix is placed inside the build directory (BUILD_DIR/DD).
 
-handle_exit() {
-  local FOUND_FILE
-  local FILE_NAME
-  FOUND_FILE=0
+set -euo pipefail
 
-  for FILE_NAME in teg*test.log
-  do
-    if test -e "$FILE_NAME"
-	then
-      FOUND_FILE=1
-      echo "---8<----8<----8<----8<----8<- $FILE_NAME ---8<----8<----8<----8<-"
-      cat "$FILE_NAME"
-	fi
-  done
-
-  if test "$FOUND_FILE" = "0"
-  then
-    echo "No test log found" >&2
-  fi
-
-  exit "${EXIT_CODE}"
-}
-
-teg_build(){
-  local BUILD_DIR="$1"
-
-  rm -rf "${BUILD_DIR}"
-  mkdir "${BUILD_DIR}"
-  cd "${BUILD_DIR}"
-
-  # Make sure that the build artifacts are not sneaking into the VCS
-  echo '*' > .gitignore
-
-  # Currently teg needs to know the run time path during configuration.
-  # See issue #21
-  "${SCRIPT_DIR}/configure" --enable-warnings-as-errors --enable-maintainer-mode "--prefix=${PWD}/DD" "CFLAGS=-Wall -Wextra"
-
-  set +e
-  # We need to do some work regardless if make succeedes or fails. So here we
-  # don't stop on a failure, but preserve the exit code for later usage.
-  make all check
-  EXIT_CODE="$?"
-  set -e
-}
-
-# ===========================================================================
-
-set -o errexit  # script exit when a command fails ( add "... || true" to allow fail)
-set -o nounset  # script exit when it use undeclared variables
-set -o pipefail # exit status of last command that throws a non-zero exit code
-
-trap handle_exit 0 SIGHUP SIGINT SIGQUIT SIGABRT SIGTERM
-
-# if we called the script via a symbolic link
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
-readonly SCRIPT_DIR
+BUILD_DIR="${SCRIPT_DIR}/${1:-bd}"
 
-EXIT_CODE=23
+if ! command -v meson >/dev/null 2>&1; then
+	echo "error: meson is not installed (e.g. 'pip install meson ninja')." >&2
+	exit 1
+fi
 
-# create the autotools build machinery. 
-bash -eu autogen.sh
+if [ -f "${BUILD_DIR}/meson-private/coredata.dat" ]; then
+	meson setup --wipe "${BUILD_DIR}" \
+		--prefix "${BUILD_DIR}/DD" \
+		-Dwerror=true
+else
+	# A leftover, non-Meson build directory (e.g. from the old Autotools
+	# setup) would confuse Meson, so start from a clean slate.
+	rm -rf "${BUILD_DIR}"
+	meson setup "${BUILD_DIR}" \
+		--prefix "${BUILD_DIR}/DD" \
+		-Dwerror=true
+fi
 
-# build the software
-# the default build directory is TOP_SRCDIR/bd, but can be overridden on the
-# command line.
-teg_build "$SCRIPT_DIR/${1:-bd}"
+meson compile -C "${BUILD_DIR}"
+meson test -C "${BUILD_DIR}" --print-errorlogs

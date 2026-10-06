@@ -1,0 +1,18 @@
+libtegcommon = static_library('teg_common',
+  files(
+    'net.cpp',
+    'share.cpp',
+    'common.cpp',
+    'parser.cpp',
+    'tarjeta.cpp',
+    'country.cpp',
+    'cont.cpp',
+    'missions.cpp',
+    'stats.cpp',
+    'scores.cpp',
+    'xml_support.cpp',
+    'execute.cpp',
+  ),
+  include_directories: top_inc,
+  dependencies: [glib_dep, xml_dep],
+)

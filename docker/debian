@@ -5,6 +5,7 @@ RUN echo 'APT::Install-Recommends "false";' >> /etc/apt/apt.conf && \
     echo 'APT::Install-Suggests "false";' >> /etc/apt/apt.conf && \
     apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install --yes \
-            build-essential debhelper gettext \
-            libgoocanvas-2.0-dev libtool libxml2-dev \
-            xmlto libgmock-dev
+            build-essential debhelper gettext pkg-config \
+            libgoocanvas-2.0-dev libxml2-dev \
+            xmlto libgmock-dev python3-pip && \
+    python3 -m pip install --upgrade meson ninja
