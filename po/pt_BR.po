@@ -6,1713 +6,2795 @@ msgid ""
 msgstr ""
 "Project-Id-Version: teg 0.10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-25 11:54+0100\n"
+"POT-Creation-Date: 2026-10-06 15:31+0200\n"
 "PO-Revision-Date: 2002-10-12 11:04GMT\n"
 "Last-Translator: Antonio Augusto Todo Bom Neto <antonio@projetos.etc.br>\n"
 "Language-Team: Brazilian Portuguese <C@li.org>\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-15\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 0.9.5\n"
 
-#: ../common/cont.cpp:57 ../common/missions.cpp:207 ../common/country.cpp:146
-#: ../server/helper.cpp:447
+#: common/common.cpp:40
+msgid "red"
+msgstr "vermelho"
+
+#: common/common.cpp:41
+msgid "yellow"
+msgstr "amarelo"
+
+#: common/common.cpp:42
+msgid "blue"
+msgstr "azul"
+
+#: common/common.cpp:43
+msgid "black"
+msgstr "preto"
+
+#: common/common.cpp:44
+msgid "pink"
+msgstr "rosa"
+
+#: common/common.cpp:45
+msgid "green"
+msgstr "verde"
+
+#: common/common.cpp:50
+msgid "disconnected"
+msgstr "desconectado"
+
+#: common/common.cpp:51
+msgid "connected"
+msgstr "conectado"
+
+#: common/common.cpp:52
+msgid "game over"
+msgstr "fim de jogo"
+
+#: common/common.cpp:53
+msgid "enabled"
+msgstr "ativo"
+
+#: common/common.cpp:54
+msgid "started"
+msgstr "lan√ßado"
+
+#: common/common.cpp:55
+msgid "placing armies"
+msgstr "pondo ex√©rcitos"
+
+#: common/common.cpp:56
+msgid "postarmies"
+msgstr "p√≥s-ex√©rcitos"
+
+#: common/common.cpp:57
+msgid "placing armies 2"
+msgstr "pondo ex√©rcitos 2"
+
+#: common/common.cpp:58
+msgid "postarmies 2"
+msgstr "p√≥s-ex√©rcitos 2"
+
+#: common/common.cpp:59
+msgid "idle"
+msgstr "esperando"
+
+#: common/common.cpp:60
+msgid "placing armies 3"
+msgstr "pondo ex√©rcitos 3"
+
+#: common/common.cpp:61
+msgid "exchanging cards"
+msgstr "trocando cartas"
+
+#: common/common.cpp:62
+msgid "postarmies 3"
+msgstr "p√≥s-ex√©rcitos 2"
+
+#: common/common.cpp:63
+msgid "making a pact"
+msgstr "fazendo um pacto"
+
+#: common/common.cpp:64
+msgid "starting turn"
+msgstr "come√ßando uma rodada"
+
+#: common/common.cpp:65
+#, fuzzy
+msgid "attacking"
+msgstr "%s est√° atacando %s "
+
+#: common/common.cpp:66
+msgid "moving armies"
+msgstr "movimentando tropas"
+
+#: common/common.cpp:67
+msgid "regrouping"
+msgstr "reagrupando"
+
+#: common/common.cpp:68
+msgid "getting card"
+msgstr "pegando carta"
+
+#: common/common.cpp:69
+msgid "ending turn"
+msgstr "acabando jogada"
+
+#.
+#. * Translatable strings.
+#. * DO NOT compile it as part of your application.
+#.
+#: common/cont.cpp:28 client/themes/teg_classic/translate.c:6
+#: client/themes/m2/translate.c:6
+msgid "South America"
+msgstr "Am√©rica do Sul"
+
+#: common/cont.cpp:29 client/themes/teg_classic/translate.c:14
+#: client/themes/m2/translate.c:14
+msgid "North America"
+msgstr "Am√©rica do Norte"
+
+#: common/cont.cpp:30 client/themes/teg_classic/translate.c:26
+#: client/themes/m2/translate.c:26
+msgid "Africa"
+msgstr "√Åfrica"
+
+#: common/cont.cpp:31 client/themes/teg_classic/translate.c:34
+#: client/themes/m2/translate.c:34
+msgid "Oceania"
+msgstr "Oceania"
+
+#: common/cont.cpp:32 client/themes/teg_classic/translate.c:40
+#: client/themes/m2/translate.c:40
+msgid "Europe"
+msgstr "Europa"
+
+#: common/cont.cpp:33 client/themes/teg_classic/translate.c:51
+#: client/themes/m2/translate.c:51
+msgid "Asia"
+msgstr "√Åsia"
+
+#: common/cont.cpp:57 common/missions.cpp:207 common/country.cpp:147
+#: server/helper.cpp:447
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: ../common/share.cpp:55
+#: common/missions.cpp:35
+msgid "Conquer the world"
+msgstr "Conquistar o mundo"
+
+#: common/missions.cpp:50
+msgid "Conquer 30 countries"
+msgstr "Conquistar 30 territ√≥rios"
+
+#: common/missions.cpp:57
+msgid ""
+"Conquer &2,\n"
+"5 countries of &1 and\n"
+"4 countries of &4"
+msgstr ""
+"Conquistar &2,\n"
+"5 territ√≥rios de &1 e\n"
+"4 territ√≥rios de &4"
+
+#: common/missions.cpp:78
+msgid ""
+"Conquer &0,\n"
+"7 countries of &4 and\n"
+"3 frontier countries"
+msgstr ""
+"Conquistar &0,\n"
+"7 territ√≥rios de &4 e\n"
+"3 territ√≥rios vizinhos"
+
+#: common/missions.cpp:94
+msgid ""
+"Conquer &5 and\n"
+"2 countries of &0"
+msgstr ""
+"Conquistar &5 e\n"
+"2 territ√≥rios de &0"
+
+#: common/missions.cpp:109
+msgid ""
+"Conquer &4,\n"
+"4 countries of &5 and,\n"
+"2 of &0"
+msgstr ""
+"Conquistar &4,\n"
+"4 territ√≥rios de &5 e,\n"
+"2 de &0"
+
+#: common/missions.cpp:124
+msgid ""
+"Conquer &1,\n"
+"2 countries of &3 and\n"
+"4 countries of &5"
+msgstr ""
+"Conquistar &1,\n"
+"2 territ√≥rios de &3 e\n"
+"4 territ√≥rios de &5"
+
+#: common/missions.cpp:139
+msgid ""
+"Conquer 2 countries of &3,\n"
+"2 of &2, 2 of &0,\n"
+"3 of &4, 4 of &1,\n"
+"and 3 of &5"
+msgstr ""
+"Conquistar 2 territ√≥rios de &3,\n"
+"2 de &2, 2 de &0,\n"
+"3 de &4, 4 de &1,\n"
+"e 3 de &5"
+
+#: common/missions.cpp:154
+msgid ""
+"Conquer &3,\n"
+"conquer &1 and,\n"
+"2 countries of &4"
+msgstr ""
+"Conquistar &3,\n"
+"conquistar &1 e,\n"
+"2 territ√≥rios de &4"
+
+#: common/missions.cpp:169
+msgid ""
+"Conquer &0,\n"
+"conquer &2 and,\n"
+"4 countries of &5"
+msgstr ""
+"Conquistar &0,\n"
+"conquistar &2 e,\n"
+"4 territ√≥rios de &5"
+
+#: common/missions.cpp:184
+msgid ""
+"Conquer &3,\n"
+"conquer &2 and,\n"
+"5 countries of &1"
+msgstr ""
+"Conquistar &3,\n"
+"conquistar &2 e,\n"
+"5 territ√≥rios de &1"
+
+#. AMERICA DEL SUR
+#: common/country.cpp:30 client/themes/teg_classic/translate.c:7
+#: client/themes/m2/translate.c:7
+msgid "Argentina"
+msgstr "Argentina"
+
+#: common/country.cpp:31 client/themes/teg_classic/translate.c:8
+#: client/themes/m2/translate.c:8
+msgid "Brazil"
+msgstr "Brasil"
+
+#: common/country.cpp:32 client/themes/teg_classic/translate.c:9
+#: client/themes/m2/translate.c:9
+msgid "Chile"
+msgstr "Chile"
+
+#: common/country.cpp:33 client/themes/teg_classic/translate.c:10
+#: client/themes/m2/translate.c:10
+msgid "Colombia"
+msgstr "Col√¥mbia"
+
+#: common/country.cpp:34 client/themes/teg_classic/translate.c:11
+#: client/themes/m2/translate.c:11
+msgid "Peru"
+msgstr "Peru"
+
+#: common/country.cpp:35 client/themes/teg_classic/translate.c:12
+#: client/themes/m2/translate.c:12
+msgid "Uruguay"
+msgstr "Uruguai"
+
+#. AMERICA DEL NORTE
+#: common/country.cpp:38 client/themes/teg_classic/translate.c:15
+#: client/themes/m2/translate.c:15
+msgid "Mexico"
+msgstr "M√©xico"
+
+#: common/country.cpp:39 client/themes/teg_classic/translate.c:16
+#: client/themes/m2/translate.c:16
+msgid "California"
+msgstr "Calif√≥rnia"
+
+#: common/country.cpp:40 client/themes/teg_classic/translate.c:17
+#: client/themes/m2/translate.c:17
+msgid "Oregon"
+msgstr "Oregon"
+
+#: common/country.cpp:41 client/themes/teg_classic/translate.c:18
+#: client/themes/m2/translate.c:18
+msgid "New York"
+msgstr "Nova Iorque"
+
+#: common/country.cpp:42 client/themes/teg_classic/translate.c:19
+#: client/themes/m2/translate.c:19
+msgid "Alaska"
+msgstr "Alasca"
+
+#: common/country.cpp:43 client/themes/teg_classic/translate.c:20
+#: client/themes/m2/translate.c:20
+msgid "Yukon"
+msgstr "Yukon"
+
+#: common/country.cpp:44 client/themes/teg_classic/translate.c:21
+#: client/themes/m2/translate.c:21
+msgid "Canada"
+msgstr "Canada"
+
+#: common/country.cpp:45 client/themes/teg_classic/translate.c:22
+#: client/themes/m2/translate.c:22
+msgid "Terranova"
+msgstr "Terranova"
+
+#: common/country.cpp:46 client/themes/teg_classic/translate.c:23
+#: client/themes/m2/translate.c:23
+msgid "Labrador"
+msgstr "Labrador"
+
+#: common/country.cpp:47 client/themes/teg_classic/translate.c:24
+#: client/themes/m2/translate.c:24
+msgid "Greenland"
+msgstr "Greenland"
+
+#. AFRICA
+#: common/country.cpp:50 client/themes/teg_classic/translate.c:27
+#: client/themes/m2/translate.c:27
+msgid "Sahara"
+msgstr "Sahara"
+
+#: common/country.cpp:51 client/themes/teg_classic/translate.c:28
+#: client/themes/m2/translate.c:28
+msgid "Zaire"
+msgstr "Zaire"
+
+#: common/country.cpp:52 client/themes/teg_classic/translate.c:29
+#: client/themes/m2/translate.c:29
+msgid "Etiopia"
+msgstr "Eti√≥pia"
+
+#: common/country.cpp:53 client/themes/teg_classic/translate.c:30
+#: client/themes/m2/translate.c:30
+msgid "Egypt"
+msgstr "Egipto"
+
+#: common/country.cpp:54 client/themes/teg_classic/translate.c:31
+#: client/themes/m2/translate.c:31
+msgid "Madagascar"
+msgstr "Madag√°scar"
+
+#: common/country.cpp:55 client/themes/teg_classic/translate.c:32
+#: client/themes/m2/translate.c:32
+msgid "South Africa"
+msgstr "√Åfrica Sul"
+
+#. OCEANIA
+#: common/country.cpp:58 client/themes/teg_classic/translate.c:35
+msgid "Australia"
+msgstr "Austr√°lia"
+
+#: common/country.cpp:59 client/themes/teg_classic/translate.c:36
+#: client/themes/m2/translate.c:36
+msgid "Borneo"
+msgstr "Born√©u"
+
+#: common/country.cpp:60 client/themes/teg_classic/translate.c:37
+msgid "Java"
+msgstr "Java"
+
+#: common/country.cpp:61 client/themes/teg_classic/translate.c:38
+#: client/themes/m2/translate.c:38
+msgid "Sumatra"
+msgstr "Sumatra"
+
+#. EUROPA
+#: common/country.cpp:64 client/themes/teg_classic/translate.c:41
+#: client/themes/m2/translate.c:41
+msgid "Spain"
+msgstr "Espanha"
+
+#: common/country.cpp:65 client/themes/teg_classic/translate.c:42
+#: client/themes/m2/translate.c:42
+#, fuzzy
+msgid "France"
+msgstr "Fran√ßa"
+
+#: common/country.cpp:66 client/themes/teg_classic/translate.c:43
+#: client/themes/m2/translate.c:43
+msgid "Germany"
+msgstr "Alemanha"
+
+#: common/country.cpp:67 client/themes/teg_classic/translate.c:44
+#: client/themes/m2/translate.c:44
+msgid "Italy"
+msgstr "It√°lia"
+
+#: common/country.cpp:68 client/themes/teg_classic/translate.c:45
+#: client/themes/m2/translate.c:45
+msgid "Poland"
+msgstr "Pol√≥nia"
+
+#: common/country.cpp:69 client/themes/teg_classic/translate.c:46
+#: client/themes/m2/translate.c:46
+msgid "Russia"
+msgstr "R√∫ssia"
+
+#: common/country.cpp:70 client/themes/teg_classic/translate.c:47
+#: client/themes/m2/translate.c:47
+msgid "Sweden"
+msgstr "Su√©cia"
+
+#: common/country.cpp:71 client/themes/teg_classic/translate.c:48
+#: client/themes/m2/translate.c:48
+msgid "Great Britain"
+msgstr "Gr√¢ Bretanha"
+
+#: common/country.cpp:72 client/themes/teg_classic/translate.c:49
+#: client/themes/m2/translate.c:49
+msgid "Iceland"
+msgstr "Isl√¢ndia"
+
+#. ASIA
+#: common/country.cpp:75 client/themes/teg_classic/translate.c:52
+#: client/themes/m2/translate.c:52
+msgid "Arabia"
+msgstr "Ar√°bia"
+
+#: common/country.cpp:76 client/themes/teg_classic/translate.c:53
+#: client/themes/m2/translate.c:53
+msgid "Israel"
+msgstr "Israel"
+
+#: common/country.cpp:77 client/themes/teg_classic/translate.c:54
+#: client/themes/m2/translate.c:54
+msgid "Turkey"
+msgstr "Turquia"
+
+#: common/country.cpp:78 client/themes/teg_classic/translate.c:55
+#: client/themes/m2/translate.c:55
+msgid "India"
+msgstr "√çndia"
+
+#: common/country.cpp:79 client/themes/teg_classic/translate.c:56
+#: client/themes/m2/translate.c:56
+msgid "Malaysia"
+msgstr "Mal√°sia"
+
+#: common/country.cpp:80 client/themes/teg_classic/translate.c:57
+#: client/themes/m2/translate.c:57
+msgid "Iran"
+msgstr "Ir√£o"
+
+#: common/country.cpp:81 client/themes/teg_classic/translate.c:58
+#: client/themes/m2/translate.c:58
+msgid "Gobi"
+msgstr "Gobi"
+
+#: common/country.cpp:82 client/themes/teg_classic/translate.c:59
+#: client/themes/m2/translate.c:59
+msgid "China"
+msgstr "China"
+
+#: common/country.cpp:83 client/themes/teg_classic/translate.c:60
+#: client/themes/m2/translate.c:60
+msgid "Mongolia"
+msgstr "Mong√≥lia"
+
+#: common/country.cpp:84 client/themes/teg_classic/translate.c:61
+#: client/themes/m2/translate.c:61
+msgid "Siberia"
+msgstr "Sib√©ria"
+
+#: common/country.cpp:85 client/themes/teg_classic/translate.c:62
+#: client/themes/m2/translate.c:62
+msgid "Aral"
+msgstr "Aral"
+
+#: common/country.cpp:86 client/themes/teg_classic/translate.c:63
+#: client/themes/m2/translate.c:63
+msgid "Tartary"
+msgstr "Tart√°ria"
+
+#: common/country.cpp:87 client/themes/teg_classic/translate.c:64
+#: client/themes/m2/translate.c:64
+msgid "Taymir"
+msgstr "Taymir"
+
+#: common/country.cpp:88 client/themes/teg_classic/translate.c:65
+#: client/themes/m2/translate.c:65
+msgid "Katchatka"
+msgstr "Katchatka"
+
+#: common/country.cpp:89 client/themes/teg_classic/translate.c:66
+#: client/themes/m2/translate.c:66
+msgid "Japan"
+msgstr "Jap√£o"
+
+#: common/share.cpp:55
 #, c-format
 msgid "Parameter is missing for \"%s\".\n"
-msgstr "Falta a opÁ„o para \"%s\".\n"
+msgstr "Falta a op√ß√£o para \"%s\".\n"
 
-#: ../common/share.cpp:76
+#: common/share.cpp:76
 #, c-format
 msgid "Fatal error: You can't run this program as superuser\n"
-msgstr "Erro fatal: vocÍ n„o pode lanÁar este programa como superusu·rio\n"
+msgstr "Erro fatal: voc√™ n√£o pode lan√ßar este programa como superusu√°rio\n"
 
-#: ../common/share.cpp:77
+#: common/share.cpp:77
 #, c-format
 msgid "Try to run it as a different user\n"
-msgstr "Tentar lanÁ·-lo com outro usu·rio\n"
+msgstr "Tentar lan√ß√°-lo com outro usu√°rio\n"
 
-#: ../robot/gui.cpp:138
+#: robot/gui.cpp:138
 #, c-format
 msgid "Robot name: %s"
-msgstr "Nome do robÙ: %s"
+msgstr "Nome do rob√¥: %s"
 
-#: ../robot/gui.cpp:153
+#: robot/gui.cpp:153
 msgid "Robot: Error while trying to connect to server"
-msgstr "RobÙ: erro ao tentar conectar ao servidor"
+msgstr "Rob√¥: erro ao tentar conectar ao servidor"
 
-#: ../robot/main.cpp:62 ../server/main.cpp:352
+#: robot/main.cpp:62 server/main.cpp:352
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
 "Valid options are:\n"
 msgstr ""
-"UtilizaÁ„o: %s [opÁ„o ...]\n"
-"as opÁıes v·lidas s„o:\n"
+"Utiliza√ß√£o: %s [op√ß√£o ...]\n"
+"as op√ß√µes v√°lidas s√£o:\n"
 
-#: ../robot/main.cpp:63 ../server/main.cpp:353
+#: robot/main.cpp:63 server/main.cpp:353
 #, c-format
 msgid "  -h, --help\t\tPrint a summary of the options\n"
-msgstr "  -h, --help\t\tMostra um resumo das opÁıes\n"
+msgstr "  -h, --help\t\tMostra um resumo das op√ß√µes\n"
 
-#: ../robot/main.cpp:64
+#: robot/main.cpp:64
 #, c-format
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NOME\tUtiliza NOME como nome\n"
 
-#: ../robot/main.cpp:65
+#: robot/main.cpp:65
 #, c-format
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tConecta ao servidor pela porta PORT\n"
 
-#: ../robot/main.cpp:66
+#: robot/main.cpp:66
 #, c-format
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tConecta ao servidor em HOST\n"
 
-#: ../robot/main.cpp:67 ../server/main.cpp:356
+#: robot/main.cpp:67 server/main.cpp:356
 #, c-format
 msgid "  -v, --version\t\tPrint the version number\n"
-msgstr "  -v, --version\t\tMostra o n˙mero de vers„o\n"
+msgstr "  -v, --version\t\tMostra o n√∫mero de vers√£o\n"
 
-#: ../robot/main.cpp:68
+#: robot/main.cpp:68
 #, c-format
 msgid "  -c, --connected\t\tThe robot is already connected\n"
-msgstr "  -c, --connected\t\tO robÙ j· est· conectado\n"
+msgstr "  -c, --connected\t\tO rob√¥ j√° est√° conectado\n"
 
-#: ../robot/main.cpp:69
+#: robot/main.cpp:69
 #, c-format
 msgid "  -q, --quiet\t\tdont show messages\n"
-msgstr "  -q, --quiet\t\tn„o mostrar mensagens\n"
+msgstr "  -q, --quiet\t\tn√£o mostrar mensagens\n"
 
-#: ../robot/main.cpp:86 ../server/main.cpp:375
+#: robot/main.cpp:86 server/main.cpp:375
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
-msgstr "OpÁ„o desconhecida: \"%s\"\n"
+msgstr "Op√ß√£o desconhecida: \"%s\"\n"
 
-#: ../robot/main.cpp:96
+#: robot/main.cpp:96
 #, c-format
 msgid "Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"
-msgstr "Tenes Empanadas Graciela - RobÙ v%s - por Ricardo Quesada\n"
+msgstr "Tenes Empanadas Graciela - Rob√¥ v%s - por Ricardo Quesada\n"
 
-#: ../robot/main.cpp:97
+#: robot/main.cpp:97
 #, c-format
 msgid "Robot intelligence: %d%%"
-msgstr "InteligÍncia do robÙ: %d%%"
+msgstr "Intelig√™ncia do rob√¥: %d%%"
 
-#: ../client/helper.cpp:227
+#: robot/ai_msg.cpp:38
+#, c-format
+msgid "Hi %s"
+msgstr "Ol√° %s"
+
+#: robot/ai_msg.cpp:39
+#, c-format
+msgid "Good luck %s"
+msgstr "Boa sorte %s"
+
+#: robot/ai_msg.cpp:40
+#, c-format
+msgid "How are you %s ?"
+msgstr "Como vai %s ?"
+
+#: robot/ai_msg.cpp:41
+#, c-format
+msgid "Welcome back %s!"
+msgstr "De regresso %s!"
+
+#: robot/ai_msg.cpp:42
+#, c-format
+msgid "%s, I'll be the winner"
+msgstr "%s, eu vou vencer"
+
+#: robot/ai_msg.cpp:43
+#, c-format
+msgid "Hey %s!"
+msgstr "Ent√£o %s!"
+
+#: robot/ai_msg.cpp:50
+#, c-format
+msgid "Goodbye %s"
+msgstr "Adeus %s"
+
+#: robot/ai_msg.cpp:51
+#, c-format
+msgid "%s, you need to improve you game"
+msgstr "%s, precisas melhorar o teu jogo"
+
+#: robot/ai_msg.cpp:52
+#, c-format
+msgid "%s, You really dont know how to play!"
+msgstr "%s, voc√™ n√£o sabe mesmo como jogar!"
+
+#: robot/ai_msg.cpp:53
+#, c-format
+msgid "%s Better luck for the next time"
+msgstr "%s espero que tenhas mais sorte na pr√≥xima vez"
+
+#: robot/ai_msg.cpp:54
+#, c-format
+msgid "%s, try to improve your game"
+msgstr "%s, tenta melhorar o teu jogo"
+
+#: robot/ai_msg.cpp:59
+#, c-format
+msgid "%s, Do you have a sister ?"
+msgstr "%s, tens uma irm√£ ?"
+
+#: robot/ai_msg.cpp:60
+msgid "I love this game"
+msgstr "Eu gosto deste jogo"
+
+#: robot/ai_msg.cpp:61
+#, c-format
+msgid "%s, I cant believe it!"
+msgstr "%s, n√£o posso acreditar!"
+
+#: robot/ai_msg.cpp:62
+#, c-format
+msgid "%s, Do you have Lewinsky's phone ?"
+msgstr "%s, tens o telefone do Lewinsky?"
+
+#: robot/ai_msg.cpp:63
+msgid "Does anyone speak Speranto ?"
+msgstr "Algu√©m fala Esperanto?"
+
+#: robot/ai_msg.cpp:64
+#, c-format
+msgid "%s, You play very well"
+msgstr "%s, jogas muito bem"
+
+#: robot/ai_msg.cpp:65
+msgid "Thanks"
+msgstr "Obrigado"
+
+#: robot/ai_msg.cpp:66
+msgid "mmm..."
+msgstr "mmm..."
+
+#: robot/ai_msg.cpp:67
+#, c-format
+msgid "%s, Are you a robot ?"
+msgstr "%s, voc√™ √© um rob√¥?"
+
+#: robot/ai_msg.cpp:68
+msgid "Geronimoooooo"
+msgstr "Geronimoooooo"
+
+#: robot/ai_msg.cpp:69
+msgid "I'm a bit tired"
+msgstr "Estou um pouco cansado"
+
+#: robot/ai_msg.cpp:70
+msgid "I'm hungry"
+msgstr "Tenho fome"
+
+#: robot/ai_msg.cpp:71
+msgid "Who wants an Empanada ?"
+msgstr "Quem quer um gelado?"
+
+#: robot/ai_msg.cpp:72
+msgid "I like whistling"
+msgstr "Gosto de assobiar"
+
+#: robot/ai_msg.cpp:73
+msgid "What is a good strategy to win this game?"
+msgstr "Qual √© a boa estrat√©gia para ganhar este jogo?"
+
+#: robot/ai_msg.cpp:74
+#, c-format
+msgid "%s, Were you here last night ?"
+msgstr "%s, estavas aqui na noite passada?"
+
+#: robot/ai_msg.cpp:75
+msgid "nod"
+msgstr "n√£o"
+
+#: robot/ai_msg.cpp:76
+msgid "What?"
+msgstr "O que √©?"
+
+#: robot/ai_msg.cpp:77
+msgid ":-)"
+msgstr ":-)"
+
+#: robot/ai_msg.cpp:78
+#, c-format
+msgid "%s, Do you think so?"
+msgstr "%s, acha mesmo?"
+
+#: robot/ai_msg.cpp:79
+#, c-format
+msgid "%s, What can I say ?"
+msgstr "%s, que posso dizer?"
+
+#: robot/ai_msg.cpp:80
+#, c-format
+msgid "%s, Do you think I'm ugly ?"
+msgstr "%s, me acha feio?"
+
+#: robot/ai_msg.cpp:81
+#, c-format
+msgid "%s, Do you think I'm pretty ?"
+msgstr "%s, me acha bonito?"
+
+#: robot/ai_msg.cpp:82
+#, c-format
+msgid "%s, Are you pretty ?"
+msgstr "%s, voc√™ √© bonito?"
+
+#: robot/ai_msg.cpp:83
+#, c-format
+msgid "%s, Where do you live ?"
+msgstr "%s, onde voc√™ vive?"
+
+#: robot/ai_msg.cpp:84
+#, c-format
+msgid "%s, miauuuuuuuuu"
+msgstr "%s, miauuuuuuuuu"
+
+#: robot/ai_msg.cpp:95
+#, c-format
+msgid "%s, I dont agree"
+msgstr "%s, n√£o estou de acordo"
+
+#: robot/ai_msg.cpp:96
+#, c-format
+msgid "%s, Are you sure what you are saying?"
+msgstr "%s, tens a certeza do que est√°s a dizer?"
+
+#: robot/ai_msg.cpp:97
+#, c-format
+msgid "%s, What are you saying"
+msgstr "%s, que est√°s dizendo?"
+
+#: robot/ai_msg.cpp:98
+#, c-format
+msgid "%s, I dont understand you"
+msgstr "%s, eu n√£o te percebo"
+
+#: robot/ai_msg.cpp:99
+#, c-format
+msgid "%s, funny"
+msgstr "%s, giro"
+
+#: robot/ai_msg.cpp:100
+#, c-format
+msgid "%s, What?"
+msgstr "%s, sim?"
+
+#: robot/ai_msg.cpp:101
+#, c-format
+msgid "%s, sure"
+msgstr "%s, com certeza"
+
+#: robot/ai_msg.cpp:102
+#, c-format
+msgid "%s, Are you talking to me?"
+msgstr "%s, est√°s a falar comigo?"
+
+#: robot/ai_msg.cpp:103 robot/ai_msg.cpp:104
+#, c-format
+msgid "%s, you make me laugh"
+msgstr "%s, estou a rir-me"
+
+#: robot/ai_msg.cpp:105
+#, c-format
+msgid "%s, I dont think so"
+msgstr "%s, eu n√£o acho"
+
+#: robot/ai_msg.cpp:106
+#, c-format
+msgid "No %s, I dont believe that"
+msgstr "N√£o %s, eu n√£o acredito nisso"
+
+#: robot/ai_msg.cpp:107
+#, c-format
+msgid "Yes, why not ? %s, but are you sure ?"
+msgstr "Sim, porque n√£o %s, mas tens a certeza?"
+
+#: robot/ai_msg.cpp:108
+#, c-format
+msgid "Tomorrow, not today. %s dont get me wrong"
+msgstr "Amanh√£, hoje n√£o. N√£o te zangues %s."
+
+#: robot/ai_msg.cpp:114
+msgid "Scrapheap Sheriff"
+msgstr ""
+
+#: robot/ai_msg.cpp:115
+msgid "Tin Biter"
+msgstr ""
+
+#: robot/ai_msg.cpp:116
+msgid "Rusty Rudy"
+msgstr ""
+
+#: robot/ai_msg.cpp:117
+msgid "Screwball Carl"
+msgstr ""
+
+#: robot/ai_msg.cpp:118
+msgid "Madame Motorbreakdown"
+msgstr ""
+
+#: robot/ai_msg.cpp:119
+msgid "Clanky Kurt"
+msgstr ""
+
+#: robot/ai_msg.cpp:120
+msgid "Lord Solder"
+msgstr ""
+
+#: robot/ai_msg.cpp:121
+msgid "Sparkplug Zora"
+msgstr ""
+
+#: robot/ai_msg.cpp:122
+msgid "Tin-Can Benny"
+msgstr ""
+
+#: robot/ai_msg.cpp:123
+msgid "Chainsaw Kevin"
+msgstr ""
+
+#: robot/ai_msg.cpp:124
+msgid "Rattler Clara"
+msgstr ""
+
+#: robot/ai_msg.cpp:125
+msgid "Bolt-Berta"
+msgstr ""
+
+#: robot/ai_msg.cpp:126
+msgid "Rust Bucket"
+msgstr ""
+
+#: robot/ai_msg.cpp:127
+msgid "Oil-Drum Otto"
+msgstr ""
+
+#: robot/ai_msg.cpp:128
+msgid "Sparky Fritzi"
+msgstr ""
+
+#: robot/ai_msg.cpp:129
+msgid "Welder-Helmet George"
+msgstr ""
+
+#: robot/ai_msg.cpp:130
+msgid "Can Opener"
+msgstr ""
+
+#: robot/ai_msg.cpp:131
+msgid "Big Clunk"
+msgstr ""
+
+#: robot/ai_msg.cpp:132
+msgid "Scrap-Thing"
+msgstr ""
+
+#: robot/ai_msg.cpp:133
+msgid "Sawtooth Susie"
+msgstr ""
+
+#: robot/ai_msg.cpp:134
+msgid "Wobbly Willy"
+msgstr ""
+
+#: robot/ai_msg.cpp:135
+msgid "Scrapmetal Al"
+msgstr ""
+
+#: robot/ai_msg.cpp:136
+#, fuzzy
+msgid "Screwdriver Scare"
+msgstr "Nome do servidor:"
+
+#: robot/ai_msg.cpp:137
+msgid "Tin-Can Pirate"
+msgstr ""
+
+#: robot/ai_msg.cpp:138
+msgid "Stink Machine"
+msgstr ""
+
+#: robot/ai_msg.cpp:139
+msgid "Clankbox"
+msgstr ""
+
+#: robot/ai_msg.cpp:140
+msgid "Ruckus Crane"
+msgstr ""
+
+#: robot/ai_msg.cpp:141
+msgid "Rust Rocket"
+msgstr ""
+
+#: robot/ai_msg.cpp:142
+msgid "Dr. Tinhead"
+msgstr ""
+
+#: robot/ai_msg.cpp:143
+msgid "Zigzag Cylinder"
+msgstr ""
+
+#: robot/ai_msg.cpp:144
+msgid "Crank King"
+msgstr ""
+
+#: robot/ai_msg.cpp:145
+msgid "Rusty Rosie"
+msgstr ""
+
+#: robot/ai_msg.cpp:146
+msgid "Scrap-Slinger"
+msgstr ""
+
+#: robot/ai_msg.cpp:147
+msgid "Spark Gobbler"
+msgstr ""
+
+#: robot/ai_msg.cpp:148
+msgid "Captain Cabletangle"
+msgstr ""
+
+#: client/helper.cpp:227
 msgid "Error in start. Are there at least 2 players?"
-msgstr "Erro ao comeÁar. … preciso ao menos 2 jogadores."
+msgstr "Erro ao come√ßar. √â preciso ao menos 2 jogadores."
 
-#: ../client/attack.cpp:111
+#: client/attack.cpp:111
 msgid "Error, It's not the time to attack"
-msgstr "Erro, n„o È o momento de atacar"
+msgstr "Erro, n√£o √© o momento de atacar"
 
-#: ../client/attack.cpp:122 ../client/reagrupe.cpp:69
+#: client/attack.cpp:122 client/reagrupe.cpp:69
 #, c-format
 msgid "Source country: '%s'. Now select the destination country"
-msgstr "TerritÛrio origem: '%s'. Agora escolha o territÛrio destino"
+msgstr "Territ√≥rio origem: '%s'. Agora escolha o territ√≥rio destino"
 
-#: ../client/attack.cpp:124
+#: client/attack.cpp:124
 #, c-format
 msgid "Error, '%s' must have at least 2 armies"
-msgstr "Erro, '%s' deve ter pelo menos 2 exÈrcitos"
+msgstr "Erro, '%s' deve ter pelo menos 2 ex√©rcitos"
 
-#: ../client/attack.cpp:128 ../client/ejer2.cpp:50 ../client/fichas.cpp:77
-#: ../client/fichas.cpp:101 ../client/reagrupe.cpp:75 ../client/reagrupe.cpp:98
+#: client/attack.cpp:128 client/ejer2.cpp:50 client/fichas.cpp:77
+#: client/fichas.cpp:101 client/reagrupe.cpp:75 client/reagrupe.cpp:98
 #, c-format
 msgid "Error, '%s' isnt one of your countries"
-msgstr "Erro, '%s' n„o te pertence"
+msgstr "Erro, '%s' n√£o te pertence"
 
-#: ../client/attack.cpp:133
+#: client/attack.cpp:133
 msgid "Source country is the same as the destination. Resetting the attack..."
-msgstr "O territÛrio destino È o mesmo que o de origem. Ataque anulado..."
+msgstr "O territ√≥rio destino √© o mesmo que o de origem. Ataque anulado..."
 
-#: ../client/attack.cpp:144
+#: client/attack.cpp:144
 #, c-format
 msgid "Destination country: '%s'. Attacking..."
-msgstr "TerritÛrio destino: '%s'. Ao ataque..."
+msgstr "Territ√≥rio destino: '%s'. Ao ataque..."
 
-#: ../client/attack.cpp:147 ../client/reagrupe.cpp:94
+#: client/attack.cpp:147 client/reagrupe.cpp:94
 #, c-format
 msgid "Error, '%s' isnt frontier with '%s'"
-msgstr "Erro, '%s' n„o È vizinho de '%s'"
+msgstr "Erro, '%s' n√£o √© vizinho de '%s'"
 
-#: ../client/attack.cpp:152
+#: client/attack.cpp:152
 #, c-format
 msgid "Error, you cant attack your own countries ('%s')"
-msgstr "Erro, n„o pode atacar os prÛprios territÛrios ('%s')"
+msgstr "Erro, n√£o pode atacar os pr√≥prios territ√≥rios ('%s')"
 
-#: ../client/attack.cpp:158
+#: client/attack.cpp:158
 #, fuzzy
 msgid "Error, unexpected error in attack_click(). Report this bug!"
-msgstr "Erro, erro n„o previsto em ataque_clic(). Mande este bug. "
+msgstr "Erro, erro n√£o previsto em ataque_clic(). Mande este bug. "
 
-#: ../client/attack.cpp:200
+#: client/attack.cpp:200
 msgid "Error, make sure to select the countries first."
-msgstr "Erro, assegure-se de ter selecionado os territÛrios primeiro."
+msgstr "Erro, assegure-se de ter selecionado os territ√≥rios primeiro."
 
-#: ../client/canje.cpp:38
+#: client/canje.cpp:38
 msgid "Error, its not the moment to exchange the cards"
-msgstr "Erro, n„o È o momento de trocar cartas"
+msgstr "Erro, n√£o √© o momento de trocar cartas"
 
-#: ../client/canje.cpp:49
+#: client/canje.cpp:49
 msgid "Error, the cards must be all equal, or all different"
 msgstr "Erro, as cartas devem ser todas iguais, ou todas diferentes"
 
-#: ../client/ejer2.cpp:42
+#: client/ejer2.cpp:42
 msgid "Error, the 2 armies where placed before"
-msgstr "Erro, os 2 exÈrcitos estavam colocados antes"
+msgstr "Erro, os 2 ex√©rcitos estavam colocados antes"
 
-#: ../client/ejer2.cpp:46
+#: client/ejer2.cpp:46
 msgid "Error, it's not the time to put 2 armies."
-msgstr "Erro, n„o È o momento de pÙr 2 exÈrcitos"
+msgstr "Erro, n√£o √© o momento de p√¥r 2 ex√©rcitos"
 
-#: ../client/fichas.cpp:60
+#: client/fichas.cpp:60
 msgid "Error, you cant add armies now"
-msgstr "Erro, n„o pode pÙr mais exÈrcitos agora"
+msgstr "Erro, n√£o pode p√¥r mais ex√©rcitos agora"
 
-#: ../client/fichas.cpp:72
+#: client/fichas.cpp:72
 #, c-format
 msgid "Error, you cant put more than %d armies"
-msgstr "Erro, n„o pode pÙr mais de %d exÈrcitos"
+msgstr "Erro, n√£o pode p√¥r mais de %d ex√©rcitos"
 
-#: ../client/fichas.cpp:85
+#: client/fichas.cpp:85
 msgid "Error, you cant sub armies now"
-msgstr "Erro, n„o pode retirar exÈrcitos agora"
+msgstr "Erro, n√£o pode retirar ex√©rcitos agora"
 
-#: ../client/fichas.cpp:202
+#: client/fichas.cpp:202
 msgid "Error, its not the time to send armies"
-msgstr "Erro, n„o È a hora de enviar exÈrcitos"
+msgstr "Erro, n√£o √© a hora de enviar ex√©rcitos"
 
-#: ../client/fichas.cpp:208
+#: client/fichas.cpp:208
 msgid "Error, put the correct number of armies"
-msgstr "Erro, deves meter a quantia correta de exÈrcitos"
+msgstr "Erro, deves meter a quantia correta de ex√©rcitos"
 
-#: ../client/fichas.cpp:244
+#: client/fichas.cpp:244
 msgid "Error, its not the moment to send your armies"
-msgstr "Erro, n„o È o momento de enviar exÈrcitos"
+msgstr "Erro, n√£o √© o momento de enviar ex√©rcitos"
 
-#: ../client/inputfd.cpp:134
+#: client/inputfd.cpp:135
 msgid "The server is full. Try connecting as an observer"
-msgstr "O servidor est· cheio. Tente conectar como observador."
+msgstr "O servidor est√° cheio. Tente conectar como observador."
 
-#: ../client/inputfd.cpp:143
+#: client/inputfd.cpp:144
 msgid "The game has already started. Try connecting as an observer."
-msgstr "O jogo j· comeÁou. Tente ligar como observador."
+msgstr "O jogo j√° come√ßou. Tente ligar como observador."
 
-#: ../client/inputfd.cpp:152
+#: client/inputfd.cpp:153
 #, c-format
 msgid "Player %s was kicked from the game"
-msgstr "O jogador %s foi excluÌdo do jogo"
+msgstr "O jogador %s foi exclu√≠do do jogo"
 
-#: ../client/inputfd.cpp:167
+#. no lo tengo en la base
+#: client/inputfd.cpp:168
 #, c-format
 msgid "Player %d abandoned the game"
 msgstr "O jogador %d abandonou o jogo"
 
-#: ../client/inputfd.cpp:171
+#: client/inputfd.cpp:172
 #, c-format
 msgid "Player %s(%s) abandoned the game"
 msgstr "O jogador %s(%s) abandonou o jogo"
 
-#: ../client/inputfd.cpp:197
+#. no lo tengo en la base
+#: client/inputfd.cpp:198
 #, c-format
 msgid "Player %d exit the game"
 msgstr "O jogador %d saiu do jogo"
 
-#: ../client/inputfd.cpp:201
+#: client/inputfd.cpp:202
 #, c-format
 msgid "Player %s(%s) exit the game"
 msgstr "O jogador %s(%s) saiu do jogo"
 
-#: ../client/inputfd.cpp:242
+#: client/inputfd.cpp:243
 #, c-format
 msgid "Player %s(%s) is the WINNER"
 msgstr "O jogador %s(%s) VENCEU"
 
-#: ../client/inputfd.cpp:270
+#: client/inputfd.cpp:271
 #, c-format
 msgid "Player %s(%s) lost the game\n"
 msgstr "O jogador %s(%s) perdeu o jogo\n"
 
-#: ../client/inputfd.cpp:319
+#: client/inputfd.cpp:320
 #, c-format
 msgid "The server report an error in '%s'"
 msgstr "O servidor indica um erro em '%s'"
 
-#: ../client/inputfd.cpp:368
+#: client/inputfd.cpp:369
 #, c-format
 msgid "Dices: %s: %d %d %d vs. %s: %d %d %d"
 msgstr "Dados: %s: %d %d %d vs. %s: %d %d %d"
 
-#: ../client/inputfd.cpp:417
+#: client/inputfd.cpp:418
 #, c-format
 msgid "%s(%s) is attacking %s(%s)"
-msgstr "%s(%s) est· atacando %s(%s)"
+msgstr "%s(%s) est√° atacando %s(%s)"
 
-#: ../client/inputfd.cpp:421
+#: client/inputfd.cpp:422
 #, c-format
 msgid "%s is attacking %s"
-msgstr "%s est· atacando %s "
+msgstr "%s est√° atacando %s "
 
-#: ../client/inputfd.cpp:457
+#: client/inputfd.cpp:458
 msgid "Its your turn to attack!!"
-msgstr "… a tua vez de atacar!"
+msgstr "√â a tua vez de atacar!"
 
-#: ../client/inputfd.cpp:460
+#. No es mi turno, entonces yo tengo que estar en idle
+#: client/inputfd.cpp:461
 #, c-format
 msgid "Player %s(%s) has the turn to attack!"
-msgstr "… a vez do jogador %s(%s) de atacar!"
+msgstr "√â a vez do jogador %s(%s) de atacar!"
 
-#: ../client/inputfd.cpp:500
+#: client/inputfd.cpp:501
 #, c-format
 msgid "Player %s(%s) is placing %d armies for 1st time"
-msgstr "O jogador %s(%s) est· pondo %d exÈrcitos pela primeira vez"
+msgstr "O jogador %s(%s) est√° pondo %d ex√©rcitos pela primeira vez"
 
-#: ../client/inputfd.cpp:538
+#: client/inputfd.cpp:539
 #, c-format
 msgid "Player %s(%s) is placing %d armies for 2nd time"
-msgstr "O jogador %s(%s) est· pondo %d exÈrcitos pela segunda vez"
+msgstr "O jogador %s(%s) est√° pondo %d ex√©rcitos pela segunda vez"
 
-#: ../client/inputfd.cpp:581
+#: client/inputfd.cpp:582
 #, c-format
 msgid "Player %s(%s) is placing %d armies"
-msgstr "O jogador %s(%s) est· pondo %d exÈrcitos"
+msgstr "O jogador %s(%s) est√° pondo %d ex√©rcitos"
 
-#: ../client/inputfd.cpp:637
+#: client/inputfd.cpp:638
 #, c-format
 msgid "I'm player number:%d"
-msgstr "Eu sou o jogador n˙mero %d"
+msgstr "Eu sou o jogador n√∫mero %d"
 
-#: ../client/inputfd.cpp:658
+#: client/inputfd.cpp:659
 #, c-format
 msgid "Successful reconnection. I'm player number:%d"
-msgstr "Conex„o conseguida. Eu sou o jogador n˙mero %d"
+msgstr "Conex√£o conseguida. Eu sou o jogador n√∫mero %d"
 
-#: ../client/inputfd.cpp:717
+#: client/inputfd.cpp:718
 #, c-format
 msgid "My color is: %s"
-msgstr "A minha cor È: %s"
+msgstr "A minha cor √©: %s"
 
-#: ../client/inputfd.cpp:719
+#: client/inputfd.cpp:720
 #, c-format
 msgid "Player[%d] '%s' is connected with color %s"
-msgstr "O jogador [%d] '%s' est· conectado com a cor %s"
+msgstr "O jogador [%d] '%s' est√° conectado com a cor %s"
 
-#: ../client/inputfd.cpp:932
+#: client/inputfd.cpp:933
 #, c-format
 msgid "Exchanged approved. Now you can place %d more armies!"
-msgstr "Troca aceita. Agora podes ponha mais %d exÈrcitos!"
+msgstr "Troca aceita. Agora podes ponha mais %d ex√©rcitos!"
 
-#: ../client/inputfd.cpp:936
+#: client/inputfd.cpp:937
 #, c-format
 msgid "Player %s(%s) exchanged 3 cards for %d armies"
-msgstr "O jogador %s(%s) trocou 3 cartas por %d exÈrcitos"
+msgstr "O jogador %s(%s) trocou 3 cartas por %d ex√©rcitos"
 
-#: ../client/inputfd.cpp:1006
+#: client/inputfd.cpp:1007
 #, c-format
 msgid "You received card: '%s' and 2 armies where placed there"
-msgstr "VocÍ recebeu a carta: '%s' e 2 exÈrcitos foram colocados aÌ"
+msgstr "Voc√™ recebeu a carta: '%s' e 2 ex√©rcitos foram colocados a√≠"
 
-#: ../client/inputfd.cpp:1009
+#: client/inputfd.cpp:1010
 #, c-format
 msgid "You received card: '%s'"
-msgstr "VocÍ recebeu a carta: '%s'"
+msgstr "Voc√™ recebeu a carta: '%s'"
 
-#: ../client/inputfd.cpp:1035
+#: client/inputfd.cpp:1036
 #, c-format
 msgid "Aborting: Different protocols version. Server:%d Client:%d"
-msgstr "Abandonei: os protocolos s„o diferentes. Servidor %d Cliente %d"
+msgstr "Abandonei: os protocolos s√£o diferentes. Servidor %d Cliente %d"
 
-#: ../client/inputfd.cpp:1071
+#. no lo tengo en la base
+#: client/inputfd.cpp:1072
 #, c-format
 msgid "Player %d started round number: %d"
-msgstr "O jogador %d comeÁou a rodada: %d"
+msgstr "O jogador %d come√ßou a rodada: %d"
 
-#: ../client/inputfd.cpp:1074
+#: client/inputfd.cpp:1075
 #, c-format
 msgid "Player %s(%s) started round number: %d"
-msgstr "O jogador %s(%s) comeÁou a rodada: %d"
+msgstr "O jogador %s(%s) come√ßou a rodada: %d"
 
-#: ../client/inputfd.cpp:1102
+#: client/inputfd.cpp:1103
 #, c-format
 msgid "Token '%s' not found"
-msgstr "Texto '%s' n„o encontrado"
+msgstr "Texto '%s' n√£o encontrado"
 
-#: ../client/misc.cpp:128
+#: client/misc.cpp:128
 #, c-format
 msgid "Error while trying to connect to server '%s' at port %d"
 msgstr "Erro enquanto tentava conectar ao servidor '%s' na porta %d"
 
-#: ../client/misc.cpp:137
+#: client/misc.cpp:137
 msgid "Error, you are already connected"
-msgstr "Erro, vocÍ j· est· conectado"
+msgstr "Erro, voc√™ j√° est√° conectado"
 
-#: ../client/misc.cpp:161
+#: client/misc.cpp:161
 msgid "The game has already started. Connect as an observer."
-msgstr "O jogo j· comeÁou. Liga-te como observador."
+msgstr "O jogo j√° come√ßou. Liga-te como observador."
 
-#: ../client/outputfd.cpp:82 ../client/outputfd.cpp:94
-#: ../client/outputfd.cpp:106
+#: client/outputfd.cpp:82 client/outputfd.cpp:94 client/outputfd.cpp:106
 msgid "Error, you must be connected"
-msgstr "Erro, vocÍ tem que estar conectado"
+msgstr "Erro, voc√™ tem que estar conectado"
 
-#: ../client/outputfd.cpp:138
+#: client/outputfd.cpp:138
 msgid "Error, it's not the moment to get a card"
-msgstr "Erro, n„o È o momento de pegar uma carta"
+msgstr "Erro, n√£o √© o momento de pegar uma carta"
 
-#: ../client/outputfd.cpp:172
+#: client/outputfd.cpp:172
 msgid "Error, it's not your turn."
-msgstr "Erro, n„o È a tua vez."
+msgstr "Erro, n√£o √© a tua vez."
 
-#: ../client/outputfd.cpp:198 ../client/outputfd.cpp:212
+#: client/outputfd.cpp:198 client/outputfd.cpp:212
 msgid "Error, the game is not started"
-msgstr "Erro, o jogo n„o comeÁou"
+msgstr "Erro, o jogo n√£o come√ßou"
 
-#: ../client/outputfd.cpp:224
+#: client/outputfd.cpp:224
 msgid "Error, the game is started so you cant change the type of game"
-msgstr "Erro, o jogo comeÁou portanto n„o pode mudar o tipo de jogo"
+msgstr "Erro, o jogo come√ßou portanto n√£o pode mudar o tipo de jogo"
 
-#: ../client/reagrupe.cpp:58
+#: client/reagrupe.cpp:58
 msgid "Error, It's not the time to regroup"
-msgstr "Erro, n„o È a hora de fazer movimentos"
+msgstr "Erro, n√£o √© a hora de fazer movimentos"
 
-#: ../client/reagrupe.cpp:71
+#: client/reagrupe.cpp:71
 #, c-format
 msgid "Error, '%s' doesnt have any avalaible armies to move"
-msgstr "Erro, '%s' n„o tem nenhum exÈrcito pronto para mover"
+msgstr "Erro, '%s' n√£o tem nenhum ex√©rcito pronto para mover"
 
-#: ../client/reagrupe.cpp:80
+#: client/reagrupe.cpp:80
 msgid "Source country is the same as the destination. Resetting the regroup..."
-msgstr "O territÛrio destino È o mesmo que o de origem. Movimento anulado..."
+msgstr "O territ√≥rio destino √© o mesmo que o de origem. Movimento anulado..."
 
-#: ../client/reagrupe.cpp:91
+#: client/reagrupe.cpp:91
 #, c-format
 msgid "Destination country: '%s'. Now select the quantity of armies to move"
-msgstr "TerritÛrio destino: '%s'. Agora escolha quantos exÈrcitos mover"
+msgstr "Territ√≥rio destino: '%s'. Agora escolha quantos ex√©rcitos mover"
 
-#: ../client/reagrupe.cpp:103
+#: client/reagrupe.cpp:103
 msgid "Error, unexpected error in reagrupe_click(). Report this bug!"
-msgstr "Erro, erro n„o previsto em reagrupe_clic(). Mande este bug. "
+msgstr "Erro, erro n√£o previsto em reagrupe_clic(). Mande este bug. "
 
-#: ../client/reagrupe.cpp:145
+#: client/reagrupe.cpp:145
 msgid "Error, you can't regroup your armies now"
-msgstr "Erro, n„o pode mover exÈrcitos agora"
+msgstr "Erro, n√£o pode mover ex√©rcitos agora"
 
-#: ../client/reagrupe.cpp:181
+#: client/reagrupe.cpp:181
 msgid "Error, you cant regroup now."
-msgstr "Erro, n„o pode mover agora"
+msgstr "Erro, n√£o pode mover agora"
 
-#: ../client/gui-gnome/armies.cpp:320
+#: client/themes/m2/translate.c:35
+msgid "Western Australia"
+msgstr "Austr√°lia do Oeste"
+
+#: client/themes/m2/translate.c:37
+msgid "Eastern Australia"
+msgstr "Austr√°lia do Este"
+
+#: client/gui-gnome/armies.cpp:322
 msgid "Total"
 msgstr "Total"
 
-#: ../client/gui-gnome/callbacks.cpp:179
+#: client/gui-gnome/callbacks.cpp:179
 msgid ""
 "The attack was reset. Please, select the source country to continue your "
 "attack"
-msgstr "O ataque foi anulado. Escolha o paÌs de origem para continuar o ataque"
+msgstr "O ataque foi anulado. Escolha o pa√≠s de origem para continuar o ataque"
 
-#: ../client/gui-gnome/callbacks.cpp:187 ../client/gui-gnome/interface.cpp:1012
+#: client/gui-gnome/callbacks.cpp:187 client/gui-gnome/interface.cpp:1013
 msgid "Regrouping armies"
 msgstr "Reagrupando tropas"
 
-#: ../client/gui-gnome/callbacks.cpp:188 ../client/gui-gnome/gui.cpp:430
+#: client/gui-gnome/callbacks.cpp:188 client/gui-gnome/gui.cpp:368
 msgid ""
 "Select two countries:\n"
 "1st: click on the source country\n"
 "2nd: click on the destination country"
 msgstr ""
-"Escolha dois territÛrios:\n"
-"1ro: clic no territÛrio de origem\n"
-"2ndo: clic no territÛrio destino"
+"Escolha dois territ√≥rios:\n"
+"1ro: clic no territ√≥rio de origem\n"
+"2ndo: clic no territ√≥rio destino"
 
-#: ../client/gui-gnome/callbacks.cpp:214
+#: client/gui-gnome/callbacks.cpp:214
 msgid "Really surrender ?"
 msgstr "Render mesmo?"
 
-#: ../client/gui-gnome/callbacks.cpp:267
+#: client/gui-gnome/callbacks.cpp:267
 msgid "translator_credits"
 msgstr "Antonio Augusto Todo Bom Neto <antonio@projetos.etc.br>"
 
-#: ../client/gui-gnome/callbacks.cpp:291
+#: client/gui-gnome/callbacks.cpp:293
 msgid "Tenes Empanadas Graciela"
 msgstr "Tenes Empanadas Graciela"
 
-#: ../client/gui-gnome/callbacks.cpp:294
+#: client/gui-gnome/callbacks.cpp:296
 msgid "Copyright (C) 2000, 2002 Ricardo Quesada"
 msgstr "Copyright (C) 2000, 2002 Ricardo Quesada"
 
-#: ../client/gui-gnome/callbacks.cpp:296
+#: client/gui-gnome/callbacks.cpp:298
 msgid "A clone of T.E.G. (a Risk clone)."
 msgstr "Um clone de T.E.G. (um clone de Risk)."
 
-#: ../client/gui-gnome/callbacks.cpp:302
+#: client/gui-gnome/callbacks.cpp:304
 msgid "TEG Home Page"
-msgstr "P·gina web de TEG"
+msgstr "P√°gina web de TEG"
 
-#: ../client/gui-gnome/cards.cpp:218
+#: client/gui-gnome/cards.cpp:219
 msgid "Error creating canvas\n"
-msgstr "Erro na construÁ„o do canvas\n"
+msgstr "Erro na constru√ß√£o do canvas\n"
 
-#: ../client/gui-gnome/cards.cpp:238 ../client/gui-gnome/cards.cpp:254
-#: ../client/gui-gnome/cards.cpp:270
+#: client/gui-gnome/cards.cpp:239 client/gui-gnome/cards.cpp:255
+#: client/gui-gnome/cards.cpp:271
 msgid "Error creating image\n"
-msgstr "Erro na construÁ„o duma imagem\n"
+msgstr "Erro na constru√ß√£o duma imagem\n"
 
-#: ../client/gui-gnome/cards.cpp:277
+#. botones
+#: client/gui-gnome/cards.cpp:278
 msgid "Put 2 armies"
-msgstr "Ponha 2 exÈrcitos"
+msgstr "Ponha 2 ex√©rcitos"
 
-#: ../client/gui-gnome/cards.cpp:285
+#: client/gui-gnome/cards.cpp:286
 msgid "Select this card"
 msgstr "Escolha esta carta"
 
-#: ../client/gui-gnome/cards.cpp:291
+#: client/gui-gnome/cards.cpp:292
 msgid "Locate country"
-msgstr "Ver o territÛrio"
+msgstr "Ver o territ√≥rio"
 
-#: ../client/gui-gnome/cards.cpp:332
+#: client/gui-gnome/cards.cpp:333
 msgid "You dont have any cards yet"
-msgstr "VocÍ ainda n„o tem carta"
+msgstr "Voc√™ ainda n√£o tem carta"
 
-#: ../client/gui-gnome/cards.cpp:344
+#: client/gui-gnome/cards.cpp:345
 msgid "Country Cards"
-msgstr "Cartas de territÛrios"
+msgstr "Cartas de territ√≥rios"
 
-#: ../client/gui-gnome/cards.cpp:347
+#: client/gui-gnome/cards.cpp:348
 msgid "Exchange"
 msgstr "Trocar"
 
-#: ../client/gui-gnome/cards.cpp:348 ../client/gui-gnome/g_scores.cpp:267
-#: ../client/gui-gnome/mission.cpp:286 ../client/gui-gnome/status.cpp:274
+#: client/gui-gnome/cards.cpp:349 client/gui-gnome/g_scores.cpp:267
+#: client/gui-gnome/mission.cpp:286 client/gui-gnome/status.cpp:274
 msgid "_Close"
 msgstr ""
 
-#: ../client/gui-gnome/chatline.cpp:53
+#: client/gui-gnome/chatline.cpp:53
 msgid "You need to be connected"
 msgstr "Precisa estar conectado"
 
-#: ../client/gui-gnome/chatline.cpp:130
+#: client/gui-gnome/chatline.cpp:130
 #, fuzzy
 msgid "Cleared output window"
-msgstr "Limpei a janela de saÌda.\n"
+msgstr "Limpei a janela de sa√≠da.\n"
 
-#: ../client/gui-gnome/colors.cpp:99 ../client/gui-gnome/colors.cpp:110
-#: ../client/gui-gnome/colors.cpp:121 ../client/gui-gnome/colors.cpp:132
-#: ../client/gui-gnome/dices.cpp:83 ../client/gui-gnome/g_country.cpp:429
+#: client/gui-gnome/colors.cpp:99 client/gui-gnome/colors.cpp:110
+#: client/gui-gnome/colors.cpp:121 client/gui-gnome/colors.cpp:132
+#: client/gui-gnome/dices.cpp:83 client/gui-gnome/g_country.cpp:429
 #, c-format
 msgid "Error, couldn't find file: %s"
-msgstr "Erro, n„o consegui achar o arquivo: %s"
+msgstr "Erro, n√£o consegui achar o arquivo: %s"
 
-#: ../client/gui-gnome/connect.cpp:101
+#: client/gui-gnome/connect.cpp:101
 #, fuzzy
 msgid "Disconnected from the server."
 msgstr "Desconecta do servidor"
 
-#: ../client/gui-gnome/connect.cpp:103
+#: client/gui-gnome/connect.cpp:103
 msgid "We lost the connection to the server."
 msgstr ""
 
-#: ../client/gui-gnome/connect.cpp:186 ../client/gui-gnome/interface.cpp:307
-#: ../client/gui-gnome/interface.cpp:539
+#: client/gui-gnome/connect.cpp:186 client/gui-gnome/interface.cpp:307
+#: client/gui-gnome/interface.cpp:539
 msgid "Connect to server"
 msgstr "Conectar ao servidor"
 
-#: ../client/gui-gnome/connect.cpp:188 ../client/gui-gnome/connect.cpp:331
-#: ../client/gui-gnome/connect.cpp:402 ../client/gui-gnome/interface.cpp:912
-#: ../client/gui-gnome/interface.cpp:1014 ../client/gui-gnome/support.cpp:91
-#: ../client/gui-gnome/support.cpp:246 ../client/gui-gnome/preferences.cpp:593
+#: client/gui-gnome/connect.cpp:188 client/gui-gnome/connect.cpp:331
+#: client/gui-gnome/connect.cpp:402 client/gui-gnome/interface.cpp:913
+#: client/gui-gnome/interface.cpp:1015 client/gui-gnome/support.cpp:91
+#: client/gui-gnome/support.cpp:246 client/gui-gnome/preferences.cpp:593
 msgid "_OK"
 msgstr ""
 
-#: ../client/gui-gnome/connect.cpp:188 ../client/gui-gnome/preferences.cpp:595
+#: client/gui-gnome/connect.cpp:188 client/gui-gnome/preferences.cpp:595
 #, fuzzy
 msgid "_Cancel"
-msgstr "FranÁa"
+msgstr "Fran√ßa"
 
-#: ../client/gui-gnome/connect.cpp:207
+#: client/gui-gnome/connect.cpp:207
 msgid "Server Options"
-msgstr "OpÁıes do servidor"
+msgstr "Op√ß√µes do servidor"
 
-#: ../client/gui-gnome/connect.cpp:212
+#. server port
+#: client/gui-gnome/connect.cpp:212
 msgid "Server port:"
 msgstr "Porta do servidor:"
 
-#: ../client/gui-gnome/connect.cpp:219
+#. server name
+#: client/gui-gnome/connect.cpp:219
 msgid "Server name:"
 msgstr "Nome do servidor:"
 
-#: ../client/gui-gnome/connect.cpp:227
+#. player name
+#: client/gui-gnome/connect.cpp:227
 msgid "Name:"
 msgstr "Nome:"
 
-#: ../client/gui-gnome/connect.cpp:236
+#. launch localhost server
+#: client/gui-gnome/connect.cpp:236
 msgid "Start server locally"
-msgstr "LanÁar um servidor local"
+msgstr "Lan√ßar um servidor local"
 
-#: ../client/gui-gnome/connect.cpp:242
+#. observer mode
+#: client/gui-gnome/connect.cpp:242
 msgid "Dont play, just observe"
-msgstr "N„o jogar, sÛ observar"
+msgstr "N√£o jogar, s√≥ observar"
 
-#: ../client/gui-gnome/connect.cpp:329
+#: client/gui-gnome/connect.cpp:329
 msgid "Select your color"
 msgstr "Escolha a sua cor"
 
-#: ../client/gui-gnome/connect.cpp:339
+#. desired color
+#: client/gui-gnome/connect.cpp:339
 msgid "Select your desired color"
 msgstr "Escolha a cor desejada"
 
-#: ../client/gui-gnome/connect.cpp:400
+#: client/gui-gnome/connect.cpp:400
 msgid "Select type of game"
 msgstr "Escolha o tipo de jogo"
 
-#: ../client/gui-gnome/connect.cpp:410
+#. Conquer the world / Secret missions
+#: client/gui-gnome/connect.cpp:410
 msgid "Missions"
 msgstr "Objetivos"
 
-#: ../client/gui-gnome/connect.cpp:417
+#: client/gui-gnome/connect.cpp:417
 msgid "Play to conquer the world"
 msgstr "Jogar pela conquista do mundo"
 
-#: ../client/gui-gnome/connect.cpp:426
+#: client/gui-gnome/connect.cpp:426
 msgid "Play with secret missions"
 msgstr "Jogar com objetivos secretos"
 
-#: ../client/gui-gnome/connect.cpp:433
+#: client/gui-gnome/connect.cpp:433
 msgid ""
 "Play with common mission\n"
 "(One wins, also, conquering 30 countries)"
 msgstr ""
 "Jogar com um objetivo global\n"
-"(TambÈm se ganha ao conquistar 30 territÛrios)"
+"(Tamb√©m se ganha ao conquistar 30 territ√≥rios)"
 
-#: ../client/gui-gnome/connect.cpp:444
+#. Fog of War / Normal
+#: client/gui-gnome/connect.cpp:444
 msgid "Visibility"
 msgstr "Visibilidade"
 
-#: ../client/gui-gnome/connect.cpp:451
+#: client/gui-gnome/connect.cpp:451
 msgid "Standard (You see all countries)"
-msgstr "Padr„o (VocÍ vÍ todos os territÛrios)"
+msgstr "Padr√£o (Voc√™ v√™ todos os territ√≥rios)"
 
-#: ../client/gui-gnome/connect.cpp:460
+#: client/gui-gnome/connect.cpp:460
 msgid "Fog of War (You see only border countries)"
-msgstr "Nevoeiro de guerra (sÛ vÍ os territÛrios vizinhos)"
+msgstr "Nevoeiro de guerra (s√≥ v√™ os territ√≥rios vizinhos)"
 
-#: ../client/gui-gnome/connect.cpp:468 ../client/gui-gnome/status.cpp:157
+#. Armies
+#: client/gui-gnome/connect.cpp:468 client/gui-gnome/status.cpp:157
 msgid "Armies"
-msgstr "ExÈrcitos"
+msgstr "Ex√©rcitos"
 
-#: ../client/gui-gnome/connect.cpp:475
+#: client/gui-gnome/connect.cpp:475
 msgid "Armies to place in the 1st step"
-msgstr "ExÈrcitos a pÙr na primeira vez"
+msgstr "Ex√©rcitos a p√¥r na primeira vez"
 
-#: ../client/gui-gnome/connect.cpp:485
+#: client/gui-gnome/connect.cpp:485
 msgid "Armies to place in the 2nd step"
-msgstr "ExÈrcitos a pÙr na segunda vez"
+msgstr "Ex√©rcitos a p√¥r na segunda vez"
 
-#: ../client/gui-gnome/g_country.cpp:63
+#: client/gui-gnome/g_country.cpp:63
 #, c-format
 msgid "%s armies: %d"
-msgstr "%s exÈrcitos: %d"
+msgstr "%s ex√©rcitos: %d"
 
-#: ../client/gui-gnome/g_scores.cpp:82 ../client/gui-gnome/status.cpp:106
+#: client/gui-gnome/g_scores.cpp:82 client/gui-gnome/status.cpp:106
 msgid "Number"
-msgstr "N˙mero"
+msgstr "N√∫mero"
 
-#: ../client/gui-gnome/g_scores.cpp:91 ../client/gui-gnome/g_scores.cpp:357
-#: ../client/gui-gnome/status.cpp:123
+#: client/gui-gnome/g_scores.cpp:91 client/gui-gnome/g_scores.cpp:357
+#: client/gui-gnome/status.cpp:123
 msgid "Score"
 msgstr "Pontos"
 
-#: ../client/gui-gnome/g_scores.cpp:100 ../client/gui-gnome/g_scores.cpp:350
-#: ../client/gui-gnome/status.cpp:115
+#: client/gui-gnome/g_scores.cpp:100 client/gui-gnome/g_scores.cpp:350
+#: client/gui-gnome/status.cpp:115
 msgid "Name"
 msgstr "Nome"
 
-#: ../client/gui-gnome/g_scores.cpp:109
+#: client/gui-gnome/g_scores.cpp:109
 msgid "Date"
 msgstr "Data"
 
-#: ../client/gui-gnome/g_scores.cpp:118 ../client/gui-gnome/g_scores.cpp:365
-#: ../client/gui-gnome/status.cpp:98
+#: client/gui-gnome/g_scores.cpp:118 client/gui-gnome/g_scores.cpp:365
+#: client/gui-gnome/status.cpp:98
 msgid "Color"
 msgstr "Cor"
 
-#: ../client/gui-gnome/g_scores.cpp:127 ../client/gui-gnome/status.cpp:140
+#: client/gui-gnome/g_scores.cpp:127 client/gui-gnome/status.cpp:140
 #, fuzzy
 msgid "Human?"
 msgstr "Humano"
 
-#: ../client/gui-gnome/g_scores.cpp:264
+#: client/gui-gnome/g_scores.cpp:264
 msgid "High Scores"
-msgstr "Melhores pontuaÁıes"
+msgstr "Melhores pontua√ß√µes"
 
-#: ../client/gui-gnome/g_scores.cpp:266 ../client/gui-gnome/status.cpp:273
+#: client/gui-gnome/g_scores.cpp:266 client/gui-gnome/status.cpp:273
 msgid "_Refresh"
 msgstr ""
 
-#: ../client/gui-gnome/gui.cpp:100
+#: client/gui-gnome/gui.cpp:100
 #, c-format
 msgid "You lost the game :("
-msgstr "VocÍ perdeu o jogo :("
+msgstr "Voc√™ perdeu o jogo :("
 
-#: ../client/gui-gnome/gui.cpp:101
+#: client/gui-gnome/gui.cpp:101
 msgid "You lost"
-msgstr "VocÍ perdeu"
+msgstr "Voc√™ perdeu"
 
-#: ../client/gui-gnome/gui.cpp:101 ../client/gui-gnome/support.cpp:214
-#: ../client/gui-gnome/support.cpp:217 ../client/gui-gnome/support.cpp:222
+#: client/gui-gnome/gui.cpp:101 client/gui-gnome/support.cpp:214
+#: client/gui-gnome/support.cpp:217 client/gui-gnome/support.cpp:222
 msgid "Game Over"
 msgstr "O jogo acabou"
 
-#: ../client/gui-gnome/gui.cpp:104
+#: client/gui-gnome/gui.cpp:104
 #, c-format
 msgid "Player %s(%s) lost the game"
 msgstr "O jogador %s(%s) perdeu o jogo"
 
-#: ../client/gui-gnome/gui.cpp:105
+#: client/gui-gnome/gui.cpp:105
 msgid "A player lost the game"
 msgstr "Um jogador perdeu o jogo"
 
-#: ../client/gui-gnome/gui.cpp:105
+#: client/gui-gnome/gui.cpp:105
 msgid "Player lost the game"
 msgstr "O jogador perdeu o jogo"
 
-#: ../client/gui-gnome/gui.cpp:125
+#: client/gui-gnome/gui.cpp:125
 #, c-format
 msgid "Coward %s(%s) has surrendered"
 msgstr "O covarde %s(%s) rendeu-se :P"
 
-#: ../client/gui-gnome/gui.cpp:126
+#: client/gui-gnome/gui.cpp:126
 msgid "A player has surrendered"
 msgstr "Um jogador rendeu-se"
 
-#: ../client/gui-gnome/gui.cpp:169
+#. show welcome message
+#: client/gui-gnome/gui.cpp:180
+#, fuzzy
+msgid "Tenes Empanadas Graciela - by Ricardo Quesada"
+msgstr "Tenes Empanadas Graciela - Rob√¥ v%s - por Ricardo Quesada\n"
+
+#: client/gui-gnome/gui.cpp:181
 #, c-format
-msgid ""
-"Warning: Could not migrate old GConf settings: %s\n"
-"Please make sure that GConf is installed and the gsettings-data-convert tool "
-"is in your PATH. Alternatively, ignore this message and convert your old "
-"settings manually."
+msgid "Gnome client v%s - by R√ºdiger Ranft-Driscoll"
 msgstr ""
 
-#: ../client/gui-gnome/gui.cpp:178
-msgid "Old GConf settings were either missing or migrated successfully."
-msgstr ""
-
-#: ../client/gui-gnome/gui.cpp:239
-#, c-format
-msgid "Tenes Empanadas Graciela - Gnome client v%s - by Ricardo Quesada"
-msgstr "Tenes Empanadas Graciela - Cliente Gnome v%s - por Ricardo Quesada"
-
-#: ../client/gui-gnome/gui.cpp:240
+#: client/gui-gnome/gui.cpp:182
 #, c-format
 msgid "Using theme '%s - v%s' by %s\n"
 msgstr "Usando o tema '%s - v%s' por %s\n"
 
-#: ../client/gui-gnome/gui.cpp:370
+#: client/gui-gnome/gui.cpp:308
 #, c-format
 msgid ""
 "1st part:\n"
 "Place %d armies in your countries"
 msgstr ""
 "1ro tempo:\n"
-"Ponha %d exÈrcitos nos seus territÛrios"
+"Ponha %d ex√©rcitos nos seus territ√≥rios"
 
-#: ../client/gui-gnome/gui.cpp:373
+#: client/gui-gnome/gui.cpp:311
 #, c-format
 msgid ""
 "2nd part:\n"
 "Place %d armies in your countries"
 msgstr ""
 "2ndo tempo:\n"
-"Ponha %d exÈrcitos nos seus territÛrios"
+"Ponha %d ex√©rcitos nos seus territ√≥rios"
 
-#: ../client/gui-gnome/gui.cpp:383
+#: client/gui-gnome/gui.cpp:321
 #, c-format
 msgid "Place %d armies in %s\n"
-msgstr "Ponha %d exÈrcitos em %s\n"
+msgstr "Ponha %d ex√©rcitos em %s\n"
 
-#: ../client/gui-gnome/gui.cpp:391
+#: client/gui-gnome/gui.cpp:329
 #, c-format
 msgid "And place another %d armies in your countries\n"
-msgstr "E ponha outros %d exÈrcitos nos seus territÛrios\n"
+msgstr "E ponha outros %d ex√©rcitos nos seus territ√≥rios\n"
 
-#: ../client/gui-gnome/gui.cpp:395
+#: client/gui-gnome/gui.cpp:333
 #, c-format
 msgid "Place %d armies in your countries\n"
-msgstr "Ponha %d exÈrcitos nos seus territÛrios\n"
+msgstr "Ponha %d ex√©rcitos nos seus territ√≥rios\n"
 
-#: ../client/gui-gnome/gui.cpp:401
+#: client/gui-gnome/gui.cpp:339
 msgid ""
 "\n"
 "If you want to EXCHANGE your cards for armies,\n"
 "DO IT NOW!"
 msgstr ""
 "\n"
-"Se quiser TROCAR cartas por exÈrcitos,\n"
-"FA«A AGORA!"
+"Se quiser TROCAR cartas por ex√©rcitos,\n"
+"FA√áA AGORA!"
 
-#: ../client/gui-gnome/gui.cpp:411
+#: client/gui-gnome/gui.cpp:349
 msgid "Place armies"
-msgstr "Ponha exÈrcitos"
+msgstr "Ponha ex√©rcitos"
 
-#: ../client/gui-gnome/gui.cpp:429
+#: client/gui-gnome/gui.cpp:367
 msgid "Its your turn"
-msgstr "… a tua vez"
+msgstr "√â a tua vez"
 
-#: ../client/gui-gnome/gui.cpp:429
+#: client/gui-gnome/gui.cpp:367
 msgid "Its your turn to attack"
-msgstr "… a tua vez de atacar"
+msgstr "√â a tua vez de atacar"
 
-#: ../client/gui-gnome/gui.cpp:500
+#: client/gui-gnome/gui.cpp:438
 #, c-format
 msgid "Now you can add %d extra armies in your countries!"
-msgstr "Agora pode pÙr mais %d exÈrcitos nos seus territÛrios!"
+msgstr "Agora pode p√¥r mais %d ex√©rcitos nos seus territ√≥rios!"
 
-#: ../client/gui-gnome/gui.cpp:502
+#: client/gui-gnome/gui.cpp:440
 msgid "Extra armies"
-msgstr "Mais exÈrcitos"
+msgstr "Mais ex√©rcitos"
 
-#: ../client/gui-gnome/interface.cpp:206
-#: ../client/gui-gnome/preferences.cpp:110
+#: client/gui-gnome/interface.cpp:206 client/gui-gnome/preferences.cpp:110
 #, c-format
 msgid "Could not find the %s file"
-msgstr "N„o consegui encontrar o arquivo %s"
+msgstr "N√£o consegui encontrar o arquivo %s"
 
-#: ../client/gui-gnome/interface.cpp:302
+#: client/gui-gnome/interface.cpp:302
 msgid "_Game"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:306
+#: client/gui-gnome/interface.cpp:306
 msgid "_Connect"
 msgstr "_Conectar"
 
-#: ../client/gui-gnome/interface.cpp:312
+#: client/gui-gnome/interface.cpp:312
 msgid "_Disconnect"
 msgstr "_Desconectar"
 
-#: ../client/gui-gnome/interface.cpp:314
+#: client/gui-gnome/interface.cpp:314
 msgid "Disconnect from server"
 msgstr "Desconecta do servidor"
 
-#: ../client/gui-gnome/interface.cpp:325
+#: client/gui-gnome/interface.cpp:325
 msgid "_Launch robot"
-msgstr "_LanÁar robÙ"
+msgstr "_Lan√ßar rob√¥"
 
-#: ../client/gui-gnome/interface.cpp:326
+#: client/gui-gnome/interface.cpp:326
 msgid "Launch a robot"
-msgstr "LanÁa um robÙ"
+msgstr "Lan√ßa um rob√¥"
 
-#: ../client/gui-gnome/interface.cpp:338
+#: client/gui-gnome/interface.cpp:338
 #, fuzzy
 msgid "_Scores..."
 msgstr "Pontos"
 
-#: ../client/gui-gnome/interface.cpp:339
+#: client/gui-gnome/interface.cpp:339
 #, fuzzy
 msgid "View the scores"
-msgstr "para mostrar as melhores pontuaÁıes"
+msgstr "para mostrar as melhores pontua√ß√µes"
 
-#: ../client/gui-gnome/interface.cpp:347
+#: client/gui-gnome/interface.cpp:347
 msgid "_Quit"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:348
+#: client/gui-gnome/interface.cpp:348
 msgid "Quit the application"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:358
+#: client/gui-gnome/interface.cpp:358
 msgid "_Actions"
-msgstr "_AcÁıes"
+msgstr "_Ac√ß√µes"
 
-#: ../client/gui-gnome/interface.cpp:362 ../client/gui-gnome/interface.cpp:546
+#: client/gui-gnome/interface.cpp:362 client/gui-gnome/interface.cpp:546
 msgid "Start"
-msgstr "ComeÁar"
+msgstr "Come√ßar"
 
-#: ../client/gui-gnome/interface.cpp:363 ../client/gui-gnome/interface.cpp:547
+#: client/gui-gnome/interface.cpp:363 client/gui-gnome/interface.cpp:547
 msgid "Start the game"
-msgstr "ComeÁa o jogo"
+msgstr "Come√ßa o jogo"
 
-#: ../client/gui-gnome/interface.cpp:368 ../client/gui-gnome/interface.cpp:557
+#: client/gui-gnome/interface.cpp:368 client/gui-gnome/interface.cpp:557
 msgid "Send armies"
-msgstr "Enviar exÈrcitos"
+msgstr "Enviar ex√©rcitos"
 
-#: ../client/gui-gnome/interface.cpp:370
+#: client/gui-gnome/interface.cpp:370
 msgid "Send the armies recently placed"
-msgstr "Envia os exÈrcitos recentemente colocados"
+msgstr "Envia os ex√©rcitos recentemente colocados"
 
-#: ../client/gui-gnome/interface.cpp:375
+#: client/gui-gnome/interface.cpp:375
 msgid "_Update Map"
 msgstr "_Recarregar o Mapa"
 
-#: ../client/gui-gnome/interface.cpp:377
+#: client/gui-gnome/interface.cpp:377
 #, fuzzy
 msgid "Show the armies that other players had placed"
-msgstr "Mostra os exÈrcitos que os outros jogadores puseram"
+msgstr "Mostra os ex√©rcitos que os outros jogadores puseram"
 
-#: ../client/gui-gnome/interface.cpp:383
+#: client/gui-gnome/interface.cpp:383
 #, fuzzy
 msgid "_Reattack"
 msgstr "atacando"
 
-#: ../client/gui-gnome/interface.cpp:385
+#: client/gui-gnome/interface.cpp:385
 msgid "Attack your enemy, again using same source and destination"
 msgstr "Atacar outra vez o inimigo, utilizando a mesma origem e destino"
 
-#: ../client/gui-gnome/interface.cpp:394
+#: client/gui-gnome/interface.cpp:394
 msgid "Reset the attack"
 msgstr "Anula o ataque"
 
-#: ../client/gui-gnome/interface.cpp:396
+#: client/gui-gnome/interface.cpp:396
 msgid "Start again selecting the source and destination country for the attack"
-msgstr "RecomeÁa outra vez escolhendo a origem e o destino do ataque"
+msgstr "Recome√ßa outra vez escolhendo a origem e o destino do ataque"
 
-#: ../client/gui-gnome/interface.cpp:402
+#: client/gui-gnome/interface.cpp:402
 msgid "Re_group armies"
-msgstr "_Mover exÈrcitos"
+msgstr "_Mover ex√©rcitos"
 
-#: ../client/gui-gnome/interface.cpp:404 ../client/gui-gnome/interface.cpp:567
+#: client/gui-gnome/interface.cpp:404 client/gui-gnome/interface.cpp:567
 msgid "Regroup your armies, moving from one country to another"
-msgstr "Reagrupe as suas tropas, de um territÛrio para outro"
+msgstr "Reagrupe as suas tropas, de um territ√≥rio para outro"
 
-#: ../client/gui-gnome/interface.cpp:410
+#: client/gui-gnome/interface.cpp:410
 msgid "Get card"
 msgstr "Pegar carta"
 
-#: ../client/gui-gnome/interface.cpp:411 ../client/gui-gnome/interface.cpp:576
+#: client/gui-gnome/interface.cpp:411 client/gui-gnome/interface.cpp:576
 msgid "Get a country card"
-msgstr "Pega uma carta de territÛrio"
+msgstr "Pega uma carta de territ√≥rio"
 
-#: ../client/gui-gnome/interface.cpp:416
+#: client/gui-gnome/interface.cpp:416
 msgid "_End turn"
 msgstr "_Acabar jogada"
 
-#: ../client/gui-gnome/interface.cpp:418 ../client/gui-gnome/interface.cpp:585
+#: client/gui-gnome/interface.cpp:418 client/gui-gnome/interface.cpp:585
 msgid "Pass the turn to another player"
 msgstr "Passa a jogada para outro jogador"
 
-#: ../client/gui-gnome/interface.cpp:426
+#: client/gui-gnome/interface.cpp:426
 msgid "Surrender"
 msgstr "Render-se"
 
-#: ../client/gui-gnome/interface.cpp:427
+#: client/gui-gnome/interface.cpp:427
 msgid "I'm a coward"
 msgstr "Eu sou um covarde"
 
-#: ../client/gui-gnome/interface.cpp:434
+#: client/gui-gnome/interface.cpp:434
 msgid "_View"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:438
+#: client/gui-gnome/interface.cpp:438
 msgid "View _players"
 msgstr "Ver _jogadores"
 
-#: ../client/gui-gnome/interface.cpp:440
+#: client/gui-gnome/interface.cpp:440
 msgid "View the status of the players"
 msgstr "Ver status dos jogadores"
 
-#: ../client/gui-gnome/interface.cpp:445
+#: client/gui-gnome/interface.cpp:445
 msgid "View _mission"
 msgstr "Ver _objectivo"
 
-#: ../client/gui-gnome/interface.cpp:447
+#: client/gui-gnome/interface.cpp:447
 msgid "View your mission of this game"
 msgstr "Ver o teu objetivo neste jogo"
 
-#: ../client/gui-gnome/interface.cpp:452
+#: client/gui-gnome/interface.cpp:452
 msgid "View _cards"
 msgstr "Ver _cartas"
 
-#: ../client/gui-gnome/interface.cpp:454
+#: client/gui-gnome/interface.cpp:454
 #, fuzzy
 msgid "View all the cards that you won"
 msgstr "Ver todas as cartas que ganhou"
 
-#: ../client/gui-gnome/interface.cpp:462
+#: client/gui-gnome/interface.cpp:462
 msgid "Zoom In"
 msgstr "Zoom +"
 
-#: ../client/gui-gnome/interface.cpp:464
+#: client/gui-gnome/interface.cpp:464
 msgid "Increase zoom factor by 5%"
 msgstr "Aumenta o zoom de 5%"
 
-#: ../client/gui-gnome/interface.cpp:472
+#: client/gui-gnome/interface.cpp:472
 #, fuzzy
 msgid "Zoom out"
 msgstr "Zoom-"
 
-#: ../client/gui-gnome/interface.cpp:474
+#: client/gui-gnome/interface.cpp:474
 msgid "Decrease zoom factor by 5%"
 msgstr "diminui o zoom de 5%"
 
-#: ../client/gui-gnome/interface.cpp:482
+#: client/gui-gnome/interface.cpp:482
 msgid "Zoom _1:1"
 msgstr "Zoom _1:1"
 
-#: ../client/gui-gnome/interface.cpp:484
+#: client/gui-gnome/interface.cpp:484
 msgid "Display the map at 1:1 scale"
 msgstr "Mostra o mapa no tamanho inicial"
 
-#: ../client/gui-gnome/interface.cpp:493
+#: client/gui-gnome/interface.cpp:493
 msgid "_Settings"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:498
+#: client/gui-gnome/interface.cpp:498
 #, fuzzy
 msgid "Prefere_nces"
-msgstr "PreferÍncias de TEG"
+msgstr "Prefer√™ncias de TEG"
 
-#: ../client/gui-gnome/interface.cpp:500
+#: client/gui-gnome/interface.cpp:500
 msgid "Configure the application"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:508
+#: client/gui-gnome/interface.cpp:508
 msgid "_Help"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:512
+#: client/gui-gnome/interface.cpp:512
 #, fuzzy
 msgid "_Contents"
 msgstr "_Conectar"
 
-#: ../client/gui-gnome/interface.cpp:514
+#: client/gui-gnome/interface.cpp:514
 msgid "View help for this application"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:522
+#: client/gui-gnome/interface.cpp:522
 msgid "_About"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:523
+#: client/gui-gnome/interface.cpp:523
 msgid "About this application"
 msgstr ""
 
-#: ../client/gui-gnome/interface.cpp:538
+#: client/gui-gnome/interface.cpp:538
 msgid "Connect"
 msgstr "Conectar"
 
-#: ../client/gui-gnome/interface.cpp:558
+#: client/gui-gnome/interface.cpp:558
 msgid "Send your armies"
-msgstr "Enviar os seus exÈrcitos"
+msgstr "Enviar os seus ex√©rcitos"
 
-#: ../client/gui-gnome/interface.cpp:565
+#: client/gui-gnome/interface.cpp:565
 msgid "1. Regroup"
 msgstr "1. Mover"
 
-#: ../client/gui-gnome/interface.cpp:575
+#: client/gui-gnome/interface.cpp:575
 msgid "2. Get card"
 msgstr "2. Pegar carta"
 
-#: ../client/gui-gnome/interface.cpp:583
+#: client/gui-gnome/interface.cpp:583
 msgid "3. End turn"
 msgstr "3. Acabar jogada"
 
-#: ../client/gui-gnome/interface.cpp:595
+#: client/gui-gnome/interface.cpp:595
 msgid "View players"
 msgstr "Ver jogadores"
 
-#: ../client/gui-gnome/interface.cpp:596
+#: client/gui-gnome/interface.cpp:596
 #, fuzzy
 msgid "View players' status"
 msgstr "Ver os jogadores"
 
-#: ../client/gui-gnome/interface.cpp:722
+#: client/gui-gnome/interface.cpp:722
 msgid "Welcome to TEG!"
 msgstr "Benvindo ao TEG!"
 
-#: ../client/gui-gnome/interface.cpp:737
+#: client/gui-gnome/interface.cpp:737
 msgid "Unable to create map!"
-msgstr "ImpossÌvel de criar o mapa!"
+msgstr "Imposs√≠vel de criar o mapa!"
 
-#: ../client/gui-gnome/interface.cpp:911
+#: client/gui-gnome/interface.cpp:912
 msgid "A country was conquered"
-msgstr "Um paÌs foi conquistado"
+msgstr "Um pa√≠s foi conquistado"
 
-#: ../client/gui-gnome/interface.cpp:933
+#: client/gui-gnome/interface.cpp:934
 msgid "A new country"
-msgstr "Um novo paÌs"
+msgstr "Um novo pa√≠s"
 
-#: ../client/gui-gnome/interface.cpp:939
+#: client/gui-gnome/interface.cpp:940
 #, c-format
 msgid "You conquered '%s' in your attack from '%s'!!\n"
-msgstr "VocÍ conquistou '%s' no teu ataque a partir de '%s'!!\n"
+msgstr "Voc√™ conquistou '%s' no teu ataque a partir de '%s'!!\n"
 
-#: ../client/gui-gnome/interface.cpp:947 ../client/gui-gnome/interface.cpp:1048
+#: client/gui-gnome/interface.cpp:948 client/gui-gnome/interface.cpp:1049
 msgid "Armies to move"
-msgstr "ExÈrcitos a enviar"
+msgstr "Ex√©rcitos a enviar"
 
-#: ../client/gui-gnome/interface.cpp:958
+#. gtk_range_draw_trough(GTK_RANGE(tropas_hscale_cant));
+#: client/gui-gnome/interface.cpp:959
 #, c-format
 msgid ""
 "[Note: The server moved 1 army to '%s' for you.\n"
 "Choose how many more armies you want to move]"
 msgstr ""
-"[Nota: o servidor moveu 1 exÈrcito em '%s' para ti.\n"
-"Escolha quantos mais exÈrcitos quer mover]"
+"[Nota: o servidor moveu 1 ex√©rcito em '%s' para ti.\n"
+"Escolha quantos mais ex√©rcitos quer mover]"
 
-#: ../client/gui-gnome/interface.cpp:1012
+#: client/gui-gnome/interface.cpp:1013
 msgid "Regroup your armies"
 msgstr "Reagrupe suas tropas"
 
-#: ../client/gui-gnome/interface.cpp:1035
+#: client/gui-gnome/interface.cpp:1036
 msgid "Regrouping"
 msgstr "Movendo"
 
-#: ../client/gui-gnome/interface.cpp:1041
+#: client/gui-gnome/interface.cpp:1042
 #, c-format
 msgid "Moving armies from '%s' to '%s'\n"
-msgstr "Movendo exÈrcitos de '%s' para '%s'\n"
+msgstr "Movendo ex√©rcitos de '%s' para '%s'\n"
 
-#: ../client/gui-gnome/interface.cpp:1058
+#: client/gui-gnome/interface.cpp:1059
 #, c-format
 msgid ""
 "[Note: You can regroup as many times as you want,\n"
 "as long as you dont regroup an armie that were\n"
 "regrouped before in this turn.]"
 msgstr ""
-"[Nota: Pode mover quantos exÈrcitos quiser,\n"
-"mas cada exÈrcito sÛ pode ser movido uma vez\n"
+"[Nota: Pode mover quantos ex√©rcitos quiser,\n"
+"mas cada ex√©rcito s√≥ pode ser movido uma vez\n"
 "por jogada.]"
 
-#: ../client/gui-gnome/mission.cpp:53
+#: client/gui-gnome/mission.cpp:53
 msgid "Error, couldn't find file: objetivo.png"
-msgstr "Erro, n„o consegui encontrar o arquivo: objetivo.png"
+msgstr "Erro, n√£o consegui encontrar o arquivo: objetivo.png"
 
-#: ../client/gui-gnome/mission.cpp:140
+#: client/gui-gnome/mission.cpp:140
 msgid "[This is your secret mission.]"
-msgstr "[Esta È a sua miss„o secreta]"
+msgstr "[Esta √© a sua miss√£o secreta]"
 
-#: ../client/gui-gnome/mission.cpp:142
+#: client/gui-gnome/mission.cpp:142
 #, fuzzy
 msgid "[This is the common mission.]"
-msgstr "[Esta È a miss„o de todos]"
+msgstr "[Esta √© a miss√£o de todos]"
 
-#: ../client/gui-gnome/mission.cpp:208
+#: client/gui-gnome/mission.cpp:208
 msgid "[Accomplished mission]"
-msgstr "[Miss„o cumprida]"
+msgstr "[Miss√£o cumprida]"
 
-#: ../client/gui-gnome/mission.cpp:269
+#: client/gui-gnome/mission.cpp:269
 msgid "Requesting a mission..."
-msgstr "Pedindo uma miss„o..."
+msgstr "Pedindo uma miss√£o..."
 
-#: ../client/gui-gnome/mission.cpp:278
+#: client/gui-gnome/mission.cpp:278
 #, c-format
 msgid "Your mission is: %s"
-msgstr "A sua miss„o È: %s"
+msgstr "A sua miss√£o √©: %s"
 
-#: ../client/gui-gnome/mission.cpp:284
+#: client/gui-gnome/mission.cpp:284
 msgid "Secret mission"
-msgstr "Miss„o secreta"
+msgstr "Miss√£o secreta"
 
-#: ../client/gui-gnome/mission.cpp:284
+#: client/gui-gnome/mission.cpp:284
 msgid "Your mission"
-msgstr "A sua miss„o"
+msgstr "A sua miss√£o"
 
-#: ../client/gui-gnome/mission.cpp:285
+#: client/gui-gnome/mission.cpp:285
 #, fuzzy
 msgid "_Previous"
-msgstr "PrÈ-visualizaÁ„o"
+msgstr "Pr√©-visualiza√ß√£o"
 
-#: ../client/gui-gnome/mission.cpp:286
+#: client/gui-gnome/mission.cpp:286
 msgid "_Next"
 msgstr ""
 
-#: ../client/gui-gnome/status.cpp:132
+#: client/gui-gnome/status.cpp:132
 msgid "Address"
-msgstr "EndereÁo"
+msgstr "Endere√ßo"
 
-#: ../client/gui-gnome/status.cpp:148
+#: client/gui-gnome/status.cpp:148
 msgid "Countries"
-msgstr "TerritÛrios"
+msgstr "Territ√≥rios"
 
-#: ../client/gui-gnome/status.cpp:166
+#: client/gui-gnome/status.cpp:166
 msgid "Cards"
 msgstr "Cartas"
 
-#: ../client/gui-gnome/status.cpp:175
+#: client/gui-gnome/status.cpp:175
 msgid "Status"
-msgstr "SituaÁ„o"
+msgstr "Situa√ß√£o"
 
-#: ../client/gui-gnome/status.cpp:183
+#: client/gui-gnome/status.cpp:183
 #, fuzzy
 msgid "Started Turn?"
-msgstr "comeÁando uma rodada"
+msgstr "come√ßando uma rodada"
 
-#: ../client/gui-gnome/status.cpp:267 ../client/gui-gnome/status.cpp:268
+#: client/gui-gnome/status.cpp:267 client/gui-gnome/status.cpp:268
 msgid "Status of Players"
-msgstr "SituaÁ„o dos Jogadores"
+msgstr "Situa√ß√£o dos Jogadores"
 
-#: ../client/gui-gnome/status.cpp:425
+#: client/gui-gnome/status.cpp:425
 msgid "Round started by:"
-msgstr "Rodada comeÁada por:"
+msgstr "Rodada come√ßada por:"
 
-#: ../client/gui-gnome/status.cpp:449
+#: client/gui-gnome/status.cpp:449
 msgid "Round number:"
 msgstr "Rodada numero:"
 
-#: ../client/gui-gnome/status.cpp:461
+#: client/gui-gnome/status.cpp:461
 msgid "?"
 msgstr "?"
 
-#: ../client/gui-gnome/status.cpp:474
+#: client/gui-gnome/status.cpp:474
 msgid "Players turn:"
 msgstr "Rodada dos jogadores:"
 
-#: ../client/gui-gnome/support.cpp:214
+#: client/gui-gnome/support.cpp:214
 msgid "A player won the game"
 msgstr "Um jogador venceu o jogo"
 
-#: ../client/gui-gnome/support.cpp:217
+#: client/gui-gnome/support.cpp:217
 msgid "You are the winner"
-msgstr "VocÍ È o vencedor"
+msgstr "Voc√™ √© o vencedor"
 
-#: ../client/gui-gnome/support.cpp:220
+#: client/gui-gnome/support.cpp:220
 #, c-format
 msgid "%s is the winner"
-msgstr "%s È o vencedor"
+msgstr "%s √© o vencedor"
 
-#: ../client/gui-gnome/support.cpp:232
+#. show mission
+#: client/gui-gnome/support.cpp:232
 msgid "Accomplished mission"
-msgstr "Miss„o cumprida"
+msgstr "Miss√£o cumprida"
 
-#: ../client/gui-gnome/support.cpp:240
+#. show scores
+#: client/gui-gnome/support.cpp:240
 msgid "Players' Scores"
 msgstr "Pontos dos Jogadores"
 
-#: ../client/gui-gnome/preferences.cpp:313
+#: client/gui-gnome/preferences.cpp:313
 msgid "You have to restart TEG to use the new theme."
-msgstr "Deve relanÁar TEG para utilizar o novo tema."
+msgstr "Deve relan√ßar TEG para utilizar o novo tema."
 
-#: ../client/gui-gnome/preferences.cpp:359
-#: ../client/gui-gnome/preferences.cpp:365
+#: client/gui-gnome/preferences.cpp:359 client/gui-gnome/preferences.cpp:365
 msgid "Select theme"
 msgstr "Escolha o tema"
 
-#: ../client/gui-gnome/preferences.cpp:376
+#: client/gui-gnome/preferences.cpp:376
 msgid "Preview"
-msgstr "PrÈ-visualizaÁ„o"
+msgstr "Pr√©-visualiza√ß√£o"
 
-#: ../client/gui-gnome/preferences.cpp:387
-#: ../client/gui-gnome/preferences.cpp:607
+#. Message Options
+#: client/gui-gnome/preferences.cpp:387 client/gui-gnome/preferences.cpp:607
 msgid "Console Messages"
 msgstr "Mensagens do Console"
 
-#: ../client/gui-gnome/preferences.cpp:394
+#: client/gui-gnome/preferences.cpp:394
 msgid "Show Error Messages"
 msgstr "Mostrar Mensagens de Erros"
 
-#: ../client/gui-gnome/preferences.cpp:399
+#: client/gui-gnome/preferences.cpp:399
 msgid "Show Important Messages"
 msgstr "Mostrar Mensagens Importantes"
 
-#: ../client/gui-gnome/preferences.cpp:404
+#: client/gui-gnome/preferences.cpp:404
 msgid "Show Players Messages"
 msgstr "Mostrar Mensagens dos Jogadores"
 
-#: ../client/gui-gnome/preferences.cpp:409
+#: client/gui-gnome/preferences.cpp:409
 msgid "Show Players Messages with colors"
 msgstr "Mostrar Mensagens dos jogadores em cores"
 
-#: ../client/gui-gnome/preferences.cpp:414
+#: client/gui-gnome/preferences.cpp:414
 msgid "Show Informative Messages"
-msgstr "Mostrar Mensagens de InformaÁ„o"
+msgstr "Mostrar Mensagens de Informa√ß√£o"
 
-#: ../client/gui-gnome/preferences.cpp:424
-#: ../client/gui-gnome/preferences.cpp:611
+#. * Status options *
+#: client/gui-gnome/preferences.cpp:424 client/gui-gnome/preferences.cpp:611
 msgid "Status Of Players"
-msgstr "SituaÁ„o dos Jogadores"
+msgstr "Situa√ß√£o dos Jogadores"
 
-#: ../client/gui-gnome/preferences.cpp:433
+#: client/gui-gnome/preferences.cpp:433
 msgid "Show Color"
 msgstr "Mostra a cor"
 
-#: ../client/gui-gnome/preferences.cpp:439
+#: client/gui-gnome/preferences.cpp:439
 msgid "Show Player Number"
-msgstr "Mostra o n˙mero do jogador"
+msgstr "Mostra o n√∫mero do jogador"
 
-#: ../client/gui-gnome/preferences.cpp:445
+#: client/gui-gnome/preferences.cpp:445
 msgid "Show Name"
 msgstr "Mostra o nome"
 
-#: ../client/gui-gnome/preferences.cpp:451
+#: client/gui-gnome/preferences.cpp:451
 msgid "Show Score"
 msgstr "Mostra os pontos"
 
-#: ../client/gui-gnome/preferences.cpp:456
+#: client/gui-gnome/preferences.cpp:456
 msgid "Show IP Address"
-msgstr "Mostra o endereÁo IP"
+msgstr "Mostra o endere√ßo IP"
 
-#: ../client/gui-gnome/preferences.cpp:461
+#: client/gui-gnome/preferences.cpp:461
 msgid "Show Human/Robot"
-msgstr "Mostra Humano/RobÙ"
+msgstr "Mostra Humano/Rob√¥"
 
-#: ../client/gui-gnome/preferences.cpp:472
+#: client/gui-gnome/preferences.cpp:472
 msgid "Show Countries"
-msgstr "Mostra os TerritÛrios"
+msgstr "Mostra os Territ√≥rios"
 
-#: ../client/gui-gnome/preferences.cpp:477
+#: client/gui-gnome/preferences.cpp:477
 msgid "Show Armies"
-msgstr "Mostra os exÈrcitos"
+msgstr "Mostra os ex√©rcitos"
 
-#: ../client/gui-gnome/preferences.cpp:482
+#: client/gui-gnome/preferences.cpp:482
 msgid "Show Cards"
 msgstr "Mostra as cartas"
 
-#: ../client/gui-gnome/preferences.cpp:487
+#: client/gui-gnome/preferences.cpp:487
 msgid "Show Status"
-msgstr "Mostra a situaÁ„o"
+msgstr "Mostra a situa√ß√£o"
 
-#: ../client/gui-gnome/preferences.cpp:492
+#: client/gui-gnome/preferences.cpp:492
 msgid "Show Who Started"
-msgstr "Mostra quem comeÁou"
+msgstr "Mostra quem come√ßou"
 
-#: ../client/gui-gnome/preferences.cpp:505
+#. Robot Options
+#: client/gui-gnome/preferences.cpp:505
 msgid "Launch Robot"
-msgstr "LanÁa um RobÙ"
+msgstr "Lan√ßa um Rob√¥"
 
-#: ../client/gui-gnome/preferences.cpp:512
+#: client/gui-gnome/preferences.cpp:512
 msgid "Starts the robots in the server (faster)"
-msgstr "LanÁa os RobÙs no servidor (mais r·pido)"
+msgstr "Lan√ßa os Rob√¥s no servidor (mais r√°pido)"
 
-#: ../client/gui-gnome/preferences.cpp:517
+#: client/gui-gnome/preferences.cpp:517
 msgid "Starts the robots in the client (preserves localization)"
-msgstr "LanÁa os RobÙs no cliente (preserva servidor)"
+msgstr "Lan√ßa os Rob√¥s no cliente (preserva servidor)"
 
-#: ../client/gui-gnome/preferences.cpp:527
+#: client/gui-gnome/preferences.cpp:527
 msgid "Popup Dialogs"
-msgstr "Janelas de di·logo"
+msgstr "Janelas de di√°logo"
 
-#: ../client/gui-gnome/preferences.cpp:533
+#: client/gui-gnome/preferences.cpp:533
 msgid "Show 'your turn for attack' dialog"
-msgstr "Mostra o di·logo 'È a sua vez de atacar'"
+msgstr "Mostra o di√°logo '√© a sua vez de atacar'"
 
-#: ../client/gui-gnome/preferences.cpp:538
+#: client/gui-gnome/preferences.cpp:538
 msgid "Show 'regroup your armies' dialog"
-msgstr "Mostra o di·logo 'reagrupe suas tropas'"
+msgstr "Mostra o di√°logo 'reagrupe suas tropas'"
 
-#: ../client/gui-gnome/preferences.cpp:543
+#: client/gui-gnome/preferences.cpp:543
 msgid "Show 'place your armies' dialog"
-msgstr "Mostra o di·logo 'envie os seus exÈrcitos'"
+msgstr "Mostra o di√°logo 'envie os seus ex√©rcitos'"
 
-#: ../client/gui-gnome/preferences.cpp:552
+#: client/gui-gnome/preferences.cpp:552
 msgid "Toolbar Visibility & Style"
 msgstr ""
 
-#: ../client/gui-gnome/preferences.cpp:558
+#: client/gui-gnome/preferences.cpp:558
 #, fuzzy
 msgid "Show toolbar"
 msgstr "Mostra a cor"
 
-#: ../client/gui-gnome/preferences.cpp:567
+#: client/gui-gnome/preferences.cpp:567
 msgid "Toolbar style:"
 msgstr ""
 
-#: ../client/gui-gnome/preferences.cpp:573
+#: client/gui-gnome/preferences.cpp:573
 msgid "Text Below Icons"
 msgstr ""
 
-#: ../client/gui-gnome/preferences.cpp:574
+#: client/gui-gnome/preferences.cpp:574
 msgid "Priority Text Beside Icons"
 msgstr ""
 
-#: ../client/gui-gnome/preferences.cpp:575
+#: client/gui-gnome/preferences.cpp:575
 msgid "Icons Only"
 msgstr ""
 
-#: ../client/gui-gnome/preferences.cpp:576
+#: client/gui-gnome/preferences.cpp:576
 msgid "Text Only"
 msgstr ""
 
-#: ../client/gui-gnome/preferences.cpp:590
+#. * end *
+#: client/gui-gnome/preferences.cpp:590
 msgid "TEG Preferences"
-msgstr "PreferÍncias de TEG"
+msgstr "Prefer√™ncias de TEG"
 
-#: ../client/gui-gnome/preferences.cpp:603
+#: client/gui-gnome/preferences.cpp:603
 msgid "Themes"
 msgstr "Temas"
 
-#: ../client/gui-gnome/preferences.cpp:615
+#: client/gui-gnome/preferences.cpp:615
 msgid "Robot"
-msgstr "RobÙ"
+msgstr "Rob√¥"
 
-#: ../client/gui-gnome/preferences.cpp:619
+#: client/gui-gnome/preferences.cpp:619
 msgid "Dialogs & Toolbar"
 msgstr ""
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:13
+#: client/gui-gnome/net.sf.teg.gschema.xml:13
 msgid "The port where the TEG sever is listen to"
 msgstr ""
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:17
+#: client/gui-gnome/net.sf.teg.gschema.xml:17
 #, fuzzy
 msgid "The TEG server name"
 msgstr "Nome do servidor:"
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:21
+#: client/gui-gnome/net.sf.teg.gschema.xml:21
 #, fuzzy
 msgid "Your name in the game"
 msgstr "para sair do jogo"
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:25
+#: client/gui-gnome/net.sf.teg.gschema.xml:25
 #, fuzzy
 msgid "TEG's theme name"
 msgstr "salva o jogo"
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:29
+#: client/gui-gnome/net.sf.teg.gschema.xml:29
 #, fuzzy
 msgid "Desired color"
 msgstr "Escolha a cor desejada"
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:33
+#: client/gui-gnome/net.sf.teg.gschema.xml:33
 msgid "Which messages to show"
 msgstr ""
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:37
+#: client/gui-gnome/net.sf.teg.gschema.xml:37
 #, fuzzy
 msgid "Show names with color"
 msgstr "Mostrar Mensagens dos jogadores em cores"
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:41
+#: client/gui-gnome/net.sf.teg.gschema.xml:41
 msgid "Which columns of the status dialog to show"
 msgstr ""
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:45
+#: client/gui-gnome/net.sf.teg.gschema.xml:45
 msgid "Which dialogs should be shown"
 msgstr ""
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:49
+#: client/gui-gnome/net.sf.teg.gschema.xml:49
 #, fuzzy
 msgid "Toolbar visibility"
 msgstr "Visibilidade"
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:53
+#: client/gui-gnome/net.sf.teg.gschema.xml:53
 msgid "Toolbar style"
 msgstr ""
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:54
+#: client/gui-gnome/net.sf.teg.gschema.xml:54
 msgid "Valid values are \"both\", \"both-horiz\", \"icons\" and \"text\"."
 msgstr ""
 
-#: ../client/gui-gnome/net.sf.teg.gschema.xml:59
+#: client/gui-gnome/net.sf.teg.gschema.xml:59
 #, fuzzy
 msgid "Launch robot in server"
-msgstr "_LanÁar robÙ"
+msgstr "_Lan√ßar rob√¥"
 
-#: ../server/helper.cpp:567
+#: server/helper.cpp:567
 #, c-format
 msgid "Launching robot with options: %s %s\n"
-msgstr "LanÁando um robÙ com as opÁıes: %s %s\n"
+msgstr "Lan√ßando um rob√¥ com as op√ß√µes: %s %s\n"
 
-#: ../server/console.cpp:122 ../server/console.cpp:144
-#: ../server/console.cpp:221 ../server/console.cpp:235
+#: server/console.cpp:86
+msgid "to start playing"
+msgstr "para come√ßar a jogar"
+
+#: server/console.cpp:87
+msgid "shows status of players"
+msgstr "mostra a situa√ß√£o dos jogadores"
+
+#: server/console.cpp:88
+msgid "sends a message to all the players"
+msgstr "envia uma mensagem a todos os jogadores"
+
+#: server/console.cpp:89
+msgid "shows help"
+msgstr "mostra a ajuda"
+
+#: server/console.cpp:90
+msgid "internal use. Dont use it"
+msgstr "utiliza√ß√£o interna. N√£o o utilizes"
+
+#: server/console.cpp:91
+msgid "exits the game"
+msgstr "sai do jogo"
+
+#: server/console.cpp:92
+#, fuzzy
+msgid "save the game"
+msgstr "Come√ßa o jogo"
+
+#: server/console.cpp:93
+msgid "sets options"
+msgstr "acerta as op√ß√µes"
+
+#: server/console.cpp:94
+msgid "view options"
+msgstr "mostra as op√ß√µes"
+
+#: server/console.cpp:95
+msgid "kick player from the game"
+msgstr "exclui um jogador do jogo"
+
+#: server/console.cpp:96
+msgid "show players statistics"
+msgstr "mostra as estat√≠sticas dos jogadores"
+
+#: server/console.cpp:97
+msgid "show all-time high scores"
+msgstr "mostra as melhores pontua√ß√µes sempre"
+
+#: server/console.cpp:122 server/console.cpp:144 server/console.cpp:221
+#: server/console.cpp:235
 msgid "yes"
 msgstr "sim"
 
-#: ../server/console.cpp:122 ../server/console.cpp:144
-#: ../server/console.cpp:221 ../server/console.cpp:235
+#: server/console.cpp:122 server/console.cpp:144 server/console.cpp:221
+#: server/console.cpp:235
 msgid "no"
-msgstr "n„o"
+msgstr "n√£o"
 
-#: ../server/console.cpp:127
+#: server/console.cpp:127
 #, c-format
 msgid ""
 "Number Score - [Countries: Won  Lost] - [Armies: Won  Lost]  Name Human\n"
 msgstr ""
-"Numero Pontos - [Territorios: Conquistados  Perdidos] - [ExÈrcitos: "
-"Derrotas  VitÛrias]  Nome Humano\n"
+"Numero Pontos - [Territorios: Conquistados  Perdidos] - [Ex√©rcitos: "
+"Derrotas  Vit√≥rias]  Nome Humano\n"
 
-#: ../server/console.cpp:151
+#: server/console.cpp:151
 #, c-format
 msgid "  score  date       time    name              color    human\n"
 msgstr "  pontos  dia       hora    nome              cor    humano\n"
 
-#: ../server/console.cpp:163
+#: server/console.cpp:163
 #, c-format
 msgid "Player %s was kicked from the game\n"
-msgstr "O jogador %s foi excluÌdo do jogo\n"
+msgstr "O jogador %s foi exclu√≠do do jogo\n"
 
-#: ../server/console.cpp:166
+#: server/console.cpp:166
 #, c-format
 msgid "Player %s was not found\n"
-msgstr "O jogador %s n„o foi encontrado\n"
+msgstr "O jogador %s n√£o foi encontrado\n"
 
-#: ../server/console.cpp:174
+#: server/console.cpp:174
 msgid "Not yet implemented\n"
-msgstr "Ainda n„o est· feito\n"
+msgstr "Ainda n√£o est√° feito\n"
 
-#: ../server/console.cpp:199
+#: server/console.cpp:199
 #, c-format
 msgid "players:%d, connections:%d, game number:%d, round:%d, mission:%s\n"
-msgstr "jogadores:%d, conexıes:%d, jogo n˙mero:%d, rodada:%d, miss„o:%s\n"
+msgstr "jogadores:%d, conex√µes:%d, jogo n√∫mero:%d, rodada:%d, miss√£o:%s\n"
 
-#: ../server/console.cpp:204 ../server/options.cpp:75 ../server/options.cpp:89
-#: ../server/options.cpp:90 ../server/options.cpp:112 ../server/options.cpp:127
-#: ../server/options.cpp:128 ../server/options.cpp:150
-#: ../server/options.cpp:165 ../server/options.cpp:166
+#: server/console.cpp:204 server/options.cpp:75 server/options.cpp:89
+#: server/options.cpp:90 server/options.cpp:112 server/options.cpp:127
+#: server/options.cpp:128 server/options.cpp:150 server/options.cpp:165
+#: server/options.cpp:166
 msgid "TRUE"
 msgstr "VERDADEIRO"
 
-#: ../server/console.cpp:204 ../server/options.cpp:75 ../server/options.cpp:89
-#: ../server/options.cpp:90 ../server/options.cpp:112 ../server/options.cpp:127
-#: ../server/options.cpp:128 ../server/options.cpp:150
-#: ../server/options.cpp:165 ../server/options.cpp:166
+#: server/console.cpp:204 server/options.cpp:75 server/options.cpp:89
+#: server/options.cpp:90 server/options.cpp:112 server/options.cpp:127
+#: server/options.cpp:128 server/options.cpp:150 server/options.cpp:165
+#: server/options.cpp:166
 msgid "FALSE"
 msgstr "FALSO"
 
-#: ../server/console.cpp:206
+#: server/console.cpp:206
 #, fuzzy
 msgid ""
 "fd, number, countries, armies, cards, exch, name, human, color, status, "
 "address\n"
 msgstr ""
-"n˙mero, territÛrios, exÈrcitos, cartas, troca, nome, humano, cor, situaÁ„o, "
+"n√∫mero, territ√≥rios, ex√©rcitos, cartas, troca, nome, humano, cor, situa√ß√£o, "
 "local\n"
 
-#: ../server/console.cpp:236
+#: server/console.cpp:236
 msgid "n/a"
 msgstr "n/a"
 
-#: ../server/console.cpp:237
+#: server/console.cpp:237
 msgid "observer"
 msgstr "observar"
 
-#: ../server/console.cpp:287
+#: server/console.cpp:287
 #, c-format
 msgid "Command '%s' not recongnized\n"
-msgstr "O comando '%s' n„o foi reconhecido\n"
+msgstr "O comando '%s' n√£o foi reconhecido\n"
 
-#: ../server/console.cpp:288
+#: server/console.cpp:288
 #, c-format
 msgid "Type '%s' for help\n"
 msgstr "Escreva '%s' para a ajuda\n"
 
-#: ../server/player.cpp:290
+#: server/player.cpp:290
 msgid "Game without players. Initializing another game.\n"
-msgstr "Jogo sem jogadores. ComeÁando outro jogo.\n"
+msgstr "Jogo sem jogadores. Come√ßando outro jogo.\n"
 
-#: ../server/player.cpp:299
+#: server/player.cpp:299
 #, c-format
 msgid "Game with one player. Player %s(%d) is the winner\n"
-msgstr "Jogo com um jogador. O jogador %s(%d) È o vencedor\n"
+msgstr "Jogo com um jogador. O jogador %s(%d) √© o vencedor\n"
 
-#: ../server/player.cpp:330
+#: server/player.cpp:330
 #, c-format
 msgid "Player %s(%d) quit the game\n"
 msgstr "O jogador %s(%d) deixou o jogo\n"
 
-#: ../server/player.cpp:355
+#: server/player.cpp:355
 #, fuzzy, c-format
 msgid "Observer %s(%d) quit the game\n"
 msgstr "O jogador %s(%d) deixou o jogo\n"
 
-#: ../server/player.cpp:615
+#: server/player.cpp:615
 #, fuzzy, c-format
 msgid "Robot %s was kicked from the game\n"
-msgstr "O jogador %s foi excluÌdo do jogo\n"
+msgstr "O jogador %s foi exclu√≠do do jogo\n"
 
-#: ../server/player.cpp:626
+#: server/player.cpp:626
 msgid "Kicking unwanted robots...\n"
 msgstr ""
 
-#: ../server/main.cpp:185
+#: server/main.cpp:185
 #, c-format
 msgid "Goodbye.\n"
 msgstr "Adeus.\n"
 
-#: ../server/main.cpp:254
+#: server/main.cpp:254
 #, c-format
 msgid "tegserver: Abnormal error in select()\n"
 msgstr "tegserver: Erro anormal em select()\n"
 
-#: ../server/main.cpp:320
+#: server/main.cpp:320
 #, c-format
 msgid "Removing fd %d\n"
 msgstr ""
 
-#: ../server/main.cpp:333
+#: server/main.cpp:333
 #, c-format
 msgid "Accepting fd %d\n"
 msgstr ""
 
-#: ../server/main.cpp:354
+#: server/main.cpp:354
 #, c-format
 msgid "  -p, --port PORT\tBind the server to port PORT (default 2000)\n"
-msgstr "  -p, --port PORT\tLiga o servidor ‡ porta PORT (2000 por omiss„o)\n"
+msgstr "  -p, --port PORT\tLiga o servidor √† porta PORT (2000 por omiss√£o)\n"
 
-#: ../server/main.cpp:355
+#: server/main.cpp:355
 #, c-format
 msgid "  -s, --seed SEED\tNew seed for random\n"
-msgstr "  -s, --seed SEED\tNova raÌz para o aleatorio\n"
+msgstr "  -s, --seed SEED\tNova ra√≠z para o aleatorio\n"
 
-#: ../server/main.cpp:357
+#: server/main.cpp:357
 #, c-format
 msgid "  -c, --console BOOLEAN\tEnable the console or not (default 1)\n"
-msgstr "  -c, --console BOOLEANO\tAtiva o console ou n„o (por omiss„o 1)\n"
+msgstr "  -c, --console BOOLEANO\tAtiva o console ou n√£o (por omiss√£o 1)\n"
 
-#: ../server/main.cpp:358
+#: server/main.cpp:358
 #, c-format
 msgid ""
 "  -m, --metaserver BOOLEAN\tPublish this server with the metaserver (default "
 "0)\n"
 msgstr ""
 
-#: ../server/main.cpp:359
+#: server/main.cpp:359
 #, c-format
 msgid "  -d, --debug\tEnable verbosity in server\n"
 msgstr ""
 
-#: ../server/main.cpp:397
+#. default values for server
+#. default values for the game
+#. parse command line
+#: server/main.cpp:397
 #, c-format
 msgid "Bound to port: %d\n"
 msgstr "Conectado na porta: %d\n"
 
-#: ../server/main.cpp:398
+#: server/main.cpp:398
 #, c-format
 msgid ""
 "Using seed: %u\n"
 "\n"
 msgstr ""
-"Utilizando o raÌz: %u\n"
+"Utilizando o ra√≠z: %u\n"
 "\n"
 
-#: ../server/main.cpp:402
+#: server/main.cpp:402
 #, c-format
 msgid "Type '%s %s' to publish this server in the metaserver\n"
 msgstr ""
 
-#: ../server/main.cpp:404
+#: server/main.cpp:404
 #, c-format
 msgid "Type '%s' for more help\n"
 msgstr "Escreva '%s' para mais ajuda\n"
 
-#: ../server/main.cpp:407
+#: server/main.cpp:407
 #, c-format
 msgid "Standalone server.\n"
-msgstr "Servidor autÛnomo.\n"
+msgstr "Servidor aut√≥nomo.\n"
 
-#: ../server/options.cpp:73 ../server/options.cpp:110 ../server/options.cpp:148
+#: server/options.cpp:62
+msgid "Conquer the world, or play with secret missions"
+msgstr "Conquista do mundo, ou jogar com miss√µes secretas"
+
+#: server/options.cpp:63
+msgid "Enable/Disable common secret mission"
+msgstr "Ativa/Desativa a miss√£o secreta para todos"
+
+#: server/options.cpp:64
+msgid "Set the initial number of armies to place"
+msgstr "Define a quantia inicial de ex√©rrcitos a enviar"
+
+#: server/options.cpp:65
+msgid "Set the seed for random"
+msgstr "Define a ra√≠z para o aleatorio"
+
+#: server/options.cpp:66
+msgid "Enable/Disable the Fog of War"
+msgstr "Ativa/Desativa a Nevoeiro de Guerra"
+
+#: server/options.cpp:67
+msgid "Shows the set options"
+msgstr "Mostra as op√ß√µes definidas"
+
+#: server/options.cpp:73 server/options.cpp:110 server/options.cpp:148
 #, c-format
 msgid "'%s' variable is set to: %s\n"
-msgstr "A vari·vel '%s' est· em: %s\n"
+msgstr "A vari√°vel '%s' est√° em: %s\n"
 
-#: ../server/options.cpp:87 ../server/options.cpp:125 ../server/options.cpp:163
+#: server/options.cpp:87 server/options.cpp:125 server/options.cpp:163
 #, c-format
 msgid "Setting %s variable to: %s -> %s\n"
-msgstr "Definindo a vari·vel '%s' de: %s -> %s\n"
+msgstr "Definindo a vari√°vel '%s' de: %s -> %s\n"
 
-#: ../server/options.cpp:102 ../server/options.cpp:140
-#: ../server/options.cpp:178
+#: server/options.cpp:102 server/options.cpp:140 server/options.cpp:178
 #, c-format
 msgid "Error setting %s variable.\n"
-msgstr "Erro ao definir a vari·vel %s.\n"
+msgstr "Erro ao definir a vari√°vel %s.\n"
 
-#: ../server/options.cpp:186
+#: server/options.cpp:186
 #, c-format
 msgid "'%s' variable is set to: (%d,%d)\n"
-msgstr "A vari·vel '%s' vale: (%d,%d)\n"
+msgstr "A vari√°vel '%s' vale: (%d,%d)\n"
 
-#: ../server/options.cpp:229
+#: server/options.cpp:229
 #, c-format
 msgid "'%s' variable is set to: %u\n"
-msgstr "A vari·vel '%s' vale: %u\n"
+msgstr "A vari√°vel '%s' vale: %u\n"
 
-#: ../server/options.cpp:275
+#: server/options.cpp:275
 #, c-format
 msgid "Unknow option. Try using `%s %s' for help\n"
-msgstr "OpÁ„o desconhecida. Tente utilizar '%s %s' para a ajuda\n"
+msgstr "Op√ß√£o desconhecida. Tente utilizar '%s %s' para a ajuda\n"
 
-#: ../server/play.cpp:218
+#: server/play.cpp:95
+msgid "to start the game"
+msgstr "para come√ßar o jogo"
+
+#: server/play.cpp:96
+msgid "shows the status of the players"
+msgstr "mostra a situa√ß√£o dos jogadores"
+
+#: server/play.cpp:97
+msgid "to send a message"
+msgstr "para enviar uma mensagem"
+
+#: server/play.cpp:98
+#, fuzzy
+msgid "to exit the game"
+msgstr "sai do jogo"
+
+#: server/play.cpp:99
+msgid "internal use. Dont use it."
+msgstr "utiliza√ß√£o interna. N√£o o utilizes."
+
+#: server/play.cpp:100
+msgid "client version"
+msgstr "vers√£o do cliente"
+
+#: server/play.cpp:101
+msgid "server version"
+msgstr "vers√£o do servidor"
+
+#: server/play.cpp:102
+msgid "protocol version"
+msgstr "vers√£o do protocolo"
+
+#: server/play.cpp:103
+msgid "to register as a player"
+msgstr "para se registrar como jogador"
+
+#: server/play.cpp:104
+msgid "to ask for help"
+msgstr "para pedir ajuda"
+
+#: server/play.cpp:105
+msgid "to comment a command"
+msgstr "para comentar um comando"
+
+#: server/play.cpp:106
+msgid "It makes you more happy"
+msgstr "Isto te faz mais feliz"
+
+#: server/play.cpp:107
+msgid "It shows info about the countries"
+msgstr "Mostra informa√ß√µes sobre os territ√≥rios"
+
+#: server/play.cpp:108
+msgid "to place the initials 5 armies"
+msgstr "para p√¥r os 5 ex√©rcitos iniciais"
+
+#: server/play.cpp:109
+msgid "to place the initials 3 armies"
+msgstr "para p√¥r os 3 ex√©rcitos iniciais"
+
+#: server/play.cpp:110
+msgid "to place the armies after a turn have finished"
+msgstr "para p√¥r os ex√©rcitos depois do fim duma jogada"
+
+#: server/play.cpp:111
+msgid "to attack a country"
+msgstr "para atacar um territ√≥rio"
+
+#: server/play.cpp:112
+msgid "to send armies to a conquered country"
+msgstr "para enviar ex√©rcitos para um territ√≥rio conquistado"
+
+#: server/play.cpp:113
+msgid "to pick up a country-card"
+msgstr "para pegar uma carta-territ√≥rio"
+
+#: server/play.cpp:114
+msgid "to reorder your armies"
+msgstr "para re-organizar os seus ex√©rcitos"
+
+#: server/play.cpp:115
+msgid "to finish your turn"
+msgstr "para acabar a sua jogada"
+
+#: server/play.cpp:116
+msgid "to exchange your cards for armies"
+msgstr "para trocar as suas cartas por ex√©rcitos"
+
+#: server/play.cpp:117
+msgid "to place 2 armies in a country. You must have that card"
+msgstr "para p√¥r 2 ex√©rcitos num territ√≥rio. Voc√™ deve ter esta carta"
+
+#: server/play.cpp:118
+msgid "request a mission"
+msgstr "requer uma miss√£o"
+
+#: server/play.cpp:119
+msgid "to select a color"
+msgstr "para escolher uma cor"
+
+#: server/play.cpp:120
+msgid "to remind me what to do"
+msgstr "para me lembrar que devo fazer"
+
+#: server/play.cpp:121
+msgid "to surrender"
+msgstr "para se render"
+
+#: server/play.cpp:122
+msgid "to set options"
+msgstr "para definir op√ß√µes"
+
+#: server/play.cpp:123
+#, fuzzy
+msgid "to show the highscores"
+msgstr "mostra as melhores pontua√ß√µes sempre"
+
+#: server/play.cpp:124
+msgid "to show the cards a player has"
+msgstr "para mostrar as cartas que um jogador tem"
+
+#: server/play.cpp:125
+msgid "to play with a robot"
+msgstr "para jogar com um rob√¥"
+
+#: server/play.cpp:126
+msgid "to know who started the round, and the round number"
+msgstr "para saber quem come√ßou a rodada, e o n√∫mero da rodada"
+
+#: server/play.cpp:127
+msgid "to know the type of game it is being played"
+msgstr "para saber o tipo de jogo que est√° sendo jogado"
+
+#: server/play.cpp:218
 #, c-format
 msgid "Player %s(%d) has color %s\n"
 msgstr "O jogador %s(%d) tem a cor %s\n"
 
-#: ../server/play.cpp:268
+#: server/play.cpp:268
 #, c-format
 msgid "BUG: The server believes that player `%s' does not have the turn"
-msgstr "ERRO: O servidor pensa que o jogador '%s' n„o tem a vez"
+msgstr "ERRO: O servidor pensa que o jogador '%s' n√£o tem a vez"
 
-#: ../server/play.cpp:321
+#: server/play.cpp:321
 msgid "Para que me envias un rem?"
 msgstr "Porque me envias um rem?"
 
-#: ../server/play.cpp:336
+#: server/play.cpp:336
 msgid "Yo tambien quiero un mundo mejor!"
-msgstr "Eu tambÈm quero um mundo melhor!"
+msgstr "Eu tamb√©m quero um mundo melhor!"
 
-#: ../server/play.cpp:418
+#: server/play.cpp:418
 #, c-format
 msgid "Player %s(%d) is re-connected from %s\n"
 msgstr "O jogador %s(%d) reconectou-se a partir de %s\n"
 
-#: ../server/play.cpp:432
+#: server/play.cpp:432
 #, c-format
 msgid "Player %s(%d) is connected from %s\n"
-msgstr "O jogador %s(%d) est· conectado a partir de %s\n"
+msgstr "O jogador %s(%d) est√° conectado a partir de %s\n"
 
-#: ../server/play.cpp:442
+#: server/play.cpp:442
 #, c-format
 msgid "Using client version: %s\n"
-msgstr "Usando um cliente vers„o: %s\n"
+msgstr "Usando um cliente vers√£o: %s\n"
 
-#: ../server/play.cpp:700
+#: server/play.cpp:700
 #, c-format
 msgid "Player %s(%d) lost the game\n"
 msgstr "O jogador %s(%d) perdeu o jogo\n"
 
-#: ../server/play.cpp:707
+#: server/play.cpp:707
 #, c-format
 msgid "Player %s(%d) is the winner! Game Over\n"
-msgstr "O jogador %s(%d) È o vencedor! O jogo acabou\n"
+msgstr "O jogador %s(%d) √© o vencedor! O jogo acabou\n"
 
-#: ../server/play.cpp:1258
+#: server/play.cpp:1258
 #, c-format
 msgid "Starting game number: %d with seed: %u\n"
-msgstr "ComeÁando o jogo n˙mero: %d com a raÌz: %u\n"
+msgstr "Come√ßando o jogo n√∫mero: %d com a ra√≠z: %u\n"
 
-#: ../server/play.cpp:1264
+#: server/play.cpp:1264
 msgid "Error, cant initilize a new turn\n"
-msgstr "Erro, n„o consigo comeÁar uma nova rodada\n"
+msgstr "Erro, n√£o consigo come√ßar uma nova rodada\n"
 
-#: ../server/play.cpp:1334
+#: server/play.cpp:1334
 msgid "TEG server version "
-msgstr "Servidor TEG vers„o"
+msgstr "Servidor TEG vers√£o"
 
-#: ../server/play.cpp:1367
+#: server/play.cpp:1367
 #, c-format
 msgid "Client with incompatible protocol version (server:%d , client:%d)\n"
 msgstr ""
-"Cliente com uma vers„o do protocolo incompatÌvel (servidor: %d, cliente: "
+"Cliente com uma vers√£o do protocolo incompat√≠vel (servidor: %d, cliente: "
 "%d)\n"
 
-#: ../server/play.cpp:1416
+#: server/play.cpp:1416
 #, c-format
 msgid "Player %s(%d) abandoned the game\n"
 msgstr "O jogador %s(%d) abandonou o jogo\n"
 
-#~ msgid "red"
-#~ msgstr "vermelho"
-
-#~ msgid "yellow"
-#~ msgstr "amarelo"
-
-#~ msgid "blue"
-#~ msgstr "azul"
-
-#~ msgid "black"
-#~ msgstr "preto"
-
-#~ msgid "pink"
-#~ msgstr "rosa"
-
-#~ msgid "green"
-#~ msgstr "verde"
+#, c-format
+#~ msgid "Tenes Empanadas Graciela - Gnome client v%s - by Ricardo Quesada"
+#~ msgstr "Tenes Empanadas Graciela - Cliente Gnome v%s - por Ricardo Quesada"
 
 #~ msgid "TEG"
 #~ msgstr "TEG"
@@ -1726,315 +2808,6 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgid "other"
 #~ msgstr "outro"
 
-#~ msgid "disconnected"
-#~ msgstr "desconectado"
-
-#~ msgid "connected"
-#~ msgstr "conectado"
-
-#~ msgid "game over"
-#~ msgstr "fim de jogo"
-
-#~ msgid "enabled"
-#~ msgstr "ativo"
-
-#~ msgid "started"
-#~ msgstr "lanÁado"
-
-#~ msgid "placing armies"
-#~ msgstr "pondo exÈrcitos"
-
-#~ msgid "postarmies"
-#~ msgstr "pÛs-exÈrcitos"
-
-#~ msgid "placing armies 2"
-#~ msgstr "pondo exÈrcitos 2"
-
-#~ msgid "postarmies 2"
-#~ msgstr "pÛs-exÈrcitos 2"
-
-#~ msgid "idle"
-#~ msgstr "esperando"
-
-#~ msgid "placing armies 3"
-#~ msgstr "pondo exÈrcitos 3"
-
-#~ msgid "exchanging cards"
-#~ msgstr "trocando cartas"
-
-#~ msgid "postarmies 3"
-#~ msgstr "pÛs-exÈrcitos 2"
-
-#~ msgid "making a pact"
-#~ msgstr "fazendo um pacto"
-
-#~ msgid "starting turn"
-#~ msgstr "comeÁando uma rodada"
-
-#~ msgid "moving armies"
-#~ msgstr "movimentando tropas"
-
-#~ msgid "regrouping"
-#~ msgstr "reagrupando"
-
-#~ msgid "getting card"
-#~ msgstr "pegando carta"
-
-#~ msgid "ending turn"
-#~ msgstr "acabando jogada"
-
-#~ msgid "South America"
-#~ msgstr "AmÈrica do Sul"
-
-#~ msgid "North America"
-#~ msgstr "AmÈrica do Norte"
-
-#~ msgid "Africa"
-#~ msgstr "¡frica"
-
-#~ msgid "Oceania"
-#~ msgstr "Oceania"
-
-#~ msgid "Europe"
-#~ msgstr "Europa"
-
-#~ msgid "Asia"
-#~ msgstr "¡sia"
-
-#~ msgid "Conquer the world"
-#~ msgstr "Conquistar o mundo"
-
-#~ msgid "Conquer 30 countries"
-#~ msgstr "Conquistar 30 territÛrios"
-
-#~ msgid ""
-#~ "Conquer &2,\n"
-#~ "5 countries of &1 and\n"
-#~ "4 countries of &4"
-#~ msgstr ""
-#~ "Conquistar &2,\n"
-#~ "5 territÛrios de &1 e\n"
-#~ "4 territÛrios de &4"
-
-#~ msgid ""
-#~ "Conquer &0,\n"
-#~ "7 countries of &4 and\n"
-#~ "3 frontier countries"
-#~ msgstr ""
-#~ "Conquistar &0,\n"
-#~ "7 territÛrios de &4 e\n"
-#~ "3 territÛrios vizinhos"
-
-#~ msgid ""
-#~ "Conquer &5 and\n"
-#~ "2 countries of &0"
-#~ msgstr ""
-#~ "Conquistar &5 e\n"
-#~ "2 territÛrios de &0"
-
-#~ msgid ""
-#~ "Conquer &4,\n"
-#~ "4 countries of &5 and,\n"
-#~ "2 of &0"
-#~ msgstr ""
-#~ "Conquistar &4,\n"
-#~ "4 territÛrios de &5 e,\n"
-#~ "2 de &0"
-
-#~ msgid ""
-#~ "Conquer &1,\n"
-#~ "2 countries of &3 and\n"
-#~ "4 countries of &5"
-#~ msgstr ""
-#~ "Conquistar &1,\n"
-#~ "2 territÛrios de &3 e\n"
-#~ "4 territÛrios de &5"
-
-#~ msgid ""
-#~ "Conquer 2 countries of &3,\n"
-#~ "2 of &2, 2 of &0,\n"
-#~ "3 of &4, 4 of &1,\n"
-#~ "and 3 of &5"
-#~ msgstr ""
-#~ "Conquistar 2 territÛrios de &3,\n"
-#~ "2 de &2, 2 de &0,\n"
-#~ "3 de &4, 4 de &1,\n"
-#~ "e 3 de &5"
-
-#~ msgid ""
-#~ "Conquer &3,\n"
-#~ "conquer &1 and,\n"
-#~ "2 countries of &4"
-#~ msgstr ""
-#~ "Conquistar &3,\n"
-#~ "conquistar &1 e,\n"
-#~ "2 territÛrios de &4"
-
-#~ msgid ""
-#~ "Conquer &0,\n"
-#~ "conquer &2 and,\n"
-#~ "4 countries of &5"
-#~ msgstr ""
-#~ "Conquistar &0,\n"
-#~ "conquistar &2 e,\n"
-#~ "4 territÛrios de &5"
-
-#~ msgid ""
-#~ "Conquer &3,\n"
-#~ "conquer &2 and,\n"
-#~ "5 countries of &1"
-#~ msgstr ""
-#~ "Conquistar &3,\n"
-#~ "conquistar &2 e,\n"
-#~ "5 territÛrios de &1"
-
-#~ msgid "Argentina"
-#~ msgstr "Argentina"
-
-#~ msgid "Brazil"
-#~ msgstr "Brasil"
-
-#~ msgid "Chile"
-#~ msgstr "Chile"
-
-#~ msgid "Colombia"
-#~ msgstr "ColÙmbia"
-
-#~ msgid "Peru"
-#~ msgstr "Peru"
-
-#~ msgid "Uruguay"
-#~ msgstr "Uruguai"
-
-#~ msgid "Mexico"
-#~ msgstr "MÈxico"
-
-#~ msgid "California"
-#~ msgstr "CalifÛrnia"
-
-#~ msgid "Oregon"
-#~ msgstr "Oregon"
-
-#~ msgid "New York"
-#~ msgstr "Nova Iorque"
-
-#~ msgid "Alaska"
-#~ msgstr "Alasca"
-
-#~ msgid "Yukon"
-#~ msgstr "Yukon"
-
-#~ msgid "Canada"
-#~ msgstr "Canada"
-
-#~ msgid "Terranova"
-#~ msgstr "Terranova"
-
-#~ msgid "Labrador"
-#~ msgstr "Labrador"
-
-#~ msgid "Greenland"
-#~ msgstr "Greenland"
-
-#~ msgid "Sahara"
-#~ msgstr "Sahara"
-
-#~ msgid "Zaire"
-#~ msgstr "Zaire"
-
-#~ msgid "Etiopia"
-#~ msgstr "EtiÛpia"
-
-#~ msgid "Egypt"
-#~ msgstr "Egipto"
-
-#~ msgid "Madagascar"
-#~ msgstr "Madag·scar"
-
-#~ msgid "South Africa"
-#~ msgstr "¡frica Sul"
-
-#~ msgid "Australia"
-#~ msgstr "Austr·lia"
-
-#~ msgid "Borneo"
-#~ msgstr "BornÈu"
-
-#~ msgid "Java"
-#~ msgstr "Java"
-
-#~ msgid "Sumatra"
-#~ msgstr "Sumatra"
-
-#~ msgid "Spain"
-#~ msgstr "Espanha"
-
-#~ msgid "Germany"
-#~ msgstr "Alemanha"
-
-#~ msgid "Italy"
-#~ msgstr "It·lia"
-
-#~ msgid "Poland"
-#~ msgstr "PolÛnia"
-
-#~ msgid "Russia"
-#~ msgstr "R˙ssia"
-
-#~ msgid "Sweden"
-#~ msgstr "SuÈcia"
-
-#~ msgid "Great Britain"
-#~ msgstr "Gr‚ Bretanha"
-
-#~ msgid "Iceland"
-#~ msgstr "Isl‚ndia"
-
-#~ msgid "Arabia"
-#~ msgstr "Ar·bia"
-
-#~ msgid "Israel"
-#~ msgstr "Israel"
-
-#~ msgid "Turkey"
-#~ msgstr "Turquia"
-
-#~ msgid "India"
-#~ msgstr "Õndia"
-
-#~ msgid "Malaysia"
-#~ msgstr "Mal·sia"
-
-#~ msgid "Iran"
-#~ msgstr "Ir„o"
-
-#~ msgid "Gobi"
-#~ msgstr "Gobi"
-
-#~ msgid "China"
-#~ msgstr "China"
-
-#~ msgid "Mongolia"
-#~ msgstr "MongÛlia"
-
-#~ msgid "Siberia"
-#~ msgstr "SibÈria"
-
-#~ msgid "Aral"
-#~ msgstr "Aral"
-
-#~ msgid "Tartary"
-#~ msgstr "Tart·ria"
-
-#~ msgid "Taymir"
-#~ msgstr "Taymir"
-
-#~ msgid "Katchatka"
-#~ msgstr "Katchatka"
-
-#~ msgid "Japan"
-#~ msgstr "Jap„o"
-
 #, c-format
 #~ msgid "error %d (compiled without strerror)"
 #~ msgstr "erro %d (compilado sem strerror)"
@@ -2043,204 +2816,17 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgid "  -g, --ggz\t\tEnable GGZ mode\n"
 #~ msgstr "  -g, --ggz\t\tAtiva o modo GGZ\n"
 
-#, c-format
-#~ msgid "Hi %s"
-#~ msgstr "Ol· %s"
-
-#, c-format
-#~ msgid "Good luck %s"
-#~ msgstr "Boa sorte %s"
-
-#, c-format
-#~ msgid "How are you %s ?"
-#~ msgstr "Como vai %s ?"
-
-#, c-format
-#~ msgid "Welcome back %s!"
-#~ msgstr "De regresso %s!"
-
-#, c-format
-#~ msgid "%s, I'll be the winner"
-#~ msgstr "%s, eu vou vencer"
-
-#, c-format
-#~ msgid "Hey %s!"
-#~ msgstr "Ent„o %s!"
-
-#, c-format
-#~ msgid "Goodbye %s"
-#~ msgstr "Adeus %s"
-
-#, c-format
-#~ msgid "%s, you need to improve you game"
-#~ msgstr "%s, precisas melhorar o teu jogo"
-
-#, c-format
-#~ msgid "%s, You really dont know how to play!"
-#~ msgstr "%s, vocÍ n„o sabe mesmo como jogar!"
-
-#, c-format
-#~ msgid "%s Better luck for the next time"
-#~ msgstr "%s espero que tenhas mais sorte na prÛxima vez"
-
-#, c-format
-#~ msgid "%s, try to improve your game"
-#~ msgstr "%s, tenta melhorar o teu jogo"
-
-#, c-format
-#~ msgid "%s, Do you have a sister ?"
-#~ msgstr "%s, tens uma irm„ ?"
-
-#~ msgid "I love this game"
-#~ msgstr "Eu gosto deste jogo"
-
-#, c-format
-#~ msgid "%s, I cant believe it!"
-#~ msgstr "%s, n„o posso acreditar!"
-
-#, c-format
-#~ msgid "%s, Do you have Lewinsky's phone ?"
-#~ msgstr "%s, tens o telefone do Lewinsky?"
-
-#~ msgid "Does anyone speak Speranto ?"
-#~ msgstr "AlguÈm fala Esperanto?"
-
-#, c-format
-#~ msgid "%s, You play very well"
-#~ msgstr "%s, jogas muito bem"
-
-#~ msgid "Thanks"
-#~ msgstr "Obrigado"
-
-#~ msgid "mmm..."
-#~ msgstr "mmm..."
-
-#, c-format
-#~ msgid "%s, Are you a robot ?"
-#~ msgstr "%s, vocÍ È um robÙ?"
-
-#~ msgid "Geronimoooooo"
-#~ msgstr "Geronimoooooo"
-
-#~ msgid "I'm a bit tired"
-#~ msgstr "Estou um pouco cansado"
-
-#~ msgid "I'm hungry"
-#~ msgstr "Tenho fome"
-
-#~ msgid "Who wants an Empanada ?"
-#~ msgstr "Quem quer um gelado?"
-
-#~ msgid "I like whistling"
-#~ msgstr "Gosto de assobiar"
-
-#~ msgid "What is a good strategy to win this game?"
-#~ msgstr "Qual È a boa estratÈgia para ganhar este jogo?"
-
-#, c-format
-#~ msgid "%s, Were you here last night ?"
-#~ msgstr "%s, estavas aqui na noite passada?"
-
-#~ msgid "nod"
-#~ msgstr "n„o"
-
-#~ msgid "What?"
-#~ msgstr "O que È?"
-
-#~ msgid ":-)"
-#~ msgstr ":-)"
-
-#, c-format
-#~ msgid "%s, Do you think so?"
-#~ msgstr "%s, acha mesmo?"
-
-#, c-format
-#~ msgid "%s, What can I say ?"
-#~ msgstr "%s, que posso dizer?"
-
-#, c-format
-#~ msgid "%s, Do you think I'm ugly ?"
-#~ msgstr "%s, me acha feio?"
-
-#, c-format
-#~ msgid "%s, Do you think I'm pretty ?"
-#~ msgstr "%s, me acha bonito?"
-
-#, c-format
-#~ msgid "%s, Are you pretty ?"
-#~ msgstr "%s, vocÍ È bonito?"
-
-#, c-format
-#~ msgid "%s, Where do you live ?"
-#~ msgstr "%s, onde vocÍ vive?"
-
-#, c-format
-#~ msgid "%s, miauuuuuuuuu"
-#~ msgstr "%s, miauuuuuuuuu"
-
-#, c-format
-#~ msgid "%s, I dont agree"
-#~ msgstr "%s, n„o estou de acordo"
-
-#, c-format
-#~ msgid "%s, Are you sure what you are saying?"
-#~ msgstr "%s, tens a certeza do que est·s a dizer?"
-
-#, c-format
-#~ msgid "%s, What are you saying"
-#~ msgstr "%s, que est·s dizendo?"
-
-#, c-format
-#~ msgid "%s, I dont understand you"
-#~ msgstr "%s, eu n„o te percebo"
-
-#, c-format
-#~ msgid "%s, funny"
-#~ msgstr "%s, giro"
-
-#, c-format
-#~ msgid "%s, What?"
-#~ msgstr "%s, sim?"
-
-#, c-format
-#~ msgid "%s, sure"
-#~ msgstr "%s, com certeza"
-
-#, c-format
-#~ msgid "%s, Are you talking to me?"
-#~ msgstr "%s, est·s a falar comigo?"
-
-#, c-format
-#~ msgid "%s, you make me laugh"
-#~ msgstr "%s, estou a rir-me"
-
-#, c-format
-#~ msgid "%s, I dont think so"
-#~ msgstr "%s, eu n„o acho"
-
-#, c-format
-#~ msgid "No %s, I dont believe that"
-#~ msgstr "N„o %s, eu n„o acredito nisso"
-
-#, c-format
-#~ msgid "Yes, why not ? %s, but are you sure ?"
-#~ msgstr "Sim, porque n„o %s, mas tens a certeza?"
-
-#, c-format
-#~ msgid "Tomorrow, not today. %s dont get me wrong"
-#~ msgstr "Amanh„, hoje n„o. N„o te zangues %s."
-
 #~ msgid "Coca Sarli"
-#~ msgstr "ZÈ Quelhas"
+#~ msgstr "Z√© Quelhas"
 
 #~ msgid "Ciccolina"
-#~ msgstr "Am·lia"
+#~ msgstr "Am√°lia"
 
 #~ msgid "Raton Perez"
 #~ msgstr "Zeca"
 
 #~ msgid "Geniol"
-#~ msgstr "GÈnio"
+#~ msgstr "G√©nio"
 
 #~ msgid "Fantoche"
 #~ msgstr "Fantocha"
@@ -2252,7 +2838,7 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgstr "Yuaiaiai"
 
 #~ msgid "Mono Mario"
-#~ msgstr "Dois M·rios"
+#~ msgstr "Dois M√°rios"
 
 #~ msgid "Havanna"
 #~ msgstr "Havana"
@@ -2261,7 +2847,7 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgstr "Shake me babe"
 
 #~ msgid "Thalia"
-#~ msgstr "Maria Jo„o Pires"
+#~ msgstr "Maria Jo√£o Pires"
 
 #~ msgid "Spice Girls"
 #~ msgstr "Rui Veloso"
@@ -2270,7 +2856,7 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgstr "Madredeus"
 
 #~ msgid "Cameron Diaz"
-#~ msgstr "AmÈlia Muge"
+#~ msgstr "Am√©lia Muge"
 
 #~ msgid "Betty la fea"
 #~ msgstr "A fadinha"
@@ -2315,7 +2901,7 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgstr "Perla"
 
 #~ msgid "Maradona"
-#~ msgstr "EusÈbio"
+#~ msgstr "Eus√©bio"
 
 #~ msgid "Pele"
 #~ msgstr "Chalana"
@@ -2330,34 +2916,24 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgstr "Serra da Gardunha"
 
 #~ msgid "Pampa"
-#~ msgstr "Fund„o"
+#~ msgstr "Fund√£o"
 
 #~ msgid "Pamela"
-#~ msgstr "EufÈmia"
+#~ msgstr "Euf√©mia"
 
 #~ msgid "Error while trying to connect to GGZ client"
 #~ msgstr "Erro enquanto tentava conectar ao cliente GGZ"
 
 #~ msgid "TEG client version "
-#~ msgstr "Vers„o do cliente TEG"
-
-#~ msgid "Western Australia"
-#~ msgstr "Austr·lia do Oeste"
-
-#~ msgid "Eastern Australia"
-#~ msgstr "Austr·lia do Este"
+#~ msgstr "Vers√£o do cliente TEG"
 
 #, fuzzy
 #~ msgid "TEG Server Selection"
-#~ msgstr "Servidor TEG vers„o"
+#~ msgstr "Servidor TEG vers√£o"
 
 #, fuzzy
 #~ msgid "Metaserver"
 #~ msgstr "observar"
-
-#, fuzzy
-#~ msgid "Server Name"
-#~ msgstr "Nome do servidor:"
 
 #, fuzzy
 #~ msgid "Version"
@@ -2371,7 +2947,7 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgstr "Ativa o modo GGZ"
 
 #~ msgid "Observe the game, dont play it"
-#~ msgstr "Observar o jogo, n„o jogar"
+#~ msgstr "Observar o jogo, n√£o jogar"
 
 #, fuzzy
 #~ msgid "View _dices"
@@ -2401,7 +2977,7 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 
 #, fuzzy
 #~ msgid "Send Armies"
-#~ msgstr "Enviar exÈrcitos"
+#~ msgstr "Enviar ex√©rcitos"
 
 #, fuzzy
 #~ msgid "End Turn"
@@ -2412,173 +2988,29 @@ msgstr "O jogador %s(%d) abandonou o jogo\n"
 #~ msgstr "Ver jogadores"
 
 #~ msgid "Error while loading information about themes!"
-#~ msgstr "Erro ao carregar as informaÁıes dos temas!"
+#~ msgstr "Erro ao carregar as informa√ß√µes dos temas!"
 
 #~ msgid "GGZ Client"
 #~ msgstr "Cliente GGZ"
 
-#~ msgid "to start playing"
-#~ msgstr "para comeÁar a jogar"
-
-#~ msgid "shows status of players"
-#~ msgstr "mostra a situaÁ„o dos jogadores"
-
-#~ msgid "sends a message to all the players"
-#~ msgstr "envia uma mensagem a todos os jogadores"
-
-#~ msgid "shows help"
-#~ msgstr "mostra a ajuda"
-
-#~ msgid "internal use. Dont use it"
-#~ msgstr "utilizaÁ„o interna. N„o o utilizes"
-
-#~ msgid "exits the game"
-#~ msgstr "sai do jogo"
-
-#~ msgid "sets options"
-#~ msgstr "acerta as opÁıes"
-
-#~ msgid "view options"
-#~ msgstr "mostra as opÁıes"
-
-#~ msgid "kick player from the game"
-#~ msgstr "exclui um jogador do jogo"
-
-#~ msgid "show players statistics"
-#~ msgstr "mostra as estatÌsticas dos jogadores"
-
-#~ msgid "show all-time high scores"
-#~ msgstr "mostra as melhores pontuaÁıes sempre"
-
 #, fuzzy
 #~ msgid "metaservers options"
-#~ msgstr "OpÁıes do servidor"
+#~ msgstr "Op√ß√µes do servidor"
 
 #, c-format
 #~ msgid "  -g, --ggz\t\tEnable the GGZ mode (default OFF)\n"
-#~ msgstr "  -g, --ggz\t\tAtiva o modo GGZ (por omiss„o OFF)\n"
+#~ msgstr "  -g, --ggz\t\tAtiva o modo GGZ (por omiss√£o OFF)\n"
 
 #, c-format
 #~ msgid "GGZ mode activated.\n"
 #~ msgstr "Modo GGZ activado.\n"
 
-#~ msgid "Conquer the world, or play with secret missions"
-#~ msgstr "Conquista do mundo, ou jogar com missıes secretas"
-
-#~ msgid "Enable/Disable common secret mission"
-#~ msgstr "Ativa/Desativa a miss„o secreta para todos"
-
-#~ msgid "Set the initial number of armies to place"
-#~ msgstr "Define a quantia inicial de exÈrrcitos a enviar"
-
-#~ msgid "Set the seed for random"
-#~ msgstr "Define a raÌz para o aleatorio"
-
-#~ msgid "Enable/Disable the Fog of War"
-#~ msgstr "Ativa/Desativa a Nevoeiro de Guerra"
-
-#~ msgid "Shows the set options"
-#~ msgstr "Mostra as opÁıes definidas"
-
-#~ msgid "to start the game"
-#~ msgstr "para comeÁar o jogo"
-
-#~ msgid "shows the status of the players"
-#~ msgstr "mostra a situaÁ„o dos jogadores"
-
-#~ msgid "to send a message"
-#~ msgstr "para enviar uma mensagem"
-
-#~ msgid "internal use. Dont use it."
-#~ msgstr "utilizaÁ„o interna. N„o o utilizes."
-
-#~ msgid "client version"
-#~ msgstr "vers„o do cliente"
-
-#~ msgid "server version"
-#~ msgstr "vers„o do servidor"
-
-#~ msgid "protocol version"
-#~ msgstr "vers„o do protocolo"
-
-#~ msgid "to register as a player"
-#~ msgstr "para se registrar como jogador"
-
-#~ msgid "to ask for help"
-#~ msgstr "para pedir ajuda"
-
-#~ msgid "to comment a command"
-#~ msgstr "para comentar um comando"
-
-#~ msgid "It makes you more happy"
-#~ msgstr "Isto te faz mais feliz"
-
-#~ msgid "It shows info about the countries"
-#~ msgstr "Mostra informaÁıes sobre os territÛrios"
-
-#~ msgid "to place the initials 5 armies"
-#~ msgstr "para pÙr os 5 exÈrcitos iniciais"
-
-#~ msgid "to place the initials 3 armies"
-#~ msgstr "para pÙr os 3 exÈrcitos iniciais"
-
-#~ msgid "to place the armies after a turn have finished"
-#~ msgstr "para pÙr os exÈrcitos depois do fim duma jogada"
-
-#~ msgid "to attack a country"
-#~ msgstr "para atacar um territÛrio"
-
-#~ msgid "to send armies to a conquered country"
-#~ msgstr "para enviar exÈrcitos para um territÛrio conquistado"
-
-#~ msgid "to pick up a country-card"
-#~ msgstr "para pegar uma carta-territÛrio"
-
-#~ msgid "to reorder your armies"
-#~ msgstr "para re-organizar os seus exÈrcitos"
-
-#~ msgid "to finish your turn"
-#~ msgstr "para acabar a sua jogada"
-
-#~ msgid "to exchange your cards for armies"
-#~ msgstr "para trocar as suas cartas por exÈrcitos"
-
-#~ msgid "to place 2 armies in a country. You must have that card"
-#~ msgstr "para pÙr 2 exÈrcitos num territÛrio. VocÍ deve ter esta carta"
-
-#~ msgid "request a mission"
-#~ msgstr "requer uma miss„o"
-
-#~ msgid "to select a color"
-#~ msgstr "para escolher uma cor"
-
-#~ msgid "to remind me what to do"
-#~ msgstr "para me lembrar que devo fazer"
-
 #~ msgid "to set an async callback"
 #~ msgstr "para ajustar um async callback"
 
-#~ msgid "to surrender"
-#~ msgstr "para se render"
-
-#~ msgid "to set options"
-#~ msgstr "para definir opÁıes"
-
-#~ msgid "to show the cards a player has"
-#~ msgstr "para mostrar as cartas que um jogador tem"
-
-#~ msgid "to play with a robot"
-#~ msgstr "para jogar com um robÙ"
-
-#~ msgid "to know who started the round, and the round number"
-#~ msgstr "para saber quem comeÁou a rodada, e o n˙mero da rodada"
-
-#~ msgid "to know the type of game it is being played"
-#~ msgstr "para saber o tipo de jogo que est· sendo jogado"
-
 #, c-format
 #~ msgid "Out of memory\n"
-#~ msgstr "Falta de memÛria\n"
+#~ msgstr "Falta de mem√≥ria\n"
 
 #~ msgid "Who started"
-#~ msgstr "Quem comeÁou"
+#~ msgstr "Quem come√ßou"

@@ -128,64 +128,6 @@ TEG_STATUS gui_surrender(int numjug)
 	return TEG_STATUS_SUCCESS;
 }
 
-
-static gchar *msg = NULL;
-
-/* Migrate old GConf settings to GSettings.  As it relies on gconf2
-   being available, that is almost certain to fail for users upgrading
-   from stretch to buster.  See
-   https://alioth-lists.debian.net/pipermail/pkg-gnome-maintainers/2018-August/145477.html */
-static void migrate_gconf_settings(const gchar *name)
-{
-	gboolean needed = TRUE;
-	GError *error = NULL;
-	GKeyFile *kf;
-	gchar **list;
-	gsize i, n;
-
-	kf = g_key_file_new();
-
-	g_key_file_load_from_data_dirs(kf, "gsettings-data-convert",
-	                               NULL, G_KEY_FILE_NONE, NULL);
-	list = g_key_file_get_string_list(kf, "State", "converted", &n, NULL);
-
-	if(list) {
-		for(i = 0; i < n; i++)
-			if(!g_strcmp0(list[i], name)) {
-				needed = FALSE;
-				break;
-			}
-
-		g_strfreev(list);
-	}
-
-	g_key_file_free(kf);
-
-	if(needed) {
-		g_spawn_command_line_sync("gsettings-data-convert",
-		                          NULL, NULL, NULL, &error);
-
-		if(error) {
-			msg = g_strdup_printf(_("Warning: Could not migrate old GConf "
-			                        "settings: %s\nPlease make sure that GConf "
-			                        "is installed and the "
-			                        "gsettings-data-convert tool is in your "
-			                        "PATH. Alternatively, ignore this message "
-			                        "and convert your old settings manually."),
-			                      error->message);
-			g_error_free(error);
-		} else {
-			msg = g_strdup(_("Old GConf settings were either missing or "
-			                 "migrated successfully."));
-
-			/* Allow some time for the GSettings backend to record the
-			   changes, otherwise get_default_values is called before
-			   the old settings are in effect.  */
-			sleep(1);
-		}
-	}
-}
-
 TEG_STATUS gui_init(int argc, char **argv)
 {
 #ifdef ENABLE_NLS
@@ -206,7 +148,6 @@ TEG_STATUS gui_init(int argc, char **argv)
 
 	stock_init();
 
-	migrate_gconf_settings("teg.convert");
 	get_default_values();
 
 	theme_load(g_game.theme);
@@ -240,10 +181,6 @@ TEG_STATUS gui_main(void)
 	textmsg(M_ALL, _("Gnome client v%s - by Rüdiger Ranft-Driscoll"), VERSION);
 	textmsg(M_ALL, _("Using theme '%s - v%s' by %s\n"), g_game.theme, gui_theme.version, gui_theme.author);
 
-	if(msg) {
-		textmsg(M_ALL, msg);
-		g_free(msg);
-	}
 	/* put the buttons in 'sensitive'*/
 	set_sensitive_tb();
 
