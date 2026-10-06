@@ -31,4 +31,4 @@ else
 fi
 
 meson compile -C "${BUILD_DIR}"
-meson test -C "${BUILD_DIR}" --print-errorlogs
+meson test -C "${BUILD_DIR}" -v

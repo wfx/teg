@@ -119,7 +119,7 @@ if get_option('tests')
     link_with: [libclient, libtegcommon],
     dependencies: [glib_dep, xml_dep] + gtest_deps,
   )
-  test('tegtest', tegtest)
+  test('tegtest', tegtest, protocol: 'gtest')
 
   tegservertest = executable('tegservertest',
     files('server/main.cpp', 'server/helper_check.cpp', 'server/player_check.cpp'),
@@ -128,7 +128,7 @@ if get_option('tests')
     link_with: [libtegserver, libtegcommon],
     dependencies: [glib_dep, xml_dep, threads_dep] + gtest_deps,
   )
-  test('tegservertest', tegservertest)
+  test('tegservertest', tegservertest, protocol: 'gtest')
 endif
 
 # Update the GSettings schema cache in the installation prefix after install.
