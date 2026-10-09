@@ -26,24 +26,26 @@ If you want to join the development of the software, you need to install the
 development packages of the used libraries. For Debian based environments, you
 can use the list in the file `docker/debian`
 
+The build system is Meson (https://mesonbuild.com/). You need ``meson`` and
+``ninja`` (e.g. ``pip install meson ninja``) in addition to the development
+packages of the used libraries.
+
 When you have the requirements, you can run ``./build`` in the root directory.
 
 .. warning:: This script always erases the build directory first.
 
 This script
 
-* creates the autotools build infrastructure
-* creates a local build directory (``bd``), which is ignored by git
-* configures this build directory
+* configures a local, out-of-source build directory (``bd``), which is ignored
+  by git
+* turns compiler warnings into errors
+* builds the software and runs the unit tests
 
-  * With autotools maintainer mode (so you don't have to manually re-run
-    autoconf/automake/... whenever you touch the build configuration)
-  * Turns compiler warnings into errors
-  * installs the software into ``bd/DD``
-* build the software an run the unit tests
+Nothing is written into the source tree; the install prefix is placed inside the
+build directory (``bd/DD``).
 
-Once the ``build`` script finished, you can "install" the software with
-``make -C bd install``, and then run it with ``bd/DD/bin/tegclient``.
+Once the ``build`` script finished, you can install the software with
+``meson install -C bd``, and then run it with ``bd/DD/bin/tegclient``.
 
 # Coding style
 ---
@@ -245,10 +247,11 @@ ___
 
 
 Create an annotated tag in the form ``»num«.»num«.»num«``. Don't add any prefix
-or suffix. The tag has to match the version of ``AC_INIT`` in ``/configure.ac``
+or suffix. The tag has to match the version in the ``project()`` call of
+``/meson.build``
 
 ## After the release
 
-* Do a version bump in ``/configure.ac`` for the following bug fix release
+* Do a version bump in ``/meson.build`` (``project()`` version) for the following bug fix release
 * Merge the release branch to ``master`` (keep an eye on the Changelog and
   version, since they tend to get messed up during the merge)
