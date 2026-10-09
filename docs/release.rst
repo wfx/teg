@@ -17,11 +17,12 @@ Doing the release
 -----------------
 
 Create an annotated tag in the form ``»num«.»num«.»num«``. Don't add any prefix
-or suffix. The tag has to match the version of ``AC_INIT`` in ``/configure.ac``
+or suffix. The tag has to match the version in the ``project()`` call of
+``/meson.build``
 
 After the release
 -----------------
 
-* Do a version bump in ``/configure.ac`` for the following bug fix release
+* Do a version bump in ``/meson.build`` (``project()`` version) for the following bug fix release
 * Merge the release branch to ``master`` (keep an eye on the Changelog and
   version, since they tend to get messed up during the merge)
