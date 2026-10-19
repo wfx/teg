@@ -123,39 +123,24 @@ TEG_STATUS turno_init(void)
 /* return true if the round is complete */
 bool turno_is_round_complete()
 {
-	/* I want to know if the round is over. It is not enought to know
-	 * if newturn == started because if a player with the turn exit the game
-	 * he will never receive the turn again, but the started turn will point
-	 * to him
-	 */
-
-	if(g_game.old_turn == NULL) {
+	if(g_game.old_turn == NULL || g_game.empieza_turno == NULL) {
 		return false;
 	}
 
-	if(g_game.empieza_turno == g_game.turno) {
-		return true;
-	}
-
 	/*
-	 * if the previous playing player of 'empieza turn' is 'old turn' then
-	 * the round is over
+	 * The player who started the round may have been eliminated (or left the
+	 * game) in the meantime. In that case the round ends when the first player
+	 * that is still playing after the starter gets the turn.
 	 */
-	auto *next = find_next_player(g_game.old_turn,
-	[](SPLAYER& player) {
-		return player.is_player;
-	});
-	if(next) {
-		if(next == g_game.empieza_turno) {
-			return true;
-		} else if(next == g_game.turno) {
-			return false;
-		}
+	PSPLAYER first = g_game.empieza_turno;
+	if(!player_is_playing(first)) {
+		first = find_next_player(first,
+		[](SPLAYER& player) {
+			return player_is_playing(&player);
+		});
 	}
 
-	/* abnormal error */
-	fprintf(stderr, "Abnormal error in turno_is_round_complete()\n");
-	return false;
+	return first && g_game.turno == first;
 }
 
 /* initialize variables for the new round */
