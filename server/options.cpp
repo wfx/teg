@@ -289,7 +289,7 @@ TEG_STATUS option_view(int fd, char *str)
 TEG_STATUS option_parse(int fd, char *str)
 {
 	int i;
-	PARSER p{str, DELIM{':'}, DELIM{.valid=false}};
+	PARSER p{str, DELIM{'='}, DELIM{.valid=false}};
 
 	do {
 		if((i=p.parse())) {
