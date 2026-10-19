@@ -421,10 +421,15 @@ STATIC TEG_STATUS token_playerid(int fd, char *str)
 		colores_libres(c);
 		memset(colores, 0, sizeof(colores));
 
+		size_t used = 0;
 		for(i=0; i<maximum_player_count; i++) {
 			char buf[100];
-			sprintf(buf, ",%d", c[i]);
-			strncat(colores, buf, sizeof(colores)-1);
+			snprintf(buf, sizeof(buf), ",%d", c[i]);
+			size_t const len = strlen(buf);
+			if(used + len < sizeof(colores)) {
+				memcpy(&colores[used], buf, len + 1);
+				used += len;
+			}
 		}
 
 		net_printf(fd, "%s=%s,%d%s\n", TOKEN_PLAYERID, pJ->name, pJ->numjug, colores);

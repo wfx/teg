@@ -77,7 +77,9 @@ TEST_F(TegXmlTest, add_numeric_attribute)
 		auto value = xmlGetProp(root, reinterpret_cast<xmlChar const*>(name));
 		if(value != nullptr)
 		{
-			return std::string(reinterpret_cast<char *>(value));
+			std::string result(reinterpret_cast<char *>(value));
+			xmlFree(value);
+			return result;
 		} else
 		{
 			return "<NULL>";

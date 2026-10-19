@@ -72,11 +72,11 @@ int main(int argc, char **argv_var)
 			fprintf(stderr, TEG_NAME" v" VERSION "\n");
 			exit(0);
 		} else if((option = get_option("--name", argv, &i, argc)) != NULL) {
-			strncpy(g_game.myname, option, max_playername_length);
+			snprintf(g_game.myname, sizeof(g_game.myname), "%s", option);
 		} else if((option = get_option("--port", argv, &i, argc)) != NULL) {
 			g_game.serport=atoi(option);
 		} else if((option = get_option("--server", argv, &i, argc)) != NULL) {
-			strncpy(g_game.sername, option, maximum_servername_length);
+			snprintf(g_game.sername, sizeof(g_game.sername), "%s", option);
 		} else if(is_option("--connected", argv[i])) {
 			g_game.already_connected = 1;
 			quiet = 1;

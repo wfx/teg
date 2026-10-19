@@ -50,7 +50,7 @@ struct PARSER {
 	}
 
 	PARSER(char const *data, DELIM const& eq, DELIM const& sep)
-		: data{data}, equals{eq}, separators{sep}
+		: equals{eq}, separators{sep}, data{data}
 		, m_can_continue{bool(data) && (data[0] != 0)}, m_ok{m_can_continue}
 	{
 	}

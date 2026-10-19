@@ -36,7 +36,7 @@ void check_scores(SCS scores, HighScores const& hs, unsigned linenumber)
 {
 	EXPECT_EQ(scores.size(), hs.count) << " origin: " << linenumber;
 	size_t i=0;
-	for(const SCORES score: scores) {
+	for(const SCORES& score: scores) {
 		EXPECT_EQ(score, hs.highscores[i])
 		        << "Failed for dataset #" << i
 		        << " origin: " << linenumber;

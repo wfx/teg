@@ -47,7 +47,7 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 	}
 
 	if(p.parse_fragment()) {
-		strncpy(pj->name, p.token, sizeof(pj->name)-1);
+		snprintf(pj->name, sizeof(pj->name), "%.*s", (int)(sizeof(pj->name)-1), p.token);
 	} else {
 		goto error;
 	}
@@ -111,7 +111,7 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 	}
 
 	if(p.parse_everything()) {
-		strncpy(pj->addr, p.token, sizeof(pj->addr)-1);
+		snprintf(pj->addr, sizeof(pj->addr), "%.*s", (int)(sizeof(pj->addr)-1), p.token);
 	} else {
 		goto error;
 	}
@@ -134,7 +134,7 @@ TEG_STATUS aux_scores(PSCORES pS, char const *str)
 	}
 
 	if(p.parse_fragment()) {
-		strncpy(pS->name, p.token, sizeof(pS->name)-1);
+		snprintf(pS->name, sizeof(pS->name), "%.*s", (int)(sizeof(pS->name)-1), p.token);
 	} else {
 		goto error;
 	}
@@ -146,7 +146,7 @@ TEG_STATUS aux_scores(PSCORES pS, char const *str)
 	}
 
 	if(p.parse_fragment()) {
-		strncpy(pS->date, p.token, sizeof(pS->date)-1);
+		snprintf(pS->date, sizeof(pS->date), "%.*s", (int)(sizeof(pS->date)-1), p.token);
 	} else {
 		goto error;
 	}

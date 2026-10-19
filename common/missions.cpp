@@ -30,7 +30,9 @@
 
 MISSIONS g_missions[]= {
 	// common mission, all time active: conquer the whole world
-	[MISSION_CONQWORLD] = {
+	// NOTE: the array is positional; its order must match the MISSION_* enum,
+	// so that MISSION_CONQWORLD and MISSION_COMMON keep their indices.
+	{
 		.player_number=0,
 		.name=N_("Conquer the world"),
 		.continents={
@@ -45,7 +47,7 @@ MISSIONS g_missions[]= {
 		.tot_countries=0
 	},
 	// optional common mission: conquer 30 countries
-	[MISSION_COMMON] = {
+	{
 		.player_number=0,
 		.name=N_("Conquer 30 countries"),
 		.continents={0, 0, 0, 0, 0, 0},

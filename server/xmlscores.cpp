@@ -213,7 +213,7 @@ static void new_score_node(PSPLAYER pJ, PSCORES pS)
 
 	pS->score = pJ->player_stats.score;
 	pS->color = pJ->color;
-	strncpy(pS->name, pJ->name, sizeof(pS->name) -1);
+	snprintf(pS->name, sizeof(pS->name), "%s", pJ->name);
 	pS->human = pJ->human;
 
 	time(&tt);

@@ -667,8 +667,7 @@ TEG_STATUS clitok_reconnect(char *str)
 			memset(&j, 0, sizeof(j));
 			j.color = g_game.mycolor;
 			j.numjug = g_game.numjug;
-			strncpy(j.name, g_game.myname, sizeof(j.name)-1);
-			j.name[sizeof(j.name)-1]=0;
+			snprintf(j.name, sizeof(j.name), "%s", g_game.myname);
 			player_ins(&j);
 		}
 	}
@@ -705,8 +704,7 @@ TEG_STATUS clitok_newplayer(char *str)
 		memset(&j, 0, sizeof(j));
 		j.color = color;
 		j.numjug = numjug;
-		strncpy(j.name, name, sizeof(j.name)-1);
-		j.name[sizeof(j.name)-1]=0;
+		snprintf(j.name, sizeof(j.name), "%s", name);
 		player_ins(&j);
 	} else {
 		pJ->color =  color;
@@ -1014,10 +1012,6 @@ TEG_STATUS clitok_tarjeta(char *str)
 
 	callbacks::gui_tarjeta(country);
 	return TEG_STATUS_SUCCESS;
-
-error:
-	textmsg(M_ERR, "Error in clitok_tarjeta()");
-	return TEG_STATUS_ERROR;
 }
 
 /* Servers's Protocol version. HIVER MUST be equal, otherwise wont work */

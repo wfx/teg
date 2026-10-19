@@ -133,7 +133,7 @@ TEG_STATUS gui_init(int argc, char **argv)
 	}
 
 	if(!strlen(g_game.myname)) {
-		strncpy(g_game.myname, r::ai_name(), max_playername_length);
+		snprintf(g_game.myname, sizeof(g_game.myname), "%s", r::ai_name());
 	}
 	textmsg(M_IMP, _("Robot name: %s"), g_game.myname);
 

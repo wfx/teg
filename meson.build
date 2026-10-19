@@ -3,8 +3,8 @@ project('teg', ['c', 'cpp'],
   license: 'GPL-2.0-or-later',
   meson_version: '>= 0.60.0',
   default_options: [
-    'cpp_std=gnu++17',
-    'warning_level=0',
+    'cpp_std=gnu++20',
+    'warning_level=2',
     'buildtype=debugoptimized',
   ])
 
@@ -15,11 +15,12 @@ cc = meson.get_compiler('c')
 cxx = meson.get_compiler('cpp')
 
 add_project_arguments('-DHAVE_CONFIG_H', language: ['c', 'cpp'])
-# The code base is not warning-clean yet, so the built-in warning levels are
-# deliberately left at 0: they would apply -Wall/-Wextra to C++ as well, which
-# the current sources do not survive. -Werror is still honoured through the
-# built-in "werror" option.
+# -Wall/-Wextra are enabled for both languages. Two legacy mass warnings are
+# intentionally suppressed for now (TODO: clean them up in a follow-up):
+#   -Wmissing-field-initializers: partial aggregate initialisation (mostly tests)
+#   -Wsign-compare: legacy int/size_t loop counters
 add_project_arguments('-fsigned-char', '-Wno-unused-parameter',
+                      '-Wno-missing-field-initializers', '-Wno-sign-compare',
                       language: ['c', 'cpp'])
 
 if get_option('debug_mode') == 'yes'
