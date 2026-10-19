@@ -7,16 +7,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        image: ["ranft/teg:ul", "ranft/teg:d10"]
+        image: ["ranft/teg:ul", "ranft/teg:d13"]
 
     container:
       image: ${{ matrix.image }}
 
     steps:
     - uses: actions/checkout@v7
-
-    - name: Install Meson
-      run: python3 -m pip install --upgrade meson ninja
 
     - name: Build the software
       run: bash -x build

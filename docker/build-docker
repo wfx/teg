@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-VERSIONS=(debian:10/d10 ubuntu:latest/ul)
+VERSIONS=(debian:13/d13 ubuntu:latest/ul)
 
 for VSPEC in "${VERSIONS[@]}"
 do
