@@ -1383,7 +1383,7 @@ msgstr "Austauschen"
 #: client/gui-gnome/cards.cpp:349 client/gui-gnome/g_scores.cpp:267
 #: client/gui-gnome/mission.cpp:286 client/gui-gnome/status.cpp:274
 msgid "_Close"
-msgstr ""
+msgstr "_Schließen"
 
 #: client/gui-gnome/chatline.cpp:53
 msgid "You need to be connected"
@@ -1418,7 +1418,7 @@ msgstr "Verbinde zum Server"
 #: client/gui-gnome/interface.cpp:1015 client/gui-gnome/support.cpp:91
 #: client/gui-gnome/support.cpp:246 client/gui-gnome/preferences.cpp:593
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: client/gui-gnome/connect.cpp:188 client/gui-gnome/preferences.cpp:595
 msgid "_Cancel"
@@ -1551,7 +1551,7 @@ msgstr "High Score"
 
 #: client/gui-gnome/g_scores.cpp:266 client/gui-gnome/status.cpp:273
 msgid "_Refresh"
-msgstr ""
+msgstr "_Aktualisieren"
 
 #: client/gui-gnome/gui.cpp:100
 #, c-format
@@ -1676,7 +1676,7 @@ msgstr "Konnte Datei %s nicht finden"
 
 #: client/gui-gnome/interface.cpp:302
 msgid "_Game"
-msgstr ""
+msgstr "_Spiel"
 
 #: client/gui-gnome/interface.cpp:306
 msgid "_Connect"
@@ -1708,7 +1708,7 @@ msgstr "Zeige die höchsten Punktestände"
 
 #: client/gui-gnome/interface.cpp:347
 msgid "_Quit"
-msgstr ""
+msgstr "_Beenden"
 
 #: client/gui-gnome/interface.cpp:348
 msgid "Quit the application"
@@ -1792,7 +1792,7 @@ msgstr "Ich bin ein Feigling"
 
 #: client/gui-gnome/interface.cpp:434
 msgid "_View"
-msgstr ""
+msgstr "A_nsicht"
 
 #: client/gui-gnome/interface.cpp:438
 msgid "View _players"
@@ -1844,7 +1844,7 @@ msgstr "Zeige die Karte im Maßstab 1:1"
 
 #: client/gui-gnome/interface.cpp:493
 msgid "_Settings"
-msgstr ""
+msgstr "_Einstellungen"
 
 #: client/gui-gnome/interface.cpp:498
 msgid "Prefere_nces"
@@ -1860,7 +1860,7 @@ msgstr "Hilfe"
 
 #: client/gui-gnome/interface.cpp:512
 msgid "_Contents"
-msgstr "Verbinde"
+msgstr "_Inhalt"
 
 #: client/gui-gnome/interface.cpp:514
 msgid "View help for this application"
@@ -1868,7 +1868,7 @@ msgstr ""
 
 #: client/gui-gnome/interface.cpp:522
 msgid "_About"
-msgstr ""
+msgstr "_Über"
 
 #: client/gui-gnome/interface.cpp:523
 msgid "About this application"

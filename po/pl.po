@@ -1374,7 +1374,7 @@ msgstr "Wymiana"
 #: client/gui-gnome/cards.cpp:349 client/gui-gnome/g_scores.cpp:267
 #: client/gui-gnome/mission.cpp:286 client/gui-gnome/status.cpp:274
 msgid "_Close"
-msgstr ""
+msgstr "_Zamknij"
 
 #: client/gui-gnome/chatline.cpp:53
 msgid "You need to be connected"
@@ -1410,7 +1410,7 @@ msgstr "Łączenie z serwerem"
 #: client/gui-gnome/interface.cpp:1015 client/gui-gnome/support.cpp:91
 #: client/gui-gnome/support.cpp:246 client/gui-gnome/preferences.cpp:593
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: client/gui-gnome/connect.cpp:188 client/gui-gnome/preferences.cpp:595
 #, fuzzy
@@ -1544,7 +1544,7 @@ msgstr "Najlepsze wyniki"
 
 #: client/gui-gnome/g_scores.cpp:266 client/gui-gnome/status.cpp:273
 msgid "_Refresh"
-msgstr ""
+msgstr "_Odśwież"
 
 #: client/gui-gnome/gui.cpp:100
 #, c-format
@@ -1669,7 +1669,7 @@ msgstr "Nie można znaleźć pliku %s"
 
 #: client/gui-gnome/interface.cpp:302
 msgid "_Game"
-msgstr ""
+msgstr "_Gra"
 
 #: client/gui-gnome/interface.cpp:306
 msgid "_Connect"
@@ -1703,7 +1703,7 @@ msgstr "aby wyświetlić najlepsze wyniki"
 
 #: client/gui-gnome/interface.cpp:347
 msgid "_Quit"
-msgstr ""
+msgstr "_Zakończ"
 
 #: client/gui-gnome/interface.cpp:348
 msgid "Quit the application"
@@ -1791,7 +1791,7 @@ msgstr "Jestem tchórzem"
 
 #: client/gui-gnome/interface.cpp:434
 msgid "_View"
-msgstr ""
+msgstr "_Widok"
 
 #: client/gui-gnome/interface.cpp:438
 msgid "View _players"
@@ -1845,7 +1845,7 @@ msgstr "Wyświetla mapę w skali 1:1"
 
 #: client/gui-gnome/interface.cpp:493
 msgid "_Settings"
-msgstr ""
+msgstr "_Ustawienia"
 
 #: client/gui-gnome/interface.cpp:498
 #, fuzzy
@@ -1858,12 +1858,11 @@ msgstr ""
 
 #: client/gui-gnome/interface.cpp:508
 msgid "_Help"
-msgstr ""
+msgstr "Pomo_c"
 
 #: client/gui-gnome/interface.cpp:512
-#, fuzzy
 msgid "_Contents"
-msgstr "_Połącz"
+msgstr "_Spis treści"
 
 #: client/gui-gnome/interface.cpp:514
 msgid "View help for this application"
@@ -1871,7 +1870,7 @@ msgstr ""
 
 #: client/gui-gnome/interface.cpp:522
 msgid "_About"
-msgstr ""
+msgstr "_O programie"
 
 #: client/gui-gnome/interface.cpp:523
 msgid "About this application"
@@ -2005,7 +2004,7 @@ msgstr "Podgląd"
 
 #: client/gui-gnome/mission.cpp:286
 msgid "_Next"
-msgstr ""
+msgstr "_Następny"
 
 #: client/gui-gnome/status.cpp:132
 msgid "Address"
