@@ -32,3 +32,8 @@ fi
 
 meson compile -C "${BUILD_DIR}"
 meson test -C "${BUILD_DIR}" -v
+
+echo
+echo "Are you ready for the Empanada Experience ?"
+echo "Original empanada recipe by Ricardo \"riq\" Quesada."
+echo

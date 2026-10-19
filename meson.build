@@ -134,3 +134,13 @@ endif
 
 # Update the GSettings schema cache in the installation prefix after install.
 gnome.post_install(glib_compile_schemas: true)
+
+# ---------------------------------------------------------------------------
+# Empanada check (a nod to the original configure.ac)
+# ---------------------------------------------------------------------------
+summary({
+  'Empanadas de carne criolla': 'Super!',
+  'Empanadas de verdura': 'Cool!',
+  'Empanadas de jamon y queso': 'Buenichimo!',
+  'Empanadas de carne picante': 'Yeah!',
+}, section: 'Empanada Experience')
