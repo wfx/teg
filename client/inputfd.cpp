@@ -394,7 +394,7 @@ TEG_STATUS clitok_attack(char *str)
 	}
 
 	/* countries are allowed to be -1 (unknown in fog of war) */
-	if(src<-1 || src>=COUNTRIES_CANT || dst<-1 || dst>=COUNTRIES_CANT) {
+	if(src<-1 || src>=static_cast<int>(COUNTRIES_CANT) || dst<-1 || dst>=static_cast<int>(COUNTRIES_CANT)) {
 		goto error;
 	}
 
@@ -877,7 +877,7 @@ TEG_STATUS clitok_enum_cards(char *str)
 			goto error;
 		}
 
-		if(country < 0 || country >= COUNTRIES_CANT) {
+		if(country < 0 || country >= static_cast<int>(COUNTRIES_CANT)) {
 			goto error;
 		}
 

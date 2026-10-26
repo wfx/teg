@@ -204,7 +204,7 @@ STATIC TEG_STATUS token_color(int fd, char *str)
 	}
 
 	a = atoi(str);
-	if(a < 0 ||  a >= maximum_player_count) {
+	if(a < 0 ||  static_cast<unsigned>(a) >= maximum_player_count) {
 		goto error;
 	}
 
@@ -346,7 +346,7 @@ STATIC TEG_STATUS token_playerid(int fd, char *str)
 	SPLAYER j, *pJ;
 	char c[maximum_player_count];
 	char colores[100];
-	int i;
+	std::size_t i;
 	int reconnect = false;
 
 	PLAY_DEBUG("token_playerid( fd=%d)\n", fd);
@@ -602,7 +602,7 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 		goto error;
 	}
 
-	if(src >= COUNTRIES_CANT || src < 0 || dst >= COUNTRIES_CANT || dst < 0) {
+	if(src >= static_cast<int>(COUNTRIES_CANT) || src < 0 || dst >= static_cast<int>(COUNTRIES_CANT) || dst < 0) {
 		goto error;
 	}
 
@@ -766,7 +766,7 @@ STATIC TEG_STATUS token_tropas(int fd, char *str)
 		goto error;
 	}
 
-	if(src >= COUNTRIES_CANT || src < 0 || dst >= COUNTRIES_CANT || dst < 0) {
+	if(src >= static_cast<int>(COUNTRIES_CANT) || src < 0 || dst >= static_cast<int>(COUNTRIES_CANT) || dst < 0) {
 		goto error;
 	}
 
@@ -823,7 +823,7 @@ STATIC TEG_STATUS token_card(int fd, char *str)
 		goto error;
 	}
 
-	if(pJ->tot_cards >= maximum_country_cards) {
+	if(pJ->tot_cards >= static_cast<int>(maximum_country_cards)) {
 		goto error;
 	}
 
@@ -883,7 +883,7 @@ STATIC TEG_STATUS token_enum_cards(int fd, char *str)
 	memset(buffer, 0, sizeof(buffer));
 
 	first=1;
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		if(g_countries[i].tarjeta.numjug == pJ->numjug) {
 			char buffy[512];
 
@@ -961,7 +961,7 @@ STATIC TEG_STATUS token_ejer2(int fd, char *str)
 		goto error;
 	}
 
-	if(country >= COUNTRIES_CANT || country < 0) {
+	if(country >= static_cast<int>(COUNTRIES_CANT) || country < 0) {
 		goto error;
 	}
 
@@ -1094,7 +1094,7 @@ STATIC TEG_STATUS token_regroup(int fd, char *str)
 		goto error;
 	}
 
-	if(src >= COUNTRIES_CANT || src < 0 || dst >= COUNTRIES_CANT || dst < 0 || cant <= 0) {
+	if(src >= static_cast<int>(COUNTRIES_CANT) || src < 0 || dst >= static_cast<int>(COUNTRIES_CANT) || dst < 0 || cant <= 0) {
 		goto error;
 	}
 

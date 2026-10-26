@@ -172,12 +172,12 @@ TEG_STATUS player_numjug_libre(int *libre)
 	assert(libre);
 
 	player_map([&jugs](PSPLAYER pJ) {
-		if(pJ->numjug >= 0 && pJ->numjug < maximum_player_count) {
+		if(pJ->numjug >= 0 && pJ->numjug < static_cast<int>(maximum_player_count)) {
 			jugs[pJ->numjug] = 1;
 		}
 	});
 
-	for(i=0; i<maximum_player_count; i++) {
+	for(i=0; i<static_cast<int>(maximum_player_count); i++) {
 		if(jugs[i] == 0) {
 			*libre = i;
 			return TEG_STATUS_SUCCESS;
@@ -468,7 +468,7 @@ void player_clear_turn(PSPLAYER pJ)
 	pJ->estado =  PLAYER_STATUS_IDLE;
 
 	/* clean all the regroups the player could have done */
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		if(g_countries[i].numjug == pJ->numjug) {
 			g_countries[i].ejer_reagrupe = 0;
 		}

@@ -253,7 +253,7 @@ void connect_view()
  */
 static void colortype_ok_cb(GtkDialog *dialog, gint id, gpointer data)
 {
-	int i;
+	std::size_t i;
 
 	for(i=0; i<maximum_player_count; i++)  {
 		if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(boton_color[i]))) {
@@ -270,7 +270,7 @@ static GtkWidget *create_color_button(int i)
 	GooCanvasItem *image;
 	GtkWidget	*canvas;
 
-	if(i < 0 || i >= maximum_player_count) {
+	if(i < 0 || i >= static_cast<int>(maximum_player_count)) {
 		return NULL;
 	}
 

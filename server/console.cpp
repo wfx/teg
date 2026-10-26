@@ -135,7 +135,7 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 {
 	(void) unused;
 	int color;
-	color = ((pS->color >= maximum_player_count || pS->color < 0) ? maximum_player_count : pS->color);
+	color = ((pS->color >= static_cast<int>(maximum_player_count) || pS->color < 0) ? static_cast<int>(maximum_player_count) : pS->color);
 	printf("  %4d   %s   %-15s   %-8s %s\n",
 	       pS->score,
 	       pS->date,

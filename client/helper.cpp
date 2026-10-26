@@ -205,7 +205,7 @@ TEG_STATUS aux_countries(int numjug, char const *str)
 void aux_draw_all_countries()
 {
 	int i;
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		callbacks::gui_country(i);
 	}
 }

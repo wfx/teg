@@ -129,7 +129,7 @@ void reagrupe_bigreset(void)
 
 	reagrupe_reset();
 
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		g_countries[i].ejer_reagrupe = 0;
 	}
 	last_origen = -1;

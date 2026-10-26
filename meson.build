@@ -15,12 +15,8 @@ cc = meson.get_compiler('c')
 cxx = meson.get_compiler('cpp')
 
 add_project_arguments('-DHAVE_CONFIG_H', language: ['c', 'cpp'])
-# -Wall/-Wextra are enabled for both languages. Two legacy mass warnings are
-# intentionally suppressed for now (TODO: clean them up in a follow-up):
-#   -Wmissing-field-initializers: partial aggregate initialisation (mostly tests)
-#   -Wsign-compare: legacy int/size_t loop counters
+# -Wall/-Wextra are enabled for both languages.
 add_project_arguments('-fsigned-char', '-Wno-unused-parameter',
-                      '-Wno-missing-field-initializers', '-Wno-sign-compare',
                       language: ['c', 'cpp'])
 
 if get_option('debug_mode') == 'yes'

@@ -154,7 +154,7 @@ void on_enviarfichas_activate(GtkMenuItem *menuitem, gpointer user_data)
 		fichas_get_wanted(&cant, &conts);
 		armies_view(cant, conts);
 
-		for(i=0; i<COUNTRIES_CANT; i++) {
+		for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 			G_country_draw_ejer(i);
 		}
 	} else {

@@ -523,7 +523,7 @@ TEG_STATUS mainstatus_update_colors()
 		return TEG_STATUS_ERROR;
 	}
 
-	int i=0;
+	std::size_t i=0;
 
 	g_object_set(players_color_over, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -564,7 +564,7 @@ TEG_STATUS mainstatus_update_colors()
 		PCPLAYER pJ;
 		g_object_set(color_started_item, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-		if(g_game.who_started_round >= 0 && g_game.who_started_round < maximum_player_count) {
+		if(g_game.who_started_round >= 0 && g_game.who_started_round < static_cast<int>(maximum_player_count)) {
 
 			if(player_whois(g_game.who_started_round, &pJ) == TEG_STATUS_SUCCESS) {
 				g_object_set(
@@ -626,7 +626,7 @@ TEG_STATUS mainstatus_update()
 		country_item = NULL;
 	}
 
-	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= COUNTRIES_CANT) {
+	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
 		snprintf(buffer, sizeof(buffer)-1, "%s", countries_get_name(gui_private.country_i_am));
@@ -650,7 +650,7 @@ TEG_STATUS mainstatus_update()
 		cont_item = NULL;
 	}
 
-	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= COUNTRIES_CANT) {
+	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
 		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(g_countries[gui_private.country_i_am].continente));

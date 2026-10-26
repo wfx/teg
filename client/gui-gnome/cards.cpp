@@ -110,7 +110,7 @@ TEG_STATUS cards_load()
 
 TEG_STATUS cards_init()
 {
-	int i;
+	std::size_t i;
 
 	for(i=0; i<maximum_country_cards; i++) {
 		memset(&tarjs_sensi[i], 0, sizeof(tarjs_sensi[i]));
@@ -121,7 +121,8 @@ TEG_STATUS cards_init()
 /* Callbacks de las funciones de los botones y funciones auxiliares */
 static int cuantos_selected(int countries[maximum_country_cards])
 {
-	int i, j=0;
+	std::size_t i;
+	int j=0;
 	int selected=0;
 
 	for(i=0; i<maximum_country_cards; i++) {
@@ -394,7 +395,8 @@ void cards_view(int country)
 		gtk_widget_show(scrolledwindow);
 
 	} else if(country!=-1) { /* Ya estan las demas, solo hay que crear una sola tarjeta */
-		int x=0, y=0, i;
+		int x=0, y=0;
+		std::size_t i;
 		for(i=0; i<maximum_country_cards; i++) {
 
 			if(x >= 3) {
@@ -427,7 +429,7 @@ void cards_view(int country)
  */
 void cards_delete(int p1, int p2, int p3)
 {
-	int i;
+	std::size_t i;
 	if(cards_dialog == NULL) {
 		return;
 	}
@@ -457,7 +459,7 @@ void cards_delete(int p1, int p2, int p3)
  */
 void cards_flush()
 {
-	int i;
+	std::size_t i;
 
 	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country  && tarjs_sensi[i].card && cards_dialog) {
@@ -475,7 +477,7 @@ void cards_flush()
  */
 void cards_update(void)
 {
-	int i;
+	std::size_t i;
 	if(cards_dialog == NULL) {
 		return;
 	}
@@ -498,7 +500,7 @@ void cards_update(void)
  */
 void cards_update_para_canje(void)
 {
-	int i;
+	std::size_t i;
 
 	if(cards_dialog == NULL) {
 		return;
@@ -528,7 +530,7 @@ void cards_update_para_canje(void)
  */
 TEG_STATUS cards_select(int p1, int p2, int p3)
 {
-	int i;
+	std::size_t i;
 
 	cards_view(-1);
 

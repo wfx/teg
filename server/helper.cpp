@@ -65,8 +65,8 @@ void color_del(int i)
 /* sets and set if the color is free */
 bool color_libre(int *color)
 {
-	int i;
-	if((*color) < 0 || (*color) > (maximum_player_count-1)) {
+	std::size_t i;
+	if((*color) < 0 || (*color) >= static_cast<int>(maximum_player_count)) {
 		return false;
 	}
 	if(colors[*color]==0) {
@@ -87,7 +87,7 @@ bool color_libre(int *color)
 /* tells which colors are availables */
 TEG_STATUS colores_libres(char *c)
 {
-	int i;
+	std::size_t i;
 	for(i=0; i<maximum_player_count; i++) {
 		c[i] = colors[i];
 	}
@@ -154,7 +154,7 @@ do_real:
 			country = atoi(p.token);
 			cant = atoi(p.value);
 
-			if(country<0 || country >= COUNTRIES_CANT || cant<0 ||
+			if(country<0 || country >= static_cast<int>(COUNTRIES_CANT) || cant<0 ||
 			        cant+fichas > maximo || g_countries[country].numjug != j->numjug) {
 				goto error;
 			}
@@ -332,12 +332,12 @@ again:
 			break;
 		/* search going up */
 		case 1:
-			for(; i<COUNTRIES_CANT; i++) {
+			for(; i<static_cast<int>(COUNTRIES_CANT); i++) {
 				if(func(i)) {
 					return &g_countries[i];
 				}
 			}
-			for(i=0; i<COUNTRIES_CANT; i++) {
+			for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 				if(func(i)) {
 					return &g_countries[i];
 				}
@@ -491,7 +491,7 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 
 	/* special case where I want to send all countries that he CAN'T see */
 	if(g_game.fog_of_war && pJ->numjug == -1) {
-		for(i=0; i<COUNTRIES_CANT; i++) {
+		for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 			if(! fow_can_player_see_country(g_game.player_fow, &g_countries[i])) {
 				if(n==0) {
 					snprintf(strtmp, sizeof(strtmp)-1, "%i:%d", i, -1);
@@ -540,17 +540,24 @@ TEG_STATUS launch_robot(int *robot_socket, char const *mode)
 
 	// sockets[0] is the client side of the robot
 	// sockets[1] is the server side
-	sockets[0] = 0;
-	while(sockets[0] < 3) {
-		int r = socketpair(AF_LOCAL, SOCK_STREAM, 0, sockets);
-		if(r != 0) {
+	// Retry until the client side does not collide with the descriptor used
+	// for the robot (fd 3); close the pair from the previous attempt.
+	for(;;) {
+		if(socketpair(AF_LOCAL, SOCK_STREAM, 0, sockets) != 0) {
 			return TEG_STATUS_ERROR;
 		}
+		if(sockets[0] >= 3) {
+			break;
+		}
+		close(sockets[0]);
+		close(sockets[1]);
 	}
 
 	// launch the server connected
 	if((pid = fork()) < 0) {
 		perror("tegserver: launch_bot() ");
+		close(sockets[0]);
+		close(sockets[1]);
 		return TEG_STATUS_ERROR;
 	} else if(pid == 0) {
 
@@ -558,10 +565,13 @@ TEG_STATUS launch_robot(int *robot_socket, char const *mode)
 		close(sockets[1]);
 		args[0] = robot.c_str();
 		args[1] = mode;
-		args[2] = NULL;
+		args[2] = nullptr;
 
 		if(dup2(sockets[0], 3) == -1) {
-			return TEG_STATUS_ERROR;
+			_exit(EXIT_FAILURE);
+		}
+		if(sockets[0] != 3) {
+			close(sockets[0]);
 		}
 
 		con_text_out(M_ERR, _("Launching robot with options: %s %s\n"), args[0], args[1]);

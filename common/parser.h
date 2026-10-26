@@ -29,7 +29,7 @@
 #define PARSER_VALUE_MAX 1024
 
 struct DELIM {
-	char accept;
+	char accept='\0';
 	bool valid=true;
 
 	DELIM& operator = (DELIM const* other)

@@ -75,7 +75,7 @@ TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len)
 		return TEG_STATUS_ERROR;
 	}
 
-	for(i=0; i < COUNTRIES_CANT; i++) {
+	for(i=0; i < static_cast<int>(COUNTRIES_CANT); i++) {
 		if(i != country && g_countries[i].numjug != g_game.player_fow->numjug && countries_eslimitrofe(country, i)) {
 			char buf[1024];
 
@@ -104,7 +104,7 @@ int fow_netall_printf(int country, char const *format, ...)
 	va_list args;
 	char buf[PROT_MAX_LEN];
 
-	if(country < 0 || country >= COUNTRIES_CANT) {
+	if(country < 0 || country >= static_cast<int>(COUNTRIES_CANT)) {
 		return -1;
 	}
 
@@ -144,7 +144,7 @@ int fow_2_netall_printf(int src, int dst, char const *format, ...)
 	va_list args;
 	char buf[PROT_MAX_LEN];
 
-	if(src<0 || src>=COUNTRIES_CANT || dst<0 || dst>=COUNTRIES_CANT) {
+	if(src<0 || src>=static_cast<int>(COUNTRIES_CANT) || dst<0 || dst>=static_cast<int>(COUNTRIES_CANT)) {
 		return -1;
 	}
 

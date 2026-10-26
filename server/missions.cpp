@@ -67,13 +67,13 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 	if((i=g_missions[pJ->mission].frontiering_countries)) {
 		int j, k, i_tmp;
 		int salir=0;
-		for(j=0; j<COUNTRIES_CANT && salir==0; j++) {
+		for(j=0; j<static_cast<int>(COUNTRIES_CANT) && salir==0; j++) {
 			if(g_countries[j].numjug != pJ->numjug) {
 				continue;
 			}
 			i_tmp=0;
 
-			for(k=0; k<COUNTRIES_CANT; k++) {
+			for(k=0; k<static_cast<int>(COUNTRIES_CANT); k++) {
 				if(g_countries[k].numjug != pJ->numjug) {
 					continue;
 				}
@@ -87,7 +87,7 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 
 			}
 		}
-		if(j>=COUNTRIES_CANT) {
+		if(j>=static_cast<int>(COUNTRIES_CANT)) {
 			goto no_gano;
 		}
 	}

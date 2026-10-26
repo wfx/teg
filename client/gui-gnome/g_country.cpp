@@ -345,7 +345,7 @@ void G_country_init()
 		return;
 	}
 
-	for(i=0; i < COUNTRIES_CANT ; i++) {
+	for(i=0; i < static_cast<int>(COUNTRIES_CANT) ; i++) {
 
 		/* find continent, find country number */
 		int c = g_countries[i].continente;
@@ -463,7 +463,7 @@ void G_country_draw_ejer(int country)
 
 	color = 6;
 	if(player_whois(g_countries[country].numjug, &j) == TEG_STATUS_SUCCESS) {
-		if(j->color >=0 && j->color < maximum_player_count) {
+		if(j->color >=0 && j->color < static_cast<int>(maximum_player_count)) {
 			color = j->color;
 		}
 	} else {
@@ -591,7 +591,7 @@ void G_country_draw_ejer(int country)
  */
 TEG_STATUS gui_country_select(int country)
 {
-	if(country < 0 || country >= COUNTRIES_CANT) {
+	if(country < 0 || country >= static_cast<int>(COUNTRIES_CANT)) {
 		return TEG_STATUS_ERROR;
 	}
 

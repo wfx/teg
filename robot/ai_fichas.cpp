@@ -45,7 +45,7 @@ namespace c = ::teg::client;
  */
 TEG_STATUS ai_fichas_calc_puntaje_conquer(int country)
 {
-	int i;
+	std::size_t i;
 	int pc;			/* countries del continente */
 	int pe=0;		/* countries enemigos */
 	int ee=0;		/* ejercitos enemigos */
@@ -140,7 +140,7 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer(int country)
  */
 TEG_STATUS ai_fichas_calc_puntaje_defense(int country)
 {
-	int i;
+	std::size_t i;
 	CONTINENTE c = g_countries[country].continente;
 	int suma=0;
 	int f=0;		/* fronteras que tiene */
@@ -189,7 +189,7 @@ TEG_STATUS ai_fichas_calc_puntaje_defense(int country)
  */
 TEG_STATUS ai_fichas_calc_puntaje_fichas(int country)
 {
-	int i;
+	std::size_t i;
 	int p1=0;
 	int p2=0;
 	int suma=0;
@@ -258,7 +258,7 @@ TEG_STATUS ai_fichas_calc_puntaje(int p)
  */
 TEG_STATUS ai_fichas_helper(int cant)
 {
-	int i;
+	std::size_t i;
 
 	/* all unavailble countries are -10000 */
 	ai_puntaje_clean();
@@ -275,7 +275,7 @@ TEG_STATUS ai_fichas_helper(int cant)
 		return TEG_STATUS_ERROR;
 	}
 
-	for(i=0; i<cant; i++) {
+	for(i=0; i<static_cast<std::size_t>(cant); i++) {
 		if(c::fichas_add(&g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
 			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
@@ -307,7 +307,7 @@ TEG_STATUS ai_fichas(int cant)
 TEG_STATUS ai_fichas_en_cont(int cont)
 {
 	int cant = g_conts[cont].fichas_x_cont;
-	int i;
+	std::size_t i;
 
 	/* all unavailble countries are -10000 */
 	ai_puntaje_clean();
@@ -321,7 +321,7 @@ TEG_STATUS ai_fichas_en_cont(int cont)
 
 	ai_puntaje_sort(cant);
 
-	for(i=0; i<cant; i++) {
+	for(i=0; i<static_cast<std::size_t>(cant); i++) {
 		if(c::fichas_add(&g_countries[ai_sorted[i]]) != TEG_STATUS_SUCCESS) {
 			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;

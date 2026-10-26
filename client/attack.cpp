@@ -277,13 +277,13 @@ void attack_show(int src, int dst)
 {
 	attack_unshow();
 
-	if(src >= 0 && src < COUNTRIES_CANT) {
+	if(src >= 0 && src < static_cast<int>(COUNTRIES_CANT)) {
 		show_src = src;
 		g_countries[src].selected |= COUNTRY_SELECT_ATTACK_SRC;
 		callbacks::gui_country_select(src);
 	}
 
-	if(dst >= 0 && dst < COUNTRIES_CANT) {
+	if(dst >= 0 && dst < static_cast<int>(COUNTRIES_CANT)) {
 		show_dst = dst;
 		g_countries[dst].selected |= COUNTRY_SELECT_ATTACK_DST;
 		callbacks::gui_country_select(dst);

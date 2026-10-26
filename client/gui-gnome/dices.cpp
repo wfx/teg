@@ -95,7 +95,7 @@ static TEG_STATUS dices_load()
 		return TEG_STATUS_SUCCESS;
 	}
 
-	for(i=0; i<sides_on_the_dice; i++) {
+	for(i=0; i<static_cast<int>(sides_on_the_dice); i++) {
 		char name[40];
 		memset(name, 0, sizeof(name));
 		snprintf(name, sizeof(name)-1, "dice-%d.png", i+1);
@@ -236,7 +236,7 @@ void dices_unview()
 {
 	int i;
 
-	for(i=0; i<sides_on_the_dice; i++) {
+	for(i=0; i<static_cast<int>(sides_on_the_dice); i++) {
 		if(images[i])
 			g_object_set(images[i], "visibility",
 			             GOO_CANVAS_ITEM_INVISIBLE, NULL);
@@ -263,7 +263,7 @@ void dices_view()
 	}
 
 	/* hide all dices */
-	for(i=0; i<sides_on_the_dice; i++) {
+	for(i=0; i<static_cast<int>(sides_on_the_dice); i++) {
 		if(images[i])
 			g_object_set(images[i], "visibility",
 			             GOO_CANVAS_ITEM_INVISIBLE, NULL);

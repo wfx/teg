@@ -161,7 +161,7 @@ static TEG_STATUS canvas_create_countries(GooCanvasItem *group)
 		G_cont_create(i, group);
 	}
 
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		G_country_create(i);
 		G_country_draw(i);
 		G_country_draw_ejer(i);

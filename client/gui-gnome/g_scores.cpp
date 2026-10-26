@@ -146,7 +146,7 @@ static TEG_STATUS paint_color(GtkWidget *dialog, int color, GdkPixbuf **pixmap)
 
 	assert(pixmap);
 
-	const unsigned i = (color<0 || color>=maximum_player_count) ? maximum_player_count : color;
+	const unsigned i = (color<0 || color>=static_cast<int>(maximum_player_count)) ? maximum_player_count : color;
 
 	window = gtk_widget_get_window(dialog);
 	surface = gdk_window_create_similar_image_surface(window,

@@ -45,12 +45,12 @@ TEST(Stats, score)
 	                .players_killed = 4,
 	                .score = 5};
 	CONT const continents[CONTINENTE_LAST] {
-		[CONTINENTE_AMERICASUR] = {.fichas_x_cont=23},
-		[CONTINENTE_AMERICANORTE] = {.fichas_x_cont=42},
-		[CONTINENTE_AFRICA] = {.fichas_x_cont=17},
-		[CONTINENTE_OCEANIA] = {.fichas_x_cont=5},
-		[CONTINENTE_EUROPA] = {.fichas_x_cont=99},
-		[CONTINENTE_ASIA] = {.fichas_x_cont=8},
+		{nullptr, CONTINENTE_AMERICASUR, 0, 23},
+		{nullptr, CONTINENTE_AMERICANORTE, 0, 42},
+		{nullptr, CONTINENTE_AFRICA, 0, 17},
+		{nullptr, CONTINENTE_OCEANIA, 0, 5},
+		{nullptr, CONTINENTE_EUROPA, 0, 99},
+		{nullptr, CONTINENTE_ASIA, 0, 8},
 	};
 	PLAYER_STATS const expected{.countries_won = 1,
 	                            .armies_killed=  2,

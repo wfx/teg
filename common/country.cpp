@@ -141,7 +141,7 @@ bool country_libre(int i)
 /* returns the name of a country */
 char const * countries_get_name(int i)
 {
-	if(i >= 0 && i < COUNTRIES_CANT) {
+	if(i >= 0 && i < static_cast<int>(COUNTRIES_CANT)) {
 		return _(g_countries[i].name);
 	} else {
 		return _("Unknown");
@@ -150,7 +150,7 @@ char const * countries_get_name(int i)
 
 bool countrynumber_is_valid(int country_number)
 {
-	return (country_number >= 0) && (country_number < COUNTRIES_CANT);
+	return (country_number >= 0) && (country_number < static_cast<int>(COUNTRIES_CANT));
 }
 
 void countries_map(CountryMapFn fn)

@@ -10,9 +10,15 @@ namespace teg::server
 
 TEST(player, init_player)
 {
-	SPLAYER player{.hizo_canje=true, .turno_conq=12, .tot_countries=5,
-	               .tot_armies=323, .tot_cards=8, .tot_exchanges=7,
-	               .fichasc_armies=17, .fichasc_conts = 9};
+	SPLAYER player{};
+	player.hizo_canje = true;
+	player.turno_conq = 12;
+	player.tot_countries = 5;
+	player.tot_armies = 323;
+	player.tot_cards = 8;
+	player.tot_exchanges = 7;
+	player.fichasc_armies = 17;
+	player.fichasc_conts = 9;
 	player_initplayer(&player);
 	EXPECT_FALSE(player.hizo_canje);
 	EXPECT_EQ(0, player.tot_exchanges);
@@ -30,27 +36,37 @@ TEST(player, init_player)
 TEST(player, is_playing)
 {
 	{
-		SPLAYER player{.is_player = false, .estado=PLAYER_STATUS_POSTFICHAS};
+		SPLAYER player{};
+		player.is_player = false;
+		player.estado = PLAYER_STATUS_POSTFICHAS;
 		EXPECT_FALSE(player_is_playing(&player));
 	}
 
 	{
-		SPLAYER player{.is_player = true, .estado=PLAYER_STATUS_HABILITADO};
+		SPLAYER player{};
+		player.is_player = true;
+		player.estado = PLAYER_STATUS_HABILITADO;
 		EXPECT_FALSE(player_is_playing(&player));
 	}
 
 	{
-		SPLAYER player{.is_player = true, .estado=PLAYER_STATUS_START};
+		SPLAYER player{};
+		player.is_player = true;
+		player.estado = PLAYER_STATUS_START;
 		EXPECT_TRUE(player_is_playing(&player));
 	}
 
 	{
-		SPLAYER player{.is_player = true, .estado=PLAYER_STATUS_TURNOEND};
+		SPLAYER player{};
+		player.is_player = true;
+		player.estado = PLAYER_STATUS_TURNOEND;
 		EXPECT_TRUE(player_is_playing(&player));
 	}
 
 	{
-		SPLAYER player{.is_player = true, .estado=PLAYER_STATUS_LAST};
+		SPLAYER player{};
+		player.is_player = true;
+		player.estado = PLAYER_STATUS_LAST;
 		EXPECT_FALSE(player_is_playing(&player));
 	}
 }
@@ -62,7 +78,8 @@ TEST(player, lister_countries)
 	g_countries[1].numjug = 23;
 	g_countries[35].numjug = 23;
 
-	SPLAYER player{.numjug = 23};
+	SPLAYER player{};
+	player.numjug = 23;
 
 	int continent_counts[CONTINENTE_LAST] = {0};
 
@@ -84,7 +101,8 @@ TEST(player, lister_countries)
 
 void check_player_count(int countries, int armies)
 {
-	SPLAYER player{.tot_countries = countries};
+	SPLAYER player{};
+	player.tot_countries = countries;
 	EXPECT_EQ(armies, player_fichasc_cant(&player));
 }
 
@@ -99,9 +117,12 @@ TEST(player, army_count)
 TEST(player, clear_turn)
 {
 	const int player_number = 42;
-	SPLAYER player{.numjug = player_number, .turno_conq = 23,
-	               .estado=PLAYER_STATUS_POSTFICHAS2,
-	               .country_src=15, .country_dst=51};
+	SPLAYER player{};
+	player.numjug = player_number;
+	player.turno_conq = 23;
+	player.estado = PLAYER_STATUS_POSTFICHAS2;
+	player.country_src = 15;
+	player.country_dst = 51;
 
 	auto const belongs_to_player = [](int country_number)->bool {
 		return (country_number==3) || (country_number==7) || (country_number==9);

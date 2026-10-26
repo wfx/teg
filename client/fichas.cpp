@@ -129,7 +129,7 @@ TEG_STATUS fichas_finish(int **ptr)
 void fichas_init(int cant, int conts)
 {
 	int i;
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		aFichas[i]=0;
 	}
 	for(i=0; i<CONT_CANT; i++) {
@@ -149,7 +149,7 @@ void fichas_reset()
 {
 	int i;
 
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		if(aFichas[i]) {
 			g_countries[i].ejercitos -= aFichas[i];
 			aFichas[i] = 0;
@@ -214,7 +214,7 @@ TEG_STATUS fichas_out()
 
 	first_time = 1;
 
-	for(i=0; i<COUNTRIES_CANT; i++) {
+	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		if(ptr[i]>0) {
 			if(first_time) {
 				sprintf(tmp, "%d:%d", i, ptr[i]);

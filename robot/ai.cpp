@@ -49,11 +49,12 @@ static int attack_dst[COUNTRIES_CANT];
 
 TEG_STATUS ai_puntaje_sort(int cant)
 {
-	int i, j;
+	std::size_t i;
+	int j;
 	int max;
 
 	//check if the buffer is big enough
-	if(cant > COUNTRIES_CANT * 10) {
+	if(cant < 0 || static_cast<std::size_t>(cant) > COUNTRIES_CANT * 10) {
 		return TEG_STATUS_ERROR;
 	}
 
@@ -76,7 +77,7 @@ TEG_STATUS ai_puntaje_sort(int cant)
  */
 TEG_STATUS ai_puntaje_sort_for_attack()
 {
-	int i;
+	std::size_t i;
 	int max=0;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
@@ -90,7 +91,7 @@ TEG_STATUS ai_puntaje_sort_for_attack()
 
 void ai_puntaje_clean()
 {
-	int i;
+	std::size_t i;
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		ai_puntaje[i] = -10000;
 	}
@@ -102,7 +103,7 @@ void ai_puntaje_clean()
  */
 int ai_many_country_enemigo(int p)
 {
-	int i;
+	std::size_t i;
 	int c=0;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
@@ -120,7 +121,7 @@ int ai_many_country_enemigo(int p)
  */
 bool ai_is_country_border(int p)
 {
-	int i;
+	std::size_t i;
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		if(countries_eslimitrofe(i, p) && g_countries[i].continente != g_countries[p].continente) {
 			return true;
@@ -132,7 +133,7 @@ bool ai_is_country_border(int p)
 
 bool ai_own_continent(CONTINENTE c)
 {
-	int i;
+	std::size_t i;
 	int t=0;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
@@ -197,7 +198,7 @@ bool ai_is_country_peligroso(int src, int dst)
 int ai_puntaje_atacar_warning(int src)
 {
 	int p=0;
-	int i;
+	std::size_t i;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		if(countries_eslimitrofe(src, i) &&
@@ -247,7 +248,7 @@ int ai_puntaje_atacar_country(int src, int dst)
  */
 TEG_STATUS ai_puntaje_atacar(int country)
 {
-	int i;
+	std::size_t i;
 	int p=0;
 	int p_tmp;
 	int dst=-1;
@@ -277,7 +278,7 @@ TEG_STATUS ai_puntaje_atacar(int country)
 
 TEG_STATUS ai_turno()
 {
-	int i;
+	std::size_t i;
 	int j;
 
 	ai_puntaje_clean();
@@ -302,7 +303,7 @@ TEG_STATUS ai_turno()
 
 TEG_STATUS __ai_reagrupe(int  p, int cant)
 {
-	int i;
+	std::size_t i;
 	int own = ai_own_continent(g_countries[p].continente);
 
 	if(own) {
@@ -361,7 +362,8 @@ TEG_STATUS __ai_reagrupe(int  p, int cant)
 
 TEG_STATUS ai_reagrupe()
 {
-	int i, p;
+	std::size_t i;
+	int p;
 	c::reagrupe_init();
 
 	for(i=0; i < COUNTRIES_CANT ; i++) {

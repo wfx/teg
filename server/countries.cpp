@@ -34,7 +34,7 @@ void countries_repartir()
 	int resto = COUNTRIES_CANT%g_game.playing;
 	PCOUNTRY p;
 
-	for(i=0; i < COUNTRIES_CANT-resto; i++) {
+	for(i=0; i < static_cast<int>(COUNTRIES_CANT)-resto; i++) {
 		p = get_random_country(country_libre);
 		player_from_indice(j, &real_j);
 		player_asignarcountry(real_j, p);

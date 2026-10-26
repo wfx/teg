@@ -717,7 +717,7 @@ TEG_STATUS theme_giveme_theme(pTTheme pT)
 		pT->armies_dragable = (strcasecmp((char*)g_theme->armies_background, "true") == 0);
 	}
 
-	for(i=0; i<sides_on_the_dice; i++) {
+	for(i=0; i<static_cast<int>(sides_on_the_dice); i++) {
 		pT->dices_file[i] = (char*)g_theme->dices_file[i];
 	}
 

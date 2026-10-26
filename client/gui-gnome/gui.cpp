@@ -379,7 +379,7 @@ TEG_STATUS gui_country(int p)
 {
 //	if( status_dialog != NULL) out_status();
 
-	if(p < COUNTRIES_CANT) {
+	if(p < static_cast<int>(COUNTRIES_CANT)) {
 		G_country_draw_ejer(p);
 	}
 
