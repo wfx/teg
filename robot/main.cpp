@@ -27,8 +27,24 @@
 
 #include "../common/share.h"
 #include "client.h"
+#include "state.h"
 #include "version.h"
 #include "fcintl.h"
+
+namespace teg::robot
+{
+
+namespace
+{
+RobotState robot_instance;
+}
+
+RobotState& robot_state()
+{
+	return robot_instance;
+}
+
+}
 
 using namespace teg::client;
 

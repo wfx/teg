@@ -40,15 +40,13 @@
 #include "ai_fichas.h"
 #include "ai_msg.h"
 #include "ai_misc.h"
+#include "state.h"
 
 
 namespace teg::client::callbacks
 {
 
 namespace r = ::teg::robot;
-
-int robot_seed = 0;			/* variable global del robot */
-int robot_timeout = 1;			/* variable que dice los segundos que espera */
 
 /*
  * private functions
@@ -121,8 +119,8 @@ TEG_STATUS gui_init(ClientState& state, int argc, char **argv)
 
 	init_nls();
 
-	robot_seed = get_int_from_dev_random();
-	srand(robot_seed);
+	r::robot_state().seed = get_int_from_dev_random();
+	srand(r::robot_state().seed);
 
 	if(!state.game.serport) {
 		state.game.serport = default_server_port;
@@ -137,7 +135,7 @@ TEG_STATUS gui_init(ClientState& state, int argc, char **argv)
 	}
 	textmsg(state, M_IMP, _("Robot name: %s"), state.game.myname);
 
-	robot_timeout = 1;
+	r::robot_state().timeout = 1;
 
 	r::ai_init(state);
 	return TEG_STATUS_SUCCESS;
@@ -157,7 +155,7 @@ TEG_STATUS gui_main(ClientState& state)
 	out_id(state);
 
 	while(1) {
-		tout.tv_sec =  robot_timeout;
+		tout.tv_sec =  r::robot_state().timeout;
 		tout.tv_usec = 0;
 		FD_ZERO(&readfds);
 		FD_SET(state.game.fd, &readfds);
@@ -199,7 +197,7 @@ TEG_STATUS gui_connected(ClientState& state, int const *_ignored)
 
 TEG_STATUS gui_start(ClientState& state)
 {
-	robot_timeout = 1;
+	r::robot_state().timeout = 1;
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -214,20 +212,19 @@ TEG_STATUS gui_fichas(ClientState& state, int cant, int conts)
 
 	e = client_status(state);
 
-	robot_timeout = 1;
+	r::robot_state().timeout = 1;
 
 	switch(e) {
 	case PLAYER_STATUS_FICHAS:
 	case PLAYER_STATUS_FICHAS2:
 	case PLAYER_STATUS_FICHASC: {
-		static int hubo_loque = 0;
 
 		/* averiguo el status para saber quien empezo */
 		out_status(state);
 
-		if(!hubo_loque) {
+		if(!r::robot_state().hubo_loque) {
 			out_loque(state);
-			hubo_loque =1;
+			r::robot_state().hubo_loque =1;
 		}
 
 		/* por las dudas, este chequeo no esta demas */
@@ -257,7 +254,7 @@ TEG_STATUS gui_fichas(ClientState& state, int cant, int conts)
 			textmsg(state, M_ERR, "Robot: Abnormal error in ai_fichas()");
 			return TEG_STATUS_ERROR;
 		}
-		hubo_loque = 0;
+		r::robot_state().hubo_loque = 0;
 		break;
 	}
 	default:
@@ -271,13 +268,13 @@ TEG_STATUS gui_fichas(ClientState& state, int cant, int conts)
 TEG_STATUS gui_turn(ClientState& state, PCPLAYER pJ)
 {
 	if(pJ->numjug == who_am_i(state)) {
-		robot_timeout = 1;
+		r::robot_state().timeout = 1;
 
 		if(r::ai_turno(state) != TEG_STATUS_SUCCESS) {
 			r::ai_reagrupe(state);
 			out_tarjeta(state);
 			out_endturn(state);
-			robot_timeout = 5;
+			r::robot_state().timeout = 5;
 		}
 	}
 

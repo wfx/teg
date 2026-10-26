@@ -34,7 +34,7 @@
 namespace teg::robot
 {
 
-aimsg_t mensajes_hi[] = {
+aimsg_t const mensajes_hi[] = {
 	{ N_("Hi %s"), 1},
 	{ N_("Good luck %s"), 1},
 	{ N_("How are you %s ?"), 1},
@@ -46,7 +46,7 @@ aimsg_t mensajes_hi[] = {
 };
 #define NR_MSGS_HI ( sizeof(mensajes_hi) / sizeof(mensajes_hi[0]))
 
-aimsg_t mensajes_bye[] = {
+aimsg_t const mensajes_bye[] = {
 	{ N_("Goodbye %s"), 1},
 	{ N_("%s, you need to improve you game"), 1},
 	{ N_("%s, You really dont know how to play!"), 1 },
@@ -55,7 +55,7 @@ aimsg_t mensajes_bye[] = {
 };
 #define NR_MSGS_BYE ( sizeof(mensajes_bye) / sizeof(mensajes_bye[0]))
 
-aimsg_t mensajes_misc[] = {
+aimsg_t const mensajes_misc[] = {
 	{ N_("%s, Do you have a sister ?"), 1},
 	{ N_("I love this game"), 0 },
 	{ N_("%s, I cant believe it!"), 1 },
@@ -91,7 +91,7 @@ aimsg_t mensajes_misc[] = {
 };
 #define NR_MSGS_MISC ( sizeof(mensajes_misc) / sizeof(mensajes_misc[0]))
 
-aimsg_t mensajes_answer[] = {
+aimsg_t const mensajes_answer[] = {
 	{ N_("%s, I dont agree"), 1 },
 	{ N_("%s, Are you sure what you are saying?"), 1 },
 	{ N_("%s, What are you saying"), 1 },
@@ -110,7 +110,7 @@ aimsg_t mensajes_answer[] = {
 #define NR_MSGS_ANSWER ( sizeof(mensajes_answer) / sizeof(mensajes_answer[0]))
 
 
-static char const *names[] = {
+static char const *const names[] = {
 	N_("Scrapheap Sheriff"),
 	N_("Tin Biter"),
 	N_("Rusty Rudy"),
