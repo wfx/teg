@@ -22,11 +22,13 @@
 
 #include <array>
 #include <list>
+#include <memory>
 
 #include "../common/common.h"
 #include "../common/cont.h"
 #include "../common/country.h"
 #include "../common/state.h"
+#include "../common/transport.h"
 
 #include "player.h"
 #include "themes.h"
@@ -35,7 +37,6 @@ namespace teg::client
 {
 
 typedef struct _cgame {
-	int fd;				/**< mi fd */
 	PLAYER_STATUS estado;		/**< estado del game */
 	int numjug;			/**< numero de player (yo) */
 	int human;			/**< Am I a human ? */
@@ -70,6 +71,9 @@ struct ClientState {
 	CJUEGO game{};
 	ClientPlayerList players{};
 	bool first_time{true};
+
+	/// \brief The connection to the game server
+	std::unique_ptr<Transport> connection;
 
 	/// State of the client side attack handling
 	struct {

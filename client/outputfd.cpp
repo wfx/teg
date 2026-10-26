@@ -40,7 +40,7 @@ TEG_STATUS out_mensaje(ClientState& state, char *msg)
 	}
 
 	strip_invalid_msg(msg);
-	net_printf(state.game.fd, TOKEN_MESSAGE"=\"%s\"\n", msg);
+	state.connection->printf(TOKEN_MESSAGE"=\"%s\"\n", msg);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -52,7 +52,7 @@ TEG_STATUS out_id(ClientState& state)
 	}
 
 	strip_invalid(state.game.myname);
-	net_printf(state.game.fd, TOKEN_PLAYERID"=%s,%d,%d\n", state.game.myname, !state.game.observer, state.game.human);
+	state.connection->printf(TOKEN_PLAYERID"=%s,%d,%d\n", state.game.myname, !state.game.observer, state.game.human);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -62,7 +62,7 @@ TEG_STATUS out_color(ClientState& state, int color)
 		return TEG_STATUS_ERROR;
 	}
 
-	net_printf(state.game.fd, TOKEN_COLOR"=%d\n", color);
+	state.connection->printf(TOKEN_COLOR"=%d\n", color);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -72,7 +72,7 @@ TEG_STATUS out_exit(ClientState& state)
 		return TEG_STATUS_NOTCONNECTED;
 	}
 
-	net_printf(state.game.fd, TOKEN_EXIT"\n");
+	state.connection->printf(TOKEN_EXIT"\n");
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -83,7 +83,7 @@ TEG_STATUS out_countries(ClientState& state)
 		return TEG_STATUS_NOTCONNECTED;
 	}
 
-	net_printf(state.game.fd, TOKEN_COUNTRIES"=-1\n");
+	state.connection->printf(TOKEN_COUNTRIES"=-1\n");
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -95,7 +95,7 @@ TEG_STATUS out_enum_cards(ClientState& state)
 		return TEG_STATUS_NOTCONNECTED;
 	}
 
-	net_printf(state.game.fd, TOKEN_ENUM_CARDS"\n");
+	state.connection->printf(TOKEN_ENUM_CARDS"\n");
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -107,7 +107,7 @@ TEG_STATUS out_new_round(ClientState& state)
 		return TEG_STATUS_NOTCONNECTED;
 	}
 
-	net_printf(state.game.fd, TOKEN_NEW_ROUND"\n");
+	state.connection->printf(TOKEN_NEW_ROUND"\n");
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -118,7 +118,7 @@ TEG_STATUS out_status(ClientState& state)
 	if(status_below(state, PLAYER_STATUS_CONNECTED)) {
 		return TEG_STATUS_NOTCONNECTED;
 	}
-	net_printf(state.game.fd, TOKEN_STATUS"\n");
+	state.connection->printf(TOKEN_STATUS"\n");
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -126,7 +126,7 @@ TEG_STATUS out_status(ClientState& state)
 TEG_STATUS out_start(ClientState& state)
 {
 	if(is_status(state, PLAYER_STATUS_HABILITADO)) {
-		net_printf(state.game.fd, TOKEN_START"\n");
+		state.connection->printf(TOKEN_START"\n");
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_NOTCONNECTED;
@@ -139,7 +139,7 @@ TEG_STATUS out_tarjeta(ClientState& state)
 		return TEG_STATUS_ERROR;
 	}
 
-	net_printf(state.game.fd, TOKEN_TARJETA"\n");
+	state.connection->printf(TOKEN_TARJETA"\n");
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -150,7 +150,7 @@ TEG_STATUS out_tropas(ClientState& state, int src, int dst, int cant)
 
 	e = client_status(state);
 	if(e==PLAYER_STATUS_TROPAS || e==PLAYER_STATUS_ATAQUE) {
-		net_printf(state.game.fd, TOKEN_TROPAS"=%d,%d,%d\n", src, dst, cant);
+		state.connection->printf(TOKEN_TROPAS"=%d,%d,%d\n", src, dst, cant);
 	} else {
 		return TEG_STATUS_ERROR;
 	}
@@ -167,7 +167,7 @@ TEG_STATUS out_endturn(ClientState& state)
 		attack_reset(state);
 		reagrupe_reset(state);
 		set_status(state, PLAYER_STATUS_IDLE);
-		net_printf(state.game.fd, TOKEN_TURNO"\n");
+		state.connection->printf(TOKEN_TURNO"\n");
 	} else {
 		textmsg(state, M_ERR, _("Error, it's not your turn."));
 		return TEG_STATUS_ERROR;
@@ -181,7 +181,7 @@ TEG_STATUS out_surrender(ClientState& state)
 
 	e = client_status(state);
 	if(e >= PLAYER_STATUS_START) {
-		net_printf(state.game.fd, TOKEN_SURRENDER"\n");
+		state.connection->printf(TOKEN_SURRENDER"\n");
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;
@@ -193,7 +193,7 @@ TEG_STATUS out_missions(ClientState& state)
 
 	e = client_status(state);
 	if(e >= PLAYER_STATUS_START) {
-		net_printf(state.game.fd, TOKEN_MISSION"\n");
+		state.connection->printf(TOKEN_MISSION"\n");
 	} else {
 		textmsg(state, M_ERR, _("Error, the game is not started"));
 		return TEG_STATUS_ERROR;
@@ -207,7 +207,7 @@ TEG_STATUS out_get_typeofgame(ClientState& state)
 
 	e = client_status(state);
 	if(e >= PLAYER_STATUS_START) {
-		net_printf(state.game.fd, TOKEN_MODALIDAD"\n");
+		state.connection->printf(TOKEN_MODALIDAD"\n");
 	} else {
 		textmsg(state, M_ERR, _("Error, the game is not started"));
 		return TEG_STATUS_ERROR;
@@ -224,12 +224,12 @@ TEG_STATUS out_set_typeofgame(ClientState& state, int conqworld, int fog_of_war,
 		textmsg(state, M_ERR, _("Error, the game is started so you cant change the type of game"));
 		return TEG_STATUS_ERROR;
 	} else {
-		net_printf(state.game.fd, "%s=%s=%d;%s=%s=%d;%s=%s=%d;%s=%s=%d,%d\n",
-		           TOKEN_SET, OPTION_CONQWORLD, conqworld,
-		           TOKEN_SET, OPTION_FOG_OF_WAR, fog_of_war,
-		           TOKEN_SET, OPTION_CMISSION, with_common,
-		           TOKEN_SET, OPTION_ARMIES, armies1, armies2
-		          );
+		state.connection->printf("%s=%s=%d;%s=%s=%d;%s=%s=%d;%s=%s=%d,%d\n",
+		                         TOKEN_SET, OPTION_CONQWORLD, conqworld,
+		                         TOKEN_SET, OPTION_FOG_OF_WAR, fog_of_war,
+		                         TOKEN_SET, OPTION_CMISSION, with_common,
+		                         TOKEN_SET, OPTION_ARMIES, armies1, armies2
+		                        );
 
 	}
 	return TEG_STATUS_SUCCESS;
@@ -241,7 +241,7 @@ TEG_STATUS out_loque(ClientState& state)
 
 	e = client_status(state);
 	if(e >= PLAYER_STATUS_CONNECTED) {
-		net_printf(state.game.fd, TOKEN_LOQUE"\n");
+		state.connection->printf(TOKEN_LOQUE"\n");
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;
@@ -252,8 +252,8 @@ TEG_STATUS out_scores(ClientState& state)
 {
 	PLAYER_STATUS e = client_status(state);
 
-	if(e >= PLAYER_STATUS_CONNECTED &&  state.game.fd > 0) {
-		net_printf(state.game.fd, TOKEN_SCORES"\n");
+	if(e >= PLAYER_STATUS_CONNECTED &&  client_fd(state) > 0) {
+		state.connection->printf(TOKEN_SCORES"\n");
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;
@@ -264,8 +264,8 @@ TEG_STATUS out_robot(ClientState& state)
 {
 	PLAYER_STATUS e = client_status(state);
 
-	if(e >= PLAYER_STATUS_CONNECTED && e < PLAYER_STATUS_START && state.game.fd > 0) {
-		net_printf(state.game.fd, TOKEN_ROBOT"\n");
+	if(e >= PLAYER_STATUS_CONNECTED && e < PLAYER_STATUS_START && client_fd(state) > 0) {
+		state.connection->printf(TOKEN_ROBOT"\n");
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;

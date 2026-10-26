@@ -39,9 +39,9 @@ TEST(ClientState, module_states_are_independent)
 	EXPECT_TRUE(is_status(first, PLAYER_STATUS_DESCONECTADO));
 	EXPECT_TRUE(is_status(second, PLAYER_STATUS_DESCONECTADO));
 
-	first.game.fd = 42;
-	EXPECT_EQ(42, first.game.fd);
-	EXPECT_EQ(0, second.game.fd);
+	first.game.numjug = 42;
+	EXPECT_EQ(42, first.game.numjug);
+	EXPECT_EQ(0, second.game.numjug);
 }
 
 TEST(ClientState, default_module_values)

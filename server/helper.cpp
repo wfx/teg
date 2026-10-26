@@ -119,7 +119,7 @@ void ins_orden(char d, char *array, int len)
 }
 
 /* Validates the total number of armies placed */
-TEG_STATUS aux_token_fichas(ServerState& state, int fd, char *str, int maximo, unsigned long conts)
+TEG_STATUS aux_token_fichas(ServerState& state, std::shared_ptr<Transport> const& connection, char *str, int maximo, unsigned long conts)
 {
 	PARSER p{str, ':', ','};
 	PSPLAYER j;
@@ -127,7 +127,7 @@ TEG_STATUS aux_token_fichas(ServerState& state, int fd, char *str, int maximo, u
 	char *copia;
 	int cptr[CONT_CANT];			/**< continent ptr */
 
-	if(player_whoisfd(state, fd, &j) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &j) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -444,12 +444,12 @@ TEG_STATUS aux_find_inaddr(ServerState& state, PSPLAYER pJ)
 
 	strncpy(pJ->addr, _("Unknown"), sizeof(pJ->addr)-1);
 
-	if(pJ->fd <= 0) {
+	if(player_fd(*pJ) <= 0) {
 		return TEG_STATUS_ERROR;
 	}
 
 	socklen_t length=sizeof(addr);
-	if(getpeername(pJ->fd, &addr.addr, &length) == -1) {
+	if(getpeername(player_fd(*pJ), &addr.addr, &length) == -1) {
 		con_text_out(state, M_ERR, "Error in getpeername()\n");
 		pJ->addr[sizeof(pJ->addr)-1]=0;
 
@@ -529,7 +529,7 @@ void aux_token_countries(ServerState& state, PSPLAYER pJ, char *buf, int buflen)
 	buf[buflen]=0;
 }
 
-TEG_STATUS launch_robot(ServerState& state, int *robot_socket, char const *mode)
+TEG_STATUS launch_robot(ServerState& state, std::shared_ptr<Transport>& robot_connection, char const *mode)
 {
 	pid_t pid;
 	char const *args[5];
@@ -583,8 +583,8 @@ TEG_STATUS launch_robot(ServerState& state, int *robot_socket, char const *mode)
 		close(sockets[0]);
 	}
 
-	// return the robot fd
-	*robot_socket = sockets[1];
+	// return the robot connection
+	robot_connection = std::make_shared<SocketTransport>(sockets[1]);
 
 	return TEG_STATUS_SUCCESS;
 }

@@ -46,8 +46,8 @@ static void close_descriptors(ClientState& state)
 	int i, open_max;
 
 	/* force manually the close of the socket */
-	if(state.game.fd >0) {
-		net_close(state.game.fd);
+	if(state.connection) {
+		state.connection->close();
 	}
 
 	open_max = sysconf(_SC_OPEN_MAX);
@@ -89,7 +89,6 @@ TEG_STATUS game_reinit(ClientState& state)
 /* initializes a game */
 void game_init(ClientState& state)
 {
-	state.game.fd = -1;
 	state.game.numjug = -1;
 	state.game.observer = 0;
 
@@ -120,13 +119,14 @@ TEG_STATUS teg_connect(ClientState& state)
 
 		/* standar mode */
 		if(! state.game.already_connected) {
-			state.game.fd = net_connect_tcp((char*) &state.game.sername, state.game.serport);
-			if(state.game.fd < 0) {
+			int const fd = net_connect_tcp((char*) &state.game.sername, state.game.serport);
+			if(fd < 0) {
 				textmsg(state, M_ERR, _("Error while trying to connect to server '%s' at port %d"), state.game.sername, state.game.serport);
 				return TEG_STATUS_ERROR;
 			}
+			state.connection = std::make_unique<SocketTransport>(fd);
 		} else if(state.game.already_connected) {
-			state.game.fd = 3;
+			state.connection = std::make_unique<SocketTransport>(3);
 		}
 
 		return TEG_STATUS_SUCCESS;
@@ -142,9 +142,9 @@ void teg_disconnect(ClientState& state)
 
 	player_flush(state);
 
-	if(state.game.fd > 0) {
-		net_close(state.game.fd);
-		state.game.fd = -1;
+	if(state.connection) {
+		state.connection->close();
+		state.connection.reset();
 	}
 
 	game_finalize(state);

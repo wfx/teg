@@ -115,14 +115,14 @@ int fow_netall_printf(ServerState& state, int country, char const *format, ...)
 	buf[ sizeof(buf) -1 ] = 0;
 
 	player_map(state, [&state, buf, country](PSPLAYER pJ) {
-		if(pJ->fd > 0) {
+		if(pJ->connection) {
 			/* check if he has a boundry country wih 'country' */
 			countries_map_int(state.game.common,
 			pJ->numjug, [country, &buf, pJ](COUNTRY& country_to_inspect) -> bool {
 				CountryId const cid{country_to_inspect.id};
 				if((cid == country) || countries_eslimitrofe(cid, country))
 				{
-					net_print(pJ->fd, buf);
+					pJ->connection->print(buf);
 					return false;
 				}
 				return true;
@@ -155,7 +155,7 @@ int fow_2_netall_printf(ServerState& state, int src, int dst, char const *format
 	buf[ sizeof(buf) -1 ] = 0;
 
 	player_map(state, [&state, buf, src, dst](PSPLAYER pJ) {
-		if(pJ->fd > 0) {
+		if(pJ->connection) {
 			/* check if he has a boundry country wih src && dst */
 
 			int src_country = -1;
@@ -174,7 +174,7 @@ int fow_2_netall_printf(ServerState& state, int src, int dst, char const *format
 				return (dst_country == -1) && (src_country == -1);
 			});
 
-			net_printf(pJ->fd, buf, src_country, dst_country);
+			pJ->connection->printf(buf, src_country, dst_country);
 		}
 	});
 	return 0;

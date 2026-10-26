@@ -42,8 +42,8 @@ void netall_printf(ServerState& state, char const *format, ...)
 	buf[ sizeof(buf) -1 ] = 0;
 
 	player_map(state, [buf](PSPLAYER j) {
-		if(j->fd>0) {
-			net_print(j->fd, buf);
+		if(j->connection) {
+			j->connection->print(buf);
 		}
 	}, PlayerMapPolicy::everyone);
 }

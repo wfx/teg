@@ -184,7 +184,7 @@ TEG_STATUS attack_out(ClientState& state)
 		return TEG_STATUS_ERROR;
 	}
 
-	net_printf(state.game.fd, TOKEN_ATAQUE"=%d,%d\n", src, dst);
+	state.connection->printf(TOKEN_ATAQUE"=%d,%d\n", src, dst);
 	attack_backup(state);
 	return TEG_STATUS_SUCCESS;
 }

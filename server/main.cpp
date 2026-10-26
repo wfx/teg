@@ -26,6 +26,7 @@
 #   define _GNU_SOURCE
 #endif
 
+#include <algorithm>
 #include <stdlib.h>
 #include <stdio.h>
 #include <strings.h>
@@ -79,8 +80,8 @@ void game_end(ServerState& state, PSPLAYER winner)
 
 		/* send the last status to all the players */
 		player_map(state, [strout](PSPLAYER pJ) {
-			if(pJ->is_player && pJ->fd != 1) {
-				net_printf(pJ->fd, TOKEN_STATUS"=%s\n", strout);
+			if(pJ->is_player && pJ->connection) {
+				pJ->connection->printf(TOKEN_STATUS"=%s\n", strout);
 			}
 		});
 	}
@@ -167,7 +168,9 @@ void server_exit(ServerState& state, int sock)
 	console_quit(state);
 	close(sock);
 	if(state.server.with_console) {
-		close(CONSOLE_FD);
+		if(state.console) {
+			state.console->close();
+		}
 	}
 	player_flush(state);
 	printf(_("Goodbye.\n"));
@@ -194,7 +197,10 @@ void main_loop(ServerState& state)
 	FD_SET(listenfd, &state.all_set);
 
 	if(state.server.with_console) {
-		FD_SET(CONSOLE_FD, &state.all_set);
+		if(!state.console) {
+			state.console = std::make_shared<SocketTransport>(CONSOLE_FD, false);
+		}
+		FD_SET(state.console->fd(), &state.all_set);
 	}
 
 #define TIMEOUT_SEC	(180) 	/* 3 minutes */
@@ -261,7 +267,7 @@ void main_loop(ServerState& state)
 			fd = accept(listenfd, (struct sockaddr *)&client, &client_len);
 
 			if(fd != -1) {
-				fd_add(state, fd);
+				add_connection(state, std::make_shared<SocketTransport>(fd));
 			}
 
 			if(--nready <= 0) {
@@ -270,8 +276,8 @@ void main_loop(ServerState& state)
 		}
 
 		/* input from console */
-		if(state.server.with_console && FD_ISSET(CONSOLE_FD, &read_set)) {
-			TEG_STATUS ts = console_handle(state, CONSOLE_FD);
+		if(state.server.with_console && state.console && FD_ISSET(state.console->fd(), &read_set)) {
+			TEG_STATUS ts = console_handle(state);
 
 			if(ts==TEG_STATUS_GAMEOVER || ts==TEG_STATUS_CONNCLOSED) {
 				server_exit(state, listenfd);
@@ -284,9 +290,12 @@ void main_loop(ServerState& state)
 		}
 
 		/* input from players */
-		for(fd=0; fd<=state.max_fd; fd++) {
-			if((fd!=listenfd && fd!=CONSOLE_FD) && FD_ISSET(fd, &read_set)) {
-				if(play_teg(state, fd)==TEG_STATUS_CONNCLOSED) {
+		for(auto const& connection: std::vector<std::shared_ptr<Transport>> {state.connections}) {
+			if(!connection || connection->fd() < 0) {
+				continue;
+			}
+			if(FD_ISSET(connection->fd(), &read_set)) {
+				if(play_teg(state, connection)==TEG_STATUS_CONNCLOSED) {
 					MAIN_DEBUG("closing connection\n");
 
 					/* kick robots if they are alone */
@@ -301,30 +310,48 @@ void main_loop(ServerState& state)
 	}
 }
 
-/* Clears a fd from the all_set descriptors */
-void fd_remove(ServerState& state, int fd)
+/* Clears a connection from the all_set descriptors */
+void remove_connection(ServerState& state, std::shared_ptr<Transport> const& connection)
 {
+	if(!connection) {
+		return;
+	}
+
+	int const fd = connection->fd();
 	if(state.server.debug) {
 		con_text_out(state, M_INF, _("Removing fd %d\n"), fd);
 	}
 
 	if(fd > 0) {
-		net_close(fd);
 		FD_CLR(fd, &state.all_set);
 	}
+
+	connection->close();
+
+	state.connections.erase(
+	    std::remove(state.connections.begin(), state.connections.end(), connection),
+	    state.connections.end());
 }
 
-/* adds a fd to the all_set descriptors */
-void fd_add(ServerState& state, int fd)
+/* adds a connection to the all_set descriptors */
+void add_connection(ServerState& state, std::shared_ptr<Transport> const& connection)
 {
+	if(!connection) {
+		return;
+	}
+
+	int const fd = connection->fd();
 	if(state.server.debug) {
 		con_text_out(state, M_INF, _("Accepting fd %d\n"), fd);
 	}
 
-	FD_SET(fd, &state.all_set);
-	if(fd > state.max_fd) {
-		state.max_fd = fd;
+	if(fd >= 0) {
+		FD_SET(fd, &state.all_set);
+		if(fd > state.max_fd) {
+			state.max_fd = fd;
+		}
 	}
+	state.connections.push_back(connection);
 }
 
 /* parse the arguments */

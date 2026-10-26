@@ -158,12 +158,12 @@ TEG_STATUS gui_main(ClientState& state)
 		tout.tv_sec =  r::robot_state().timeout;
 		tout.tv_usec = 0;
 		FD_ZERO(&readfds);
-		FD_SET(state.game.fd, &readfds);
-		r = select(state.game.fd+1, &readfds, NULL, NULL, &tout);
+		FD_SET(client_fd(state), &readfds);
+		r = select(client_fd(state)+1, &readfds, NULL, NULL, &tout);
 
 		/* fd input */
 		if(r > 0) {
-			if(client_recv(state, state.game.fd) == TEG_STATUS_CONNCLOSED) {
+			if(client_recv(state) == TEG_STATUS_CONNCLOSED) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}

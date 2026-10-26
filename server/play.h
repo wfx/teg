@@ -20,7 +20,10 @@
 
 #pragma once
 
+#include <memory>
+
 #include "../common/common.h"
+#include "../common/transport.h"
 
 namespace teg::server
 {
@@ -35,16 +38,16 @@ struct ServerState;
  * \return TEG_STATUS_SUCCESS if a new game is started
  *         TEG_STATUS_PARSEERROR if there was any error.
  */
-TEG_STATUS token_start(ServerState& state, int fd, char *);
+TEG_STATUS token_start(ServerState& state, std::shared_ptr<Transport> const& connection, char *);
 
 /** \brief Shut down the server
  *
  * \return This function always returns TEG_STATUS_CONNCLOSED. It can't be void
  *         since it is used as a callback function.
  */
-TEG_STATUS token_exit(ServerState& state, int fd, char *);
+TEG_STATUS token_exit(ServerState& state, std::shared_ptr<Transport> const& connection, char *);
 
 /// \brief Read a message from a client fd and do the appropriate action
-TEG_STATUS play_teg(ServerState& state, int fd);
+TEG_STATUS play_teg(ServerState& state, std::shared_ptr<Transport> const& connection);
 
 }

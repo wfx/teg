@@ -55,41 +55,41 @@
 namespace teg::server
 {
 
-STATIC TEG_STATUS token_status(ServerState&, int, char *);
-STATIC TEG_STATUS token_test(ServerState&, int, char *);
-STATIC TEG_STATUS token_sversion(ServerState&, int, char *);
-STATIC TEG_STATUS token_cversion(ServerState&, int, char *);
-STATIC TEG_STATUS token_pversion(ServerState&, int, char *);
-STATIC TEG_STATUS token_playerid(ServerState&, int, char *);
-STATIC TEG_STATUS token_help(ServerState&, int, char *);
-STATIC TEG_STATUS token_countries(ServerState&, int, char *);
-STATIC TEG_STATUS token_fichas(ServerState&, int, char*);
-STATIC TEG_STATUS token_fichas2(ServerState&, int, char *);
-STATIC TEG_STATUS token_fichasc(ServerState&, int, char *);
-STATIC TEG_STATUS token_attack(ServerState&, int, char *);
-STATIC TEG_STATUS token_qumm(ServerState& state, int fd, char *);
-STATIC TEG_STATUS token_rem(ServerState& state, int fd, char *);
-STATIC TEG_STATUS token_message(ServerState& state, int fd, char *);
-STATIC TEG_STATUS token_tropas(ServerState& state, int fd, char *str);
-STATIC TEG_STATUS token_turn(ServerState& state, int fd, char *str);
-STATIC TEG_STATUS token_card(ServerState& state, int fd, char *str);
-STATIC TEG_STATUS token_regroup(ServerState&, int, char *);
-STATIC TEG_STATUS token_canje(ServerState&, int, char*);
-STATIC TEG_STATUS token_ejer2(ServerState&, int, char *);
-STATIC TEG_STATUS token_mission(ServerState&, int, char *);
-STATIC TEG_STATUS token_color(ServerState&, int, char*);
-STATIC TEG_STATUS token_loque(ServerState&, int, char*);
-STATIC TEG_STATUS token_surrender(ServerState&, int, char*);
-STATIC TEG_STATUS token_set(ServerState&, int, char*);
-STATIC TEG_STATUS token_scores(ServerState&, int, char*);
-STATIC TEG_STATUS token_enum_cards(ServerState&, int, char*);
-STATIC TEG_STATUS token_robot(ServerState&, int, char*);
-STATIC TEG_STATUS token_new_round(ServerState& state, int fd, char *str);
-STATIC TEG_STATUS token_typeofgame(ServerState& state, int fd, char *str);
+STATIC TEG_STATUS token_status(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_test(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_sversion(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_cversion(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_pversion(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_playerid(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_help(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_countries(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_fichas(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_fichas2(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_fichasc(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_attack(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_qumm(ServerState& state, std::shared_ptr<Transport> const& connection, char *);
+STATIC TEG_STATUS token_rem(ServerState& state, std::shared_ptr<Transport> const& connection, char *);
+STATIC TEG_STATUS token_message(ServerState& state, std::shared_ptr<Transport> const& connection, char *);
+STATIC TEG_STATUS token_tropas(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
+STATIC TEG_STATUS token_turn(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
+STATIC TEG_STATUS token_card(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
+STATIC TEG_STATUS token_regroup(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_canje(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_ejer2(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_mission(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS token_color(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_loque(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_surrender(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_set(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_scores(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_enum_cards(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_robot(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS token_new_round(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
+STATIC TEG_STATUS token_typeofgame(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 
 struct {
 	char const *label;
-	TEG_STATUS(*func)(ServerState&, int, char*);
+	TEG_STATUS(*func)(ServerState&, std::shared_ptr<Transport> const&, char*);
 	char const *help;
 } tokens[] = {
 	{ TOKEN_START,		token_start,	N_("to start the game") },
@@ -130,36 +130,36 @@ struct {
 
 
 /* Sets a server option */
-STATIC TEG_STATUS token_set(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_set(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	if(strlen(str)==0) {
 		goto error;
 	}
 
-	if(option_parse(state, fd, str) == TEG_STATUS_SUCCESS) {
+	if(option_parse(state, connection, str) == TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_SUCCESS;
 	}
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_SET "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_SET "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Sends the player the actions he must do. Usefull as callback */
-STATIC TEG_STATUS token_loque(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_loque(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_loque()");
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
 	switch(pJ->estado) {
 	case PLAYER_STATUS_FICHAS:
-		net_printf(fd, "%s=%d,%d\n", TOKEN_FICHAS, state.game.turno->numjug, state.game.fichas);
+		connection->printf("%s=%d,%d\n", TOKEN_FICHAS, state.game.turno->numjug, state.game.fichas);
 		break;
 	case PLAYER_STATUS_FICHAS2:
-		net_printf(fd, "%s=%d,%d\n", TOKEN_FICHAS2, state.game.turno->numjug, state.game.fichas);
+		connection->printf("%s=%d,%d\n", TOKEN_FICHAS2, state.game.turno->numjug, state.game.fichas);
 		break;
 	case PLAYER_STATUS_FICHASC:
 	case PLAYER_STATUS_CANJE:
@@ -167,7 +167,7 @@ STATIC TEG_STATUS token_loque(ServerState& state, int fd, char *unused)
 		break;
 	case PLAYER_STATUS_ATAQUE:
 	case PLAYER_STATUS_TROPAS:
-		net_printf(fd, "%s=%d\n", TOKEN_TURNO, state.game.turno->numjug);
+		connection->printf("%s=%d\n", TOKEN_TURNO, state.game.turno->numjug);
 		break;
 	default:
 		break;
@@ -175,19 +175,19 @@ STATIC TEG_STATUS token_loque(ServerState& state, int fd, char *unused)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_LOQUE "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_LOQUE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Assigns the player a color */
-STATIC TEG_STATUS token_color(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_color(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	int color;
 	int a;
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_color()");
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -220,18 +220,18 @@ STATIC TEG_STATUS token_color(ServerState& state, int fd, char *str)
 	netall_printf(state, "%s=%s,%d,%d\n", TOKEN_NEWPLAYER, pJ->name, pJ->numjug, pJ->color);
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_COLOR "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_COLOR "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 
 /* The player is asking a mission */
-STATIC TEG_STATUS token_mission(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_mission(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_mission()");
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -243,20 +243,20 @@ STATIC TEG_STATUS token_mission(ServerState& state, int fd, char *unused)
 		goto error;
 	}
 
-	net_printf(fd, "%s=%d\n", TOKEN_MISSION, pJ->mission);
+	connection->printf("%s=%d\n", TOKEN_MISSION, pJ->mission);
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_MISSION "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_MISSION "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Called when a player finish his turn */
-STATIC TEG_STATUS token_turn(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_turn(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_turn()");
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -282,17 +282,17 @@ STATIC TEG_STATUS token_turn(ServerState& state, int fd, char *unused)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_TURNO "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_TURNO "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Sends all the player a message. An observer may use this function */
-STATIC TEG_STATUS token_message(ServerState& state, int fd, char *msg)
+STATIC TEG_STATUS token_message(ServerState& state, std::shared_ptr<Transport> const& connection, char *msg)
 {
 	PSPLAYER j;
 	PLAY_DEBUG("token_message()\n");
 
-	if(player_whoisfd(state, fd, &j)!=TEG_STATUS_SUCCESS || strlen(msg)==0) {
+	if(player_whose(state, connection, &j)!=TEG_STATUS_SUCCESS || strlen(msg)==0) {
 		goto error;
 	}
 
@@ -305,54 +305,54 @@ STATIC TEG_STATUS token_message(ServerState& state, int fd, char *msg)
 	}
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_MESSAGE "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_MESSAGE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* mostly-Useless function */
-STATIC TEG_STATUS token_rem(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_rem(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	PLAY_DEBUG("token_rem()\n");
 
-	if(!SPLAYER_HABILITADO(state, fd)) {
+	if(!SPLAYER_HABILITADO(state, connection)) {
 		goto error;
 	}
 
-	net_printf(fd, "%s=%s\n", TOKEN_REM, _("Para que me envias un rem?"));
+	connection->printf("%s=%s\n", TOKEN_REM, _("Para que me envias un rem?"));
 	return TEG_STATUS_SUCCESS;
 error:
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* I want a better world "Quiero Un Mundo Mejor" */
-STATIC TEG_STATUS token_qumm(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_qumm(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PLAY_DEBUG("token_qumm()\n");
 
-	if(!SPLAYER_HABILITADO(state, fd)) {
+	if(!SPLAYER_HABILITADO(state, connection)) {
 		goto error;
 	}
 
-	net_printf(fd, "%s=%s\n", TOKEN_REM, _("Yo tambien quiero un mundo mejor!"));
+	connection->printf("%s=%s\n", TOKEN_REM, _("Yo tambien quiero un mundo mejor!"));
 	return TEG_STATUS_SUCCESS;
 error:
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Creates a Player */
-STATIC TEG_STATUS token_playerid(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_playerid(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str};
-	SPLAYER j, *pJ;
+	SPLAYER j{}, *pJ;
 	char c[maximum_player_count];
 	char colores[100];
 	std::size_t i;
 	int reconnect = false;
 
-	PLAY_DEBUG("token_playerid( fd=%d)\n", fd);
+	PLAY_DEBUG("token_playerid( fd=%d)\n", connection->fd());
 
 	/* si existe entonces da error, porque no tiene que existir */
-	if(player_whoisfd(state, fd, &pJ) == TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) == TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -360,7 +360,7 @@ STATIC TEG_STATUS token_playerid(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	memset(&j, 0, sizeof(SPLAYER));
+
 
 	/* averigua el name */
 	if(p.parse_fragment()) {
@@ -385,8 +385,8 @@ STATIC TEG_STATUS token_playerid(ServerState& state, int fd, char *str)
 	if(j.is_player) {
 		if(game_started(state)) {
 			if(!(reconnect = player_is_disconnected(state, &j))) {
-				net_print(fd, TOKEN_GAMEINPROGRESS"\n");
-				fd_remove(state, fd);
+				connection->print(TOKEN_GAMEINPROGRESS"\n");
+				remove_connection(state, connection);
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}
@@ -401,12 +401,12 @@ STATIC TEG_STATUS token_playerid(ServerState& state, int fd, char *str)
 
 
 	if(pJ == NULL) {
-		net_print(fd, TOKEN_SERVERFULL "\n");
-		fd_remove(state, fd);
+		connection->print(TOKEN_SERVERFULL "\n");
+		remove_connection(state, connection);
 		return TEG_STATUS_CONNCLOSED;
 	}
 
-	pJ->fd = fd;
+	pJ->connection = connection;
 
 	aux_find_inaddr(state, pJ);
 
@@ -414,7 +414,7 @@ STATIC TEG_STATUS token_playerid(ServerState& state, int fd, char *str)
 
 		pJ->estado = pJ->status_before_discon;
 
-		net_printf(fd, "%s=%s,%d,%d\n", TOKEN_RECONNECT, pJ->name, pJ->numjug, pJ->color);
+		connection->printf("%s=%s,%d,%d\n", TOKEN_RECONNECT, pJ->name, pJ->numjug, pJ->color);
 		con_text_out(state, M_INF, _("Player %s(%d) is re-connected from %s\n"), pJ->name, pJ->numjug, pJ->addr);
 
 	} else {
@@ -432,32 +432,32 @@ STATIC TEG_STATUS token_playerid(ServerState& state, int fd, char *str)
 			}
 		}
 
-		net_printf(fd, "%s=%s,%d%s\n", TOKEN_PLAYERID, pJ->name, pJ->numjug, colores);
+		connection->printf("%s=%s,%d%s\n", TOKEN_PLAYERID, pJ->name, pJ->numjug, colores);
 
 		con_text_out(state, M_INF, _("Player %s(%d) is connected from %s\n"), pJ->name, pJ->numjug, pJ->addr);
 	}
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_PLAYERID "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_PLAYERID "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
-STATIC TEG_STATUS token_cversion(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_cversion(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	con_text_out(state, M_INF, _("Using client version: %s\n"), str);
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Parses the armies the player must place for the 1st time */
-STATIC TEG_STATUS token_fichas(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_fichas(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PLAY_DEBUG("token_fichas()\n");
 
-	if(!SPLAYER_FICHAS(state, fd)) {
+	if(!SPLAYER_FICHAS(state, connection)) {
 		goto error;
 	}
 
-	if(aux_token_fichas(state, fd, str, state.game.fichas, 0) == TEG_STATUS_SUCCESS) {
+	if(aux_token_fichas(state, connection, str, state.game.fichas, 0) == TEG_STATUS_SUCCESS) {
 
 		state.game.turno->estado = PLAYER_STATUS_POSTFICHAS;
 
@@ -466,20 +466,20 @@ STATIC TEG_STATUS token_fichas(ServerState& state, int fd, char *str)
 	}
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_FICHAS "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_FICHAS "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Parses the armies the player must place for the 2nd time */
-STATIC TEG_STATUS token_fichas2(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_fichas2(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PLAY_DEBUG("token_fichas2()\n");
 
-	if(!SPLAYER_FICHAS2(state, fd)) {
+	if(!SPLAYER_FICHAS2(state, connection)) {
 		goto error;
 	}
 
-	if(aux_token_fichas(state, fd, str, state.game.fichas2, 0) == TEG_STATUS_SUCCESS) {
+	if(aux_token_fichas(state, connection, str, state.game.fichas2, 0) == TEG_STATUS_SUCCESS) {
 
 		state.game.turno->estado = PLAYER_STATUS_POSTFICHAS2;
 
@@ -487,18 +487,18 @@ STATIC TEG_STATUS token_fichas2(ServerState& state, int fd, char *str)
 		return TEG_STATUS_SUCCESS;
 	}
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_FICHAS2 "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_FICHAS2 "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Parses the armies the player must place the rest of the times */
-STATIC TEG_STATUS token_fichasc(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_fichasc(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PSPLAYER pJ;
 	int total_armies;
 	PLAY_DEBUG("token_fichasc()\n");
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -512,7 +512,7 @@ STATIC TEG_STATUS token_fichasc(ServerState& state, int fd, char *str)
 		total_armies += cards_for_this_exchange(pJ->tot_exchanges);
 	}
 
-	if(aux_token_fichas(state, fd, str, total_armies, pJ->fichasc_conts) == TEG_STATUS_SUCCESS) {
+	if(aux_token_fichas(state, connection, str, total_armies, pJ->fichasc_conts) == TEG_STATUS_SUCCESS) {
 
 		pJ->estado = PLAYER_STATUS_IDLE;
 
@@ -526,19 +526,19 @@ STATIC TEG_STATUS token_fichasc(ServerState& state, int fd, char *str)
 	}
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_FICHASC "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_FICHASC "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* a player request to play with a robot. the robot will be launched in the server-side */
-STATIC TEG_STATUS token_robot(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_robot(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PSPLAYER pJ;
-	int newfd;
+	std::shared_ptr<Transport> robot_connection;
 
 	PLAY_DEBUG("token_robot()\n");
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -550,22 +550,22 @@ STATIC TEG_STATUS token_robot(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	if(launch_robot(state, &newfd, "--connected") != TEG_STATUS_SUCCESS) {
+	if(launch_robot(state, robot_connection, "--connected") != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
-	fd_add(state, newfd);
+	add_connection(state, robot_connection);
 
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_ROBOT "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_ROBOT "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 
 /* A player is attacking from src to dst */
-STATIC TEG_STATUS token_attack(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_attack(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str};
 	int src, dst, src_lost, dst_lost;
@@ -581,8 +581,8 @@ STATIC TEG_STATUS token_attack(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	if(!SPLAYER_ATAQUE_P(state, fd, &pJ_src)) {
-		if(SPLAYER_TROPAS_P(state, fd, &pJ_src)) {
+	if(!SPLAYER_ATAQUE_P(state, connection, &pJ_src)) {
+		if(SPLAYER_TROPAS_P(state, connection, &pJ_src)) {
 			pJ_src->estado=PLAYER_STATUS_ATAQUE;
 			pJ_src->country_src = pJ_src->country_dst = -1;
 		} else {
@@ -715,7 +715,7 @@ STATIC TEG_STATUS token_attack(ServerState& state, int fd, char *str)
 			return TEG_STATUS_SUCCESS;
 		}
 
-		net_printf(fd, "%s=%d,%d,%d\n", TOKEN_TROPAS, src, dst, tropas);
+		connection->printf("%s=%d,%d,%d\n", TOKEN_TROPAS, src, dst, tropas);
 
 
 		/* in FOW show the boundaries countries */
@@ -724,19 +724,19 @@ STATIC TEG_STATUS token_attack(ServerState& state, int fd, char *str)
 
 			memset(buffer, 0, sizeof(buffer));
 			if(fow_fill_with_boundaries(state, dst, buffer, sizeof(buffer)) == TEG_STATUS_SUCCESS) {
-				net_printf(fd, "%s\n", buffer);
+				connection->printf("%s\n", buffer);
 			}
 		}
 	}
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_ATAQUE "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_ATAQUE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Place armies in the conquered country */
-STATIC TEG_STATUS token_tropas(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_tropas(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str};
 	int src, dst, cant;
@@ -744,7 +744,7 @@ STATIC TEG_STATUS token_tropas(ServerState& state, int fd, char *str)
 
 	PLAY_DEBUG("token_tropas()\n");
 
-	if(!SPLAYER_TROPAS_P(state, fd, &pJ) || strlen(str)==0) {
+	if(!SPLAYER_TROPAS_P(state, connection, &pJ) || strlen(str)==0) {
 		goto error;
 	}
 
@@ -801,12 +801,12 @@ STATIC TEG_STATUS token_tropas(ServerState& state, int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_TROPAS "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_TROPAS "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Ask for a card after the attack */
-STATIC TEG_STATUS token_card(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_card(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PSPLAYER pJ;
 	PCOUNTRY pP;
@@ -815,7 +815,7 @@ STATIC TEG_STATUS token_card(ServerState& state, int fd, char *str)
 
 
 	/* Veo si puede sacar una tarjeta... */
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -860,16 +860,16 @@ STATIC TEG_STATUS token_card(ServerState& state, int fd, char *str)
 			fow_netall_printf(state, pP->id, "%s=%d,%d,%d\n", TOKEN_COUNTRY, pP->id, pP->numjug, pP->ejercitos);
 		}
 	}
-	net_printf(fd, "%s=%d,%d\n", TOKEN_TARJETA, pP->id, pP->tarjeta.usada);
+	connection->printf("%s=%d,%d\n", TOKEN_TARJETA, pP->id, pP->tarjeta.usada);
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_TARJETA "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_TARJETA "\n");
 	return TEG_STATUS_ERROR;
 }
 
 /* request which cards do the players has */
-STATIC TEG_STATUS token_enum_cards(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_enum_cards(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PSPLAYER pJ;
 	int i, first;
@@ -878,7 +878,7 @@ STATIC TEG_STATUS token_enum_cards(ServerState& state, int fd, char *str)
 	PLAY_DEBUG("token_enum_cards()\n");
 
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -902,16 +902,16 @@ STATIC TEG_STATUS token_enum_cards(ServerState& state, int fd, char *str)
 		}
 	}
 
-	net_printf(fd, "%s=%s\n", TOKEN_ENUM_CARDS, buffer);
+	connection->printf("%s=%s\n", TOKEN_ENUM_CARDS, buffer);
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_ENUM_CARDS "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_ENUM_CARDS "\n");
 	return TEG_STATUS_ERROR;
 }
 
 /* request who started the round, and which round number */
-STATIC TEG_STATUS token_new_round(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_new_round(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PSPLAYER pJ;
 
@@ -921,23 +921,23 @@ STATIC TEG_STATUS token_new_round(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
-	net_printf(fd, "%s=%d,%d\n", TOKEN_NEW_ROUND
-	           , state.game.turno->numjug 	/* who starts the new turn */
-	           , state.game.round_number	/* the round number */
-	          );
+	connection->printf("%s=%d,%d\n", TOKEN_NEW_ROUND
+	                   , state.game.turno->numjug 	/* who starts the new turn */
+	                   , state.game.round_number	/* the round number */
+	                  );
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_NEW_ROUND "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_NEW_ROUND "\n");
 	return TEG_STATUS_ERROR;
 }
 
 /* Place 2 armies in the card's country. The player must own the country */
-STATIC TEG_STATUS token_ejer2(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_ejer2(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str};
 	int country;
@@ -949,7 +949,7 @@ STATIC TEG_STATUS token_ejer2(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	if(player_whoisfd(state, fd, &j) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &j) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -986,13 +986,13 @@ STATIC TEG_STATUS token_ejer2(ServerState& state, int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_EJER2 "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_EJER2 "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 
 /* To exchange cards for armies */
-STATIC TEG_STATUS token_canje(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_canje(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str};
 	PSPLAYER pJ;
@@ -1001,7 +1001,7 @@ STATIC TEG_STATUS token_canje(ServerState& state, int fd, char *str)
 
 	PLAY_DEBUG("token_canje()\n");
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -1050,13 +1050,13 @@ STATIC TEG_STATUS token_canje(ServerState& state, int fd, char *str)
 	              pJ->numjug, canj_ejer, t1, t2, t3);
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_CANJE "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_CANJE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 
 /* Player is regrouping its armies */
-STATIC TEG_STATUS token_regroup(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_regroup(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str};
 	int src, dst, cant;
@@ -1070,7 +1070,7 @@ STATIC TEG_STATUS token_regroup(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -1132,18 +1132,18 @@ STATIC TEG_STATUS token_regroup(ServerState& state, int fd, char *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_REAGRUPE "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_REAGRUPE "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Show the status of all the players */
-STATIC TEG_STATUS token_status(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_status(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	char strout[PROT_MAX_LEN + max_playername_length * maximum_player_count + 200];
 
 	PLAY_DEBUG("token_status()\n");
 
-	if(!SPLAYER_CONNECTED(state, fd)) {
+	if(!SPLAYER_CONNECTED(state, connection)) {
 		goto error;
 	}
 
@@ -1151,23 +1151,23 @@ STATIC TEG_STATUS token_status(ServerState& state, int fd, char *unused)
 		goto error;
 	}
 
-	net_printf(fd, "%s=%s\n", TOKEN_STATUS, strout);
+	connection->printf("%s=%s\n", TOKEN_STATUS, strout);
 
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_STATUS "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_STATUS "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* send the hi-scores to the player */
-STATIC TEG_STATUS token_scores(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_scores(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	char strout[PROT_MAX_LEN + max_playername_length * maximum_player_count + 200];
 
 	PLAY_DEBUG("token_scores()\n");
 
-	if(!SPLAYER_CONNECTED(state, fd)) {
+	if(!SPLAYER_CONNECTED(state, connection)) {
 		goto error;
 	}
 
@@ -1175,18 +1175,18 @@ STATIC TEG_STATUS token_scores(ServerState& state, int fd, char *unused)
 		goto error;
 	}
 
-	net_printf(fd, "%s=%s\n", TOKEN_SCORES, strout);
+	connection->printf("%s=%s\n", TOKEN_SCORES, strout);
 
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_SCORES "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_SCORES "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 
 /* Enums the players'countries , or of all players if player is -1 */
-STATIC TEG_STATUS token_countries(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_countries(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str};
 	int i;
@@ -1216,13 +1216,13 @@ STATIC TEG_STATUS token_countries(ServerState& state, int fd, char *str)
 	if(i!=-1) {
 		/* ask just for 1 player */
 		aux_token_countries(state, pJ, strout, sizeof(strout)-1);
-		net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, pJ->numjug, strout);
+		connection->printf("%s=%d/%s\n", TOKEN_COUNTRIES, pJ->numjug, strout);
 	} else  {
 		/* ask for all the players */
 
-		player_map(state, [&state, &strout, fd](PSPLAYER pJ) {
+		player_map(state, [&state, &strout, &connection](PSPLAYER pJ) {
 			aux_token_countries(state, pJ, strout, sizeof(strout)-1);
-			net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, pJ->numjug, strout);
+			connection->printf("%s=%d/%s\n", TOKEN_COUNTRIES, pJ->numjug, strout);
 		});
 
 		if(state.game.fog_of_war) {
@@ -1231,18 +1231,18 @@ STATIC TEG_STATUS token_countries(ServerState& state, int fd, char *str)
 			j.numjug = -1;
 
 			aux_token_countries(state, &j, strout, sizeof(strout)-1);
-			net_printf(fd, "%s=%d/%s\n", TOKEN_COUNTRIES, j.numjug, strout);
+			connection->printf("%s=%d/%s\n", TOKEN_COUNTRIES, j.numjug, strout);
 		}
 	}
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_COUNTRIES "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_COUNTRIES "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* To start the game */
-TEG_STATUS token_start(ServerState& state, int fd, char*)
+TEG_STATUS token_start(ServerState& state, std::shared_ptr<Transport> const& connection, char*)
 {
 	char strout[PROT_MAX_LEN + max_playername_length  * maximum_player_count + 200];
 	PSPLAYER pJ;
@@ -1252,8 +1252,8 @@ TEG_STATUS token_start(ServerState& state, int fd, char*)
 		goto error;
 	}
 
-	if(state.server.with_console && fd != CONSOLE_FD) {
-		if(!SPLAYER_HABILITADO_P(state, fd, &pJ) || !pJ->is_player) {
+	if(state.server.with_console && connection != state.console) {
+		if(!SPLAYER_HABILITADO_P(state, connection, &pJ) || !pJ->is_player) {
 			goto error;
 		}
 	}
@@ -1294,12 +1294,12 @@ TEG_STATUS token_start(ServerState& state, int fd, char*)
 	              state.game.fichas);	/* how many armies to place */
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_START "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_START "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* sends a player the type of game it is being played */
-TEG_STATUS token_typeofgame(ServerState& state, int fd, char *str)
+TEG_STATUS token_typeofgame(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_typeofgame()\n");
@@ -1308,7 +1308,7 @@ TEG_STATUS token_typeofgame(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	if(!SPLAYER_HABILITADO_P(state, fd, &pJ) || !pJ->is_player) {
+	if(!SPLAYER_HABILITADO_P(state, connection, &pJ) || !pJ->is_player) {
 		goto error;
 	}
 
@@ -1321,12 +1321,12 @@ TEG_STATUS token_typeofgame(ServerState& state, int fd, char *str)
 	             );
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_MODALIDAD "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_MODALIDAD "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* For testing only */
-STATIC TEG_STATUS token_test(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_test(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	PLAY_DEBUG("token_test()\n");
 
@@ -1334,16 +1334,16 @@ STATIC TEG_STATUS token_test(ServerState& state, int fd, char *unused)
 }
 
 /* Server version */
-STATIC TEG_STATUS token_sversion(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_sversion(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	PLAY_DEBUG("token_sversion()\n");
 
-	net_printf(fd, "%s=%s %s\n", TOKEN_SVERSION, _("TEG server version "), VERSION);
+	connection->printf("%s=%s %s\n", TOKEN_SVERSION, _("TEG server version "), VERSION);
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Protocol version */
-STATIC TEG_STATUS token_pversion(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS token_pversion(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PSPLAYER pJ;
 	PARSER p{str};
@@ -1368,15 +1368,15 @@ STATIC TEG_STATUS token_pversion(ServerState& state, int fd, char *str)
 		goto error;
 	}
 
-	net_printf(fd, "%s=%i,%i\n", TOKEN_PVERSION, PROTOCOL_HIVER, PROTOCOL_LOVER);
+	connection->printf("%s=%i,%i\n", TOKEN_PVERSION, PROTOCOL_HIVER, PROTOCOL_LOVER);
 
 	if(hi != PROTOCOL_HIVER) {
 		con_text_out(state, M_ERR, _("Client with incompatible protocol version (server:%d , client:%d)\n"), PROTOCOL_HIVER, hi);
 
-		if(player_whoisfd(state, fd, &pJ) == TEG_STATUS_SUCCESS) {
+		if(player_whose(state, connection, &pJ) == TEG_STATUS_SUCCESS) {
 			player_del_hard(state, pJ);
 		} else {
-			fd_remove(state, fd);
+			remove_connection(state, connection);
 		}
 		return TEG_STATUS_CONNCLOSED;
 	}
@@ -1384,31 +1384,31 @@ STATIC TEG_STATUS token_pversion(ServerState& state, int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_PVERSION "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_PVERSION "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
-TEG_STATUS token_exit(ServerState& state, int fd, char*)
+TEG_STATUS token_exit(ServerState& state, std::shared_ptr<Transport> const& connection, char*)
 {
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_exit\n");
 
-	if(player_whoisfd(state, fd, &pJ) == TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) == TEG_STATUS_SUCCESS) {
 		player_del_hard(state, pJ);
 	} else {
-		fd_remove(state, fd);
+		remove_connection(state, connection);
 	}
 
 	return TEG_STATUS_CONNCLOSED;
 }
 
 /* Puts the player in Game Over state */
-TEG_STATUS token_surrender(ServerState& state, int fd, char *unused)
+TEG_STATUS token_surrender(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	PSPLAYER pJ;
 	PLAY_DEBUG("token_surrender\n");
 
-	if(player_whoisfd(state, fd, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, &pJ) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -1428,28 +1428,28 @@ TEG_STATUS token_surrender(ServerState& state, int fd, char *unused)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	net_print(fd, TOKEN_ERROR "=" TOKEN_SURRENDER "\n");
+	connection->print(TOKEN_ERROR "=" TOKEN_SURRENDER "\n");
 	return TEG_STATUS_PARSEERROR;
 }
 
 /* Ask for help */
-STATIC TEG_STATUS token_help(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS token_help(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	for(unsigned i=0; i<NTOKENS; i++) {
 		if(tokens[i].func)
-			net_printf(fd, "%s='%s' %s\n", TOKEN_REM,
-			           tokens[i].label, _(tokens[i].help));
+			connection->printf("%s='%s' %s\n", TOKEN_REM,
+			                   tokens[i].label, _(tokens[i].help));
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Parses the tokens */
-STATIC TEG_STATUS token_lookup(ServerState& state, int fd, PARSER *p)
+STATIC TEG_STATUS token_lookup(ServerState& state, std::shared_ptr<Transport> const& connection, PARSER *p)
 {
 	for(unsigned i=0; i<NTOKENS; i++) {
 		if(strcasecmp(p->token, tokens[i].label)==0) {
 			if(tokens[i].func) {
-				return((tokens[i].func)(state, fd, p->value));
+				return((tokens[i].func)(state, connection, p->value));
 			}
 			return TEG_STATUS_TOKENNULL;
 		}
@@ -1459,7 +1459,7 @@ STATIC TEG_STATUS token_lookup(ServerState& state, int fd, PARSER *p)
 }
 
 /* Read the file descriptor and call the apropiate function */
-TEG_STATUS play_teg(ServerState& state, int fd)
+TEG_STATUS play_teg(ServerState& state, std::shared_ptr<Transport> const& connection)
 {
 	if(state.game.fog_of_war) {
 		state.game.player_fow = NULL;
@@ -1468,19 +1468,19 @@ TEG_STATUS play_teg(ServerState& state, int fd)
 	char str[PROT_MAX_LEN];
 	str[0]=0;
 
-	if(net_readline(fd, str, PROT_MAX_LEN)<1) {
+	if(connection->read_line(str, PROT_MAX_LEN)<1) {
 		PSPLAYER pJ;
-		if(player_whoisfd(state, fd, &pJ) == TEG_STATUS_SUCCESS) {
+		if(player_whose(state, connection, &pJ) == TEG_STATUS_SUCCESS) {
 			player_del_hard(state, pJ);
 		} else {
-			fd_remove(state, fd);
+			remove_connection(state, connection);
 		}
 
 		return TEG_STATUS_CONNCLOSED;
 	}
 
 	if(state.game.fog_of_war) {
-		if(player_whoisfd(state, fd, &state.game.player_fow) != TEG_STATUS_SUCCESS) {
+		if(player_whose(state, connection, &state.game.player_fow) != TEG_STATUS_SUCCESS) {
 			state.game.player_fow = NULL;
 		}
 	}
@@ -1492,7 +1492,7 @@ TEG_STATUS play_teg(ServerState& state, int fd)
 			break;
 		}
 
-		if(token_lookup(state, fd, &p) == TEG_STATUS_CONNCLOSED) {
+		if(token_lookup(state, connection, &p) == TEG_STATUS_CONNCLOSED) {
 			return TEG_STATUS_CONNCLOSED;
 		}
 	} while(p.can_continue());

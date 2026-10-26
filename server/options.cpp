@@ -39,23 +39,23 @@
 namespace teg::server
 {
 
-TEG_STATUS option_conqworld(ServerState& state, int fd, char *str);
+TEG_STATUS option_conqworld(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 TEG_STATUS option_conqworld_view(ServerState& state);
-TEG_STATUS option_cmission(ServerState& state, int fd, char *str);
+TEG_STATUS option_cmission(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 TEG_STATUS option_cmission_view(ServerState& state);
-TEG_STATUS option_fog_of_war(ServerState& state, int fd, char *str);
+TEG_STATUS option_fog_of_war(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 TEG_STATUS option_fog_of_war_view(ServerState& state);
-TEG_STATUS option_armies(ServerState& state, int fd, char *str);
+TEG_STATUS option_armies(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 TEG_STATUS option_armies_view(ServerState& state);
-TEG_STATUS option_seed(ServerState& state, int fd, char *str);
+TEG_STATUS option_seed(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 TEG_STATUS option_seed_view(ServerState& state);
-TEG_STATUS option_help(ServerState& state, int fd, char *str);
+TEG_STATUS option_help(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 
-TEG_STATUS option_lookup(ServerState& state, int fd, PARSER *p);
+TEG_STATUS option_lookup(ServerState& state, std::shared_ptr<Transport> const& connection, PARSER *p);
 
 struct {
 	char const *label;
-	TEG_STATUS(*func)(ServerState&, int, char*);
+	TEG_STATUS(*func)(ServerState&, std::shared_ptr<Transport> const&, char*);
 	TEG_STATUS(*func_view)(ServerState&);
 	char const *help;
 } options[] = {
@@ -76,7 +76,7 @@ TEG_STATUS option_conqworld_view(ServerState& state)
 	                );
 	return TEG_STATUS_SUCCESS;
 }
-TEG_STATUS option_conqworld(ServerState& state, int fd, char *str)
+TEG_STATUS option_conqworld(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	int a, b;
 
@@ -98,7 +98,7 @@ TEG_STATUS option_conqworld(ServerState& state, int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	if(fd==CONSOLE_FD) {
+	if(connection == state.console) {
 		con_text_out_wop(state, M_ERR, _("Error setting %s variable.\n"), OPTION_CONQWORLD);
 	}
 
@@ -114,7 +114,7 @@ TEG_STATUS option_cmission_view(ServerState& state)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_cmission(ServerState& state, int fd, char *str)
+TEG_STATUS option_cmission(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	int a, b;
 
@@ -136,7 +136,7 @@ TEG_STATUS option_cmission(ServerState& state, int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	if(fd==CONSOLE_FD) {
+	if(connection == state.console) {
 		con_text_out_wop(state, M_ERR, _("Error setting %s variable.\n"), OPTION_CMISSION);
 	}
 
@@ -152,7 +152,7 @@ TEG_STATUS option_fog_of_war_view(ServerState& state)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_fog_of_war(ServerState& state, int fd, char *str)
+TEG_STATUS option_fog_of_war(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	int a, b;
 
@@ -174,7 +174,7 @@ TEG_STATUS option_fog_of_war(ServerState& state, int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 
 error:
-	if(fd==CONSOLE_FD) {
+	if(connection == state.console) {
 		con_text_out_wop(state, M_ERR, _("Error setting %s variable.\n"), OPTION_CMISSION);
 	}
 
@@ -187,7 +187,7 @@ TEG_STATUS option_armies_view(ServerState& state)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_armies(ServerState& state, int fd, char *str)
+TEG_STATUS option_armies(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	int armies1;
 	int armies2;
@@ -230,13 +230,13 @@ TEG_STATUS option_seed_view(ServerState& state)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_seed(ServerState& state, int fd, char *str)
+TEG_STATUS option_seed(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	unsigned int seed;
 
 	if(str && strlen(str)!=0) {
 
-		if(fd!=CONSOLE_FD) {
+		if(connection != state.console) {
 			goto error;
 		}
 
@@ -251,32 +251,32 @@ error:
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS option_help(ServerState&, int fd, char *str)
+TEG_STATUS option_help(ServerState&, std::shared_ptr<Transport> const& connection, char *str)
 {
 	for(unsigned i=0; i<NOPTIONS; i++) {
 		if(options[i].func) {
-			net_printf(fd, TOKEN_REM"='%s' %s\n", options[i].label, _(options[i].help));
+			connection->printf(TOKEN_REM"='%s' %s\n", options[i].label, _(options[i].help));
 		}
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_lookup(ServerState& state, int fd, PARSER *p)
+TEG_STATUS option_lookup(ServerState& state, std::shared_ptr<Transport> const& connection, PARSER *p)
 {
 	for(unsigned i = 0; i < NOPTIONS; i++) {
 		if(strcasecmp(p->token, options[i].label)==0) {
 			if(options[i].func) {
-				return((options[i].func)(state, fd, p->value));
+				return((options[i].func)(state, connection, p->value));
 			}
 
 			return TEG_STATUS_TOKENNULL;
 		}
 	}
-	net_printf(fd, _("Unknow option. Try using `%s %s' for help\n"), TOKEN_SET, OPTION_HELP);
+	connection->printf(_("Unknow option. Try using `%s %s' for help\n"), TOKEN_SET, OPTION_HELP);
 	return TEG_STATUS_TOKENNOTFOUND;
 }
 
-TEG_STATUS option_view(ServerState& state, int fd, char *str)
+TEG_STATUS option_view(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	for(unsigned i = 0; i < NOPTIONS; i++) {
 		if(options[i].func_view) {
@@ -286,14 +286,14 @@ TEG_STATUS option_view(ServerState& state, int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_parse(ServerState& state, int fd, char *str)
+TEG_STATUS option_parse(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	int i;
 	PARSER p{str, DELIM{'='}, DELIM{.valid=false}};
 
 	do {
 		if((i=p.parse())) {
-			if(option_lookup(state, fd, &p) == TEG_STATUS_CONNCLOSED) {
+			if(option_lookup(state, connection, &p) == TEG_STATUS_CONNCLOSED) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}

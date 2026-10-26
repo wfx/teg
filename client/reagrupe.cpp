@@ -168,7 +168,7 @@ TEG_STATUS reagrupe_out(ClientState& state, int src, int dst, int cant)
 	if(e==PLAYER_STATUS_REAGRUPE) {
 		reagrupe_reset(state);
 		reagrupe_set_and_save(state, src, dst, cant);
-		net_printf(state.game.fd, TOKEN_REAGRUPE"=%d,%d,%d\n", src, dst, cant);
+		state.connection->printf(TOKEN_REAGRUPE"=%d,%d,%d\n", src, dst, cant);
 	} else {
 		textmsg(state, M_ERR, _("Error, you cant regroup now."));
 		return TEG_STATUS_ERROR;
