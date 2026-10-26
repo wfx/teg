@@ -27,13 +27,6 @@
 namespace teg::client::callbacks
 {
 
-extern GtkTextView *main_message_area;
-extern GtkWidget *text_scrollbar;
-extern GtkWidget *main_window;
-extern GtkWidget *toolbar_main;
-extern GtkWidget *statusbar;
-extern GtkWidget *canvas_map;
-
 GtkWidget* create_mainwin(void);
 int create_canvas_items(GtkWidget *canvas);
 TEG_STATUS set_sensitive_tb(void);

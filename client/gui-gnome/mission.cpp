@@ -42,15 +42,13 @@
 namespace teg::client::callbacks
 {
 
-static GdkPixbuf *tar_mission = NULL;
-static int mission_number = -1;
 
 static TEG_STATUS mission_load()
 {
-	if(!tar_mission) {
-		tar_mission = gdk_pixbuf_new_from_file(
-		                  load_pixmap_file("objetivo.png").c_str(), NULL);
-		if(tar_mission == NULL) {
+	if(!gui_state().mission.pixbuf) {
+		gui_state().mission.pixbuf = gdk_pixbuf_new_from_file(
+		                                 load_pixmap_file("objetivo.png").c_str(), NULL);
+		if(gui_state().mission.pixbuf == NULL) {
 			g_warning(_("Error, couldn't find file: objetivo.png"));
 			return TEG_STATUS_ERROR;
 		}
@@ -59,26 +57,23 @@ static TEG_STATUS mission_load()
 	return TEG_STATUS_SUCCESS;
 }
 
-static GtkWidget     *canvas=NULL;
-static GooCanvasItem *imagetxt=NULL;
-static GooCanvasItem *imagetxt2=NULL;
 
 static void nullify_canvas(void)
 {
-	canvas = NULL;
-	imagetxt = NULL;
-	imagetxt2 = NULL;
+	gui_state().mission.canvas = NULL;
+	gui_state().mission.image_text = NULL;
+	gui_state().mission.image_text2 = NULL;
 }
 
 static TEG_STATUS mission_view_number(GtkWidget *dialog)
 {
-	if(mission_number == -1) {
+	if(gui_state().mission.number == -1) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(canvas == NULL) {
-		canvas = goo_canvas_new();
-		/* Destroying the dialog unrefs the canvas and all of
+	if(gui_state().mission.canvas == NULL) {
+		gui_state().mission.canvas = goo_canvas_new();
+		/* Destroying the dialog unrefs the gui_state().mission.canvas and all of
 		 * its children, however sometimes some of them become
 		 * dangling pointers while the logic relies them to be
 		 * NULL.  Macros like GOO_IS_CANVAS_ITEM cannot be
@@ -86,77 +81,77 @@ static TEG_STATUS mission_view_number(GtkWidget *dialog)
 		 * crash is inevitable.  */
 		g_signal_connect_swapped(dialog, "destroy",
 		                         nullify_canvas, NULL);
-		gtk_widget_set_halign(canvas, GTK_ALIGN_CENTER);
-		gtk_widget_set_size_request(canvas,
-		                            gdk_pixbuf_get_width(tar_mission),
-		                            gdk_pixbuf_get_height(tar_mission));
-		goo_canvas_set_bounds(GOO_CANVAS(canvas), 0, 0,
-		                      gdk_pixbuf_get_width(tar_mission),
-		                      gdk_pixbuf_get_height(tar_mission));
+		gtk_widget_set_halign(gui_state().mission.canvas, GTK_ALIGN_CENTER);
+		gtk_widget_set_size_request(gui_state().mission.canvas,
+		                            gdk_pixbuf_get_width(gui_state().mission.pixbuf),
+		                            gdk_pixbuf_get_height(gui_state().mission.pixbuf));
+		goo_canvas_set_bounds(GOO_CANVAS(gui_state().mission.canvas), 0, 0,
+		                      gdk_pixbuf_get_width(gui_state().mission.pixbuf),
+		                      gdk_pixbuf_get_height(gui_state().mission.pixbuf));
 		goo_canvas_image_new(
-		    goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		    tar_mission,
+		    goo_canvas_get_root_item(GOO_CANVAS(gui_state().mission.canvas)),
+		    gui_state().mission.pixbuf,
 		    0.0,
 		    0.0,
-		    "width", (double) gdk_pixbuf_get_width(tar_mission),
-		    "height", (double) gdk_pixbuf_get_height(tar_mission),
+		    "width", (double) gdk_pixbuf_get_width(gui_state().mission.pixbuf),
+		    "height", (double) gdk_pixbuf_get_height(gui_state().mission.pixbuf),
 		    NULL);
 
 
-		g_object_unref(tar_mission);
-		tar_mission = NULL;
+		g_object_unref(gui_state().mission.pixbuf);
+		gui_state().mission.pixbuf = NULL;
 
 		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
 		                           (GTK_DIALOG(dialog))),
-		                   GTK_WIDGET(canvas), TRUE, TRUE, 0);
+		                   GTK_WIDGET(gui_state().mission.canvas), TRUE, TRUE, 0);
 	}
 
 
-	if(imagetxt) {
-		goo_canvas_item_remove(imagetxt);
-		imagetxt = NULL;
+	if(gui_state().mission.image_text) {
+		goo_canvas_item_remove(gui_state().mission.image_text);
+		gui_state().mission.image_text = NULL;
 	}
 
-	imagetxt = goo_canvas_text_new(
-	               goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	               missions_get_name(gui_state().game.common, mission_number).c_str(),
-	               (double) 4,
-	               (double) 10,
-	               (double) -1,
-	               GOO_CANVAS_ANCHOR_NORTH_WEST,
-	               "height", (double) -1,
-	               "font", HELVETICA_12_FONT,
-	               "fill-color", "brown",
-	               NULL);
+	gui_state().mission.image_text = goo_canvas_text_new(
+	                                     goo_canvas_get_root_item(GOO_CANVAS(gui_state().mission.canvas)),
+	                                     missions_get_name(client_state().game.common, gui_state().mission.number).c_str(),
+	                                     (double) 4,
+	                                     (double) 10,
+	                                     (double) -1,
+	                                     GOO_CANVAS_ANCHOR_NORTH_WEST,
+	                                     "height", (double) -1,
+	                                     "font", HELVETICA_12_FONT,
+	                                     "fill-color", "brown",
+	                                     NULL);
 
-	if(imagetxt2) {
-		goo_canvas_item_remove(imagetxt2);
-		imagetxt2 = NULL;
+	if(gui_state().mission.image_text2) {
+		goo_canvas_item_remove(gui_state().mission.image_text2);
+		gui_state().mission.image_text2 = NULL;
 	}
 
-	if(mission_number == gui_state().game.secret_mission || mission_number == MISSION_COMMON) {
+	if(gui_state().mission.number == client_state().game.secret_mission || gui_state().mission.number == MISSION_COMMON) {
 		char *text;
 
-		if(mission_number == gui_state().game.secret_mission) {
+		if(gui_state().mission.number == client_state().game.secret_mission) {
 			text = _("[This is your secret mission.]");
 		} else {
 			text = _("[This is the common mission.]");
 		}
 
-		imagetxt2 = goo_canvas_text_new(
-		                goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-		                text,
-		                (double) 4,
-		                (double) 124,
-		                (double) -1,
-		                GOO_CANVAS_ANCHOR_NORTH_WEST,
-		                "height", (double) -1,
-		                "font", HELVETICA_10_FONT,
-		                "fill-color", "brown",
-		                NULL);
+		gui_state().mission.image_text2 = goo_canvas_text_new(
+		                                      goo_canvas_get_root_item(GOO_CANVAS(gui_state().mission.canvas)),
+		                                      text,
+		                                      (double) 4,
+		                                      (double) 124,
+		                                      (double) -1,
+		                                      GOO_CANVAS_ANCHOR_NORTH_WEST,
+		                                      "height", (double) -1,
+		                                      "font", HELVETICA_10_FONT,
+		                                      "fill-color", "brown",
+		                                      NULL);
 	}
 
-	gtk_widget_show(canvas);
+	gtk_widget_show(gui_state().mission.canvas);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -172,31 +167,31 @@ TEG_STATUS mission_view_fake_number(GtkWidget *frame, int mission)
 
 	fcanvas = goo_canvas_new();
 	gtk_widget_set_size_request(fcanvas,
-	                            gdk_pixbuf_get_width(tar_mission),
-	                            gdk_pixbuf_get_height(tar_mission));
+	                            gdk_pixbuf_get_width(gui_state().mission.pixbuf),
+	                            gdk_pixbuf_get_height(gui_state().mission.pixbuf));
 	goo_canvas_set_bounds(GOO_CANVAS(fcanvas), 0, 0,
-	                      gdk_pixbuf_get_width(tar_mission),
-	                      gdk_pixbuf_get_height(tar_mission));
+	                      gdk_pixbuf_get_width(gui_state().mission.pixbuf),
+	                      gdk_pixbuf_get_height(gui_state().mission.pixbuf));
 	goo_canvas_image_new(
 	    goo_canvas_get_root_item(GOO_CANVAS(fcanvas)),
-	    tar_mission,
+	    gui_state().mission.pixbuf,
 	    0.0,
 	    0.0,
-	    "width", (double) gdk_pixbuf_get_width(tar_mission),
-	    "height", (double) gdk_pixbuf_get_height(tar_mission),
+	    "width", (double) gdk_pixbuf_get_width(gui_state().mission.pixbuf),
+	    "height", (double) gdk_pixbuf_get_height(gui_state().mission.pixbuf),
 	    NULL);
 
-	g_object_unref(tar_mission);
-	tar_mission = NULL;
+	g_object_unref(gui_state().mission.pixbuf);
+	gui_state().mission.pixbuf = NULL;
 #if 0
 	gtk_signal_connect(GTK_OBJECT(imagebg), "destroy",
 	                   (GtkSignalFunc) free_imlib_image,
-	                   tar_mission);
+	                   gui_state().mission.pixbuf);
 #endif
 
 	goo_canvas_text_new(
 	    goo_canvas_get_root_item(GOO_CANVAS(fcanvas)),
-	    missions_get_name(gui_state().game.common, mission).c_str(),
+	    missions_get_name(client_state().game.common, mission).c_str(),
 	    (double) 4,
 	    (double) 10,
 	    (double) -1,
@@ -235,23 +230,23 @@ void mission_view_cb(GtkDialog *dialog, gint id, gpointer data)
 		return;
 	}
 
-	if(mission_number == -1) {
+	if(gui_state().mission.number == -1) {
 		return;
 	}
 
-	first_mission = gui_state().game.with_common_mission ? MISSION_COMMON : MISSION_COMMON + 1;
+	first_mission = client_state().game.with_common_mission ? MISSION_COMMON : MISSION_COMMON + 1;
 
 	switch(id) {
 	case 1:
-		mission_number--;
-		if(mission_number < first_mission) {
-			mission_number = last -1;
+		gui_state().mission.number--;
+		if(gui_state().mission.number < first_mission) {
+			gui_state().mission.number = last -1;
 		}
 		break;
 	case 2:
-		mission_number++;
-		if(mission_number >  last-1) {
-			mission_number = first_mission;
+		gui_state().mission.number++;
+		if(gui_state().mission.number >  last-1) {
+			gui_state().mission.number = first_mission;
 		}
 	default:
 		break;
@@ -266,17 +261,17 @@ void mission_view()
 	GtkWidget *dialog=NULL;
 
 
-	if(gui_state().game.secret_mission < 0) {
-		textmsg(gui_state(), M_INF, _("Requesting a mission..."));
-		out_missions(gui_state());
+	if(client_state().game.secret_mission < 0) {
+		textmsg(client_state(), M_INF, _("Requesting a mission..."));
+		out_missions(client_state());
 		return;
 	}
 
-	mission_number = gui_state().game.secret_mission;
+	gui_state().mission.number = client_state().game.secret_mission;
 
-	if(tar_mission == NULL) {
+	if(gui_state().mission.pixbuf == NULL) {
 		if(mission_load() != TEG_STATUS_SUCCESS) {
-			textmsg(gui_state(), M_INF, _("Your mission is: %s"), missions_get_name(gui_state().game.common, mission_number));
+			textmsg(client_state(), M_INF, _("Your mission is: %s"), missions_get_name(client_state().game.common, gui_state().mission.number));
 			return;
 		}
 	}
@@ -290,9 +285,9 @@ void mission_view()
 	/* signals de los botones */
 	g_signal_connect(dialog, "response",
 	                 G_CALLBACK(mission_view_cb), NULL);
-	/* create picture of card (canvas with labels) */
+	/* create picture of card (gui_state().mission.canvas with labels) */
 
-	if(gui_state().game.secret_mission == MISSION_CONQWORLD) {
+	if(client_state().game.secret_mission == MISSION_CONQWORLD) {
 		gtk_dialog_set_response_sensitive(GTK_DIALOG(dialog), 1, FALSE);
 		gtk_dialog_set_response_sensitive(GTK_DIALOG(dialog), 2, FALSE);
 	} else {

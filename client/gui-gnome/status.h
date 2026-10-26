@@ -43,9 +43,6 @@ enum {
 	STATUS_COLUMN_LAST,
 };
 
-extern GtkWidget *status_dialog;
-extern GtkWidget *status_clist;
-
 TEG_STATUS status_fill_clist(GtkWidget *clist);
 
 /**! to view the status */

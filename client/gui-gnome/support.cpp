@@ -87,7 +87,7 @@ void teg_dialog(char* title, char* bigtitle, char* data)
 	GtkWidget* canvas;
 
 	dialog = gtk_dialog_new_with_buttons(title,
-	                                     GTK_WINDOW(main_window),
+	                                     GTK_WINDOW(gui_state().ui.main_window),
 	                                     GTK_DIALOG_DESTROY_WITH_PARENT,
 	                                     _("_OK"), GTK_RESPONSE_OK,
 	                                     NULL);
@@ -164,7 +164,7 @@ GtkWidget* teg_dialog_new(char* title, char* bigtitle)
 
 	gtk_window_set_title(GTK_WINDOW(dialog), title);
 	gtk_window_set_transient_for(GTK_WINDOW(dialog),
-	                             GTK_WINDOW(main_window));
+	                             GTK_WINDOW(gui_state().ui.main_window));
 
 	canvas = goo_canvas_new();
 	gtk_widget_set_size_request(canvas, TEG_DIALOG_X, TEG_DIALOG_Y_NEW);
@@ -211,10 +211,10 @@ void teg_dialog_gameover(int numjug, int mission)
 	GtkWidget *frame;
 	char buf[512];
 
-	if(player_whois(gui_state(), numjug, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(client_state(), numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		dialog = teg_dialog_new(_("Game Over"), _("A player won the game"));
 
-	} else  if(numjug == who_am_i(gui_state())) {
+	} else  if(numjug == who_am_i(client_state())) {
 		dialog = teg_dialog_new(_("Game Over"), _("You are the winner"));
 
 	} else {

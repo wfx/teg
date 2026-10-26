@@ -50,10 +50,6 @@ struct _G_colores {
 	char const *ellip_color;
 	char const *text_color;
 };
-extern struct _G_colores G_colores[];
-extern GdkPixbuf	*g_color_players[];
-extern GdkPixbuf	*g_color_circles[];
-extern GdkPixbuf	*g_color_circle_over;
 
 TEG_STATUS colors_allocate(void);
 TEG_STATUS colors_load_images(void);

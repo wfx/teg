@@ -32,40 +32,36 @@
 namespace teg::client::callbacks
 {
 
-static int initialized = 0;
-
-struct _G_conts G_conts[CONT_CANT];
-
 void G_cont_init()
 {
 	int i;
 	TContinent cont;
 
-	if(initialized) {
+	if(gui_state().map.cont_initialized) {
 		return;
 	}
 
 	for(i=0; i < CONT_CANT ; i++) {
-		if(theme_giveme_continent(gui_state(), &cont, i) == TEG_STATUS_SUCCESS) {
-			G_conts[i].x = cont.pos_x;
-			G_conts[i].y = cont.pos_y;
+		if(theme_giveme_continent(client_state(), &cont, i) == TEG_STATUS_SUCCESS) {
+			gui_state().map.conts[i].x = cont.pos_x;
+			gui_state().map.conts[i].y = cont.pos_y;
 		}
 	}
 
-	initialized = 1;
+	gui_state().map.cont_initialized = 1;
 }
 
 void G_cont_create(int cont, GooCanvasItem *root)
 {
-	if(!initialized) {
+	if(!gui_state().map.cont_initialized) {
 		G_cont_init();
 	}
 
-	G_conts[cont].cont_group =
+	gui_state().map.conts[cont].cont_group =
 	    goo_canvas_group_new(
 	        root,
-	        "x", (double) G_conts[cont].x,
-	        "y", (double) G_conts[cont].y,
+	        "x", (double) gui_state().map.conts[cont].x,
+	        "y", (double) gui_state().map.conts[cont].y,
 	        NULL);
 }
 
