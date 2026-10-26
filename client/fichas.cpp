@@ -222,15 +222,15 @@ TEG_STATUS fichas_out(ClientState& state)
 	e = client_status(state);
 	switch(e) {
 	case PLAYER_STATUS_FICHAS:
-		net_printf(state.game.fd, TOKEN_FICHAS"=%s\n", buf);
+		state.connection->printf(TOKEN_FICHAS"=%s\n", buf);
 		set_status(state, PLAYER_STATUS_POSTFICHAS);
 		break;
 	case PLAYER_STATUS_FICHAS2:
-		net_printf(state.game.fd, TOKEN_FICHAS2"=%s\n", buf);
+		state.connection->printf(TOKEN_FICHAS2"=%s\n", buf);
 		set_status(state, PLAYER_STATUS_POSTFICHAS2);
 		break;
 	case PLAYER_STATUS_FICHASC:
-		net_printf(state.game.fd, TOKEN_FICHASC"=%s\n", buf);
+		state.connection->printf(TOKEN_FICHASC"=%s\n", buf);
 		set_status(state, PLAYER_STATUS_POSTFICHASC);
 		break;
 	default:

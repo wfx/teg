@@ -59,7 +59,7 @@ void inputline_return(GtkEntry *w, gpointer data)
 
 	if(*theinput) {
 		if(theinput[0]=='/') {
-			net_printf(client_state().game.fd, "%s\n", &theinput[1]);
+			client_state().connection->printf("%s\n", &theinput[1]);
 		} else	{
 			char *d = g_strdup(theinput);
 			out_mensaje(client_state(), d);

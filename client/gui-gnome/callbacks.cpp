@@ -99,7 +99,7 @@ gboolean pre_client_recv(GIOChannel *source, GIOCondition cond, gpointer data)
 	      );
 
 	if(ok) {
-		client_recv(client_state(), fd);
+		client_recv(client_state());
 	} else {
 		disconnect(DR_IO_ERROR);
 	}

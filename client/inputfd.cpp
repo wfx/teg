@@ -1099,12 +1099,12 @@ static TEG_STATUS client_lookup(ClientState& state, PARSER *p)
 }
 
 /* read from the fd, then parse the data */
-TEG_STATUS client_recv(ClientState& state, int fd)
+TEG_STATUS client_recv(ClientState& state)
 {
 	char str[PROT_MAX_LEN];
 	memset(str, 0, sizeof(str));
 
-	if(net_readline(fd, str, PROT_MAX_LEN)<1) {
+	if(!state.connection || state.connection->read_line(str, PROT_MAX_LEN)<1) {
 		teg_disconnect(state);
 		return TEG_STATUS_CONNCLOSED;
 	}

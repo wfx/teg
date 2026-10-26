@@ -40,7 +40,7 @@ TEG_STATUS canje_out(ClientState& state, int p1, int p2, int p3)
 	}
 
 	if(tarjeta_puedocanje(state.game.common, who_am_i(state), p1, p2, p3)) {
-		net_printf(state.game.fd, TOKEN_CANJE"=%d,%d,%d\n", p1, p2, p3);
+		state.connection->printf(TOKEN_CANJE"=%d,%d,%d\n", p1, p2, p3);
 		tarjeta_poner(&state.game.common.countries[p1].tarjeta);
 		tarjeta_poner(&state.game.common.countries[p2].tarjeta);
 		tarjeta_poner(&state.game.common.countries[p3].tarjeta);

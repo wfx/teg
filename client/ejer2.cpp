@@ -34,7 +34,7 @@ TEG_STATUS ejer2_out(ClientState& state, int country)
 			if(!tarjeta_es_usada(&state.game.common.countries[ country ].tarjeta)) {
 				tarjeta_usar(&state.game.common.countries[ country ].tarjeta);
 				state.ejer2.last_country = country;
-				net_printf(state.game.fd, TOKEN_EJER2"=%d\n", country);
+				state.connection->printf(TOKEN_EJER2"=%d\n", country);
 				return TEG_STATUS_SUCCESS;
 			} else {
 				textmsg(state, M_ERR, _("Error, the 2 armies where placed before"));

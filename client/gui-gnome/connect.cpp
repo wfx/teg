@@ -75,7 +75,7 @@ static TEG_STATUS connect_real()
 {
 	if(teg_connect(client_state()) == TEG_STATUS_SUCCESS) {
 		if(NULL == gui_state().connect.channel) {
-			gui_state().connect.channel = g_io_channel_unix_new(client_state().game.fd);
+			gui_state().connect.channel = g_io_channel_unix_new(client_fd(client_state()));
 		}
 
 		gui_state().connect.watch_id = g_io_add_watch_full(gui_state().connect.channel,

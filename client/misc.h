@@ -101,4 +101,16 @@ inline int who_am_i(ClientState const& state)
 	return state.game.numjug;
 }
 
+/// \brief The connection to the server, or nullptr
+inline Transport* client_connection(ClientState const& state)
+{
+	return state.connection.get();
+}
+
+/// \brief The file descriptor of the server connection, or -1
+inline int client_fd(ClientState const& state)
+{
+	return state.connection ? state.connection->fd() : -1;
+}
+
 }
