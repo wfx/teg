@@ -11,7 +11,11 @@ function filter_sources() {
 }
 
 function get_changed_files() {
-    git status --porcelain | grep '^.M ' | sed -e 's/^...//' | filter_sources
+    {
+        git diff --name-only --diff-filter=d
+        git diff --cached --name-only --diff-filter=d
+        git ls-files --others --exclude-standard
+    } | sort -u | filter_sources
 }
 
 function get_head_files() {
@@ -31,5 +35,10 @@ case "${1:-}" in
         FILES=("$@")
     ;;
 esac
+
+if [ "${#FILES[@]}" -eq 0 ] || [ -z "${FILES[0]:-}" ]; then
+    echo "No source files to format."
+    exit 0
+fi
 
 astyle --options="$HERE"/../.astylerc --suffix=none "${FILES[@]}"
