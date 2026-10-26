@@ -5,15 +5,24 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image: ["ranft/teg:ul", "ranft/teg:d13"]
 
     container:
-      image: ${{ matrix.image }}
+      image: debian:13
 
     steps:
+    - name: Install git
+      run: |
+        apt-get update
+        DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+          ca-certificates git
+
     - uses: actions/checkout@v7
+
+    - name: Install build dependencies
+      run: |
+        DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+          build-essential gettext pkg-config \
+          libgoocanvas-2.0-dev libxml2-dev libgmock-dev meson ninja-build
 
     - name: Build the software
       run: bash -x build
