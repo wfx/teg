@@ -41,10 +41,10 @@ bool game_is_finished(ServerState& state);
 
 void server_init(ServerState& state);
 
-/**! removes and closes an fd from the list of fd */
-void fd_remove(ServerState& state, int fd);
+/// \brief removes and closes a connection
+void remove_connection(ServerState& state, std::shared_ptr<Transport> const& connection);
 
-/**! adds a new fd to the list of fd */
-void fd_add(ServerState& state, int fd);
+/// \brief adds a new connection to the select set
+void add_connection(ServerState& state, std::shared_ptr<Transport> const& connection);
 
 }

@@ -22,11 +22,13 @@
 
 #include <array>
 #include <list>
+#include <memory>
 #include <sys/select.h>
 #include <vector>
 
 #include "../common/common.h"
 #include "../common/state.h"
+#include "../common/transport.h"
 #include "player.h"
 
 namespace teg::server
@@ -90,6 +92,12 @@ struct ServerState {
 	bool first_game{true};
 	fd_set all_set{};
 	int max_fd{0};
+
+	/// \brief All open client connections (including unregistered ones)
+	std::vector<std::shared_ptr<Transport>> connections{};
+
+	/// \brief The console connection
+	std::shared_ptr<Transport> console{};
 
 	/// \brief Return code of the last readline callback, if readline is used
 	TEG_STATUS readline_status{TEG_STATUS_SUCCESS};

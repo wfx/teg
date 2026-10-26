@@ -21,9 +21,12 @@
 #pragma once
 
 #include <functional>
+#include <memory>
 
+#include "../common/common.h"
 #include "../common/stats.h"
 #include "../common/country.h"
+#include "../common/transport.h"
 
 namespace teg::server
 {
@@ -46,7 +49,7 @@ struct SPLAYER {
 	int tot_armies;				/**< number of armies (") */
 	int tot_cards;				/**< number of cards (") */
 	unsigned tot_exchanges;			/**< number of exchanges */
-	int fd;					/**< file descriptor */
+	std::shared_ptr<Transport> connection;	/**< connection to the client */
 	PLAYER_STATUS estado;			/**< status of the player */
 	PLAYER_STATUS status_before_discon;	/**< status before disconn */
 	int country_src;				/**< country source (TOKEN_TROPAS) */
@@ -60,6 +63,12 @@ struct SPLAYER {
 
 };
 using PSPLAYER = SPLAYER*;
+
+/// \brief The file descriptor of the player connection, or -1
+inline int player_fd(SPLAYER const& player)
+{
+	return player.connection ? player.connection->fd() : -1;
+}
 
 /// \brief Sipmle mapping function type to traverse all players
 using jug_map_func=std::function<void(PSPLAYER pJ)>;
@@ -98,26 +107,26 @@ TEG_STATUS player_asignarcountry(ServerState& state, int numjug, PCOUNTRY p);
 /// \brief given a players' number it returns a pointer the player
 TEG_STATUS player_whois(ServerState& state, int numjug, PSPLAYER *j);
 
-/// \brief given a players' number it returns a pointer the player
-TEG_STATUS player_whoisfd(ServerState& state, int fd, PSPLAYER *j);
+/// \brief given a connection it returns a pointer the player
+TEG_STATUS player_whose(ServerState& state, std::shared_ptr<Transport> const& connection, PSPLAYER *j);
 
 /**
  * \brief tells if a player is in a given state
  *
- * This function checks, if the player behind \p fd is
- *   * (\p exact == true ) in \p state
- *   * (\p exact == false) at least in \p state
+ * This function checks, if the player behind \p connection is
+ *   * (\p exact == true ) in \p wanted
+ *   * (\p exact == false) at least in \p wanted
  */
-bool player_esta_xxx(ServerState& state, int fd, PLAYER_STATUS wanted, bool exact);
+bool player_esta_xxx(ServerState& state, std::shared_ptr<Transport> const& connection, PLAYER_STATUS wanted, bool exact);
 
 /**
  * \brief Search a player and tells if this player is in a given state
  *
- * This function checks, if the player behind \p fd is
- *   * (\p exact == true ) in \p state
- *   * (\p exact == false) at least in \p state
+ * This function checks, if the player behind \p connection is
+ *   * (\p exact == true ) in \p wanted
+ *   * (\p exact == false) at least in \p wanted
  */
-bool player_esta_xxx_plus(ServerState& state, int fd, PLAYER_STATUS wanted, bool exact, PSPLAYER *j);
+bool player_esta_xxx_plus(ServerState& state, std::shared_ptr<Transport> const& connection, PLAYER_STATUS wanted, bool exact, PSPLAYER *j);
 
 /// \brief quantity of countries per contient that a player has
 void player_listar_countries(ServerState& state, PSPLAYER pJ, int *countries);

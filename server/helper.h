@@ -20,7 +20,10 @@
 
 #pragma once
 
+#include <memory>
+
 #include "../common/common.h"
+#include "../common/transport.h"
 #include "player.h"
 
 namespace teg::server
@@ -32,7 +35,7 @@ typedef std::function<bool(int)> get_random_func;
 
 void ins_orden(char d, char *array, int len);
 
-TEG_STATUS aux_token_fichas(ServerState& state, int fd, char *str, int maximo, unsigned long conts);
+TEG_STATUS aux_token_fichas(ServerState& state, std::shared_ptr<Transport> const& connection, char *str, int maximo, unsigned long conts);
 TEG_STATUS aux_token_stasta(ServerState& state, char *strout, size_t buflen);
 TEG_STATUS aux_token_attack(int src, int dst, int *src_lost, int *dst_lost, char *datos_src, char *dados_dst);
 void aux_token_fichasc(ServerState& state, PSPLAYER pJ);
@@ -51,6 +54,6 @@ TEG_STATUS fichasc_next(ServerState& state);
 
 TEG_STATUS aux_find_inaddr(ServerState& state, PSPLAYER pJ);
 
-TEG_STATUS launch_robot(ServerState& state, int *robot_socket, const char *mode);
+TEG_STATUS launch_robot(ServerState& state, std::shared_ptr<Transport>& robot_connection, const char *mode);
 
 }

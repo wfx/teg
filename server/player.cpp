@@ -103,7 +103,7 @@ void player_yield_color(ServerState& state, SPLAYER& player)
 bool player_is_to_be_deleted(SPLAYER const& player)
 {
 	return (PLAYER_STATUS_DESCONECTADO==player.estado)
-	       || (-1 == player.fd);
+	       || (!player.connection);
 }
 
 void player_delete_discon(ServerState& state, PSPLAYER pJ)
@@ -218,9 +218,9 @@ PSPLAYER player_ins(ServerState& state, PSPLAYER pJ, bool esplayer)
 TEG_STATUS player_flush(ServerState& state)
 {
 	for(SPLAYER &player: state.players) {
-		if(player.fd > 0) {
-			fd_remove(state, player.fd);
-			player.fd = -1;
+		if(player.connection) {
+			remove_connection(state, player.connection);
+			player.connection.reset();
 		}
 		con_text_out(state, M_INF, ("Deleting %s\n"), player.name);
 	}
@@ -318,8 +318,10 @@ void player_del_hard(ServerState& state, PSPLAYER pJ)
 	state.game.connections--;
 
 	/* close the connection */
-	fd_remove(state, pJ->fd);
-	pJ->fd = -1;
+	if(pJ->connection) {
+		remove_connection(state, pJ->connection);
+		pJ->connection.reset();
+	}
 
 	if(pJ->is_player) {
 
@@ -388,12 +390,12 @@ TEG_STATUS player_asignarcountry(ServerState& state, int numjug, PCOUNTRY p)
 }
 
 /* given a fd, return the player who owns it */
-TEG_STATUS player_whoisfd(ServerState& state, int fd, PSPLAYER *j)
+TEG_STATUS player_whose(ServerState& state, std::shared_ptr<Transport> const& connection, PSPLAYER *j)
 {
 	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
 
-	player_map(state, [fd, &j, &result](PSPLAYER i) {
-		if(i->fd == fd) {
+	player_map(state, [&connection, &j, &result](PSPLAYER i) {
+		if(i->connection == connection) {
 			*j = i;
 			result = TEG_STATUS_SUCCESS;
 		}
@@ -401,15 +403,15 @@ TEG_STATUS player_whoisfd(ServerState& state, int fd, PSPLAYER *j)
 	return result;
 }
 
-bool player_esta_xxx(ServerState& state, int fd, PLAYER_STATUS wanted, bool exact)
+bool player_esta_xxx(ServerState& state, std::shared_ptr<Transport> const& connection, PLAYER_STATUS wanted, bool exact)
 {
 	PSPLAYER pJ;
-	return player_esta_xxx_plus(state, fd, wanted, exact, &pJ);
+	return player_esta_xxx_plus(state, connection, wanted, exact, &pJ);
 }
 
-bool player_esta_xxx_plus(ServerState& state, int fd, PLAYER_STATUS wanted, bool strict, PSPLAYER *j)
+bool player_esta_xxx_plus(ServerState& state, std::shared_ptr<Transport> const& connection, PLAYER_STATUS wanted, bool strict, PSPLAYER *j)
 {
-	if(player_whoisfd(state, fd, j) == TEG_STATUS_SUCCESS) {
+	if(player_whose(state, connection, j) == TEG_STATUS_SUCCESS) {
 		if(strict) {
 			return ((*j)->estado == wanted);
 		} else {

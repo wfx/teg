@@ -20,7 +20,10 @@
 
 #pragma once
 
+#include <memory>
+
 #include "../common/common.h"
+#include "../common/transport.h"
 
 namespace teg::server
 {
@@ -30,7 +33,7 @@ struct ServerState;
 #define CONSOLE_FD 0
 
 /// \brief Try to read and handle one command from the console
-TEG_STATUS console_handle(ServerState& state, int fd);
+TEG_STATUS console_handle(ServerState& state);
 
 /// \brief Print the console ready prompt
 void con_show_prompt(ServerState& state);

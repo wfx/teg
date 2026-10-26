@@ -20,7 +20,10 @@
 
 #pragma once
 
+#include <memory>
+
 #include "../common/common.h"
+#include "../common/transport.h"
 
 namespace teg::server
 {
@@ -28,9 +31,9 @@ namespace teg::server
 struct ServerState;
 
 /// \brief Parses a game option received from a client
-TEG_STATUS option_parse(ServerState& state, int fd, char *str);
+TEG_STATUS option_parse(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 
 /// \brief Print the current game options on the console
-TEG_STATUS option_view(ServerState& state, int fd, char *str);
+TEG_STATUS option_view(ServerState& state, std::shared_ptr<Transport> const& connection, char *str);
 
 }

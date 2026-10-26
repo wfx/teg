@@ -67,22 +67,22 @@ static ServerState *readline_console_state = nullptr;
 #endif /* HAVE_LIBREADLINE */
 
 /* prototipos */
-STATIC TEG_STATUS con_start(ServerState&, int, char*);
-STATIC TEG_STATUS con_status(ServerState&, int, char*);
-STATIC TEG_STATUS con_message(ServerState&, int, char*);
-STATIC TEG_STATUS con_help(ServerState&, int, char*);
-STATIC TEG_STATUS con_test(ServerState&, int, char*);
-STATIC TEG_STATUS con_exit(ServerState&, int, char*);
-STATIC TEG_STATUS con_save(ServerState&, int, char*);
-STATIC TEG_STATUS con_set(ServerState&, int, char*);
-STATIC TEG_STATUS con_kick(ServerState&, int, char*);
-STATIC TEG_STATUS con_view(ServerState&, int, char *);
-STATIC TEG_STATUS con_scores(ServerState&, int, char *);
-STATIC TEG_STATUS con_stats(ServerState&, int, char *);
+STATIC TEG_STATUS con_start(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_status(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_message(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_help(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_test(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_exit(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_save(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_set(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_kick(ServerState&, std::shared_ptr<Transport> const&, char*);
+STATIC TEG_STATUS con_view(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS con_scores(ServerState&, std::shared_ptr<Transport> const&, char *);
+STATIC TEG_STATUS con_stats(ServerState&, std::shared_ptr<Transport> const&, char *);
 
 struct {
 	char const *label;
-	TEG_STATUS(*func)(ServerState&, int, char*);
+	TEG_STATUS(*func)(ServerState&, std::shared_ptr<Transport> const&, char*);
 	char const *help;
 } con_tokens[] = {
 	{ TOKEN_START,		con_start,	N_("to start playing") },
@@ -100,7 +100,7 @@ struct {
 };
 #define	CONSOLE_TOKENS  (sizeof(con_tokens)/sizeof(con_tokens[0]))
 
-STATIC TEG_STATUS con_exit(ServerState& state, int unused, char* unused2)
+STATIC TEG_STATUS con_exit(ServerState& state, std::shared_ptr<Transport> const& connection, char* unused2)
 {
 	player_flush(state);
 #ifdef HAVE_LIBREADLINE
@@ -109,7 +109,7 @@ STATIC TEG_STATUS con_exit(ServerState& state, int unused, char* unused2)
 	return TEG_STATUS_GAMEOVER;
 }
 
-STATIC TEG_STATUS con_stats(ServerState& state, int unused, char* unused2)
+STATIC TEG_STATUS con_stats(ServerState& state, std::shared_ptr<Transport> const& connection, char* unused2)
 {
 	printf(_("Number Score - [Countries: Won  Lost] - [Armies: Won  Lost]  Name Human\n"));
 	player_map(state, [&state](PSPLAYER pJ) {
@@ -145,14 +145,14 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 }
 
 
-STATIC TEG_STATUS con_scores(ServerState& state, int unused, char* unused2)
+STATIC TEG_STATUS con_scores(ServerState& state, std::shared_ptr<Transport> const& connection, char* unused2)
 {
 	printf(_("  score  date       time    name              color    human\n"));
 	scores_map(state.game.common.highscores, con_scores_show, NULL);
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_kick(ServerState& state, int fd, char *name)
+STATIC TEG_STATUS con_kick(ServerState& state, std::shared_ptr<Transport> const& connection, char *name)
 {
 	if(name && strlen(name)) {
 		PSPLAYER pJ;
@@ -168,23 +168,23 @@ STATIC TEG_STATUS con_kick(ServerState& state, int fd, char *name)
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_save(ServerState& state, int fd, char *unused)
+STATIC TEG_STATUS con_save(ServerState& state, std::shared_ptr<Transport> const& connection, char *unused)
 {
 	con_text_out_wop(state, M_INF, _("Not yet implemented\n"));
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_set(ServerState& state, int fd, char*str)
+STATIC TEG_STATUS con_set(ServerState& state, std::shared_ptr<Transport> const& connection, char*str)
 {
-	return option_parse(state, fd, str);
+	return option_parse(state, connection, str);
 }
 
-STATIC TEG_STATUS con_view(ServerState& state, int fd, char*str)
+STATIC TEG_STATUS con_view(ServerState& state, std::shared_ptr<Transport> const& connection, char*str)
 {
-	return option_view(state, fd, str);
+	return option_view(state, connection, str);
 }
 
-STATIC TEG_STATUS con_message(ServerState& state, int fd, char *msg)
+STATIC TEG_STATUS con_message(ServerState& state, std::shared_ptr<Transport> const& connection, char *msg)
 {
 	if(strlen(msg) !=0) {
 		strip_invalid_msg(msg);
@@ -193,66 +193,66 @@ STATIC TEG_STATUS con_message(ServerState& state, int fd, char *msg)
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_status(ServerState& state, int fd, char*unused)
+STATIC TEG_STATUS con_status(ServerState& state, std::shared_ptr<Transport> const& connection, char*unused)
 {
-	net_printf(fd, _("players:%d, connections:%d, game number:%d, round:%d, mission:%s\n"),
-	           state.game.players,
-	           state.game.connections,
-	           state.game.gamenumber,
-	           state.game.round_number,
-	           (state.game.mission?_("TRUE"):_("FALSE"))
-	          );
-	net_printf(fd, _("fd, number, countries, armies, cards, exch, name, human, color, status, address\n"));
+	connection->printf(_("players:%d, connections:%d, game number:%d, round:%d, mission:%s\n"),
+	                   state.game.players,
+	                   state.game.connections,
+	                   state.game.gamenumber,
+	                   state.game.round_number,
+	                   (state.game.mission?_("TRUE"):_("FALSE"))
+	                  );
+	connection->printf(_("fd, number, countries, armies, cards, exch, name, human, color, status, address\n"));
 
-	player_map(state, [fd](PSPLAYER pJ) {
+	player_map(state, [&connection](PSPLAYER pJ) {
 		int color;
 
 		color = (pJ->color==-1) ? maximum_player_count : pJ->color;
 		if(pJ->is_player) {
-			net_printf(fd, "%-3d %d  %-3u  %-3u  %d  %d  %-15s  %s  %s  %s  %s\n",
-			           pJ->fd,
-			           pJ->numjug,
-			           pJ->tot_countries,
-			           pJ->tot_armies,
-			           pJ->tot_cards,
-			           pJ->tot_exchanges,
-			           pJ->name,
-			           pJ->human ? _("yes") : _("no"),
-			           _(color_name(color)),
-			           _(player_status_name(pJ->estado)),
-			           pJ->addr
-			          );
+			connection->printf("%-3d %d  %-3u  %-3u  %d  %d  %-15s  %s  %s  %s  %s\n",
+			                   player_fd(*pJ),
+			                   pJ->numjug,
+			                   pJ->tot_countries,
+			                   pJ->tot_armies,
+			                   pJ->tot_cards,
+			                   pJ->tot_exchanges,
+			                   pJ->name,
+			                   pJ->human ? _("yes") : _("no"),
+			                   _(color_name(color)),
+			                   _(player_status_name(pJ->estado)),
+			                   pJ->addr
+			                  );
 		} else {
-			net_printf(fd, "%-3d %d  %-3d  %-3d  %d  %d  %-15s  %s  %s  %s  %s\n",
-			           pJ->fd,
-			           -1,
-			           -1,
-			           -1,
-			           -1,
-			           -1,
-			           pJ->name,
-			           pJ->human ? _("yes") : _("no"),
-			           _("n/a"),
-			           _("observer"),
-			           pJ->addr
-			          );
+			connection->printf("%-3d %d  %-3d  %-3d  %d  %d  %-15s  %s  %s  %s  %s\n",
+			                   player_fd(*pJ),
+			                   -1,
+			                   -1,
+			                   -1,
+			                   -1,
+			                   -1,
+			                   pJ->name,
+			                   pJ->human ? _("yes") : _("no"),
+			                   _("n/a"),
+			                   _("observer"),
+			                   pJ->addr
+			                  );
 		}
 	}, PlayerMapPolicy::everyone);
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_start(ServerState& state, int fd, char*unused)
+STATIC TEG_STATUS con_start(ServerState& state, std::shared_ptr<Transport> const& connection, char*unused)
 {
 	char ch = 0;
-	return token_start(state, fd, &ch);
+	return token_start(state, connection, &ch);
 }
 
-STATIC TEG_STATUS con_help(ServerState& state, int fd, char*unused)
+STATIC TEG_STATUS con_help(ServerState& state, std::shared_ptr<Transport> const& connection, char*unused)
 {
 	for(unsigned i=0; i<CONSOLE_TOKENS; i++) {
 		if(con_tokens[i].func)
-			net_printf(fd, "'%s' %s\n",
-			           con_tokens[i].label, _(con_tokens[i].help));
+			connection->printf("'%s' %s\n",
+			                   con_tokens[i].label, _(con_tokens[i].help));
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -260,10 +260,10 @@ STATIC TEG_STATUS con_help(ServerState& state, int fd, char*unused)
 static void player_dump(PSPLAYER pJ)
 {
 	printf("Nombre: %s\n", pJ->name);
-	printf("fd: %d\n", pJ->fd);
+	printf("fd: %d\n", player_fd(*pJ));
 }
 
-STATIC TEG_STATUS con_test(ServerState& state, int fd, char *str)
+STATIC TEG_STATUS con_test(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	player_map(state, player_dump);
 	return TEG_STATUS_SUCCESS;
@@ -273,12 +273,12 @@ STATIC TEG_STATUS con_test(ServerState& state, int fd, char *str)
 /*
  * interpreter
  */
-STATIC TEG_STATUS console_lookup(ServerState& state, int fd, PARSER *p)
+STATIC TEG_STATUS console_lookup(ServerState& state, std::shared_ptr<Transport> const& connection, PARSER *p)
 {
 	for(unsigned i=0; i<CONSOLE_TOKENS; i++) {
 		if(strcmp(p->token, con_tokens[i].label)==0) {
 			if(con_tokens[i].func) {
-				return((con_tokens[i].func)(state, fd, p->value));
+				return((con_tokens[i].func)(state, connection, p->value));
 			}
 			return TEG_STATUS_TOKENNULL;
 		}
@@ -296,7 +296,7 @@ void con_show_prompt(ServerState& state)
 	}
 }
 
-TEG_STATUS console_parse(ServerState& state, int fd, char *str)
+TEG_STATUS console_parse(ServerState& state, std::shared_ptr<Transport> const& connection, char *str)
 {
 	PARSER p{str, '=', ';'};
 
@@ -304,7 +304,7 @@ TEG_STATUS console_parse(ServerState& state, int fd, char *str)
 		if(!p.parse()) {
 			break;
 		}
-		TEG_STATUS const ts = console_lookup(state, fd, &p);
+		TEG_STATUS const ts = console_lookup(state, connection, &p);
 		if(ts != TEG_STATUS_SUCCESS) {
 			return ts;
 		}
@@ -312,7 +312,7 @@ TEG_STATUS console_parse(ServerState& state, int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS console_handle(ServerState& state, int fd)
+TEG_STATUS console_handle(ServerState& state)
 {
 #ifdef HAVE_LIBREADLINE
 #else
@@ -326,14 +326,14 @@ TEG_STATUS console_handle(ServerState& state, int fd)
 	return state.readline_status;
 #else
 	str[0]=0;
-	j=net_readline(fd, str, PROT_MAX_LEN);
+	j=state.console->read_line(str, PROT_MAX_LEN);
 
 	if(j<1) {
 		return TEG_STATUS_CONNCLOSED;
 	}
 
 	if(j > 1) {
-		ts = console_parse(state, fd, str);
+		ts = console_parse(state, state.console, str);
 		con_show_prompt(state);
 		return ts;
 	}
@@ -381,7 +381,7 @@ void con_readline_input_callback(char *line)
 		if(*line) {
 			add_history(line);
 			if(readline_console_state) {
-				console_parse(*readline_console_state, CONSOLE_FD, line);
+				console_parse(*readline_console_state, readline_console_state->console, line);
 			}
 		}
 		free(line);
@@ -391,6 +391,9 @@ void con_readline_input_callback(char *line)
 
 TEG_STATUS console_init(ServerState& state)
 {
+	if(state.server.with_console) {
+		state.console = std::make_shared<SocketTransport>(CONSOLE_FD, false);
+	}
 #ifdef HAVE_LIBREADLINE
 	if(state.server.with_console) {
 		readline_console_state = &state;
