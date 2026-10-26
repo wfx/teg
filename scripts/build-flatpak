@@ -1,0 +1,121 @@
+#!/bin/bash
+#
+# Build the TEG Flatpak.
+#
+# Usage: scripts/build-flatpak [--install] [--bundle PATH] [--release VERSION]
+#
+# Without options the application is built from the current working tree and
+# written as a bundle to bd-flatpak/net.sf.teg.flatpak. The resulting Flatpak
+# uses the branch "master", i.e. the current development version. Pass
+# --release to build a named release instead. That also works on build machines
+# without a user session and without FUSE.
+#
+#   --install        install for the current user instead of writing a bundle
+#   --bundle PATH    write the bundle to PATH
+#   --release NAME   use NAME as the Flatpak branch (e.g. a version number)
+#
+# The build tree and the local repository are kept in the user's cache
+# directory, so nothing but the bundle is written into the source tree.
+
+set -euo pipefail
+
+MYSELF=$(readlink -f "$0")
+HERE=${MYSELF%/*}
+SOURCE_DIR=$(dirname "$HERE")
+MANIFEST="$SOURCE_DIR/flatpak/net.sf.teg.yml"
+BUNDLE_DIR="$SOURCE_DIR/bd-flatpak"
+CACHE_ROOT="${XDG_CACHE_HOME:-${HOME:-${TMPDIR:-/tmp}}/.cache}/teg-flatpak"
+APP_ID=net.sf.teg
+
+usage() {
+	echo "Usage: scripts/build-flatpak [--install] [--bundle PATH] [--release NAME]"
+}
+
+install_mode=0
+release=""
+bundle=""
+
+while [ $# -gt 0 ]; do
+	case "$1" in
+	--install)
+		install_mode=1
+		;;
+	--release)
+		shift
+		if [ $# -eq 0 ]; then
+			usage
+			exit 1
+		fi
+		release=$1
+		;;
+	--bundle)
+		shift
+		if [ $# -eq 0 ]; then
+			usage
+			exit 1
+		fi
+		bundle=$1
+		;;
+	-h|--help)
+		usage
+		exit 0
+		;;
+	*)
+		echo "error: unknown argument '$1'" >&2
+		usage
+		exit 1
+		;;
+	esac
+	shift
+done
+
+# The current development version is exported as "master" unless a release
+# name is given.
+branch=${release:-master}
+
+if [ -z "$bundle" ]; then
+	if [ -n "$release" ]; then
+		bundle="$BUNDLE_DIR/$APP_ID-$release.flatpak"
+	else
+		bundle="$BUNDLE_DIR/$APP_ID.flatpak"
+	fi
+fi
+
+if ! command -v flatpak-builder >/dev/null 2>&1; then
+	echo "error: flatpak-builder is not installed." >&2
+	echo "       Install it with your package manager, e.g. 'apt install flatpak-builder'." >&2
+	exit 1
+fi
+
+runtime_version=$(sed -n "s/^runtime-version:[[:space:]]*'\{0,1\}\([0-9.]*\)'\{0,1\}.*/\1/p" \
+	"$MANIFEST" | head -n 1)
+if [ -n "$runtime_version" ] && ! flatpak info "org.gnome.Sdk//$runtime_version" >/dev/null 2>&1; then
+	echo "error: org.gnome.Sdk//$runtime_version is not installed." >&2
+	echo "       flatpak install flathub org.gnome.Sdk//$runtime_version" >&2
+	exit 1
+fi
+
+flatpak_builder_args=(
+	--force-clean
+	--disable-rofiles-fuse
+	--state-dir="$CACHE_ROOT/state"
+	--default-branch="$branch"
+)
+
+if [ "$install_mode" -eq 1 ]; then
+	flatpak-builder --user --install "${flatpak_builder_args[@]}" \
+		"$CACHE_ROOT/build" "$MANIFEST"
+	echo
+	echo "Installed. Start the game with: flatpak run $APP_ID"
+	exit 0
+fi
+
+mkdir -p "$BUNDLE_DIR" "$(dirname "$bundle")"
+flatpak-builder --repo="$CACHE_ROOT/repo" "${flatpak_builder_args[@]}" \
+	"$CACHE_ROOT/build" "$MANIFEST"
+flatpak build-bundle --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo \
+	"$CACHE_ROOT/repo" "$bundle" "$APP_ID" "$branch"
+
+echo
+echo "Bundle written to $bundle"
+echo "Install it with: flatpak install --user $bundle"

@@ -51,8 +51,6 @@
 #include "priv.h"
 #include "armies.h"
 
-#include "robot.xpm"
-
 namespace teg::client::callbacks
 {
 
@@ -269,9 +267,11 @@ GtkWidget* create_mainwin(void)
 	/* Emulate GtkImageMenuItem.  This was the author's intention
 	   but it doesn't work in the original code.  */
 	hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
-	robot = gdk_pixbuf_new_from_xpm_data(robot_xpm);
-	icon = gtk_image_new_from_pixbuf(robot);
-	g_object_unref(robot);
+	robot = gdk_pixbuf_new_from_file(load_pixmap_file("robot.png").c_str(), NULL);
+	icon = robot ? gtk_image_new_from_pixbuf(robot) : gtk_image_new();
+	if(robot) {
+		g_object_unref(robot);
+	}
 	label = gtk_label_new_with_mnemonic(_("_Launch robot"));
 	gtk_widget_set_tooltip_text(label, _("Launch a robot"));
 	gui_state().ui.robot_menu = gtk_menu_item_new();
@@ -673,11 +673,13 @@ GtkWidget* create_mainwin(void)
 
 	/* icono */
 	{
-		GdkPixbuf *icono;
-#include "../teg_pix/teg_icono.xpm"
+		GdkPixbuf *icono
+		    = gdk_pixbuf_new_from_file(load_pixmap_file("teg_icono.png").c_str(), NULL);
 		gtk_widget_realize(app1);
-		icono = gdk_pixbuf_new_from_xpm_data(teg_icono_xpm);
-		gtk_window_set_icon(GTK_WINDOW(app1), icono);
+		if(icono) {
+			gtk_window_set_icon(GTK_WINDOW(app1), icono);
+			g_object_unref(icono);
+		}
 	}
 
 	gtk_widget_show(app1);

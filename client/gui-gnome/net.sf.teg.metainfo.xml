@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>net.sf.teg</id>
+
+  <name>T.E.G.</name>
+  <summary>A Risk-like multiplayer strategy game</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0-or-later</project_license>
+
+  <description>
+    <p>
+      Tenes Empanadas Graciela is a turn based multiplayer strategy game in
+      the style of Risk. Players conquer countries, place armies and exchange
+      cards until one of them controls the world.
+    </p>
+    <p>
+      The game can be played over the network with a dedicated server or
+      against computer opponents.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">net.sf.teg.desktop</launchable>
+
+  <developer id="net.sf.teg">
+    <name>The TEG contributors</name>
+  </developer>
+
+  <url type="homepage">https://github.com/wfx/teg</url>
+  <url type="bugtracker">https://github.com/wfx/teg/issues</url>
+
+  <categories>
+    <category>Game</category>
+    <category>StrategyGame</category>
+  </categories>
+
+  <content_rating type="oars-1.1"/>
+</component>

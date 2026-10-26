@@ -1,0 +1,52 @@
+# Flatpak manifest for the T.E.G. client.
+#
+# Build it with ../scripts/build-flatpak; see README.md for the details.
+
+app-id: net.sf.teg
+runtime: org.gnome.Platform
+runtime-version: '50'
+sdk: org.gnome.Sdk
+command: tegclient
+
+finish-args:
+  # The client connects to a game server over TCP.
+  - --share=network
+  - --socket=wayland
+  - --socket=fallback-x11
+
+modules:
+  # goocanvas 2 is not part of the GNOME runtime, so it is built here.
+  - name: goocanvas
+    buildsystem: autotools
+    # goocanvas 2.0.4 predates GCC 14, which turns incompatible pointer
+    # assignments into errors. Keep them visible, but do not fail the build.
+    build-options:
+      cflags: -Wno-error=incompatible-pointer-types
+    config-opts:
+      - --disable-static
+      - --disable-gtk-doc
+      - --disable-introspection
+      - --disable-python
+    sources:
+      - type: archive
+        url: https://download.gnome.org/sources/goocanvas/2.0/goocanvas-2.0.4.tar.xz
+        sha256: c728e2b7d4425ae81b54e1e07a3d3c8a4bd6377a63cffa43006045bceaa92e90
+
+  - name: teg
+    buildsystem: meson
+    config-opts:
+      # The GNOME SDK ships a newer gdk-pixbuf where the XPM API used by the
+      # GUI is deprecated. CI enforces -Dwerror=true against Debian 13, so the
+      # Flatpak build does not.
+      - -Dwerror=false
+      # Unit tests are run by CI; gtest/gmock are not needed in the bundle.
+      - -Dtests=false
+    sources:
+      - type: dir
+        path: ..
+        # Keep build trees and repository metadata out of the source copy.
+        skip:
+          - .git
+          - .github
+          - bd
+          - bd-*

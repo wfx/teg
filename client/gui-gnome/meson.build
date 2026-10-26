@@ -81,6 +81,10 @@ install_data('net.sf.teg.gschema.xml',
 # ---------------------------------------------------------------------------
 # Desktop integration data
 # ---------------------------------------------------------------------------
-install_data('teg.desktop',
+install_data('net.sf.teg.desktop',
   install_dir: get_option('datadir') / 'applications',
+)
+
+install_data('net.sf.teg.metainfo.xml',
+  install_dir: get_option('datadir') / 'metainfo',
 )

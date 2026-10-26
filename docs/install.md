@@ -58,6 +58,20 @@ client with `bd/DD/bin/tegclient`.
 The `./build` helper script performs all of the above (configure, build and
 test) into the `bd` directory. Note that it erases the build directory first.
 
+## Flatpak
+
+A Flatpak manifest is available in the `flatpak` directory. The helper script
+builds it and writes an installable bundle:
+
+``` sh
+flatpak install flathub org.gnome.Sdk//50
+scripts/build-flatpak
+```
+
+The bundle is written to `bd-flatpak/net.sf.teg.flatpak`. It uses the branch
+`master` (the current development version); pass `--release 0.13.0` to build a
+named release. See `flatpak/README.md` for the details.
+
 ## Build options
 
 Build options are set with `-D<option>=<value>` when configuring, for example

@@ -2,7 +2,7 @@ install_data(
   files(
     'objetivo.png',
     'teg_icono.png',
-    'teg_icono.xpm',
+    'robot.png',
     'color_player_green.png',
     'color_player_red.png',
     'color_player_black.png',
@@ -21,6 +21,9 @@ install_data(
   install_dir: get_option('datadir') / 'teg',
 )
 
-install_data('teg_icono.png',
-  install_dir: get_option('datadir') / 'pixmaps',
+# AppStream exports 64x64 icons by default and Flatpak requires square icons,
+# so the hicolor icon is a square 64x64 derivative of teg_icono.png.
+install_data('teg_icono_64.png',
+  install_dir: get_option('datadir') / 'icons' / 'hicolor' / '64x64' / 'apps',
+  rename: 'net.sf.teg.png',
 )
