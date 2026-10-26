@@ -30,27 +30,27 @@
 namespace teg::server
 {
 
-TEG_STATUS fow_set_mode(bool b)
+TEG_STATUS fow_set_mode(ServerState& state, bool b)
 {
-	if(JUEGO_EMPEZADO) {
+	if(game_started(state)) {
 		return TEG_STATUS_ERROR;
 	}
 
 	if(b!=0) {
 		b=1;
 	}
-	g_game.fog_of_war = b;
+	state.game.fog_of_war = b;
 	return TEG_STATUS_SUCCESS;
 }
 
-bool fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP)
+bool fow_can_player_see_country(ServerState& state, PSPLAYER pJ, PCOUNTRY pP)
 {
 	if(! pJ  || ! pP) {
 		return false;
 	}
 
 	bool result{false};
-	countries_map_int(g_game.common, pJ->numjug, [pP, &result](COUNTRY& country) {
+	countries_map_int(state.game.common, pJ->numjug, [pP, &result](COUNTRY& country) {
 		if(pP->id == country.id) {
 			result = true;
 			return false;
@@ -66,24 +66,24 @@ bool fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP)
 	return result;
 }
 
-TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len)
+TEG_STATUS fow_fill_with_boundaries(ServerState& state, int country, char *buffer, int buf_len)
 {
 	int i;
 	int first_time=1;
 
-	if(! g_game.player_fow) {
+	if(! state.game.player_fow) {
 		return TEG_STATUS_ERROR;
 	}
 
 	for(i=0; i < static_cast<int>(COUNTRIES_CANT); i++) {
-		if(i != country && g_game.common.countries[i].numjug != g_game.player_fow->numjug && countries_eslimitrofe(country, i)) {
+		if(i != country && state.game.common.countries[i].numjug != state.game.player_fow->numjug && countries_eslimitrofe(country, i)) {
 			char buf[1024];
 
 			if(first_time) {
-				snprintf(buf, sizeof(buf)-1, "%s=%d,%d,%d", TOKEN_COUNTRY, i, g_game.common.countries[i].numjug, g_game.common.countries[i].ejercitos);
+				snprintf(buf, sizeof(buf)-1, "%s=%d,%d,%d", TOKEN_COUNTRY, i, state.game.common.countries[i].numjug, state.game.common.countries[i].ejercitos);
 				first_time = 0;
 			} else {
-				snprintf(buf, sizeof(buf)-1, ";%s=%d,%d,%d", TOKEN_COUNTRY, i, g_game.common.countries[i].numjug, g_game.common.countries[i].ejercitos);
+				snprintf(buf, sizeof(buf)-1, ";%s=%d,%d,%d", TOKEN_COUNTRY, i, state.game.common.countries[i].numjug, state.game.common.countries[i].ejercitos);
 			}
 
 			strncat(buffer, buf, buf_len);
@@ -99,7 +99,7 @@ TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len)
 	return TEG_STATUS_SUCCESS;
 }
 
-int fow_netall_printf(int country, char const *format, ...)
+int fow_netall_printf(ServerState& state, int country, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
@@ -114,10 +114,10 @@ int fow_netall_printf(int country, char const *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	player_map([buf, country](PSPLAYER pJ) {
+	player_map(state, [&state, buf, country](PSPLAYER pJ) {
 		if(pJ->fd > 0) {
 			/* check if he has a boundry country wih 'country' */
-			countries_map_int(g_game.common,
+			countries_map_int(state.game.common,
 			pJ->numjug, [country, &buf, pJ](COUNTRY& country_to_inspect) -> bool {
 				CountryId const cid{country_to_inspect.id};
 				if((cid == country) || countries_eslimitrofe(cid, country))
@@ -139,7 +139,7 @@ int fow_netall_printf(int country, char const *format, ...)
  * After format is parsed, 2 "%d" should be present, because they will
  * be filled with src & dst
  */
-int fow_2_netall_printf(int src, int dst, char const *format, ...)
+int fow_2_netall_printf(ServerState& state, int src, int dst, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
@@ -154,13 +154,13 @@ int fow_2_netall_printf(int src, int dst, char const *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	player_map([buf, src, dst](PSPLAYER pJ) {
+	player_map(state, [&state, buf, src, dst](PSPLAYER pJ) {
 		if(pJ->fd > 0) {
 			/* check if he has a boundry country wih src && dst */
 
 			int src_country = -1;
 			int dst_country = -1;
-			countries_map_int(g_game.common, pJ->numjug,
+			countries_map_int(state.game.common, pJ->numjug,
 			[src, dst, &src_country, &dst_country](COUNTRY& country) {
 
 				if(country.id == src || countries_eslimitrofe(country.id, src)) {

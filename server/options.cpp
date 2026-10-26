@@ -39,24 +39,24 @@
 namespace teg::server
 {
 
-TEG_STATUS option_conqworld(int fd, char *str);
-TEG_STATUS option_conqworld_view(void);
-TEG_STATUS option_cmission(int fd, char *str);
-TEG_STATUS option_cmission_view(void);
-TEG_STATUS option_fog_of_war(int fd, char *str);
-TEG_STATUS option_fog_of_war_view(void);
-TEG_STATUS option_armies(int fd, char *str);
-TEG_STATUS option_armies_view(void);
-TEG_STATUS option_seed(int fd, char *str);
-TEG_STATUS option_seed_view(void);
-TEG_STATUS option_help(int fd, char *str);
+TEG_STATUS option_conqworld(ServerState& state, int fd, char *str);
+TEG_STATUS option_conqworld_view(ServerState& state);
+TEG_STATUS option_cmission(ServerState& state, int fd, char *str);
+TEG_STATUS option_cmission_view(ServerState& state);
+TEG_STATUS option_fog_of_war(ServerState& state, int fd, char *str);
+TEG_STATUS option_fog_of_war_view(ServerState& state);
+TEG_STATUS option_armies(ServerState& state, int fd, char *str);
+TEG_STATUS option_armies_view(ServerState& state);
+TEG_STATUS option_seed(ServerState& state, int fd, char *str);
+TEG_STATUS option_seed_view(ServerState& state);
+TEG_STATUS option_help(ServerState& state, int fd, char *str);
 
-TEG_STATUS option_lookup(int fd, PARSER *p);
+TEG_STATUS option_lookup(ServerState& state, int fd, PARSER *p);
 
 struct {
 	char const *label;
-	TEG_STATUS(*func)(int, char*);
-	TEG_STATUS(*func_view)();
+	TEG_STATUS(*func)(ServerState&, int, char*);
+	TEG_STATUS(*func_view)(ServerState&);
 	char const *help;
 } options[] = {
 	{ OPTION_CONQWORLD, option_conqworld, option_conqworld_view, N_("Conquer the world, or play with secret missions") },
@@ -68,23 +68,23 @@ struct {
 };
 #define	NOPTIONS  (sizeof(options)/sizeof(options[0]))
 
-TEG_STATUS option_conqworld_view(void)
+TEG_STATUS option_conqworld_view(ServerState& state)
 {
-	con_text_out_wop(M_INF, _("'%s' variable is set to: %s\n"),
+	con_text_out_wop(state, M_INF, _("'%s' variable is set to: %s\n"),
 	                 OPTION_CONQWORLD,
-	                 (!g_game.mission?_("TRUE"):_("FALSE"))
+	                 (!state.game.mission?_("TRUE"):_("FALSE"))
 	                );
 	return TEG_STATUS_SUCCESS;
 }
-TEG_STATUS option_conqworld(int fd, char *str)
+TEG_STATUS option_conqworld(ServerState& state, int fd, char *str)
 {
 	int a, b;
 
 	if(str && strlen(str) !=0) {
 		a = atoi(str);
-		b = !g_game.mission;
-		if(mission_set(!a) == TEG_STATUS_SUCCESS) {
-			con_text_out_wop(M_INF, _("Setting %s variable to: %s -> %s\n"),
+		b = !state.game.mission;
+		if(mission_set(state, !a) == TEG_STATUS_SUCCESS) {
+			con_text_out_wop(state, M_INF, _("Setting %s variable to: %s -> %s\n"),
 			                 OPTION_CONQWORLD,
 			                 (b?_("TRUE"):_("FALSE")),
 			                 (a?_("TRUE"):_("FALSE"))
@@ -93,36 +93,36 @@ TEG_STATUS option_conqworld(int fd, char *str)
 			goto error;
 		}
 	} else {
-		option_conqworld_view();
+		option_conqworld_view(state);
 	}
 	return TEG_STATUS_SUCCESS;
 
 error:
 	if(fd==CONSOLE_FD) {
-		con_text_out_wop(M_ERR, _("Error setting %s variable.\n"), OPTION_CONQWORLD);
+		con_text_out_wop(state, M_ERR, _("Error setting %s variable.\n"), OPTION_CONQWORLD);
 	}
 
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS option_cmission_view(void)
+TEG_STATUS option_cmission_view(ServerState& state)
 {
-	con_text_out_wop(M_INF, _("'%s' variable is set to: %s\n"),
+	con_text_out_wop(state, M_INF, _("'%s' variable is set to: %s\n"),
 	                 OPTION_CMISSION,
-	                 (g_game.cmission?_("TRUE"):_("FALSE"))
+	                 (state.game.cmission?_("TRUE"):_("FALSE"))
 	                );
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_cmission(int fd, char *str)
+TEG_STATUS option_cmission(ServerState& state, int fd, char *str)
 {
 	int a, b;
 
 	if(str && strlen(str) !=0) {
 		a = atoi(str);
-		b = g_game.cmission;
-		if(mission_common_mission(a) == TEG_STATUS_SUCCESS) {
-			con_text_out_wop(M_INF, _("Setting %s variable to: %s -> %s\n"),
+		b = state.game.cmission;
+		if(mission_common_mission(state, a) == TEG_STATUS_SUCCESS) {
+			con_text_out_wop(state, M_INF, _("Setting %s variable to: %s -> %s\n"),
 			                 OPTION_CMISSION,
 			                 (b?_("TRUE"):_("FALSE")),
 			                 (a?_("TRUE"):_("FALSE"))
@@ -131,36 +131,36 @@ TEG_STATUS option_cmission(int fd, char *str)
 			goto error;
 		}
 	} else {
-		option_cmission_view();
+		option_cmission_view(state);
 	}
 	return TEG_STATUS_SUCCESS;
 
 error:
 	if(fd==CONSOLE_FD) {
-		con_text_out_wop(M_ERR, _("Error setting %s variable.\n"), OPTION_CMISSION);
+		con_text_out_wop(state, M_ERR, _("Error setting %s variable.\n"), OPTION_CMISSION);
 	}
 
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS option_fog_of_war_view(void)
+TEG_STATUS option_fog_of_war_view(ServerState& state)
 {
-	con_text_out_wop(M_INF, _("'%s' variable is set to: %s\n"),
+	con_text_out_wop(state, M_INF, _("'%s' variable is set to: %s\n"),
 	                 OPTION_FOG_OF_WAR,
-	                 (g_game.fog_of_war?_("TRUE"):_("FALSE"))
+	                 (state.game.fog_of_war?_("TRUE"):_("FALSE"))
 	                );
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_fog_of_war(int fd, char *str)
+TEG_STATUS option_fog_of_war(ServerState& state, int fd, char *str)
 {
 	int a, b;
 
 	if(str && strlen(str) !=0) {
 		a = atoi(str);
-		b = g_game.fog_of_war;
-		if(fow_set_mode(a) == TEG_STATUS_SUCCESS) {
-			con_text_out_wop(M_INF, _("Setting %s variable to: %s -> %s\n"),
+		b = state.game.fog_of_war;
+		if(fow_set_mode(state, a) == TEG_STATUS_SUCCESS) {
+			con_text_out_wop(state, M_INF, _("Setting %s variable to: %s -> %s\n"),
 			                 OPTION_FOG_OF_WAR,
 			                 (b?_("TRUE"):_("FALSE")),
 			                 (a?_("TRUE"):_("FALSE"))
@@ -169,25 +169,25 @@ TEG_STATUS option_fog_of_war(int fd, char *str)
 			goto error;
 		}
 	} else {
-		option_fog_of_war_view();
+		option_fog_of_war_view(state);
 	}
 	return TEG_STATUS_SUCCESS;
 
 error:
 	if(fd==CONSOLE_FD) {
-		con_text_out_wop(M_ERR, _("Error setting %s variable.\n"), OPTION_CMISSION);
+		con_text_out_wop(state, M_ERR, _("Error setting %s variable.\n"), OPTION_CMISSION);
 	}
 
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS option_armies_view(void)
+TEG_STATUS option_armies_view(ServerState& state)
 {
-	con_text_out_wop(M_INF, _("'%s' variable is set to: (%d,%d)\n"), OPTION_ARMIES, g_game.fichas, g_game.fichas2);
+	con_text_out_wop(state, M_INF, _("'%s' variable is set to: (%d,%d)\n"), OPTION_ARMIES, state.game.fichas, state.game.fichas2);
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_armies(int fd, char *str)
+TEG_STATUS option_armies(ServerState& state, int fd, char *str)
 {
 	int armies1;
 	int armies2;
@@ -195,7 +195,7 @@ TEG_STATUS option_armies(int fd, char *str)
 
 	if(str && strlen(str)!=0) {
 
-		if(JUEGO_EMPEZADO) {
+		if(game_started(state)) {
 			goto error;
 		}
 
@@ -212,25 +212,25 @@ TEG_STATUS option_armies(int fd, char *str)
 		}
 
 		if(armies1 && armies2) {
-			g_game.fichas = armies1;
-			g_game.fichas2 = armies2;
+			state.game.fichas = armies1;
+			state.game.fichas2 = armies2;
 		} else {
 			goto error;
 		}
 	}
-	option_armies_view();
+	option_armies_view(state);
 	return TEG_STATUS_SUCCESS;
 error:
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS option_seed_view(void)
+TEG_STATUS option_seed_view(ServerState& state)
 {
-	con_text_out_wop(M_INF, _("'%s' variable is set to: %u\n"), OPTION_SEED, g_game.seed);
+	con_text_out_wop(state, M_INF, _("'%s' variable is set to: %u\n"), OPTION_SEED, state.game.seed);
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_seed(int fd, char *str)
+TEG_STATUS option_seed(ServerState& state, int fd, char *str)
 {
 	unsigned int seed;
 
@@ -241,17 +241,17 @@ TEG_STATUS option_seed(int fd, char *str)
 		}
 
 		seed = atoi(str);
-		g_game.seed = seed;
+		state.game.seed = seed;
 		srand(seed);
 	}
 
-	option_seed_view();
+	option_seed_view(state);
 	return TEG_STATUS_SUCCESS;
 error:
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS option_help(int fd, char *str)
+TEG_STATUS option_help(ServerState&, int fd, char *str)
 {
 	for(unsigned i=0; i<NOPTIONS; i++) {
 		if(options[i].func) {
@@ -261,12 +261,12 @@ TEG_STATUS option_help(int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_lookup(int fd, PARSER *p)
+TEG_STATUS option_lookup(ServerState& state, int fd, PARSER *p)
 {
 	for(unsigned i = 0; i < NOPTIONS; i++) {
 		if(strcasecmp(p->token, options[i].label)==0) {
 			if(options[i].func) {
-				return((options[i].func)(fd, p->value));
+				return((options[i].func)(state, fd, p->value));
 			}
 
 			return TEG_STATUS_TOKENNULL;
@@ -276,24 +276,24 @@ TEG_STATUS option_lookup(int fd, PARSER *p)
 	return TEG_STATUS_TOKENNOTFOUND;
 }
 
-TEG_STATUS option_view(int fd, char *str)
+TEG_STATUS option_view(ServerState& state, int fd, char *str)
 {
 	for(unsigned i = 0; i < NOPTIONS; i++) {
 		if(options[i].func_view) {
-			(options[i].func_view)();
+			(options[i].func_view)(state);
 		}
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS option_parse(int fd, char *str)
+TEG_STATUS option_parse(ServerState& state, int fd, char *str)
 {
 	int i;
 	PARSER p{str, DELIM{'='}, DELIM{.valid=false}};
 
 	do {
 		if((i=p.parse())) {
-			if(option_lookup(fd, &p) == TEG_STATUS_CONNCLOSED) {
+			if(option_lookup(state, fd, &p) == TEG_STATUS_CONNCLOSED) {
 				return TEG_STATUS_CONNCLOSED;
 			}
 		}

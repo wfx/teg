@@ -26,16 +26,18 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 /*! loads the scores from and xml file */
-TEG_STATUS xmlscores_load(void);
+TEG_STATUS xmlscores_load(ServerState& state);
 
 /*! Save the current high scores into the home directory. */
-void xmlscores_save(void);
+void xmlscores_save(ServerState& state);
 
 /*! insert a score from a SPLAYER structure */
-TEG_STATUS scores_insert_player(PSPLAYER pJ);
+TEG_STATUS scores_insert_player(ServerState& state, PSPLAYER pJ);
 
 /*! dumps to top high scores in parseable protocol format */
-TEG_STATUS scores_dump(char *strout, size_t buflen);
+TEG_STATUS scores_dump(ServerState& state, char *strout, size_t buflen);
 
 }

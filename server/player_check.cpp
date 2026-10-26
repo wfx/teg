@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "player.h"
-#include "globals.h"
+#include "state.h"
 #include "../common/country.h"
 
 #include <gtest/gtest.h>
@@ -74,17 +74,18 @@ TEST(player, is_playing)
 
 TEST(player, lister_countries)
 {
-	countries_init(g_game.common);
-	g_game.common.countries[0].numjug = 23;
-	g_game.common.countries[1].numjug = 23;
-	g_game.common.countries[35].numjug = 23;
+	ServerState state;
+	countries_init(state.game.common);
+	state.game.common.countries[0].numjug = 23;
+	state.game.common.countries[1].numjug = 23;
+	state.game.common.countries[35].numjug = 23;
 
 	SPLAYER player{};
 	player.numjug = 23;
 
 	int continent_counts[CONTINENTE_LAST] = {0};
 
-	player_listar_countries(&player, continent_counts);
+	player_listar_countries(state, &player, continent_counts);
 
 	int const ref[CONTINENTE_LAST] = {
 		[CONTINENTE_AMERICASUR] = 2,
@@ -117,6 +118,7 @@ TEST(player, army_count)
 
 TEST(player, clear_turn)
 {
+	ServerState state;
 	const int player_number = 42;
 	SPLAYER player{};
 	player.numjug = player_number;
@@ -130,13 +132,13 @@ TEST(player, clear_turn)
 	};
 
 	for(std::size_t i=0; i<COUNTRIES_CANT; i++) {
-		g_game.common.countries[i].numjug = belongs_to_player(i)
-		                                    ? 42
-		                                    : 14;
-		g_game.common.countries[i].ejer_reagrupe = i;
+		state.game.common.countries[i].numjug = belongs_to_player(i)
+		                                        ? 42
+		                                        : 14;
+		state.game.common.countries[i].ejer_reagrupe = i;
 	}
 
-	player_clear_turn(&player);
+	player_clear_turn(state, &player);
 	EXPECT_EQ(0, player.turno_conq);
 	EXPECT_EQ(PLAYER_STATUS_IDLE, player.estado);
 	EXPECT_EQ(-1, player.country_src);
@@ -144,9 +146,9 @@ TEST(player, clear_turn)
 
 	for(std::size_t i=0; i<COUNTRIES_CANT; i++) {
 		if(belongs_to_player(i)) {
-			EXPECT_EQ(0, g_game.common.countries[i].ejer_reagrupe) << i;
+			EXPECT_EQ(0, state.game.common.countries[i].ejer_reagrupe) << i;
 		} else {
-			EXPECT_EQ(i, g_game.common.countries[i].ejer_reagrupe) << i;
+			EXPECT_EQ(i, state.game.common.countries[i].ejer_reagrupe) << i;
 		}
 	}
 }

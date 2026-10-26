@@ -30,7 +30,7 @@
 namespace teg::server
 {
 
-void netall_printf(char const *format, ...)
+void netall_printf(ServerState& state, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
@@ -41,7 +41,7 @@ void netall_printf(char const *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	player_map([buf](PSPLAYER j) {
+	player_map(state, [buf](PSPLAYER j) {
 		if(j->fd>0) {
 			net_print(j->fd, buf);
 		}

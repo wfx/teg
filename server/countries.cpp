@@ -26,37 +26,37 @@
 namespace teg::server
 {
 
-void countries_repartir()
+void countries_repartir(ServerState& state)
 {
 	int i;
 	int j=0;
 	int real_j;
-	int resto = COUNTRIES_CANT%g_game.playing;
+	int resto = COUNTRIES_CANT%state.game.playing;
 	PCOUNTRY p;
 
 	for(i=0; i < static_cast<int>(COUNTRIES_CANT)-resto; i++) {
-		p = get_random_country([](int i) {
-			return country_libre(g_game.common, i);
+		p = get_random_country(state, [&state](int i) {
+			return country_libre(state.game.common, i);
 		});
-		player_from_indice(j, &real_j);
-		player_asignarcountry(real_j, p);
+		player_from_indice(state, j, &real_j);
+		player_asignarcountry(state, real_j, p);
 		p->ejercitos=1;
 		j++;
-		j = j % g_game.playing;
+		j = j % state.game.playing;
 	}
 
 	/* toma un player al azar, y a partir de el le da un country a cada uno */
 	if(resto) {
-		j = random_between(0, g_game.playing-1);
+		j = random_between(0, state.game.playing-1);
 		for(i=0; i<resto; i++) {
-			p = get_random_country([](int i) {
-				return country_libre(g_game.common, i);
+			p = get_random_country(state, [&state](int i) {
+				return country_libre(state.game.common, i);
 			});
-			player_from_indice(j, &real_j);
-			player_asignarcountry(real_j, p);
+			player_from_indice(state, j, &real_j);
+			player_asignarcountry(state, real_j, p);
 			p->ejercitos=1;
 			j++;
-			j = j % g_game.playing;
+			j = j % state.game.playing;
 		}
 	}
 }

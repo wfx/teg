@@ -23,10 +23,12 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 /**
  * This function takes place at the beginning of a game, and randomly assign
  * each country to a player.
  */
-void countries_repartir();
+void countries_repartir(ServerState& state);
 
 }

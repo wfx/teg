@@ -119,7 +119,8 @@ if get_option('tests')
   test('tegtest', tegtest, protocol: 'gtest')
 
   tegservertest = executable('tegservertest',
-    files('server/main.cpp', 'server/helper_check.cpp', 'server/player_check.cpp'),
+    files('server/main.cpp', 'server/helper_check.cpp', 'server/player_check.cpp',
+          'server/state_check.cpp'),
     cpp_args: ['-DTEGSERVER_OMIT_MAIN=1'],
     include_directories: top_inc,
     link_with: [libtegserver, libtegcommon],

@@ -28,6 +28,8 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 /// server player data structure
 struct SPLAYER {
 	int numjug;				/**< player number */
@@ -73,31 +75,31 @@ void player_initplayer(PSPLAYER j);
 void player_init(void);
 
 /// \brief Create a new player datastructure and populate it with \p j.
-PSPLAYER player_ins(PSPLAYER j, bool esplayer);
+PSPLAYER player_ins(ServerState& state, PSPLAYER j, bool esplayer);
 
 /// \brief Let a player join
-#define player_ins_player(a) player_ins(a,true)
+#define player_ins_player(state, a) player_ins(state, a,true)
 
 /// \brief Let an observer join
-#define player_ins_ro(a) player_ins(a,false)
+#define player_ins_ro(state, a) player_ins(state, a,false)
 
 /// \brief Deletes a player
-void player_del_hard(PSPLAYER j);
+void player_del_hard(ServerState& state, PSPLAYER j);
 
 /// \brief Puts a player in a GAME OVER state
-TEG_STATUS player_del_soft(PSPLAYER pJ);
+TEG_STATUS player_del_soft(ServerState& state, PSPLAYER pJ);
 
 /// \brief delete all players
-TEG_STATUS player_flush();
+TEG_STATUS player_flush(ServerState& state);
 
 /// \brief Assigns a country \p p to a player number \p numjug
-TEG_STATUS player_asignarcountry(int numjug, PCOUNTRY p);
+TEG_STATUS player_asignarcountry(ServerState& state, int numjug, PCOUNTRY p);
 
 /// \brief given a players' number it returns a pointer the player
-TEG_STATUS player_whois(int numjug, PSPLAYER *j);
+TEG_STATUS player_whois(ServerState& state, int numjug, PSPLAYER *j);
 
 /// \brief given a players' number it returns a pointer the player
-TEG_STATUS player_whoisfd(int fd, PSPLAYER *j);
+TEG_STATUS player_whoisfd(ServerState& state, int fd, PSPLAYER *j);
 
 /**
  * \brief tells if a player is in a given state
@@ -106,7 +108,7 @@ TEG_STATUS player_whoisfd(int fd, PSPLAYER *j);
  *   * (\p exact == true ) in \p state
  *   * (\p exact == false) at least in \p state
  */
-bool player_esta_xxx(int fd, PLAYER_STATUS state, bool exact);
+bool player_esta_xxx(ServerState& state, int fd, PLAYER_STATUS wanted, bool exact);
 
 /**
  * \brief Search a player and tells if this player is in a given state
@@ -115,16 +117,16 @@ bool player_esta_xxx(int fd, PLAYER_STATUS state, bool exact);
  *   * (\p exact == true ) in \p state
  *   * (\p exact == false) at least in \p state
  */
-bool player_esta_xxx_plus(int fd, PLAYER_STATUS state, bool exact, PSPLAYER *j);
+bool player_esta_xxx_plus(ServerState& state, int fd, PLAYER_STATUS wanted, bool exact, PSPLAYER *j);
 
 /// \brief quantity of countries per contient that a player has
-void player_listar_countries(PSPLAYER pJ, int *countries);
+void player_listar_countries(ServerState& state, PSPLAYER pJ, int *countries);
 
 /// \brief Calculate the bitfield where the player has at least one country
-void player_listar_conts(PSPLAYER pJ, unsigned long *ret);
+void player_listar_conts(ServerState& state, PSPLAYER pJ, unsigned long *ret);
 
 /// \brief Initialize the start turn variables
-void player_clear_turn(PSPLAYER j);
+void player_clear_turn(ServerState& state, PSPLAYER j);
 
 /** Calculate the number of armies the player can place in the next turn,
  *  without additional armies from card exchanges or complete conquered
@@ -133,7 +135,7 @@ void player_clear_turn(PSPLAYER j);
 int player_fichasc_cant(PSPLAYER pJ);
 
 /// \brief put all the players in a given state
-void player_all_set_status(PLAYER_STATUS);
+void player_all_set_status(ServerState& state, PLAYER_STATUS);
 
 /// \brief Tell if the player lost the game
 bool player_is_lost(PSPLAYER pJ);
@@ -142,13 +144,13 @@ bool player_is_lost(PSPLAYER pJ);
 ///
 /// \warning This function must NEVER be called from within player_map, since it
 /// can remove players from the list.
-void player_poner_perdio(PSPLAYER pJ);
+void player_poner_perdio(ServerState& state, PSPLAYER pJ);
 
 /// \brief returns a free number for the player
-TEG_STATUS player_numjug_libre(int *libre);
+TEG_STATUS player_numjug_libre(ServerState& state, int *libre);
 
 /// \brief  given an index of player [0..MAX_PLAYERS] return the numjug of it
-TEG_STATUS player_from_indice(int j, int *real_j);
+TEG_STATUS player_from_indice(ServerState& state, int j, int *real_j);
 
 enum class PlayerMapPolicy {
 	players_only,
@@ -156,32 +158,32 @@ enum class PlayerMapPolicy {
 };
 
 /// \brief perform \p func on every player
-void player_map(jug_map_func func,
+void player_map(ServerState& state, jug_map_func func,
                 PlayerMapPolicy policy=PlayerMapPolicy::players_only);
 
 /// \brief finds a player given its name
-TEG_STATUS player_findbyname(const char *name, PSPLAYER *pJ);
+TEG_STATUS player_findbyname(ServerState& state, const char *name, PSPLAYER *pJ);
 
 /// \brief Assigns a name to the player that does not conflict with another names
-void player_fillname(PSPLAYER pJ, char *name);
+void player_fillname(ServerState& state, PSPLAYER pJ, char *name);
 
 /// \brief Tells if a player is playing
 bool player_is_playing(PSPLAYER pJ);
 
 /*! return the PSPLAYER that is disconnected */
-PSPLAYER player_return_disconnected(PSPLAYER pJ);
+PSPLAYER player_return_disconnected(ServerState& state, PSPLAYER pJ);
 
 /*! return TRUE if pJ is a disconnected player */
-bool player_is_disconnected(PSPLAYER pJ);
+bool player_is_disconnected(ServerState& state, PSPLAYER pJ);
 
 /// Removes all disconnected players from the players list
-void player_delete_all_disconnected();
+void player_delete_all_disconnected(ServerState& state);
 
 /*! insert all players in scores but the ones in GAMEOVER */
-void player_insert_scores(PSPLAYER pJ);
+void player_insert_scores(ServerState& state, PSPLAYER pJ);
 
 /*! kick robots when there are no humans */
-TEG_STATUS player_kick_unparent_robots(void);
+TEG_STATUS player_kick_unparent_robots(ServerState& state);
 
 /** Find the entry after \p after in the player list which fullfills predicate
  * \p acceptable. This function will roll over after the end of the list and
@@ -189,16 +191,16 @@ TEG_STATUS player_kick_unparent_robots(void);
  *
  * \return The following player if there is one fullfilling the predicate,
  *         nullptr otherwise. */
-PSPLAYER find_next_player(SPLAYER* after, std::function<bool(SPLAYER&)> acceptable);
+PSPLAYER find_next_player(ServerState& state, SPLAYER* after, std::function<bool(SPLAYER&)> acceptable);
 
-#define SPLAYER_CONNECTED(a) player_esta_xxx(a,PLAYER_STATUS_CONNECTED,0)
-#define SPLAYER_HABILITADO(a) player_esta_xxx(a,PLAYER_STATUS_HABILITADO,0)
-#define SPLAYER_HABILITADO_P(a,j) player_esta_xxx_plus(a,PLAYER_STATUS_HABILITADO,0,j)
-#define SPLAYER_FICHAS(a) player_esta_xxx(a,PLAYER_STATUS_FICHAS,1)
-#define SPLAYER_FICHAS2(a) player_esta_xxx(a,PLAYER_STATUS_FICHAS2,1)
-#define SPLAYER_ATAQUE(a) player_esta_xxx(a,PLAYER_STATUS_ATAQUE,1)
-#define SPLAYER_ATAQUE_P(a,j) player_esta_xxx_plus(a,PLAYER_STATUS_ATAQUE,1,j)
-#define SPLAYER_TROPAS(a) player_esta_xxx(a,PLAYER_STATUS_TROPAS,1)
-#define SPLAYER_TROPAS_P(a,j) player_esta_xxx_plus(a,PLAYER_STATUS_TROPAS,1,j)
+#define SPLAYER_CONNECTED(state, a) player_esta_xxx(state, a,PLAYER_STATUS_CONNECTED,0)
+#define SPLAYER_HABILITADO(state, a) player_esta_xxx(state, a,PLAYER_STATUS_HABILITADO,0)
+#define SPLAYER_HABILITADO_P(state, a,j) player_esta_xxx_plus(state, a,PLAYER_STATUS_HABILITADO,0,j)
+#define SPLAYER_FICHAS(state, a) player_esta_xxx(state, a,PLAYER_STATUS_FICHAS,1)
+#define SPLAYER_FICHAS2(state, a) player_esta_xxx(state, a,PLAYER_STATUS_FICHAS2,1)
+#define SPLAYER_ATAQUE(state, a) player_esta_xxx(state, a,PLAYER_STATUS_ATAQUE,1)
+#define SPLAYER_ATAQUE_P(state, a,j) player_esta_xxx_plus(state, a,PLAYER_STATUS_ATAQUE,1,j)
+#define SPLAYER_TROPAS(state, a) player_esta_xxx(state, a,PLAYER_STATUS_TROPAS,1)
+#define SPLAYER_TROPAS_P(state, a,j) player_esta_xxx_plus(state, a,PLAYER_STATUS_TROPAS,1,j)
 
 }

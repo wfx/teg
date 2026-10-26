@@ -28,7 +28,7 @@
 namespace teg::server
 {
 
-TEG_STATUS mission_chequear(PSPLAYER pJ)
+TEG_STATUS mission_chequear(ServerState& state, PSPLAYER pJ)
 {
 	int i;
 	int countries[CONT_CANT];
@@ -36,7 +36,7 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 	assert(pJ);
 
 	if(pJ->mission == -1) {
-		if(mission_asignar(pJ) != TEG_STATUS_SUCCESS) {
+		if(mission_asignar(state, pJ) != TEG_STATUS_SUCCESS) {
 			return TEG_STATUS_ERROR;
 		}
 	}
@@ -44,10 +44,10 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 
 	memset(countries, 0, sizeof(countries));
 
-	player_listar_countries(pJ, countries);
+	player_listar_countries(state, pJ, countries);
 
 	/* 1st part. Check that the player has the correct number of countries */
-	if(g_game.cmission && pJ->mission != MISSION_CONQWORLD) {
+	if(state.game.cmission && pJ->mission != MISSION_CONQWORLD) {
 		if(pJ->tot_countries >= mission_get(MISSION_COMMON).tot_countries) {
 			pJ->mission = MISSION_COMMON;
 			goto gano;
@@ -68,13 +68,13 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 		int j, k, i_tmp;
 		int salir=0;
 		for(j=0; j<static_cast<int>(COUNTRIES_CANT) && salir==0; j++) {
-			if(g_game.common.countries[j].numjug != pJ->numjug) {
+			if(state.game.common.countries[j].numjug != pJ->numjug) {
 				continue;
 			}
 			i_tmp=0;
 
 			for(k=0; k<static_cast<int>(COUNTRIES_CANT); k++) {
-				if(g_game.common.countries[k].numjug != pJ->numjug) {
+				if(state.game.common.countries[k].numjug != pJ->numjug) {
 					continue;
 				}
 				if(countries_eslimitrofe(j, k)) {
@@ -100,7 +100,7 @@ no_gano:
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS mission_asignar(PSPLAYER pJ)
+TEG_STATUS mission_asignar(ServerState& state, PSPLAYER pJ)
 {
 	int i, obj;
 
@@ -111,12 +111,12 @@ TEG_STATUS mission_asignar(PSPLAYER pJ)
 		return TEG_STATUS_SUCCESS;
 	}
 
-	if(g_game.mission_players.size() != static_cast<std::size_t>(missions_cant())) {
-		mission_init();
+	if(state.game.mission_players.size() != static_cast<std::size_t>(missions_cant())) {
+		mission_init(state);
 	}
 
 	/* Si se juega sin missions, es a conquistar el mundo */
-	if(!g_game.mission) {
+	if(!state.game.mission) {
 		pJ->mission = MISSION_CONQWORLD;	/* mission de conquistar al mundo */
 		return TEG_STATUS_SUCCESS;
 	}
@@ -126,15 +126,15 @@ TEG_STATUS mission_asignar(PSPLAYER pJ)
 	i = obj;
 
 	for(; i < missions_cant() ; i++) {
-		if(g_game.mission_players[i] == -1) {
-			g_game.mission_players[i] = pJ->numjug;
+		if(state.game.mission_players[i] == -1) {
+			state.game.mission_players[i] = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
 	}
 	for(i=0; i < obj ; i++) {
-		if(g_game.mission_players[i] == -1) {
-			g_game.mission_players[i] = pJ->numjug;
+		if(state.game.mission_players[i] == -1) {
+			state.game.mission_players[i] = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
@@ -143,36 +143,36 @@ TEG_STATUS mission_asignar(PSPLAYER pJ)
 	return TEG_STATUS_ERROR;
 }
 
-void mission_init()
+void mission_init(ServerState& state)
 {
-	g_game.mission_players.assign(missions_cant(), -1);
-	g_game.mission_players[MISSION_CONQWORLD] = 0;
-	g_game.mission_players[MISSION_COMMON] = 0;
+	state.game.mission_players.assign(missions_cant(), -1);
+	state.game.mission_players[MISSION_CONQWORLD] = 0;
+	state.game.mission_players[MISSION_COMMON] = 0;
 }
 
-TEG_STATUS mission_set(bool a)
+TEG_STATUS mission_set(ServerState& state, bool a)
 {
-	if(JUEGO_EMPEZADO) {
+	if(game_started(state)) {
 		return TEG_STATUS_ERROR;
 	}
 
 	if(a!=0) {
 		a=1;
 	}
-	g_game.mission = a;
+	state.game.mission = a;
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS mission_common_mission(bool a)
+TEG_STATUS mission_common_mission(ServerState& state, bool a)
 {
-	if(JUEGO_EMPEZADO) {
+	if(game_started(state)) {
 		return TEG_STATUS_ERROR;
 	}
 
 	if(a!=0) {
 		a=1;
 	}
-	g_game.cmission= a;
+	state.game.cmission= a;
 	return TEG_STATUS_SUCCESS;
 }
 

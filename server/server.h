@@ -24,7 +24,7 @@
 #include "countries.h"
 #include "player.h"
 #include "turno.h"
-#include "globals.h"
+#include "state.h"
 #include "sernet.h"
 #include "../common/protocol.h"
 #include "play.h"

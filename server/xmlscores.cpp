@@ -98,7 +98,7 @@ static bool parseScore(xmlDocPtr doc, xmlNodePtr cur, PSCORES ret)
 	return true;
 }
 
-TEG_STATUS xmlscores_load(void)
+TEG_STATUS xmlscores_load(ServerState& state)
 {
 	char filename[512];
 	xmlDocPtr doc;
@@ -145,7 +145,7 @@ TEG_STATUS xmlscores_load(void)
 		if(!xmlStrcmp(cur->name, (const xmlChar *) "score")) {
 			SCORES score;
 			if(parseScore(doc, cur, &score)) {
-				insert_score(g_game.common.highscores, &score);
+				insert_score(state.game.common.highscores, &score);
 			}
 		} else {
 			fprintf(stderr, ("Wrong type (%s). score was expected\n"), cur->name);
@@ -179,7 +179,7 @@ static void save_single_score(PSCORES pS, void* user)
 	xmlscores_add(node, pS);
 }
 
-void xmlscores_save(void)
+void xmlscores_save(ServerState& state)
 {
 	xmlDocPtr doc;
 	xmlNodePtr child;
@@ -190,7 +190,7 @@ void xmlscores_save(void)
 	child = xmlNewDocRawNode(doc, NULL, (xmlChar*)"teg_scores", NULL);
 
 	xmlDocSetRootElement(doc, child);
-	scores_map(g_game.common.highscores, save_single_score, (void*) child);
+	scores_map(state.game.common.highscores, save_single_score, (void*) child);
 
 	snprintf(filename,
 	         sizeof(filename)-1,
@@ -230,13 +230,13 @@ static void new_score_node(PSPLAYER pJ, PSCORES pS)
 	pS->date[ sizeof(pS->date) -1 ] = '\0';
 }
 
-TEG_STATUS scores_insert_player(PSPLAYER pJ)
+TEG_STATUS scores_insert_player(ServerState& state, PSPLAYER pJ)
 {
 	if(! pJ->is_player) {
 		return TEG_STATUS_ERROR;
 	}
 
-	stats_score(&pJ->player_stats, g_game.common.conts.data());
+	stats_score(&pJ->player_stats, state.game.common.conts.data());
 
 	if(pJ->player_stats.score == 0 && pJ->player_stats.armies_killed == 0) {
 		return TEG_STATUS_ERROR;
@@ -244,9 +244,9 @@ TEG_STATUS scores_insert_player(PSPLAYER pJ)
 
 	SCORES score;
 	new_score_node(pJ, &score);
-	insert_score(g_game.common.highscores, &score);
+	insert_score(state.game.common.highscores, &score);
 
-	xmlscores_save();
+	xmlscores_save(state);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -277,13 +277,13 @@ void appendScoreString(PSCORES pS, void* user)
 	as->delim = "\\";
 }
 
-TEG_STATUS scores_dump(char *strout, size_t len)
+TEG_STATUS scores_dump(ServerState& state, char *strout, size_t len)
 {
 	strout[0]=0; // zero out the string if there are no scores.
 	struct AppendString as = {
 		.dest = strout, .storage_remaining=len-1, .delim="", .valid=true
 	};
-	scores_map(g_game.common.highscores, appendScoreString, &as);
+	scores_map(state.game.common.highscores, appendScoreString, &as);
 	if(!as.valid) {
 		strout[0]=0; // something bad happened, so zero out the result
 		return TEG_STATUS_ERROR;
