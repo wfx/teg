@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "../common/common.h"
 #include "../common/state.h"
 #include "player.h"
@@ -45,6 +47,8 @@ typedef struct _sgame {
 	unsigned int seed;	/**< seed for random */
 	int gamenumber;		/**< game number */
 	int round_number;		/**< round number */
+
+	std::vector<int> mission_players;	/**< assigned player number per mission */
 
 	CommonState common;	/**< state shared with the client and the robot */
 } SGAME, *PSGAME;

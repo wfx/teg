@@ -25,9 +25,6 @@
 #include "cont.h"
 
 typedef struct _missions {
-	/// The player number which this mission is assigned to
-	int	player_number;
-
 	/// The name of the mission
 	char const *name;
 
@@ -47,10 +44,11 @@ enum {
 	MISSION_COMMON, ///< optional common mission: conquer 30 countries
 };
 
-extern MISSIONS g_missions[];
-
 /* returns the total number of missions that exists */
 int missions_cant();
+
+/// \return the definition of the mission with the given number
+MISSIONS const& mission_get(int number);
 
 /* return the name of a mission (translated) */
 std::string missions_get_name(int number);

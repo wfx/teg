@@ -18,7 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#include <type_traits>
+#include <array>
+#include <cassert>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
@@ -28,14 +29,17 @@
 #include "common.h"
 
 
-MISSIONS g_missions[]= {
+namespace
+{
+
+constexpr auto mission_definitions = std::to_array<MISSIONS>(
+{
 	// common mission, all time active: conquer the whole world
 	// NOTE: the array is positional; its order must match the MISSION_* enum,
 	// so that MISSION_CONQWORLD and MISSION_COMMON keep their indices.
 	{
-		.player_number=0,
 		.name=N_("Conquer the world"),
-		.continents={
+		.continents= {
 			[CONTINENTE_AMERICASUR]=CONT_AMERICASUR_CANT,
 			[CONTINENTE_AMERICANORTE]=CONT_AMERICANORTE_CANT,
 			[CONTINENTE_AFRICA]=CONT_AFRICA_CANT,
@@ -48,14 +52,11 @@ MISSIONS g_missions[]= {
 	},
 	// optional common mission: conquer 30 countries
 	{
-		.player_number=0,
 		.name=N_("Conquer 30 countries"),
 		.continents={0, 0, 0, 0, 0, 0},
 		.frontiering_countries=0,
 		.tot_countries=30
-	},
-	{
-		.player_number=-1,
+	}, {
 		.name=N_("Conquer &2,\n5 countries of &1 and\n4 countries of &4"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=0,
@@ -76,7 +77,6 @@ MISSIONS g_missions[]= {
 	 * etc, etc, encontes para evitar malos entendidos la desabilito
 	 */
 	{
-		.player_number=-1,
 		.name=N_("Conquer &0,\n7 countries of &4 and\n3 frontier countries"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=CONT_AMERICASUR_CANT,
@@ -92,7 +92,6 @@ MISSIONS g_missions[]= {
 #endif /* WITH_ALL_MISSIONS */
 
 	{
-		.player_number=-1,
 		.name=N_("Conquer &5 and\n2 countries of &0"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=2,
@@ -107,7 +106,6 @@ MISSIONS g_missions[]= {
 	},
 
 	{
-		.player_number=-1,
 		.name=N_("Conquer &4,\n4 countries of &5 and,\n2 of &0"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=2,
@@ -122,7 +120,6 @@ MISSIONS g_missions[]= {
 	},
 
 	{
-		.player_number=-1,
 		.name=N_("Conquer &1,\n2 countries of &3 and\n4 countries of &5"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=0,
@@ -137,7 +134,6 @@ MISSIONS g_missions[]= {
 	},
 
 	{
-		.player_number=-1,
 		.name=N_("Conquer 2 countries of &3,\n2 of &2, 2 of &0,\n3 of &4, 4 of &1,\nand 3 of &5"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=2,
@@ -152,7 +148,6 @@ MISSIONS g_missions[]= {
 	},
 
 	{
-		.player_number=-1,
 		.name=N_("Conquer &3,\nconquer &1 and,\n2 countries of &4"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=0,
@@ -167,7 +162,6 @@ MISSIONS g_missions[]= {
 	},
 
 	{
-		.player_number=-1,
 		.name=N_("Conquer &0,\nconquer &2 and,\n4 countries of &5"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=CONT_AMERICASUR_CANT,
@@ -182,7 +176,6 @@ MISSIONS g_missions[]= {
 	},
 
 	{
-		.player_number=-1,
 		.name=N_("Conquer &3,\nconquer &2 and,\n5 countries of &1"),
 		.continents={
 			[CONTINENTE_AMERICASUR]=0,
@@ -195,17 +188,25 @@ MISSIONS g_missions[]= {
 		.frontiering_countries=0,
 		.tot_countries=0
 	},
-};
-constexpr auto NRMISSIONS = std::extent<decltype(g_missions)>::value;
+});
+
+} // namespace
 
 int missions_cant()
 {
-	return NRMISSIONS;
+	return static_cast<int>(mission_definitions.size());
+}
+
+MISSIONS const& mission_get(int number)
+{
+	assert(number >= 0);
+	assert(static_cast<std::size_t>(number) < mission_definitions.size());
+	return mission_definitions[number];
 }
 
 std::string missions_get_name(int number)
 {
-	if((number < 0) || (((unsigned)number) >= NRMISSIONS)) {
+	if(number < 0 || static_cast<std::size_t>(number) >= mission_definitions.size()) {
 		return _("Unknown");
 	}
 	ContinentNames names{
@@ -216,5 +217,5 @@ std::string missions_get_name(int number)
 		_(g_conts[4].name),
 		_(g_conts[5].name),
 	};
-	return replace_continents(_(g_missions[number].name), names);
+	return replace_continents(_(mission_definitions[number].name), names);
 }

@@ -48,7 +48,7 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 
 	/* 1st part. Check that the player has the correct number of countries */
 	if(g_game.cmission && pJ->mission != MISSION_CONQWORLD) {
-		if(pJ->tot_countries >= g_missions[MISSION_COMMON].tot_countries) {
+		if(pJ->tot_countries >= mission_get(MISSION_COMMON).tot_countries) {
 			pJ->mission = MISSION_COMMON;
 			goto gano;
 		}
@@ -56,7 +56,7 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 
 	/* 2da parte. Chequear countries por contienente */
 	for(i=0; i<CONT_CANT; i++) {
-		if(countries[i] < g_missions[pJ->mission].continents[i]) {
+		if(countries[i] < mission_get(pJ->mission).continents[i]) {
 			goto no_gano;
 		}
 	}
@@ -64,7 +64,7 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 	/* TODO: 3ra parte. Chequear si vencio a los otros playeres */
 
 	/* TODO: 4ta parte. Chequear si tiene los countries limitrofes que se piden */
-	if((i=g_missions[pJ->mission].frontiering_countries)) {
+	if((i=mission_get(pJ->mission).frontiering_countries)) {
 		int j, k, i_tmp;
 		int salir=0;
 		for(j=0; j<static_cast<int>(COUNTRIES_CANT) && salir==0; j++) {
@@ -111,6 +111,10 @@ TEG_STATUS mission_asignar(PSPLAYER pJ)
 		return TEG_STATUS_SUCCESS;
 	}
 
+	if(g_game.mission_players.size() != static_cast<std::size_t>(missions_cant())) {
+		mission_init();
+	}
+
 	/* Si se juega sin missions, es a conquistar el mundo */
 	if(!g_game.mission) {
 		pJ->mission = MISSION_CONQWORLD;	/* mission de conquistar al mundo */
@@ -122,15 +126,15 @@ TEG_STATUS mission_asignar(PSPLAYER pJ)
 	i = obj;
 
 	for(; i < missions_cant() ; i++) {
-		if(g_missions[i].player_number == -1) {
-			g_missions[i].player_number = pJ->numjug;
+		if(g_game.mission_players[i] == -1) {
+			g_game.mission_players[i] = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
 	}
 	for(i=0; i < obj ; i++) {
-		if(g_missions[i].player_number == -1) {
-			g_missions[i].player_number = pJ->numjug;
+		if(g_game.mission_players[i] == -1) {
+			g_game.mission_players[i] = pJ->numjug;
 			pJ->mission = i;
 			return TEG_STATUS_SUCCESS;
 		}
@@ -141,13 +145,9 @@ TEG_STATUS mission_asignar(PSPLAYER pJ)
 
 void mission_init()
 {
-	int i;
-
-	for(i=0; i<missions_cant(); i++) {
-		g_missions[i].player_number = -1;
-	}
-	g_missions[MISSION_CONQWORLD].player_number = 0;
-	g_missions[MISSION_COMMON].player_number = 0;
+	g_game.mission_players.assign(missions_cant(), -1);
+	g_game.mission_players[MISSION_CONQWORLD] = 0;
+	g_game.mission_players[MISSION_COMMON] = 0;
 }
 
 TEG_STATUS mission_set(bool a)

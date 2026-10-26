@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common.h"
+#include "missions.h"
 
 #include <cstring>
 
@@ -26,6 +27,13 @@ TEST(Common, player_status_name)
 	EXPECT_STREQ("ending turn", player_status_name(PLAYER_STATUS_TURNOEND));
 	EXPECT_STREQ("unknown", player_status_name(-1));
 	EXPECT_STREQ("unknown", player_status_name(PLAYER_STATUS_LAST));
+}
+
+TEST(Common, missions)
+{
+	EXPECT_GT(missions_cant(), 2);
+	EXPECT_STREQ("Conquer the world", mission_get(MISSION_CONQWORLD).name);
+	EXPECT_EQ(30, mission_get(MISSION_COMMON).tot_countries);
 }
 
 TEST(Common, cards_for_this_exchange)
