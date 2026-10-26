@@ -69,6 +69,11 @@ static ssize_t writen(int fd, const void *vptr, size_t n)
 	return(n);
 }
 
+ssize_t net_writen(int fd, const void *vptr, size_t n)
+{
+	return writen(fd, vptr, n);
+}
+
 ssize_t net_readline(int fd, void *vptr, size_t maxlen)
 {
 	ssize_t rc;

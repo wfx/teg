@@ -1,6 +1,7 @@
 libtegcommon = static_library('teg_common',
   files(
     'net.cpp',
+    'transport.cpp',
     'share.cpp',
     'common.cpp',
     'parser.cpp',

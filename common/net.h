@@ -23,6 +23,7 @@
 #include <sys/types.h>
 
 ssize_t net_readline(int sock, void *gs, size_t maxlen);
+ssize_t net_writen(int sock, const void *vptr, size_t n);
 int net_printf(int sock, const char *format, ...);
 int net_print(int sock, const char *msg);
 int net_listen(const char *host, int port);

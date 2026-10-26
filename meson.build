@@ -109,6 +109,7 @@ if get_option('tests')
       'common/scores_check.cpp',
       'common/parser_check.cpp',
       'common/common_check.cpp',
+      'common/transport_check.cpp',
       'client/helper_check.cpp',
       'client/state_check.cpp',
       'client/gui-null/null.cpp',
