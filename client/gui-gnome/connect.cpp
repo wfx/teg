@@ -307,9 +307,9 @@ static GtkWidget *create_color_button(int i)
 	gtk_widget_show(canvas);
 
 	if(i==0) {
-		boton_color[i] = gtk_radio_button_new_with_label(NULL, _(g_colores[i]));
+		boton_color[i] = gtk_radio_button_new_with_label(NULL, _(color_name(i)));
 	} else {
-		boton_color[i] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(boton_color[0]), _(g_colores[i]));
+		boton_color[i] = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(boton_color[0]), _(color_name(i)));
 	}
 
 	gtk_box_pack_start(GTK_BOX(vbox), boton_color[i], TRUE, TRUE, 0);

@@ -63,7 +63,9 @@ enum ARMY {
 	ARMY_ROSA = 4,
 	ARMY_VERDE = 5
 };
-extern char const *g_colores[];
+
+/// \return the untranslated name of the given army color
+char const* color_name(int index);
 
 inline int random_between(int min, int max)
 {
@@ -104,7 +106,9 @@ enum PLAYER_STATUS {
 
 	PLAYER_STATUS_LAST		/**< unreacheble state */
 };
-extern char const *g_estados[];
+
+/// \return the untranslated name of the given player status
+char const* player_status_name(int index);
 
 /// Read a random number from the linux/bsd kernel
 int get_int_from_dev_random(void);

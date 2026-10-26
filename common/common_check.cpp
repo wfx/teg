@@ -6,6 +6,28 @@
 
 #include <gtest/gtest.h>
 
+TEST(Common, color_name)
+{
+	EXPECT_STREQ("red", color_name(ARMY_ROJO));
+	EXPECT_STREQ("yellow", color_name(ARMY_AMARILLO));
+	EXPECT_STREQ("blue", color_name(ARMY_AZUL));
+	EXPECT_STREQ("black", color_name(ARMY_NEGRO));
+	EXPECT_STREQ("pink", color_name(ARMY_ROSA));
+	EXPECT_STREQ("green", color_name(ARMY_VERDE));
+	EXPECT_STREQ("unknown", color_name(-1));
+	EXPECT_STREQ("unknown", color_name(maximum_player_count));
+}
+
+TEST(Common, player_status_name)
+{
+	EXPECT_STREQ("disconnected", player_status_name(PLAYER_STATUS_DESCONECTADO));
+	EXPECT_STREQ("connected", player_status_name(PLAYER_STATUS_CONNECTED));
+	EXPECT_STREQ("game over", player_status_name(PLAYER_STATUS_GAMEOVER));
+	EXPECT_STREQ("ending turn", player_status_name(PLAYER_STATUS_TURNOEND));
+	EXPECT_STREQ("unknown", player_status_name(-1));
+	EXPECT_STREQ("unknown", player_status_name(PLAYER_STATUS_LAST));
+}
+
 TEST(Common, cards_for_this_exchange)
 {
 	EXPECT_EQ(0, cards_for_this_exchange(0));

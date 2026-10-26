@@ -140,7 +140,7 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 	       pS->score,
 	       pS->date,
 	       pS->name,
-	       _(g_colores[color]),
+	       _(color_name(color)),
 	       pS->human ? _("yes") : _("no")
 	      );
 }
@@ -219,8 +219,8 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 			           pJ->tot_exchanges,
 			           pJ->name,
 			           pJ->human ? _("yes") : _("no"),
-			           _(g_colores[color]),
-			           _(g_estados[pJ->estado]),
+			           _(color_name(color)),
+			           _(player_status_name(pJ->estado)),
 			           pJ->addr
 			          );
 		} else {

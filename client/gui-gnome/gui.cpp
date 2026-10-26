@@ -101,7 +101,7 @@ TEG_STATUS gui_lost(int numjug)
 		teg_dialog(_("You lost"), _("Game Over"), buf);
 
 	} else {
-		snprintf(buf, sizeof(buf)-1, _("Player %s(%s) lost the game"), pJ->name, _(g_colores[pJ->color]));
+		snprintf(buf, sizeof(buf)-1, _("Player %s(%s) lost the game"), pJ->name, _(color_name(pJ->color)));
 		teg_dialog(_("A player lost the game"), _("Player lost the game"), buf);
 	}
 	return TEG_STATUS_SUCCESS;
@@ -122,7 +122,7 @@ TEG_STATUS gui_surrender(int numjug)
 		/* */
 
 	} else {
-		snprintf(buf, sizeof(buf)-1, _("Coward %s(%s) has surrendered"), pJ->name, _(g_colores[pJ->color]));
+		snprintf(buf, sizeof(buf)-1, _("Coward %s(%s) has surrendered"), pJ->name, _(color_name(pJ->color)));
 		teg_dialog(_("A player has surrendered"), _("A player has surrendered"), buf);
 	}
 	return TEG_STATUS_SUCCESS;

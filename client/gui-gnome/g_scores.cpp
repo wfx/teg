@@ -171,7 +171,7 @@ static TEG_STATUS paint_color(GtkWidget *dialog, int color, GdkPixbuf **pixmap)
 	attr = pango_attr_size_new_absolute(10 * PANGO_SCALE);
 	pango_attr_list_insert(list, attr);
 	pango_layout_set_attributes(layout, list);
-	pango_layout_set_text(layout, _(g_colores[i]), -1);
+	pango_layout_set_text(layout, _(color_name(i)), -1);
 	pango_layout_get_size(layout, &width, NULL);
 	cairo_move_to(cr, (47 - width / PANGO_SCALE) / 2, 0);
 	pango_cairo_show_layout(cr, layout);
@@ -204,7 +204,7 @@ static void append_player_score(PSCORES pS, void* user)
 	                   COLUMN_NAME, name,
 	                   COLUMN_SCORE, pS->score,
 	                   COLUMN_DATE, pS->date,
-	                   COLUMN_COLOR, g_colores[pS->color],
+	                   COLUMN_COLOR, color_name(pS->color),
 	                   COLUMN_HUMAN, pS->human,
 	                   -1);
 	free(name);

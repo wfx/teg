@@ -171,7 +171,7 @@ TEG_STATUS clitok_surrender(char *str)
 
 	textmsg(M_IMP, _("Player %s(%s) abandoned the game"),
 	        pJ->name,
-	        _(g_colores[pJ->color])
+	        _(color_name(pJ->color))
 	       );
 
 	if(pJ->numjug == WHOAMI()) {
@@ -201,7 +201,7 @@ TEG_STATUS clitok_exit(char *str)
 
 	textmsg(M_IMP, _("Player %s(%s) exit the game"),
 	        pJ->name,
-	        _(g_colores[pJ->color])
+	        _(color_name(pJ->color))
 	       );
 
 	/* dont delete the player, I need the status */
@@ -242,7 +242,7 @@ TEG_STATUS clitok_winner(char *str)
 
 	textmsg(M_IMP, _("Player %s(%s) is the WINNER"),
 	        pJ->name,
-	        _(g_colores[pJ->color])
+	        _(color_name(pJ->color))
 	       );
 
 	callbacks::gui_winner(pJ->numjug, mission);
@@ -270,7 +270,7 @@ TEG_STATUS clitok_lost(char *str)
 
 	textmsg(M_IMP, _("Player %s(%s) lost the game\n"),
 	        pJ->name,
-	        _(g_colores[pJ->color])
+	        _(color_name(pJ->color))
 	       );
 
 	if(pJ->numjug == WHOAMI()) {
@@ -416,8 +416,8 @@ TEG_STATUS clitok_attack(char *str)
 
 	if(pJsrc && pJdst)
 		textmsg(M_INF, _("%s(%s) is attacking %s(%s)"), countries_get_name(src),
-		        _(g_colores[pJsrc->color])
-		        , countries_get_name(dst), _(g_colores[pJdst->color]));
+		        _(color_name(pJsrc->color))
+		        , countries_get_name(dst), _(color_name(pJdst->color)));
 	else {
 		textmsg(M_INF, _("%s is attacking %s"), countries_get_name(src),
 		        countries_get_name(dst));
@@ -460,7 +460,7 @@ TEG_STATUS clitok_turno(char *str)
 		/* No es mi turno, entonces yo tengo que estar en idle */
 		textmsg(M_IMP, _("Player %s(%s) has the turn to attack!"),
 		        pJ->name,
-		        _(g_colores[pJ->color]));
+		        _(color_name(pJ->color)));
 		ESTADO_SET(PLAYER_STATUS_IDLE);
 	}
 	callbacks::gui_turn(pJ);
@@ -500,7 +500,7 @@ TEG_STATUS clitok_fichas(char *str)
 	} else {
 		textmsg(M_INF, _("Player %s(%s) is placing %d armies for 1st time"),
 		        j->name,
-		        _(g_colores[j->color]),
+		        _(color_name(j->color)),
 		        cant);
 	}
 
@@ -538,7 +538,7 @@ TEG_STATUS clitok_fichas2(char *str)
 	} else {
 		textmsg(M_INF, _("Player %s(%s) is placing %d armies for 2nd time"),
 		        j->name,
-		        _(g_colores[j->color]),
+		        _(color_name(j->color)),
 		        cant);
 	}
 
@@ -581,7 +581,7 @@ TEG_STATUS clitok_fichasc(char *str)
 	} else {
 		textmsg(M_INF, _("Player %s(%s) is placing %d armies"),
 		        j->name,
-		        _(g_colores[j->color]),
+		        _(color_name(j->color)),
 		        cant);
 	}
 
@@ -713,10 +713,10 @@ TEG_STATUS clitok_newplayer(char *str)
 	if(numjug == WHOAMI()) {
 		g_game.mycolor = color;
 		ESTADO_SET(PLAYER_STATUS_HABILITADO);
-		textmsg(M_IMP, _("My color is: %s"), _(g_colores[color]));
+		textmsg(M_IMP, _("My color is: %s"), _(color_name(color)));
 	} else {
 		textmsg(M_IMP, _("Player[%d] '%s' is connected with color %s"), numjug,
-		        name, _(g_colores[color]));
+		        name, _(color_name(color)));
 	}
 	callbacks::gui_habilitado(numjug);
 
@@ -934,7 +934,7 @@ TEG_STATUS clitok_exchange(char *str)
 	} else {
 		textmsg(M_IMP, _("Player %s(%s) exchanged 3 cards for %d armies"),
 		        pJ->name,
-		        _(g_colores[pJ->color]),
+		        _(color_name(pJ->color)),
 		        cant);
 	}
 
@@ -1068,7 +1068,7 @@ TEG_STATUS clitok_new_round(char *str)
 	} else {
 		textmsg(M_IMP, _("Player %s(%s) started round number: %d"),
 		        pJ->name,
-		        _(g_colores[pJ->color]),
+		        _(color_name(pJ->color)),
 		        round_number
 		       );
 	}

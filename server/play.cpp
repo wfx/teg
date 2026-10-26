@@ -215,7 +215,7 @@ STATIC TEG_STATUS token_color(int fd, char *str)
 
 	pJ->estado = PLAYER_STATUS_HABILITADO;
 	pJ->color = color;
-	con_text_out(M_INF, _("Player %s(%d) has color %s\n"), pJ->name, pJ->numjug, _(g_colores[color]));
+	con_text_out(M_INF, _("Player %s(%d) has color %s\n"), pJ->name, pJ->numjug, _(color_name(color)));
 
 	netall_printf("%s=%s,%d,%d\n", TOKEN_NEWPLAYER, pJ->name, pJ->numjug, pJ->color);
 	return TEG_STATUS_SUCCESS;
