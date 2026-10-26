@@ -23,6 +23,7 @@
 #include <goocanvas.h>
 
 #include "client.h"
+#include "gui_state.h"
 #include "interface.h"
 #include "g_country.h"
 #include "g_cont.h"
@@ -45,7 +46,7 @@ void G_cont_init()
 	}
 
 	for(i=0; i < CONT_CANT ; i++) {
-		if(theme_giveme_continent(&cont, i) == TEG_STATUS_SUCCESS) {
+		if(theme_giveme_continent(gui_state(), &cont, i) == TEG_STATUS_SUCCESS) {
 			G_conts[i].x = cont.pos_x;
 			G_conts[i].y = cont.pos_y;
 		}

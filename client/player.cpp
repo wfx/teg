@@ -33,14 +33,10 @@
 namespace teg::client
 {
 
-using ClientPlayerList = std::list<Player>;
-
-ClientPlayerList players;
-
-TEG_STATUS player_whois(int numjug, PCPLAYER *j)
+TEG_STATUS player_whois(ClientState& state, int numjug, PCPLAYER *j)
 {
 	TEG_STATUS result = TEG_STATUS_PLAYERNOTFOUND;
-	players_map_int([&result, &j, numjug](Player& player) {
+	players_map_int(state, [&result, &j, numjug](Player& player) {
 		if((result != TEG_STATUS_SUCCESS) && (player.numjug == numjug)) {
 			*j = &player;
 			result = TEG_STATUS_SUCCESS;
@@ -51,11 +47,11 @@ TEG_STATUS player_whois(int numjug, PCPLAYER *j)
 	return result;
 }
 
-TEG_STATUS player_update(PCPLAYER j)
+TEG_STATUS player_update(ClientState& state, PCPLAYER j)
 {
 	PCPLAYER i{nullptr};
 
-	if(player_whois(j->numjug, &i) != TEG_STATUS_SUCCESS) {
+	if(player_whois(state, j->numjug, &i) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_PLAYERNOTFOUND;
 	}
 
@@ -63,45 +59,45 @@ TEG_STATUS player_update(PCPLAYER j)
 	return TEG_STATUS_SUCCESS;
 }
 
-void player_ins(PCPLAYER j)
+void player_ins(ClientState& state, PCPLAYER j)
 {
-	players.push_back(*j);
-	g_game.playeres = players.size();
+	state.players.push_back(*j);
+	state.game.playeres = state.players.size();
 }
 
-void player_del(PCPLAYER pJ)
+void player_del(ClientState& state, PCPLAYER pJ)
 {
-	assert(players.size() > 0);
+	assert(state.players.size() > 0);
 
-	auto it = std::find_if(players.begin(), players.end(),
+	auto it = std::find_if(state.players.begin(), state.players.end(),
 	[pJ](Player &p) {
 		return &p == pJ;
 	});
-	assert(it!=players.end());
+	assert(it!=state.players.end());
 
-	players.erase(it);
+	state.players.erase(it);
 
-	g_game.playeres = players.size();
+	state.game.playeres = state.players.size();
 }
 
-void player_flush(void)
+void player_flush(ClientState& state)
 {
-	players.clear();
-	g_game.playeres = players.size();
+	state.players.clear();
+	state.game.playeres = state.players.size();
 }
 
-void player_init(void)
+void player_init(ClientState& state)
 {
 }
 
-void players_map(PlayersCallback cb)
+void players_map(ClientState& state, PlayersCallback cb)
 {
-	std::for_each(players.begin(), players.end(), cb);
+	std::for_each(state.players.begin(), state.players.end(), cb);
 }
 
-void players_map_int(InterruptablePlayersCallback cb)
+void players_map_int(ClientState& state, InterruptablePlayersCallback cb)
 {
-	for(Player& p: players) {
+	for(Player& p: state.players) {
 		if(!cb(p)) {
 			return;
 		}

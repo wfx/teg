@@ -25,6 +25,8 @@
 namespace teg::client
 {
 
+struct ClientState;
+
 /** \brief Try to get two armies for one country.
  *
  * This function tries to request two armies for the \p country. This works when
@@ -36,7 +38,7 @@ namespace teg::client
  * \return TEG_STATUS_SUCCESS if the function sent the request to the
  *         game controller, TEG_STATUS_ERROR otherwise.
  */
-TEG_STATUS ejer2_out(int country);
+TEG_STATUS ejer2_out(ClientState& state, int country);
 
 /** \brief Undo a previous army exchange.
  *
@@ -48,6 +50,6 @@ TEG_STATUS ejer2_out(int country);
  * \return TEG_STATUS_SUCCESS if there was an active ejer2_out call,
  *         TEG_STATUS_ERROR otherwise.
  */
-TEG_STATUS ejer2_restore_from_error();
+TEG_STATUS ejer2_restore_from_error(ClientState& state);
 
 }

@@ -33,6 +33,7 @@
 #include "../../common/tegdebug.h"
 
 #include "client.h"
+#include "gui_state.h"
 #include "support.h"
 #include "interface.h"
 #include "callbacks.h"
@@ -98,19 +99,19 @@ void disconnect(enum DisconnectReason reason)
 	io_channel.channel = NULL;
 
 	if(DR_NORMAL_DISCONNECT == reason) {
-		textmsg(M_INF, _("Disconnected from the server."));
+		textmsg(gui_state(), M_INF, _("Disconnected from the server."));
 	} else {
-		textmsg(M_ERR, _("We lost the connection to the server."));
+		textmsg(gui_state(), M_ERR, _("We lost the connection to the server."));
 	}
 
-	teg_disconnect();
+	teg_disconnect(gui_state());
 }
 
 static TEG_STATUS connect_real()
 {
-	if(teg_connect() == TEG_STATUS_SUCCESS) {
+	if(teg_connect(gui_state()) == TEG_STATUS_SUCCESS) {
 		if(NULL == io_channel.channel) {
-			io_channel.channel = g_io_channel_unix_new(g_game.fd);
+			io_channel.channel = g_io_channel_unix_new(gui_state().game.fd);
 		}
 
 		io_channel.watch_id = g_io_add_watch_full(io_channel.channel,
@@ -121,9 +122,9 @@ static TEG_STATUS connect_real()
 		                      pre_client_recv,
 		                      NULL, NULL);
 
-		out_id();
+		out_id(gui_state());
 		for(size_t i=0; i<COUNTRIES_CANT; i++) {
-			gui_country(i);
+			gui_country(gui_state(), i);
 		}
 
 		return TEG_STATUS_SUCCESS;
@@ -137,21 +138,21 @@ static void connect_button_con_cb(GtkDialog *dialog, gint id, gpointer user_data
 		return;
 	}
 
-	string_copy(g_game.myname, sizeof(g_game.myname), gtk_entry_get_text(GTK_ENTRY(con_entry_name)));
-	string_copy(g_game.sername, sizeof(g_game.sername), gtk_entry_get_text(GTK_ENTRY(con_entry_server)));
-	g_game.serport = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(con_spinner_port));
+	string_copy(gui_state().game.myname, sizeof(gui_state().game.myname), gtk_entry_get_text(GTK_ENTRY(con_entry_name)));
+	string_copy(gui_state().game.sername, sizeof(gui_state().game.sername), gtk_entry_get_text(GTK_ENTRY(con_entry_server)));
+	gui_state().game.serport = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(con_spinner_port));
 
-	g_game.observer = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
-	                  (button_observe));
+	gui_state().game.observer = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON
+	                            (button_observe));
 
-	/* if you checked "start local server" we'll copy "localhost" to g_game.sername */
+	/* if you checked "start local server" we'll copy "localhost" to gui_state().game.sername */
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button_launch))) {
-		launch_server(g_game.serport);
+		launch_server(gui_state(), gui_state().game.serport);
 	}
 
-	g_settings_set_int(settings, "port", g_game.serport);
-	g_settings_set_string(settings, "servername", g_game.sername);
-	g_settings_set_string(settings, "playername", g_game.myname);
+	g_settings_set_int(settings, "port", gui_state().game.serport);
+	g_settings_set_string(settings, "servername", gui_state().game.sername);
+	g_settings_set_string(settings, "playername", gui_state().game.myname);
 
 	connect_real();
 }
@@ -211,7 +212,7 @@ void connect_view()
 	/* server port */
 	label = gtk_label_new(_("Server port:"));
 	gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
-	adj = (GtkAdjustment *) gtk_adjustment_new(g_game.serport, 1.0, 65536.0, 1.0, 5.0, 1.0);
+	adj = (GtkAdjustment *) gtk_adjustment_new(gui_state().game.serport, 1.0, 65536.0, 1.0, 5.0, 1.0);
 	con_spinner_port = gtk_spin_button_new(adj, 0.0, 0);
 	gtk_grid_attach(GTK_GRID(table), con_spinner_port, 1, 0, 1, 1);
 
@@ -219,7 +220,7 @@ void connect_view()
 	label = gtk_label_new(_("Server name:"));
 	gtk_grid_attach(GTK_GRID(table), label, 0, 1, 1, 1);
 	con_entry_server = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(con_entry_server), g_game.sername);
+	gtk_entry_set_text(GTK_ENTRY(con_entry_server), gui_state().game.sername);
 	gtk_grid_attach(GTK_GRID(table), con_entry_server, 1, 1, 1, 1);
 
 
@@ -227,7 +228,7 @@ void connect_view()
 	label = gtk_label_new(_("Name:"));
 	gtk_grid_attach(GTK_GRID(table), label, 0, 2, 1, 1);
 	con_entry_name = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(con_entry_name), g_game.myname);
+	gtk_entry_set_text(GTK_ENTRY(con_entry_name), gui_state().game.myname);
 	gtk_grid_attach(GTK_GRID(table), con_entry_name, 1, 2, 1, 1);
 
 	gtk_container_add(GTK_CONTAINER(frame), table);
@@ -261,7 +262,7 @@ static void colortype_ok_cb(GtkDialog *dialog, gint id, gpointer data)
 		}
 	}
 
-	out_color(i);
+	out_color(gui_state(), i);
 }
 
 static GtkWidget *create_color_button(int i)
@@ -386,8 +387,8 @@ static void gametype_ok_cb(GtkDialog *dialog, gint id, gpointer data)
 	ar1 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(gametype_spinner_armies1));
 	ar2 = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(gametype_spinner_armies2));
 
-	out_set_typeofgame(a, b, c, ar1, ar2);
-	out_start();
+	out_set_typeofgame(gui_state(), a, b, c, ar1, ar2);
+	out_start(gui_state());
 }
 
 /* Shows the dialog that choose the game type */

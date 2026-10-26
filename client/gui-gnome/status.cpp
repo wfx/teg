@@ -33,6 +33,7 @@
 #include <glib/gi18n.h>
 
 #include "client.h"
+#include "gui_state.h"
 #include "support.h"
 #include "interface.h"
 #include "callbacks.h"
@@ -193,7 +194,7 @@ static TEG_STATUS status_update_model(GtkListStore *store)
 {
 	gtk_list_store_clear(store);
 
-	players_map([store](Player &player) {
+	players_map(gui_state(), [store](Player &player) {
 		gchar *const name = translate_to_utf8(player.name);
 
 		GtkTreeIter iter;
@@ -275,13 +276,13 @@ void status_view()
 
 	gtk_dialog_set_default_response(GTK_DIALOG(status_dialog), 1);
 
-	out_status();
+	out_status(gui_state());
 	status_update_dialog();
 
 	gtk_widget_show_all(status_dialog);
 
 	while(gtk_dialog_run(GTK_DIALOG(status_dialog)) == 0) {
-		out_status();
+		out_status(gui_state());
 		status_update_dialog();
 		gtk_widget_queue_draw(status_dialog);
 	}
@@ -314,10 +315,10 @@ static gboolean ministatus_expose_cb(GtkWidget *area, cairo_t *cr, gpointer user
 	gint width, height;
 	int i=0;
 
-	if(ESTADO_GET() == PLAYER_STATUS_DESCONECTADO || g_game.observer) {
+	if(client_status(gui_state()) == PLAYER_STATUS_DESCONECTADO || gui_state().game.observer) {
 		i = -1;
 	} else {
-		i = g_game.numjug;
+		i = gui_state().game.numjug;
 	}
 
 	width = gtk_widget_get_allocated_width(area);
@@ -383,7 +384,7 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	if(gui_theme.toolbar_custom && gui_theme.toolbar_name) {
 		GdkPixbuf *im;
 
-		const auto fpath = theme_load_file(gui_theme.toolbar_name);
+		const auto fpath = theme_load_file(gui_state(), gui_theme.toolbar_name);
 		char const*const filename = fpath ? fpath->c_str() : nullptr;
 		im = gdk_pixbuf_new_from_file(filename, NULL);
 
@@ -527,13 +528,13 @@ TEG_STATUS mainstatus_update_colors()
 
 	g_object_set(players_color_over, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-	players_map_int([&i](Player& player) {
+	players_map_int(gui_state(), [&i](Player& player) {
 
 		if(player.color >= 0 && player.numjug >= 0) {
 			g_object_set(players_color[i], "visibility",
 			             GOO_CANVAS_ITEM_VISIBLE, NULL);
 
-			if(g_game.whos_turn == player.numjug) {
+			if(gui_state().game.whos_turn == player.numjug) {
 				g_object_set(
 				    players_color_over,
 				    "pixbuf", g_color_circle_over,
@@ -564,9 +565,9 @@ TEG_STATUS mainstatus_update_colors()
 		PCPLAYER pJ;
 		g_object_set(color_started_item, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-		if(g_game.who_started_round >= 0 && g_game.who_started_round < static_cast<int>(maximum_player_count)) {
+		if(gui_state().game.who_started_round >= 0 && gui_state().game.who_started_round < static_cast<int>(maximum_player_count)) {
 
-			if(player_whois(g_game.who_started_round, &pJ) == TEG_STATUS_SUCCESS) {
+			if(player_whois(gui_state(), gui_state().game.who_started_round, &pJ) == TEG_STATUS_SUCCESS) {
 				g_object_set(
 				    color_started_item,
 				    "pixbuf", g_color_circles[pJ->color],
@@ -610,7 +611,7 @@ TEG_STATUS mainstatus_update()
 
 	gamestatus_item = goo_canvas_text_new(
 	                      goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                      _(player_status_name(g_game.estado)),
+	                      _(player_status_name(gui_state().game.estado)),
 	                      (double)(MAINSTATUS_X + offset_right),
 	                      (double)(MAINSTATUS_Y/2),
 	                      (double) -1,
@@ -629,7 +630,7 @@ TEG_STATUS mainstatus_update()
 	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%s", countries_get_name(g_game.common, gui_private.country_i_am));
+		snprintf(buffer, sizeof(buffer)-1, "%s", countries_get_name(gui_state().game.common, gui_private.country_i_am));
 	}
 
 	country_item = goo_canvas_text_new(
@@ -653,7 +654,7 @@ TEG_STATUS mainstatus_update()
 	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(g_game.common, g_game.common.countries[gui_private.country_i_am].continente));
+		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(gui_state().game.common, gui_state().game.common.countries[gui_private.country_i_am].continente));
 	}
 
 	cont_item = goo_canvas_text_new(
@@ -674,9 +675,9 @@ TEG_STATUS mainstatus_update()
 
 		g_object_set(round_number_item, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-		if(g_game.round_number >= 0) {
+		if(gui_state().game.round_number >= 0) {
 
-			sprintf(buffer, "%d", g_game.round_number);
+			sprintf(buffer, "%d", gui_state().game.round_number);
 
 			g_object_set(
 			    round_number_item,

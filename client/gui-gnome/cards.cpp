@@ -33,6 +33,7 @@
 #include <assert.h>
 
 #include "client.h"
+#include "gui_state.h"
 
 #include "chatline.h"
 #include "callbacks.h"
@@ -78,7 +79,7 @@ TEG_STATUS cards_load()
 {
 	TCards cards;
 	/* obtain cards from theme */
-	if(theme_giveme_cards(&cards) == TEG_STATUS_SUCCESS) {
+	if(theme_giveme_cards(gui_state(), &cards) == TEG_STATUS_SUCCESS) {
 		if(cards.cannon) {
 			tarjs[0].filename = cards.cannon;
 		}
@@ -96,7 +97,7 @@ TEG_STATUS cards_load()
 	for(unsigned i=0; i<NRTARJS; i++) {
 
 		if(!tarjs[i].tar) {
-			auto const fpath = theme_load_file(tarjs[i].filename);
+			auto const fpath = theme_load_file(gui_state(), tarjs[i].filename);
 			char const*const filename = fpath ? fpath->c_str() : nullptr;
 			tarjs[i].tar = gdk_pixbuf_new_from_file(filename, NULL);
 			if(tarjs[i].tar == NULL) {
@@ -146,11 +147,11 @@ static void cards_cb_button_canje(GtkDialog *dialog, gint id, gpointer data)
 	if(id == 0) {
 		sel = cuantos_selected(countries);
 		if(sel != 3) {
-			textmsg(M_ERR, "Error, you must select 3 cards and "
+			textmsg(gui_state(), M_ERR, "Error, you must select 3 cards and "
 			        "not %d.", sel);
 			return;
 		}
-		canje_out(countries[0], countries[1], countries[2]);
+		canje_out(gui_state(), countries[0], countries[1], countries[2]);
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -159,9 +160,9 @@ static void cards_cb_button_canje(GtkDialog *dialog, gint id, gpointer data)
 static void cards_cb_button_armies(GtkWidget *widget, int index)
 {
 	if(tarjs_sensi[ index ].country == NULL) {
-		textmsg(M_ERR, "Error in cards_cb_button_armies");
+		textmsg(gui_state(), M_ERR, "Error in cards_cb_button_armies");
 	} else {
-		if(ejer2_out(tarjs_sensi[ index ].country->id) == TEG_STATUS_SUCCESS) {
+		if(ejer2_out(gui_state(), tarjs_sensi[ index ].country->id) == TEG_STATUS_SUCCESS) {
 			cards_update();
 		}
 	}
@@ -170,7 +171,7 @@ static void cards_cb_button_armies(GtkWidget *widget, int index)
 static void cards_cb_button_select(GtkWidget *widget, int index)
 {
 	if(tarjs_sensi[ index ].country == NULL) {
-		textmsg(M_ERR, "Error in cards_cb_button_selected");
+		textmsg(gui_state(), M_ERR, "Error in cards_cb_button_selected");
 	} else {
 		tarjs_sensi[ index ].selected = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(widget));
 	}
@@ -179,7 +180,7 @@ static void cards_cb_button_select(GtkWidget *widget, int index)
 static void cards_cb_button_locate(GtkWidget *widget, int index)
 {
 	if(tarjs_sensi[ index ].country == NULL) {
-		textmsg(M_ERR, "Error in cards_cb_button_selected");
+		textmsg(gui_state(), M_ERR, "Error in cards_cb_button_selected");
 	} else {
 		locate_country_add_country(tarjs_sensi[ index ].country);
 	}
@@ -196,7 +197,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 	GooCanvasItem *image;
 	TCards cards;
 
-	if(theme_giveme_cards(&cards) != TEG_STATUS_SUCCESS) {
+	if(theme_giveme_cards(gui_state(), &cards) != TEG_STATUS_SUCCESS) {
 		return NULL;
 	}
 
@@ -207,7 +208,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 		}
 	}
 
-	COUNTRY *const pP = &COUNTRY_FROM_TARJETA(g_game.common, *pT);
+	COUNTRY *const pP = &COUNTRY_FROM_TARJETA(gui_state().game.common, *pT);
 
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	if(!vbox) {
@@ -217,7 +218,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 	/* create picture of card (canvas with labels) */
 	canvas = goo_canvas_new();
 	if(!canvas) {
-		textmsg(M_ERR, _("Error creating canvas\n"));
+		textmsg(gui_state(), M_ERR, _("Error creating canvas\n"));
 		return NULL;
 	}
 
@@ -237,12 +238,12 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 	            NULL);
 
 	if(!image) {
-		textmsg(M_ERR, _("Error creating image\n"));
+		textmsg(gui_state(), M_ERR, _("Error creating image\n"));
 	}
 
 	image = goo_canvas_text_new(
 	            goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	            countries_get_name(g_game.common, pP->id),
+	            countries_get_name(gui_state().game.common, pP->id),
 	            (double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
 	            (double) cards.pos_y,
 	            (double) -1,
@@ -253,12 +254,12 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 	            NULL);
 
 	if(!image) {
-		textmsg(M_ERR, _("Error creating image\n"));
+		textmsg(gui_state(), M_ERR, _("Error creating image\n"));
 	}
 
 	image = goo_canvas_text_new(
 	            goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	            cont_get_name(g_game.common, pP->continente),
+	            cont_get_name(gui_state().game.common, pP->continente),
 	            (double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
 	            (double) cards.pos_y + 15,
 	            (double) -1,
@@ -269,7 +270,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 	            NULL);
 
 	if(!image) {
-		textmsg(M_ERR, _("Error creating image\n"));
+		textmsg(gui_state(), M_ERR, _("Error creating image\n"));
 	}
 
 	gtk_box_pack_start(GTK_BOX(vbox), GTK_WIDGET(canvas), TRUE, TRUE, 0);
@@ -324,14 +325,14 @@ void cards_view(int country)
 	 * cards. This is only an optimization, should this condition not be true,
 	 * the vector will grow automatically */
 	cards_i_have.reserve(maximum_country_cards);
-	countries_map(g_game.common, [&cards_i_have](COUNTRY& c) {
-		if(c.tarjeta.numjug == WHOAMI()) {
+	countries_map(gui_state().game.common, [&cards_i_have](COUNTRY& c) {
+		if(c.tarjeta.numjug == who_am_i(gui_state())) {
 			cards_i_have.push_back(&c.tarjeta);
 		}
 	});
 
 	if(cards_i_have.empty() && country == -1) {
-		textmsg(M_ERR, _("You dont have any cards yet"));
+		textmsg(gui_state(), M_ERR, _("You dont have any cards yet"));
 		return;
 	}
 
@@ -405,7 +406,7 @@ void cards_view(int country)
 			}
 
 			if(tarjs_sensi[i].country == NULL) {
-				GtkWidget *const tarjeta = cards_create(&g_game.common.countries[country].tarjeta, i);
+				GtkWidget *const tarjeta = cards_create(&gui_state().game.common.countries[country].tarjeta, i);
 				if(tarjeta) {
 					gtk_widget_show(tarjeta);
 					gtk_grid_attach(table, tarjeta,
@@ -484,9 +485,9 @@ void cards_update(void)
 
 	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country != NULL) {
-			if(!ESTADO_ES(PLAYER_STATUS_TARJETA)
+			if(!is_status(gui_state(), PLAYER_STATUS_TARJETA)
 			        || tarjeta_es_usada(&tarjs_sensi[i].country->tarjeta)
-			        || tarjs_sensi[i].country->numjug != WHOAMI()) {
+			        || tarjs_sensi[i].country->numjug != who_am_i(gui_state())) {
 				gtk_widget_set_sensitive(tarjs_sensi[i].button_armies, FALSE);
 			} else {
 				gtk_widget_set_sensitive(tarjs_sensi[i].button_armies, TRUE);
@@ -508,7 +509,7 @@ void cards_update_para_canje(void)
 
 	for(i=0; i<maximum_country_cards; i++) {
 		if(tarjs_sensi[i].country != NULL) {
-			if(ESTADO_ES(PLAYER_STATUS_FICHASC) && canje_puedo(NULL, NULL, NULL)==TEG_STATUS_SUCCESS) {
+			if(is_status(gui_state(), PLAYER_STATUS_FICHASC) && canje_puedo(gui_state(), NULL, NULL, NULL)==TEG_STATUS_SUCCESS) {
 				gtk_widget_set_sensitive(tarjs_sensi[i].button_select, TRUE);
 			} else {
 				gtk_widget_set_sensitive(tarjs_sensi[i].button_select, FALSE);
@@ -516,7 +517,7 @@ void cards_update_para_canje(void)
 		}
 	}
 
-	if(ESTADO_ES(PLAYER_STATUS_FICHASC) && canje_puedo(NULL, NULL, NULL)==TEG_STATUS_SUCCESS)
+	if(is_status(gui_state(), PLAYER_STATUS_FICHASC) && canje_puedo(gui_state(), NULL, NULL, NULL)==TEG_STATUS_SUCCESS)
 		gtk_dialog_set_response_sensitive(GTK_DIALOG(cards_dialog),
 		                                  0, TRUE);
 	else

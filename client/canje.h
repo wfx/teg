@@ -25,6 +25,8 @@
 namespace teg::client
 {
 
+struct ClientState;
+
 /**
  * \brief Sends the request to exchange cards.
  *
@@ -36,7 +38,7 @@ namespace teg::client
  *
  * \return TEG_STATUS_SUCCESS on success, TEG_STATUS_ERROR otherwise.
  */
-TEG_STATUS canje_out(int p1, int p2, int p3);
+TEG_STATUS canje_out(ClientState& state, int p1, int p2, int p3);
 
 /** \brief Check if the player has cards which can be exchanged.
  *
@@ -48,6 +50,6 @@ TEG_STATUS canje_out(int p1, int p2, int p3);
  *
  * \return TEG_STATUS_SUCCESS on success, TEG_STATUS_ERROR otherwise.
  */
-TEG_STATUS canje_puedo(int *p1, int *p2, int *p3);
+TEG_STATUS canje_puedo(ClientState& state, int *p1, int *p2, int *p3);
 
 }

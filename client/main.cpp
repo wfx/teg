@@ -30,12 +30,12 @@
 namespace teg::client
 {
 
-TEG_STATUS main_init()
+TEG_STATUS main_init(ClientState& state)
 {
-	game_init();
-	g_game.human = 1;
-	player_init();
-	scores_init(g_game.common.highscores);
+	game_init(state);
+	state.game.human = 1;
+	player_init(state);
+	scores_init(state.game.common.highscores);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -46,14 +46,16 @@ int main(int argc, char **argv)
 	using namespace teg::client;
 	dont_run_as_root();
 
-	main_init();
+	ClientState state;
 
-	if(callbacks::gui_init(argc, argv) != TEG_STATUS_SUCCESS) {
+	main_init(state);
+
+	if(callbacks::gui_init(state, argc, argv) != TEG_STATUS_SUCCESS) {
 		printf("Aborting...\n");
 		exit(-1);
 	}
 
-	callbacks::gui_main();
+	callbacks::gui_main(state);
 
 	return 1;
 }

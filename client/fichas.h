@@ -31,13 +31,15 @@
 namespace teg::client
 {
 
+struct ClientState;
+
 /**
  * \brief places one army of the player into country \p p.
  * \return TEG_STATUS_SUCCESS if the army got placed, TEG_STATUS_ERROR if there
  *         are no more armies, or TEG_STATUS_UNEXPECTED if the current player
  *         does not match the current connection.
  */
-TEG_STATUS fichas_add(PCOUNTRY p);
+TEG_STATUS fichas_add(ClientState& state, PCOUNTRY p);
 
 /**
  * \brief removes one army of the player from country \p p.
@@ -47,7 +49,7 @@ TEG_STATUS fichas_add(PCOUNTRY p);
  *         * TEG_STATUS_UNEXPECTED if the current active player does not match
  *           the current connection.
  */
-TEG_STATUS fichas_sub(PCOUNTRY p);
+TEG_STATUS fichas_sub(ClientState& state, PCOUNTRY p);
 
 /**
  * \brief Prepares the array of changes in armies per country.
@@ -58,27 +60,27 @@ TEG_STATUS fichas_sub(PCOUNTRY p);
  *         * TEG_STATUS_ERROR if not all armies are placed, or not all
  *           continental armies are placed into their continents.
  */
-TEG_STATUS fichas_finish(int **ptr);
+TEG_STATUS fichas_finish(ClientState& state, int **ptr);
 
 /**
  * \brief Set the armies cache
  * \param cant total number of armies to place
  * \param conts bitfield of the countries with extra armies
  */
-void fichas_init(int cant, int conts);
+void fichas_init(ClientState& state, int cant, int conts);
 
 /// This function rolls back any army placements done via fichas_add/fichas_sub.
-void fichas_reset();
+void fichas_reset(ClientState& state);
 
 /// \addtogroup rollback_armies @{
 /// Rolls back the first initial placement */
-TEG_STATUS fichas_restore_from_error();
+TEG_STATUS fichas_restore_from_error(ClientState& state);
 
 /// Rolls back the second initial placement
-TEG_STATUS fichas2_restore_from_error();
+TEG_STATUS fichas2_restore_from_error(ClientState& state);
 
 /// Rolls back a regular round placement
-TEG_STATUS fichasc_restore_from_error();
+TEG_STATUS fichasc_restore_from_error(ClientState& state);
 /// @}
 
 /**
@@ -86,29 +88,29 @@ TEG_STATUS fichasc_restore_from_error();
  * \return * TEG_STATUS_SUCCESS on success
  *         * TEG_STATUS_ERROR when the game is not in the correct state.
  */
-TEG_STATUS fichas_out();
+TEG_STATUS fichas_out(ClientState& state);
 
 /// Set the ammount of additional armies got by a cards exchange.
-void fichas_add_wanted(int i);
+void fichas_add_wanted(ClientState& state, int i);
 
 /** Set the selected bitfield of the country to represent if there are still
  * armies available to place.
  *
  * This function is called after an army got placed in the country or the mouse
  * pointer hoovers over a country. */
-TEG_STATUS fichas_enter(PCOUNTRY p);
+TEG_STATUS fichas_enter(ClientState& state, PCOUNTRY p);
 
 /** Set the selected bitfield of the country to represent if there are still
  * armies available to place.
  *
  * This function is called after an army got removed from a country, or the
  * mouse pointer leaves a country. */
-TEG_STATUS fichas_leave(PCOUNTRY p);
+TEG_STATUS fichas_leave(ClientState& state, PCOUNTRY p);
 
 /** Returns the numbers of armies to place, and the fully conquered bitfield.
  *
  * The army count (without the additional armies per continent) will be put in
  * \p cant, the continent bitfield will be placed in \p conts. */
-void fichas_get_wanted(int *cant, int *conts);
+void fichas_get_wanted(ClientState& state, int *cant, int *conts);
 
 }

@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 
 #include "client.h"
+#include "gui_state.h"
 #include "support.h"
 #include "interface.h"
 #include "callbacks.h"
@@ -215,7 +216,7 @@ static TEG_STATUS scores_update_model(GtkListStore *store)
 	gtk_list_store_clear(store);
 
 	struct AddScoreState ass = {.store = store, .row=0};
-	scores_map(g_game.common.highscores, append_player_score, &ass);
+	scores_map(gui_state().game.common.highscores, append_player_score, &ass);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -274,7 +275,7 @@ void gui_scores_view()
 	scores_update_dialog();
 
 	if(gtk_dialog_run(GTK_DIALOG(gui_scores_dialog)) == 0) {
-		out_scores();
+		out_scores(gui_state());
 	}
 
 	if(GTK_IS_WIDGET(gui_scores_dialog)) {
@@ -303,7 +304,7 @@ static TEG_STATUS update_mini_clist(GtkWidget *dialog, GtkListStore *store,
 	/// \todo clean up variables and adjust return type
 
 	int row = 0;
-	players_map([dialog, store, clist, &row](Player& player) {
+	players_map(gui_state(), [dialog, store, clist, &row](Player& player) {
 		gchar *name, *score;
 
 		name = translate_to_utf8(player.name);

@@ -21,11 +21,14 @@
 #pragma once
 
 #include <functional>
+#include <list>
 
 #include "../common/common.h"
 
 namespace teg::client
 {
+
+struct ClientState;
 
 struct Player {
 	char name[max_playername_length]; ///< Player name
@@ -42,6 +45,9 @@ struct Player {
 };
 using PCPLAYER = Player*;
 
+/// \brief The players known to one client instance
+using ClientPlayerList = std::list<Player>;
+
 
 /**
  * \brief Fill in the details for the player with number \p numjug into the
@@ -50,15 +56,15 @@ using PCPLAYER = Player*;
  * \return TEG_STATUS_SUCCESS if successfull
  *         TEG_STATUS_PLAYERNOTFOUND if the player number is not assigned.
  */
-TEG_STATUS player_whois(int numjug, PCPLAYER *j);
+TEG_STATUS player_whois(ClientState& state, int numjug, PCPLAYER *j);
 
 /// \todo: find out if this function does something usefull
-TEG_STATUS player_update(PCPLAYER j);
+TEG_STATUS player_update(ClientState& state, PCPLAYER j);
 
 /**
  * Insert the player \p j into the list of all players
  */
-void player_ins(PCPLAYER j);
+void player_ins(ClientState& state, PCPLAYER j);
 
 /**
  * Removes the player \p j from the player list.
@@ -66,23 +72,23 @@ void player_ins(PCPLAYER j);
  * \warning The \p j storage space is freed, so don't access the value
  *          afterwards.
  */
-void player_del(PCPLAYER j);
+void player_del(ClientState& state, PCPLAYER j);
 
 /// Remove all players from the player list
-void player_flush(void);
+void player_flush(ClientState& state);
 
 /** Initializes the player list
  *
  * \warning When you call this function with an active player list, you get a
  *          ressource leak since the old list items become unfreeable
  */
-void player_init(void);
+void player_init(ClientState& state);
 
 /// \brief Callback function to process a single player entry
 using PlayersCallback = std::function<void(Player&)>;
 
 /// \brief Map function \p cb over the active player list
-void players_map(PlayersCallback cb);
+void players_map(ClientState& state, PlayersCallback cb);
 
 /// \brief Callback function for an interruptable mapping function
 using InterruptablePlayersCallback = std::function<bool(Player&)>;
@@ -93,6 +99,6 @@ using InterruptablePlayersCallback = std::function<bool(Player&)>;
  * This function calls \p cb with each active player. When the function returns
  * true, the mapping continutes, a return value of false stops the mapping.
  */
-void players_map_int(InterruptablePlayersCallback cb);
+void players_map_int(ClientState& state, InterruptablePlayersCallback cb);
 
 }

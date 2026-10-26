@@ -34,6 +34,7 @@
 
 #include "../../common/execute.hpp"
 #include "client.h"
+#include "gui_state.h"
 #include "support.h"
 #include "callbacks.h"
 #include "interface.h"
@@ -210,10 +211,10 @@ void teg_dialog_gameover(int numjug, int mission)
 	GtkWidget *frame;
 	char buf[512];
 
-	if(player_whois(numjug, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(gui_state(), numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		dialog = teg_dialog_new(_("Game Over"), _("A player won the game"));
 
-	} else  if(numjug == WHOAMI()) {
+	} else  if(numjug == who_am_i(gui_state())) {
 		dialog = teg_dialog_new(_("Game Over"), _("You are the winner"));
 
 	} else {

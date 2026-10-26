@@ -31,6 +31,7 @@
 #include "../../common/execute.hpp"
 
 #include "client.h"
+#include "gui_state.h"
 
 #include "chatline.h"
 #include "callbacks.h"
@@ -98,7 +99,7 @@ gboolean pre_client_recv(GIOChannel *source, GIOCondition cond, gpointer data)
 	      );
 
 	if(ok) {
-		client_recv(fd);
+		client_recv(gui_state(), fd);
 	} else {
 		disconnect(DR_IO_ERROR);
 	}
@@ -127,12 +128,12 @@ void on_disconnect_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 void on_launchrobot_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	launch_robot();
+	launch_robot(gui_state());
 }
 
 void on_scores_activate(GtkMenuItem *widget, gpointer user_data)
 {
-	out_scores();
+	out_scores(gui_state());
 	gui_scores_view();
 }
 
@@ -149,9 +150,9 @@ void on_enviarfichas_activate(GtkMenuItem *menuitem, gpointer user_data)
 	int i;
 	int cant, conts;
 
-	if(fichas_out() != TEG_STATUS_SUCCESS)  {
+	if(fichas_out(gui_state()) != TEG_STATUS_SUCCESS)  {
 
-		fichas_get_wanted(&cant, &conts);
+		fichas_get_wanted(gui_state(), &cant, &conts);
 		armies_view(cant, conts);
 
 		for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
@@ -165,24 +166,24 @@ void on_enviarfichas_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 void on_updatemap_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	out_countries();
+	out_countries(gui_state());
 }
 
 void on_enviarreattack_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	attackre_out();
+	attackre_out(gui_state());
 }
 
 void on_enviarattackreset_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	if(attack_pre_reset() == TEG_STATUS_SUCCESS) {
-		textmsg(M_INF, _("The attack was reset. Please, select the source country to continue your attack"));
+	if(attack_pre_reset(gui_state()) == TEG_STATUS_SUCCESS) {
+		textmsg(gui_state(), M_INF, _("The attack was reset. Please, select the source country to continue your attack"));
 	}
 }
 
 void on_reagrupe_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	if(reagrupe_init() == TEG_STATUS_SUCCESS) {
+	if(reagrupe_init(gui_state()) == TEG_STATUS_SUCCESS) {
 		if(gui_private.dialog_show & (1 <<DIALOG_REGROUP_ARMIES)) {
 			teg_dialog(_("Regrouping armies"), _("Regrouping armies"),
 			           _("Select two countries:\n1st: click on the source country\n2nd: click on the destination country"));
@@ -192,13 +193,13 @@ void on_reagrupe_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 void on_pedirtarjeta_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	out_tarjeta();
+	out_tarjeta(gui_state());
 	set_sensitive_tb();
 }
 
 void on_endturn_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	out_endturn();
+	out_endturn(gui_state());
 	set_sensitive_tb();
 }
 
@@ -215,7 +216,7 @@ void on_surrender_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(response == GTK_RESPONSE_YES) {
-		out_surrender();
+		out_surrender(gui_state());
 	}
 
 	gtk_widget_destroy(dialog);
