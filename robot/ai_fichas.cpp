@@ -32,6 +32,7 @@
 #include "fcintl.h"
 #include "client.h"
 #include "ai.h"
+#include "state.h"
 #include "ai_fichas.h"
 
 namespace teg::robot
@@ -80,55 +81,55 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer(c::ClientState& state, int country)
 		/* ASIA */
 		if(pc >= 12) {
 			if(pm >= 10) {
-				ai_puntaje[country] += 1;
+				robot_state().ai_puntaje[country] += 1;
 			}
 			if(pm >= 11) {
-				ai_puntaje[country] += 2;
+				robot_state().ai_puntaje[country] += 2;
 			}
 			if(pm >= 12) {
-				ai_puntaje[country] += 7;
+				robot_state().ai_puntaje[country] += 7;
 			}
 			if(pm < 7) {
-				ai_puntaje[country] -= 5;
+				robot_state().ai_puntaje[country] -= 5;
 			}
 		}
 		/* EUROPE, NORTH AMERICA */
 		else if(pc >= 8) {
 			if(pm >= 5) {
-				ai_puntaje[country] += 1;
+				robot_state().ai_puntaje[country] += 1;
 			}
 			if(pm >= 7) {
-				ai_puntaje[country] += 2;
+				robot_state().ai_puntaje[country] += 2;
 			}
 			if(pm >= 8) {
-				ai_puntaje[country] += 7;
+				robot_state().ai_puntaje[country] += 7;
 			}
 		}
 		/* SOUTH AMERICA, AFRICA */
 		else if(pc >= 6) {
 			if(pm >= 4) {
-				ai_puntaje[country] += 2;
+				robot_state().ai_puntaje[country] += 2;
 			}
 			if(pm >= 5) {
-				ai_puntaje[country] += 7;
+				robot_state().ai_puntaje[country] += 7;
 			}
 		}
 		/* OCEANIA */
 		if(pc >= 4) {
 			if(pm >= 2) {
-				ai_puntaje[country] += 2;
+				robot_state().ai_puntaje[country] += 2;
 			}
 			if(pm >= 3) {
-				ai_puntaje[country] += 3;
+				robot_state().ai_puntaje[country] += 3;
 			}
 		}
-		ai_puntaje[country] += ple;
+		robot_state().ai_puntaje[country] += ple;
 		if(em > ee) {
-			ai_puntaje[country] += 3;
+			robot_state().ai_puntaje[country] += 3;
 		}
 
 		if(ple == 0) {
-			ai_puntaje[country] -= 50;
+			robot_state().ai_puntaje[country] -= 50;
 		}
 	}
 	return TEG_STATUS_SUCCESS;
@@ -174,10 +175,10 @@ TEG_STATUS ai_fichas_calc_puntaje_defense(c::ClientState& state, int country)
 
 	/* if it is no border, dont place on him */
 	if(f == 0) {
-		ai_puntaje[country] -= 50;
+		robot_state().ai_puntaje[country] -= 50;
 	}
 
-	ai_puntaje[country] += suma + (f/2);
+	robot_state().ai_puntaje[country] += suma + (f/2);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -237,7 +238,7 @@ TEG_STATUS ai_fichas_calc_puntaje_fichas(c::ClientState& state, int country)
 		suma += 3;
 	}
 
-	ai_puntaje[country] += suma;
+	robot_state().ai_puntaje[country] += suma;
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -265,7 +266,7 @@ TEG_STATUS ai_fichas_helper(c::ClientState& state, int cant)
 
 	for(i=0; i< COUNTRIES_CANT; i++) {
 		if(state.game.common.countries[i].numjug == c::who_am_i(state)) {
-			ai_puntaje[i]=0;
+			robot_state().ai_puntaje[i]=0;
 			ai_fichas_calc_puntaje(state, i);
 		}
 	}
@@ -276,8 +277,8 @@ TEG_STATUS ai_fichas_helper(c::ClientState& state, int cant)
 	}
 
 	for(i=0; i<static_cast<std::size_t>(cant); i++) {
-		if(c::fichas_add(state, &state.game.common.countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
-			c::textmsg(state, M_ERR, _("Failed to fichas_add(%s)"), state.game.common.countries[ai_sorted[i]].name);
+		if(c::fichas_add(state, &state.game.common.countries[ robot_state().ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
+			c::textmsg(state, M_ERR, _("Failed to fichas_add(%s)"), state.game.common.countries[robot_state().ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}
@@ -314,7 +315,7 @@ TEG_STATUS ai_fichas_en_cont(c::ClientState& state, int cont)
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		if(state.game.common.countries[i].continente == state.game.common.conts[cont].id) {
-			ai_puntaje[i] = 0;
+			robot_state().ai_puntaje[i] = 0;
 			ai_fichas_calc_puntaje_defense(state, i);
 		}
 	}
@@ -322,8 +323,8 @@ TEG_STATUS ai_fichas_en_cont(c::ClientState& state, int cont)
 	ai_puntaje_sort(cant);
 
 	for(i=0; i<static_cast<std::size_t>(cant); i++) {
-		if(c::fichas_add(state, &state.game.common.countries[ai_sorted[i]]) != TEG_STATUS_SUCCESS) {
-			c::textmsg(state, M_ERR, _("Failed to fichas_add(%s)"), state.game.common.countries[ai_sorted[i]].name);
+		if(c::fichas_add(state, &state.game.common.countries[robot_state().ai_sorted[i]]) != TEG_STATUS_SUCCESS) {
+			c::textmsg(state, M_ERR, _("Failed to fichas_add(%s)"), state.game.common.countries[robot_state().ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}

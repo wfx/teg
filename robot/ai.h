@@ -31,9 +31,6 @@ struct ClientState;
 namespace teg::robot
 {
 
-extern int ai_puntaje[COUNTRIES_CANT*10];
-extern int ai_sorted[COUNTRIES_CANT*10];
-
 /// \brief Initialize / reset the per country attack score
 TEG_STATUS ai_init(teg::client::ClientState& state);
 

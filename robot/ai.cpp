@@ -31,6 +31,7 @@
 
 #include "client.h"
 #include "ai.h"
+#include "state.h"
 #include "ai_fichas.h"
 
 namespace teg::robot
@@ -43,10 +44,6 @@ namespace c = ::teg::client;
  * limit for how many armies you can place! When set to 50 this was a cause of
  * overflows when games lasted longer. But 500 armies should be enough for everyone.
 */
-int ai_puntaje[COUNTRIES_CANT*10];
-int ai_sorted[COUNTRIES_CANT*10];
-static int attack_dst[COUNTRIES_CANT];
-
 TEG_STATUS ai_puntaje_sort(int cant)
 {
 	std::size_t i;
@@ -61,12 +58,12 @@ TEG_STATUS ai_puntaje_sort(int cant)
 	for(j=0; j<cant; j++) {
 		max = 0;
 		for(i=0; i<COUNTRIES_CANT; i++) {
-			if(ai_puntaje[i] > ai_puntaje[max]) {
+			if(robot_state().ai_puntaje[i] > robot_state().ai_puntaje[max]) {
 				max = i;
 			}
 		}
-		ai_sorted[j] = max;
-		ai_puntaje[max] -= 2;
+		robot_state().ai_sorted[j] = max;
+		robot_state().ai_puntaje[max] -= 2;
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -81,11 +78,11 @@ TEG_STATUS ai_puntaje_sort_for_attack()
 	int max=0;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(ai_puntaje[i] > ai_puntaje[max]) {
+		if(robot_state().ai_puntaje[i] > robot_state().ai_puntaje[max]) {
 			max = i;
 		}
 	}
-	ai_sorted[0] = max;
+	robot_state().ai_sorted[0] = max;
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -93,7 +90,7 @@ void ai_puntaje_clean()
 {
 	std::size_t i;
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		ai_puntaje[i] = -10000;
+		robot_state().ai_puntaje[i] = -10000;
 	}
 }
 
@@ -269,8 +266,8 @@ TEG_STATUS ai_puntaje_atacar(c::ClientState& state, int country)
 
 	/* return the best candidate */
 	if(dst >=0) {
-		ai_puntaje[ country ] = p;
-		attack_dst[ country ] = dst;
+		robot_state().ai_puntaje[ country ] = p;
+		robot_state().attack_dst[ country ] = dst;
 	}
 
 	return TEG_STATUS_SUCCESS;
@@ -289,9 +286,9 @@ TEG_STATUS ai_turno(c::ClientState& state)
 	}
 	ai_puntaje_sort_for_attack();
 
-	i = ai_sorted[0];
-	j = attack_dst[i];
-	if(ai_puntaje[i] > 0) {
+	i = robot_state().ai_sorted[0];
+	j = robot_state().attack_dst[i];
+	if(robot_state().ai_puntaje[i] > 0) {
 
 		c::attack_init(state);
 		c::attack_click(state, &state.game.common.countries[i]);
@@ -392,7 +389,7 @@ TEG_STATUS ai_tropas(c::ClientState& state, int src, int dst, int cant)
 	ai_fichas_calc_puntaje(state, dst);
 
 	for(i=0; i<cant; i++) {
-		if(ai_puntaje[dst] > ai_puntaje[src] + i) {
+		if(robot_state().ai_puntaje[dst] > robot_state().ai_puntaje[src] + i) {
 			c++;
 		}
 	}
