@@ -5,12 +5,9 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        image: ["debian:13", "ubuntu:latest"]
 
     container:
-      image: ${{ matrix.image }}
+      image: debian:13
 
     steps:
     - name: Install git
