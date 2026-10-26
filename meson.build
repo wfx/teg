@@ -110,6 +110,7 @@ if get_option('tests')
       'common/parser_check.cpp',
       'common/common_check.cpp',
       'client/helper_check.cpp',
+      'client/state_check.cpp',
       'client/gui-null/null.cpp',
     ),
     include_directories: top_inc,

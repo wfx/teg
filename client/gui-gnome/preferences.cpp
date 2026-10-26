@@ -30,6 +30,7 @@
 
 #include "fcintl.h"
 #include "client.h"
+#include "gui_state.h"
 #include "priv.h"
 #include "interface.h"
 #include "support.h"
@@ -178,23 +179,23 @@ static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 
 	/** messages **/
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(conf_cb_showerr))) {
-		g_game.msg_show |= M_ERR;
+		gui_state().game.msg_show |= M_ERR;
 	} else {
-		g_game.msg_show &= ~M_ERR;
+		gui_state().game.msg_show &= ~M_ERR;
 	}
 
 
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(conf_cb_showimp))) {
-		g_game.msg_show |= M_IMP;
+		gui_state().game.msg_show |= M_IMP;
 	} else {
-		g_game.msg_show &= ~M_IMP;
+		gui_state().game.msg_show &= ~M_IMP;
 	}
 
 
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(conf_cb_showmsg))) {
-		g_game.msg_show |= M_MSG;
+		gui_state().game.msg_show |= M_MSG;
 	} else {
-		g_game.msg_show &= ~M_MSG;
+		gui_state().game.msg_show &= ~M_MSG;
 	}
 
 
@@ -207,9 +208,9 @@ static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 
 
 	if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(conf_cb_showinf))) {
-		g_game.msg_show |= M_INF;
+		gui_state().game.msg_show |= M_INF;
 	} else {
-		g_game.msg_show &= ~M_INF;
+		gui_state().game.msg_show &= ~M_INF;
 	}
 
 	/** status **/
@@ -288,22 +289,22 @@ static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 
 
 	/* robot */
-	g_game.robot_in_server = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(conf_cb_robotserver));
+	gui_state().game.robot_in_server = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(conf_cb_robotserver));
 
 
 	/* save new configurations */
 	g_settings_delay(settings);
-	g_settings_set_int(settings, "msgshow", g_game.msg_show);
+	g_settings_set_int(settings, "msgshow", gui_state().game.msg_show);
 	g_settings_set_boolean(settings, "msgshow-with-color",
 	                       gui_private.msg_show_colors);
 	g_settings_set_int(settings, "status-show", gui_private.status_show);
 	g_settings_set_int(settings, "dialog-show", gui_private.dialog_show);
 	g_settings_set_boolean(settings, "robot-in-server",
-	                       g_game.robot_in_server);
+	                       gui_state().game.robot_in_server);
 
 	if(theme_activated) {
 		g_settings_set_string(settings, "theme", theme_activated);
-		if(strcmp(theme_activated, g_game.theme)) {
+		if(strcmp(theme_activated, gui_state().game.theme)) {
 			GtkWidget *dlg;
 
 			dlg = gtk_message_dialog_new(GTK_WINDOW(main_window),
@@ -323,7 +324,7 @@ static void apply_cb(GtkDialog *widget, gint id, gpointer data)
 
 static void fill_menu(GtkWidget *menu)
 {
-	ThemeDirectories const &themes{theme_enum_themes()};
+	ThemeDirectories const &themes{theme_enum_themes(gui_state())};
 
 	std::size_t i=0;
 	for(const auto& dirname: themes) {
@@ -331,7 +332,7 @@ static void fill_menu(GtkWidget *menu)
 		g_signal_connect(G_OBJECT(menu), "changed",
 		                 G_CALLBACK(theme_activated_callback), NULL);
 
-		if(dirname == g_game.theme) {
+		if(dirname == gui_state().game.theme) {
 			gtk_combo_box_set_active(GTK_COMBO_BOX(menu), i);
 		}
 		i++;
@@ -378,7 +379,7 @@ void preferences_activate(void)
 	                               GNOME_PAD);
 	gtk_widget_show(theme_frame_prev);
 
-	load_preview(g_game.theme);
+	load_preview(gui_state().game.theme);
 
 	gtk_box_pack_start(GTK_BOX(theme_vbox), theme_frame_sel, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(theme_vbox), theme_frame_prev, FALSE, FALSE, 0);
@@ -393,17 +394,17 @@ void preferences_activate(void)
 
 	conf_cb_showerr = gtk_check_button_new_with_label(_("Show Error Messages"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_showerr),
-	                             (g_game.msg_show & M_ERR) ?1:0);
+	                             (gui_state().game.msg_show & M_ERR) ?1:0);
 	gtk_box_pack_start(GTK_BOX(vbox), conf_cb_showerr, FALSE, FALSE, 0);
 
 	conf_cb_showimp = gtk_check_button_new_with_label(_("Show Important Messages"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_showimp),
-	                             (g_game.msg_show & M_IMP) ?1:0);
+	                             (gui_state().game.msg_show & M_IMP) ?1:0);
 	gtk_box_pack_start(GTK_BOX(vbox), conf_cb_showimp, FALSE, FALSE, 0);
 
 	conf_cb_showmsg = gtk_check_button_new_with_label(_("Show Players Messages"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_showmsg),
-	                             (g_game.msg_show & M_MSG) ?1:0);
+	                             (gui_state().game.msg_show & M_MSG) ?1:0);
 	gtk_box_pack_start(GTK_BOX(vbox), conf_cb_showmsg, FALSE, FALSE, 0);
 
 	conf_cb_showmsgcolor = gtk_check_button_new_with_label(_("Show Players Messages with colors"));
@@ -413,7 +414,7 @@ void preferences_activate(void)
 
 	conf_cb_showinf = gtk_check_button_new_with_label(_("Show Informative Messages"));
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_showinf),
-	                             (g_game.msg_show & M_INF) ?1:0);
+	                             (gui_state().game.msg_show & M_INF) ?1:0);
 	gtk_box_pack_start(GTK_BOX(vbox), conf_cb_showinf, FALSE, FALSE, 0);
 
 	gtk_container_add(GTK_CONTAINER(msg_frame), vbox);
@@ -510,12 +511,12 @@ void preferences_activate(void)
 
 	conf_cb_robotserver = gtk_radio_button_new_with_label(NULL,
 	                      _("Starts the robots in the server (faster)"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_robotserver), g_game.robot_in_server);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_robotserver), gui_state().game.robot_in_server);
 	gtk_box_pack_start(GTK_BOX(vbox), conf_cb_robotserver, FALSE, FALSE, 0);
 
 	conf_cb_robotclient = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(conf_cb_robotserver),
 	                      _("Starts the robots in the client (preserves localization)"));
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_robotclient), ! g_game.robot_in_server);
+	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(conf_cb_robotclient), ! gui_state().game.robot_in_server);
 	gtk_box_pack_start(GTK_BOX(vbox), conf_cb_robotclient, FALSE, FALSE, 0);
 
 

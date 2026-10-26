@@ -41,15 +41,13 @@
 namespace teg::client
 {
 
-CJUEGO g_game;			/**< client game */
-
-static void close_descriptors(void)
+static void close_descriptors(ClientState& state)
 {
 	int i, open_max;
 
 	/* force manually the close of the socket */
-	if(g_game.fd >0) {
-		net_close(g_game.fd);
+	if(state.game.fd >0) {
+		net_close(state.game.fd);
 	}
 
 	open_max = sysconf(_SC_OPEN_MAX);
@@ -59,112 +57,111 @@ static void close_descriptors(void)
 }
 
 /* re-initializes a game. called every time a new game will start */
-TEG_STATUS game_reinit()
+TEG_STATUS game_reinit(ClientState& state)
 {
 	int i;
 
-	g_game.playeres = 0;
-	g_game.dados_srccountry=-1;
-	g_game.dados_dstcountry=-1;
+	state.game.playeres = 0;
+	state.game.dados_srccountry=-1;
+	state.game.dados_dstcountry=-1;
 	for(i=0; i<3; i++) {
-		g_game.dados_src[i] = 0;
-		g_game.dados_dst[i] = 0;
+		state.game.dados_src[i] = 0;
+		state.game.dados_dst[i] = 0;
 	}
 
-	g_game.tarjetas_cant = 0;
+	state.game.tarjetas_cant = 0;
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		tarjeta_inittarj(&g_game.common.countries[i].tarjeta);
+		tarjeta_inittarj(&state.game.common.countries[i].tarjeta);
 	}
 
-	g_game.secret_mission = -1;
-	g_game.whos_turn = -1;
-	g_game.who_started_round = -1;
-	g_game.round_number = -1;
-	g_game.with_secret_mission = -1;
-	g_game.with_common_mission = -1;
-	g_game.with_fog_of_war = -1;
+	state.game.secret_mission = -1;
+	state.game.whos_turn = -1;
+	state.game.who_started_round = -1;
+	state.game.round_number = -1;
+	state.game.with_secret_mission = -1;
+	state.game.with_common_mission = -1;
+	state.game.with_fog_of_war = -1;
 
 	return TEG_STATUS_SUCCESS;
 }
 
 
 /* initializes a game */
-void game_init()
+void game_init(ClientState& state)
 {
-	static int firsttime=1;
-	g_game.fd = -1;
-	g_game.numjug = -1;
-	g_game.observer = 0;
+	state.game.fd = -1;
+	state.game.numjug = -1;
+	state.game.observer = 0;
 
 	/* variables seteadas por command line y que pueden cambiar estos defaults */
-	if(firsttime) {
+	if(state.first_time) {
 		dirs_create();
-		g_game.already_connected = 0;
+		state.game.already_connected = 0;
 	}
 
-	ESTADO_SET(PLAYER_STATUS_DESCONECTADO);
+	set_status(state, PLAYER_STATUS_DESCONECTADO);
 
-	game_reinit();
+	game_reinit(state);
 
 	/* name, server, serverport, color is assigned in the gui */
 
-	firsttime=0;
+	state.first_time = false;
 }
 
-void game_finalize()
+void game_finalize(ClientState& state)
 {
-	countries_init(g_game.common);
-	game_reinit();
+	countries_init(state.game.common);
+	game_reinit(state);
 }
 
-TEG_STATUS teg_connect()
+TEG_STATUS teg_connect(ClientState& state)
 {
-	if(ESTADO_ES(PLAYER_STATUS_DESCONECTADO)) {
+	if(is_status(state, PLAYER_STATUS_DESCONECTADO)) {
 
 		/* standar mode */
-		if(! g_game.already_connected) {
-			g_game.fd = net_connect_tcp((char*) &g_game.sername, g_game.serport);
-			if(g_game.fd < 0) {
-				textmsg(M_ERR, _("Error while trying to connect to server '%s' at port %d"), g_game.sername, g_game.serport);
+		if(! state.game.already_connected) {
+			state.game.fd = net_connect_tcp((char*) &state.game.sername, state.game.serport);
+			if(state.game.fd < 0) {
+				textmsg(state, M_ERR, _("Error while trying to connect to server '%s' at port %d"), state.game.sername, state.game.serport);
 				return TEG_STATUS_ERROR;
 			}
-		} else if(g_game.already_connected) {
-			g_game.fd = 3;
+		} else if(state.game.already_connected) {
+			state.game.fd = 3;
 		}
 
 		return TEG_STATUS_SUCCESS;
 	} else {
-		textmsg(M_ERR, _("Error, you are already connected"));
+		textmsg(state, M_ERR, _("Error, you are already connected"));
 		return TEG_STATUS_ERROR;
 	}
 }
 
-void teg_disconnect()
+void teg_disconnect(ClientState& state)
 {
-	ESTADO_SET(PLAYER_STATUS_DESCONECTADO);
+	set_status(state, PLAYER_STATUS_DESCONECTADO);
 
-	player_flush();
+	player_flush(state);
 
-	if(g_game.fd > 0) {
-		net_close(g_game.fd);
-		g_game.fd = -1;
+	if(state.game.fd > 0) {
+		net_close(state.game.fd);
+		state.game.fd = -1;
 	}
 
-	game_finalize();
-	game_init();
+	game_finalize(state);
+	game_init(state);
 
-	callbacks::gui_disconnect();
+	callbacks::gui_disconnect(state);
 }
 
-TEG_STATUS playerid_restore_from_error(void)
+TEG_STATUS playerid_restore_from_error(ClientState& state)
 {
-	textmsg(M_ERR, _("The game has already started. Connect as an observer."));
-	teg_disconnect();
+	textmsg(state, M_ERR, _("The game has already started. Connect as an observer."));
+	teg_disconnect(state);
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Launch a server in localost */
-TEG_STATUS launch_server(int port)
+TEG_STATUS launch_server(ClientState& state, int port)
 {
 	pid_t pid;
 	char const *args[6];
@@ -176,7 +173,7 @@ TEG_STATUS launch_server(int port)
 
 		auto const servername = program_directory() / "tegserver";
 		char buffer[100];
-		close_descriptors();
+		close_descriptors(state);
 		args[0] = "x-terminal-emulator";
 		args[1] = "-e";
 		args[2] = servername.c_str();
@@ -212,15 +209,15 @@ TEG_STATUS launch_server(int port)
 }
 
 /* Launch robot in localhost */
-TEG_STATUS launch_robot(void)
+TEG_STATUS launch_robot(ClientState& state)
 {
 	pid_t pid;
 	char const *args[7];
 	char port[50];
 
 	/* launch robot in the server */
-	if(g_game.robot_in_server) {
-		return out_robot();
+	if(state.game.robot_in_server) {
+		return out_robot(state);
 	}
 
 	/* launch robot in the client */
@@ -229,13 +226,13 @@ TEG_STATUS launch_robot(void)
 		return TEG_STATUS_ERROR;
 	} else if(pid == 0) {
 
-		close_descriptors();
+		close_descriptors(state);
 
-		sprintf(port, "%d", g_game.serport);
+		sprintf(port, "%d", state.game.serport);
 		auto const robot = program_directory() / "tegrobot";
 		args[0] = robot.c_str();
 		args[1] = "--server";
-		args[2] = g_game.sername;
+		args[2] = state.game.sername;
 		args[3] = "--port";
 		args[4] = port;
 		args[5] = "--quiet";
@@ -254,7 +251,7 @@ TEG_STATUS launch_robot(void)
 }
 
 /* display a message */
-TEG_STATUS textmsg(int level, char const *format, ...)
+TEG_STATUS textmsg(ClientState& state, int level, const char *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
@@ -265,8 +262,8 @@ TEG_STATUS textmsg(int level, char const *format, ...)
 
 	buf[ sizeof(buf) -1 ] = 0;
 
-	if(g_game.msg_show & level) {
-		callbacks::gui_textmsg(buf);
+	if(state.game.msg_show & level) {
+		callbacks::gui_textmsg(state, buf);
 	}
 	return TEG_STATUS_SUCCESS;
 }

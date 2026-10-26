@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 
 #include "client.h"
+#include "gui_state.h"
 
 #include "../common/missions.h"
 #include "chatline.h"
@@ -118,7 +119,7 @@ static TEG_STATUS mission_view_number(GtkWidget *dialog)
 
 	imagetxt = goo_canvas_text_new(
 	               goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	               missions_get_name(g_game.common, mission_number).c_str(),
+	               missions_get_name(gui_state().game.common, mission_number).c_str(),
 	               (double) 4,
 	               (double) 10,
 	               (double) -1,
@@ -133,10 +134,10 @@ static TEG_STATUS mission_view_number(GtkWidget *dialog)
 		imagetxt2 = NULL;
 	}
 
-	if(mission_number == g_game.secret_mission || mission_number == MISSION_COMMON) {
+	if(mission_number == gui_state().game.secret_mission || mission_number == MISSION_COMMON) {
 		char *text;
 
-		if(mission_number == g_game.secret_mission) {
+		if(mission_number == gui_state().game.secret_mission) {
 			text = _("[This is your secret mission.]");
 		} else {
 			text = _("[This is the common mission.]");
@@ -195,7 +196,7 @@ TEG_STATUS mission_view_fake_number(GtkWidget *frame, int mission)
 
 	goo_canvas_text_new(
 	    goo_canvas_get_root_item(GOO_CANVAS(fcanvas)),
-	    missions_get_name(g_game.common, mission).c_str(),
+	    missions_get_name(gui_state().game.common, mission).c_str(),
 	    (double) 4,
 	    (double) 10,
 	    (double) -1,
@@ -238,7 +239,7 @@ void mission_view_cb(GtkDialog *dialog, gint id, gpointer data)
 		return;
 	}
 
-	first_mission = g_game.with_common_mission ? MISSION_COMMON : MISSION_COMMON + 1;
+	first_mission = gui_state().game.with_common_mission ? MISSION_COMMON : MISSION_COMMON + 1;
 
 	switch(id) {
 	case 1:
@@ -265,17 +266,17 @@ void mission_view()
 	GtkWidget *dialog=NULL;
 
 
-	if(g_game.secret_mission < 0) {
-		textmsg(M_INF, _("Requesting a mission..."));
-		out_missions();
+	if(gui_state().game.secret_mission < 0) {
+		textmsg(gui_state(), M_INF, _("Requesting a mission..."));
+		out_missions(gui_state());
 		return;
 	}
 
-	mission_number = g_game.secret_mission;
+	mission_number = gui_state().game.secret_mission;
 
 	if(tar_mission == NULL) {
 		if(mission_load() != TEG_STATUS_SUCCESS) {
-			textmsg(M_INF, _("Your mission is: %s"), missions_get_name(g_game.common, mission_number));
+			textmsg(gui_state(), M_INF, _("Your mission is: %s"), missions_get_name(gui_state().game.common, mission_number));
 			return;
 		}
 	}
@@ -291,7 +292,7 @@ void mission_view()
 	                 G_CALLBACK(mission_view_cb), NULL);
 	/* create picture of card (canvas with labels) */
 
-	if(g_game.secret_mission == MISSION_CONQWORLD) {
+	if(gui_state().game.secret_mission == MISSION_CONQWORLD) {
 		gtk_dialog_set_response_sensitive(GTK_DIALOG(dialog), 1, FALSE);
 		gtk_dialog_set_response_sensitive(GTK_DIALOG(dialog), 2, FALSE);
 	} else {

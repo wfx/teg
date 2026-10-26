@@ -32,33 +32,15 @@
 namespace teg::client
 {
 
-/// \internal The origin of the ongoing attack
-static int country_origen = -1;
-
-//// \internal The target of the current attack
-static int country_destino = -1;
-
-/// \internal Copy of the origin country, used for attack replay (Ctrl-R)
-static int country_origen_bak = -1;
-
-/// \internal Copy of the target country, used for attack replay
-static int country_destino_bak = -1;
-
-/// \internal Used in the gnome gui only as a helper to show ongoing attacks
-static int show_src = -1;
-
-/// \internal Used in the gnome gui only as a helper to show ongoing attacks
-static int show_dst = -1;
-
 /* are the necesary conditions met for the attack ? */
-static TEG_STATUS attack_check()
+static TEG_STATUS attack_check(ClientState& state)
 {
 	PLAYER_STATUS e;
 
-	e = ESTADO_GET();
+	e = client_status(state);
 
 	if(e==PLAYER_STATUS_ATAQUE || e==PLAYER_STATUS_TROPAS) {
-		ESTADO_SET(PLAYER_STATUS_ATAQUE);
+		set_status(state, PLAYER_STATUS_ATAQUE);
 		return TEG_STATUS_SUCCESS;
 	} else {
 		return TEG_STATUS_ERROR;
@@ -66,176 +48,176 @@ static TEG_STATUS attack_check()
 }
 
 /* reset the status of the attack */
-void attack_reset()
+void attack_reset(ClientState& state)
 {
-	if(country_origen != -1) {
-		g_game.common.countries[country_origen].selected &= ~COUNTRY_SELECT_ATTACK;
-		callbacks::gui_country_select(country_origen);
-		country_origen = -1;
+	if(state.attack.country_origen != -1) {
+		state.game.common.countries[state.attack.country_origen].selected &= ~COUNTRY_SELECT_ATTACK;
+		callbacks::gui_country_select(state, state.attack.country_origen);
+		state.attack.country_origen = -1;
 	}
 
-	if(country_destino != -1) {
-		g_game.common.countries[country_destino].selected &= ~COUNTRY_SELECT_ATTACK;
-		callbacks::gui_country_select(country_destino);
-		country_destino = -1;
+	if(state.attack.country_destino != -1) {
+		state.game.common.countries[state.attack.country_destino].selected &= ~COUNTRY_SELECT_ATTACK;
+		callbacks::gui_country_select(state, state.attack.country_destino);
+		state.attack.country_destino = -1;
 	}
 }
 
-void attack_restore()
+void attack_restore(ClientState& state)
 {
-	country_origen = country_origen_bak;
-	country_destino = country_destino_bak;
+	state.attack.country_origen = state.attack.country_origen_bak;
+	state.attack.country_destino = state.attack.country_destino_bak;
 }
 
-void attack_backup()
+void attack_backup(ClientState& state)
 {
-	country_origen_bak = country_origen;
-	country_destino_bak = country_destino;
+	state.attack.country_origen_bak = state.attack.country_origen;
+	state.attack.country_destino_bak = state.attack.country_destino;
 }
 
-TEG_STATUS attack_init()
+TEG_STATUS attack_init(ClientState& state)
 {
-	if(attack_check() != TEG_STATUS_SUCCESS) {
+	if(attack_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	attack_backup(); /// \todo This looks wrong here.
-	attack_reset();
+	attack_backup(state); /// \todo This looks wrong here.
+	attack_reset(state);
 
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS attack_click(PCOUNTRY p)
+TEG_STATUS attack_click(ClientState& state, PCOUNTRY p)
 {
-	if(attack_check() != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Error, It's not the time to attack"));
+	if(attack_check(state) != TEG_STATUS_SUCCESS) {
+		textmsg(state, M_ERR, _("Error, It's not the time to attack"));
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	if(country_origen == -1) {
-		if(p->numjug == WHOAMI()) {
+	if(state.attack.country_origen == -1) {
+		if(p->numjug == who_am_i(state)) {
 			if(p->ejercitos >1) {
 				p->selected &= ~COUNTRY_SELECT_ATTACK_ENTER;
 				p->selected |= COUNTRY_SELECT_ATTACK;
-				callbacks::gui_country_select(p->id);
-				country_origen = p->id;
-				textmsg(M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(g_game.common, p->id));
+				callbacks::gui_country_select(state, p->id);
+				state.attack.country_origen = p->id;
+				textmsg(state, M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(state.game.common, p->id));
 			} else {
-				textmsg(M_ERR, _("Error, '%s' must have at least 2 armies"), countries_get_name(g_game.common, p->id));
+				textmsg(state, M_ERR, _("Error, '%s' must have at least 2 armies"), countries_get_name(state.game.common, p->id));
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
+			textmsg(state, M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(state.game.common, p->id));
 			return TEG_STATUS_UNEXPECTED;
 		}
-	} else if(country_destino == -1) {
-		if(country_origen == p->id) {
-			textmsg(M_INF, _("Source country is the same as the destination. Resetting the attack..."));
-			attack_reset();
+	} else if(state.attack.country_destino == -1) {
+		if(state.attack.country_origen == p->id) {
+			textmsg(state, M_INF, _("Source country is the same as the destination. Resetting the attack..."));
+			attack_reset(state);
 			return TEG_STATUS_SUCCESS;
 		}
 
-		if(p->numjug != WHOAMI()) {
-			if(countries_eslimitrofe(country_origen, p->id)) {
+		if(p->numjug != who_am_i(state)) {
+			if(countries_eslimitrofe(state.attack.country_origen, p->id)) {
 				p->selected &= ~COUNTRY_SELECT_ATTACK_ENTER;
 				p->selected |= COUNTRY_SELECT_ATTACK;
-				callbacks::gui_country_select(p->id);
-				country_destino = p->id;
-				textmsg(M_INF, _("Destination country: '%s'. Attacking..."), countries_get_name(g_game.common, p->id));
-				attack_out();
+				callbacks::gui_country_select(state, p->id);
+				state.attack.country_destino = p->id;
+				textmsg(state, M_INF, _("Destination country: '%s'. Attacking..."), countries_get_name(state.game.common, p->id));
+				attack_out(state);
 			} else {
-				textmsg(M_ERR, _("Error, '%s' isnt frontier with '%s'"), countries_get_name(g_game.common, p->id), countries_get_name(g_game.common, country_origen));
-				attack_reset();
+				textmsg(state, M_ERR, _("Error, '%s' isnt frontier with '%s'"), countries_get_name(state.game.common, p->id), countries_get_name(state.game.common, state.attack.country_origen));
+				attack_reset(state);
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR, _("Error, you cant attack your own countries ('%s')"), countries_get_name(g_game.common, p->id));
-			attack_reset();
+			textmsg(state, M_ERR, _("Error, you cant attack your own countries ('%s')"), countries_get_name(state.game.common, p->id));
+			attack_reset(state);
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else {
-		attack_reset();
-		textmsg(M_ERR, _("Error, unexpected error in attack_click(). Report this bug!"));
+		attack_reset(state);
+		textmsg(state, M_ERR, _("Error, unexpected error in attack_click(). Report this bug!"));
 		return TEG_STATUS_UNEXPECTED;
 	}
 
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS attack_finish(int *ori, int *dst)
+TEG_STATUS attack_finish(ClientState& state, int *ori, int *dst)
 {
-	if(attack_check() != TEG_STATUS_SUCCESS) {
+	if(attack_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	if(country_destino == -1 || country_origen == -1) {
+	if(state.attack.country_destino == -1 || state.attack.country_origen == -1) {
 		return TEG_STATUS_ERROR;
 	}
 
-	*ori = country_origen;
-	*dst = country_destino;
+	*ori = state.attack.country_origen;
+	*dst = state.attack.country_destino;
 
 	return TEG_STATUS_SUCCESS;
 }
 
 
-TEG_STATUS attack_pre_reset()
+TEG_STATUS attack_pre_reset(ClientState& state)
 {
-	if(attack_check() != TEG_STATUS_SUCCESS) {
+	if(attack_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_ERROR;
 	} else {
-		attack_reset();
+		attack_reset(state);
 		return TEG_STATUS_SUCCESS;
 	}
 }
 
 
 /* Sends to server the attack message */
-TEG_STATUS attack_out()
+TEG_STATUS attack_out(ClientState& state)
 {
 	int src;
 	int dst;
 
-	if(attack_finish(&src, &dst) != TEG_STATUS_SUCCESS)  {
-		textmsg(M_ERR, _("Error, make sure to select the countries first."));
-		attack_init();
+	if(attack_finish(state, &src, &dst) != TEG_STATUS_SUCCESS)  {
+		textmsg(state, M_ERR, _("Error, make sure to select the countries first."));
+		attack_init(state);
 		return TEG_STATUS_ERROR;
 	}
 
-	net_printf(g_game.fd, TOKEN_ATAQUE"=%d,%d\n", src, dst);
-	attack_backup();
+	net_printf(state.game.fd, TOKEN_ATAQUE"=%d,%d\n", src, dst);
+	attack_backup(state);
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Sends to server the attack message */
-TEG_STATUS attackre_out()
+TEG_STATUS attackre_out(ClientState& state)
 {
-	attack_restore();
-	return attack_out();
+	attack_restore(state);
+	return attack_out(state);
 }
 
 /* the mouse is over a country */
-TEG_STATUS attack_enter(PCOUNTRY p)
+TEG_STATUS attack_enter(ClientState& state, PCOUNTRY p)
 {
-	if(attack_check() != TEG_STATUS_SUCCESS) {
+	if(attack_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	if(country_origen == -1) {
-		if(p->numjug == WHOAMI()) {
+	if(state.attack.country_origen == -1) {
+		if(p->numjug == who_am_i(state)) {
 			if(p->ejercitos >1) {
 				if(!(p->selected & COUNTRY_SELECT_ATTACK_ENTER)) {
 					p->selected |= COUNTRY_SELECT_ATTACK_ENTER;
-					callbacks::gui_country_select(p->id);
+					callbacks::gui_country_select(state, p->id);
 				}
 			}
 		}
-	} else if(country_destino == -1) {
-		if(p->numjug != WHOAMI()) {
-			if(countries_eslimitrofe(country_origen, p->id)) {
+	} else if(state.attack.country_destino == -1) {
+		if(p->numjug != who_am_i(state)) {
+			if(countries_eslimitrofe(state.attack.country_origen, p->id)) {
 				if(!(p->selected & COUNTRY_SELECT_ATTACK_ENTER)) {
 					p->selected |= COUNTRY_SELECT_ATTACK_ENTER;
-					callbacks::gui_country_select(p->id);
+					callbacks::gui_country_select(state, p->id);
 				}
 			}
 		}
@@ -243,50 +225,50 @@ TEG_STATUS attack_enter(PCOUNTRY p)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS attack_leave(PCOUNTRY p)
+TEG_STATUS attack_leave(ClientState& state, PCOUNTRY p)
 {
-	if(attack_check() != TEG_STATUS_SUCCESS) {
+	if(attack_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_UNEXPECTED;
 	}
 	if(p->selected & COUNTRY_SELECT_ATTACK_ENTER) {
 		p->selected &= ~COUNTRY_SELECT_ATTACK_ENTER;
-		callbacks::gui_country_select(p->id);
+		callbacks::gui_country_select(state, p->id);
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
 /* unshow the attack shown with attack_show() */
-void attack_unshow()
+void attack_unshow(ClientState& state)
 {
 
-	if(show_src != -1) {
-		g_game.common.countries[show_src].selected &= ~COUNTRY_SELECT_ATTACK_SRC;
-		callbacks::gui_country_select(show_src);
-		show_src = -1;
+	if(state.attack.show_src != -1) {
+		state.game.common.countries[state.attack.show_src].selected &= ~COUNTRY_SELECT_ATTACK_SRC;
+		callbacks::gui_country_select(state, state.attack.show_src);
+		state.attack.show_src = -1;
 	}
 
-	if(show_dst != -1) {
-		g_game.common.countries[show_dst].selected &= ~COUNTRY_SELECT_ATTACK_DST;
-		callbacks::gui_country_select(show_dst);
-		show_dst = -1;
+	if(state.attack.show_dst != -1) {
+		state.game.common.countries[state.attack.show_dst].selected &= ~COUNTRY_SELECT_ATTACK_DST;
+		callbacks::gui_country_select(state, state.attack.show_dst);
+		state.attack.show_dst = -1;
 	}
 }
 
 /* shows attack an attack from srt to dst */
-void attack_show(int src, int dst)
+void attack_show(ClientState& state, int src, int dst)
 {
-	attack_unshow();
+	attack_unshow(state);
 
 	if(src >= 0 && src < static_cast<int>(COUNTRIES_CANT)) {
-		show_src = src;
-		g_game.common.countries[src].selected |= COUNTRY_SELECT_ATTACK_SRC;
-		callbacks::gui_country_select(src);
+		state.attack.show_src = src;
+		state.game.common.countries[src].selected |= COUNTRY_SELECT_ATTACK_SRC;
+		callbacks::gui_country_select(state, src);
 	}
 
 	if(dst >= 0 && dst < static_cast<int>(COUNTRIES_CANT)) {
-		show_dst = dst;
-		g_game.common.countries[dst].selected |= COUNTRY_SELECT_ATTACK_DST;
-		callbacks::gui_country_select(dst);
+		state.attack.show_dst = dst;
+		state.game.common.countries[dst].selected |= COUNTRY_SELECT_ATTACK_DST;
+		callbacks::gui_country_select(state, dst);
 	}
 }
 

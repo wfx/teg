@@ -24,13 +24,15 @@
 namespace teg::client
 {
 
-TEG_STATUS aux_status(PCPLAYER pj, char const *str);
-TEG_STATUS aux_countries(int numjug, const char *str);
-void aux_draw_all_countries();
-TEG_STATUS aux_player_init(PCPLAYER pJ, int numjug, char *name, int color);
-TEG_STATUS aux_start_error();
+struct ClientState;
+
+TEG_STATUS aux_status(ClientState& state, PCPLAYER pj, char const *str);
+TEG_STATUS aux_countries(ClientState& state, int numjug, const char *str);
+void aux_draw_all_countries(ClientState& state);
+TEG_STATUS aux_player_init(ClientState& state, PCPLAYER pJ, int numjug, char *name, int color);
+TEG_STATUS aux_start_error(ClientState& state);
 
 /*! parse one score */
-TEG_STATUS aux_scores(PSCORES pS, char const *str);
+TEG_STATUS aux_scores(ClientState& state, PSCORES pS, char const *str);
 
 }

@@ -28,21 +28,21 @@
 namespace teg::robot
 {
 
-char *ai_fetch_a_name()
+char *ai_fetch_a_name(teg::client::ClientState& state)
 {
 	namespace c = ::teg::client;
 
-	if(c::g_game.playeres < 2) {
+	if(state.game.playeres < 2) {
 		return NULL;
 	}
 
-	int n = random_between(0, c::g_game.playeres -1);
+	int n = random_between(0, state.game.playeres -1);
 	int i=0;
 
 	char *result{nullptr};
-	c::players_map_int([&i, &n, &result](c::Player &player) {
+	c::players_map_int(state, [&state, &i, &n, &result](c::Player &player) {
 		if((i++) == n) {
-			if(player.numjug == c::WHOAMI()) {
+			if(player.numjug == c::who_am_i(state)) {
 				n++;
 			} else {
 				result = player.name;

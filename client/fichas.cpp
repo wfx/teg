@@ -30,22 +30,15 @@
 namespace teg::client
 {
 
-static int	aFichas[COUNTRIES_CANT];	/**< array de los countries */
-static int	aConts[CONT_CANT];	/**< array de los continentes */
-static int	fichas_tot;		/**< cantidad de fichas que hay en el array */
-static int	wanted_tot;		/**< cantidad de fichas pedidas para enviar */
-static int	wanted_conts;		/**< continentes pedidos */
-
-
 /**
  * @fn static TEG_STATUS fichas_check()
  * Dice si se esta en condiciones de hacer algo con fichas
  */
-TEG_STATUS fichas_check()
+TEG_STATUS fichas_check(ClientState& state)
 {
 	PLAYER_STATUS e;
 
-	e = ESTADO_GET();
+	e = client_status(state);
 
 	if(e==PLAYER_STATUS_FICHAS || e==PLAYER_STATUS_FICHAS2 || e==PLAYER_STATUS_FICHASC) {
 		return TEG_STATUS_SUCCESS;
@@ -54,142 +47,142 @@ TEG_STATUS fichas_check()
 	}
 }
 
-TEG_STATUS fichas_add(PCOUNTRY p)
+TEG_STATUS fichas_add(ClientState& state, PCOUNTRY p)
 {
-	if(fichas_check() != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Error, you cant add armies now"));
+	if(fichas_check(state) != TEG_STATUS_SUCCESS) {
+		textmsg(state, M_ERR, _("Error, you cant add armies now"));
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	if(p->numjug == WHOAMI()) {
-		if(fichas_tot < wanted_tot) {
-			fichas_tot++;
+	if(p->numjug == who_am_i(state)) {
+		if(state.fichas.total < state.fichas.wanted) {
+			state.fichas.total++;
 			p->ejercitos++;
-			aFichas[p->id]++;
-			aConts[p->continente]++;
+			state.fichas.countries[p->id]++;
+			state.fichas.continents[p->continente]++;
 			return TEG_STATUS_SUCCESS;
 		} else {
-			textmsg(M_ERR, _("Error, you cant put more than %d armies"), wanted_tot);
-			fichas_enter(p);
+			textmsg(state, M_ERR, _("Error, you cant put more than %d armies"), state.fichas.wanted);
+			fichas_enter(state, p);
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
+		textmsg(state, M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(state.game.common, p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }
 
-TEG_STATUS fichas_sub(PCOUNTRY p)
+TEG_STATUS fichas_sub(ClientState& state, PCOUNTRY p)
 {
-	if(fichas_check() != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Error, you cant sub armies now"));
+	if(fichas_check(state) != TEG_STATUS_SUCCESS) {
+		textmsg(state, M_ERR, _("Error, you cant sub armies now"));
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	if(p->numjug == WHOAMI()) {
-		if(aFichas[p->id]) {
-			fichas_tot--;
+	if(p->numjug == who_am_i(state)) {
+		if(state.fichas.countries[p->id]) {
+			state.fichas.total--;
 			p->ejercitos--;
-			aFichas[p->id]--;
-			aConts[p->continente]--;
-			fichas_enter(p);
+			state.fichas.countries[p->id]--;
+			state.fichas.continents[p->continente]--;
+			fichas_enter(state, p);
 			return TEG_STATUS_SUCCESS;
 		} else {
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
+		textmsg(state, M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(state.game.common, p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }
 
-TEG_STATUS fichas_finish(int **ptr)
+TEG_STATUS fichas_finish(ClientState& state, int **ptr)
 {
 	int i, c;
-	if(fichas_check() != TEG_STATUS_SUCCESS) {
+	if(fichas_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_UNEXPECTED;
 	}
 
-	if(wanted_tot != fichas_tot) {
+	if(state.fichas.wanted != state.fichas.total) {
 		return TEG_STATUS_ERROR;
 	}
 
-	c = wanted_conts;
+	c = state.fichas.wanted_continents;
 	for(i=0; i<CONT_CANT; i++) {
-		if((c & 1) && (aConts[i] < g_game.common.conts[i].fichas_x_cont)) {
+		if((c & 1) && (state.fichas.continents[i] < state.game.common.conts[i].fichas_x_cont)) {
 			return TEG_STATUS_ERROR;
 		}
 		c >>= 1;
 	}
 
-	*ptr = aFichas;
+	*ptr = state.fichas.countries.data();
 	return TEG_STATUS_SUCCESS;
 }
 
-void fichas_init(int cant, int conts)
+void fichas_init(ClientState& state, int cant, int conts)
 {
 	int i;
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		aFichas[i]=0;
+		state.fichas.countries[i]=0;
 	}
 	for(i=0; i<CONT_CANT; i++) {
-		aConts[i]=0;
+		state.fichas.continents[i]=0;
 	}
-	fichas_tot = 0;
-	wanted_tot = cant;
-	wanted_conts = conts;
+	state.fichas.total = 0;
+	state.fichas.wanted = cant;
+	state.fichas.wanted_continents = conts;
 }
 
-void fichas_add_wanted(int i)
+void fichas_add_wanted(ClientState& state, int i)
 {
-	wanted_tot += i ;
+	state.fichas.wanted += i ;
 }
 
-void fichas_reset()
+void fichas_reset(ClientState& state)
 {
 	int i;
 
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		if(aFichas[i]) {
-			g_game.common.countries[i].ejercitos -= aFichas[i];
-			aFichas[i] = 0;
+		if(state.fichas.countries[i]) {
+			state.game.common.countries[i].ejercitos -= state.fichas.countries[i];
+			state.fichas.countries[i] = 0;
 		}
 	}
 	for(i=0; i<CONT_CANT; i++) {
-		aConts[i] = 0;
+		state.fichas.continents[i] = 0;
 	}
 
-	fichas_tot = 0;
+	state.fichas.total = 0;
 }
 
-TEG_STATUS fichas_restore_from_error()
+TEG_STATUS fichas_restore_from_error(ClientState& state)
 {
-	ESTADO_SET(PLAYER_STATUS_FICHAS);
-	fichas_reset();
-	aux_draw_all_countries();
-	callbacks::gui_sensi();
+	set_status(state, PLAYER_STATUS_FICHAS);
+	fichas_reset(state);
+	aux_draw_all_countries(state);
+	callbacks::gui_sensi(state);
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS fichas2_restore_from_error()
+TEG_STATUS fichas2_restore_from_error(ClientState& state)
 {
-	ESTADO_SET(PLAYER_STATUS_FICHAS2);
-	fichas_reset();
-	aux_draw_all_countries();
-	callbacks::gui_sensi();
+	set_status(state, PLAYER_STATUS_FICHAS2);
+	fichas_reset(state);
+	aux_draw_all_countries(state);
+	callbacks::gui_sensi(state);
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS fichasc_restore_from_error()
+TEG_STATUS fichasc_restore_from_error(ClientState& state)
 {
-	ESTADO_SET(PLAYER_STATUS_FICHASC);
-	fichas_reset();
-	aux_draw_all_countries();
-	callbacks::gui_sensi();
+	set_status(state, PLAYER_STATUS_FICHASC);
+	fichas_reset(state);
+	aux_draw_all_countries(state);
+	callbacks::gui_sensi(state);
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS fichas_out()
+TEG_STATUS fichas_out(ClientState& state)
 {
 	char buf[2000];
 	char tmp[100];
@@ -198,14 +191,14 @@ TEG_STATUS fichas_out()
 	int first_time;
 	PLAYER_STATUS e;
 
-	if(fichas_check() != TEG_STATUS_SUCCESS) {
-		textmsg(M_ERR, _("Error, its not the time to send armies"));
+	if(fichas_check(state) != TEG_STATUS_SUCCESS) {
+		textmsg(state, M_ERR, _("Error, its not the time to send armies"));
 		return TEG_STATUS_ERROR;
 	}
 
-	if(fichas_finish(&ptr) != TEG_STATUS_SUCCESS)  {
-		fichas_reset();
-		textmsg(M_ERR, _("Error, put the correct number of armies"));
+	if(fichas_finish(state, &ptr) != TEG_STATUS_SUCCESS)  {
+		fichas_reset(state);
+		textmsg(state, M_ERR, _("Error, put the correct number of armies"));
 		return TEG_STATUS_ERROR;
 	}
 
@@ -226,69 +219,69 @@ TEG_STATUS fichas_out()
 		}
 	}
 
-	e = ESTADO_GET();
+	e = client_status(state);
 	switch(e) {
 	case PLAYER_STATUS_FICHAS:
-		net_printf(g_game.fd, TOKEN_FICHAS"=%s\n", buf);
-		ESTADO_SET(PLAYER_STATUS_POSTFICHAS);
+		net_printf(state.game.fd, TOKEN_FICHAS"=%s\n", buf);
+		set_status(state, PLAYER_STATUS_POSTFICHAS);
 		break;
 	case PLAYER_STATUS_FICHAS2:
-		net_printf(g_game.fd, TOKEN_FICHAS2"=%s\n", buf);
-		ESTADO_SET(PLAYER_STATUS_POSTFICHAS2);
+		net_printf(state.game.fd, TOKEN_FICHAS2"=%s\n", buf);
+		set_status(state, PLAYER_STATUS_POSTFICHAS2);
 		break;
 	case PLAYER_STATUS_FICHASC:
-		net_printf(g_game.fd, TOKEN_FICHASC"=%s\n", buf);
-		ESTADO_SET(PLAYER_STATUS_POSTFICHASC);
+		net_printf(state.game.fd, TOKEN_FICHASC"=%s\n", buf);
+		set_status(state, PLAYER_STATUS_POSTFICHASC);
 		break;
 	default:
-		textmsg(M_ERR, _("Error, its not the moment to send your armies"));
+		textmsg(state, M_ERR, _("Error, its not the moment to send your armies"));
 		return TEG_STATUS_ERROR;
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS fichas_enter(PCOUNTRY p)
+TEG_STATUS fichas_enter(ClientState& state, PCOUNTRY p)
 {
-	if(fichas_check() != TEG_STATUS_SUCCESS) {
+	if(fichas_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(p->numjug == WHOAMI()) {
-		if(fichas_tot >= wanted_tot)  {
+	if(p->numjug == who_am_i(state)) {
+		if(state.fichas.total >= state.fichas.wanted)  {
 			if(!(p->selected & COUNTRY_SELECT_FICHAS_OUT)) {
 				p->selected &= ~COUNTRY_SELECT_FICHAS_IN;
 				p->selected |= COUNTRY_SELECT_FICHAS_OUT;
-				callbacks::gui_country_select(p->id);
+				callbacks::gui_country_select(state, p->id);
 			}
 		} else {
 			if(!(p->selected & COUNTRY_SELECT_FICHAS_IN)) {
 				p->selected &= ~COUNTRY_SELECT_FICHAS_OUT;
 				p->selected |= COUNTRY_SELECT_FICHAS_IN;
-				callbacks::gui_country_select(p->id);
+				callbacks::gui_country_select(state, p->id);
 			}
 		}
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS fichas_leave(PCOUNTRY p)
+TEG_STATUS fichas_leave(ClientState& state, PCOUNTRY p)
 {
-	if(fichas_check() != TEG_STATUS_SUCCESS) {
+	if(fichas_check(state) != TEG_STATUS_SUCCESS) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(p->numjug == WHOAMI()) {
+	if(p->numjug == who_am_i(state)) {
 		p->selected &= ~COUNTRY_SELECT_FICHAS_IN;
 		p->selected &= ~COUNTRY_SELECT_FICHAS_OUT;
-		callbacks::gui_country_select(p->id);
+		callbacks::gui_country_select(state, p->id);
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
-void fichas_get_wanted(int *cant, int *conts)
+void fichas_get_wanted(ClientState& state, int *cant, int *conts)
 {
-	*cant = wanted_tot - cont_tot(g_game.common, wanted_conts);
-	*conts = wanted_conts;
+	*cant = state.fichas.wanted - cont_tot(state.game.common, state.fichas.wanted_continents);
+	*conts = state.fichas.wanted_continents;
 }
 
 }

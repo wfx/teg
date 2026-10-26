@@ -20,10 +20,15 @@
 
 #pragma once
 
+namespace teg::client
+{
+struct ClientState;
+}
+
 namespace teg::robot
 {
 
 /// Select a random player name.
-char *ai_fetch_a_name();
+char *ai_fetch_a_name(teg::client::ClientState& state);
 
 }

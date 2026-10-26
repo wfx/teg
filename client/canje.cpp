@@ -32,21 +32,21 @@
 namespace teg::client
 {
 
-TEG_STATUS canje_out(int p1, int p2, int p3)
+TEG_STATUS canje_out(ClientState& state, int p1, int p2, int p3)
 {
-	if(!ESTADO_ES(PLAYER_STATUS_FICHASC)) {
-		textmsg(M_ERR, _("Error, its not the moment to exchange the cards"));
+	if(!is_status(state, PLAYER_STATUS_FICHASC)) {
+		textmsg(state, M_ERR, _("Error, its not the moment to exchange the cards"));
 		return TEG_STATUS_ERROR;
 	}
 
-	if(tarjeta_puedocanje(g_game.common, WHOAMI(), p1, p2, p3)) {
-		net_printf(g_game.fd, TOKEN_CANJE"=%d,%d,%d\n", p1, p2, p3);
-		tarjeta_poner(&g_game.common.countries[p1].tarjeta);
-		tarjeta_poner(&g_game.common.countries[p2].tarjeta);
-		tarjeta_poner(&g_game.common.countries[p3].tarjeta);
+	if(tarjeta_puedocanje(state.game.common, who_am_i(state), p1, p2, p3)) {
+		net_printf(state.game.fd, TOKEN_CANJE"=%d,%d,%d\n", p1, p2, p3);
+		tarjeta_poner(&state.game.common.countries[p1].tarjeta);
+		tarjeta_poner(&state.game.common.countries[p2].tarjeta);
+		tarjeta_poner(&state.game.common.countries[p3].tarjeta);
 		return TEG_STATUS_SUCCESS;
 	} else {
-		textmsg(M_ERR, _("Error, the cards must be all equal, or all different"));
+		textmsg(state, M_ERR, _("Error, the cards must be all equal, or all different"));
 		return TEG_STATUS_ERROR;
 	}
 }
@@ -56,10 +56,10 @@ TEG_STATUS canje_out(int p1, int p2, int p3)
  * Dice si se puede hacer canje, y devuelve una posible combinacion
  * de tarjetas
  */
-TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
+TEG_STATUS canje_puedo(ClientState& state, int *p1, int *p2, int *p3)
 {
 
-	if(g_game.tarjetas_cant < 3) {
+	if(state.game.tarjetas_cant < 3) {
 		return TEG_STATUS_ERROR;
 	}
 
@@ -69,18 +69,18 @@ TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 	}
 
 	unsigned index=0;
-	countries_map(g_game.common, [&a, &index](COUNTRY& country) {
-		if((country.tarjeta.numjug == WHOAMI())
+	countries_map(state.game.common, [&state, &a, &index](COUNTRY& country) {
+		if((country.tarjeta.numjug == who_am_i(state))
 		        && (index < std::extent<decltype(a)>::value)) {
 			a[index] = country.id;
 			index++;
 		}
 	});
 
-	for(int i=0; i<g_game.tarjetas_cant; i++) {
-		for(int j=i+1; j<g_game.tarjetas_cant; j++) {
-			for(int k=j+1; k<g_game.tarjetas_cant; k++) {
-				if(tarjeta_puedocanje(g_game.common, g_game.numjug, a[i], a[j], a[k])) {
+	for(int i=0; i<state.game.tarjetas_cant; i++) {
+		for(int j=i+1; j<state.game.tarjetas_cant; j++) {
+			for(int k=j+1; k<state.game.tarjetas_cant; k++) {
+				if(tarjeta_puedocanje(state.game.common, state.game.numjug, a[i], a[j], a[k])) {
 					if(p1) {
 						*p1 = a[i];
 					}

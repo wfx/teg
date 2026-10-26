@@ -23,6 +23,11 @@
 #include "../common/common.h"
 #include "cont.h"
 
+namespace teg::client
+{
+struct ClientState;
+}
+
 namespace teg::robot
 {
 
@@ -30,7 +35,7 @@ extern int ai_puntaje[COUNTRIES_CANT*10];
 extern int ai_sorted[COUNTRIES_CANT*10];
 
 /// \brief Initialize / reset the per country attack score
-TEG_STATUS ai_init();
+TEG_STATUS ai_init(teg::client::ClientState& state);
 
 /**
  * \brief Tries to perform one attack.
@@ -38,19 +43,19 @@ TEG_STATUS ai_init();
  * \note The next attack will be started by the timeout in gui_main and the
  *       out_loque() call there.
  */
-TEG_STATUS ai_turno();
+TEG_STATUS ai_turno(teg::client::ClientState& state);
 
 /// Move the armies after the attack turn.
-TEG_STATUS ai_reagrupe();
+TEG_STATUS ai_reagrupe(teg::client::ClientState& state);
 
 /// Move armies from my counry to the new conquered country
-TEG_STATUS ai_tropas(int src, int dst, int cant);
+TEG_STATUS ai_tropas(teg::client::ClientState& state, int src, int dst, int cant);
 
 /// Try to exchange cards
-TEG_STATUS ai_puedocanje(int *p1, int *p2, int *p3);
+TEG_STATUS ai_puedocanje(teg::client::ClientState& state, int *p1, int *p2, int *p3);
 
 /// Do I own the continent number \p c?
-bool ai_own_continent(CONTINENTE c);
+bool ai_own_continent(teg::client::ClientState& state, CONTINENTE c);
 
 /// \todo Find out what this function does
 TEG_STATUS ai_puntaje_sort(int cant);

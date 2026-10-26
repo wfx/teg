@@ -23,6 +23,7 @@
 
 #include "../../common/net.h"
 #include "client.h"
+#include "gui_state.h"
 #include "interface.h"
 #include "chatline.h"
 #include "colors.h"
@@ -48,9 +49,9 @@ void inputline_return(GtkEntry *w, gpointer data)
 {
 	const char *theinput;
 
-	if(ESTADO_ES(PLAYER_STATUS_DESCONECTADO)) {
+	if(is_status(gui_state(), PLAYER_STATUS_DESCONECTADO)) {
 		gtk_entry_set_text(w, "");
-		textmsg(M_INF, _("You need to be connected"));
+		textmsg(gui_state(), M_INF, _("You need to be connected"));
 		return;
 	}
 
@@ -58,10 +59,10 @@ void inputline_return(GtkEntry *w, gpointer data)
 
 	if(*theinput) {
 		if(theinput[0]=='/') {
-			net_printf(g_game.fd, "%s\n", &theinput[1]);
+			net_printf(gui_state().game.fd, "%s\n", &theinput[1]);
 		} else	{
 			char *d = g_strdup(theinput);
-			out_mensaje(d);
+			out_mensaje(gui_state(), d);
 			g_free(d);
 		}
 	}
@@ -69,7 +70,7 @@ void inputline_return(GtkEntry *w, gpointer data)
 }
 
 /* funcion exportada a cliente */
-TEG_STATUS gui_textmsg(char *astring)
+TEG_STATUS gui_textmsg(ClientState& state, char *astring)
 {
 	gchar *ptr;
 	GtkTextIter iter;
@@ -87,7 +88,7 @@ TEG_STATUS gui_textmsg(char *astring)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS gui_textplayermsg(char const *n, int num, char const *msg)
+TEG_STATUS gui_textplayermsg(ClientState& state, char const *n, int num, char const *msg)
 {
 	GtkTextIter iter;
 	char name[max_playername_length+30];

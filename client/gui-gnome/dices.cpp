@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 
 #include "client.h"
+#include "gui_state.h"
 
 #include "dices.h"
 
@@ -75,7 +76,7 @@ typedef enum dices_type {
  */
 static TEG_STATUS dices_load_from_file(char *name, int i)
 {
-	auto const fpath = theme_load_file(name);
+	auto const fpath = theme_load_file(gui_state(), name);
 	char const*const filename = fpath ? fpath->c_str() : nullptr;
 
 	dices[i] = gdk_pixbuf_new_from_file(filename, NULL);
@@ -116,7 +117,7 @@ static void dices_show_text(int country, dices_type_t type)
 
 	text[type] = goo_canvas_text_new(
 	                 dices_group,
-	                 countries_get_name(g_game.common, country),
+	                 countries_get_name(gui_state().game.common, country),
 	                 (double)(type == DICES_ATTACKER) ? dices_pos.attacker_text.x :  dices_pos.defender_text.x,
 	                 (double)(type == DICES_ATTACKER) ? dices_pos.attacker_text.y :  dices_pos.defender_text.y,
 	                 (double) -1,
@@ -197,7 +198,7 @@ void dices_init(GooCanvasItem *root)
 	/* load dices position */
 	{
 		int i;
-		if(! theme_using_extended_dices()) {
+		if(! theme_using_extended_dices(gui_state())) {
 			/* basic behaviour */
 			double x = 0;
 			for(i=0; i<3; i++) {
@@ -258,7 +259,7 @@ void dices_view()
 		return;
 	}
 
-	if(g_game.dados_srccountry == -1 || g_game.dados_dstcountry == -1) {
+	if(gui_state().game.dados_srccountry == -1 || gui_state().game.dados_dstcountry == -1) {
 		return;
 	}
 
@@ -270,22 +271,22 @@ void dices_view()
 	}
 
 	for(i=0; i<3; i++) {
-		if(g_game.dados_src[i] == 0) {
+		if(gui_state().game.dados_src[i] == 0) {
 			break;
 		}
 
-		dices_show_image(g_game.dados_src[i]-1, DICES_ATTACKER, i);
+		dices_show_image(gui_state().game.dados_src[i]-1, DICES_ATTACKER, i);
 	}
-	dices_show_text(g_game.dados_srccountry, DICES_ATTACKER);
+	dices_show_text(gui_state().game.dados_srccountry, DICES_ATTACKER);
 
 
 	for(i=0; i<3; i++) {
-		if(g_game.dados_dst[i] == 0) {
+		if(gui_state().game.dados_dst[i] == 0) {
 			break;
 		}
-		dices_show_image(g_game.dados_dst[i]-1, DICES_DEFENDER, i);
+		dices_show_image(gui_state().game.dados_dst[i]-1, DICES_DEFENDER, i);
 	}
-	dices_show_text(g_game.dados_dstcountry, DICES_DEFENDER);
+	dices_show_text(gui_state().game.dados_dstcountry, DICES_DEFENDER);
 }
 
 }

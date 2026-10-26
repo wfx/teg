@@ -26,11 +26,13 @@
 namespace teg::client
 {
 
+struct ClientState;
+
 /**
  * \brief Checks if attacks are possible, and reset the current user attack
  * if it is so.
  */
-TEG_STATUS attack_init();
+TEG_STATUS attack_init(ClientState& state);
 
 /**
  * @brief GUI callback to start attacks.
@@ -44,7 +46,7 @@ TEG_STATUS attack_init();
  * \todo This code should be moved to the GUI.
  * \param p the country which got clicked on.
  */
-TEG_STATUS attack_click(PCOUNTRY p);
+TEG_STATUS attack_click(ClientState& state, PCOUNTRY p);
 
 /**
  * \brief Prepare the attack country numbers.
@@ -54,13 +56,13 @@ TEG_STATUS attack_click(PCOUNTRY p);
  *
  * \return TEG_STATUS_SUCCESS when the attack is possible.
  */
-TEG_STATUS attack_finish(int *ori, int *dst);
+TEG_STATUS attack_finish(ClientState& state, int *ori, int *dst);
 
 /// \brief restores the last backed up attack state. Used for attackre_out
-void attack_restore();
+void attack_restore(ClientState& state);
 
 /// \brief Stores the current user generated attack for reuse
-void attack_backup();
+void attack_backup(ClientState& state);
 
 /**
  * \brief Resets the internal state of any ongoing attack, and update the
@@ -69,18 +71,18 @@ void attack_backup();
  * This works on the user-controllable source-dest pair, instead of the
  * game controller source-dest-pair which attack_unshow works on.
  */
-void attack_reset();
+void attack_reset(ClientState& state);
 
 /// \brief GUI-Callback: cancel attack
 /// \todo: The menu item behind this does not seem to be very usefull, so it
 ///        seems better to remove this functionality.
-TEG_STATUS attack_pre_reset();
+TEG_STATUS attack_pre_reset(ClientState& state);
 
 /// \brief send out the currently prepared attack to the game controller
-TEG_STATUS attack_out();
+TEG_STATUS attack_out(ClientState& state);
 
 /// \brief Perform the last attack again.
-TEG_STATUS attackre_out();
+TEG_STATUS attackre_out(ClientState& state);
 
 /**
  * \brief Helper function to query the attack state of a county.
@@ -93,7 +95,7 @@ TEG_STATUS attackre_out();
  *
  * \todo Refactor this so that the attack code does not call GUI code.
  */
-TEG_STATUS attack_enter(PCOUNTRY p);
+TEG_STATUS attack_enter(ClientState& state, PCOUNTRY p);
 
 /**
  * \brief Accompanying function for attack_enter.
@@ -104,7 +106,7 @@ TEG_STATUS attack_enter(PCOUNTRY p);
  *
  * \todo: make this function disappear
  */
-TEG_STATUS attack_leave(PCOUNTRY p);
+TEG_STATUS attack_leave(ClientState& state, PCOUNTRY p);
 
 /**
  * \brief Callback from the game controller when an attack is performed.
@@ -113,7 +115,7 @@ TEG_STATUS attack_leave(PCOUNTRY p);
  * attacking country number in \p src, and the attacked country number in
  * \p dst.
  */
-void attack_show(int src, int dst);
+void attack_show(ClientState& state, int src, int dst);
 
 /**
  * \brief Callback from the game controller when all possible attacks are to
@@ -121,6 +123,6 @@ void attack_show(int src, int dst);
  *
  * This function is called to reset any attack marks in the GUI.
  */
-void attack_unshow();
+void attack_unshow(ClientState& state);
 
 }

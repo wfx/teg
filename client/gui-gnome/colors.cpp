@@ -27,6 +27,7 @@
 #include <glib/gi18n.h>
 
 #include "client.h"
+#include "gui_state.h"
 
 #include "colors.h"
 #include "support.h"
@@ -90,7 +91,7 @@ TEG_STATUS colors_load_images(void)
 			                         load_pixmap_file(name).c_str(), NULL);
 		} else {
 			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, color_name(i));
-			auto const fpath = theme_load_file(name);
+			auto const fpath = theme_load_file(gui_state(), name);
 			char const*const filename = fpath ? fpath->c_str() : nullptr;
 			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
 		}
@@ -172,7 +173,7 @@ GdkRGBA* colors_get_player(int n)
 {
 	PCPLAYER pJ;
 
-	if(player_whois(n, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(gui_state(), n, &pJ) != TEG_STATUS_SUCCESS) {
 		return &colors_players[NR_COLORS-1];
 	}
 
@@ -194,7 +195,7 @@ GdkRGBA* colors_get_player_ink(int n)
 {
 	PCPLAYER pJ;
 
-	if(player_whois(n, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(gui_state(), n, &pJ) != TEG_STATUS_SUCCESS) {
 		return &colors_common[COLORS_BLACK];
 	}
 
@@ -214,7 +215,7 @@ GdkRGBA* colors_get_player_ink_from_color(int color)
 
 GdkRGBA* colors_get_player_virtual(int n)
 {
-	if(n == g_game.numjug) {
+	if(n == gui_state().game.numjug) {
 		return &colors_players[COLORS_P_BLUE];
 	}
 	return &colors_players[COLORS_P_RED];
@@ -236,7 +237,7 @@ char * get_tag_for_color(int color)
 
 	strcpy((char*)buffer, "default_tag");
 
-	if(player_whois(color, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(gui_state(), color, &pJ) != TEG_STATUS_SUCCESS) {
 		return (char*)buffer;
 	}
 

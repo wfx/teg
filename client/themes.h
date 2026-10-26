@@ -32,6 +32,8 @@
 namespace teg::client
 {
 
+struct ClientState;
+
 #define THEME_CONTINENT_MAX	(30)
 #define THEME_COUNTRY_MAX	(30)
 #define THEME_MAX_NAME		(50)
@@ -157,30 +159,30 @@ typedef struct _ttheme {
 using ThemeDirectories = std::set<std::string>;
 
 /// \brief Tries to load the theme named \p name from different directories
-TEG_STATUS theme_load(char *name);
+TEG_STATUS theme_load(ClientState& state, char *name);
 
 /// \brief Fill in the card details from the theme dataset
-TEG_STATUS theme_giveme_cards(pTCards pC);
+TEG_STATUS theme_giveme_cards(ClientState& state, pTCards pC);
 
 /// \brief Fill in the coordinates of continent \p n into the structure \p pC
-TEG_STATUS theme_giveme_continent(pTContinent pC, int n);
+TEG_STATUS theme_giveme_continent(ClientState& state, pTContinent pC, int n);
 
 /// \brief Fill in the details of country \p n of continent \p cont into \p pC
-TEG_STATUS theme_giveme_country(pTCountry pC, int cont, int n);
+TEG_STATUS theme_giveme_country(ClientState& state, pTCountry pC, int cont, int n);
 
 /// \brief Copy the theme data into \p pT
-TEG_STATUS theme_giveme_theme(pTTheme pT);
+TEG_STATUS theme_giveme_theme(ClientState& state, pTTheme pT);
 
 /// \brief Return the list of all available themes
-ThemeDirectories const& theme_enum_themes();
+ThemeDirectories const& theme_enum_themes(ClientState& state);
 
 /// \brief Tries to load the theme \p name.
-std::optional<std::filesystem::path> theme_load_file(const char *name);
+std::optional<std::filesystem::path> theme_load_file(ClientState& state, const char *name);
 
 /// Tries to load the preview image
 std::optional<std::filesystem::path> theme_load_fake_file(const char *name, const char *theme);
 
 /**! returns 1 if dices extended are being used */
-int theme_using_extended_dices();
+int theme_using_extended_dices(ClientState& state);
 
 }

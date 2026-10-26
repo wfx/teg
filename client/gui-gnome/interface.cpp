@@ -35,6 +35,7 @@
 #include <glib/gi18n.h>
 
 #include "client.h"
+#include "gui_state.h"
 #include "chatline.h"
 #include "callbacks.h"
 #include "interface.h"
@@ -179,7 +180,7 @@ static TEG_STATUS canvas_create_map(void)
 	g_object_set(canvas_map, "anchor", GOO_CANVAS_ANCHOR_CENTER, NULL);
 	root = goo_canvas_get_root_item(GOO_CANVAS(canvas_map));
 
-	auto fpath = theme_load_file(gui_theme.board);
+	auto fpath = theme_load_file(gui_state(), gui_theme.board);
 	char const*const filename = fpath ? fpath->c_str() : nullptr;
 
 	im = gdk_pixbuf_new_from_file(filename, NULL);
@@ -744,7 +745,7 @@ error:
  */
 TEG_STATUS set_sensitive_tb(void)
 {
-	PLAYER_STATUS e = ESTADO_GET();
+	PLAYER_STATUS e = client_status(gui_state());
 
 	/* CONNECT & START */
 	if(e == PLAYER_STATUS_DESCONECTADO) {
@@ -769,7 +770,7 @@ TEG_STATUS set_sensitive_tb(void)
 		gtk_widget_set_sensitive(SensiData.start_button, FALSE);
 	}
 
-	if(g_game.observer) {
+	if(gui_state().game.observer) {
 		gtk_widget_set_sensitive(start_menu, FALSE);
 		gtk_widget_set_sensitive(SensiData.start_button, FALSE);
 	}
@@ -829,7 +830,7 @@ TEG_STATUS set_sensitive_tb(void)
 	}
 
 	/* UPDATE MAP */
-	if(e >= PLAYER_STATUS_START || (g_game.observer && e >= PLAYER_STATUS_CONNECTED)) {
+	if(e >= PLAYER_STATUS_START || (gui_state().game.observer && e >= PLAYER_STATUS_CONNECTED)) {
 		gtk_widget_set_sensitive(update_menu, TRUE);
 	} else {
 		gtk_widget_set_sensitive(update_menu, FALSE);
@@ -885,7 +886,7 @@ static void tropas_response_cb(GtkDialog *dialog, gint id, gpointer data)
 			               (GTK_RANGE(tropas_hscale_cant)));
 
 		if(tropas_cant > 0) {
-			out_tropas(tropas_src, tropas_dst, tropas_cant);
+			out_tropas(gui_state(), tropas_src, tropas_dst, tropas_cant);
 		}
 	}
 
@@ -937,7 +938,7 @@ void tropas_window(int src, int dst, int cant)
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), GNOME_PAD);
 
-	snprintf(buf, sizeof(buf)-1, _("You conquered '%s' in your attack from '%s'!!\n"), countries_get_name(g_game.common, dst), countries_get_name(g_game.common, src));
+	snprintf(buf, sizeof(buf)-1, _("You conquered '%s' in your attack from '%s'!!\n"), countries_get_name(gui_state().game.common, dst), countries_get_name(gui_state().game.common, src));
 	buf[ sizeof(buf) -1 ] = 0;
 	label = gtk_label_new(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -956,7 +957,7 @@ void tropas_window(int src, int dst, int cant)
 		gtk_scale_set_draw_value(GTK_SCALE(tropas_hscale_cant), 1);
 		/*		gtk_range_draw_trough(GTK_RANGE(tropas_hscale_cant));  */
 
-		snprintf(buf, sizeof(buf) -1, _("[Note: The server moved 1 army to '%s' for you.\nChoose how many more armies you want to move]"), countries_get_name(g_game.common, dst));
+		snprintf(buf, sizeof(buf) -1, _("[Note: The server moved 1 army to '%s' for you.\nChoose how many more armies you want to move]"), countries_get_name(gui_state().game.common, dst));
 		buf[ sizeof(buf) -1 ] = 0;
 		label = gtk_label_new(buf);
 		gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -984,10 +985,10 @@ static void reagrupe_response_cb(GtkDialog *dialog, gint id, gpointer data)
 			                 (GTK_RANGE(reagrupe_hscale_cant)));
 
 		if(reagrupe_cant > 0) {
-			reagrupe_out(reagrupe_src, reagrupe_dst,
+			reagrupe_out(gui_state(), reagrupe_src, reagrupe_dst,
 			             reagrupe_cant);
 		} else {
-			reagrupe_reset();
+			reagrupe_reset(gui_state());
 		}
 	}
 
@@ -1039,7 +1040,7 @@ void reagrupe_window(int src, int dst, int cant)
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), GNOME_PAD);
 
-	snprintf(buf, sizeof(buf) -1, _("Moving armies from '%s' to '%s'\n"), countries_get_name(g_game.common, src), countries_get_name(g_game.common, dst));
+	snprintf(buf, sizeof(buf) -1, _("Moving armies from '%s' to '%s'\n"), countries_get_name(gui_state().game.common, src), countries_get_name(gui_state().game.common, dst));
 	buf[ sizeof(buf) -1 ] = 0;
 	label = gtk_label_new(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);

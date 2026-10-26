@@ -20,77 +20,47 @@
 
 #pragma once
 
-#include "client.h"
-#include "themes.h"
-#include "../common/state.h"
+#include <functional>
+#include <list>
+
+#include "../common/common.h"
+#include "player.h"
 
 namespace teg::client
 {
 
+struct ClientState;
+
 namespace callbacks
 {
 
-extern TEG_STATUS gui_init(int argc, char **argv);
-extern TEG_STATUS gui_main(void);
-extern TEG_STATUS gui_textmsg(char *aString);
-extern TEG_STATUS gui_disconnect(void);
-extern TEG_STATUS gui_habilitado(int numjug);
-extern TEG_STATUS gui_connected(const int *c);
-extern TEG_STATUS gui_reconnected();
-extern TEG_STATUS gui_status(void);
-extern TEG_STATUS gui_start(void);
-extern TEG_STATUS gui_fichas(int cant, int conts);
-extern TEG_STATUS gui_turn(PCPLAYER pJ);
-extern TEG_STATUS gui_country(int p);
-extern TEG_STATUS gui_country_select(int country);
-extern TEG_STATUS gui_tropas(int src, int dst, int cant);
-extern TEG_STATUS gui_tarjeta(int country);
-extern TEG_STATUS gui_dados();
-extern TEG_STATUS gui_reagrupe(int src, int dst, int cant);
-extern TEG_STATUS gui_sensi();
-extern TEG_STATUS gui_attack(int src, int dst);
-extern TEG_STATUS gui_canje(int cant, int p1, int p2, int p3);
-extern TEG_STATUS gui_lost(int numjug);
-extern TEG_STATUS gui_surrender(int numjug);
-extern TEG_STATUS gui_winner(int numjug, int mission);
-extern TEG_STATUS gui_mission();
-extern TEG_STATUS gui_textplayermsg(char const *n, int nj, char const *m);
-extern TEG_STATUS gui_scores(void);
+extern TEG_STATUS gui_init(ClientState& state, int argc, char **argv);
+extern TEG_STATUS gui_main(ClientState& state);
+extern TEG_STATUS gui_textmsg(ClientState& state, char *aString);
+extern TEG_STATUS gui_disconnect(ClientState& state);
+extern TEG_STATUS gui_habilitado(ClientState& state, int numjug);
+extern TEG_STATUS gui_connected(ClientState& state, const int *c);
+extern TEG_STATUS gui_reconnected(ClientState& state);
+extern TEG_STATUS gui_status(ClientState& state);
+extern TEG_STATUS gui_start(ClientState& state);
+extern TEG_STATUS gui_fichas(ClientState& state, int cant, int conts);
+extern TEG_STATUS gui_turn(ClientState& state, PCPLAYER pJ);
+extern TEG_STATUS gui_country(ClientState& state, int p);
+extern TEG_STATUS gui_country_select(ClientState& state, int country);
+extern TEG_STATUS gui_tropas(ClientState& state, int src, int dst, int cant);
+extern TEG_STATUS gui_tarjeta(ClientState& state, int country);
+extern TEG_STATUS gui_dados(ClientState& state);
+extern TEG_STATUS gui_reagrupe(ClientState& state, int src, int dst, int cant);
+extern TEG_STATUS gui_sensi(ClientState& state);
+extern TEG_STATUS gui_attack(ClientState& state, int src, int dst);
+extern TEG_STATUS gui_canje(ClientState& state, int cant, int p1, int p2, int p3);
+extern TEG_STATUS gui_lost(ClientState& state, int numjug);
+extern TEG_STATUS gui_surrender(ClientState& state, int numjug);
+extern TEG_STATUS gui_winner(ClientState& state, int numjug, int mission);
+extern TEG_STATUS gui_mission(ClientState& state);
+extern TEG_STATUS gui_textplayermsg(ClientState& state, char const *n, int nj, char const *m);
+extern TEG_STATUS gui_scores(ClientState& state);
 
 }
-
-typedef struct _cgame {
-	int fd;				/**< mi fd */
-	PLAYER_STATUS estado;		/**< estado del game */
-	int numjug;			/**< numero de player (yo) */
-	int human;			/**< Am I a human ? */
-	int observer;			/**< si soy observer o player */
-	int playeres;			/**< cantidad de playeres */
-	char myname[max_playername_length];
-	int mycolor;			/**< color preferido */
-	char sername[maximum_servername_length];	/**< server name */
-	int serport;			/**< server port */
-	int tarjetas_cant;		/**< cantidad de tarjetas */
-	int secret_mission;		/**< which secret mission to accomplish */
-	int dados_srccountry;		/**< utimo country que ataco */
-	int dados_src[3];		/**< ultimos dados del atacante */
-	int dados_dstcountry;		/**< ultimo country que se defendio */
-	int dados_dst[3];		/**< ultimos dados del defensor */
-	int msg_show;			/**< mascara de los mensajes que hay que mostrar */
-	int already_connected;		/**< already connected to the server */
-	int robot_in_server;		/**< the robot will be launched in the server */
-	char theme[THEME_MAX_NAME];	/**< theme que se esta usando */
-	int whos_turn;			/**< playernumber who has the turn */
-	int who_started_round;		/**< player who started the round */
-	int round_number;		/**< round number */
-	bool	with_secret_mission;	/**< play with secret missions */
-	bool	with_common_mission;	/**< if playing with secret mission, includes the common mission */
-	bool	with_fog_of_war;	/**< playing in Fog of War type of game */
-
-	CommonState common;	/**< state shared with the server and the robot */
-} CJUEGO, *PCJUEGO;
-
-/* funciones y variables exportadas */
-extern CJUEGO g_game;
 
 }

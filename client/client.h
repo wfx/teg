@@ -21,6 +21,7 @@
 #pragma once
 
 #include "player.h"
+#include "state.h"
 #include "globals.h"
 #include "misc.h"
 #include "helper.h"

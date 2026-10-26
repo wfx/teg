@@ -27,38 +27,36 @@
 namespace teg::client
 {
 
-static int last_country = -1;
-
-TEG_STATUS ejer2_out(int country)
+TEG_STATUS ejer2_out(ClientState& state, int country)
 {
-	if(g_game.common.countries[ country ].numjug == WHOAMI()) {
-		if(ESTADO_ES(PLAYER_STATUS_TARJETA)) {
-			if(!tarjeta_es_usada(&g_game.common.countries[ country ].tarjeta)) {
-				tarjeta_usar(&g_game.common.countries[ country ].tarjeta);
-				last_country = country;
-				net_printf(g_game.fd, TOKEN_EJER2"=%d\n", country);
+	if(state.game.common.countries[ country ].numjug == who_am_i(state)) {
+		if(is_status(state, PLAYER_STATUS_TARJETA)) {
+			if(!tarjeta_es_usada(&state.game.common.countries[ country ].tarjeta)) {
+				tarjeta_usar(&state.game.common.countries[ country ].tarjeta);
+				state.ejer2.last_country = country;
+				net_printf(state.game.fd, TOKEN_EJER2"=%d\n", country);
 				return TEG_STATUS_SUCCESS;
 			} else {
-				textmsg(M_ERR, _("Error, the 2 armies where placed before"));
+				textmsg(state, M_ERR, _("Error, the 2 armies where placed before"));
 				return TEG_STATUS_ERROR;
 			}
 		} else {
-			textmsg(M_ERR, _("Error, it's not the time to put 2 armies."));
+			textmsg(state, M_ERR, _("Error, it's not the time to put 2 armies."));
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), g_game.common.countries[country].name);
+		textmsg(state, M_ERR, _("Error, '%s' isnt one of your countries"), state.game.common.countries[country].name);
 		return TEG_STATUS_ERROR;
 	}
 	return TEG_STATUS_ERROR;
 }
 
-TEG_STATUS ejer2_restore_from_error()
+TEG_STATUS ejer2_restore_from_error(ClientState& state)
 {
-	if(last_country != -1) {
-		tarjeta_desusar(&g_game.common.countries[ last_country ].tarjeta);
-		callbacks::gui_tarjeta(-1);
-		last_country = -1;
+	if(state.ejer2.last_country != -1) {
+		tarjeta_desusar(&state.game.common.countries[ state.ejer2.last_country ].tarjeta);
+		callbacks::gui_tarjeta(state, -1);
+		state.ejer2.last_country = -1;
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;

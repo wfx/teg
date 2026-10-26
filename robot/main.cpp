@@ -31,11 +31,12 @@
 #include "fcintl.h"
 
 using namespace teg::client;
-TEG_STATUS main_init()
+
+TEG_STATUS main_init(ClientState& state)
 {
-	game_init();
-	g_game.human = 0;
-	player_init();
+	game_init(state);
+	state.game.human = 0;
+	player_init(state);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -44,17 +45,18 @@ int main(int argc, char **argv_var)
 	int i, quiet=0;
 	char const *option;
 	char const **argv = (char const**) argv_var; // save, since we add more constness here
+	ClientState state;
 
 	init_nls();
 	dont_run_as_root();
 
-	g_game.serport = 0;
-	g_game.myname[0] = 0;
-	g_game.sername[0] = 0;
+	state.game.serport = 0;
+	state.game.myname[0] = 0;
+	state.game.sername[0] = 0;
 
-	main_init();
+	main_init(state);
 
-	g_game.msg_show = M_ERR | M_IMP | M_MSG;
+	state.game.msg_show = M_ERR | M_IMP | M_MSG;
 
 	i = 1;
 	while(i < argc) {
@@ -72,13 +74,13 @@ int main(int argc, char **argv_var)
 			fprintf(stderr, TEG_NAME" v" VERSION "\n");
 			exit(0);
 		} else if((option = get_option("--name", argv, &i, argc)) != NULL) {
-			snprintf(g_game.myname, sizeof(g_game.myname), "%s", option);
+			snprintf(state.game.myname, sizeof(state.game.myname), "%s", option);
 		} else if((option = get_option("--port", argv, &i, argc)) != NULL) {
-			g_game.serport=atoi(option);
+			state.game.serport=atoi(option);
 		} else if((option = get_option("--server", argv, &i, argc)) != NULL) {
-			snprintf(g_game.sername, sizeof(g_game.sername), "%s", option);
+			snprintf(state.game.sername, sizeof(state.game.sername), "%s", option);
 		} else if(is_option("--connected", argv[i])) {
-			g_game.already_connected = 1;
+			state.game.already_connected = 1;
 			quiet = 1;
 		} else if(is_option("--quiet", argv[i])) {
 			quiet = 1;
@@ -90,15 +92,15 @@ int main(int argc, char **argv_var)
 	}
 
 	if(quiet) {
-		g_game.msg_show = M_MSG;
+		state.game.msg_show = M_MSG;
 	}
 
-	textmsg(M_IMP, _("Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"), VERSION);
-	textmsg(M_IMP, _("Robot intelligence: %d%%"), 62);
+	textmsg(state, M_IMP, _("Tenes Empanadas Graciela - Robot v%s - by Ricardo Quesada\n"), VERSION);
+	textmsg(state, M_IMP, _("Robot intelligence: %d%%"), 62);
 
-	teg::client::callbacks::gui_init(argc, argv_var);
+	teg::client::callbacks::gui_init(state, argc, argv_var);
 
-	teg::client::callbacks::gui_main();
+	teg::client::callbacks::gui_main(state);
 
 	return 1;
 }

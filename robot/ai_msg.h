@@ -20,7 +20,10 @@
 
 #pragma once
 
-#include "../common/common.h"
+namespace teg::client
+{
+struct ClientState;
+}
 
 namespace teg::robot
 {
@@ -40,7 +43,7 @@ enum {
 };
 
 /// Creates a random message, with a random frequency
-TEG_STATUS ai_msg(int type, const char *n);
+TEG_STATUS ai_msg(teg::client::ClientState& state, int type, const char *n);
 
 /// Choose a random name
 const char *ai_name();

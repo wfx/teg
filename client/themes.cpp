@@ -44,6 +44,7 @@
 #include "../common/execute.hpp"
 #include "themes.h"
 #include "globals.h"
+#include "state.h"
 #include "common.h"
 
 #ifndef xmlChildrenNode
@@ -59,8 +60,6 @@ namespace teg::client
 #define TEG_THEME_VER_MAJOR (1)
 #define TEG_THEME_VER_MINOR (5)
 
-static pTheme g_theme = NULL;	/**< Current theme */
-static ThemeDirectories themes;
 
 std::filesystem::path theme_dir()
 {
@@ -559,209 +558,209 @@ error:
 	return(NULL);
 }
 
-static TEG_STATUS theme_fill_country_name()
+static TEG_STATUS theme_fill_country_name(ClientState& state)
 {
 	int j, k, l;
 
-	if(!g_theme) {
+	if(!state.theme.current) {
 		return TEG_STATUS_ERROR;
 	}
 
 	l=0;
-	for(j=0; j<g_theme->i_continent; j++) {
-		for(k=0; k<g_theme->continents[j]->i_country; k++) {
-			g_game.common.countries[l++].name = (char*)g_theme->continents[j]->countries[k]->name;
+	for(j=0; j<state.theme.current->i_continent; j++) {
+		for(k=0; k<state.theme.current->continents[j]->i_country; k++) {
+			state.game.common.countries[l++].name = (char*)state.theme.current->continents[j]->countries[k]->name;
 		}
 	}
 
 	return TEG_STATUS_SUCCESS;
 }
 
-static TEG_STATUS theme_fill_continent_name()
+static TEG_STATUS theme_fill_continent_name(ClientState& state)
 {
 	int i;
 
-	if(!g_theme) {
+	if(!state.theme.current) {
 		return TEG_STATUS_ERROR;
 	}
 
-	for(i=0; i<g_theme->i_continent; i++) {
-		g_game.common.conts[i].name = (char*)g_theme->continents[i]->name;
+	for(i=0; i<state.theme.current->i_continent; i++) {
+		state.game.common.conts[i].name = (char*)state.theme.current->continents[i]->name;
 	}
 
 	return TEG_STATUS_SUCCESS;
 }
 
 /* Loads the 'name' theme */
-TEG_STATUS theme_load(char *name)
+TEG_STATUS theme_load(ClientState& state, char *name)
 {
 	using p = std::filesystem::path;
 	/* themes/%s/teg_theme.xml */
-	g_theme = parseTheme(p("themes") / name /"teg_theme.xml");
+	state.theme.current = parseTheme(p("themes") / name /"teg_theme.xml");
 
 	/* ~/.teg/themes/%s/teg_theme.xml */
-	if(g_theme == NULL) {
-		g_theme = parseTheme(p(g_get_home_dir()) / rc_directory_name / "themes" / name / "teg_theme.xml");
+	if(state.theme.current == NULL) {
+		state.theme.current = parseTheme(p(g_get_home_dir()) / rc_directory_name / "themes" / name / "teg_theme.xml");
 	}
 
 	/* /usr/local/share/teg/themes/%s/teg_theme.xml */
-	if(g_theme == NULL) {
+	if(state.theme.current == NULL) {
 		auto const path = (theme_dir() / name / "teg_theme.xml");
-		g_theme = parseTheme(path.c_str());
+		state.theme.current = parseTheme(path.c_str());
 	}
 
-	if(g_theme == NULL) {
+	if(state.theme.current == NULL) {
 		fprintf(stderr, "Unable to load theme `%s'\n", name);
 		return TEG_STATUS_THEMEERROR;
 	}
 
 	/* place new name for continents */
-	theme_fill_continent_name();
+	theme_fill_continent_name(state);
 
 	/* place new name of the countries */
-	theme_fill_country_name();
+	theme_fill_country_name(state);
 
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS theme_giveme_cards(pTCards pC)
+TEG_STATUS theme_giveme_cards(ClientState& state, pTCards pC)
 {
-	if(g_theme == NULL) {
+	if(state.theme.current == NULL) {
 		return TEG_STATUS_ERROR;
 	}
 
-	pC->jocker= (char*)g_theme->cards->jocker;
-	pC->balloon= (char*)g_theme->cards->balloon;
-	pC->ship= (char*)g_theme->cards->ship;
-	pC->cannon= (char*)g_theme->cards->cannon;
-	pC->pos_y = atoi((char*)g_theme->cards->pos_y);
+	pC->jocker= (char*)state.theme.current->cards->jocker;
+	pC->balloon= (char*)state.theme.current->cards->balloon;
+	pC->ship= (char*)state.theme.current->cards->ship;
+	pC->cannon= (char*)state.theme.current->cards->cannon;
+	pC->pos_y = atoi((char*)state.theme.current->cards->pos_y);
 
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS theme_giveme_continent(pTContinent pC, int n)
+TEG_STATUS theme_giveme_continent(ClientState& state, pTContinent pC, int n)
 {
-	if(g_theme == NULL) {
+	if(state.theme.current == NULL) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(n <0 || n >= g_theme->i_continent) {
+	if(n <0 || n >= state.theme.current->i_continent) {
 		return TEG_STATUS_ERROR;
 	}
 
-	pC->pos_x = atoi((char*)g_theme->continents[n]->pos_x);
-	pC->pos_y = atoi((char*)g_theme->continents[n]->pos_y);
+	pC->pos_x = atoi((char*)state.theme.current->continents[n]->pos_x);
+	pC->pos_y = atoi((char*)state.theme.current->continents[n]->pos_y);
 
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS theme_giveme_country(pTCountry pC, int cont, int n)
+TEG_STATUS theme_giveme_country(ClientState& state, pTCountry pC, int cont, int n)
 {
-	if(g_theme == NULL) {
+	if(state.theme.current == NULL) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(cont <0 || cont >= g_theme->i_continent) {
+	if(cont <0 || cont >= state.theme.current->i_continent) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(n <0 || n >= g_theme->continents[cont]->i_country) {
+	if(n <0 || n >= state.theme.current->continents[cont]->i_country) {
 		return TEG_STATUS_ERROR;
 	}
 
-	pC->name = (char*)g_theme->continents[cont]->countries[n]->name;
-	pC->file = (char*)g_theme->continents[cont]->countries[n]->file;
-	pC->pos_x= atoi((char*)g_theme->continents[cont]->countries[n]->pos_x);
-	pC->pos_y= atoi((char*)g_theme->continents[cont]->countries[n]->pos_y);
-	pC->army_x = atoi((char*)g_theme->continents[cont]->countries[n]->army_x);
-	pC->army_y = atoi((char*)g_theme->continents[cont]->countries[n]->army_y);
+	pC->name = (char*)state.theme.current->continents[cont]->countries[n]->name;
+	pC->file = (char*)state.theme.current->continents[cont]->countries[n]->file;
+	pC->pos_x= atoi((char*)state.theme.current->continents[cont]->countries[n]->pos_x);
+	pC->pos_y= atoi((char*)state.theme.current->continents[cont]->countries[n]->pos_y);
+	pC->army_x = atoi((char*)state.theme.current->continents[cont]->countries[n]->army_x);
+	pC->army_y = atoi((char*)state.theme.current->continents[cont]->countries[n]->army_y);
 
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS theme_giveme_theme(pTTheme pT)
+TEG_STATUS theme_giveme_theme(ClientState& state, pTTheme pT)
 {
 	int i;
 
-	if(g_theme == NULL) {
+	if(state.theme.current == NULL) {
 		return TEG_STATUS_ERROR;
 	}
 
-	pT->author= (char*)g_theme->author;
-	pT->email = (char*)g_theme->email;
-	pT->version = (char*)g_theme->version;
-	pT->screen_size_x = my_atoi((char*)g_theme->screen_size_x);
+	pT->author= (char*)state.theme.current->author;
+	pT->email = (char*)state.theme.current->email;
+	pT->version = (char*)state.theme.current->version;
+	pT->screen_size_x = my_atoi((char*)state.theme.current->screen_size_x);
 	if(pT->screen_size_x == -1) {
 		pT->screen_size_x = 640;
 	}
-	pT->screen_size_y = my_atoi((char*)g_theme->screen_size_y);
+	pT->screen_size_y = my_atoi((char*)state.theme.current->screen_size_y);
 	if(pT->screen_size_y == -1) {
 		pT->screen_size_y = 480;
 	}
-	pT->board = (char*)g_theme->board;
-	pT->board_x = my_atoi((char*)g_theme->board_x);
-	pT->board_y = my_atoi((char*)g_theme->board_y);
+	pT->board = (char*)state.theme.current->board;
+	pT->board_x = my_atoi((char*)state.theme.current->board_x);
+	pT->board_y = my_atoi((char*)state.theme.current->board_y);
 
-	pT->dices_x = my_atoi((char*)g_theme->dices_x);
-	pT->dices_y = my_atoi((char*)g_theme->dices_y);
-	pT->armies_x = atoi((char*)g_theme->armies_x);
-	pT->armies_y = atoi((char*)g_theme->armies_y);
+	pT->dices_x = my_atoi((char*)state.theme.current->dices_x);
+	pT->dices_y = my_atoi((char*)state.theme.current->dices_y);
+	pT->armies_x = atoi((char*)state.theme.current->armies_x);
+	pT->armies_y = atoi((char*)state.theme.current->armies_y);
 
 	pT->armies_background = 1;	/* default */
-	if(g_theme->armies_background) {
-		pT->armies_background = (strcasecmp((char*)g_theme->armies_background, "true") == 0);
+	if(state.theme.current->armies_background) {
+		pT->armies_background = (strcasecmp((char*)state.theme.current->armies_background, "true") == 0);
 	}
 
 	pT->armies_dragable = 1;	/* default */
-	if(g_theme->armies_background) {
-		pT->armies_dragable = (strcasecmp((char*)g_theme->armies_background, "true") == 0);
+	if(state.theme.current->armies_background) {
+		pT->armies_dragable = (strcasecmp((char*)state.theme.current->armies_background, "true") == 0);
 	}
 
 	for(i=0; i<static_cast<int>(sides_on_the_dice); i++) {
-		pT->dices_file[i] = (char*)g_theme->dices_file[i];
+		pT->dices_file[i] = (char*)state.theme.current->dices_file[i];
 	}
 
-	pT->dices_color = (char*)g_theme->dices_color;
-	pT->screenshot = (char*)g_theme->screenshot;
+	pT->dices_color = (char*)state.theme.current->dices_color;
+	pT->screenshot = (char*)state.theme.current->screenshot;
 
 	/* optional features */
 
 	/* extended dices support. This is an optional feature. See Draco Theme */
 	for(i=0; i<6; i++) {
-		pT->dices_ext_x[i] = my_atoi((char*)g_theme->dices_ext_x[i]);
-		pT->dices_ext_y[i] = my_atoi((char*)g_theme->dices_ext_y[i]);
+		pT->dices_ext_x[i] = my_atoi((char*)state.theme.current->dices_ext_x[i]);
+		pT->dices_ext_y[i] = my_atoi((char*)state.theme.current->dices_ext_y[i]);
 	}
 
 	for(i=0; i<2; i++) {
-		pT->dices_ext_text_x[i] = my_atoi((char*)g_theme->dices_ext_text_x[i]);
-		pT->dices_ext_text_y[i] = my_atoi((char*)g_theme->dices_ext_text_y[i]);
+		pT->dices_ext_text_x[i] = my_atoi((char*)state.theme.current->dices_ext_text_x[i]);
+		pT->dices_ext_text_y[i] = my_atoi((char*)state.theme.current->dices_ext_text_y[i]);
 	}
 
 	pT->choose_colors_custom = 0;
 	pT->choose_colors_prefix = NULL;
-	if(g_theme->choose_colors_custom && strcasecmp((char*)g_theme->choose_colors_custom, "true") == 0) {
+	if(state.theme.current->choose_colors_custom && strcasecmp((char*)state.theme.current->choose_colors_custom, "true") == 0) {
 		pT->choose_colors_custom = 1;
 	}
-	pT->choose_colors_prefix = (char*)g_theme->choose_colors_prefix;
+	pT->choose_colors_prefix = (char*)state.theme.current->choose_colors_prefix;
 
 	pT->toolbar_custom = 0;
 	pT->toolbar_name = NULL;
 	pT->toolbar_text_color = NULL;
-	if(g_theme->toolbar_custom && strcasecmp((char*)g_theme->toolbar_custom, "true") == 0) {
+	if(state.theme.current->toolbar_custom && strcasecmp((char*)state.theme.current->toolbar_custom, "true") == 0) {
 		pT->toolbar_custom = 1;
 	}
-	pT->toolbar_name = (char*)g_theme->toolbar_name;
-	pT->toolbar_text_color = (char*)g_theme->toolbar_text_color;
-	pT->toolbar_offset_left = my_atoi((char*)g_theme->toolbar_offset_left);
-	pT->toolbar_offset_right = my_atoi((char*)g_theme->toolbar_offset_right);
+	pT->toolbar_name = (char*)state.theme.current->toolbar_name;
+	pT->toolbar_text_color = (char*)state.theme.current->toolbar_text_color;
+	pT->toolbar_offset_left = my_atoi((char*)state.theme.current->toolbar_offset_left);
+	pT->toolbar_offset_right = my_atoi((char*)state.theme.current->toolbar_offset_right);
 
 	return TEG_STATUS_SUCCESS;
 }
 
-ThemeDirectories const& theme_enum_themes()
+ThemeDirectories const& theme_enum_themes(ClientState& state)
 {
-	if(themes.size() != 0) {
-		return themes;
+	if(state.theme.available.size() != 0) {
+		return state.theme.available;
 	}
 
 	// the search paths for theme files
@@ -788,7 +787,7 @@ ThemeDirectories const& theme_enum_themes()
 
 			if((fp = fopen(theme_file_name.c_str(), "r"))) {
 				fclose(fp);
-				themes.insert(e->d_name);
+				state.theme.available.insert(e->d_name);
 				PDEBUG("Insert %s\n", theme_file_name.c_str());
 			} else {
 				PDEBUG("Failed to open %s\n", theme_file_name.c_str());
@@ -797,14 +796,14 @@ ThemeDirectories const& theme_enum_themes()
 		closedir(dir);
 	}
 
-	return themes;
+	return state.theme.available;
 }
 
 /* Finds the path for a filename */
 /// \todo make this return std::string
-std::optional<std::filesystem::path> theme_load_file(char const *name)
+std::optional<std::filesystem::path> theme_load_file(ClientState& state, char const *name)
 {
-	return theme_load_fake_file(name, g_game.theme);
+	return theme_load_fake_file(name, state.game.theme);
 }
 
 std::optional<std::filesystem::path> valid_filename(std::initializer_list<char const*> parts)
@@ -839,14 +838,14 @@ std::optional<std::filesystem::path> theme_load_fake_file(char const *name, char
 	return valid_filename(P{theme_dir().c_str(), theme, name});
 }
 
-int theme_using_extended_dices()
+int theme_using_extended_dices(ClientState& state)
 {
-	if(g_theme == NULL) {
+	if(state.theme.current == NULL) {
 		fprintf(stderr, "theme_using_extended() cant be called before loading a theme!\n");
 		return 0;
 	}
 
-	return (my_atoi((char*)g_theme->dices_ext_x[0]) != -1);
+	return (my_atoi((char*)state.theme.current->dices_ext_x[0]) != -1);
 }
 
 }

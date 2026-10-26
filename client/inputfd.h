@@ -25,6 +25,8 @@
 namespace teg::client
 {
 
+struct ClientState;
+
 /**
  * Parses the server response from filsdescriptor \p pf and dispatch the
  * response.
@@ -32,6 +34,6 @@ namespace teg::client
  * @return TEG_STATUS_SUCCESS on regular parse (even when the token was invalid),
  *         TEG_STATUS_CONNCLOSED when a read error occured.
  */
-TEG_STATUS client_recv(int fd);
+TEG_STATUS client_recv(ClientState& state, int fd);
 
 }

@@ -36,7 +36,7 @@ namespace teg::client
  * @fn TEG_STATUS aux_status( PCPLAYER pj, char *str )
  * parsea el status de los playeres
  */
-TEG_STATUS aux_status(PCPLAYER pj, char const *str)
+TEG_STATUS aux_status(ClientState& state, PCPLAYER pj, char const *str)
 {
 	PARSER p{str};
 
@@ -118,12 +118,12 @@ TEG_STATUS aux_status(PCPLAYER pj, char const *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	textmsg(M_ERR, "error in aux_status()");
+	textmsg(state, M_ERR, "error in aux_status()");
 	return TEG_STATUS_ERROR;
 }
 
 
-TEG_STATUS aux_scores(PSCORES pS, char const *str)
+TEG_STATUS aux_scores(ClientState& state, PSCORES pS, char const *str)
 {
 	PARSER p{str, DELIM{.valid=false}, DELIM{','}};
 
@@ -165,7 +165,7 @@ TEG_STATUS aux_scores(PSCORES pS, char const *str)
 
 	return TEG_STATUS_SUCCESS;
 error:
-	textmsg(M_ERR, "error in aux_scores()");
+	textmsg(state, M_ERR, "error in aux_scores()");
 	return TEG_STATUS_ERROR;
 }
 
@@ -174,7 +174,7 @@ error:
  * @fn TEG_STATUS aux_countries( int numjug, char *str )
  * parsea los ejercitos en countries de un player
  */
-TEG_STATUS aux_countries(int numjug, char const *str)
+TEG_STATUS aux_countries(ClientState& state, int numjug, char const *str)
 {
 	int i, country, cant;
 	PARSER p{str};
@@ -187,10 +187,10 @@ TEG_STATUS aux_countries(int numjug, char const *str)
 		if((i = p.parse())) {
 			country = atoi(p.token);
 			cant = atoi(p.value);
-			if(g_game.common.countries[country].numjug != numjug || g_game.common.countries[country].ejercitos != cant) {
-				g_game.common.countries[country].numjug = numjug;
-				g_game.common.countries[country].ejercitos = cant;
-				callbacks::gui_country(g_game.common.countries[country].id);
+			if(state.game.common.countries[country].numjug != numjug || state.game.common.countries[country].ejercitos != cant) {
+				state.game.common.countries[country].numjug = numjug;
+				state.game.common.countries[country].ejercitos = cant;
+				callbacks::gui_country(state, state.game.common.countries[country].id);
 			}
 		}
 	} while(i && p.can_continue());
@@ -202,15 +202,15 @@ TEG_STATUS aux_countries(int numjug, char const *str)
  * @fn void aux_draw_all_countries()
  * Dibuja todos los countries
  */
-void aux_draw_all_countries()
+void aux_draw_all_countries(ClientState& state)
 {
 	int i;
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		callbacks::gui_country(i);
+		callbacks::gui_country(state, i);
 	}
 }
 
-TEG_STATUS aux_player_init(PCPLAYER pJ, int numjug, char *name, int color)
+TEG_STATUS aux_player_init(ClientState& state, PCPLAYER pJ, int numjug, char *name, int color)
 {
 	memset(pJ, 0, sizeof(*pJ));
 
@@ -222,9 +222,9 @@ TEG_STATUS aux_player_init(PCPLAYER pJ, int numjug, char *name, int color)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS aux_start_error()
+TEG_STATUS aux_start_error(ClientState& state)
 {
-	textmsg(M_ERR, _("Error in start. Are there at least 2 players?"));
+	textmsg(state, M_ERR, _("Error in start. Are there at least 2 players?"));
 	return TEG_STATUS_SUCCESS;
 }
 
