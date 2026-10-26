@@ -30,6 +30,22 @@ TEST(Common, player_status_name)
 	EXPECT_STREQ("unknown", player_status_name(PLAYER_STATUS_LAST));
 }
 
+TEST(Common, countries)
+{
+	CommonState state;
+
+	EXPECT_EQ(static_cast<std::size_t>(COUNTRIES_CANT), state.countries.size());
+	EXPECT_STREQ("Argentina", countries_get_name(state, 0));
+	EXPECT_STREQ("Unknown", countries_get_name(state, -1));
+
+	EXPECT_TRUE(country_libre(state, 0));
+	state.countries[0].numjug = 1;
+	EXPECT_FALSE(country_libre(state, 0));
+
+	countries_init(state);
+	EXPECT_TRUE(country_libre(state, 0));
+}
+
 TEST(Common, continents)
 {
 	CommonState state;

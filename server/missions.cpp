@@ -68,13 +68,13 @@ TEG_STATUS mission_chequear(PSPLAYER pJ)
 		int j, k, i_tmp;
 		int salir=0;
 		for(j=0; j<static_cast<int>(COUNTRIES_CANT) && salir==0; j++) {
-			if(g_countries[j].numjug != pJ->numjug) {
+			if(g_game.common.countries[j].numjug != pJ->numjug) {
 				continue;
 			}
 			i_tmp=0;
 
 			for(k=0; k<static_cast<int>(COUNTRIES_CANT); k++) {
-				if(g_countries[k].numjug != pJ->numjug) {
+				if(g_game.common.countries[k].numjug != pJ->numjug) {
 					continue;
 				}
 				if(countries_eslimitrofe(j, k)) {

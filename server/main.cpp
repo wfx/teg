@@ -111,7 +111,7 @@ void game_new()
 {
 	static int first_time = 1;
 
-	countries_init();
+	countries_init(g_game.common);
 	mission_init();
 
 	player_map(player_initplayer);

@@ -39,11 +39,11 @@ TEG_STATUS canje_out(int p1, int p2, int p3)
 		return TEG_STATUS_ERROR;
 	}
 
-	if(tarjeta_puedocanje(WHOAMI(), p1, p2, p3)) {
+	if(tarjeta_puedocanje(g_game.common, WHOAMI(), p1, p2, p3)) {
 		net_printf(g_game.fd, TOKEN_CANJE"=%d,%d,%d\n", p1, p2, p3);
-		tarjeta_poner(&g_countries[p1].tarjeta);
-		tarjeta_poner(&g_countries[p2].tarjeta);
-		tarjeta_poner(&g_countries[p3].tarjeta);
+		tarjeta_poner(&g_game.common.countries[p1].tarjeta);
+		tarjeta_poner(&g_game.common.countries[p2].tarjeta);
+		tarjeta_poner(&g_game.common.countries[p3].tarjeta);
 		return TEG_STATUS_SUCCESS;
 	} else {
 		textmsg(M_ERR, _("Error, the cards must be all equal, or all different"));
@@ -69,7 +69,7 @@ TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 	}
 
 	unsigned index=0;
-	countries_map([&a, &index](COUNTRY& country) {
+	countries_map(g_game.common, [&a, &index](COUNTRY& country) {
 		if((country.tarjeta.numjug == WHOAMI())
 		        && (index < std::extent<decltype(a)>::value)) {
 			a[index] = country.id;
@@ -80,7 +80,7 @@ TEG_STATUS canje_puedo(int *p1, int *p2, int *p3)
 	for(int i=0; i<g_game.tarjetas_cant; i++) {
 		for(int j=i+1; j<g_game.tarjetas_cant; j++) {
 			for(int k=j+1; k<g_game.tarjetas_cant; k++) {
-				if(tarjeta_puedocanje(g_game.numjug, a[i], a[j], a[k])) {
+				if(tarjeta_puedocanje(g_game.common, g_game.numjug, a[i], a[j], a[k])) {
 					if(p1) {
 						*p1 = a[i];
 					}

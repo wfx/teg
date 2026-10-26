@@ -74,7 +74,7 @@ TEG_STATUS fichas_add(PCOUNTRY p)
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(p->id));
+		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }
@@ -98,7 +98,7 @@ TEG_STATUS fichas_sub(PCOUNTRY p)
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(p->id));
+		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }
@@ -151,7 +151,7 @@ void fichas_reset()
 
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		if(aFichas[i]) {
-			g_countries[i].ejercitos -= aFichas[i];
+			g_game.common.countries[i].ejercitos -= aFichas[i];
 			aFichas[i] = 0;
 		}
 	}

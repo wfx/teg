@@ -606,15 +606,15 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 		goto error;
 	}
 
-	if(pJ_src->numjug != g_countries[src].numjug || pJ_src->numjug == g_countries[dst].numjug)  {
+	if(pJ_src->numjug != g_game.common.countries[src].numjug || pJ_src->numjug == g_game.common.countries[dst].numjug)  {
 		goto error;
 	}
 
-	if(g_countries[src].ejercitos < 2 || !countries_eslimitrofe(src, dst)) {
+	if(g_game.common.countries[src].ejercitos < 2 || !countries_eslimitrofe(src, dst)) {
 		goto error;
 	}
 
-	if(player_whois(g_countries[dst].numjug, &pJ_dst) != TEG_STATUS_SUCCESS) {
+	if(player_whois(g_game.common.countries[dst].numjug, &pJ_dst) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
@@ -626,10 +626,10 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 	}
 
 	/* so far, attack... */
-	aux_token_attack(g_countries[src].ejercitos, g_countries[dst].ejercitos, &src_lost, &dst_lost, d_src, d_dst);
+	aux_token_attack(g_game.common.countries[src].ejercitos, g_game.common.countries[dst].ejercitos, &src_lost, &dst_lost, d_src, d_dst);
 
-	g_countries[src].ejercitos -= src_lost;
-	g_countries[dst].ejercitos -= dst_lost;
+	g_game.common.countries[src].ejercitos -= src_lost;
+	g_game.common.countries[dst].ejercitos -= dst_lost;
 	pJ_src->tot_armies -= src_lost;
 	pJ_dst->tot_armies -= dst_lost;
 
@@ -638,19 +638,19 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 	pJ_dst->player_stats.armies_killed += src_lost;
 
 	/* conquisto el country */
-	if(g_countries[dst].ejercitos == 0) {
+	if(g_game.common.countries[dst].ejercitos == 0) {
 		conq = 1;
 
 		pJ_src->turno_conq++;
 		pJ_src->tot_countries++;
 
 
-		g_countries[dst].numjug = pJ_src->numjug;
+		g_game.common.countries[dst].numjug = pJ_src->numjug;
 
-		g_countries[dst].ejercitos++;		/* se pasa automaticamente */
-		g_countries[src].ejercitos--;		/* un ejercito */
+		g_game.common.countries[dst].ejercitos++;		/* se pasa automaticamente */
+		g_game.common.countries[src].ejercitos--;		/* un ejercito */
 
-		tropas = g_countries[src].ejercitos - 1;	/* cantidad que se pueden pasar */
+		tropas = g_game.common.countries[src].ejercitos - 1;	/* cantidad que se pueden pasar */
 		if(tropas > 2) {		/* En verdad son 3, pero ya se le paso 1 */
 			tropas =2;
 		}
@@ -661,7 +661,7 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 
 		pJ_dst->tot_countries--;
 
-		g_countries[dst].numjug = pJ_src->numjug;
+		g_game.common.countries[dst].numjug = pJ_src->numjug;
 
 		/* updated statistics */
 		pJ_src->player_stats.countries_won ++;
@@ -687,15 +687,15 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 
 	if(! g_game.fog_of_war) {
 		netall_printf("%s=%d,%d,%d;%s=%d,%d,%d\n",
-		              TOKEN_COUNTRY, src, g_countries[src].numjug, g_countries[src].ejercitos,
-		              TOKEN_COUNTRY, dst, g_countries[dst].numjug, g_countries[dst].ejercitos
+		              TOKEN_COUNTRY, src, g_game.common.countries[src].numjug, g_game.common.countries[src].ejercitos,
+		              TOKEN_COUNTRY, dst, g_game.common.countries[dst].numjug, g_game.common.countries[dst].ejercitos
 		             );
 	} else {
 		fow_netall_printf(src, "%s=%d,%d,%d\n", TOKEN_COUNTRY,
-		                  src, g_countries[src].numjug, g_countries[src].ejercitos);
+		                  src, g_game.common.countries[src].numjug, g_game.common.countries[src].ejercitos);
 
 		fow_netall_printf(dst, "%s=%d,%d,%d\n", TOKEN_COUNTRY,
-		                  dst, g_countries[dst].numjug, g_countries[dst].ejercitos);
+		                  dst, g_game.common.countries[dst].numjug, g_game.common.countries[dst].ejercitos);
 	}
 
 	if(conq == 1) {
@@ -774,28 +774,28 @@ STATIC TEG_STATUS token_tropas(int fd, char *str)
 		goto error;
 	}
 
-	if(cant > g_countries[src].ejercitos-1 || cant > 3) {
+	if(cant > g_game.common.countries[src].ejercitos-1 || cant > 3) {
 		goto error;
 	}
 
 	if(cant > 0) {
 
-		g_countries[src].ejercitos -= cant;
-		g_countries[dst].ejercitos += cant;
+		g_game.common.countries[src].ejercitos -= cant;
+		g_game.common.countries[dst].ejercitos += cant;
 
 		pJ->estado=PLAYER_STATUS_ATAQUE;
 		pJ->country_src = pJ->country_dst = -1;
 
 		if(! g_game.fog_of_war)
 			netall_printf("%s=%d,%d,%d;%s=%d,%d,%d\n",
-			              TOKEN_COUNTRY, src, g_countries[src].numjug, g_countries[src].ejercitos,
-			              TOKEN_COUNTRY, dst, g_countries[dst].numjug, g_countries[dst].ejercitos
+			              TOKEN_COUNTRY, src, g_game.common.countries[src].numjug, g_game.common.countries[src].ejercitos,
+			              TOKEN_COUNTRY, dst, g_game.common.countries[dst].numjug, g_game.common.countries[dst].ejercitos
 			             );
 		else {
 			fow_netall_printf(src, "%s=%d,%d,%d\n",
-			                  TOKEN_COUNTRY, src, g_countries[src].numjug, g_countries[src].ejercitos);
+			                  TOKEN_COUNTRY, src, g_game.common.countries[src].numjug, g_game.common.countries[src].ejercitos);
 			fow_netall_printf(dst, "%s=%d,%d,%d\n",
-			                  TOKEN_COUNTRY, dst, g_countries[dst].numjug, g_countries[dst].ejercitos);
+			                  TOKEN_COUNTRY, dst, g_game.common.countries[dst].numjug, g_game.common.countries[dst].ejercitos);
 		}
 	}
 
@@ -838,7 +838,9 @@ STATIC TEG_STATUS token_card(int fd, char *str)
 
 	/* Puede sacar tarjeta */
 	pJ->tot_cards++;
-	pP = get_random_country(tarjeta_es_libre);
+	pP = get_random_country([](int i) {
+		return tarjeta_es_libre(g_game.common, i);
+	});
 
 	pJ->estado = PLAYER_STATUS_TARJETA;
 
@@ -884,17 +886,17 @@ STATIC TEG_STATUS token_enum_cards(int fd, char *str)
 
 	first=1;
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		if(g_countries[i].tarjeta.numjug == pJ->numjug) {
+		if(g_game.common.countries[i].tarjeta.numjug == pJ->numjug) {
 			char buffy[512];
 
 			memset(buffy, 0, sizeof(buffy));
 
 			if(first) {
-				snprintf(buffy, sizeof(buffy)-1, "%d:%d", i, g_countries[i].tarjeta.usada);
+				snprintf(buffy, sizeof(buffy)-1, "%d:%d", i, g_game.common.countries[i].tarjeta.usada);
 				strncat(buffer, buffy, sizeof(buffer)-1);
 				first = 0;
 			} else {
-				snprintf(buffy, sizeof(buffy)-1, ",%d:%d", i, g_countries[i].tarjeta.usada);
+				snprintf(buffy, sizeof(buffy)-1, ",%d:%d", i, g_game.common.countries[i].tarjeta.usada);
 				strncat(buffer, buffy, sizeof(buffer)-1);
 			}
 		}
@@ -965,21 +967,21 @@ STATIC TEG_STATUS token_ejer2(int fd, char *str)
 		goto error;
 	}
 
-	if(tarjeta_es_usada(&g_countries[ country ].tarjeta)) {
+	if(tarjeta_es_usada(&g_game.common.countries[ country ].tarjeta)) {
 		goto error;
 	}
 
-	if(g_countries[ country ].numjug == j->numjug && g_countries[ country ].tarjeta.numjug == j->numjug) {
-		g_countries[ country ].ejercitos += 2;
+	if(g_game.common.countries[ country ].numjug == j->numjug && g_game.common.countries[ country ].tarjeta.numjug == j->numjug) {
+		g_game.common.countries[ country ].ejercitos += 2;
 		j->tot_armies += 2;
-		tarjeta_usar(&g_countries[ country ].tarjeta);
+		tarjeta_usar(&g_game.common.countries[ country ].tarjeta);
 
 		if(! g_game.fog_of_war)
 			netall_printf("%s=%d,%d,%d\n", TOKEN_COUNTRY
-			              , country, g_countries[ country ].numjug, g_countries[ country ].ejercitos);
+			              , country, g_game.common.countries[ country ].numjug, g_game.common.countries[ country ].ejercitos);
 		else
 			fow_netall_printf(country, "%s=%d,%d,%d\n", TOKEN_COUNTRY
-			                  , country, g_countries[ country ].numjug, g_countries[ country ].ejercitos);
+			                  , country, g_game.common.countries[ country ].numjug, g_game.common.countries[ country ].ejercitos);
 	}
 
 	return TEG_STATUS_SUCCESS;
@@ -1026,7 +1028,7 @@ STATIC TEG_STATUS token_canje(int fd, char *str)
 	}
 
 	/* se puede hacer el canje ? */
-	if(!tarjeta_puedocanje(pJ->numjug, t1, t2, t3)) {
+	if(!tarjeta_puedocanje(g_game.common, pJ->numjug, t1, t2, t3)) {
 		goto error;
 	}
 
@@ -1039,9 +1041,9 @@ STATIC TEG_STATUS token_canje(int fd, char *str)
 	canj_ejer = cards_for_this_exchange(pJ->tot_exchanges);
 
 	/* quitarle las tarjetas al player | mark the cards as unused*/
-	tarjeta_poner(&g_countries[t1].tarjeta);
-	tarjeta_poner(&g_countries[t2].tarjeta);
-	tarjeta_poner(&g_countries[t3].tarjeta);
+	tarjeta_poner(&g_game.common.countries[t1].tarjeta);
+	tarjeta_poner(&g_game.common.countries[t2].tarjeta);
+	tarjeta_poner(&g_game.common.countries[t3].tarjeta);
 
 
 	netall_printf("%s=%d,%d,%d,%d,%d\n", TOKEN_CANJE,
@@ -1098,7 +1100,7 @@ STATIC TEG_STATUS token_regroup(int fd, char *str)
 		goto error;
 	}
 
-	if(g_countries[src].numjug != pJ->numjug || g_countries[dst].numjug != pJ->numjug) {
+	if(g_game.common.countries[src].numjug != pJ->numjug || g_game.common.countries[dst].numjug != pJ->numjug) {
 		goto error;
 	}
 
@@ -1106,26 +1108,26 @@ STATIC TEG_STATUS token_regroup(int fd, char *str)
 		goto error;
 	}
 
-	ejer_disp = g_countries[src].ejercitos - g_countries[src].ejer_reagrupe - 1;
+	ejer_disp = g_game.common.countries[src].ejercitos - g_game.common.countries[src].ejer_reagrupe - 1;
 	if(cant > ejer_disp) {
 		goto error;
 	}
 
 	pJ->estado = PLAYER_STATUS_REAGRUPE;
 
-	g_countries[dst].ejercitos += cant;
-	g_countries[dst].ejer_reagrupe += cant;
-	g_countries[src].ejercitos -= cant;
+	g_game.common.countries[dst].ejercitos += cant;
+	g_game.common.countries[dst].ejer_reagrupe += cant;
+	g_game.common.countries[src].ejercitos -= cant;
 
 	if(! g_game.fog_of_war) {
 		netall_printf("%s=%d,%d,%d;%s=%d,%d,%d\n",
-		              TOKEN_COUNTRY, src, g_countries[src].numjug, g_countries[src].ejercitos,
-		              TOKEN_COUNTRY, dst, g_countries[dst].numjug, g_countries[dst].ejercitos);
+		              TOKEN_COUNTRY, src, g_game.common.countries[src].numjug, g_game.common.countries[src].ejercitos,
+		              TOKEN_COUNTRY, dst, g_game.common.countries[dst].numjug, g_game.common.countries[dst].ejercitos);
 	} else {
 		fow_netall_printf(src, "%s=%d,%d,%d\n",
-		                  TOKEN_COUNTRY, src, g_countries[src].numjug, g_countries[src].ejercitos);
+		                  TOKEN_COUNTRY, src, g_game.common.countries[src].numjug, g_game.common.countries[src].ejercitos);
 		fow_netall_printf(dst, "%s=%d,%d,%d\n",
-		                  TOKEN_COUNTRY, dst, g_countries[dst].numjug, g_countries[dst].ejercitos);
+		                  TOKEN_COUNTRY, dst, g_game.common.countries[dst].numjug, g_game.common.countries[dst].ejercitos);
 	}
 
 	return TEG_STATUS_SUCCESS;

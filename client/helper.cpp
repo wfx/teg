@@ -187,10 +187,10 @@ TEG_STATUS aux_countries(int numjug, char const *str)
 		if((i = p.parse())) {
 			country = atoi(p.token);
 			cant = atoi(p.value);
-			if(g_countries[country].numjug != numjug || g_countries[country].ejercitos != cant) {
-				g_countries[country].numjug = numjug;
-				g_countries[country].ejercitos = cant;
-				callbacks::gui_country(g_countries[country].id);
+			if(g_game.common.countries[country].numjug != numjug || g_game.common.countries[country].ejercitos != cant) {
+				g_game.common.countries[country].numjug = numjug;
+				g_game.common.countries[country].ejercitos = cant;
+				callbacks::gui_country(g_game.common.countries[country].id);
 			}
 		}
 	} while(i && p.can_continue());

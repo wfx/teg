@@ -179,7 +179,7 @@ TEG_STATUS armies_add(int country)
 
 	armies_prop[CONT_CANT].cant--;
 
-	cont = g_countries[country].continente;
+	cont = g_game.common.countries[country].continente;
 	if(armies_prop[cont].orig_cant > 0) {
 		armies_prop[cont].cant--;
 	}
@@ -197,7 +197,7 @@ TEG_STATUS armies_del(int country)
 
 	armies_prop[CONT_CANT].cant++;
 
-	cont = g_countries[country].continente;
+	cont = g_game.common.countries[country].continente;
 	if(armies_prop[cont].orig_cant > 0 &&
 	        armies_prop[cont].cant < armies_prop[cont].orig_cant) {
 		armies_prop[cont].cant++;

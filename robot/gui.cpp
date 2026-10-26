@@ -231,7 +231,7 @@ TEG_STATUS gui_fichas(int cant, int conts)
 		}
 
 		/* por las dudas, este chequeo no esta demas */
-		if(g_countries[0].ejercitos == 0) {
+		if(g_game.common.countries[0].ejercitos == 0) {
 			out_loque();
 			break;
 		}
@@ -303,7 +303,7 @@ TEG_STATUS gui_reagrupe(int src, int dst, int cant)
 
 TEG_STATUS gui_tarjeta(int country_id_unused)
 {
-	countries_map([](COUNTRY& country) {
+	countries_map(g_game.common, [](COUNTRY& country) {
 		if(country.tarjeta.numjug == WHOAMI()) {
 
 			if(!country.tarjeta.usada && country.numjug==WHOAMI()) {

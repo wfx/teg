@@ -66,13 +66,13 @@ TEG_STATUS reagrupe_click(PCOUNTRY p)
 				p->selected |= COUNTRY_SELECT_REGROUP;
 				callbacks::gui_country_select(p->id);
 				country_origen = p->id;
-				textmsg(M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(p->id));
+				textmsg(M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(g_game.common, p->id));
 			} else {
-				textmsg(M_ERR, _("Error, '%s' doesnt have any avalaible armies to move"), countries_get_name(p->id));
+				textmsg(M_ERR, _("Error, '%s' doesnt have any avalaible armies to move"), countries_get_name(g_game.common, p->id));
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(p->id));
+			textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else if(country_destino == -1) {
@@ -88,14 +88,14 @@ TEG_STATUS reagrupe_click(PCOUNTRY p)
 				p->selected |= COUNTRY_SELECT_REGROUP;
 				callbacks::gui_country_select(p->id);
 				country_destino = p->id;
-				textmsg(M_INF, _("Destination country: '%s'. Now select the quantity of armies to move"), countries_get_name(p->id));
-				callbacks::gui_reagrupe(country_origen, country_destino, g_countries[country_origen].ejercitos - g_countries[country_origen].ejer_reagrupe - 1);
+				textmsg(M_INF, _("Destination country: '%s'. Now select the quantity of armies to move"), countries_get_name(g_game.common, p->id));
+				callbacks::gui_reagrupe(country_origen, country_destino, g_game.common.countries[country_origen].ejercitos - g_game.common.countries[country_origen].ejer_reagrupe - 1);
 			} else {
-				textmsg(M_ERR, _("Error, '%s' isnt frontier with '%s'"), countries_get_name(p->id), countries_get_name(country_origen));
+				textmsg(M_ERR, _("Error, '%s' isnt frontier with '%s'"), countries_get_name(g_game.common, p->id), countries_get_name(g_game.common, country_origen));
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(p->id));
+			textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
 			reagrupe_reset();
 			return TEG_STATUS_UNEXPECTED;
 		}
@@ -111,13 +111,13 @@ TEG_STATUS reagrupe_click(PCOUNTRY p)
 void reagrupe_reset(void)
 {
 	if(country_origen != -1) {
-		g_countries[country_origen].selected &= ~COUNTRY_SELECT_REGROUP;
+		g_game.common.countries[country_origen].selected &= ~COUNTRY_SELECT_REGROUP;
 		callbacks::gui_country_select(country_origen);
 		country_origen = -1;
 	}
 
 	if(country_destino != -1) {
-		g_countries[country_destino].selected &= ~COUNTRY_SELECT_REGROUP;
+		g_game.common.countries[country_destino].selected &= ~COUNTRY_SELECT_REGROUP;
 		callbacks::gui_country_select(country_origen);
 		country_destino = -1;
 	}
@@ -130,7 +130,7 @@ void reagrupe_bigreset(void)
 	reagrupe_reset();
 
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		g_countries[i].ejer_reagrupe = 0;
+		g_game.common.countries[i].ejer_reagrupe = 0;
 	}
 	last_origen = -1;
 	last_destino = -1;
@@ -154,13 +154,13 @@ void reagrupe_set_and_save(int src, int dst, int cant)
 	last_origen = src;
 	last_destino = dst;
 	last_cant = cant;
-	g_countries[ dst ].ejer_reagrupe += cant;
+	g_game.common.countries[ dst ].ejer_reagrupe += cant;
 }
 
 TEG_STATUS reagrupe_restore_from_error(void)
 {
 	if(last_origen != -1 && last_destino != -1 && last_cant >= 0) {
-		g_countries[ last_destino ].ejer_reagrupe -= last_cant;
+		g_game.common.countries[ last_destino ].ejer_reagrupe -= last_cant;
 		return TEG_STATUS_SUCCESS;
 	} else {
 		return TEG_STATUS_ERROR;

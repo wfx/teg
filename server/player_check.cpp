@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "player.h"
+#include "globals.h"
 #include "../common/country.h"
 
 #include <gtest/gtest.h>
@@ -73,10 +74,10 @@ TEST(player, is_playing)
 
 TEST(player, lister_countries)
 {
-	countries_init();
-	g_countries[0].numjug = 23;
-	g_countries[1].numjug = 23;
-	g_countries[35].numjug = 23;
+	countries_init(g_game.common);
+	g_game.common.countries[0].numjug = 23;
+	g_game.common.countries[1].numjug = 23;
+	g_game.common.countries[35].numjug = 23;
 
 	SPLAYER player{};
 	player.numjug = 23;
@@ -129,10 +130,10 @@ TEST(player, clear_turn)
 	};
 
 	for(std::size_t i=0; i<COUNTRIES_CANT; i++) {
-		g_countries[i].numjug = belongs_to_player(i)
-		                        ? 42
-		                        : 14;
-		g_countries[i].ejer_reagrupe = i;
+		g_game.common.countries[i].numjug = belongs_to_player(i)
+		                                    ? 42
+		                                    : 14;
+		g_game.common.countries[i].ejer_reagrupe = i;
 	}
 
 	player_clear_turn(&player);
@@ -143,9 +144,9 @@ TEST(player, clear_turn)
 
 	for(std::size_t i=0; i<COUNTRIES_CANT; i++) {
 		if(belongs_to_player(i)) {
-			EXPECT_EQ(0, g_countries[i].ejer_reagrupe) << i;
+			EXPECT_EQ(0, g_game.common.countries[i].ejer_reagrupe) << i;
 		} else {
-			EXPECT_EQ(i, g_countries[i].ejer_reagrupe) << i;
+			EXPECT_EQ(i, g_game.common.countries[i].ejer_reagrupe) << i;
 		}
 	}
 }

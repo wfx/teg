@@ -340,8 +340,8 @@ TEG_STATUS clitok_country(char *str)
 		return TEG_STATUS_ERROR;
 	}
 
-	g_countries[country].numjug = jug;
-	g_countries[country].ejercitos = ejer;
+	g_game.common.countries[country].numjug = jug;
+	g_game.common.countries[country].ejercitos = ejer;
 
 	callbacks::gui_country(country);
 
@@ -367,11 +367,11 @@ TEG_STATUS clitok_dados(char *str)
 
 
 	textmsg(M_INF, _("Dices: %s: %d %d %d vs. %s: %d %d %d")
-	        , countries_get_name(g_game.dados_srccountry)
+	        , countries_get_name(g_game.common, g_game.dados_srccountry)
 	        , g_game.dados_src[0]
 	        , g_game.dados_src[1]
 	        , g_game.dados_src[2]
-	        , countries_get_name(g_game.dados_dstcountry)
+	        , countries_get_name(g_game.common, g_game.dados_dstcountry)
 	        , g_game.dados_dst[0]
 	        , g_game.dados_dst[1]
 	        , g_game.dados_dst[2]);
@@ -400,27 +400,27 @@ TEG_STATUS clitok_attack(char *str)
 
 	pJsrc = NULL;
 	if(src >=0) {
-		player_whois(g_countries[src].numjug, &pJsrc);
+		player_whois(g_game.common.countries[src].numjug, &pJsrc);
 	}
 
 	pJdst = NULL;
 	if(dst >=0) {
-		player_whois(g_countries[dst].numjug, &pJdst);
+		player_whois(g_game.common.countries[dst].numjug, &pJdst);
 	}
 
-	if(src >= 0 && g_countries[src].numjug == WHOAMI()) {
+	if(src >= 0 && g_game.common.countries[src].numjug == WHOAMI()) {
 		attack_reset();
 	} else {
 		attack_show(src, dst);
 	}
 
 	if(pJsrc && pJdst)
-		textmsg(M_INF, _("%s(%s) is attacking %s(%s)"), countries_get_name(src),
+		textmsg(M_INF, _("%s(%s) is attacking %s(%s)"), countries_get_name(g_game.common, src),
 		        _(color_name(pJsrc->color))
-		        , countries_get_name(dst), _(color_name(pJdst->color)));
+		        , countries_get_name(g_game.common, dst), _(color_name(pJdst->color)));
 	else {
-		textmsg(M_INF, _("%s is attacking %s"), countries_get_name(src),
-		        countries_get_name(dst));
+		textmsg(M_INF, _("%s is attacking %s"), countries_get_name(g_game.common, src),
+		        countries_get_name(g_game.common, dst));
 	}
 
 	return TEG_STATUS_SUCCESS;
@@ -884,9 +884,9 @@ TEG_STATUS clitok_enum_cards(char *str)
 		g_game.tarjetas_cant++;
 
 		if(used) {
-			tarjeta_usar(&g_countries[ country ].tarjeta);
+			tarjeta_usar(&g_game.common.countries[ country ].tarjeta);
 		}
-		g_countries[ country ].tarjeta.numjug = WHOAMI();
+		g_game.common.countries[ country ].tarjeta.numjug = WHOAMI();
 
 	} while(p.can_continue());
 
@@ -915,13 +915,13 @@ TEG_STATUS clitok_exchange(char *str)
 
 	if(numjug == WHOAMI()) {
 
-		countries_map([p1, p2, p3](COUNTRY& country) {
+		countries_map(g_game.common, [p1, p2, p3](COUNTRY& country) {
 			if(country.tarjeta.numjug != WHOAMI()) {
 				return;
 			}
 
 			if(country.id == p1 || country.id == p2 || country.id == p3) {
-				g_countries[country.id].tarjeta.numjug = -1;
+				g_game.common.countries[country.id].tarjeta.numjug = -1;
 				g_game.tarjetas_cant--;
 			}
 		});
@@ -1000,15 +1000,15 @@ TEG_STATUS clitok_tarjeta(char *str)
 	g_game.tarjetas_cant++;
 
 	if(used) {
-		tarjeta_usar(&g_countries[ country ].tarjeta);
+		tarjeta_usar(&g_game.common.countries[ country ].tarjeta);
 		textmsg(M_IMP,
 		        _("You received card: '%s' and 2 armies where placed there"),
-		        countries_get_name(country));
+		        countries_get_name(g_game.common, country));
 	} else {
 		textmsg(M_IMP, _("You received card: '%s'"),
-		        countries_get_name(country));
+		        countries_get_name(g_game.common, country));
 	}
-	g_countries[ country ].tarjeta.numjug = WHOAMI();
+	g_game.common.countries[ country ].tarjeta.numjug = WHOAMI();
 
 	callbacks::gui_tarjeta(country);
 	return TEG_STATUS_SUCCESS;

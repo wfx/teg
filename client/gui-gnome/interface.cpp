@@ -937,7 +937,7 @@ void tropas_window(int src, int dst, int cant)
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), GNOME_PAD);
 
-	snprintf(buf, sizeof(buf)-1, _("You conquered '%s' in your attack from '%s'!!\n"), countries_get_name(dst), countries_get_name(src));
+	snprintf(buf, sizeof(buf)-1, _("You conquered '%s' in your attack from '%s'!!\n"), countries_get_name(g_game.common, dst), countries_get_name(g_game.common, src));
 	buf[ sizeof(buf) -1 ] = 0;
 	label = gtk_label_new(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -956,7 +956,7 @@ void tropas_window(int src, int dst, int cant)
 		gtk_scale_set_draw_value(GTK_SCALE(tropas_hscale_cant), 1);
 		/*		gtk_range_draw_trough(GTK_RANGE(tropas_hscale_cant));  */
 
-		snprintf(buf, sizeof(buf) -1, _("[Note: The server moved 1 army to '%s' for you.\nChoose how many more armies you want to move]"), countries_get_name(dst));
+		snprintf(buf, sizeof(buf) -1, _("[Note: The server moved 1 army to '%s' for you.\nChoose how many more armies you want to move]"), countries_get_name(g_game.common, dst));
 		buf[ sizeof(buf) -1 ] = 0;
 		label = gtk_label_new(buf);
 		gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -1039,7 +1039,7 @@ void reagrupe_window(int src, int dst, int cant)
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), GNOME_PAD);
 
-	snprintf(buf, sizeof(buf) -1, _("Moving armies from '%s' to '%s'\n"), countries_get_name(src), countries_get_name(dst));
+	snprintf(buf, sizeof(buf) -1, _("Moving armies from '%s' to '%s'\n"), countries_get_name(g_game.common, src), countries_get_name(g_game.common, dst));
 	buf[ sizeof(buf) -1 ] = 0;
 	label = gtk_label_new(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);

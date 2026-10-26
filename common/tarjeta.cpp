@@ -28,11 +28,12 @@
 #include <stddef.h>
 
 #include "country.h"
+#include "state.h"
 
-bool card_belongs_to_player(int player, int country)
+bool card_belongs_to_player(CommonState const& state, int player, int country)
 {
 	return countrynumber_is_valid(country)
-	       && g_countries[country].tarjeta.numjug == player;
+	       && state.countries[country].tarjeta.numjug == player;
 }
 
 bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
@@ -50,18 +51,18 @@ bool can_trade_cards(TARJTIPO a, TARJTIPO b, TARJTIPO c)
  * @fn BOOLEAN tarjeta_puedocanje( int numjug, int t1, int t2, int t3 )
  * Dice si es correcto el canje con las tarjetas t1,t2 y t3
  */
-bool tarjeta_puedocanje(int numjug, int t1, int t2, int t3)
+bool tarjeta_puedocanje(CommonState const& state, int numjug, int t1, int t2, int t3)
 {
 	/* chequear que las tarjetas sean del jugador */
-	if(!(card_belongs_to_player(numjug, t1)&&
-	        card_belongs_to_player(numjug, t2) &&
-	        card_belongs_to_player(numjug, t3))) {
+	if(!(card_belongs_to_player(state, numjug, t1)&&
+	        card_belongs_to_player(state, numjug, t2) &&
+	        card_belongs_to_player(state, numjug, t3))) {
 		return false;
 	}
 
-	return can_trade_cards(g_countries[t1].tarjeta.tarjeta,
-	                       g_countries[t2].tarjeta.tarjeta,
-	                       g_countries[t3].tarjeta.tarjeta);
+	return can_trade_cards(state.countries[t1].tarjeta.tarjeta,
+	                       state.countries[t2].tarjeta.tarjeta,
+	                       state.countries[t3].tarjeta.tarjeta);
 }
 
 void tarjeta_init(void)
@@ -121,16 +122,16 @@ void tarjeta_sacar(PTARJETA t, int numjug)
  * @param i Pais que contiene a la tarjeta
  * @return TRUE si la tarjeta esta libre
  */
-bool tarjeta_es_libre(int i)
+bool tarjeta_es_libre(CommonState& state, int i)
 {
-	if(g_countries[i].tarjeta.numjug != -1) {
+	if(state.countries[i].tarjeta.numjug != -1) {
 		for(int j = 0; j < static_cast<int>(COUNTRIES_CANT); ++j) {
-			if(g_countries[j].tarjeta.numjug == -2) {
-				g_countries[j].tarjeta.numjug = -1;
+			if(state.countries[j].tarjeta.numjug == -2) {
+				state.countries[j].tarjeta.numjug = -1;
 			}
 		}
 	}
-	return (g_countries[i].tarjeta.numjug == -1);
+	return (state.countries[i].tarjeta.numjug == -1);
 }
 
 /**

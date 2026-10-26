@@ -24,71 +24,74 @@
 #include <algorithm> // std::for_each
 
 #include "fcintl.h"
+#include "state.h"
 
-COUNTRY g_countries[] = {
-	/* AMERICA DEL SUR */
-	COUNTRY{0, N_("Argentina"), CONTINENTE_AMERICASUR, TARJETA_NULL_COMODIN },
-	COUNTRY{1, N_("Brazil"), CONTINENTE_AMERICASUR, TARJETA_NULL_GALEON },
-	COUNTRY{2, N_("Chile"), CONTINENTE_AMERICASUR, TARJETA_NULL_GLOBO },
-	COUNTRY{3, N_("Colombia"), CONTINENTE_AMERICASUR, TARJETA_NULL_GLOBO },
-	COUNTRY{4, N_("Peru"), CONTINENTE_AMERICASUR, TARJETA_NULL_GALEON },
-	COUNTRY{5, N_("Uruguay"), CONTINENTE_AMERICASUR, TARJETA_NULL_GLOBO },
+Countries make_countries()
+{
+	return {{
+			/* AMERICA DEL SUR */
+			COUNTRY{0, N_("Argentina"), CONTINENTE_AMERICASUR, TARJETA_NULL_COMODIN },
+			COUNTRY{1, N_("Brazil"), CONTINENTE_AMERICASUR, TARJETA_NULL_GALEON },
+			COUNTRY{2, N_("Chile"), CONTINENTE_AMERICASUR, TARJETA_NULL_GLOBO },
+			COUNTRY{3, N_("Colombia"), CONTINENTE_AMERICASUR, TARJETA_NULL_GLOBO },
+			COUNTRY{4, N_("Peru"), CONTINENTE_AMERICASUR, TARJETA_NULL_GALEON },
+			COUNTRY{5, N_("Uruguay"), CONTINENTE_AMERICASUR, TARJETA_NULL_GLOBO },
 
-	/* AMERICA DEL NORTE */
-	COUNTRY{ 6, N_("Mexico"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
-	COUNTRY{ 7, N_("California"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
-	COUNTRY{ 8, N_("Oregon"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
-	COUNTRY{ 9, N_("New York"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GALEON },
-	COUNTRY{10, N_("Alaska"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GALEON },
-	COUNTRY{11, N_("Yukon"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GLOBO },
-	COUNTRY{12, N_("Canada"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
-	COUNTRY{13, N_("Terranova"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
-	COUNTRY{14, N_("Labrador"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
-	COUNTRY{15, N_("Greenland"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GALEON },
+			/* AMERICA DEL NORTE */
+			COUNTRY{ 6, N_("Mexico"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
+			COUNTRY{ 7, N_("California"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
+			COUNTRY{ 8, N_("Oregon"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
+			COUNTRY{ 9, N_("New York"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GALEON },
+			COUNTRY{10, N_("Alaska"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GALEON },
+			COUNTRY{11, N_("Yukon"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GLOBO },
+			COUNTRY{12, N_("Canada"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
+			COUNTRY{13, N_("Terranova"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
+			COUNTRY{14, N_("Labrador"), CONTINENTE_AMERICANORTE, TARJETA_NULL_CANION },
+			COUNTRY{15, N_("Greenland"), CONTINENTE_AMERICANORTE, TARJETA_NULL_GALEON },
 
-	/* AFRICA */
-	COUNTRY{16, N_("Sahara"), CONTINENTE_AFRICA, TARJETA_NULL_CANION },
-	COUNTRY{17, N_("Zaire"), CONTINENTE_AFRICA, TARJETA_NULL_GALEON },
-	COUNTRY{18, N_("Etiopia"), CONTINENTE_AFRICA, TARJETA_NULL_GLOBO },
-	COUNTRY{19, N_("Egypt"), CONTINENTE_AFRICA, TARJETA_NULL_GLOBO },
-	COUNTRY{20, N_("Madagascar"), CONTINENTE_AFRICA, TARJETA_NULL_GALEON },
-	COUNTRY{21, N_("South Africa"), CONTINENTE_AFRICA, TARJETA_NULL_CANION },
+			/* AFRICA */
+			COUNTRY{16, N_("Sahara"), CONTINENTE_AFRICA, TARJETA_NULL_CANION },
+			COUNTRY{17, N_("Zaire"), CONTINENTE_AFRICA, TARJETA_NULL_GALEON },
+			COUNTRY{18, N_("Etiopia"), CONTINENTE_AFRICA, TARJETA_NULL_GLOBO },
+			COUNTRY{19, N_("Egypt"), CONTINENTE_AFRICA, TARJETA_NULL_GLOBO },
+			COUNTRY{20, N_("Madagascar"), CONTINENTE_AFRICA, TARJETA_NULL_GALEON },
+			COUNTRY{21, N_("South Africa"), CONTINENTE_AFRICA, TARJETA_NULL_CANION },
 
-	/* OCEANIA */
-	COUNTRY{22, N_("Australia"), CONTINENTE_OCEANIA, TARJETA_NULL_CANION },
-	COUNTRY{23, N_("Borneo"), CONTINENTE_OCEANIA, TARJETA_NULL_GALEON },
-	COUNTRY{24, N_("Java"), CONTINENTE_OCEANIA, TARJETA_NULL_CANION },
-	COUNTRY{25, N_("Sumatra"), CONTINENTE_OCEANIA, TARJETA_NULL_GLOBO },
+			/* OCEANIA */
+			COUNTRY{22, N_("Australia"), CONTINENTE_OCEANIA, TARJETA_NULL_CANION },
+			COUNTRY{23, N_("Borneo"), CONTINENTE_OCEANIA, TARJETA_NULL_GALEON },
+			COUNTRY{24, N_("Java"), CONTINENTE_OCEANIA, TARJETA_NULL_CANION },
+			COUNTRY{25, N_("Sumatra"), CONTINENTE_OCEANIA, TARJETA_NULL_GLOBO },
 
-	/* EUROPA */
-	COUNTRY{26, N_("Spain"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
-	COUNTRY{27, N_("France"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
-	COUNTRY{28, N_("Germany"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
-	COUNTRY{29, N_("Italy"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
-	COUNTRY{30, N_("Poland"), CONTINENTE_EUROPA, TARJETA_NULL_CANION },
-	COUNTRY{31, N_("Russia"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
-	COUNTRY{32, N_("Sweden"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
-	COUNTRY{33, N_("Great Britain"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
-	COUNTRY{34, N_("Iceland"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
+			/* EUROPA */
+			COUNTRY{26, N_("Spain"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
+			COUNTRY{27, N_("France"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
+			COUNTRY{28, N_("Germany"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
+			COUNTRY{29, N_("Italy"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
+			COUNTRY{30, N_("Poland"), CONTINENTE_EUROPA, TARJETA_NULL_CANION },
+			COUNTRY{31, N_("Russia"), CONTINENTE_EUROPA, TARJETA_NULL_GLOBO },
+			COUNTRY{32, N_("Sweden"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
+			COUNTRY{33, N_("Great Britain"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
+			COUNTRY{34, N_("Iceland"), CONTINENTE_EUROPA, TARJETA_NULL_GALEON },
 
-	/* ASIA */
-	COUNTRY{35, N_("Arabia"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
-	COUNTRY{36, N_("Israel"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
-	COUNTRY{37, N_("Turkey"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
-	COUNTRY{38, N_("India"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
-	COUNTRY{39, N_("Malaysia"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
-	COUNTRY{40, N_("Iran"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
-	COUNTRY{41, N_("Gobi"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
-	COUNTRY{42, N_("China"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
-	COUNTRY{43, N_("Mongolia"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
-	COUNTRY{44, N_("Siberia"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
-	COUNTRY{45, N_("Aral"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
-	COUNTRY{46, N_("Tartary"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
-	COUNTRY{47, N_("Taymir"), CONTINENTE_ASIA, TARJETA_NULL_COMODIN },
-	COUNTRY{48, N_("Katchatka"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
-	COUNTRY{49, N_("Japan"), CONTINENTE_ASIA, TARJETA_NULL_CANION }
-};
-constexpr std::size_t COUNTRIES_TOT = std::extent<decltype(g_countries)>::value;
+			/* ASIA */
+			COUNTRY{35, N_("Arabia"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
+			COUNTRY{36, N_("Israel"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
+			COUNTRY{37, N_("Turkey"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
+			COUNTRY{38, N_("India"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
+			COUNTRY{39, N_("Malaysia"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
+			COUNTRY{40, N_("Iran"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
+			COUNTRY{41, N_("Gobi"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
+			COUNTRY{42, N_("China"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
+			COUNTRY{43, N_("Mongolia"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
+			COUNTRY{44, N_("Siberia"), CONTINENTE_ASIA, TARJETA_NULL_GALEON },
+			COUNTRY{45, N_("Aral"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
+			COUNTRY{46, N_("Tartary"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
+			COUNTRY{47, N_("Taymir"), CONTINENTE_ASIA, TARJETA_NULL_COMODIN },
+			COUNTRY{48, N_("Katchatka"), CONTINENTE_ASIA, TARJETA_NULL_GLOBO },
+			COUNTRY{49, N_("Japan"), CONTINENTE_ASIA, TARJETA_NULL_CANION },
+		}};
+}
 
 COUNTRY::COUNTRY()
 	: COUNTRY(-1, "INVALID", CONTINENTE_LAST, TARJTIPO(0))
@@ -125,24 +128,24 @@ void countries_initcountry(PCOUNTRY p)
 }
 
 /* initializes all the countries */
-void countries_init()
+void countries_init(CommonState& state)
 {
-	for(size_t i=0; i<COUNTRIES_CANT; i++) {
-		countries_initcountry(&g_countries[i]);
+	for(auto& country: state.countries) {
+		countries_initcountry(&country);
 	}
 }
 
 /* says if a country is free or not */
-bool country_libre(int i)
+bool country_libre(CommonState const& state, int i)
 {
-	return(g_countries[i].numjug == -1);
+	return(state.countries[i].numjug == -1);
 }
 
 /* returns the name of a country */
-char const * countries_get_name(int i)
+char const * countries_get_name(CommonState const& state, int i)
 {
 	if(i >= 0 && i < static_cast<int>(COUNTRIES_CANT)) {
-		return _(g_countries[i].name);
+		return _(state.countries[i].name);
 	} else {
 		return _("Unknown");
 	}
@@ -153,14 +156,14 @@ bool countrynumber_is_valid(int country_number)
 	return (country_number >= 0) && (country_number < static_cast<int>(COUNTRIES_CANT));
 }
 
-void countries_map(CountryMapFn fn)
+void countries_map(CommonState& state, CountryMapFn fn)
 {
-	std::for_each(std::begin(g_countries), std::end(g_countries), fn);
+	std::for_each(std::begin(state.countries), std::end(state.countries), fn);
 }
 
-void countries_map(int player, CountryMapFn fn)
+void countries_map(CommonState& state, int player, CountryMapFn fn)
 {
-	std::for_each(std::begin(g_countries), std::end(g_countries),
+	std::for_each(std::begin(state.countries), std::end(state.countries),
 	[player, fn](COUNTRY & c) {
 		if(player == c.numjug) {
 			fn(c);
@@ -168,9 +171,9 @@ void countries_map(int player, CountryMapFn fn)
 	});
 }
 
-void countries_map_int(int player, InterruptableCountryMapFn fn)
+void countries_map_int(CommonState& state, int player, InterruptableCountryMapFn fn)
 {
-	for(COUNTRY& country: g_countries) {
+	for(COUNTRY& country: state.countries) {
 		if(player == country.numjug) {
 			if(!fn(country)) {
 				break;
@@ -179,11 +182,11 @@ void countries_map_int(int player, InterruptableCountryMapFn fn)
 	}
 }
 
-COUNTRY& COUNTRY_FROM_TARJETA(TARJETA& tarjeta)
+COUNTRY& COUNTRY_FROM_TARJETA(CommonState& state, TARJETA& tarjeta)
 {
 	if(!countrynumber_is_valid(tarjeta.country)) {
 		throw std::runtime_error("Can't find the country for this card, because the country number is invalid." + std::to_string(tarjeta.country));
 	}
 
-	return g_countries[tarjeta.country];
+	return state.countries[tarjeta.country];
 }

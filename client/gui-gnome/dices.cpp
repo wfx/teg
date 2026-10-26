@@ -116,7 +116,7 @@ static void dices_show_text(int country, dices_type_t type)
 
 	text[type] = goo_canvas_text_new(
 	                 dices_group,
-	                 countries_get_name(country),
+	                 countries_get_name(g_game.common, country),
 	                 (double)(type == DICES_ATTACKER) ? dices_pos.attacker_text.x :  dices_pos.defender_text.x,
 	                 (double)(type == DICES_ATTACKER) ? dices_pos.attacker_text.y :  dices_pos.defender_text.y,
 	                 (double) -1,

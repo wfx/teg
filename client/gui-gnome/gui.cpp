@@ -406,8 +406,8 @@ TEG_STATUS gui_tarjeta(int country)
 {
 	cards_view(country);
 
-	if(tarjeta_es_usada(&g_countries[country].tarjeta)) {
-		locate_country_add_army(&g_countries[country]);
+	if(tarjeta_es_usada(&g_game.common.countries[country].tarjeta)) {
+		locate_country_add_army(&g_game.common.countries[country]);
 	}
 
 	set_sensitive_tb();
