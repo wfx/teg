@@ -145,7 +145,7 @@ TEG_STATUS xmlscores_load(void)
 		if(!xmlStrcmp(cur->name, (const xmlChar *) "score")) {
 			SCORES score;
 			if(parseScore(doc, cur, &score)) {
-				insert_score(&score);
+				insert_score(g_game.common.highscores, &score);
 			}
 		} else {
 			fprintf(stderr, ("Wrong type (%s). score was expected\n"), cur->name);
@@ -190,7 +190,7 @@ void xmlscores_save(void)
 	child = xmlNewDocRawNode(doc, NULL, (xmlChar*)"teg_scores", NULL);
 
 	xmlDocSetRootElement(doc, child);
-	scores_map(save_single_score, (void*) child);
+	scores_map(g_game.common.highscores, save_single_score, (void*) child);
 
 	snprintf(filename,
 	         sizeof(filename)-1,
@@ -244,7 +244,7 @@ TEG_STATUS scores_insert_player(PSPLAYER pJ)
 
 	SCORES score;
 	new_score_node(pJ, &score);
-	insert_score(&score);
+	insert_score(g_game.common.highscores, &score);
 
 	xmlscores_save();
 
@@ -283,7 +283,7 @@ TEG_STATUS scores_dump(char *strout, size_t len)
 	struct AppendString as = {
 		.dest = strout, .storage_remaining=len-1, .delim="", .valid=true
 	};
-	scores_map(appendScoreString, &as);
+	scores_map(g_game.common.highscores, appendScoreString, &as);
 	if(!as.valid) {
 		strout[0]=0; // something bad happened, so zero out the result
 		return TEG_STATUS_ERROR;

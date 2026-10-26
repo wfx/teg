@@ -800,7 +800,7 @@ TEG_STATUS clitok_scores(char *str)
 		goto ok;
 	}
 
-	scores_init();
+	scores_init(g_game.common.highscores);
 
 	do {
 		if(!p.parse()) {
@@ -809,7 +809,7 @@ TEG_STATUS clitok_scores(char *str)
 		if(aux_scores(&score, p.token) != TEG_STATUS_SUCCESS) {
 			goto error;
 		}
-		insert_score(&score);
+		insert_score(g_game.common.highscores, &score);
 
 	} while(p.can_continue());
 

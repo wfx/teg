@@ -149,7 +149,7 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 STATIC TEG_STATUS con_scores(int unused, char* unused2)
 {
 	printf(_("  score  date       time    name              color    human\n"));
-	scores_map(con_scores_show, NULL);
+	scores_map(g_game.common.highscores, con_scores_show, NULL);
 	return TEG_STATUS_SUCCESS;
 }
 

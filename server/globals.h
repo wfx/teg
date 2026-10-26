@@ -21,6 +21,7 @@
 #pragma once
 
 #include "../common/common.h"
+#include "../common/state.h"
 #include "player.h"
 
 namespace teg::server
@@ -43,7 +44,9 @@ typedef struct _sgame {
 	int fichas2;		/**< initial armies2 (default 3)*/
 	unsigned int seed;	/**< seed for random */
 	int gamenumber;		/**< game number */
-	int round_number;	/**< round number */
+	int round_number;		/**< round number */
+
+	CommonState common;	/**< state shared with the client and the robot */
 } SGAME, *PSGAME;
 extern SGAME g_game;
 

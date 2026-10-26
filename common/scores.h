@@ -42,14 +42,14 @@ struct HighScores {
 };
 
 /**! insert a score in the table */
-void insert_score(SCORES const* score);
+void insert_score(HighScores& highscores, SCORES const* score);
 
 // Helper to make the highscore code easier to test
 void insert_highscore(struct HighScores* hs, SCORES const* score);
 
 /**! initialize the scores */
-void scores_init();
+void scores_init(HighScores& highscores);
 
 /**! a map function over the scores. (like in functional programming) */
 typedef void(*scores_map_func)(PSCORES pJ, void* user);
-void scores_map(scores_map_func func, void *user);
+void scores_map(HighScores& highscores, scores_map_func func, void *user);

@@ -147,7 +147,7 @@ void game_init()
 {
 	player_init();
 	color_init();
-	scores_init();
+	scores_init(g_game.common.highscores);
 	xmlscores_load();
 
 	g_game.connections = 0;

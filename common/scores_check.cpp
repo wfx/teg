@@ -44,6 +44,28 @@ void check_scores(SCS scores, HighScores const& hs, unsigned linenumber)
 	}
 }
 
+static void count_score(PSCORES, void* user)
+{
+	++*static_cast<int*>(user);
+}
+
+TEST(Scores, explicit_state)
+{
+	HighScores hs{};
+	SCORES score{.name={'a'}, .color=2, .date={'D', 'a'}, .human=0, .score=23};
+
+	scores_init(hs);
+	EXPECT_EQ(0u, hs.count);
+
+	insert_score(hs, &score);
+	EXPECT_EQ(1u, hs.count);
+	EXPECT_EQ(score, hs.highscores[0]);
+
+	int count = 0;
+	scores_map(hs, count_score, &count);
+	EXPECT_EQ(1, count);
+}
+
 TEST(Scores, insert)
 {
 	HighScores hs {

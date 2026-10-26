@@ -215,7 +215,7 @@ static TEG_STATUS scores_update_model(GtkListStore *store)
 	gtk_list_store_clear(store);
 
 	struct AddScoreState ass = {.store = store, .row=0};
-	scores_map(append_player_score, &ass);
+	scores_map(g_game.common.highscores, append_player_score, &ass);
 
 	return TEG_STATUS_SUCCESS;
 }

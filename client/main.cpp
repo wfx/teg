@@ -35,7 +35,7 @@ TEG_STATUS main_init()
 	game_init();
 	g_game.human = 1;
 	player_init();
-	scores_init();
+	scores_init(g_game.common.highscores);
 	return TEG_STATUS_SUCCESS;
 }
 
