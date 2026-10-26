@@ -45,8 +45,6 @@
 namespace teg::client::callbacks
 {
 
-extern TTheme gui_theme;
-
 /* some defines for the position */
 #define RECT_SIZE (8)
 #define PLAYERS_COLORS_OFFSET (246)
@@ -54,17 +52,6 @@ extern TTheme gui_theme;
 #define OFFSET_LEFT (6)
 #define OFFSET_RIGHT (-8)
 
-GtkWidget *status_dialog=NULL;
-static GtkWidget *status_treeview=NULL;
-
-static GtkWidget *ministatus = NULL;
-
-static GtkWidget* mainstatus_canvas = NULL;
-
-static GooCanvasItem *players_color[maximum_player_count];
-static GooCanvasItem *color_started_item;
-static GooCanvasItem *round_number_item;
-static GooCanvasItem *players_color_over;
 
 static GtkListStore *status_create_model(void)
 {
@@ -194,7 +181,7 @@ static TEG_STATUS status_update_model(GtkListStore *store)
 {
 	gtk_list_store_clear(store);
 
-	players_map(gui_state(), [store](Player &player) {
+	players_map(client_state(), [store](Player &player) {
 		gchar *const name = translate_to_utf8(player.name);
 
 		GtkTreeIter iter;
@@ -222,13 +209,13 @@ TEG_STATUS status_update_visibility_of_columns(void)
 	GtkTreeViewColumn *column;
 	int i;
 
-	if(!GTK_IS_WIDGET(status_treeview)) {
+	if(!GTK_IS_WIDGET(gui_state().status.treeview)) {
 		return TEG_STATUS_ERROR;
 	}
 
 	for(i=0; i < STATUS_COLUMN_LAST; i++) {
-		column = gtk_tree_view_get_column(GTK_TREE_VIEW(status_treeview), i);
-		gtk_tree_view_column_set_visible(column, (gui_private.status_show & (1<<i)) != 0);
+		column = gtk_tree_view_get_column(GTK_TREE_VIEW(gui_state().status.treeview), i);
+		gtk_tree_view_column_set_visible(column, (gui_state().priv.status_show & (1<<i)) != 0);
 	}
 
 	return TEG_STATUS_SUCCESS;
@@ -236,28 +223,27 @@ TEG_STATUS status_update_visibility_of_columns(void)
 
 TEG_STATUS status_update_dialog()
 {
-	static GtkListStore *model = NULL;
 
-	if(status_dialog == NULL) {
+	if(gui_state().status.dialog == NULL) {
 		return TEG_STATUS_ERROR;
 	}
 
 	/* create tree model */
-	model = status_create_model();
+	gui_state().status.model = status_create_model();
 
 	/* create tree view */
-	status_treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(model));
-	gtk_tree_view_set_search_column(GTK_TREE_VIEW(status_treeview),
+	gui_state().status.treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL(gui_state().status.model));
+	gtk_tree_view_set_search_column(GTK_TREE_VIEW(gui_state().status.treeview),
 	                                STATUS_COLUMN_SCORE);
 
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
-	                           (GTK_DIALOG(status_dialog))),
-	                   GTK_WIDGET(status_treeview), TRUE, TRUE, 0);
+	                           (GTK_DIALOG(gui_state().status.dialog))),
+	                   GTK_WIDGET(gui_state().status.treeview), TRUE, TRUE, 0);
 
 	/* add columns to the tree view */
-	status_add_columns(GTK_TREE_VIEW(status_treeview));
+	status_add_columns(GTK_TREE_VIEW(gui_state().status.treeview));
 
-	status_update_model(model);
+	status_update_model(gui_state().status.model);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -265,31 +251,31 @@ TEG_STATUS status_update_dialog()
 /* view the status of players */
 void status_view()
 {
-	status_dialog = teg_dialog_new(_("Status of Players"),
-	                               _("Status of Players"));
+	gui_state().status.dialog = teg_dialog_new(_("Status of Players"),
+	                            _("Status of Players"));
 
-	gtk_window_set_transient_for(GTK_WINDOW(status_dialog),
-	                             GTK_WINDOW(main_window));
+	gtk_window_set_transient_for(GTK_WINDOW(gui_state().status.dialog),
+	                             GTK_WINDOW(gui_state().ui.main_window));
 
-	gtk_dialog_add_buttons(GTK_DIALOG(status_dialog), _("_Refresh"), 0,
+	gtk_dialog_add_buttons(GTK_DIALOG(gui_state().status.dialog), _("_Refresh"), 0,
 	                       _("_Close"), 1, NULL);
 
-	gtk_dialog_set_default_response(GTK_DIALOG(status_dialog), 1);
+	gtk_dialog_set_default_response(GTK_DIALOG(gui_state().status.dialog), 1);
 
-	out_status(gui_state());
+	out_status(client_state());
 	status_update_dialog();
 
-	gtk_widget_show_all(status_dialog);
+	gtk_widget_show_all(gui_state().status.dialog);
 
-	while(gtk_dialog_run(GTK_DIALOG(status_dialog)) == 0) {
-		out_status(gui_state());
+	while(gtk_dialog_run(GTK_DIALOG(gui_state().status.dialog)) == 0) {
+		out_status(client_state());
 		status_update_dialog();
-		gtk_widget_queue_draw(status_dialog);
+		gtk_widget_queue_draw(gui_state().status.dialog);
 	}
 
-	if(GTK_IS_WIDGET(status_dialog)) {
-		gtk_widget_destroy(status_dialog);
-		status_dialog = NULL;
+	if(GTK_IS_WIDGET(gui_state().status.dialog)) {
+		gtk_widget_destroy(gui_state().status.dialog);
+		gui_state().status.dialog = NULL;
 	}
 }
 
@@ -301,11 +287,11 @@ void status_view()
  */
 TEG_STATUS ministatus_update()
 {
-	if(ministatus == NULL) {
+	if(gui_state().status.ministatus == NULL) {
 		return TEG_STATUS_ERROR;
 	}
 
-	gtk_widget_queue_draw(ministatus);
+	gtk_widget_queue_draw(gui_state().status.ministatus);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -315,10 +301,10 @@ static gboolean ministatus_expose_cb(GtkWidget *area, cairo_t *cr, gpointer user
 	gint width, height;
 	int i=0;
 
-	if(client_status(gui_state()) == PLAYER_STATUS_DESCONECTADO || gui_state().game.observer) {
+	if(client_status(client_state()) == PLAYER_STATUS_DESCONECTADO || client_state().game.observer) {
 		i = -1;
 	} else {
-		i = gui_state().game.numjug;
+		i = client_state().game.numjug;
 	}
 
 	width = gtk_widget_get_allocated_width(area);
@@ -338,16 +324,16 @@ static gboolean ministatus_expose_cb(GtkWidget *area, cairo_t *cr, gpointer user
 
 GtkWidget *ministatus_build()
 {
-	if(ministatus == NULL) {
-		ministatus = gtk_drawing_area_new();
+	if(gui_state().status.ministatus == NULL) {
+		gui_state().status.ministatus = gtk_drawing_area_new();
 
-		g_signal_connect(G_OBJECT(ministatus), "draw",
+		g_signal_connect(G_OBJECT(gui_state().status.ministatus), "draw",
 		                 G_CALLBACK(ministatus_expose_cb), NULL);
 	}
-	gtk_widget_set_size_request(ministatus, 15, -1);
-	gtk_widget_show(ministatus);
+	gtk_widget_set_size_request(gui_state().status.ministatus, 15, -1);
+	gtk_widget_show(gui_state().status.ministatus);
 
-	return ministatus;
+	return gui_state().status.ministatus;
 }
 
 
@@ -361,36 +347,36 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 {
 	int failed=1;
 
-	if(mainstatus_canvas) {
+	if(gui_state().status.mainstatus_canvas) {
 		goto error;
 	}
 
-	mainstatus_canvas = goo_canvas_new();
-	if(! mainstatus_canvas) {
+	gui_state().status.mainstatus_canvas = goo_canvas_new();
+	if(! gui_state().status.mainstatus_canvas) {
 		goto error;
 	}
 
 	/* load colors for started_item, and player_colors */
 	colors_load_images();
 
-	gtk_widget_set_size_request(mainstatus_canvas,
+	gtk_widget_set_size_request(gui_state().status.mainstatus_canvas,
 	                            MAINSTATUS_X, MAINSTATUS_Y + 1);
-	goo_canvas_set_bounds(GOO_CANVAS(mainstatus_canvas), 0, 0,
+	goo_canvas_set_bounds(GOO_CANVAS(gui_state().status.mainstatus_canvas), 0, 0,
 	                      MAINSTATUS_X, MAINSTATUS_Y);
-	g_object_set(mainstatus_canvas, "anchor",
+	g_object_set(gui_state().status.mainstatus_canvas, "anchor",
 	             GOO_CANVAS_ANCHOR_CENTER, NULL);
 
 	/* background */
-	if(gui_theme.toolbar_custom && gui_theme.toolbar_name) {
+	if(gui_state().theme.toolbar_custom && gui_state().theme.toolbar_name) {
 		GdkPixbuf *im;
 
-		const auto fpath = theme_load_file(gui_state(), gui_theme.toolbar_name);
+		const auto fpath = theme_load_file(client_state(), gui_state().theme.toolbar_name);
 		char const*const filename = fpath ? fpath->c_str() : nullptr;
 		im = gdk_pixbuf_new_from_file(filename, NULL);
 
 		if(im) {
 			goo_canvas_image_new(
-			    goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
+			    goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
 			    im,
 			    0.0,
 			    0.0,
@@ -410,7 +396,7 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	/* load default background */
 	if(failed) {
 		goo_canvas_rect_new(
-		    goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
+		    goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
 		    0.0,
 		    0.0,
 		    (double) MAINSTATUS_X,
@@ -422,7 +408,7 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 
 	/* round started by */
 	goo_canvas_text_new(
-	    goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
+	    goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
 	    _("Round started by:"),
 	    (double) ROUND_OFFSET,
 	    (double) 3,
@@ -430,23 +416,23 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	    GOO_CANVAS_ANCHOR_NORTH_EAST,
 	    "height", (double) -1,
 	    "font", HELVETICA_10_FONT,
-	    "fill-color", gui_theme.toolbar_custom && gui_theme.toolbar_text_color ? gui_theme.toolbar_text_color : "black",
+	    "fill-color", gui_state().theme.toolbar_custom && gui_state().theme.toolbar_text_color ? gui_state().theme.toolbar_text_color : "black",
 	    NULL);
 
-	color_started_item = goo_canvas_image_new(
-	                         goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                         g_color_circles[maximum_player_count],
-	                         (double) ROUND_OFFSET + 4,
-	                         (double) 4,
-	                         "width", (double) gdk_pixbuf_get_width(g_color_circles[maximum_player_count]),
-	                         "height", (double) gdk_pixbuf_get_height(g_color_circles[maximum_player_count]),
-	                         NULL);
-	g_object_set(color_started_item, "visibility",
+	gui_state().status.color_started_item = goo_canvas_image_new(
+	        goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
+	        gui_state().colors.circle_pixbufs[maximum_player_count],
+	        (double) ROUND_OFFSET + 4,
+	        (double) 4,
+	        "width", (double) gdk_pixbuf_get_width(gui_state().colors.circle_pixbufs[maximum_player_count]),
+	        "height", (double) gdk_pixbuf_get_height(gui_state().colors.circle_pixbufs[maximum_player_count]),
+	        NULL);
+	g_object_set(gui_state().status.color_started_item, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 
 	/* round number */
 	goo_canvas_text_new(
-	    goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
+	    goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
 	    _("Round number:"),
 	    (double) ROUND_OFFSET,
 	    (double) MAINSTATUS_Y/2 + 1,
@@ -454,24 +440,24 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	    GOO_CANVAS_ANCHOR_NORTH_EAST,
 	    "height", (double) -1,
 	    "font", HELVETICA_10_FONT,
-	    "fill-color", gui_theme.toolbar_custom && gui_theme.toolbar_text_color ? gui_theme.toolbar_text_color : "black",
+	    "fill-color", gui_state().theme.toolbar_custom && gui_state().theme.toolbar_text_color ? gui_state().theme.toolbar_text_color : "black",
 	    NULL);
 
-	round_number_item = goo_canvas_text_new(
-	                        goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                        _("?"),
-	                        (double) ROUND_OFFSET + 4,
-	                        (double) MAINSTATUS_Y/2 + 2,
-	                        (double) -1,
-	                        GOO_CANVAS_ANCHOR_NORTH_WEST,
-	                        "height", (double) -1,
-	                        "font", HELVETICA_12_FONT,
-	                        "fill-color", gui_theme.toolbar_custom && gui_theme.toolbar_text_color ? gui_theme.toolbar_text_color : "black",
-	                        NULL);
+	gui_state().status.round_number_item = goo_canvas_text_new(
+	        goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
+	        _("?"),
+	        (double) ROUND_OFFSET + 4,
+	        (double) MAINSTATUS_Y/2 + 2,
+	        (double) -1,
+	        GOO_CANVAS_ANCHOR_NORTH_WEST,
+	        "height", (double) -1,
+	        "font", HELVETICA_12_FONT,
+	        "fill-color", gui_state().theme.toolbar_custom && gui_state().theme.toolbar_text_color ? gui_state().theme.toolbar_text_color : "black",
+	        NULL);
 
 	/* players turn */
 	goo_canvas_text_new(
-	    goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
+	    goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
 	    _("Players turn:"),
 	    (double) PLAYERS_COLORS_OFFSET - 4,
 	    (double) 3,
@@ -479,39 +465,39 @@ TEG_STATUS mainstatus_create(GtkWidget **window)
 	    GOO_CANVAS_ANCHOR_NORTH_EAST,
 	    "height", (double) -1,
 	    "font", HELVETICA_10_FONT,
-	    "fill-color", gui_theme.toolbar_custom && gui_theme.toolbar_text_color ? gui_theme.toolbar_text_color : "black",
+	    "fill-color", gui_state().theme.toolbar_custom && gui_state().theme.toolbar_text_color ? gui_state().theme.toolbar_text_color : "black",
 	    NULL);
 
 	/* create canvas for the circles & and load the circles */
 	for(unsigned i=0; i<maximum_player_count; i++) {
-		players_color[i] = goo_canvas_image_new(
-		                       goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-		                       g_color_circles[maximum_player_count],
-		                       0.0,
-		                       0.0,
-		                       "width", (double) gdk_pixbuf_get_width(g_color_circles[maximum_player_count]),
-		                       "height", (double) gdk_pixbuf_get_height(g_color_circles[maximum_player_count]),
-		                       NULL);
-		g_object_set(players_color[i], "visibility",
+		gui_state().status.players_color[i] = goo_canvas_image_new(
+		        goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
+		        gui_state().colors.circle_pixbufs[maximum_player_count],
+		        0.0,
+		        0.0,
+		        "width", (double) gdk_pixbuf_get_width(gui_state().colors.circle_pixbufs[maximum_player_count]),
+		        "height", (double) gdk_pixbuf_get_height(gui_state().colors.circle_pixbufs[maximum_player_count]),
+		        NULL);
+		g_object_set(gui_state().status.players_color[i], "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 	}
 
-	players_color_over = goo_canvas_image_new(
-	                         goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                         g_color_circle_over,
-	                         0.0,
-	                         0.0,
-	                         "width", (double) gdk_pixbuf_get_width(g_color_circle_over),
-	                         "height", (double) gdk_pixbuf_get_height(g_color_circle_over),
-	                         NULL);
-	g_object_set(players_color_over, "visibility",
+	gui_state().status.players_color_over = goo_canvas_image_new(
+	        goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
+	        gui_state().colors.circle_over_pixbuf,
+	        0.0,
+	        0.0,
+	        "width", (double) gdk_pixbuf_get_width(gui_state().colors.circle_over_pixbuf),
+	        "height", (double) gdk_pixbuf_get_height(gui_state().colors.circle_over_pixbuf),
+	        NULL);
+	g_object_set(gui_state().status.players_color_over, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 
 
 	mainstatus_update();
 
-	*window = mainstatus_canvas;
-	gtk_widget_show(mainstatus_canvas);
+	*window = gui_state().status.mainstatus_canvas;
+	gtk_widget_show(gui_state().status.mainstatus_canvas);
 	return TEG_STATUS_SUCCESS;
 
 error:
@@ -520,39 +506,39 @@ error:
 
 TEG_STATUS mainstatus_update_colors()
 {
-	if(! mainstatus_canvas) {
+	if(! gui_state().status.mainstatus_canvas) {
 		return TEG_STATUS_ERROR;
 	}
 
 	std::size_t i=0;
 
-	g_object_set(players_color_over, "visibility",
+	g_object_set(gui_state().status.players_color_over, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-	players_map_int(gui_state(), [&i](Player& player) {
+	players_map_int(client_state(), [&i](Player& player) {
 
 		if(player.color >= 0 && player.numjug >= 0) {
-			g_object_set(players_color[i], "visibility",
+			g_object_set(gui_state().status.players_color[i], "visibility",
 			             GOO_CANVAS_ITEM_VISIBLE, NULL);
 
-			if(gui_state().game.whos_turn == player.numjug) {
+			if(client_state().game.whos_turn == player.numjug) {
 				g_object_set(
-				    players_color_over,
-				    "pixbuf", g_color_circle_over,
+				    gui_state().status.players_color_over,
+				    "pixbuf", gui_state().colors.circle_over_pixbuf,
 				    "x", (double) PLAYERS_COLORS_OFFSET - 1 + (i%3) * 14,
 				    "y", (double) 2 + 13 * (i<3?0:1),
-				    "width", (double) gdk_pixbuf_get_width(g_color_circle_over) + 4,
-				    "height", (double) gdk_pixbuf_get_height(g_color_circle_over) + 4,
+				    "width", (double) gdk_pixbuf_get_width(gui_state().colors.circle_over_pixbuf) + 4,
+				    "height", (double) gdk_pixbuf_get_height(gui_state().colors.circle_over_pixbuf) + 4,
 				    "visibility", GOO_CANVAS_ITEM_VISIBLE,
 				    NULL);
 			}
 
 			g_object_set(
-			    players_color[i],
-			    "pixbuf", g_color_circles[player.color],
+			    gui_state().status.players_color[i],
+			    "pixbuf", gui_state().colors.circle_pixbufs[player.color],
 			    "x", (double) PLAYERS_COLORS_OFFSET + (i%3) * 14,
 			    "y", (double) 4 + 13 * (i<3?0:1),
-			    "width", (double) gdk_pixbuf_get_width(g_color_circles[player.color]),
-			    "height", (double) gdk_pixbuf_get_height(g_color_circles[player.color]),
+			    "width", (double) gdk_pixbuf_get_width(gui_state().colors.circle_pixbufs[player.color]),
+			    "height", (double) gdk_pixbuf_get_height(gui_state().colors.circle_pixbufs[player.color]),
 			    NULL);
 
 			i++;
@@ -563,14 +549,14 @@ TEG_STATUS mainstatus_update_colors()
 
 	{
 		PCPLAYER pJ;
-		g_object_set(color_started_item, "visibility",
+		g_object_set(gui_state().status.color_started_item, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-		if(gui_state().game.who_started_round >= 0 && gui_state().game.who_started_round < static_cast<int>(maximum_player_count)) {
+		if(client_state().game.who_started_round >= 0 && client_state().game.who_started_round < static_cast<int>(maximum_player_count)) {
 
-			if(player_whois(gui_state(), gui_state().game.who_started_round, &pJ) == TEG_STATUS_SUCCESS) {
+			if(player_whois(client_state(), client_state().game.who_started_round, &pJ) == TEG_STATUS_SUCCESS) {
 				g_object_set(
-				    color_started_item,
-				    "pixbuf", g_color_circles[pJ->color],
+				    gui_state().status.color_started_item,
+				    "pixbuf", gui_state().colors.circle_pixbufs[pJ->color],
 				    "visibility", GOO_CANVAS_ITEM_VISIBLE,
 				    NULL);
 			}
@@ -578,7 +564,7 @@ TEG_STATUS mainstatus_update_colors()
 	}
 
 	for(; i < maximum_player_count ; i++)
-		g_object_set(players_color[i], "visibility",
+		g_object_set(gui_state().status.players_color[i], "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 
 	return TEG_STATUS_SUCCESS;
@@ -587,100 +573,96 @@ TEG_STATUS mainstatus_update_colors()
 TEG_STATUS mainstatus_update()
 {
 	char buffer[256];
-	static int offset_right=-1, offset_left=-1;
-	static GooCanvasItem *gamestatus_item = NULL;
-	static GooCanvasItem *country_item = NULL;
-	static GooCanvasItem *cont_item = NULL;
 
 
-	if(! mainstatus_canvas) {
+	if(! gui_state().status.mainstatus_canvas) {
 		return TEG_STATUS_ERROR;
 	}
 
-	if(offset_left == -1 && offset_right == -1) {
-		offset_left = gui_theme.toolbar_offset_left != -1 ? gui_theme.toolbar_offset_left : OFFSET_LEFT;
-		offset_right = gui_theme.toolbar_offset_right != -1 ? gui_theme.toolbar_offset_right : OFFSET_RIGHT;
+	if(gui_state().status.offset_left == -1 && gui_state().status.offset_right == -1) {
+		gui_state().status.offset_left = gui_state().theme.toolbar_offset_left != -1 ? gui_state().theme.toolbar_offset_left : OFFSET_LEFT;
+		gui_state().status.offset_right = gui_state().theme.toolbar_offset_right != -1 ? gui_state().theme.toolbar_offset_right : OFFSET_RIGHT;
 	}
 
 	/* game status */
 
-	if(gamestatus_item) {
-		goo_canvas_item_remove(gamestatus_item);
-		gamestatus_item = NULL;
+	if(gui_state().status.gamestatus_item) {
+		goo_canvas_item_remove(gui_state().status.gamestatus_item);
+		gui_state().status.gamestatus_item = NULL;
 	}
 
-	gamestatus_item = goo_canvas_text_new(
-	                      goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                      _(player_status_name(gui_state().game.estado)),
-	                      (double)(MAINSTATUS_X + offset_right),
-	                      (double)(MAINSTATUS_Y/2),
-	                      (double) -1,
-	                      GOO_CANVAS_ANCHOR_EAST,
-	                      "height", (double) -1,
-	                      "font", HELVETICA_14_FONT,
-	                      "fill-color", gui_theme.toolbar_custom && gui_theme.toolbar_text_color ? gui_theme.toolbar_text_color : "black",
-	                      NULL);
+	gui_state().status.gamestatus_item = goo_canvas_text_new(
+	        goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
+	        _(player_status_name(client_state().game.estado)),
+	        (double)(MAINSTATUS_X + gui_state().status.offset_right),
+	        (double)(MAINSTATUS_Y/2),
+	        (double) -1,
+	        GOO_CANVAS_ANCHOR_EAST,
+	        "height", (double) -1,
+	        "font", HELVETICA_14_FONT,
+	        "fill-color", gui_state().theme.toolbar_custom && gui_state().theme.toolbar_text_color ? gui_state().theme.toolbar_text_color : "black",
+	        NULL);
 
 	/* country */
-	if(country_item) {
-		goo_canvas_item_remove(country_item);
-		country_item = NULL;
+	if(gui_state().status.country_item) {
+		goo_canvas_item_remove(gui_state().status.country_item);
+		gui_state().status.country_item = NULL;
 	}
 
-	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
+	if(gui_state().priv.country_i_am < 0 || gui_state().priv.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%s", countries_get_name(gui_state().game.common, gui_private.country_i_am));
+		snprintf(buffer, sizeof(buffer)-1, "%s", countries_get_name(client_state().game.common, gui_state().priv.country_i_am));
 	}
 
-	country_item = goo_canvas_text_new(
-	                   goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                   buffer,
-	                   (double) offset_left,
-	                   (double)(2),
-	                   (double) -1,
-	                   GOO_CANVAS_ANCHOR_NORTH_WEST,
-	                   "height", (double) -1,
-	                   "font", HELVETICA_12_FONT,
-	                   "fill-color", gui_theme.toolbar_custom && gui_theme.toolbar_text_color ? gui_theme.toolbar_text_color : "black",
-	                   NULL);
+	gui_state().status.country_item = goo_canvas_text_new(
+	                                      goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
+	                                      buffer,
+	                                      (double) gui_state().status.offset_left,
+	                                      (double)(2),
+	                                      (double) -1,
+	                                      GOO_CANVAS_ANCHOR_NORTH_WEST,
+	                                      "height", (double) -1,
+	                                      "font", HELVETICA_12_FONT,
+	                                      "fill-color", gui_state().theme.toolbar_custom && gui_state().theme.toolbar_text_color ? gui_state().theme.toolbar_text_color : "black",
+	                                      NULL);
 
 	/* continent */
-	if(cont_item) {
-		goo_canvas_item_remove(cont_item);
-		cont_item = NULL;
+	if(gui_state().status.cont_item) {
+		goo_canvas_item_remove(gui_state().status.cont_item);
+		gui_state().status.cont_item = NULL;
 	}
 
-	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
+	if(gui_state().priv.country_i_am < 0 || gui_state().priv.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(gui_state().game.common, gui_state().game.common.countries[gui_private.country_i_am].continente));
+		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(client_state().game.common, client_state().game.common.countries[gui_state().priv.country_i_am].continente));
 	}
 
-	cont_item = goo_canvas_text_new(
-	                goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                buffer,
-	                (double) offset_left,
-	                (double)(16),
-	                (double) -1,
-	                GOO_CANVAS_ANCHOR_NORTH_WEST,
-	                "height", (double) -1,
-	                "font", HELVETICA_10_FONT,
-	                "fill-color", gui_theme.toolbar_custom && gui_theme.toolbar_text_color ? gui_theme.toolbar_text_color : "black",
-	                NULL);
+	gui_state().status.cont_item = goo_canvas_text_new(
+	                                   goo_canvas_get_root_item(GOO_CANVAS(gui_state().status.mainstatus_canvas)),
+	                                   buffer,
+	                                   (double) gui_state().status.offset_left,
+	                                   (double)(16),
+	                                   (double) -1,
+	                                   GOO_CANVAS_ANCHOR_NORTH_WEST,
+	                                   "height", (double) -1,
+	                                   "font", HELVETICA_10_FONT,
+	                                   "fill-color", gui_state().theme.toolbar_custom && gui_state().theme.toolbar_text_color ? gui_state().theme.toolbar_text_color : "black",
+	                                   NULL);
 
 	/* round number */
 	{
 		char buffer[256];
 
-		g_object_set(round_number_item, "visibility",
+		g_object_set(gui_state().status.round_number_item, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
-		if(gui_state().game.round_number >= 0) {
+		if(client_state().game.round_number >= 0) {
 
-			sprintf(buffer, "%d", gui_state().game.round_number);
+			sprintf(buffer, "%d", client_state().game.round_number);
 
 			g_object_set(
-			    round_number_item,
+			    gui_state().status.round_number_item,
 			    "text", buffer,
 			    "visibility", GOO_CANVAS_ITEM_VISIBLE,
 			    NULL);

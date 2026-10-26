@@ -41,8 +41,6 @@
 namespace teg::client::callbacks
 {
 
-static GtkWidget *gui_scores_dialog=NULL;
-static GtkListStore *store=NULL;
 
 enum {
 	COLUMN_POSNUMBER,
@@ -61,16 +59,14 @@ enum {
 static GtkListStore *scores_create_model(void)
 {
 	/* create list store */
-	store = gtk_list_store_new(
-	            COLUMN_LAST,
-	            G_TYPE_UINT,
-	            G_TYPE_UINT,
-	            G_TYPE_STRING,
-	            G_TYPE_STRING,
-	            G_TYPE_STRING,
-	            G_TYPE_BOOLEAN);
-
-	return store;
+	return gtk_list_store_new(
+	           COLUMN_LAST,
+	           G_TYPE_UINT,
+	           G_TYPE_UINT,
+	           G_TYPE_STRING,
+	           G_TYPE_STRING,
+	           G_TYPE_STRING,
+	           G_TYPE_BOOLEAN);
 }
 
 static void scores_add_columns(GtkTreeView *treeview)
@@ -200,7 +196,7 @@ static void append_player_score(PSCORES pS, void* user)
 
 	GtkTreeIter iter;
 	gtk_list_store_append(state->store, &iter);
-	gtk_list_store_set(store, &iter,
+	gtk_list_store_set(state->store, &iter,
 	                   COLUMN_POSNUMBER, ++state->row,
 	                   COLUMN_NAME, name,
 	                   COLUMN_SCORE, pS->score,
@@ -216,71 +212,70 @@ static TEG_STATUS scores_update_model(GtkListStore *store)
 	gtk_list_store_clear(store);
 
 	struct AddScoreState ass = {.store = store, .row=0};
-	scores_map(gui_state().game.common.highscores, append_player_score, &ass);
+	scores_map(client_state().game.common.highscores, append_player_score, &ass);
 
 	return TEG_STATUS_SUCCESS;
 }
 
 static TEG_STATUS scores_update_dialog()
 {
-	static GtkWidget *scores_treeview=NULL;
 
-	if(gui_scores_dialog == NULL) {
+	if(gui_state().scores.dialog == NULL) {
 		return TEG_STATUS_ERROR;
 	}
 
 
-	if(!GTK_IS_WIDGET(scores_treeview)) {
+	if(!GTK_IS_WIDGET(gui_state().scores.treeview)) {
 
 		/* create tree model */
-		if(!store) {
-			store = scores_create_model();
+		if(!gui_state().scores.store) {
+			gui_state().scores.store = scores_create_model();
 		}
 
 		/* create tree view */
-		scores_treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL
-		                  (store));
-		gtk_tree_view_set_search_column(GTK_TREE_VIEW(scores_treeview),
+		gui_state().scores.treeview = gtk_tree_view_new_with_model(GTK_TREE_MODEL
+		                              (gui_state().scores.store));
+		gtk_tree_view_set_search_column(GTK_TREE_VIEW(gui_state().scores.treeview),
 		                                COLUMN_SCORE);
 
 		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area
-		                           (GTK_DIALOG(gui_scores_dialog))),
-		                   GTK_WIDGET(scores_treeview), TRUE, TRUE, 0);
+		                           (GTK_DIALOG(gui_state().scores.dialog))),
+		                   GTK_WIDGET(gui_state().scores.treeview), TRUE, TRUE, 0);
 
 		/* add columns to the tree view */
-		scores_add_columns(GTK_TREE_VIEW(scores_treeview));
+		scores_add_columns(GTK_TREE_VIEW(gui_state().scores.treeview));
 
 	}
 
-	scores_update_model(store);
+	scores_update_model(gui_state().scores.store);
 
-	gtk_widget_show_all(scores_treeview);
+	gtk_widget_show_all(gui_state().scores.treeview);
 	return TEG_STATUS_SUCCESS;
 }
 
 void gui_scores_view()
 {
-	if(gui_scores_dialog == NULL) {
+	if(gui_state().scores.dialog == NULL) {
 
-		gui_scores_dialog = teg_dialog_new(_("High Scores"), _("High Scores"));
-		gtk_dialog_add_buttons(GTK_DIALOG(gui_scores_dialog),
+		gui_state().scores.dialog = teg_dialog_new(_("High Scores"), _("High Scores"));
+		gtk_dialog_add_buttons(GTK_DIALOG(gui_state().scores.dialog),
 		                       _("_Refresh"), 0,
 		                       _("_Close"), 1,
 		                       NULL);
 
-		gtk_dialog_set_default_response(GTK_DIALOG(gui_scores_dialog), 1);
+		gtk_dialog_set_default_response(GTK_DIALOG(gui_state().scores.dialog), 1);
 
 	}
 
 	scores_update_dialog();
 
-	if(gtk_dialog_run(GTK_DIALOG(gui_scores_dialog)) == 0) {
-		out_scores(gui_state());
+	if(gtk_dialog_run(GTK_DIALOG(gui_state().scores.dialog)) == 0) {
+		out_scores(client_state());
 	}
 
-	if(GTK_IS_WIDGET(gui_scores_dialog)) {
-		gtk_widget_destroy(gui_scores_dialog);
-		gui_scores_dialog = NULL;
+	if(GTK_IS_WIDGET(gui_state().scores.dialog)) {
+		gtk_widget_destroy(gui_state().scores.dialog);
+		gui_state().scores.dialog = NULL;
 	}
 }
 
@@ -304,7 +299,7 @@ static TEG_STATUS update_mini_clist(GtkWidget *dialog, GtkListStore *store,
 	/// \todo clean up variables and adjust return type
 
 	int row = 0;
-	players_map(gui_state(), [dialog, store, clist, &row](Player& player) {
+	players_map(client_state(), [dialog, store, clist, &row](Player& player) {
 		gchar *name, *score;
 
 		name = translate_to_utf8(player.name);
@@ -333,17 +328,16 @@ static TEG_STATUS update_mini_clist(GtkWidget *dialog, GtkListStore *store,
 
 void gui_scores_embed(GtkWidget *frame)
 {
-	static GtkWidget *mini_scores_clist=NULL;
 	GtkListStore *store = NULL;
 	GtkCellRenderer *renderer;
 	GtkTreeViewColumn *name, *score, *color;
 
 	store = gtk_list_store_new(MINISCORE_CLIST_LAST, G_TYPE_STRING,
 	                           G_TYPE_STRING, G_TYPE_OBJECT);
-	mini_scores_clist = gtk_tree_view_new_with_model(GTK_TREE_MODEL
-	                    (store));
+	gui_state().scores.mini_clist = gtk_tree_view_new_with_model(GTK_TREE_MODEL
+	                                (gui_state().scores.store));
 
-	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(mini_scores_clist),
+	gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(gui_state().scores.mini_clist),
 	                                  TRUE);
 
 	renderer = gtk_cell_renderer_text_new();
@@ -353,14 +347,14 @@ void gui_scores_embed(GtkWidget *frame)
 	        MINISCORE_CLIST_NAME,
 	        NULL);
 	gtk_tree_view_column_set_alignment(name, 0.5);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(mini_scores_clist), name);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(gui_state().scores.mini_clist), name);
 
 	score = gtk_tree_view_column_new_with_attributes(_("Score"), renderer,
 	        "text",
 	        MINISCORE_CLIST_SCORE,
 	        NULL);
 	gtk_tree_view_column_set_alignment(score, 0.5);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(mini_scores_clist), score);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(gui_state().scores.mini_clist), score);
 
 	renderer = gtk_cell_renderer_pixbuf_new();
 	color = gtk_tree_view_column_new_with_attributes(_("Color"), renderer,
@@ -368,13 +362,13 @@ void gui_scores_embed(GtkWidget *frame)
 	        MINISCORE_CLIST_COLOR,
 	        NULL);
 	gtk_tree_view_column_set_alignment(color, 0.5);
-	gtk_tree_view_append_column(GTK_TREE_VIEW(mini_scores_clist), color);
+	gtk_tree_view_append_column(GTK_TREE_VIEW(gui_state().scores.mini_clist), color);
 
-	update_mini_clist(frame, store, mini_scores_clist);
-	gtk_widget_show(mini_scores_clist);
-	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(mini_scores_clist));
+	update_mini_clist(frame, store, gui_state().scores.mini_clist);
+	gtk_widget_show(gui_state().scores.mini_clist);
+	gtk_tree_view_columns_autosize(GTK_TREE_VIEW(gui_state().scores.mini_clist));
 
-	gtk_container_add(GTK_CONTAINER(frame), GTK_WIDGET(mini_scores_clist));
+	gtk_container_add(GTK_CONTAINER(frame), GTK_WIDGET(gui_state().scores.mini_clist));
 }
 
 }

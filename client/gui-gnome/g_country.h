@@ -25,6 +25,11 @@
 
 #include "../../common/common.h"
 
+namespace teg::client
+{
+struct ClientState;
+}
+
 namespace teg::client::callbacks
 {
 
@@ -42,13 +47,11 @@ struct _G_countries {
 	GooCanvasItem *text_item;	/**< the number of armies of the country */
 };
 
-extern struct _G_countries G_countries[];
-
 void G_country_create(int country);
 void G_country_draw(int country);
 void G_country_draw_ejer(int country) ;
 int G_country_tot();
 
-TEG_STATUS gui_country_select(int country);
+TEG_STATUS gui_country_select(ClientState& state, int country);
 
 }

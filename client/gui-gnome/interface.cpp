@@ -56,29 +56,6 @@
 namespace teg::client::callbacks
 {
 
-extern TTheme gui_theme;
-
-GtkTextView *main_message_area = NULL;
-GtkWidget *main_window = NULL;
-GtkWidget *toolbar_main = NULL;
-GtkWidget *statusbar = NULL;
-GtkWidget *canvas_map = NULL;
-GtkWidget *window_mainstatus = NULL;
-
-double canvas_map_zoom =1.00;
-
-static GtkWidget *tropas_dialog=NULL;
-static GtkWidget *tropas_hscale_cant=NULL;
-static int tropas_cant;
-static int tropas_src;
-static int tropas_dst;
-
-static GtkWidget *reagrupe_dialog=NULL;
-static GtkWidget *reagrupe_hscale_cant=NULL;
-static int reagrupe_cant=-1;
-static int reagrupe_src=-1;
-static int reagrupe_dst=-1;
-
 static void canvas_map_zoom_in(GtkWidget *widget, gpointer data);
 static void canvas_map_zoom_out(GtkWidget *widget, gpointer data);
 static void canvas_map_zoom_1(GtkWidget *widget, gpointer data);
@@ -125,33 +102,22 @@ enum {
 	ON_CARDS,
 };
 
-struct _SensiData {
-	GtkWidget *connect_button;
-	GtkWidget *start_button;
-	GtkWidget *enviarfichas_button;
-	GtkWidget *reagrupe_button;
-	GtkWidget *getcard_button;
-	GtkWidget *endturn_button;
-	GtkWidget *status_button;
-} SensiData;
-
-
 static void canvas_map_zoom_1(GtkWidget *widget, gpointer data)
 {
-	canvas_map_zoom = 1.0;
-	goo_canvas_set_scale((GooCanvas*)canvas_map, canvas_map_zoom);
+	gui_state().ui.canvas_map_zoom = 1.0;
+	goo_canvas_set_scale((GooCanvas*)gui_state().ui.canvas_map, gui_state().ui.canvas_map_zoom);
 }
 
 static void canvas_map_zoom_in(GtkWidget *widget, gpointer data)
 {
-	canvas_map_zoom *= 1.05;
-	goo_canvas_set_scale((GooCanvas*)canvas_map, canvas_map_zoom);
+	gui_state().ui.canvas_map_zoom *= 1.05;
+	goo_canvas_set_scale((GooCanvas*)gui_state().ui.canvas_map, gui_state().ui.canvas_map_zoom);
 }
 
 static void canvas_map_zoom_out(GtkWidget *widget, gpointer data)
 {
-	canvas_map_zoom *= 0.95;
-	goo_canvas_set_scale((GooCanvas*)canvas_map, canvas_map_zoom);
+	gui_state().ui.canvas_map_zoom *= 0.95;
+	goo_canvas_set_scale((GooCanvas*)gui_state().ui.canvas_map, gui_state().ui.canvas_map_zoom);
 }
 
 static TEG_STATUS canvas_create_countries(GooCanvasItem *group)
@@ -176,11 +142,11 @@ static TEG_STATUS canvas_create_map(void)
 	GooCanvasItem* root;
 	GdkPixbuf *im;
 
-	canvas_map = goo_canvas_new();
-	g_object_set(canvas_map, "anchor", GOO_CANVAS_ANCHOR_CENTER, NULL);
-	root = goo_canvas_get_root_item(GOO_CANVAS(canvas_map));
+	gui_state().ui.canvas_map = goo_canvas_new();
+	g_object_set(gui_state().ui.canvas_map, "anchor", GOO_CANVAS_ANCHOR_CENTER, NULL);
+	root = goo_canvas_get_root_item(GOO_CANVAS(gui_state().ui.canvas_map));
 
-	auto fpath = theme_load_file(gui_state(), gui_theme.board);
+	auto fpath = theme_load_file(client_state(), gui_state().theme.board);
 	char const*const filename = fpath ? fpath->c_str() : nullptr;
 
 	im = gdk_pixbuf_new_from_file(filename, NULL);
@@ -197,36 +163,19 @@ static TEG_STATUS canvas_create_map(void)
 		canvas_create_countries(root);
 		armies_init(root);
 		dices_init(root);
-		goo_canvas_set_bounds(GOO_CANVAS(canvas_map), 0, 0,
+		goo_canvas_set_bounds(GOO_CANVAS(gui_state().ui.canvas_map), 0, 0,
 		                      gdk_pixbuf_get_width(im),
 		                      gdk_pixbuf_get_height(im));
 
 		g_object_unref(im);
 
 	} else {
-		g_warning(_("Could not find the %s file"), gui_theme.board);
+		g_warning(_("Could not find the %s file"), gui_state().theme.board);
 		return TEG_STATUS_ERROR;
 	}
 
 	return TEG_STATUS_SUCCESS;
 }
-
-static GtkWidget *connect_menu;
-static GtkWidget *disconnect_menu;
-static GtkWidget *robot_menu;
-static GtkWidget *scores_menu;
-static GtkWidget *start_menu;
-static GtkWidget *send_menu;
-static GtkWidget *update_menu;
-static GtkWidget *reattack_menu;
-static GtkWidget *reset_menu;
-static GtkWidget *regroup_menu;
-static GtkWidget *get_menu;
-static GtkWidget *end_menu;
-static GtkWidget *surrender_menu;
-static GtkWidget *players_menu;
-static GtkWidget *mission_menu;
-static GtkWidget *cards_menu;
 
 /**
  * @fn GtkWidget* create_mainwin (void)
@@ -304,17 +253,17 @@ GtkWidget* create_mainwin(void)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(game_menu), gamemenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), game_menu);
 
-	connect_menu = gtk_menu_item_new_with_mnemonic(_("_Connect"));
-	gtk_widget_set_tooltip_text(connect_menu, _("Connect to server"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), connect_menu);
-	g_signal_connect(connect_menu, "activate",
+	gui_state().ui.connect_menu = gtk_menu_item_new_with_mnemonic(_("_Connect"));
+	gtk_widget_set_tooltip_text(gui_state().ui.connect_menu, _("Connect to server"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), gui_state().ui.connect_menu);
+	g_signal_connect(gui_state().ui.connect_menu, "activate",
 	                 G_CALLBACK(on_connect_activate), NULL);
 
-	disconnect_menu = gtk_menu_item_new_with_mnemonic(_("_Disconnect"));
-	gtk_widget_set_tooltip_text(disconnect_menu,
+	gui_state().ui.disconnect_menu = gtk_menu_item_new_with_mnemonic(_("_Disconnect"));
+	gtk_widget_set_tooltip_text(gui_state().ui.disconnect_menu,
 	                            _("Disconnect from server"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), disconnect_menu);
-	g_signal_connect(disconnect_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), gui_state().ui.disconnect_menu);
+	g_signal_connect(gui_state().ui.disconnect_menu, "activate",
 	                 G_CALLBACK(on_disconnect_activate), NULL);
 
 	/* Emulate GtkImageMenuItem.  This was the author's intention
@@ -325,21 +274,21 @@ GtkWidget* create_mainwin(void)
 	g_object_unref(robot);
 	label = gtk_label_new_with_mnemonic(_("_Launch robot"));
 	gtk_widget_set_tooltip_text(label, _("Launch a robot"));
-	robot_menu = gtk_menu_item_new();
+	gui_state().ui.robot_menu = gtk_menu_item_new();
 	gtk_container_add(GTK_CONTAINER(hbox), icon);
 	gtk_container_add(GTK_CONTAINER(hbox), label);
-	gtk_container_add(GTK_CONTAINER(robot_menu), hbox);
-	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), robot_menu);
-	g_signal_connect(robot_menu, "activate",
+	gtk_container_add(GTK_CONTAINER(gui_state().ui.robot_menu), hbox);
+	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), gui_state().ui.robot_menu);
+	g_signal_connect(gui_state().ui.robot_menu, "activate",
 	                 G_CALLBACK(on_launchrobot_activate), NULL);
 
 	separator = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), separator);
 
-	scores_menu = gtk_menu_item_new_with_mnemonic(_("_Scores..."));
-	gtk_widget_set_tooltip_text(scores_menu, _("View the scores"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), scores_menu);
-	g_signal_connect(scores_menu, "activate",
+	gui_state().ui.scores_menu = gtk_menu_item_new_with_mnemonic(_("_Scores..."));
+	gtk_widget_set_tooltip_text(gui_state().ui.scores_menu, _("View the scores"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(gamemenu), gui_state().ui.scores_menu);
+	g_signal_connect(gui_state().ui.scores_menu, "activate",
 	                 G_CALLBACK(on_scores_activate), NULL);
 
 	separator = gtk_separator_menu_item_new();
@@ -360,74 +309,74 @@ GtkWidget* create_mainwin(void)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(action_menu), actionmenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), action_menu);
 
-	start_menu = gtk_menu_item_new_with_label(_("Start"));
-	gtk_widget_set_tooltip_text(start_menu, _("Start the game"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), start_menu);
-	g_signal_connect(start_menu, "activate",
+	gui_state().ui.start_menu = gtk_menu_item_new_with_label(_("Start"));
+	gtk_widget_set_tooltip_text(gui_state().ui.start_menu, _("Start the game"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.start_menu);
+	g_signal_connect(gui_state().ui.start_menu, "activate",
 	                 G_CALLBACK(on_start_activate), NULL);
 
-	send_menu = gtk_menu_item_new_with_label(_("Send armies"));
-	gtk_widget_set_tooltip_text(send_menu,
+	gui_state().ui.send_menu = gtk_menu_item_new_with_label(_("Send armies"));
+	gtk_widget_set_tooltip_text(gui_state().ui.send_menu,
 	                            _("Send the armies recently placed"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), send_menu);
-	g_signal_connect(send_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.send_menu);
+	g_signal_connect(gui_state().ui.send_menu, "activate",
 	                 G_CALLBACK(on_enviarfichas_activate), NULL);
 
-	update_menu = gtk_menu_item_new_with_mnemonic(_("_Update Map"));
-	gtk_widget_set_tooltip_text(update_menu,
+	gui_state().ui.update_menu = gtk_menu_item_new_with_mnemonic(_("_Update Map"));
+	gtk_widget_set_tooltip_text(gui_state().ui.update_menu,
 	                            _("Show the armies that other players "
 	                              "had placed"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), update_menu);
-	g_signal_connect(update_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.update_menu);
+	g_signal_connect(gui_state().ui.update_menu, "activate",
 	                 G_CALLBACK(on_updatemap_activate), NULL);
 
-	reattack_menu = gtk_menu_item_new_with_mnemonic(_("_Reattack"));
-	gtk_widget_set_tooltip_text(reattack_menu,
+	gui_state().ui.reattack_menu = gtk_menu_item_new_with_mnemonic(_("_Reattack"));
+	gtk_widget_set_tooltip_text(gui_state().ui.reattack_menu,
 	                            _("Attack your enemy, again using same "
 	                              "source and destination"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), reattack_menu);
-	gtk_widget_add_accelerator(reattack_menu, "activate", accel_group,
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.reattack_menu);
+	gtk_widget_add_accelerator(gui_state().ui.reattack_menu, "activate", accel_group,
 	                           GDK_KEY_r, GDK_CONTROL_MASK,
 	                           GTK_ACCEL_VISIBLE);
-	g_signal_connect(reattack_menu, "activate",
+	g_signal_connect(gui_state().ui.reattack_menu, "activate",
 	                 G_CALLBACK(on_enviarreattack_activate), NULL);
 
-	reset_menu = gtk_menu_item_new_with_label(_("Reset the attack"));
-	gtk_widget_set_tooltip_text(reset_menu,
+	gui_state().ui.reset_menu = gtk_menu_item_new_with_label(_("Reset the attack"));
+	gtk_widget_set_tooltip_text(gui_state().ui.reset_menu,
 	                            _("Start again selecting the source and "
 	                              "destination country for the attack"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), reset_menu);
-	g_signal_connect(reset_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.reset_menu);
+	g_signal_connect(gui_state().ui.reset_menu, "activate",
 	                 G_CALLBACK(on_enviarattackreset_activate), NULL);
 
-	regroup_menu = gtk_menu_item_new_with_mnemonic(_("Re_group armies"));
-	gtk_widget_set_tooltip_text(regroup_menu,
+	gui_state().ui.regroup_menu = gtk_menu_item_new_with_mnemonic(_("Re_group armies"));
+	gtk_widget_set_tooltip_text(gui_state().ui.regroup_menu,
 	                            _("Regroup your armies, moving from "
 	                              "one country to another"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), regroup_menu);
-	g_signal_connect(regroup_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.regroup_menu);
+	g_signal_connect(gui_state().ui.regroup_menu, "activate",
 	                 G_CALLBACK(on_reagrupe_activate), NULL);
 
-	get_menu = gtk_menu_item_new_with_label(_("Get card"));
-	gtk_widget_set_tooltip_text(get_menu, _("Get a country card"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), get_menu);
-	g_signal_connect(get_menu, "activate",
+	gui_state().ui.get_menu = gtk_menu_item_new_with_label(_("Get card"));
+	gtk_widget_set_tooltip_text(gui_state().ui.get_menu, _("Get a country card"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.get_menu);
+	g_signal_connect(gui_state().ui.get_menu, "activate",
 	                 G_CALLBACK(on_pedirtarjeta_activate), NULL);
 
-	end_menu = gtk_menu_item_new_with_mnemonic(_("_End turn"));
-	gtk_widget_set_tooltip_text(end_menu,
+	gui_state().ui.end_menu = gtk_menu_item_new_with_mnemonic(_("_End turn"));
+	gtk_widget_set_tooltip_text(gui_state().ui.end_menu,
 	                            _("Pass the turn to another player"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), end_menu);
-	g_signal_connect(end_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.end_menu);
+	g_signal_connect(gui_state().ui.end_menu, "activate",
 	                 G_CALLBACK(on_endturn_activate), NULL);
 
 	separator = gtk_separator_menu_item_new();
 	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), separator);
 
-	surrender_menu = gtk_menu_item_new_with_label(_("Surrender"));
-	gtk_widget_set_tooltip_text(surrender_menu, _("I'm a coward"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), surrender_menu);
-	g_signal_connect(surrender_menu, "activate",
+	gui_state().ui.surrender_menu = gtk_menu_item_new_with_label(_("Surrender"));
+	gtk_widget_set_tooltip_text(gui_state().ui.surrender_menu, _("I'm a coward"));
+	gtk_menu_shell_append(GTK_MENU_SHELL(actionmenu), gui_state().ui.surrender_menu);
+	g_signal_connect(gui_state().ui.surrender_menu, "activate",
 	                 G_CALLBACK(on_surrender_activate), NULL);
 
 	viewmenu = gtk_menu_new();
@@ -436,25 +385,25 @@ GtkWidget* create_mainwin(void)
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(view_menu), viewmenu);
 	gtk_menu_shell_append(GTK_MENU_SHELL(menubar), view_menu);
 
-	players_menu = gtk_menu_item_new_with_mnemonic(_("View _players"));
-	gtk_widget_set_tooltip_text(players_menu,
+	gui_state().ui.players_menu = gtk_menu_item_new_with_mnemonic(_("View _players"));
+	gtk_widget_set_tooltip_text(gui_state().ui.players_menu,
 	                            _("View the status of the players"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(viewmenu), players_menu);
-	g_signal_connect(players_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(viewmenu), gui_state().ui.players_menu);
+	g_signal_connect(gui_state().ui.players_menu, "activate",
 	                 G_CALLBACK(on_status_activate), NULL);
 
-	mission_menu = gtk_menu_item_new_with_mnemonic(_("View _mission"));
-	gtk_widget_set_tooltip_text(mission_menu,
+	gui_state().ui.mission_menu = gtk_menu_item_new_with_mnemonic(_("View _mission"));
+	gtk_widget_set_tooltip_text(gui_state().ui.mission_menu,
 	                            _("View your mission of this game"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(viewmenu), mission_menu);
-	g_signal_connect(mission_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(viewmenu), gui_state().ui.mission_menu);
+	g_signal_connect(gui_state().ui.mission_menu, "activate",
 	                 G_CALLBACK(on_viewmission_activate), NULL);
 
-	cards_menu = gtk_menu_item_new_with_mnemonic(_("View _cards"));
-	gtk_widget_set_tooltip_text(cards_menu,
+	gui_state().ui.cards_menu = gtk_menu_item_new_with_mnemonic(_("View _cards"));
+	gtk_widget_set_tooltip_text(gui_state().ui.cards_menu,
 	                            _("View all the cards that you won"));
-	gtk_menu_shell_append(GTK_MENU_SHELL(viewmenu), cards_menu);
-	g_signal_connect(cards_menu, "activate",
+	gtk_menu_shell_append(GTK_MENU_SHELL(viewmenu), gui_state().ui.cards_menu);
+	g_signal_connect(gui_state().ui.cards_menu, "activate",
 	                 G_CALLBACK(on_viewcards_activate), NULL);
 
 	separator = gtk_separator_menu_item_new();
@@ -528,17 +477,17 @@ GtkWidget* create_mainwin(void)
 
 	gtk_widget_show_all(menubar);
 
-	toolbar_main = gtk_toolbar_new();
-	g_settings_bind(settings, "toolbar-style", toolbar_main,
+	gui_state().ui.toolbar_main = gtk_toolbar_new();
+	g_settings_bind(gui_state().settings, "toolbar-style", gui_state().ui.toolbar_main,
 	                "toolbar-style", G_SETTINGS_BIND_DEFAULT);
-	gtk_widget_show(toolbar_main);
-	gtk_container_add(GTK_CONTAINER(dock1), toolbar_main);
+	gtk_widget_show(gui_state().ui.toolbar_main);
+	gtk_container_add(GTK_CONTAINER(dock1), gui_state().ui.toolbar_main);
 
 	image = gtk_image_new_from_icon_name(STOCK_CONNECT,
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button1 = gtk_tool_button_new(image, _("Connect"));
 	gtk_tool_item_set_tooltip_text(button1, _("Connect to server"));
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), button1, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), button1, -1);
 	g_signal_connect(button1, "clicked",
 	                 G_CALLBACK(on_connect_activate), NULL);
 
@@ -546,18 +495,18 @@ GtkWidget* create_mainwin(void)
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button2 = gtk_tool_button_new(image, _("Start"));
 	gtk_tool_item_set_tooltip_text(button2, _("Start the game"));
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), button2, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), button2, -1);
 	g_signal_connect(button2, "clicked",
 	                 G_CALLBACK(on_start_activate), NULL);
 
 	sep = gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), sep, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), sep, -1);
 
 	image = gtk_image_new_from_icon_name(STOCK_SENDARMIES,
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button3 = gtk_tool_button_new(image, _("Send armies"));
 	gtk_tool_item_set_tooltip_text(button3, _("Send your armies"));
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), button3, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), button3, -1);
 	g_signal_connect(button3, "clicked",
 	                 G_CALLBACK(on_enviarfichas_activate), NULL);
 
@@ -567,7 +516,7 @@ GtkWidget* create_mainwin(void)
 	gtk_tool_item_set_tooltip_text(button4,
 	                               _("Regroup your armies, moving from "
 	                                 "one country to another"));
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), button4, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), button4, -1);
 	g_signal_connect(button4, "clicked",
 	                 G_CALLBACK(on_reagrupe_activate), NULL);
 
@@ -575,7 +524,7 @@ GtkWidget* create_mainwin(void)
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button5 = gtk_tool_button_new(image, _("2. Get card"));
 	gtk_tool_item_set_tooltip_text(button5, _("Get a country card"));
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), button5, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), button5, -1);
 	g_signal_connect(button5, "clicked",
 	                 G_CALLBACK(on_pedirtarjeta_activate), NULL);
 
@@ -584,22 +533,22 @@ GtkWidget* create_mainwin(void)
 	button6 = gtk_tool_button_new(image, _("3. End turn"));
 	gtk_tool_item_set_tooltip_text(button6,
 	                               _("Pass the turn to another player"));
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), button6, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), button6, -1);
 	g_signal_connect(button6, "clicked",
 	                 G_CALLBACK(on_endturn_activate), NULL);
 
 	sep = gtk_separator_tool_item_new();
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), sep, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), sep, -1);
 
 	image = gtk_image_new_from_icon_name(STOCK_VIEWPLAYERS,
 	                                     GTK_ICON_SIZE_LARGE_TOOLBAR);
 	button7 = gtk_tool_button_new(image, _("View players"));
 	gtk_tool_item_set_tooltip_text(button7, _("View players' status"));
-	gtk_toolbar_insert(GTK_TOOLBAR(toolbar_main), button7, -1);
+	gtk_toolbar_insert(GTK_TOOLBAR(gui_state().ui.toolbar_main), button7, -1);
 	g_signal_connect(button7, "clicked",
 	                 G_CALLBACK(on_status_activate), NULL);
 
-	gtk_widget_show_all(toolbar_main);
+	gtk_widget_show_all(gui_state().ui.toolbar_main);
 
 	gtk_widget_realize(app1);
 
@@ -610,15 +559,15 @@ GtkWidget* create_mainwin(void)
 	                 G_CALLBACK(on_exit_activate), NULL);
 
 
-	SensiData.connect_button = GTK_WIDGET(button1);
-	SensiData.start_button = GTK_WIDGET(button2);
+	gui_state().ui.sensi.connect_button = GTK_WIDGET(button1);
+	gui_state().ui.sensi.start_button = GTK_WIDGET(button2);
 	/* 2 is a separator */
-	SensiData.enviarfichas_button = GTK_WIDGET(button3);
-	SensiData.reagrupe_button = GTK_WIDGET(button4);
-	SensiData.getcard_button = GTK_WIDGET(button5);
-	SensiData.endturn_button = GTK_WIDGET(button6);
+	gui_state().ui.sensi.enviarfichas_button = GTK_WIDGET(button3);
+	gui_state().ui.sensi.reagrupe_button = GTK_WIDGET(button4);
+	gui_state().ui.sensi.getcard_button = GTK_WIDGET(button5);
+	gui_state().ui.sensi.endturn_button = GTK_WIDGET(button6);
 	/* 7 is a separator */
-	SensiData.status_button = GTK_WIDGET(button7);
+	gui_state().ui.sensi.status_button = GTK_WIDGET(button7);
 
 	eventbox1 = gtk_event_box_new();
 	g_object_ref(eventbox1);
@@ -636,10 +585,10 @@ GtkWidget* create_mainwin(void)
 	gtk_container_add(GTK_CONTAINER(viewport1), vbox_main);
 
 	/* status map */
-	if(mainstatus_create(&window_mainstatus) != TEG_STATUS_SUCCESS) {
+	if(mainstatus_create(&gui_state().ui.window_mainstatus) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
-	gtk_box_pack_start(GTK_BOX(vbox_main), window_mainstatus, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox_main), gui_state().ui.window_mainstatus, FALSE, FALSE, 0);
 
 	/* paned */
 	paned = gtk_paned_new(GTK_ORIENTATION_VERTICAL);
@@ -662,9 +611,9 @@ GtkWidget* create_mainwin(void)
 		goto error;
 	}
 
-	gtk_container_add(GTK_CONTAINER(scrolledwindow), canvas_map);
+	gtk_container_add(GTK_CONTAINER(scrolledwindow), gui_state().ui.canvas_map);
 	gtk_box_pack_start(GTK_BOX(vbox_paned), scrolledwindow, TRUE, TRUE, 0);
-	gtk_widget_show(canvas_map);
+	gtk_widget_show(gui_state().ui.canvas_map);
 	gtk_widget_show(scrolledwindow);
 
 
@@ -690,7 +639,7 @@ GtkWidget* create_mainwin(void)
 	gtk_widget_realize(text);
 	gtk_text_view_set_left_margin(GTK_TEXT_VIEW(text), 5);
 
-	main_message_area = GTK_TEXT_VIEW(text);
+	gui_state().ui.main_message_area = GTK_TEXT_VIEW(text);
 
 	gtk_widget_show(text);
 	gtk_widget_show(sw);
@@ -708,18 +657,18 @@ GtkWidget* create_mainwin(void)
 
 
 	/* status bar */
-	statusbar = gtk_statusbar_new();
-	g_object_ref(statusbar);
-	g_object_set_data_full(G_OBJECT(app1), "statusbar", statusbar,
+	gui_state().ui.statusbar = gtk_statusbar_new();
+	g_object_ref(gui_state().ui.statusbar);
+	g_object_set_data_full(G_OBJECT(app1), "statusbar", gui_state().ui.statusbar,
 	                       (GDestroyNotify) g_object_unref);
-	gtk_widget_show(statusbar);
-	gtk_container_add(GTK_CONTAINER(dock1), statusbar);
+	gtk_widget_show(gui_state().ui.statusbar);
+	gtk_container_add(GTK_CONTAINER(dock1), gui_state().ui.statusbar);
 
-	gtk_box_pack_start(GTK_BOX(statusbar),
+	gtk_box_pack_start(GTK_BOX(gui_state().ui.statusbar),
 	                   ministatus_build(), FALSE, TRUE, 0);
 
 
-	gtk_statusbar_push(GTK_STATUSBAR(statusbar), 0,
+	gtk_statusbar_push(GTK_STATUSBAR(gui_state().ui.statusbar), 0,
 	                   _("Welcome to TEG!"));
 
 	/* icono */
@@ -745,125 +694,125 @@ error:
  */
 TEG_STATUS set_sensitive_tb(void)
 {
-	PLAYER_STATUS e = client_status(gui_state());
+	PLAYER_STATUS e = client_status(client_state());
 
 	/* CONNECT & START */
 	if(e == PLAYER_STATUS_DESCONECTADO) {
-		gtk_widget_set_sensitive(connect_menu, TRUE);
-		gtk_widget_set_sensitive(disconnect_menu, FALSE);
-		gtk_widget_set_sensitive(start_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.connect_button, TRUE);
-		gtk_widget_set_sensitive(SensiData.start_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.connect_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.disconnect_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.start_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.connect_button, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.start_button, FALSE);
 
 	} else if(e == PLAYER_STATUS_HABILITADO) {
-		gtk_widget_set_sensitive(connect_menu, FALSE);
-		gtk_widget_set_sensitive(disconnect_menu, TRUE);
-		gtk_widget_set_sensitive(start_menu, TRUE);
-		gtk_widget_set_sensitive(SensiData.connect_button, FALSE);
-		gtk_widget_set_sensitive(SensiData.start_button, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.connect_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.disconnect_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.start_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.connect_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.start_button, TRUE);
 
 	} else {
-		gtk_widget_set_sensitive(connect_menu, FALSE);
-		gtk_widget_set_sensitive(disconnect_menu, TRUE);
-		gtk_widget_set_sensitive(start_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.connect_button, FALSE);
-		gtk_widget_set_sensitive(SensiData.start_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.connect_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.disconnect_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.start_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.connect_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.start_button, FALSE);
 	}
 
-	if(gui_state().game.observer) {
-		gtk_widget_set_sensitive(start_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.start_button, FALSE);
+	if(client_state().game.observer) {
+		gtk_widget_set_sensitive(gui_state().ui.start_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.start_button, FALSE);
 	}
 
 	/* STATUS */
 	if(e == PLAYER_STATUS_DESCONECTADO) {
-		gtk_widget_set_sensitive(players_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.status_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.players_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.status_button, FALSE);
 	} else {
-		gtk_widget_set_sensitive(players_menu, TRUE);
-		gtk_widget_set_sensitive(SensiData.status_button, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.players_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.status_button, TRUE);
 	}
 
 	/* ATAQUE */
 	if(e == PLAYER_STATUS_ATAQUE) {
-		gtk_widget_set_sensitive(reattack_menu, TRUE);
-		gtk_widget_set_sensitive(reset_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.reattack_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.reset_menu, TRUE);
 	} else {
-		gtk_widget_set_sensitive(reattack_menu, FALSE);
-		gtk_widget_set_sensitive(reset_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.reattack_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.reset_menu, FALSE);
 	}
 
 	/* ENVIAR FICHAS */
 	if(e==PLAYER_STATUS_FICHAS || e==PLAYER_STATUS_FICHAS2 || e==PLAYER_STATUS_FICHASC) {
-		gtk_widget_set_sensitive(send_menu, TRUE);
-		gtk_widget_set_sensitive(SensiData.enviarfichas_button, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.send_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.enviarfichas_button, TRUE);
 	} else {
-		gtk_widget_set_sensitive(send_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.enviarfichas_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.send_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.enviarfichas_button, FALSE);
 	}
 
 	/* REAGRUPE */
 	if(e==PLAYER_STATUS_ATAQUE || e==PLAYER_STATUS_TROPAS) {
-		gtk_widget_set_sensitive(regroup_menu, TRUE);
-		gtk_widget_set_sensitive(SensiData.reagrupe_button, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.regroup_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.reagrupe_button, TRUE);
 	} else {
-		gtk_widget_set_sensitive(regroup_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.reagrupe_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.regroup_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.reagrupe_button, FALSE);
 	}
 
 	/* GET CARD */
 	if(e==PLAYER_STATUS_ATAQUE || e==PLAYER_STATUS_TROPAS || e==PLAYER_STATUS_REAGRUPE) {
-		gtk_widget_set_sensitive(get_menu, TRUE);
-		gtk_widget_set_sensitive(SensiData.getcard_button, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.get_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.getcard_button, TRUE);
 	} else {
-		gtk_widget_set_sensitive(get_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.getcard_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.get_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.getcard_button, FALSE);
 	}
 
 	/* END TURN */
 	if(e==PLAYER_STATUS_ATAQUE || e==PLAYER_STATUS_TROPAS || e==PLAYER_STATUS_REAGRUPE || e==PLAYER_STATUS_TARJETA) {
-		gtk_widget_set_sensitive(end_menu, TRUE);
-		gtk_widget_set_sensitive(SensiData.endturn_button, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.end_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.endturn_button, TRUE);
 	} else {
-		gtk_widget_set_sensitive(end_menu, FALSE);
-		gtk_widget_set_sensitive(SensiData.endturn_button, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.end_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.sensi.endturn_button, FALSE);
 	}
 
 	/* UPDATE MAP */
-	if(e >= PLAYER_STATUS_START || (gui_state().game.observer && e >= PLAYER_STATUS_CONNECTED)) {
-		gtk_widget_set_sensitive(update_menu, TRUE);
+	if(e >= PLAYER_STATUS_START || (client_state().game.observer && e >= PLAYER_STATUS_CONNECTED)) {
+		gtk_widget_set_sensitive(gui_state().ui.update_menu, TRUE);
 	} else {
-		gtk_widget_set_sensitive(update_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.update_menu, FALSE);
 	}
 
 	/* VIEW CARDS, MISSION */
 	if(e >= PLAYER_STATUS_START) {
-		gtk_widget_set_sensitive(mission_menu, TRUE);
-		gtk_widget_set_sensitive(cards_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.mission_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.cards_menu, TRUE);
 	} else {
-		gtk_widget_set_sensitive(mission_menu, FALSE);
-		gtk_widget_set_sensitive(cards_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.mission_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.cards_menu, FALSE);
 	}
 
 	/* LAUNCH ROBOT */
 	if(e >= PLAYER_STATUS_CONNECTED && e < PLAYER_STATUS_START) {
-		gtk_widget_set_sensitive(robot_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.robot_menu, TRUE);
 	} else {
-		gtk_widget_set_sensitive(robot_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.robot_menu, FALSE);
 	}
 
 	/* SURRENDER */
 	if(e>=PLAYER_STATUS_START) {
-		gtk_widget_set_sensitive(surrender_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.surrender_menu, TRUE);
 	} else {
-		gtk_widget_set_sensitive(surrender_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.surrender_menu, FALSE);
 	}
 
 	/* SCORES */
 	if(e >= PLAYER_STATUS_CONNECTED) {
-		gtk_widget_set_sensitive(scores_menu, TRUE);
+		gtk_widget_set_sensitive(gui_state().ui.scores_menu, TRUE);
 	} else {
-		gtk_widget_set_sensitive(scores_menu, FALSE);
+		gtk_widget_set_sensitive(gui_state().ui.scores_menu, FALSE);
 	}
 
 
@@ -880,18 +829,18 @@ TEG_STATUS set_sensitive_tb(void)
 static void tropas_response_cb(GtkDialog *dialog, gint id, gpointer data)
 {
 	if(id == GTK_RESPONSE_OK) {
-		if(GTK_IS_RANGE(tropas_hscale_cant))
-			tropas_cant = (gint) gtk_adjustment_get_value
-			              (gtk_range_get_adjustment
-			               (GTK_RANGE(tropas_hscale_cant)));
+		if(GTK_IS_RANGE(gui_state().ui.tropas_hscale_cant))
+			gui_state().ui.tropas_cant = (gint) gtk_adjustment_get_value
+			                             (gtk_range_get_adjustment
+			                              (GTK_RANGE(gui_state().ui.tropas_hscale_cant)));
 
-		if(tropas_cant > 0) {
-			out_tropas(gui_state(), tropas_src, tropas_dst, tropas_cant);
+		if(gui_state().ui.tropas_cant > 0) {
+			out_tropas(client_state(), gui_state().ui.tropas_src, gui_state().ui.tropas_dst, gui_state().ui.tropas_cant);
 		}
 	}
 
 	gtk_widget_destroy(GTK_WIDGET(dialog));
-	tropas_hscale_cant = nullptr;
+	gui_state().ui.tropas_hscale_cant = nullptr;
 }
 
 /* shows how many armies you can move after an attack */
@@ -905,25 +854,25 @@ void tropas_window(int src, int dst, int cant)
 	GtkAdjustment *adj;
 	char buf[200];
 
-	tropas_src = src;
-	tropas_dst = dst;
+	gui_state().ui.tropas_src = src;
+	gui_state().ui.tropas_dst = dst;
 
-	tropas_cant = 0;
+	gui_state().ui.tropas_cant = 0;
 
-	tropas_dialog = teg_dialog_new(_("A country was conquered"), _("A country was conquered"));
-	gtk_dialog_add_button(GTK_DIALOG(tropas_dialog), _("_OK"),
+	gui_state().ui.tropas_dialog = teg_dialog_new(_("A country was conquered"), _("A country was conquered"));
+	gtk_dialog_add_button(GTK_DIALOG(gui_state().ui.tropas_dialog), _("_OK"),
 	                      GTK_RESPONSE_OK);
 
-	gtk_window_set_transient_for(GTK_WINDOW(tropas_dialog),
-	                             GTK_WINDOW(main_window));
+	gtk_window_set_transient_for(GTK_WINDOW(gui_state().ui.tropas_dialog),
+	                             GTK_WINDOW(gui_state().ui.main_window));
 
-	g_signal_connect(G_OBJECT(tropas_dialog), "destroy",
-	                 G_CALLBACK(gtk_widget_destroyed), &tropas_dialog);
+	g_signal_connect(G_OBJECT(gui_state().ui.tropas_dialog), "destroy",
+	                 G_CALLBACK(gtk_widget_destroyed), &gui_state().ui.tropas_dialog);
 
-	g_signal_connect(tropas_dialog, "response",
+	g_signal_connect(gui_state().ui.tropas_dialog, "response",
 	                 G_CALLBACK(tropas_response_cb), NULL);
 
-	vbox_dia = gtk_dialog_get_content_area(GTK_DIALOG(tropas_dialog));
+	vbox_dia = gtk_dialog_get_content_area(GTK_DIALOG(gui_state().ui.tropas_dialog));
 
 	table = gtk_grid_new();
 	gtk_container_set_border_width(GTK_CONTAINER(table), GNOME_PAD);
@@ -938,7 +887,7 @@ void tropas_window(int src, int dst, int cant)
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), GNOME_PAD);
 
-	snprintf(buf, sizeof(buf)-1, _("You conquered '%s' in your attack from '%s'!!\n"), countries_get_name(gui_state().game.common, dst), countries_get_name(gui_state().game.common, src));
+	snprintf(buf, sizeof(buf)-1, _("You conquered '%s' in your attack from '%s'!!\n"), countries_get_name(client_state().game.common, dst), countries_get_name(client_state().game.common, src));
 	buf[ sizeof(buf) -1 ] = 0;
 	label = gtk_label_new(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -950,14 +899,14 @@ void tropas_window(int src, int dst, int cant)
 		gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 		adj = (GtkAdjustment *) gtk_adjustment_new(0.0, 0.0, (gfloat)(cant + 1), 1.0, 1.0, 1.0);
 		// tropas_spinner_cant = gtk_spin_button_new( adj, 0.0, 0);
-		tropas_hscale_cant = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL,
-		                                   adj);
-		gtk_box_pack_start(GTK_BOX(hbox), tropas_hscale_cant, TRUE, TRUE, 0);
-		gtk_scale_set_digits(GTK_SCALE(tropas_hscale_cant), 0);
-		gtk_scale_set_draw_value(GTK_SCALE(tropas_hscale_cant), 1);
-		/*		gtk_range_draw_trough(GTK_RANGE(tropas_hscale_cant));  */
+		gui_state().ui.tropas_hscale_cant = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL,
+		                                    adj);
+		gtk_box_pack_start(GTK_BOX(hbox), gui_state().ui.tropas_hscale_cant, TRUE, TRUE, 0);
+		gtk_scale_set_digits(GTK_SCALE(gui_state().ui.tropas_hscale_cant), 0);
+		gtk_scale_set_draw_value(GTK_SCALE(gui_state().ui.tropas_hscale_cant), 1);
+		/*		gtk_range_draw_trough(GTK_RANGE(gui_state().ui.tropas_hscale_cant));  */
 
-		snprintf(buf, sizeof(buf) -1, _("[Note: The server moved 1 army to '%s' for you.\nChoose how many more armies you want to move]"), countries_get_name(gui_state().game.common, dst));
+		snprintf(buf, sizeof(buf) -1, _("[Note: The server moved 1 army to '%s' for you.\nChoose how many more armies you want to move]"), countries_get_name(client_state().game.common, dst));
 		buf[ sizeof(buf) -1 ] = 0;
 		label = gtk_label_new(buf);
 		gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -968,10 +917,10 @@ void tropas_window(int src, int dst, int cant)
 	gtk_grid_attach(GTK_GRID(table), frame, 0, 0, 1, 1);
 
 
-	if(!gtk_widget_get_visible(tropas_dialog)) {
-		gtk_widget_show_all(tropas_dialog);
+	if(!gtk_widget_get_visible(gui_state().ui.tropas_dialog)) {
+		gtk_widget_show_all(gui_state().ui.tropas_dialog);
 	} else {
-		gtk_widget_destroy(tropas_dialog);
+		gtk_widget_destroy(gui_state().ui.tropas_dialog);
 	}
 }
 
@@ -979,20 +928,20 @@ void tropas_window(int src, int dst, int cant)
 static void reagrupe_response_cb(GtkDialog *dialog, gint id, gpointer data)
 {
 	if(id == GTK_RESPONSE_OK) {
-		if(GTK_IS_RANGE(reagrupe_hscale_cant))
-			reagrupe_cant = (gint) gtk_adjustment_get_value
-			                (gtk_range_get_adjustment
-			                 (GTK_RANGE(reagrupe_hscale_cant)));
+		if(GTK_IS_RANGE(gui_state().ui.reagrupe_hscale_cant))
+			gui_state().ui.reagrupe_cant = (gint) gtk_adjustment_get_value
+			                               (gtk_range_get_adjustment
+			                                (GTK_RANGE(gui_state().ui.reagrupe_hscale_cant)));
 
-		if(reagrupe_cant > 0) {
-			reagrupe_out(gui_state(), reagrupe_src, reagrupe_dst,
-			             reagrupe_cant);
+		if(gui_state().ui.reagrupe_cant > 0) {
+			reagrupe_out(client_state(), gui_state().ui.reagrupe_src, gui_state().ui.reagrupe_dst,
+			             gui_state().ui.reagrupe_cant);
 		} else {
-			reagrupe_reset(gui_state());
+			reagrupe_reset(client_state());
 		}
 	}
 
-	gtk_widget_destroy(GTK_WIDGET(reagrupe_dialog));
+	gtk_widget_destroy(GTK_WIDGET(gui_state().ui.reagrupe_dialog));
 }
 
 /* window that shows armies to move in a regroup */
@@ -1006,26 +955,26 @@ void reagrupe_window(int src, int dst, int cant)
 	GtkAdjustment *adj;
 	char buf[200];
 
-	reagrupe_src = src;
-	reagrupe_dst = dst;
+	gui_state().ui.reagrupe_src = src;
+	gui_state().ui.reagrupe_dst = dst;
 
-	reagrupe_cant = 0;
+	gui_state().ui.reagrupe_cant = 0;
 
-	reagrupe_dialog = teg_dialog_new(_("Regrouping armies"), _("Regroup your armies"));
+	gui_state().ui.reagrupe_dialog = teg_dialog_new(_("Regrouping armies"), _("Regroup your armies"));
 
-	gtk_dialog_add_button(GTK_DIALOG(reagrupe_dialog), _("_OK"),
+	gtk_dialog_add_button(GTK_DIALOG(gui_state().ui.reagrupe_dialog), _("_OK"),
 	                      GTK_RESPONSE_OK);
 
-	gtk_window_set_transient_for(GTK_WINDOW(reagrupe_dialog),
-	                             GTK_WINDOW(main_window));
+	gtk_window_set_transient_for(GTK_WINDOW(gui_state().ui.reagrupe_dialog),
+	                             GTK_WINDOW(gui_state().ui.main_window));
 
-	g_signal_connect(G_OBJECT(reagrupe_dialog), "destroy",
-	                 G_CALLBACK(gtk_widget_destroyed), &reagrupe_dialog);
+	g_signal_connect(G_OBJECT(gui_state().ui.reagrupe_dialog), "destroy",
+	                 G_CALLBACK(gtk_widget_destroyed), &gui_state().ui.reagrupe_dialog);
 
-	g_signal_connect(reagrupe_dialog, "response",
+	g_signal_connect(gui_state().ui.reagrupe_dialog, "response",
 	                 G_CALLBACK(reagrupe_response_cb), NULL);
 
-	vbox_dia = gtk_dialog_get_content_area(GTK_DIALOG(reagrupe_dialog));
+	vbox_dia = gtk_dialog_get_content_area(GTK_DIALOG(gui_state().ui.reagrupe_dialog));
 
 	table = gtk_grid_new();
 	gtk_container_set_border_width(GTK_CONTAINER(table), GNOME_PAD);
@@ -1040,7 +989,7 @@ void reagrupe_window(int src, int dst, int cant)
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_container_set_border_width(GTK_CONTAINER(vbox), GNOME_PAD);
 
-	snprintf(buf, sizeof(buf) -1, _("Moving armies from '%s' to '%s'\n"), countries_get_name(gui_state().game.common, src), countries_get_name(gui_state().game.common, dst));
+	snprintf(buf, sizeof(buf) -1, _("Moving armies from '%s' to '%s'\n"), countries_get_name(client_state().game.common, src), countries_get_name(client_state().game.common, dst));
 	buf[ sizeof(buf) -1 ] = 0;
 	label = gtk_label_new(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
@@ -1051,11 +1000,11 @@ void reagrupe_window(int src, int dst, int cant)
 	gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
 	adj = (GtkAdjustment *) gtk_adjustment_new(0.0, 0.0, (gfloat)(cant + 1), 1.0, 1.0, 1.0);
 
-	reagrupe_hscale_cant = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, adj);
+	gui_state().ui.reagrupe_hscale_cant = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, adj);
 
-	gtk_box_pack_start(GTK_BOX(hbox), reagrupe_hscale_cant, TRUE, TRUE, 0);
-	gtk_scale_set_digits(GTK_SCALE(reagrupe_hscale_cant), 0);
-	gtk_scale_set_draw_value(GTK_SCALE(reagrupe_hscale_cant), 1);
+	gtk_box_pack_start(GTK_BOX(hbox), gui_state().ui.reagrupe_hscale_cant, TRUE, TRUE, 0);
+	gtk_scale_set_digits(GTK_SCALE(gui_state().ui.reagrupe_hscale_cant), 0);
+	gtk_scale_set_draw_value(GTK_SCALE(gui_state().ui.reagrupe_hscale_cant), 1);
 
 	snprintf(buf, sizeof(buf) -1, _("[Note: You can regroup as many times as you want,\nas long as you dont regroup an armie that were\nregrouped before in this turn.]"));
 	buf[ sizeof(buf) -1 ] = 0;
@@ -1067,10 +1016,10 @@ void reagrupe_window(int src, int dst, int cant)
 	gtk_grid_attach(GTK_GRID(table), frame, 0, 0, 1, 1);
 
 
-	if(!gtk_widget_get_visible(reagrupe_dialog)) {
-		gtk_widget_show_all(reagrupe_dialog);
+	if(!gtk_widget_get_visible(gui_state().ui.reagrupe_dialog)) {
+		gtk_widget_show_all(gui_state().ui.reagrupe_dialog);
 	} else {
-		gtk_widget_destroy(reagrupe_dialog);
+		gtk_widget_destroy(gui_state().ui.reagrupe_dialog);
 	}
 }
 

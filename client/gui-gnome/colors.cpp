@@ -38,33 +38,8 @@
 namespace teg::client::callbacks
 {
 
-extern TTheme gui_theme;
-
-static int allocated=0;
-
-struct _G_colores G_colores[] = {
-	{"red", "white"},
-	{"yellow", "black"},
-	{"blue", "white"},
-	{"grey27", "white"},
-	{"PaleVioletRed1", "black"},
-	{"green", "black"},
-	{"grey", "black"},		/* Color no usado por playeres */
-};
-#define NR_COLORS (sizeof(G_colores)/sizeof(G_colores[0]))
-GdkRGBA colors_players[NR_COLORS];
-
-char const *G_colores_common[] = {
-	"white", "black"
-};
+#define NR_COLORS (sizeof(gui_state().colors.table)/sizeof(gui_state().colors.table[0]))
 #define NR_COLORS_COMMON (2)
-GdkRGBA colors_common[NR_COLORS_COMMON];
-
-int colors_foreground[] = { 0, 1, 0, 0, 1, 1, 1 };
-
-GdkPixbuf *g_color_players[maximum_player_count];
-GdkPixbuf *g_color_circles[maximum_player_count + 1];
-GdkPixbuf *g_color_circle_over;
 
 
 TEG_STATUS colors_load_images(void)
@@ -72,10 +47,9 @@ TEG_STATUS colors_load_images(void)
 	/** \todo transform those »load_from_file(filename)+g_free(filename)« into
 	 * a own function */
 
-	static int images_loaded = 0;
 	char name[512];
 
-	if(images_loaded) {
+	if(gui_state().colors.images_loaded) {
 		return TEG_STATUS_SUCCESS;
 	}
 
@@ -85,18 +59,18 @@ TEG_STATUS colors_load_images(void)
 
 		/* load player colors */
 		/* IMPORTANT:  Dont translate color_name()! */
-		if(! gui_theme.choose_colors_custom) {
+		if(! gui_state().theme.choose_colors_custom) {
 			snprintf(name, sizeof(name) -1, "color_player_%s.png", color_name(i));
-			g_color_players[i] = gdk_pixbuf_new_from_file(
-			                         load_pixmap_file(name).c_str(), NULL);
+			gui_state().colors.player_pixbufs[i] = gdk_pixbuf_new_from_file(
+			        load_pixmap_file(name).c_str(), NULL);
 		} else {
-			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, color_name(i));
-			auto const fpath = theme_load_file(gui_state(), name);
+			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_state().theme.choose_colors_prefix, color_name(i));
+			auto const fpath = theme_load_file(client_state(), name);
 			char const*const filename = fpath ? fpath->c_str() : nullptr;
-			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
+			gui_state().colors.player_pixbufs[i] = gdk_pixbuf_new_from_file(filename, NULL);
 		}
 
-		if(g_color_players[i] == NULL) {
+		if(gui_state().colors.player_pixbufs[i] == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), name);
 			return TEG_STATUS_ERROR;
 		}
@@ -104,10 +78,10 @@ TEG_STATUS colors_load_images(void)
 		/* load color circles */
 		/* IMPORTANT:  Dont translate color_name()! */
 		snprintf(name, sizeof(name) -1, "disc_%s.png", color_name(i));
-		g_color_circles[i] = gdk_pixbuf_new_from_file(
-		                         load_pixmap_file(name).c_str(), NULL);
+		gui_state().colors.circle_pixbufs[i] = gdk_pixbuf_new_from_file(
+		        load_pixmap_file(name).c_str(), NULL);
 
-		if(g_color_circles[i] == NULL) {
+		if(gui_state().colors.circle_pixbufs[i] == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), name);
 			return TEG_STATUS_ERROR;
 		}
@@ -115,10 +89,10 @@ TEG_STATUS colors_load_images(void)
 
 	{
 		/* disc for the 'no color' */
-		g_color_circles[maximum_player_count]
+		gui_state().colors.circle_pixbufs[maximum_player_count]
 		    = gdk_pixbuf_new_from_file(load_pixmap_file("disc_grey.png").c_str(), NULL);
 
-		if(g_color_circles[maximum_player_count] == NULL) {
+		if(gui_state().colors.circle_pixbufs[maximum_player_count] == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), "disc_grey.png");
 			return TEG_STATUS_ERROR;
 		}
@@ -126,17 +100,17 @@ TEG_STATUS colors_load_images(void)
 
 	{
 		/* disc over */
-		g_color_circle_over
+		gui_state().colors.circle_over_pixbuf
 		    = gdk_pixbuf_new_from_file(load_pixmap_file("disc_over.png").c_str(), NULL);
 
-		if(g_color_circle_over == NULL) {
+		if(gui_state().colors.circle_over_pixbuf == NULL) {
 			g_warning(_("Error, couldn't find file: %s"), "disc_over.png");
 			return TEG_STATUS_ERROR;
 		}
 	}
 
 	/* success */
-	images_loaded = 1;
+	gui_state().colors.images_loaded = 1;
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -144,21 +118,21 @@ TEG_STATUS colors_load_images(void)
 /* allocate colors */
 TEG_STATUS colors_allocate(void)
 {
-	if(allocated) {
+	if(gui_state().colors.allocated) {
 		return TEG_STATUS_ERROR;
 	}
 
 	for(unsigned i=0; i<NR_COLORS; i++) {
-		gdk_rgba_parse(&colors_players[i], G_colores[i].ellip_color);
+		gdk_rgba_parse(&gui_state().colors.players_rgba[i], gui_state().colors.table[i].ellip_color);
 	}
 
 	for(unsigned i=0; i<NR_COLORS_COMMON; i++) {
-		gdk_rgba_parse(&colors_common[i], G_colores_common[i]);
+		gdk_rgba_parse(&gui_state().colors.common_rgba[i], gui_state().colors.common_names[i]);
 	}
 
 	colors_load_images();
 
-	allocated=1;
+	gui_state().colors.allocated=1;
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -173,97 +147,96 @@ GdkRGBA* colors_get_player(int n)
 {
 	PCPLAYER pJ;
 
-	if(player_whois(gui_state(), n, &pJ) != TEG_STATUS_SUCCESS) {
-		return &colors_players[NR_COLORS-1];
+	if(player_whois(client_state(), n, &pJ) != TEG_STATUS_SUCCESS) {
+		return &gui_state().colors.players_rgba[NR_COLORS-1];
 	}
 
 	if(!color_is_valid(pJ->color)) {
-		return &colors_players[NR_COLORS-1];
+		return &gui_state().colors.players_rgba[NR_COLORS-1];
 	}
-	return &colors_players[pJ->color];
+	return &gui_state().colors.players_rgba[pJ->color];
 }
 
 GdkRGBA* colors_get_player_from_color(int color)
 {
 	if(!color_is_valid(color)) {
-		return &colors_players[NR_COLORS-1];
+		return &gui_state().colors.players_rgba[NR_COLORS-1];
 	}
-	return &colors_players[color];
+	return &gui_state().colors.players_rgba[color];
 }
 
 GdkRGBA* colors_get_player_ink(int n)
 {
 	PCPLAYER pJ;
 
-	if(player_whois(gui_state(), n, &pJ) != TEG_STATUS_SUCCESS) {
-		return &colors_common[COLORS_BLACK];
+	if(player_whois(client_state(), n, &pJ) != TEG_STATUS_SUCCESS) {
+		return &gui_state().colors.common_rgba[COLORS_BLACK];
 	}
 
 	if(!color_is_valid(pJ->color)) {
-		return &colors_common[COLORS_BLACK];
+		return &gui_state().colors.common_rgba[COLORS_BLACK];
 	}
-	return &colors_common[colors_foreground[pJ->color]];
+	return &gui_state().colors.common_rgba[gui_state().colors.foreground[pJ->color]];
 }
 
 GdkRGBA* colors_get_player_ink_from_color(int color)
 {
 	if(!color_is_valid(color)) {
-		return &colors_common[COLORS_BLACK];
+		return &gui_state().colors.common_rgba[COLORS_BLACK];
 	}
-	return &colors_common[colors_foreground[color]];
+	return &gui_state().colors.common_rgba[gui_state().colors.foreground[color]];
 }
 
 GdkRGBA* colors_get_player_virtual(int n)
 {
-	if(n == gui_state().game.numjug) {
-		return &colors_players[COLORS_P_BLUE];
+	if(n == client_state().game.numjug) {
+		return &gui_state().colors.players_rgba[COLORS_P_BLUE];
 	}
-	return &colors_players[COLORS_P_RED];
+	return &gui_state().colors.players_rgba[COLORS_P_RED];
 }
 
 GdkRGBA* colors_get_common(int n)
 {
 	if(n<0 || n>=NR_COLORS_COMMON) {
-		return &colors_players[NR_COLORS_COMMON-1];
+		return &gui_state().colors.players_rgba[NR_COLORS_COMMON-1];
 	}
-	return &colors_common[n];
+	return &gui_state().colors.common_rgba[n];
 }
 
 /* a non-reentrant funcion */
 char * get_tag_for_color(int color)
 {
-	static char buffer[256];
 	PCPLAYER pJ;
 
-	strcpy((char*)buffer, "default_tag");
+	strcpy((char*)gui_state().colors.tag_buffer, "default_tag");
 
-	if(player_whois(gui_state(), color, &pJ) != TEG_STATUS_SUCCESS) {
-		return (char*)buffer;
+	if(player_whois(client_state(), color, &pJ) != TEG_STATUS_SUCCESS) {
+		return (char*)gui_state().colors.tag_buffer;
 	}
 
 	if(!color_is_valid(pJ->color)) {
-		return (char*)buffer;
+		return (char*)gui_state().colors.tag_buffer;
 	}
 
-	snprintf(buffer, sizeof(buffer)-1, "%s_tag", color_name(pJ->color));
-	return (char*)buffer;
+	snprintf(gui_state().colors.tag_buffer, sizeof(gui_state().colors.tag_buffer)-1, "%s_tag", color_name(pJ->color));
+	return (char*)gui_state().colors.tag_buffer;
 }
 
 
 char const* get_foreground_for_color(int c)
 {
 	if(!color_is_valid(c)) {
-		return G_colores[NR_COLORS-1].text_color;
+		return gui_state().colors.table[NR_COLORS-1].text_color;
 	}
-	return G_colores[c].text_color;
+	return gui_state().colors.table[c].text_color;
 }
 
 char const* get_background_for_color(int c)
 {
 	if(!color_is_valid(c)) {
-		return G_colores[NR_COLORS-1].ellip_color;
+		return gui_state().colors.table[NR_COLORS-1].ellip_color;
 	}
-	return G_colores[c].ellip_color;
+	return gui_state().colors.table[c].ellip_color;
 }
 
 }

@@ -56,14 +56,20 @@
 namespace teg::client::callbacks
 {
 
-TTheme	gui_theme;
-
-static ClientState* current_state = nullptr;
-
-ClientState& gui_state()
+namespace
 {
-	assert(current_state);
-	return *current_state;
+GuiState gui_instance;
+}
+
+GuiState& gui_state()
+{
+	return gui_instance;
+}
+
+ClientState& client_state()
+{
+	assert(gui_instance.client);
+	return *gui_instance.client;
 }
 
 static TEG_STATUS get_default_values(void);
@@ -77,7 +83,7 @@ TEG_STATUS gui_mission(ClientState& state)
 
 TEG_STATUS gui_habilitado(ClientState& state, int numjug)
 {
-	if(numjug == who_am_i(gui_state())) {
+	if(numjug == who_am_i(client_state())) {
 		set_sensitive_tb();
 		ministatus_update();
 	}
@@ -104,10 +110,10 @@ TEG_STATUS gui_lost(ClientState& state, int numjug)
 	memset(buf, 0, sizeof(buf));
 	armies_unview();
 
-	if(player_whois(gui_state(), numjug, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(client_state(), numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		/* */
 
-	} else if(numjug == who_am_i(gui_state())) {
+	} else if(numjug == who_am_i(client_state())) {
 		snprintf(buf, sizeof(buf)-1, _("You lost the game :("));
 		teg_dialog(_("You lost"), _("Game Over"), buf);
 
@@ -126,10 +132,10 @@ TEG_STATUS gui_surrender(ClientState& state, int numjug)
 	memset(buf, 0, sizeof(buf));
 	armies_unview();
 
-	if(player_whois(gui_state(), numjug, &pJ) != TEG_STATUS_SUCCESS) {
+	if(player_whois(client_state(), numjug, &pJ) != TEG_STATUS_SUCCESS) {
 		/* */
 
-	} else if(numjug == who_am_i(gui_state())) {
+	} else if(numjug == who_am_i(client_state())) {
 		/* */
 
 	} else {
@@ -141,7 +147,7 @@ TEG_STATUS gui_surrender(ClientState& state, int numjug)
 
 TEG_STATUS gui_init(ClientState& state, int argc, char **argv)
 {
-	current_state = &state;
+	gui_instance.client = &state;
 
 #ifdef ENABLE_NLS
 	/*
@@ -157,21 +163,21 @@ TEG_STATUS gui_init(ClientState& state, int argc, char **argv)
 
 	gtk_init(&argc, &argv);
 
-	settings = g_settings_new("net.sf.teg");
+	gui_state().settings = g_settings_new("net.sf.teg");
 
 	stock_init();
 
 	get_default_values();
 
-	theme_load(gui_state(), gui_state().game.theme);
+	theme_load(client_state(), client_state().game.theme);
 
-	if(theme_giveme_theme(gui_state(), &gui_theme) != TEG_STATUS_SUCCESS) {
+	if(theme_giveme_theme(client_state(), &gui_state().theme) != TEG_STATUS_SUCCESS) {
 		fprintf(stderr, "Error loading theme!\n");
 		return TEG_STATUS_ERROR;
 	}
 
-	main_window = create_mainwin();
-	if(!main_window) {
+	gui_state().ui.main_window = create_mainwin();
+	if(!gui_state().ui.main_window) {
 		return TEG_STATUS_ERROR;
 	}
 
@@ -190,9 +196,9 @@ TEG_STATUS gui_main(ClientState& state)
 {
 
 	/* show welcome message */
-	textmsg(gui_state(), M_ALL, _("Tenes Empanadas Graciela - by Ricardo Quesada"));
-	textmsg(gui_state(), M_ALL, _("Gnome client v%s - by Rüdiger Ranft-Driscoll"), VERSION);
-	textmsg(gui_state(), M_ALL, _("Using theme '%s - v%s' by %s\n"), gui_state().game.theme, gui_theme.version, gui_theme.author);
+	textmsg(client_state(), M_ALL, _("Tenes Empanadas Graciela - by Ricardo Quesada"));
+	textmsg(client_state(), M_ALL, _("Gnome client v%s - by Rüdiger Ranft-Driscoll"), VERSION);
+	textmsg(client_state(), M_ALL, _("Using theme '%s - v%s' by %s\n"), client_state().game.theme, gui_state().theme.version, gui_state().theme.author);
 
 	/* put the buttons in 'sensitive'*/
 	set_sensitive_tb();
@@ -219,7 +225,7 @@ TEG_STATUS gui_disconnect(ClientState& state)
 TEG_STATUS gui_connected(ClientState& state, int const *c)
 {
 	set_sensitive_tb();
-	if(!gui_state().game.observer) {
+	if(!client_state().game.observer) {
 		colortype_view(c);
 	}
 
@@ -236,7 +242,7 @@ TEG_STATUS gui_reconnected(ClientState& state)
 static void get_settings_into(char* dest, size_t dest_len,
                               char const* name, char const* default_)
 {
-	gchar *string = g_settings_get_string(settings, name);
+	gchar *string = g_settings_get_string(gui_state().settings, name);
 	char const * source = g_ascii_strcasecmp(string, "") != 0
 	                      ? string
 	                      : default_;
@@ -246,28 +252,28 @@ static void get_settings_into(char* dest, size_t dest_len,
 
 static TEG_STATUS get_default_values(void)
 {
-	get_settings_into(gui_state().game.myname, sizeof(gui_state().game.myname),
+	get_settings_into(client_state().game.myname, sizeof(client_state().game.myname),
 	                  "playername", getenv("LOGNAME"));
 
-	gui_state().game.mycolor = g_settings_get_int(settings, "color");
+	client_state().game.mycolor = g_settings_get_int(gui_state().settings, "color");
 
-	get_settings_into(gui_state().game.sername, sizeof(gui_state().game.sername),
+	get_settings_into(client_state().game.sername, sizeof(client_state().game.sername),
 	                  "servername", "localhost");
 
-	gui_state().game.msg_show = g_settings_get_int(settings, "msgshow");
-	gui_private.msg_show_colors
-	    = g_settings_get_boolean(settings, "msgshow-with-color");
-	gui_private.dialog_show = g_settings_get_int(settings, "dialog-show");
-	get_settings_into(gui_state().game.theme, sizeof(gui_state().game.theme),
+	client_state().game.msg_show = g_settings_get_int(gui_state().settings, "msgshow");
+	gui_state().priv.msg_show_colors
+	    = g_settings_get_boolean(gui_state().settings, "msgshow-with-color");
+	gui_state().priv.dialog_show = g_settings_get_int(gui_state().settings, "dialog-show");
+	get_settings_into(client_state().game.theme, sizeof(client_state().game.theme),
 	                  "theme", "TEG");
 
-	gui_state().game.robot_in_server = g_settings_get_boolean(settings,
-	                                   "robot-in-server");
+	client_state().game.robot_in_server = g_settings_get_boolean(gui_state().settings,
+	                                      "robot-in-server");
 
-	gui_private.status_show = g_settings_get_int(settings, "status-show");
-	gui_state().game.serport = g_settings_get_int(settings, "port");
+	gui_state().priv.status_show = g_settings_get_int(gui_state().settings, "status-show");
+	client_state().game.serport = g_settings_get_int(gui_state().settings, "port");
 
-	g_settings_set_string(settings, "playername", gui_state().game.myname);
+	g_settings_set_string(gui_state().settings, "playername", client_state().game.myname);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -279,8 +285,8 @@ TEG_STATUS gui_start(ClientState& state)
 	set_sensitive_tb();
 	mainstatus_update_colors();
 
-	if(status_dialog!= NULL) {
-		out_status(gui_state());
+	if(gui_state().status.dialog!= NULL) {
+		out_status(client_state());
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -307,11 +313,11 @@ TEG_STATUS gui_fichas(ClientState& state, int cant, int conts)
 
 	set_sensitive_tb();
 
-	if(status_dialog != NULL) {
-		out_status(gui_state());
+	if(gui_state().status.dialog != NULL) {
+		out_status(client_state());
 	}
 
-	e = client_status(gui_state());
+	e = client_status(client_state());
 
 	armies_view(cant, conts);
 	dices_unview();
@@ -331,7 +337,7 @@ TEG_STATUS gui_fichas(ClientState& state, int cant, int conts)
 		buf[0]=0;
 		for(i=0; i<CONT_CANT; i++) {
 			if(conts & 1) {
-				snprintf(buf2, sizeof(buf2)-1, _("Place %d armies in %s\n"), gui_state().game.common.conts[i].fichas_x_cont, cont_get_name(gui_state().game.common, i));
+				snprintf(buf2, sizeof(buf2)-1, _("Place %d armies in %s\n"), client_state().game.common.conts[i].fichas_x_cont, cont_get_name(client_state().game.common, i));
 				buf2[ sizeof(buf2) -1 ] = 0;
 				strcat(buf, buf2);
 				hubo_cont=1;
@@ -348,20 +354,20 @@ TEG_STATUS gui_fichas(ClientState& state, int cant, int conts)
 			strcat(buf, buf2);
 		}
 
-		if(canje_puedo(gui_state(), &p1, &p2, &p3) == TEG_STATUS_SUCCESS) {
+		if(canje_puedo(client_state(), &p1, &p2, &p3) == TEG_STATUS_SUCCESS) {
 			strcat(buf, _("\nIf you want to EXCHANGE your cards for armies,\nDO IT NOW!"));
 			cards_select(p1, p2, p3);
 		}
 		break;
 	}
 	default:
-		textmsg(gui_state(), M_ERR, "Error in out_fichas(gui_state())");
+		textmsg(client_state(), M_ERR, "Error in out_fichas(client_state())");
 		return TEG_STATUS_ERROR;
 	}
-	if(gui_private.dialog_show & (1 << DIALOG_PLACE_ARMIES)) {
+	if(gui_state().priv.dialog_show & (1 << DIALOG_PLACE_ARMIES)) {
 		teg_dialog(_("Place armies"), _("Place armies"), buf);
 	}
-	textmsg(gui_state(), M_IMP, "%s", buf);
+	textmsg(client_state(), M_IMP, "%s", buf);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -369,14 +375,14 @@ TEG_STATUS gui_fichas(ClientState& state, int cant, int conts)
 /* someone has the turn */
 TEG_STATUS gui_turn(ClientState& state, PCPLAYER pJ)
 {
-	if(pJ->numjug == who_am_i(gui_state())) {
+	if(pJ->numjug == who_am_i(client_state())) {
 		set_sensitive_tb();
 
-		if(status_dialog != NULL) {
-			out_status(gui_state());
+		if(gui_state().status.dialog != NULL) {
+			out_status(client_state());
 		}
 
-		if(gui_private.dialog_show & (1 << DIALOG_ATTACK_TURN)) {
+		if(gui_state().priv.dialog_show & (1 << DIALOG_ATTACK_TURN)) {
 			teg_dialog(_("Its your turn"), _("Its your turn to attack"),
 			           _("Select two countries:\n1st: click on the source country\n2nd: click on the destination country"));
 		}
@@ -390,7 +396,7 @@ TEG_STATUS gui_turn(ClientState& state, PCPLAYER pJ)
 /* shows one country */
 TEG_STATUS gui_country(ClientState& state, int p)
 {
-//	if( status_dialog != NULL) out_status(gui_state());
+//	if( gui_state().status.dialog != NULL) out_status(client_state());
 
 	if(p < static_cast<int>(COUNTRIES_CANT)) {
 		G_country_draw_ejer(p);
@@ -419,8 +425,8 @@ TEG_STATUS gui_tarjeta(ClientState& state, int country)
 {
 	cards_view(country);
 
-	if(tarjeta_es_usada(&gui_state().game.common.countries[country].tarjeta)) {
-		locate_country_add_army(&gui_state().game.common.countries[country]);
+	if(tarjeta_es_usada(&client_state().game.common.countries[country].tarjeta)) {
+		locate_country_add_army(&client_state().game.common.countries[country]);
 	}
 
 	set_sensitive_tb();
@@ -459,8 +465,8 @@ TEG_STATUS gui_canje(ClientState& state, int cant, int p1, int p2, int p3)
 /* country 'src' is attacking country 'dst' */
 TEG_STATUS gui_attack(ClientState& state, int src, int dst)
 {
-	gui_country_select(gui_state(), src);
-	gui_country_select(gui_state(), dst);
+	gui_country_select(client_state(), src);
+	gui_country_select(client_state(), dst);
 	return TEG_STATUS_SUCCESS;
 }
 

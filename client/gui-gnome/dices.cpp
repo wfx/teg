@@ -44,27 +44,6 @@
 namespace teg::client::callbacks
 {
 
-extern TTheme gui_theme;
-
-
-static GdkPixbuf *dices[sides_on_the_dice] = { NULL, NULL, NULL, NULL, NULL, NULL };
-static GooCanvasItem *images[sides_on_the_dice] = { NULL, NULL, NULL, NULL, NULL, NULL };
-static GooCanvasItem *text[2] = {NULL, NULL};
-static GooCanvasItem* dices_group=NULL;
-static int dices_initialized=0;
-
-struct _dices_coord {
-	double x;
-	double y;
-};
-
-struct _dices_pos {
-	struct _dices_coord attacker[3];
-	struct _dices_coord attacker_text;
-	struct _dices_coord defender[3];
-	struct _dices_coord defender_text;
-} dices_pos;
-
 typedef enum dices_type {
 	DICES_ATTACKER,
 	DICES_DEFENDER
@@ -76,11 +55,11 @@ typedef enum dices_type {
  */
 static TEG_STATUS dices_load_from_file(char *name, int i)
 {
-	auto const fpath = theme_load_file(gui_state(), name);
+	auto const fpath = theme_load_file(client_state(), name);
 	char const*const filename = fpath ? fpath->c_str() : nullptr;
 
-	dices[i] = gdk_pixbuf_new_from_file(filename, NULL);
-	if(dices[i] == NULL) {
+	gui_state().dices.pixbufs[i] = gdk_pixbuf_new_from_file(filename, NULL);
+	if(gui_state().dices.pixbufs[i] == NULL) {
 		g_warning(_("Error, couldn't find file: %s"), name);
 		return TEG_STATUS_ERROR;
 	}
@@ -92,7 +71,7 @@ static TEG_STATUS dices_load()
 {
 	int i;
 
-	if(dices_initialized) {
+	if(gui_state().dices.initialized) {
 		return TEG_STATUS_SUCCESS;
 	}
 
@@ -100,7 +79,7 @@ static TEG_STATUS dices_load()
 		char name[40];
 		memset(name, 0, sizeof(name));
 		snprintf(name, sizeof(name)-1, "dice-%d.png", i+1);
-		if(!dices[i]) {
+		if(!gui_state().dices.pixbufs[i]) {
 			dices_load_from_file(name, i);
 		}
 	}
@@ -110,22 +89,22 @@ static TEG_STATUS dices_load()
 
 static void dices_show_text(int country, dices_type_t type)
 {
-	if(text[type]) {
-		goo_canvas_item_remove(text[type]);
-		text[type] = NULL;
+	if(gui_state().dices.texts[type]) {
+		goo_canvas_item_remove(gui_state().dices.texts[type]);
+		gui_state().dices.texts[type] = NULL;
 	}
 
-	text[type] = goo_canvas_text_new(
-	                 dices_group,
-	                 countries_get_name(gui_state().game.common, country),
-	                 (double)(type == DICES_ATTACKER) ? dices_pos.attacker_text.x :  dices_pos.defender_text.x,
-	                 (double)(type == DICES_ATTACKER) ? dices_pos.attacker_text.y :  dices_pos.defender_text.y,
-	                 (double) -1,
-	                 GOO_CANVAS_ANCHOR_NORTH,
-	                 "height", (double) -1,
-	                 "font", HELVETICA_10_BFONT,
-	                 "fill-color", gui_theme.dices_color,
-	                 NULL);
+	gui_state().dices.texts[type] = goo_canvas_text_new(
+	                                    gui_state().dices.group,
+	                                    countries_get_name(client_state().game.common, country),
+	                                    (double)(type == DICES_ATTACKER) ? gui_state().dices.positions.attacker_text.x :  gui_state().dices.positions.defender_text.x,
+	                                    (double)(type == DICES_ATTACKER) ? gui_state().dices.positions.attacker_text.y :  gui_state().dices.positions.defender_text.y,
+	                                    (double) -1,
+	                                    GOO_CANVAS_ANCHOR_NORTH,
+	                                    "height", (double) -1,
+	                                    "font", HELVETICA_10_BFONT,
+	                                    "fill-color", gui_state().theme.dices_color,
+	                                    NULL);
 }
 
 static void dices_show_image(int dice_index, dices_type_t type, int pos)
@@ -134,34 +113,34 @@ static void dices_show_image(int dice_index, dices_type_t type, int pos)
 	double x, y;
 
 	if(type == DICES_ATTACKER) {
-		x = dices_pos.attacker[pos].x;
-		y = dices_pos.attacker[pos].y;
+		x = gui_state().dices.positions.attacker[pos].x;
+		y = gui_state().dices.positions.attacker[pos].y;
 
 		i = pos;
 	} else {
-		x = dices_pos.defender[pos].x;
-		y = dices_pos.defender[pos].y;
+		x = gui_state().dices.positions.defender[pos].x;
+		y = gui_state().dices.positions.defender[pos].y;
 
 		i = pos + 3;
 	}
 
-	if(images[i] == NULL) {
-		images[i] = goo_canvas_image_new(
-		                dices_group,
-		                dices[dice_index],
-		                x,
-		                y,
-		                "width", (double) gdk_pixbuf_get_width(dices[dice_index]),
-		                "height", (double) gdk_pixbuf_get_height(dices[dice_index]),
-		                NULL);
+	if(gui_state().dices.items[i] == NULL) {
+		gui_state().dices.items[i] = goo_canvas_image_new(
+		                                 gui_state().dices.group,
+		                                 gui_state().dices.pixbufs[dice_index],
+		                                 x,
+		                                 y,
+		                                 "width", (double) gdk_pixbuf_get_width(gui_state().dices.pixbufs[dice_index]),
+		                                 "height", (double) gdk_pixbuf_get_height(gui_state().dices.pixbufs[dice_index]),
+		                                 NULL);
 
 	} else {
-		g_object_set(images[i],
-		             "pixbuf", dices[dice_index],
+		g_object_set(gui_state().dices.items[i],
+		             "pixbuf", gui_state().dices.pixbufs[dice_index],
 		             "x", x,
 		             "y", y,
-		             "width", (double) gdk_pixbuf_get_width(dices[dice_index]),
-		             "height", (double) gdk_pixbuf_get_height(dices[dice_index]),
+		             "width", (double) gdk_pixbuf_get_width(gui_state().dices.pixbufs[dice_index]),
+		             "height", (double) gdk_pixbuf_get_height(gui_state().dices.pixbufs[dice_index]),
 		             "visibility", GOO_CANVAS_ITEM_VISIBLE,
 		             NULL);
 	}
@@ -172,7 +151,7 @@ static void dices_show_image(int dice_index, dices_type_t type, int pos)
  */
 void dices_init(GooCanvasItem *root)
 {
-	if(dices_initialized) {
+	if(gui_state().dices.initialized) {
 		return;
 	}
 
@@ -180,15 +159,15 @@ void dices_init(GooCanvasItem *root)
 		return;
 	}
 
-	dices_group =
+	gui_state().dices.group =
 	    goo_canvas_group_new(
 	        root,
-	        "x", (float) gui_theme.dices_x,
-	        "y", (float) gui_theme.dices_y,
+	        "x", (float) gui_state().theme.dices_x,
+	        "y", (float) gui_state().theme.dices_y,
 	        NULL
 	    );
 
-	if(!dices_group) {
+	if(!gui_state().dices.group) {
 		return;
 	}
 
@@ -198,39 +177,39 @@ void dices_init(GooCanvasItem *root)
 	/* load dices position */
 	{
 		int i;
-		if(! theme_using_extended_dices(gui_state())) {
+		if(! theme_using_extended_dices(client_state())) {
 			/* basic behaviour */
 			double x = 0;
 			for(i=0; i<3; i++) {
-				dices_pos.attacker[i].x = x;
-				dices_pos.attacker[i].y = 4;
-				dices_pos.defender[i].x = x;
-				dices_pos.defender[i].y = gdk_pixbuf_get_height(dices[0]) + 14;
+				gui_state().dices.positions.attacker[i].x = x;
+				gui_state().dices.positions.attacker[i].y = 4;
+				gui_state().dices.positions.defender[i].x = x;
+				gui_state().dices.positions.defender[i].y = gdk_pixbuf_get_height(gui_state().dices.pixbufs[0]) + 14;
 
-				x += gdk_pixbuf_get_width(dices[0]);
+				x += gdk_pixbuf_get_width(gui_state().dices.pixbufs[0]);
 			}
-			dices_pos.attacker_text.x = (double)(gdk_pixbuf_get_width(dices[0])*3)/2;
-			dices_pos.attacker_text.y = dices_pos.attacker[0].y - 10;
-			dices_pos.defender_text.x = (double)(gdk_pixbuf_get_width(dices[0])*3)/2;
-			dices_pos.defender_text.y = dices_pos.defender[0].y - 10;
+			gui_state().dices.positions.attacker_text.x = (double)(gdk_pixbuf_get_width(gui_state().dices.pixbufs[0])*3)/2;
+			gui_state().dices.positions.attacker_text.y = gui_state().dices.positions.attacker[0].y - 10;
+			gui_state().dices.positions.defender_text.x = (double)(gdk_pixbuf_get_width(gui_state().dices.pixbufs[0])*3)/2;
+			gui_state().dices.positions.defender_text.y = gui_state().dices.positions.defender[0].y - 10;
 		} else {
 			/* extended features added */
 			for(i=0; i<3; i++) {
-				dices_pos.attacker[i].x = gui_theme.dices_ext_x[i];
-				dices_pos.attacker[i].y = gui_theme.dices_ext_y[i];
+				gui_state().dices.positions.attacker[i].x = gui_state().theme.dices_ext_x[i];
+				gui_state().dices.positions.attacker[i].y = gui_state().theme.dices_ext_y[i];
 
-				dices_pos.defender[i].x = gui_theme.dices_ext_x[i+3];
-				dices_pos.defender[i].y = gui_theme.dices_ext_y[i+3];
+				gui_state().dices.positions.defender[i].x = gui_state().theme.dices_ext_x[i+3];
+				gui_state().dices.positions.defender[i].y = gui_state().theme.dices_ext_y[i+3];
 			}
 
-			dices_pos.attacker_text.x = gui_theme.dices_ext_text_x[0];
-			dices_pos.attacker_text.y = gui_theme.dices_ext_text_y[0];
-			dices_pos.defender_text.x = gui_theme.dices_ext_text_x[1];
-			dices_pos.defender_text.y = gui_theme.dices_ext_text_y[1];
+			gui_state().dices.positions.attacker_text.x = gui_state().theme.dices_ext_text_x[0];
+			gui_state().dices.positions.attacker_text.y = gui_state().theme.dices_ext_text_y[0];
+			gui_state().dices.positions.defender_text.x = gui_state().theme.dices_ext_text_x[1];
+			gui_state().dices.positions.defender_text.y = gui_state().theme.dices_ext_text_y[1];
 		}
 	}
 
-	dices_initialized=1;
+	gui_state().dices.initialized=1;
 }
 
 void dices_unview()
@@ -238,15 +217,15 @@ void dices_unview()
 	int i;
 
 	for(i=0; i<static_cast<int>(sides_on_the_dice); i++) {
-		if(images[i])
-			g_object_set(images[i], "visibility",
+		if(gui_state().dices.items[i])
+			g_object_set(gui_state().dices.items[i], "visibility",
 			             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 	}
 
 	for(i=0; i<2; i++) {
-		if(text[i]) {
-			goo_canvas_item_remove(text[i]);
-			text[i] = NULL;
+		if(gui_state().dices.texts[i]) {
+			goo_canvas_item_remove(gui_state().dices.texts[i]);
+			gui_state().dices.texts[i] = NULL;
 		}
 	}
 }
@@ -255,38 +234,38 @@ void dices_view()
 {
 	int i;
 
-	if(!dices_initialized) {
+	if(!gui_state().dices.initialized) {
 		return;
 	}
 
-	if(gui_state().game.dados_srccountry == -1 || gui_state().game.dados_dstcountry == -1) {
+	if(client_state().game.dados_srccountry == -1 || client_state().game.dados_dstcountry == -1) {
 		return;
 	}
 
 	/* hide all dices */
 	for(i=0; i<static_cast<int>(sides_on_the_dice); i++) {
-		if(images[i])
-			g_object_set(images[i], "visibility",
+		if(gui_state().dices.items[i])
+			g_object_set(gui_state().dices.items[i], "visibility",
 			             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 	}
 
 	for(i=0; i<3; i++) {
-		if(gui_state().game.dados_src[i] == 0) {
+		if(client_state().game.dados_src[i] == 0) {
 			break;
 		}
 
-		dices_show_image(gui_state().game.dados_src[i]-1, DICES_ATTACKER, i);
+		dices_show_image(client_state().game.dados_src[i]-1, DICES_ATTACKER, i);
 	}
-	dices_show_text(gui_state().game.dados_srccountry, DICES_ATTACKER);
+	dices_show_text(client_state().game.dados_srccountry, DICES_ATTACKER);
 
 
 	for(i=0; i<3; i++) {
-		if(gui_state().game.dados_dst[i] == 0) {
+		if(client_state().game.dados_dst[i] == 0) {
 			break;
 		}
-		dices_show_image(gui_state().game.dados_dst[i]-1, DICES_DEFENDER, i);
+		dices_show_image(client_state().game.dados_dst[i]-1, DICES_DEFENDER, i);
 	}
-	dices_show_text(gui_state().game.dados_dstcountry, DICES_DEFENDER);
+	dices_show_text(client_state().game.dados_dstcountry, DICES_DEFENDER);
 }
 
 }

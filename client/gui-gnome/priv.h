@@ -40,10 +40,6 @@ struct _gui_private {
 	int country_i_am;		/* what country i'm pointing */
 };
 
-extern struct _gui_private gui_private;
-
-extern GSettings *settings;
-
 TEG_STATUS priv_init(void);
 
 }

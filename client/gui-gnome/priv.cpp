@@ -27,20 +27,16 @@
 
 #include "interface.h"
 #include "priv.h"
+#include "gui_state.h"
 
 namespace teg::client::callbacks
 {
 
-struct _gui_private gui_private;
-
-/* Prefs */
-GSettings *settings = NULL;
-
 TEG_STATUS priv_init(void)
 {
-	gui_private.msg_show_colors
-	    = g_settings_get_boolean(settings, "msgshow-with-color");
-	gui_private.country_i_am = -1;
+	gui_state().priv.msg_show_colors
+	    = g_settings_get_boolean(gui_state().settings, "msgshow-with-color");
+	gui_state().priv.country_i_am = -1;
 
 	return TEG_STATUS_SUCCESS;
 }

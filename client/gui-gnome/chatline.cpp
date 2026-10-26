@@ -41,7 +41,7 @@ static void update_scrollbar(GtkTextBuffer *buf)
 	/* have to use a mark, or this won't work properly */
 	gtk_text_buffer_get_end_iter(buf, &i);
 	mark = gtk_text_buffer_create_mark(buf, NULL, &i, FALSE);
-	gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(main_message_area), mark);
+	gtk_text_view_scroll_mark_onscreen(GTK_TEXT_VIEW(gui_state().ui.main_message_area), mark);
 	gtk_text_buffer_delete_mark(buf, mark);
 }
 
@@ -49,9 +49,9 @@ void inputline_return(GtkEntry *w, gpointer data)
 {
 	const char *theinput;
 
-	if(is_status(gui_state(), PLAYER_STATUS_DESCONECTADO)) {
+	if(is_status(client_state(), PLAYER_STATUS_DESCONECTADO)) {
 		gtk_entry_set_text(w, "");
-		textmsg(gui_state(), M_INF, _("You need to be connected"));
+		textmsg(client_state(), M_INF, _("You need to be connected"));
 		return;
 	}
 
@@ -59,10 +59,10 @@ void inputline_return(GtkEntry *w, gpointer data)
 
 	if(*theinput) {
 		if(theinput[0]=='/') {
-			net_printf(gui_state().game.fd, "%s\n", &theinput[1]);
+			net_printf(client_state().game.fd, "%s\n", &theinput[1]);
 		} else	{
 			char *d = g_strdup(theinput);
-			out_mensaje(gui_state(), d);
+			out_mensaje(client_state(), d);
 			g_free(d);
 		}
 	}
@@ -74,7 +74,7 @@ TEG_STATUS gui_textmsg(ClientState& state, char *astring)
 {
 	gchar *ptr;
 	GtkTextIter iter;
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(gui_state().ui.main_message_area));
 
 	ptr = translate_to_utf8(astring);
 
@@ -92,7 +92,7 @@ TEG_STATUS gui_textplayermsg(ClientState& state, char const *n, int num, char co
 {
 	GtkTextIter iter;
 	char name[max_playername_length+30];
-	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+	GtkTextBuffer *buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(gui_state().ui.main_message_area));
 	gchar *ptr_name, *ptr_msg;
 
 	snprintf(name, sizeof(name)-1, "<%s>", n);
@@ -103,7 +103,7 @@ TEG_STATUS gui_textplayermsg(ClientState& state, char const *n, int num, char co
 	ptr_name = translate_to_utf8(name);
 	ptr_msg = translate_to_utf8(msg);
 
-	if(gui_private.msg_show_colors) {
+	if(gui_state().priv.msg_show_colors) {
 		gtk_text_buffer_insert_with_tags_by_name(buffer, &iter, ptr_name, -1, get_tag_for_color(num), NULL);
 	} else {
 		gtk_text_buffer_insert_with_tags_by_name(buffer, &iter, " ", -1, get_tag_for_color(num), NULL);
@@ -127,7 +127,7 @@ void output_window_clear(void)
 {
 	GtkTextBuffer *buf;
 
-	buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+	buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(gui_state().ui.main_message_area));
 	gtk_text_buffer_set_text(buf, _("Cleared output window"), -1);
 }
 
@@ -135,14 +135,14 @@ void set_output_window_text(const char *text)
 {
 	GtkTextBuffer *buf;
 
-	buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+	buf = gtk_text_view_get_buffer(GTK_TEXT_VIEW(gui_state().ui.main_message_area));
 	gtk_text_buffer_set_text(buf, text, -1);
 }
 
 TEG_STATUS chatline_init()
 {
 	GtkTextBuffer *buffer;
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(main_message_area));
+	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(gui_state().ui.main_message_area));
 
 	gtk_text_buffer_create_tag(buffer, "red_tag", "background", "red", "foreground", "white", NULL);
 	gtk_text_buffer_create_tag(buffer, "yellow_tag", "background", "yellow", "foreground", "black", NULL);

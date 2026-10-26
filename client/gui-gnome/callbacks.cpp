@@ -99,7 +99,7 @@ gboolean pre_client_recv(GIOChannel *source, GIOCondition cond, gpointer data)
 	      );
 
 	if(ok) {
-		client_recv(gui_state(), fd);
+		client_recv(client_state(), fd);
 	} else {
 		disconnect(DR_IO_ERROR);
 	}
@@ -128,12 +128,12 @@ void on_disconnect_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 void on_launchrobot_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	launch_robot(gui_state());
+	launch_robot(client_state());
 }
 
 void on_scores_activate(GtkMenuItem *widget, gpointer user_data)
 {
-	out_scores(gui_state());
+	out_scores(client_state());
 	gui_scores_view();
 }
 
@@ -150,9 +150,9 @@ void on_enviarfichas_activate(GtkMenuItem *menuitem, gpointer user_data)
 	int i;
 	int cant, conts;
 
-	if(fichas_out(gui_state()) != TEG_STATUS_SUCCESS)  {
+	if(fichas_out(client_state()) != TEG_STATUS_SUCCESS)  {
 
-		fichas_get_wanted(gui_state(), &cant, &conts);
+		fichas_get_wanted(client_state(), &cant, &conts);
 		armies_view(cant, conts);
 
 		for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
@@ -166,25 +166,25 @@ void on_enviarfichas_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 void on_updatemap_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	out_countries(gui_state());
+	out_countries(client_state());
 }
 
 void on_enviarreattack_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	attackre_out(gui_state());
+	attackre_out(client_state());
 }
 
 void on_enviarattackreset_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	if(attack_pre_reset(gui_state()) == TEG_STATUS_SUCCESS) {
-		textmsg(gui_state(), M_INF, _("The attack was reset. Please, select the source country to continue your attack"));
+	if(attack_pre_reset(client_state()) == TEG_STATUS_SUCCESS) {
+		textmsg(client_state(), M_INF, _("The attack was reset. Please, select the source country to continue your attack"));
 	}
 }
 
 void on_reagrupe_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	if(reagrupe_init(gui_state()) == TEG_STATUS_SUCCESS) {
-		if(gui_private.dialog_show & (1 <<DIALOG_REGROUP_ARMIES)) {
+	if(reagrupe_init(client_state()) == TEG_STATUS_SUCCESS) {
+		if(gui_state().priv.dialog_show & (1 <<DIALOG_REGROUP_ARMIES)) {
 			teg_dialog(_("Regrouping armies"), _("Regrouping armies"),
 			           _("Select two countries:\n1st: click on the source country\n2nd: click on the destination country"));
 		}
@@ -193,13 +193,13 @@ void on_reagrupe_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 void on_pedirtarjeta_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	out_tarjeta(gui_state());
+	out_tarjeta(client_state());
 	set_sensitive_tb();
 }
 
 void on_endturn_activate(GtkMenuItem *menuitem, gpointer user_data)
 {
-	out_endturn(gui_state());
+	out_endturn(client_state());
 	set_sensitive_tb();
 }
 
@@ -208,7 +208,7 @@ void on_surrender_activate(GtkMenuItem *menuitem, gpointer user_data)
 	GtkWidget *dialog;
 	gint response;
 
-	dialog = gtk_message_dialog_new(GTK_WINDOW(main_window),
+	dialog = gtk_message_dialog_new(GTK_WINDOW(gui_state().ui.main_window),
 	                                GTK_DIALOG_DESTROY_WITH_PARENT,
 	                                GTK_MESSAGE_INFO,
 	                                GTK_BUTTONS_YES_NO,
@@ -216,7 +216,7 @@ void on_surrender_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 	response = gtk_dialog_run(GTK_DIALOG(dialog));
 	if(response == GTK_RESPONSE_YES) {
-		out_surrender(gui_state());
+		out_surrender(client_state());
 	}
 
 	gtk_widget_destroy(dialog);
@@ -290,7 +290,7 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 		pixbuf = gdk_pixbuf_new_from_file(icon_name.c_str(), NULL);
 	}
 
-	gtk_show_about_dialog(GTK_WINDOW(main_window),
+	gtk_show_about_dialog(GTK_WINDOW(gui_state().ui.main_window),
 	                      "program-name", _("Tenes Empanadas Graciela"),
 	                      "version", VERSION,
 	                      "copyright",
@@ -309,7 +309,7 @@ void on_about_activate(GtkMenuItem *menuitem, gpointer user_data)
 
 void on_help_activate(GtkMenuItem *item, gpointer user_data)
 {
-	gtk_show_uri_on_window(GTK_WINDOW(main_window), "ghelp:teg",
+	gtk_show_uri_on_window(GTK_WINDOW(gui_state().ui.main_window), "ghelp:teg",
 	                       GDK_CURRENT_TIME, NULL);
 }
 

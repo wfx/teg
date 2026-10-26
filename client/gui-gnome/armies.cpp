@@ -39,35 +39,14 @@
 namespace teg::client::callbacks
 {
 
-extern TTheme	gui_theme;
-
-static ARMIES_POS armies_prop[CONT_CANT+1] = {
-	{0, 0, NULL},
-	{0, 0, NULL},
-	{0, 0, NULL},
-	{0, 0, NULL},
-	{0, 0, NULL},
-	{0, 0, NULL},
-	{0, 0, NULL},
-};
-
-static int initialized=0;
-
-GooCanvasItem *armies_group;
-
-static double x, y;
-static double new_x, new_y;
-static double item_x, item_y;
-static gboolean dragging;
-
 static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *target,
                                 GdkEventButton *event, GooCanvas *canvas)
 {
-	if(!dragging && event->button == 1) {
-		item_x = event->x;
-		item_y = event->y;
-		dragging = TRUE;
-		g_object_get(item, "x", &x, "y", &y, NULL);
+	if(!gui_state().armies.drag.dragging && event->button == 1) {
+		gui_state().armies.drag.item_x = event->x;
+		gui_state().armies.drag.item_y = event->y;
+		gui_state().armies.drag.dragging = TRUE;
+		g_object_get(item, "x", &gui_state().armies.drag.x, "y", &gui_state().armies.drag.y, NULL);
 		goo_canvas_pointer_grab(canvas, item,
 		                        static_cast<GdkEventMask>(
 		                            GDK_POINTER_MOTION_MASK |
@@ -81,11 +60,11 @@ static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *target,
 static gboolean motion_notify_cb(GooCanvasItem *item, GooCanvasItem *target,
                                  GdkEventMotion *event, gpointer data)
 {
-	if(dragging && (event->state & GDK_BUTTON1_MASK)) {
-		new_x = event->x - x;
-		new_y = event->y - y;
-		g_object_set(item, "x", item_x + new_x,
-		             "y", item_y + new_y, NULL);
+	if(gui_state().armies.drag.dragging && (event->state & GDK_BUTTON1_MASK)) {
+		gui_state().armies.drag.new_x = event->x - gui_state().armies.drag.x;
+		gui_state().armies.drag.new_y = event->y - gui_state().armies.drag.y;
+		g_object_set(item, "x", gui_state().armies.drag.item_x + gui_state().armies.drag.new_x,
+		             "y", gui_state().armies.drag.item_y + gui_state().armies.drag.new_y, NULL);
 	}
 
 	return FALSE;
@@ -94,9 +73,9 @@ static gboolean motion_notify_cb(GooCanvasItem *item, GooCanvasItem *target,
 static gboolean button_release_cb(GooCanvasItem *item, GooCanvasItem *target,
                                   GdkEventButton *event, GooCanvas *canvas)
 {
-	if(dragging && item != NULL) {
+	if(gui_state().armies.drag.dragging && item != NULL) {
 		goo_canvas_pointer_ungrab(canvas, item, event->time);
-		dragging = FALSE;
+		gui_state().armies.drag.dragging = FALSE;
 	}
 
 	return FALSE;
@@ -112,28 +91,28 @@ static TEG_STATUS armies_view_cant_x_cont(int i)
 		return TEG_STATUS_ERROR;
 	}
 
-	if(armies_prop[i].armies_text) {
-		goo_canvas_item_remove(armies_prop[i].armies_text);
-		armies_prop[i].armies_text = NULL;
+	if(gui_state().armies.prop[i].armies_text) {
+		goo_canvas_item_remove(gui_state().armies.prop[i].armies_text);
+		gui_state().armies.prop[i].armies_text = NULL;
 	}
 
-	if(armies_prop[i].cant < 0) {
+	if(gui_state().armies.prop[i].cant < 0) {
 		snprintf(buffer, sizeof(buffer)-1, "%d", 0);
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%d", armies_prop[i].cant);
+		snprintf(buffer, sizeof(buffer)-1, "%d", gui_state().armies.prop[i].cant);
 	}
 
-	armies_prop[i].armies_text = goo_canvas_text_new(
-	                                 armies_group,
-	                                 buffer,
-	                                 (double) 120,
-	                                 (double) i*12+16,
-	                                 (double) -1,
-	                                 GOO_CANVAS_ANCHOR_NORTH_EAST,
-	                                 "height", (double) -1,
-	                                 "font", HELVETICA_10_FONT,
-	                                 "fill-color", (armies_prop[i].cant > 0) ? "black" : "grey",
-	                                 NULL);
+	gui_state().armies.prop[i].armies_text = goo_canvas_text_new(
+	            gui_state().armies.group,
+	            buffer,
+	            (double) 120,
+	            (double) i*12+16,
+	            (double) -1,
+	            GOO_CANVAS_ANCHOR_NORTH_EAST,
+	            "height", (double) -1,
+	            "font", HELVETICA_10_FONT,
+	            "fill-color", (gui_state().armies.prop[i].cant > 0) ? "black" : "grey",
+	            NULL);
 
 	return TEG_STATUS_SUCCESS;
 }
@@ -146,43 +125,43 @@ static void armies_view_cant()
 	memset(buffer, 0, sizeof(buffer));
 
 
-	goo_canvas_item_raise(GOO_CANVAS_ITEM(armies_group), NULL);
+	goo_canvas_item_raise(GOO_CANVAS_ITEM(gui_state().armies.group), NULL);
 
 	for(i=0; i<CONT_CANT; i++) {
 		armies_view_cant_x_cont(i);
 	}
 
-	if(armies_prop[CONT_CANT].armies_text) {
-		goo_canvas_item_remove(armies_prop[CONT_CANT].armies_text);
-		armies_prop[CONT_CANT].armies_text = NULL;
+	if(gui_state().armies.prop[CONT_CANT].armies_text) {
+		goo_canvas_item_remove(gui_state().armies.prop[CONT_CANT].armies_text);
+		gui_state().armies.prop[CONT_CANT].armies_text = NULL;
 	}
 
-	snprintf(buffer, sizeof(buffer)-1, "%d", armies_prop[CONT_CANT].cant);
-	armies_prop[CONT_CANT].armies_text = goo_canvas_text_new(
-	        armies_group,
-	        buffer,
-	        (double) 120,
-	        (double) 1,
-	        (double) -1,
-	        GOO_CANVAS_ANCHOR_NORTH_EAST,
-	        "height", (double) -1,
-	        "font", HELVETICA_12_FONT,
-	        "fill-color", (armies_prop[CONT_CANT].cant > 0) ? "black" : "grey",
-	        NULL);
+	snprintf(buffer, sizeof(buffer)-1, "%d", gui_state().armies.prop[CONT_CANT].cant);
+	gui_state().armies.prop[CONT_CANT].armies_text = goo_canvas_text_new(
+	            gui_state().armies.group,
+	            buffer,
+	            (double) 120,
+	            (double) 1,
+	            (double) -1,
+	            GOO_CANVAS_ANCHOR_NORTH_EAST,
+	            "height", (double) -1,
+	            "font", HELVETICA_12_FONT,
+	            "fill-color", (gui_state().armies.prop[CONT_CANT].cant > 0) ? "black" : "grey",
+	            NULL);
 }
 
 TEG_STATUS armies_add(int country)
 {
 	int cont;
-	if(!initialized) {
+	if(!gui_state().armies.initialized) {
 		return TEG_STATUS_ERROR;
 	}
 
-	armies_prop[CONT_CANT].cant--;
+	gui_state().armies.prop[CONT_CANT].cant--;
 
-	cont = gui_state().game.common.countries[country].continente;
-	if(armies_prop[cont].orig_cant > 0) {
-		armies_prop[cont].cant--;
+	cont = client_state().game.common.countries[country].continente;
+	if(gui_state().armies.prop[cont].orig_cant > 0) {
+		gui_state().armies.prop[cont].cant--;
 	}
 
 	armies_view_cant();
@@ -192,16 +171,16 @@ TEG_STATUS armies_add(int country)
 TEG_STATUS armies_del(int country)
 {
 	int cont;
-	if(!initialized) {
+	if(!gui_state().armies.initialized) {
 		return TEG_STATUS_ERROR;
 	}
 
-	armies_prop[CONT_CANT].cant++;
+	gui_state().armies.prop[CONT_CANT].cant++;
 
-	cont = gui_state().game.common.countries[country].continente;
-	if(armies_prop[cont].orig_cant > 0 &&
-	        armies_prop[cont].cant < armies_prop[cont].orig_cant) {
-		armies_prop[cont].cant++;
+	cont = client_state().game.common.countries[country].continente;
+	if(gui_state().armies.prop[cont].orig_cant > 0 &&
+	        gui_state().armies.prop[cont].cant < gui_state().armies.prop[cont].orig_cant) {
+		gui_state().armies.prop[cont].cant++;
 	}
 
 	armies_view_cant();
@@ -210,13 +189,13 @@ TEG_STATUS armies_del(int country)
 
 TEG_STATUS armies_view_more(int cant)
 {
-	if(!initialized) {
+	if(!gui_state().armies.initialized) {
 		return TEG_STATUS_ERROR;
 	}
 
-	armies_prop[CONT_CANT].cant += cant;
+	gui_state().armies.prop[CONT_CANT].cant += cant;
 
-	g_object_set(armies_group, "visibility",
+	g_object_set(gui_state().armies.group, "visibility",
 	             GOO_CANVAS_ITEM_VISIBLE, NULL);
 
 	armies_view_cant();
@@ -228,26 +207,26 @@ TEG_STATUS armies_view(int cant, int conts)
 {
 	int i;
 
-	if(!initialized) {
+	if(!gui_state().armies.initialized) {
 		return TEG_STATUS_ERROR;
 	}
-	if(!armies_group) {
+	if(!gui_state().armies.group) {
 		return TEG_STATUS_ERROR;
 	}
 
-	armies_prop[CONT_CANT].cant = cant + cont_tot(gui_state().game.common, conts);
+	gui_state().armies.prop[CONT_CANT].cant = cant + cont_tot(client_state().game.common, conts);
 
 	for(i=0; i<CONT_CANT; i++) {
 		if(conts & 1) {
-			armies_prop[i].orig_cant = armies_prop[i].cant = gui_state().game.common.conts[i].fichas_x_cont;
+			gui_state().armies.prop[i].orig_cant = gui_state().armies.prop[i].cant = client_state().game.common.conts[i].fichas_x_cont;
 		} else {
-			armies_prop[i].orig_cant = armies_prop[i].cant = 0;
+			gui_state().armies.prop[i].orig_cant = gui_state().armies.prop[i].cant = 0;
 		}
 
 		conts >>= 1;
 	}
 
-	g_object_set(armies_group, "visibility",
+	g_object_set(gui_state().armies.group, "visibility",
 	             GOO_CANVAS_ITEM_VISIBLE, NULL);
 
 	armies_view_cant();
@@ -257,11 +236,11 @@ TEG_STATUS armies_view(int cant, int conts)
 
 TEG_STATUS armies_unview()
 {
-	if(!initialized) {
+	if(!gui_state().armies.initialized) {
 		return TEG_STATUS_ERROR;
 	}
 
-	g_object_set(armies_group, "visibility",
+	g_object_set(gui_state().armies.group, "visibility",
 	             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 	return TEG_STATUS_SUCCESS;
 }
@@ -287,21 +266,21 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 		return TEG_STATUS_ERROR;
 	}
 
-	if(initialized) {
+	if(gui_state().armies.initialized) {
 		return TEG_STATUS_ERROR;
 	}
 
-	armies_group =
+	gui_state().armies.group =
 	    goo_canvas_group_new(
 	        group,
-	        "x", (float) gui_theme.armies_x,
-	        "y", (float) gui_theme.armies_y,
+	        "x", (float) gui_state().theme.armies_x,
+	        "y", (float) gui_state().theme.armies_y,
 	        NULL);
 
 
-	if(armies_group) {
+	if(gui_state().armies.group) {
 		item = goo_canvas_rect_new(
-		           armies_group,
+		           gui_state().armies.group,
 		           0.0,
 		           0.0,
 		           (double) 100,
@@ -310,7 +289,7 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 		           "line-width", 0.0,
 		           NULL);
 
-		if(gui_theme.armies_background)
+		if(gui_state().theme.armies_background)
 			g_object_set(
 			    item,
 			    "fill-color", "light yellow",
@@ -319,7 +298,7 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 
 
 		item = goo_canvas_text_new(
-		           armies_group,
+		           gui_state().armies.group,
 		           _("Total"),
 		           (double) 1,
 		           (double) 1,
@@ -334,8 +313,8 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 		for(i=0; i<CONT_CANT; i++) {
 
 			item = goo_canvas_text_new(
-			           armies_group,
-			           cont_get_name(gui_state().game.common, i),
+			           gui_state().armies.group,
+			           cont_get_name(client_state().game.common, i),
 			           (double) 1,
 			           (double) i*12+16,
 			           (double) -1,
@@ -346,15 +325,15 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 			           NULL);
 
 		};
-		g_object_set(armies_group, "visibility",
+		g_object_set(gui_state().armies.group, "visibility",
 		             GOO_CANVAS_ITEM_INVISIBLE, NULL);
 
-		if(gui_theme.armies_dragable) {
-			setup_dnd_handlers(armies_group);
+		if(gui_state().theme.armies_dragable) {
+			setup_dnd_handlers(gui_state().armies.group);
 		}
 	}
 
-	initialized=1;
+	gui_state().armies.initialized=1;
 	return TEG_STATUS_SUCCESS;
 }
 
