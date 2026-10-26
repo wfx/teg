@@ -17,12 +17,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
+
 #pragma once
 
 namespace teg::server
 {
 
+struct ServerState;
+
 /// \brief send a message to all connected players.
-void netall_printf(char const *format, ...);
+void netall_printf(ServerState& state, char const *format, ...);
 
 }

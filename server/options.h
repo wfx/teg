@@ -25,10 +25,12 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 /// \brief Parses a game option received from a client
-TEG_STATUS option_parse(int fd, char *str);
+TEG_STATUS option_parse(ServerState& state, int fd, char *str);
 
 /// \brief Print the current game options on the console
-TEG_STATUS option_view(int fd, char *str);
+TEG_STATUS option_view(ServerState& state, int fd, char *str);
 
 }

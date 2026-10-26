@@ -1,8 +1,8 @@
 /* Tenes Empanadas Graciela
  *
- * Copyright (C) 2001 Ricardo Quesada
+ * Copyright (C) 2000 Ricardo Quesada
  *
- * Author: Ricardo Calixto Quesada <riq@corest.com>
+ * Author: Ricardo Calixto Quesada <rquesada@core-sdi.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,22 +26,24 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 /*! give turn to next player */
-TEG_STATUS turno_next(void);
+TEG_STATUS turno_next(ServerState& state);
 
 /*! initialize the turn */
-TEG_STATUS turno_init(void);
+TEG_STATUS turno_init(ServerState& state);
 
 /*! give the turn to the next player */
-TEG_STATUS turno_2nextplayer(PSPLAYER *j);
+TEG_STATUS turno_2nextplayer(ServerState& state, PSPLAYER *j);
 
 /*! ends the turn for a player */
-TEG_STATUS turno_end(PSPLAYER pJ);
+TEG_STATUS turno_end(ServerState& state, PSPLAYER pJ);
 
 /*! says if the round is completed */
-bool turno_is_round_complete(void);
+bool turno_is_round_complete(ServerState& state);
 
 /*! called when a round is complete */
-void turno_initialize_new_round(void);
+void turno_initialize_new_round(ServerState& state);
 
 }

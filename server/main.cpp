@@ -58,37 +58,27 @@
 namespace teg::server
 {
 
-/*
- * private variables
- */
-static fd_set all_set;
-static int max_fd;
-
-/*
- * global variables
- */
-SGAME g_game;
-SERVER g_server;
-
 /* ends the game */
-void game_end(PSPLAYER winner)
+void game_end(ServerState& state, PSPLAYER winner)
 {
 	char strout[PROT_MAX_LEN + max_playername_length * maximum_player_count + 200];
 
 	/* add points to the winner */
-	if(winner && g_game.round_number > 0) {
-		int points = 350 / g_game.round_number;
+	if(winner && state.game.round_number > 0) {
+		int points = 350 / state.game.round_number;
 
 		winner->player_stats.score += points;
 	}
 
 	/* update scores */
-	player_map(player_insert_scores);
+	player_map(state, [&state](PSPLAYER pJ) {
+		player_insert_scores(state, pJ);
+	});
 
-	if(aux_token_stasta(strout, sizeof(strout) -1) == TEG_STATUS_SUCCESS) {
+	if(aux_token_stasta(state, strout, sizeof(strout) -1) == TEG_STATUS_SUCCESS) {
 
 		/* send the last status to all the players */
-		player_map([strout](PSPLAYER pJ) {
+		player_map(state, [strout](PSPLAYER pJ) {
 			if(pJ->is_player && pJ->fd != 1) {
 				net_printf(pJ->fd, TOKEN_STATUS"=%s\n", strout);
 			}
@@ -96,97 +86,95 @@ void game_end(PSPLAYER winner)
 	}
 
 	/* delete disconn players */
-	player_delete_all_disconnected();
+	player_delete_all_disconnected(state);
 
 	/* send who is the winner */
 	if(winner) {
-		netall_printf(TOKEN_WINNER"=%d,%d\n", winner->numjug, winner->mission);
+		netall_printf(state, TOKEN_WINNER"=%d,%d\n", winner->numjug, winner->mission);
 	}
 
-	game_new();
+	game_new(state);
 }
 
 /* Creates a new game */
-void game_new()
+void game_new(ServerState& state)
 {
-	static int first_time = 1;
+	countries_init(state.game.common);
+	mission_init(state);
 
-	countries_init(g_game.common);
-	mission_init();
-
-	player_map(player_initplayer);
-	player_all_set_status(PLAYER_STATUS_HABILITADO);
-	g_game.playing = 0;
+	player_map(state, player_initplayer);
+	player_all_set_status(state, PLAYER_STATUS_HABILITADO);
+	state.game.playing = 0;
 
 
-	g_game.turno = NULL;
-	g_game.empieza_turno = NULL;
-	g_game.estado = JUEGO_ESTADO_ESPERANDO;
-	g_game.round_number = 1;
+	state.game.turno = NULL;
+	state.game.empieza_turno = NULL;
+	state.game.estado = JUEGO_ESTADO_ESPERANDO;
+	state.game.round_number = 1;
 
-	if(first_time) {
-		first_time = 0;
-		g_game.gamenumber = 0;
-		g_game.seed = get_int_from_dev_random();
+	if(state.first_game) {
+		state.first_game = false;
+		state.game.gamenumber = 0;
+		state.game.seed = get_int_from_dev_random();
 	} else {
-		g_game.gamenumber++;
-		g_game.seed = rand();
-		srand(g_game.seed);
+		state.game.gamenumber++;
+		state.game.seed = rand();
+		srand(state.game.seed);
 	}
 
-	player_kick_unparent_robots();
+	player_kick_unparent_robots(state);
 }
 
-bool game_is_finished(void)
+bool game_is_finished(ServerState& state)
 {
-	return (JUEGO_EMPEZADO && g_game.playing < 2);
+	return (game_started(state) && state.game.playing < 2);
 }
 
 /* Initialize the server for the first game */
-void game_init()
+void game_init(ServerState& state)
 {
 	player_init();
-	color_init();
-	scores_init(g_game.common.highscores);
-	xmlscores_load();
+	color_init(state);
+	scores_init(state.game.common.highscores);
+	xmlscores_load(state);
 
-	g_game.connections = 0;
-	g_game.players = 0;
-	g_game.playing = 0;
+	state.game.connections = 0;
+	state.game.players = 0;
+	state.game.playing = 0;
 
 	/* default values */
-	g_game.fichas = 5;
-	g_game.fichas2 = 3;
-	g_game.mission = false;
-	g_game.cmission = true;
-	g_game.fog_of_war = false;
-	g_game.player_fow = NULL;
+	state.game.fichas = 5;
+	state.game.fichas2 = 3;
+	state.game.mission = false;
+	state.game.cmission = true;
+	state.game.fog_of_war = false;
+	state.game.player_fow = NULL;
 
-	game_new();
+	game_new(state);
 }
 
-void server_init(void)
+void server_init(ServerState& state)
 {
-	gethostname(g_server.name, maximum_servername_length);
-	g_server.port=default_server_port;
-	g_server.debug=false;
-	g_server.with_console=true;
-	g_server.kick_unparent_robots=true;
+	gethostname(state.server.name, maximum_servername_length);
+	state.server.port=default_server_port;
+	state.server.debug=false;
+	state.server.with_console=true;
+	state.server.kick_unparent_robots=true;
 }
 
-void server_exit(int sock)
+void server_exit(ServerState& state, int sock)
 {
-	console_quit();
+	console_quit(state);
 	close(sock);
-	if(g_server.with_console) {
+	if(state.server.with_console) {
 		close(CONSOLE_FD);
 	}
-	player_flush();
+	player_flush(state);
 	printf(_("Goodbye.\n"));
 	exit(1);
 }
 
-void main_loop(void)
+void main_loop(ServerState& state)
 {
 	int listenfd, fd, nready;
 	struct sockaddr client;
@@ -195,18 +183,18 @@ void main_loop(void)
 	struct timeval timeout, timeofday_old, timeofday_new;
 	struct timezone tz;
 
-	listenfd = net_listen(NULL, g_server.port);
+	listenfd = net_listen(NULL, state.server.port);
 	if(listenfd < 0) {
 		return;
 	}
 
-	max_fd=listenfd;
+	state.max_fd=listenfd;
 
-	FD_ZERO(&all_set);
-	FD_SET(listenfd, &all_set);
+	FD_ZERO(&state.all_set);
+	FD_SET(listenfd, &state.all_set);
 
-	if(g_server.with_console) {
-		FD_SET(CONSOLE_FD, &all_set);
+	if(state.server.with_console) {
+		FD_SET(CONSOLE_FD, &state.all_set);
 	}
 
 #define TIMEOUT_SEC	(180) 	/* 3 minutes */
@@ -219,8 +207,8 @@ void main_loop(void)
 
 	while(1) {
 
-		read_set = all_set;
-		nready = select(max_fd+1, &read_set, NULL, NULL, &timeout);
+		read_set = state.all_set;
+		nready = select(state.max_fd+1, &read_set, NULL, NULL, &timeout);
 
 		/* recompute the timeout */
 		if(gettimeofday(&timeofday_new, &tz) == 0) {
@@ -273,7 +261,7 @@ void main_loop(void)
 			fd = accept(listenfd, (struct sockaddr *)&client, &client_len);
 
 			if(fd != -1) {
-				fd_add(fd);
+				fd_add(state, fd);
 			}
 
 			if(--nready <= 0) {
@@ -282,11 +270,11 @@ void main_loop(void)
 		}
 
 		/* input from console */
-		if(g_server.with_console && FD_ISSET(CONSOLE_FD, &read_set)) {
-			TEG_STATUS ts = console_handle(CONSOLE_FD);
+		if(state.server.with_console && FD_ISSET(CONSOLE_FD, &read_set)) {
+			TEG_STATUS ts = console_handle(state, CONSOLE_FD);
 
 			if(ts==TEG_STATUS_GAMEOVER || ts==TEG_STATUS_CONNCLOSED) {
-				server_exit(listenfd);
+				server_exit(state, listenfd);
 			}
 
 			if(--nready <= 0) {
@@ -296,13 +284,13 @@ void main_loop(void)
 		}
 
 		/* input from players */
-		for(fd=0; fd<=max_fd; fd++) {
+		for(fd=0; fd<=state.max_fd; fd++) {
 			if((fd!=listenfd && fd!=CONSOLE_FD) && FD_ISSET(fd, &read_set)) {
-				if(play_teg(fd)==TEG_STATUS_CONNCLOSED) {
+				if(play_teg(state, fd)==TEG_STATUS_CONNCLOSED) {
 					MAIN_DEBUG("closing connection\n");
 
 					/* kick robots if they are alone */
-					player_kick_unparent_robots();
+					player_kick_unparent_robots(state);
 				}
 
 				if(--nready <= 0) {
@@ -314,33 +302,33 @@ void main_loop(void)
 }
 
 /* Clears a fd from the all_set descriptors */
-void fd_remove(int fd)
+void fd_remove(ServerState& state, int fd)
 {
-	if(g_server.debug) {
-		con_text_out(M_INF, _("Removing fd %d\n"), fd);
+	if(state.server.debug) {
+		con_text_out(state, M_INF, _("Removing fd %d\n"), fd);
 	}
 
 	if(fd > 0) {
 		net_close(fd);
-		FD_CLR(fd, &all_set);
+		FD_CLR(fd, &state.all_set);
 	}
 }
 
 /* adds a fd to the all_set descriptors */
-void fd_add(int fd)
+void fd_add(ServerState& state, int fd)
 {
-	if(g_server.debug) {
-		con_text_out(M_INF, _("Accepting fd %d\n"), fd);
+	if(state.server.debug) {
+		con_text_out(state, M_INF, _("Accepting fd %d\n"), fd);
 	}
 
-	FD_SET(fd, &all_set);
-	if(fd > max_fd) {
-		max_fd = fd;
+	FD_SET(fd, &state.all_set);
+	if(fd > state.max_fd) {
+		state.max_fd = fd;
 	}
 }
 
 /* parse the arguments */
-void argument_init(int argc, char **argv_var)
+void argument_init(ServerState& state, int argc, char **argv_var)
 {
 	int i;
 	char const *option;
@@ -362,15 +350,15 @@ void argument_init(int argc, char **argv_var)
 			fprintf(stderr, TEG_NAME " v" VERSION "\n\n");
 			exit(0);
 		} else if((option = get_option("--port", argv, &i, argc)) != NULL) {
-			g_server.port=atoi(option);
+			state.server.port=atoi(option);
 		} else if((option = get_option("--seed", argv, &i, argc)) != NULL) {
-			g_game.seed=atoi(option);
+			state.game.seed=atoi(option);
 		} else if((option = get_option("--console", argv, &i, argc)) != NULL) {
-			g_server.with_console=atoi(option);
+			state.server.with_console=atoi(option);
 		} else if((option = get_option("--metaserver", argv, &i, argc)) != NULL) {
-			g_server.metaserver_on=atoi(option);
+			state.server.metaserver_on=atoi(option);
 		} else if(is_option("--debug", argv[i])) {
-			g_server.debug=1;
+			state.server.debug=1;
 		} else {
 			fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
 			exit(1);
@@ -385,34 +373,36 @@ void argument_init(int argc, char **argv_var)
 int main(int argc, char **argv)
 {
 	using namespace teg::server;
+	ServerState state;
+
 	init_nls();
 	printf("%s v%s server - by Ricardo Quesada\n\n", TEG_NAME, VERSION);
 
 	dont_run_as_root();
 
-	server_init();		/* default values for server */
-	game_init();		/* default values for the game */
+	server_init(state);		/* default values for server */
+	game_init(state);		/* default values for the game */
 
-	argument_init(argc, argv);	/* parse command line */
-	printf(_("Bound to port: %d\n"), g_server.port);
-	printf(_("Using seed: %u\n\n"), g_game.seed);
+	argument_init(state, argc, argv);	/* parse command line */
+	printf(_("Bound to port: %d\n"), state.server.port);
+	printf(_("Using seed: %u\n\n"), state.game.seed);
 
-	if(g_server.with_console) {
-		if(! g_server.metaserver_on) {
+	if(state.server.with_console) {
+		if(! state.server.metaserver_on) {
 			printf(_("Type '%s %s' to publish this server in the metaserver\n"), TOKEN_METASERVER, OPTION_META_ON);
 		}
 		printf(_("Type '%s' for more help\n"), TOKEN_HELP);
-		console_init();		/* initialize console */
+		console_init(state);		/* initialize console */
 	} else {
 		printf(_("Standalone server.\n"));
 	}
 
-	srand(g_game.seed);
+	srand(state.game.seed);
 
-	main_loop();
+	main_loop(state);
 
-	if(g_server.with_console) {
-		console_quit();
+	if(state.server.with_console) {
+		console_quit(state);
 	}
 
 	return 1;

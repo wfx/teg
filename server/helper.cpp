@@ -44,39 +44,37 @@
 namespace teg::server
 {
 
-static char colors[maximum_player_count];
-
 #ifdef MACOSX
 #define socklen_t int
 #endif
 
 /* initialize the colors */
-void color_init()
+void color_init(ServerState& state)
 {
-	memset(colors, 0, sizeof(colors));
+	state.colors.fill(0);
 }
 
 /* frees on color */
-void color_del(int i)
+void color_del(ServerState& state, int i)
 {
-	colors[i]=0;
+	state.colors[i]=0;
 }
 
 /* sets and set if the color is free */
-bool color_libre(int *color)
+bool color_libre(ServerState& state, int *color)
 {
 	std::size_t i;
 	if((*color) < 0 || (*color) >= static_cast<int>(maximum_player_count)) {
 		return false;
 	}
-	if(colors[*color]==0) {
-		colors[*color]=1;
+	if(state.colors[*color]==0) {
+		state.colors[*color]=1;
 		return true;
 	}
 	/* tries to find a free color */
 	for(i=0; i<maximum_player_count; i++) {
-		if(colors[i]==0) {
-			colors[i]=1;
+		if(state.colors[i]==0) {
+			state.colors[i]=1;
 			*color = i;
 			return true;
 		}
@@ -85,11 +83,11 @@ bool color_libre(int *color)
 }
 
 /* tells which colors are availables */
-TEG_STATUS colores_libres(char *c)
+TEG_STATUS colores_libres(ServerState& state, char *c)
 {
 	std::size_t i;
 	for(i=0; i<maximum_player_count; i++) {
-		c[i] = colors[i];
+		c[i] = state.colors[i];
 	}
 	return TEG_STATUS_SUCCESS;
 }
@@ -121,7 +119,7 @@ void ins_orden(char d, char *array, int len)
 }
 
 /* Validates the total number of armies placed */
-TEG_STATUS aux_token_fichas(int fd, char *str, int maximo, unsigned long conts)
+TEG_STATUS aux_token_fichas(ServerState& state, int fd, char *str, int maximo, unsigned long conts)
 {
 	PARSER p{str, ':', ','};
 	PSPLAYER j;
@@ -129,11 +127,11 @@ TEG_STATUS aux_token_fichas(int fd, char *str, int maximo, unsigned long conts)
 	char *copia;
 	int cptr[CONT_CANT];			/**< continent ptr */
 
-	if(player_whoisfd(fd, &j) != TEG_STATUS_SUCCESS) {
+	if(player_whoisfd(state, fd, &j) != TEG_STATUS_SUCCESS) {
 		goto error;
 	}
 
-	if(g_game.turno != j) {
+	if(state.game.turno != j) {
 		goto error;
 	}
 
@@ -155,18 +153,18 @@ do_real:
 			cant = atoi(p.value);
 
 			if(country<0 || country >= static_cast<int>(COUNTRIES_CANT) || cant<0 ||
-			        cant+fichas > maximo || g_game.common.countries[country].numjug != j->numjug) {
+			        cant+fichas > maximo || state.game.common.countries[country].numjug != j->numjug) {
 				goto error;
 			}
 
 			/* cuando real==1 se asignas los ejercitos, sino hace el test */
 			if(real) {
-				g_game.common.countries[country].ejercitos += cant;
+				state.game.common.countries[country].ejercitos += cant;
 				j->tot_armies += cant;
 			}
 
 			if(conts) {
-				cptr[ g_game.common.countries[country].continente ] += cant;
+				cptr[ state.game.common.countries[country].continente ] += cant;
 			}
 
 			fichas += cant;
@@ -187,7 +185,7 @@ do_real:
 
 		for(i=0; i<CONT_CANT; i++) {
 			if(conts_tmp & 1) {
-				if(cptr[i] < g_game.common.conts[i].fichas_x_cont) {
+				if(cptr[i] < state.game.common.conts[i].fichas_x_cont) {
 					goto error;
 				}
 			}
@@ -254,7 +252,7 @@ TEG_STATUS aux_token_attack(int src, int dst, int *src_lost, int *dst_lost, char
 }
 
 /* generates the status in a given array */
-TEG_STATUS aux_token_stasta(char *strout, size_t len)
+TEG_STATUS aux_token_stasta(ServerState& state, char *strout, size_t len)
 {
 	int n;
 	char strtmp[ max_playername_length + 200];
@@ -263,7 +261,7 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len)
 
 	n=0;
 
-	player_map([&n, strout, &strtmp, len](PSPLAYER j) {
+	player_map(state, [&state, &n, strout, &strtmp, len](PSPLAYER j) {
 
 		if(j->is_player) {
 			int color = (j->color==-1) ? maximum_player_count : j->color;
@@ -274,10 +272,10 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len)
 				         , j->player_stats.score
 				         , j->numjug
 				         , j->estado
-				         , (! g_game.fog_of_war) ? j->tot_countries : -1
-				         , (! g_game.fog_of_war) ? j->tot_armies : -1
+				         , (! state.game.fog_of_war) ? j->tot_countries : -1
+				         , (! state.game.fog_of_war) ? j->tot_armies : -1
 				         , j->tot_cards
-				         , (g_game.empieza_turno && (g_game.empieza_turno->numjug==j->numjug))
+				         , (state.game.empieza_turno && (state.game.empieza_turno->numjug==j->numjug))
 				         , j->human
 				         , j->addr);
 				n=1;
@@ -288,10 +286,10 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len)
 				         , j->player_stats.score
 				         , j->numjug
 				         , j->estado
-				         , (! g_game.fog_of_war) ? j->tot_countries : -1
-				         , (! g_game.fog_of_war) ? j->tot_armies : -1
+				         , (! state.game.fog_of_war) ? j->tot_countries : -1
+				         , (! state.game.fog_of_war) ? j->tot_armies : -1
 				         , j->tot_cards
-				         , (g_game.empieza_turno && (g_game.empieza_turno->numjug==j->numjug))
+				         , (state.game.empieza_turno && (state.game.empieza_turno->numjug==j->numjug))
 				         , j->human
 				         , j->addr);
 
@@ -305,14 +303,14 @@ TEG_STATUS aux_token_stasta(char *strout, size_t len)
 
 
 /* find by random a country */
-PCOUNTRY get_random_country(get_random_func func)
+PCOUNTRY get_random_country(ServerState& state, get_random_func func)
 {
 	int i;
 
 again:
 	i = random_between(0, COUNTRIES_CANT-1);
 	if(func(i)) {
-		return &g_game.common.countries[i];
+		return &state.game.common.countries[i];
 	} else {
 		int r = random_between(0, 2);
 		switch(r) {
@@ -320,12 +318,12 @@ again:
 		case 0:
 			for(; i>=0; i--) {
 				if(func(i)) {
-					return &g_game.common.countries[i];
+					return &state.game.common.countries[i];
 				}
 			}
 			for(i=COUNTRIES_CANT-1; i>=0; i--) {
 				if(func(i)) {
-					return &g_game.common.countries[i];
+					return &state.game.common.countries[i];
 				}
 			}
 			PDEBUG("uncountryelibre(down): Abnormal error\n");
@@ -334,12 +332,12 @@ again:
 		case 1:
 			for(; i<static_cast<int>(COUNTRIES_CANT); i++) {
 				if(func(i)) {
-					return &g_game.common.countries[i];
+					return &state.game.common.countries[i];
 				}
 			}
 			for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 				if(func(i)) {
-					return &g_game.common.countries[i];
+					return &state.game.common.countries[i];
 				}
 			}
 			PDEBUG("uncountrylibre(up):Abnormal error\n");
@@ -352,11 +350,11 @@ again:
 	}
 
 	/* to prevent warnings at compile time */
-	return &g_game.common.countries[0];
+	return &state.game.common.countries[0];
 }
 
 /* Sends the player the total number of armies it must place, and the continents he has conquered */
-void aux_token_fichasc(PSPLAYER pJ)
+void aux_token_fichasc(ServerState& state, PSPLAYER pJ)
 {
 	unsigned long conts=0;
 	int armies;
@@ -368,7 +366,7 @@ void aux_token_fichasc(PSPLAYER pJ)
 		conts = pJ->fichasc_conts;
 		armies = pJ->fichasc_armies;
 	} else {
-		player_listar_conts(pJ, &conts);
+		player_listar_conts(state, pJ, &conts);
 		armies = player_fichasc_cant(pJ);
 
 		pJ->fichasc_conts = conts;
@@ -380,62 +378,62 @@ void aux_token_fichasc(PSPLAYER pJ)
 	}
 
 	pJ->estado = PLAYER_STATUS_FICHASC;
-	netall_printf(TOKEN_FICHASC"=%d,%d,%d\n", pJ->numjug, conts, armies + x_canje);
+	netall_printf(state, TOKEN_FICHASC"=%d,%d,%d\n", pJ->numjug, conts, armies + x_canje);
 }
 
 
 /* give the 'token fichas' to the next player */
-TEG_STATUS fichas_next(void)
+TEG_STATUS fichas_next(ServerState& state)
 {
-	turno_2nextplayer(&g_game.turno);
-	if(turno_is_round_complete()) {
+	turno_2nextplayer(state, &state.game.turno);
+	if(turno_is_round_complete(state)) {
 		/* ya di la vuelta */
-		g_game.turno->estado = PLAYER_STATUS_FICHAS2;
-		netall_printf(TOKEN_FICHAS2"=%d,%d\n", g_game.turno->numjug, g_game.fichas2);
+		state.game.turno->estado = PLAYER_STATUS_FICHAS2;
+		netall_printf(state, TOKEN_FICHAS2"=%d,%d\n", state.game.turno->numjug, state.game.fichas2);
 
 	} else {
 		/* paso el estado fichas al siguiente */
-		g_game.turno->estado = PLAYER_STATUS_FICHAS;
-		netall_printf(TOKEN_FICHAS"=%d,%d\n", g_game.turno->numjug, g_game.fichas);
+		state.game.turno->estado = PLAYER_STATUS_FICHAS;
+		netall_printf(state, TOKEN_FICHAS"=%d,%d\n", state.game.turno->numjug, state.game.fichas);
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
 /* give the 'token fichas 2' to the next player */
-TEG_STATUS fichas2_next(void)
+TEG_STATUS fichas2_next(ServerState& state)
 {
-	turno_2nextplayer(&g_game.turno);
-	if(turno_is_round_complete()) {
+	turno_2nextplayer(state, &state.game.turno);
+	if(turno_is_round_complete(state)) {
 		/* ya di la vuelta, enconces a empezar a jugar  */
-		g_game.turno->estado = PLAYER_STATUS_ATAQUE;
-		netall_printf(TOKEN_TURNO"=%d\n", g_game.turno->numjug);
+		state.game.turno->estado = PLAYER_STATUS_ATAQUE;
+		netall_printf(state, TOKEN_TURNO"=%d\n", state.game.turno->numjug);
 
 	} else {
 		/* paso el estado fichas2 al siguiente */
-		g_game.turno->estado = PLAYER_STATUS_FICHAS2;
-		netall_printf(TOKEN_FICHAS2"=%d,%d\n", g_game.turno->numjug, g_game.fichas2);
+		state.game.turno->estado = PLAYER_STATUS_FICHAS2;
+		netall_printf(state, TOKEN_FICHAS2"=%d,%d\n", state.game.turno->numjug, state.game.fichas2);
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
 /* give the 'token fichas c' to the next player */
-TEG_STATUS fichasc_next(void)
+TEG_STATUS fichasc_next(ServerState& state)
 {
-	turno_2nextplayer(&g_game.turno);
+	turno_2nextplayer(state, &state.game.turno);
 
-	if(turno_is_round_complete()) {
+	if(turno_is_round_complete(state)) {
 		/* ya di la vuelta */
-		g_game.turno->estado = PLAYER_STATUS_ATAQUE;
-		netall_printf(TOKEN_TURNO"=%d\n", g_game.turno->numjug);
+		state.game.turno->estado = PLAYER_STATUS_ATAQUE;
+		netall_printf(state, TOKEN_TURNO"=%d\n", state.game.turno->numjug);
 
 	} else {
-		aux_token_fichasc(g_game.turno);
+		aux_token_fichasc(state, state.game.turno);
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
 /* find the internet address of a player */
-TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
+TEG_STATUS aux_find_inaddr(ServerState& state, PSPLAYER pJ)
 {
 	union {
 		sockaddr addr;
@@ -452,7 +450,7 @@ TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
 
 	socklen_t length=sizeof(addr);
 	if(getpeername(pJ->fd, &addr.addr, &length) == -1) {
-		con_text_out(M_ERR, "Error in getpeername()\n");
+		con_text_out(state, M_ERR, "Error in getpeername()\n");
 		pJ->addr[sizeof(pJ->addr)-1]=0;
 
 		return TEG_STATUS_ERROR;
@@ -480,7 +478,7 @@ TEG_STATUS aux_find_inaddr(PSPLAYER pJ)
 	return TEG_STATUS_SUCCESS;
 }
 
-void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
+void aux_token_countries(ServerState& state, PSPLAYER pJ, char *buf, int buflen)
 {
 	int i, n=0;
 	char strtmp[2048];
@@ -490,9 +488,9 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 	memset(buf, 0, buflen);
 
 	/* special case where I want to send all countries that he CAN'T see */
-	if(g_game.fog_of_war && pJ->numjug == -1) {
+	if(state.game.fog_of_war && pJ->numjug == -1) {
 		for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-			if(! fow_can_player_see_country(g_game.player_fow, &g_game.common.countries[i])) {
+			if(! fow_can_player_see_country(state, state.game.player_fow, &state.game.common.countries[i])) {
 				if(n==0) {
 					snprintf(strtmp, sizeof(strtmp)-1, "%i:%d", i, -1);
 					n=1;
@@ -509,11 +507,11 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 	}
 
 	/* the other case */
-	countries_map(g_game.common, pJ->numjug,
-	[&buf, &n, &strtmp, &buflen](COUNTRY &country) {
+	countries_map(state.game.common, pJ->numjug,
+	[&state, &buf, &n, &strtmp, &buflen](COUNTRY &country) {
 		if(
-		    (! g_game.fog_of_war) ||
-		    (g_game.fog_of_war && fow_can_player_see_country(g_game.player_fow, &country))) {
+		    (! state.game.fog_of_war) ||
+		    (state.game.fog_of_war && fow_can_player_see_country(state, state.game.player_fow, &country))) {
 
 			if(n==0) {
 				snprintf(strtmp, sizeof(strtmp)-1, "%i:%d", country.id, country.ejercitos);
@@ -531,7 +529,7 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 	buf[buflen]=0;
 }
 
-TEG_STATUS launch_robot(int *robot_socket, char const *mode)
+TEG_STATUS launch_robot(ServerState& state, int *robot_socket, char const *mode)
 {
 	pid_t pid;
 	char const *args[5];
@@ -574,7 +572,7 @@ TEG_STATUS launch_robot(int *robot_socket, char const *mode)
 			close(sockets[0]);
 		}
 
-		con_text_out(M_ERR, _("Launching robot with options: %s %s\n"), args[0], args[1]);
+		con_text_out(state, M_ERR, _("Launching robot with options: %s %s\n"), args[0], args[1]);
 		if(!execute_program(args)) {
 			fprintf(stderr, "Launching robot failed. Does the file `%s' exists ?", args[0]);
 			perror("exe:");

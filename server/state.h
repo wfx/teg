@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include <array>
+#include <list>
+#include <sys/select.h>
 #include <vector>
 
 #include "../common/common.h"
@@ -46,13 +49,12 @@ typedef struct _sgame {
 	int fichas2;		/**< initial armies2 (default 3)*/
 	unsigned int seed;	/**< seed for random */
 	int gamenumber;		/**< game number */
-	int round_number;		/**< round number */
+	int round_number;	/**< round number */
 
 	std::vector<int> mission_players;	/**< assigned player number per mission */
 
 	CommonState common;	/**< state shared with the client and the robot */
 } SGAME, *PSGAME;
-extern SGAME g_game;
 
 enum {
 	JUEGO_ESTADO_ESPERANDO,	/* no se comenzo y pueder ingresar playeres */
@@ -62,14 +64,6 @@ enum {
 	JUEGO_ESTADO_TURNO,	/* esta en un cambio de turno */
 	JUEGO_ESTADO_ATAQUE	/* se esta en pleno ataque */
 };
-
-#define JUEGO_EMPEZADO		(g_game.estado >= JUEGO_ESTADO_EMPEZADO)
-#define JUEGO_ESPERANDO		(g_game.estado == JUEGO_ESTADO_ESPERANDO)
-
-#define JUEGO_EN_TURNO		(g_game.estado = JUEGO_ESTADO_TURNO)
-#define JUEGO_EN_EMPEZAR	(g_game.estado = JUEGO_ESTADO_EMPEZADO)
-#define JUEGO_EN_FICHAS		(g_game.estado = JUEGO_ESTADO_FICHAS)
-#define JUEGO_EN_FICHAS2	(g_game.estado = JUEGO_ESTADO_FICHAS2)
 
 typedef struct _server {
 	char name[maximum_servername_length];
@@ -84,6 +78,27 @@ typedef struct _server {
 	bool metaserver_on;	/* is the metaserver on */
 	bool kick_unparent_robots;	/* kick robots when there are no humans */
 } SERVER, *PSERVER;
-extern SERVER g_server;
+
+using PlayersList = std::list<SPLAYER>;
+
+/// \brief All mutable state of one running server instance.
+struct ServerState {
+	SGAME game{};
+	SERVER server{};
+	PlayersList players{};
+	std::array<char, maximum_player_count> colors{};
+	bool first_game{true};
+	fd_set all_set{};
+	int max_fd{0};
+
+	/// \brief Return code of the last readline callback, if readline is used
+	TEG_STATUS readline_status{TEG_STATUS_SUCCESS};
+};
+
+/// \brief Tells if a game has been started and players may no longer join
+inline bool game_started(ServerState const& state)
+{
+	return state.game.estado >= JUEGO_ESTADO_EMPEZADO;
+}
 
 }

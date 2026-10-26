@@ -59,28 +59,30 @@ namespace teg::server
 # define STATIC static
 #endif
 
-
 #ifdef HAVE_LIBREADLINE
-static TEG_STATUS rl_return = TEG_STATUS_SUCCESS;
+/* Readline invokes its callback without user data, so the state of the
+ * console has to be remembered here. This is the only place where the
+ * readline API forces us to keep a pointer around. */
+static ServerState *readline_console_state = nullptr;
 #endif /* HAVE_LIBREADLINE */
 
 /* prototipos */
-STATIC TEG_STATUS con_start(int, char*);
-STATIC TEG_STATUS con_status(int, char*);
-STATIC TEG_STATUS con_message(int, char*);
-STATIC TEG_STATUS con_help(int, char*);
-STATIC TEG_STATUS con_test(int, char*);
-STATIC TEG_STATUS con_exit(int, char*);
-STATIC TEG_STATUS con_save(int, char*);
-STATIC TEG_STATUS con_set(int, char*);
-STATIC TEG_STATUS con_kick(int, char*);
-STATIC TEG_STATUS con_view(int, char *);
-STATIC TEG_STATUS con_scores(int, char *);
-STATIC TEG_STATUS con_stats(int, char *);
+STATIC TEG_STATUS con_start(ServerState&, int, char*);
+STATIC TEG_STATUS con_status(ServerState&, int, char*);
+STATIC TEG_STATUS con_message(ServerState&, int, char*);
+STATIC TEG_STATUS con_help(ServerState&, int, char*);
+STATIC TEG_STATUS con_test(ServerState&, int, char*);
+STATIC TEG_STATUS con_exit(ServerState&, int, char*);
+STATIC TEG_STATUS con_save(ServerState&, int, char*);
+STATIC TEG_STATUS con_set(ServerState&, int, char*);
+STATIC TEG_STATUS con_kick(ServerState&, int, char*);
+STATIC TEG_STATUS con_view(ServerState&, int, char *);
+STATIC TEG_STATUS con_scores(ServerState&, int, char *);
+STATIC TEG_STATUS con_stats(ServerState&, int, char *);
 
 struct {
 	char const *label;
-	TEG_STATUS(*func)(int, char*);
+	TEG_STATUS(*func)(ServerState&, int, char*);
 	char const *help;
 } con_tokens[] = {
 	{ TOKEN_START,		con_start,	N_("to start playing") },
@@ -98,34 +100,31 @@ struct {
 };
 #define	CONSOLE_TOKENS  (sizeof(con_tokens)/sizeof(con_tokens[0]))
 
-STATIC TEG_STATUS con_exit(int unused, char* unused2)
+STATIC TEG_STATUS con_exit(ServerState& state, int unused, char* unused2)
 {
-	player_flush();
+	player_flush(state);
 #ifdef HAVE_LIBREADLINE
-	rl_return = TEG_STATUS_GAMEOVER;
+	state.readline_status = TEG_STATUS_GAMEOVER;
 #endif /* HAVE_LIBREADLINE */
 	return TEG_STATUS_GAMEOVER;
 }
 
-/*shows player's statistics */
-STATIC void con_stats_show(PSPLAYER pJ)
-{
-	stats_score(&pJ->player_stats, g_game.common.conts.data());
-	printf(" %i   %-4i  [ %-3u   %-3u ] - [ %-3u  %-3u ]  %-15s %s\n",
-	       pJ->numjug,
-	       pJ->player_stats.score,
-	       pJ->player_stats.countries_won,
-	       0,
-	       pJ->player_stats.armies_killed,
-	       0,
-	       pJ->name,
-	       pJ->human ? _("yes") : _("no")
-	      );
-}
-STATIC TEG_STATUS con_stats(int unused, char* unused2)
+STATIC TEG_STATUS con_stats(ServerState& state, int unused, char* unused2)
 {
 	printf(_("Number Score - [Countries: Won  Lost] - [Armies: Won  Lost]  Name Human\n"));
-	player_map(con_stats_show);
+	player_map(state, [&state](PSPLAYER pJ) {
+		stats_score(&pJ->player_stats, state.game.common.conts.data());
+		printf(" %i   %-4i  [ %-3u   %-3u ] - [ %-3u  %-3u ]  %-15s %s\n",
+		       pJ->numjug,
+		       pJ->player_stats.score,
+		       pJ->player_stats.countries_won,
+		       0,
+		       pJ->player_stats.armies_killed,
+		       0,
+		       pJ->name,
+		       pJ->human ? _("yes") : _("no")
+		      );
+	});
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -146,66 +145,66 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 }
 
 
-STATIC TEG_STATUS con_scores(int unused, char* unused2)
+STATIC TEG_STATUS con_scores(ServerState& state, int unused, char* unused2)
 {
 	printf(_("  score  date       time    name              color    human\n"));
-	scores_map(g_game.common.highscores, con_scores_show, NULL);
+	scores_map(state.game.common.highscores, con_scores_show, NULL);
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_kick(int fd, char *name)
+STATIC TEG_STATUS con_kick(ServerState& state, int fd, char *name)
 {
 	if(name && strlen(name)) {
 		PSPLAYER pJ;
-		if(player_findbyname(name, &pJ) == TEG_STATUS_SUCCESS) {
-			player_del_hard(pJ);
+		if(player_findbyname(state, name, &pJ) == TEG_STATUS_SUCCESS) {
+			player_del_hard(state, pJ);
 
-			con_text_out_wop(M_ERR, _("Player %s was kicked from the game\n"), name);
-			netall_printf(TOKEN_KICK"=%s\n", name);
+			con_text_out_wop(state, M_ERR, _("Player %s was kicked from the game\n"), name);
+			netall_printf(state, TOKEN_KICK"=%s\n", name);
 		} else {
-			con_text_out_wop(M_ERR, _("Player %s was not found\n"), name);
+			con_text_out_wop(state, M_ERR, _("Player %s was not found\n"), name);
 		}
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_save(int fd, char *unused)
+STATIC TEG_STATUS con_save(ServerState& state, int fd, char *unused)
 {
-	con_text_out_wop(M_INF, _("Not yet implemented\n"));
+	con_text_out_wop(state, M_INF, _("Not yet implemented\n"));
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_set(int fd, char*str)
+STATIC TEG_STATUS con_set(ServerState& state, int fd, char*str)
 {
-	return option_parse(fd, str);
+	return option_parse(state, fd, str);
 }
 
-STATIC TEG_STATUS con_view(int fd, char*str)
+STATIC TEG_STATUS con_view(ServerState& state, int fd, char*str)
 {
-	return option_view(fd, str);
+	return option_view(state, fd, str);
 }
 
-STATIC TEG_STATUS con_message(int fd, char *msg)
+STATIC TEG_STATUS con_message(ServerState& state, int fd, char *msg)
 {
 	if(strlen(msg) !=0) {
 		strip_invalid_msg(msg);
-		netall_printf(TOKEN_MESSAGE"=(r00t),-1,%s\n", msg);
+		netall_printf(state, TOKEN_MESSAGE"=(r00t),-1,%s\n", msg);
 	}
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_status(int fd, char*unused)
+STATIC TEG_STATUS con_status(ServerState& state, int fd, char*unused)
 {
 	net_printf(fd, _("players:%d, connections:%d, game number:%d, round:%d, mission:%s\n"),
-	           g_game.players,
-	           g_game.connections,
-	           g_game.gamenumber,
-	           g_game.round_number,
-	           (g_game.mission?_("TRUE"):_("FALSE"))
+	           state.game.players,
+	           state.game.connections,
+	           state.game.gamenumber,
+	           state.game.round_number,
+	           (state.game.mission?_("TRUE"):_("FALSE"))
 	          );
 	net_printf(fd, _("fd, number, countries, armies, cards, exch, name, human, color, status, address\n"));
 
-	player_map([fd](PSPLAYER pJ) {
+	player_map(state, [fd](PSPLAYER pJ) {
 		int color;
 
 		color = (pJ->color==-1) ? maximum_player_count : pJ->color;
@@ -242,13 +241,13 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 	return TEG_STATUS_SUCCESS;
 }
 
-STATIC TEG_STATUS con_start(int fd, char*unused)
+STATIC TEG_STATUS con_start(ServerState& state, int fd, char*unused)
 {
 	char ch = 0;
-	return token_start(fd, &ch);
+	return token_start(state, fd, &ch);
 }
 
-STATIC TEG_STATUS con_help(int fd, char*unused)
+STATIC TEG_STATUS con_help(ServerState& state, int fd, char*unused)
 {
 	for(unsigned i=0; i<CONSOLE_TOKENS; i++) {
 		if(con_tokens[i].func)
@@ -264,9 +263,9 @@ static void player_dump(PSPLAYER pJ)
 	printf("fd: %d\n", pJ->fd);
 }
 
-STATIC TEG_STATUS con_test(int fd, char *str)
+STATIC TEG_STATUS con_test(ServerState& state, int fd, char *str)
 {
-	player_map(player_dump);
+	player_map(state, player_dump);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -274,12 +273,12 @@ STATIC TEG_STATUS con_test(int fd, char *str)
 /*
  * interpreter
  */
-STATIC TEG_STATUS console_lookup(int fd, PARSER *p)
+STATIC TEG_STATUS console_lookup(ServerState& state, int fd, PARSER *p)
 {
 	for(unsigned i=0; i<CONSOLE_TOKENS; i++) {
 		if(strcmp(p->token, con_tokens[i].label)==0) {
 			if(con_tokens[i].func) {
-				return((con_tokens[i].func)(fd, p->value));
+				return((con_tokens[i].func)(state, fd, p->value));
 			}
 			return TEG_STATUS_TOKENNULL;
 		}
@@ -289,15 +288,15 @@ STATIC TEG_STATUS console_lookup(int fd, PARSER *p)
 	return TEG_STATUS_TOKENNOTFOUND;
 }
 
-void con_show_prompt()
+void con_show_prompt(ServerState& state)
 {
-	if(g_server.with_console) {
+	if(state.server.with_console) {
 		fprintf(stdout, "> ");
 		fflush(stdout);
 	}
 }
 
-TEG_STATUS console_parse(int fd, char *str)
+TEG_STATUS console_parse(ServerState& state, int fd, char *str)
 {
 	PARSER p{str, '=', ';'};
 
@@ -305,7 +304,7 @@ TEG_STATUS console_parse(int fd, char *str)
 		if(!p.parse()) {
 			break;
 		}
-		TEG_STATUS const ts = console_lookup(fd, &p);
+		TEG_STATUS const ts = console_lookup(state, fd, &p);
 		if(ts != TEG_STATUS_SUCCESS) {
 			return ts;
 		}
@@ -313,7 +312,7 @@ TEG_STATUS console_parse(int fd, char *str)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS console_handle(int fd)
+TEG_STATUS console_handle(ServerState& state, int fd)
 {
 #ifdef HAVE_LIBREADLINE
 #else
@@ -324,7 +323,7 @@ TEG_STATUS console_handle(int fd)
 
 #ifdef HAVE_LIBREADLINE
 	rl_callback_read_char();
-	return rl_return;
+	return state.readline_status;
 #else
 	str[0]=0;
 	j=net_readline(fd, str, PROT_MAX_LEN);
@@ -334,8 +333,8 @@ TEG_STATUS console_handle(int fd)
 	}
 
 	if(j > 1) {
-		ts = console_parse(fd, str);
-		con_show_prompt();
+		ts = console_parse(state, fd, str);
+		con_show_prompt(state);
 		return ts;
 	}
 	return TEG_STATUS_SUCCESS;
@@ -343,28 +342,28 @@ TEG_STATUS console_handle(int fd)
 }
 
 
-void con_text_out(int level, char const *format, ...)
+void con_text_out(ServerState& state, int level, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
 
-	if(g_server.with_console) {
+	if(state.server.with_console) {
 		va_start(args, format);
 		vsnprintf(buf, sizeof(buf) -1, format, args);
 		buf[ sizeof(buf) -1 ] = 0;
 		va_end(args);
 
 		fprintf(stdout, "%s", buf);
-		con_show_prompt();
+		con_show_prompt(state);
 	}
 }
 
-TEG_STATUS con_text_out_wop(int level, char const *format, ...)
+TEG_STATUS con_text_out_wop(ServerState& state, int level, char const *format, ...)
 {
 	va_list args;
 	char buf[PROT_MAX_LEN];
 
-	if(g_server.with_console) {
+	if(state.server.with_console) {
 		va_start(args, format);
 		vsnprintf(buf, sizeof(buf) -1, format, args);
 		buf[ sizeof(buf) -1 ] = 0;
@@ -381,17 +380,20 @@ void con_readline_input_callback(char *line)
 	if(line) {
 		if(*line) {
 			add_history(line);
-			console_parse(CONSOLE_FD, line);
+			if(readline_console_state) {
+				console_parse(*readline_console_state, CONSOLE_FD, line);
+			}
 		}
 		free(line);
 	}
 }
 #endif /* HAVE_LIBREADLINE */
 
-TEG_STATUS console_init(void)
+TEG_STATUS console_init(ServerState& state)
 {
 #ifdef HAVE_LIBREADLINE
-	if(g_server.with_console) {
+	if(state.server.with_console) {
+		readline_console_state = &state;
 		rl_initialize();
 		rl_callback_handler_install("> ", con_readline_input_callback);
 	}
@@ -399,11 +401,12 @@ TEG_STATUS console_init(void)
 	return TEG_STATUS_SUCCESS;
 }
 
-TEG_STATUS console_quit(void)
+TEG_STATUS console_quit(ServerState& state)
 {
 #ifdef HAVE_LIBREADLINE
-	if(g_server.with_console) {
+	if(state.server.with_console) {
 		rl_callback_handler_remove();
+		readline_console_state = nullptr;
 	}
 #endif /* HAVE_LIBREADLINE */
 	return TEG_STATUS_SUCCESS;

@@ -28,19 +28,21 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 /// \brief Does player pJ accomplished his secret mission ?
-TEG_STATUS mission_chequear(PSPLAYER pJ);
+TEG_STATUS mission_chequear(ServerState& state, PSPLAYER pJ);
 
 /// \brief Assigns a secret mission to player pJ
-TEG_STATUS mission_asignar(PSPLAYER pJ);
+TEG_STATUS mission_asignar(ServerState& state, PSPLAYER pJ);
 
 /// \brief Initialize the secret missions datastructure
-void mission_init();
+void mission_init(ServerState& state);
 
 /// \brief sets the option: play to conquer the world, or with secret missions
-TEG_STATUS mission_set(bool a);
+TEG_STATUS mission_set(ServerState& state, bool a);
 
 /// \brief Enables/Disables playing with common secret mission
-TEG_STATUS mission_common_mission(bool a);
+TEG_STATUS mission_common_mission(ServerState& state, bool a);
 
 }

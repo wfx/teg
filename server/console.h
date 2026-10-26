@@ -25,30 +25,32 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 #define CONSOLE_FD 0
 
 /// \brief Try to read and handle one command from the console
-TEG_STATUS console_handle(int fd);
+TEG_STATUS console_handle(ServerState& state, int fd);
 
 /// \brief Print the console ready prompt
-void con_show_prompt();
+void con_show_prompt(ServerState& state);
 
 /** \brief Print a text to the server console and show the ready prompt
  *
  * \note The parameter \p level is ignored
  */
-void con_text_out(int level, const char *format, ...);
+void con_text_out(ServerState& state, int level, const char *format, ...);
 
 /** \brief Print a text to the server console without printing a ready prompt
  *
  * \note The parameter \p level is ignored
  */
-TEG_STATUS con_text_out_wop(int level, const char *format, ...);
+TEG_STATUS con_text_out_wop(ServerState& state, int level, const char *format, ...);
 
 /// \brief Initialize the server console
-TEG_STATUS console_init(void);
+TEG_STATUS console_init(ServerState& state);
 
 /// \brief Deactivate the server console
-TEG_STATUS console_quit(void);
+TEG_STATUS console_quit(ServerState& state);
 
 }

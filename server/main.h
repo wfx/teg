@@ -25,24 +25,26 @@
 namespace teg::server
 {
 
+struct ServerState;
+
 /**! initialize the game */
-void game_init();
+void game_init(ServerState& state);
 
 /**! initialize a new game */
-void game_new();
+void game_new(ServerState& state);
 
 /**! called when a game in finish */
-void game_end(PSPLAYER winner);
+void game_end(ServerState& state, PSPLAYER winner);
 
 /**! when the game is over */
-bool game_is_finished(void);
+bool game_is_finished(ServerState& state);
 
-void server_init();
+void server_init(ServerState& state);
 
 /**! removes and closes an fd from the list of fd */
-void fd_remove(int fd);
+void fd_remove(ServerState& state, int fd);
 
 /**! adds a new fd to the list of fd */
-void fd_add(int fd);
+void fd_add(ServerState& state, int fd);
 
 }
