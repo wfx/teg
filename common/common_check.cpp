@@ -1,10 +1,68 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 #include "common.h"
+#include "missions.h"
+#include "state.h"
 
 #include <cstring>
 
 #include <gtest/gtest.h>
+
+TEST(Common, color_name)
+{
+	EXPECT_STREQ("red", color_name(ARMY_ROJO));
+	EXPECT_STREQ("yellow", color_name(ARMY_AMARILLO));
+	EXPECT_STREQ("blue", color_name(ARMY_AZUL));
+	EXPECT_STREQ("black", color_name(ARMY_NEGRO));
+	EXPECT_STREQ("pink", color_name(ARMY_ROSA));
+	EXPECT_STREQ("green", color_name(ARMY_VERDE));
+	EXPECT_STREQ("unknown", color_name(-1));
+	EXPECT_STREQ("unknown", color_name(maximum_player_count));
+}
+
+TEST(Common, player_status_name)
+{
+	EXPECT_STREQ("disconnected", player_status_name(PLAYER_STATUS_DESCONECTADO));
+	EXPECT_STREQ("connected", player_status_name(PLAYER_STATUS_CONNECTED));
+	EXPECT_STREQ("game over", player_status_name(PLAYER_STATUS_GAMEOVER));
+	EXPECT_STREQ("ending turn", player_status_name(PLAYER_STATUS_TURNOEND));
+	EXPECT_STREQ("unknown", player_status_name(-1));
+	EXPECT_STREQ("unknown", player_status_name(PLAYER_STATUS_LAST));
+}
+
+TEST(Common, countries)
+{
+	CommonState state;
+
+	EXPECT_EQ(static_cast<std::size_t>(COUNTRIES_CANT), state.countries.size());
+	EXPECT_STREQ("Argentina", countries_get_name(state, 0));
+	EXPECT_STREQ("Unknown", countries_get_name(state, -1));
+
+	EXPECT_TRUE(country_libre(state, 0));
+	state.countries[0].numjug = 1;
+	EXPECT_FALSE(country_libre(state, 0));
+
+	countries_init(state);
+	EXPECT_TRUE(country_libre(state, 0));
+}
+
+TEST(Common, continents)
+{
+	CommonState state;
+
+	EXPECT_EQ(static_cast<std::size_t>(CONTINENTE_LAST), state.conts.size());
+	EXPECT_EQ(3, cont_tot(state, 1u << CONTINENTE_AMERICASUR));
+	EXPECT_EQ(7, cont_tot(state, (1u << CONTINENTE_OCEANIA) | (1u << CONTINENTE_EUROPA)));
+	EXPECT_STREQ("South America", cont_get_name(state, CONTINENTE_AMERICASUR));
+	EXPECT_STREQ("Unknown", cont_get_name(state, CONTINENTE_LAST));
+}
+
+TEST(Common, missions)
+{
+	EXPECT_GT(missions_cant(), 2);
+	EXPECT_STREQ("Conquer the world", mission_get(MISSION_CONQWORLD).name);
+	EXPECT_EQ(30, mission_get(MISSION_COMMON).tot_countries);
+}
 
 TEST(Common, cards_for_this_exchange)
 {

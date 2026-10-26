@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include <array>
 #include <functional>
 
 #include "tarjeta.h"
@@ -57,29 +58,33 @@ struct COUNTRY {
 };
 using PCOUNTRY=COUNTRY*;
 
+struct CommonState;
+
+using Countries = std::array<COUNTRY, COUNTRIES_CANT>;
+
+/// \return the default country definitions
+Countries make_countries();
 
 /*
  * Funciones, variables exportadas
  */
-extern COUNTRY g_countries[];
-
 bool countries_eslimitrofe(int a, int b);
 void countries_initcountry(PCOUNTRY p);
-void countries_init();
-bool country_libre(int i);
+void countries_init(CommonState& state);
+bool country_libre(CommonState const& state, int i);
 
 /// \brief decides if the country number is valid.
 bool countrynumber_is_valid(int country_number);
 
 /**! returns the name of 'country' */
-const char *countries_get_name(int country);
+const char *countries_get_name(CommonState const& state, int country);
 
 using CountryMapFn = std::function<void(COUNTRY&)>;
 using InterruptableCountryMapFn = std::function<bool(COUNTRY&)>;
 
-void countries_map(CountryMapFn fn);
-void countries_map(int player, CountryMapFn fn);
-void countries_map_int(int player, InterruptableCountryMapFn fn);
+void countries_map(CommonState& state, CountryMapFn fn);
+void countries_map(CommonState& state, int player, CountryMapFn fn);
+void countries_map_int(CommonState& state, int player, InterruptableCountryMapFn fn);
 
 
-COUNTRY& COUNTRY_FROM_TARJETA(TARJETA& tarjeta);
+COUNTRY& COUNTRY_FROM_TARJETA(CommonState& state, TARJETA& tarjeta);

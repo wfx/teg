@@ -31,9 +31,7 @@
 #include "common.h"
 
 
-static struct HighScores highscores;
-
-void insert_score(SCORES const* score)
+void insert_score(HighScores& highscores, SCORES const* score)
 {
 	insert_highscore(&highscores, score);
 }
@@ -81,14 +79,14 @@ void insert_highscore(struct HighScores* hs, SCORES const* score)
 	hs->highscores[insert_pos] = *score;
 }
 
-void scores_map(scores_map_func func, void* user)
+void scores_map(HighScores& highscores, scores_map_func func, void* user)
 {
 	for(size_t i=0; i < highscores.count; i++) {
 		func(highscores.highscores+i, user);
 	}
 }
 
-void scores_init()
+void scores_init(HighScores& highscores)
 {
 	highscores.count = 0;
 }

@@ -111,7 +111,7 @@ void game_new()
 {
 	static int first_time = 1;
 
-	countries_init();
+	countries_init(g_game.common);
 	mission_init();
 
 	player_map(player_initplayer);
@@ -147,7 +147,7 @@ void game_init()
 {
 	player_init();
 	color_init();
-	scores_init();
+	scores_init(g_game.common.highscores);
 	xmlscores_load();
 
 	g_game.connections = 0;

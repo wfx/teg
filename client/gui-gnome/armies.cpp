@@ -179,7 +179,7 @@ TEG_STATUS armies_add(int country)
 
 	armies_prop[CONT_CANT].cant--;
 
-	cont = g_countries[country].continente;
+	cont = g_game.common.countries[country].continente;
 	if(armies_prop[cont].orig_cant > 0) {
 		armies_prop[cont].cant--;
 	}
@@ -197,7 +197,7 @@ TEG_STATUS armies_del(int country)
 
 	armies_prop[CONT_CANT].cant++;
 
-	cont = g_countries[country].continente;
+	cont = g_game.common.countries[country].continente;
 	if(armies_prop[cont].orig_cant > 0 &&
 	        armies_prop[cont].cant < armies_prop[cont].orig_cant) {
 		armies_prop[cont].cant++;
@@ -234,11 +234,11 @@ TEG_STATUS armies_view(int cant, int conts)
 		return TEG_STATUS_ERROR;
 	}
 
-	armies_prop[CONT_CANT].cant = cant + cont_tot(conts);
+	armies_prop[CONT_CANT].cant = cant + cont_tot(g_game.common, conts);
 
 	for(i=0; i<CONT_CANT; i++) {
 		if(conts & 1) {
-			armies_prop[i].orig_cant = armies_prop[i].cant = g_conts[i].fichas_x_cont;
+			armies_prop[i].orig_cant = armies_prop[i].cant = g_game.common.conts[i].fichas_x_cont;
 		} else {
 			armies_prop[i].orig_cant = armies_prop[i].cant = 0;
 		}
@@ -305,8 +305,8 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 		           0.0,
 		           (double) 100,
 		           (double) 90,
-				   "stroke-color", "none",
-                   "line-width", 0.0,
+		           "stroke-color", "none",
+		           "line-width", 0.0,
 		           NULL);
 
 		if(gui_theme.armies_background)
@@ -334,7 +334,7 @@ TEG_STATUS armies_init(GooCanvasItem *group)
 
 			item = goo_canvas_text_new(
 			           armies_group,
-			           cont_get_name(i),
+			           cont_get_name(g_game.common, i),
 			           (double) 1,
 			           (double) i*12+16,
 			           (double) -1,

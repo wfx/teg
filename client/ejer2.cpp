@@ -31,10 +31,10 @@ static int last_country = -1;
 
 TEG_STATUS ejer2_out(int country)
 {
-	if(g_countries[ country ].numjug == WHOAMI()) {
+	if(g_game.common.countries[ country ].numjug == WHOAMI()) {
 		if(ESTADO_ES(PLAYER_STATUS_TARJETA)) {
-			if(!tarjeta_es_usada(&g_countries[ country ].tarjeta)) {
-				tarjeta_usar(&g_countries[ country ].tarjeta);
+			if(!tarjeta_es_usada(&g_game.common.countries[ country ].tarjeta)) {
+				tarjeta_usar(&g_game.common.countries[ country ].tarjeta);
 				last_country = country;
 				net_printf(g_game.fd, TOKEN_EJER2"=%d\n", country);
 				return TEG_STATUS_SUCCESS;
@@ -47,7 +47,7 @@ TEG_STATUS ejer2_out(int country)
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), g_countries[country].name);
+		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), g_game.common.countries[country].name);
 		return TEG_STATUS_ERROR;
 	}
 	return TEG_STATUS_ERROR;
@@ -56,7 +56,7 @@ TEG_STATUS ejer2_out(int country)
 TEG_STATUS ejer2_restore_from_error()
 {
 	if(last_country != -1) {
-		tarjeta_desusar(&g_countries[ last_country ].tarjeta);
+		tarjeta_desusar(&g_game.common.countries[ last_country ].tarjeta);
 		callbacks::gui_tarjeta(-1);
 		last_country = -1;
 		return TEG_STATUS_SUCCESS;

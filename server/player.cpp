@@ -429,7 +429,7 @@ void player_listar_countries(PSPLAYER pJ, int *countries)
 	assert(pJ);
 	assert(countries);
 
-	countries_map(pJ->numjug,
+	countries_map(g_game.common, pJ->numjug,
 	[&countries](COUNTRY &country) {
 		countries[country.continente]++;
 	});
@@ -450,7 +450,7 @@ void player_listar_conts(PSPLAYER pJ, unsigned long *ret)
 	*ret = 0;
 
 	for(i=0; i< CONT_CANT; i++) {
-		if(countries[i] == g_conts[i].cant_countries) {
+		if(countries[i] == g_game.common.conts[i].cant_countries) {
 			*ret |= 1 << i;
 		}
 	}
@@ -469,8 +469,8 @@ void player_clear_turn(PSPLAYER pJ)
 
 	/* clean all the regroups the player could have done */
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		if(g_countries[i].numjug == pJ->numjug) {
-			g_countries[i].ejer_reagrupe = 0;
+		if(g_game.common.countries[i].numjug == pJ->numjug) {
+			g_game.common.countries[i].ejer_reagrupe = 0;
 		}
 	}
 }

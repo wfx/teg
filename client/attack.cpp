@@ -69,13 +69,13 @@ static TEG_STATUS attack_check()
 void attack_reset()
 {
 	if(country_origen != -1) {
-		g_countries[country_origen].selected &= ~COUNTRY_SELECT_ATTACK;
+		g_game.common.countries[country_origen].selected &= ~COUNTRY_SELECT_ATTACK;
 		callbacks::gui_country_select(country_origen);
 		country_origen = -1;
 	}
 
 	if(country_destino != -1) {
-		g_countries[country_destino].selected &= ~COUNTRY_SELECT_ATTACK;
+		g_game.common.countries[country_destino].selected &= ~COUNTRY_SELECT_ATTACK;
 		callbacks::gui_country_select(country_destino);
 		country_destino = -1;
 	}
@@ -119,13 +119,13 @@ TEG_STATUS attack_click(PCOUNTRY p)
 				p->selected |= COUNTRY_SELECT_ATTACK;
 				callbacks::gui_country_select(p->id);
 				country_origen = p->id;
-				textmsg(M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(p->id));
+				textmsg(M_INF, _("Source country: '%s'. Now select the destination country"), countries_get_name(g_game.common, p->id));
 			} else {
-				textmsg(M_ERR, _("Error, '%s' must have at least 2 armies"), countries_get_name(p->id));
+				textmsg(M_ERR, _("Error, '%s' must have at least 2 armies"), countries_get_name(g_game.common, p->id));
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(p->id));
+			textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else if(country_destino == -1) {
@@ -141,15 +141,15 @@ TEG_STATUS attack_click(PCOUNTRY p)
 				p->selected |= COUNTRY_SELECT_ATTACK;
 				callbacks::gui_country_select(p->id);
 				country_destino = p->id;
-				textmsg(M_INF, _("Destination country: '%s'. Attacking..."), countries_get_name(p->id));
+				textmsg(M_INF, _("Destination country: '%s'. Attacking..."), countries_get_name(g_game.common, p->id));
 				attack_out();
 			} else {
-				textmsg(M_ERR, _("Error, '%s' isnt frontier with '%s'"), countries_get_name(p->id), countries_get_name(country_origen));
+				textmsg(M_ERR, _("Error, '%s' isnt frontier with '%s'"), countries_get_name(g_game.common, p->id), countries_get_name(g_game.common, country_origen));
 				attack_reset();
 				return TEG_STATUS_UNEXPECTED;
 			}
 		} else {
-			textmsg(M_ERR, _("Error, you cant attack your own countries ('%s')"), countries_get_name(p->id));
+			textmsg(M_ERR, _("Error, you cant attack your own countries ('%s')"), countries_get_name(g_game.common, p->id));
 			attack_reset();
 			return TEG_STATUS_UNEXPECTED;
 		}
@@ -260,13 +260,13 @@ void attack_unshow()
 {
 
 	if(show_src != -1) {
-		g_countries[show_src].selected &= ~COUNTRY_SELECT_ATTACK_SRC;
+		g_game.common.countries[show_src].selected &= ~COUNTRY_SELECT_ATTACK_SRC;
 		callbacks::gui_country_select(show_src);
 		show_src = -1;
 	}
 
 	if(show_dst != -1) {
-		g_countries[show_dst].selected &= ~COUNTRY_SELECT_ATTACK_DST;
+		g_game.common.countries[show_dst].selected &= ~COUNTRY_SELECT_ATTACK_DST;
 		callbacks::gui_country_select(show_dst);
 		show_dst = -1;
 	}
@@ -279,13 +279,13 @@ void attack_show(int src, int dst)
 
 	if(src >= 0 && src < static_cast<int>(COUNTRIES_CANT)) {
 		show_src = src;
-		g_countries[src].selected |= COUNTRY_SELECT_ATTACK_SRC;
+		g_game.common.countries[src].selected |= COUNTRY_SELECT_ATTACK_SRC;
 		callbacks::gui_country_select(src);
 	}
 
 	if(dst >= 0 && dst < static_cast<int>(COUNTRIES_CANT)) {
 		show_dst = dst;
-		g_countries[dst].selected |= COUNTRY_SELECT_ATTACK_DST;
+		g_game.common.countries[dst].selected |= COUNTRY_SELECT_ATTACK_DST;
 		callbacks::gui_country_select(dst);
 	}
 }

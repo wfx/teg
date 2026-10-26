@@ -54,20 +54,20 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer(int country)
 	int ple=0;		/* countries limitrofes enemigos */
 
 
-	if(ai_own_continent(g_countries[country].continente)) {
+	if(ai_own_continent(c::g_game.common.countries[country].continente)) {
 		return TEG_STATUS_SUCCESS;
 	}
 
-	pc = g_conts[ g_countries[country].continente ].cant_countries;
+	pc = c::g_game.common.conts[ c::g_game.common.countries[country].continente ].cant_countries;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(g_countries[country].continente == g_countries[i].continente) {
-			if(g_countries[i].numjug == c::WHOAMI()) {
+		if(c::g_game.common.countries[country].continente == c::g_game.common.countries[i].continente) {
+			if(c::g_game.common.countries[i].numjug == c::WHOAMI()) {
 				pm++;
-				em += g_countries[i].ejercitos;
+				em += c::g_game.common.countries[i].ejercitos;
 			} else {
 				pe++;
-				ee += g_countries[i].ejercitos;
+				ee += c::g_game.common.countries[i].ejercitos;
 				if(countries_eslimitrofe(country, i)) {
 					ple++;
 				}
@@ -141,7 +141,7 @@ TEG_STATUS ai_fichas_calc_puntaje_conquer(int country)
 TEG_STATUS ai_fichas_calc_puntaje_defense(int country)
 {
 	std::size_t i;
-	CONTINENTE c = g_countries[country].continente;
+	CONTINENTE c = c::g_game.common.countries[country].continente;
 	int suma=0;
 	int f=0;		/* fronteras que tiene */
 
@@ -150,13 +150,13 @@ TEG_STATUS ai_fichas_calc_puntaje_defense(int country)
 	}
 
 	for(i=0; i< COUNTRIES_CANT; i++) {
-		if(countries_eslimitrofe(country, i) && g_countries[i].continente != c) {
-			if(g_countries[i].numjug != c::WHOAMI()) {
+		if(countries_eslimitrofe(country, i) && c::g_game.common.countries[i].continente != c) {
+			if(c::g_game.common.countries[i].numjug != c::WHOAMI()) {
 
 				suma += 5;
 
 				/* increase points if the enemy has more armies */
-				if(g_countries[i].ejercitos > g_countries[country].ejercitos) {
+				if(c::g_game.common.countries[i].ejercitos > c::g_game.common.countries[country].ejercitos) {
 					suma += 6;
 				}
 			} else {
@@ -164,7 +164,7 @@ TEG_STATUS ai_fichas_calc_puntaje_defense(int country)
 			}
 
 			/* increase points if I have a few armies */
-			if(g_countries[country].ejercitos < 4) {
+			if(c::g_game.common.countries[country].ejercitos < 4) {
 				suma += 3;
 			}
 
@@ -194,19 +194,19 @@ TEG_STATUS ai_fichas_calc_puntaje_fichas(int country)
 	int p2=0;
 	int suma=0;
 
-	int cant_country = g_conts[g_countries[country].continente].cant_countries;
+	int cant_country = c::g_game.common.conts[c::g_game.common.countries[country].continente].cant_countries;
 
 	/* suma las fichas de los countries limitrofes enemigos */
 	for(i=0; i< COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug != c::WHOAMI() && countries_eslimitrofe(country, i)) {
+		if(c::g_game.common.countries[i].numjug != c::WHOAMI() && countries_eslimitrofe(country, i)) {
 
 			/* si es un enemigo ya tiene punto */
 			suma += 3;
 
-			if(g_countries[country].ejercitos >= g_countries[i].ejercitos) {
-				p2 += 2 + g_countries[country].ejercitos - g_countries[i].ejercitos;
+			if(c::g_game.common.countries[country].ejercitos >= c::g_game.common.countries[i].ejercitos) {
+				p2 += 2 + c::g_game.common.countries[country].ejercitos - c::g_game.common.countries[i].ejercitos;
 			} else {
-				p1 +=g_countries[i].ejercitos - g_countries[country].ejercitos;
+				p1 +=c::g_game.common.countries[i].ejercitos - c::g_game.common.countries[country].ejercitos;
 			}
 		}
 	}
@@ -264,7 +264,7 @@ TEG_STATUS ai_fichas_helper(int cant)
 	ai_puntaje_clean();
 
 	for(i=0; i< COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug == c::WHOAMI()) {
+		if(c::g_game.common.countries[i].numjug == c::WHOAMI()) {
 			ai_puntaje[i]=0;
 			ai_fichas_calc_puntaje(i);
 		}
@@ -276,8 +276,8 @@ TEG_STATUS ai_fichas_helper(int cant)
 	}
 
 	for(i=0; i<static_cast<std::size_t>(cant); i++) {
-		if(c::fichas_add(&g_countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
-			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
+		if(c::fichas_add(&c::g_game.common.countries[ ai_sorted[i] ]) != TEG_STATUS_SUCCESS) {
+			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), c::g_game.common.countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}
@@ -306,14 +306,14 @@ TEG_STATUS ai_fichas(int cant)
  */
 TEG_STATUS ai_fichas_en_cont(int cont)
 {
-	int cant = g_conts[cont].fichas_x_cont;
+	int cant = c::g_game.common.conts[cont].fichas_x_cont;
 	std::size_t i;
 
 	/* all unavailble countries are -10000 */
 	ai_puntaje_clean();
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(g_countries[i].continente == g_conts[cont].id) {
+		if(c::g_game.common.countries[i].continente == c::g_game.common.conts[cont].id) {
 			ai_puntaje[i] = 0;
 			ai_fichas_calc_puntaje_defense(i);
 		}
@@ -322,8 +322,8 @@ TEG_STATUS ai_fichas_en_cont(int cont)
 	ai_puntaje_sort(cant);
 
 	for(i=0; i<static_cast<std::size_t>(cant); i++) {
-		if(c::fichas_add(&g_countries[ai_sorted[i]]) != TEG_STATUS_SUCCESS) {
-			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), g_countries[ai_sorted[i]].name);
+		if(c::fichas_add(&c::g_game.common.countries[ai_sorted[i]]) != TEG_STATUS_SUCCESS) {
+			c::textmsg(M_ERR, _("Failed to fichas_add(%s)"), c::g_game.common.countries[ai_sorted[i]].name);
 			return TEG_STATUS_ERROR;
 		}
 	}

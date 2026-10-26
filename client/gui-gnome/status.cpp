@@ -199,7 +199,7 @@ static TEG_STATUS status_update_model(GtkListStore *store)
 		GtkTreeIter iter;
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter,
-		                   STATUS_COLUMN_COLOR, _(g_colores[player.color]),
+		                   STATUS_COLUMN_COLOR, _(color_name(player.color)),
 		                   STATUS_COLUMN_NUMBER, player.numjug,
 		                   STATUS_COLUMN_NAME, name,
 		                   STATUS_COLUMN_SCORE, player.score,
@@ -208,7 +208,7 @@ static TEG_STATUS status_update_model(GtkListStore *store)
 		                   STATUS_COLUMN_COUNTRIES, player.tot_countries,
 		                   STATUS_COLUMN_ARMIES, player.tot_armies,
 		                   STATUS_COLUMN_CARDS, player.tot_cards,
-		                   STATUS_COLUMN_STATUS, _(g_estados[player.estado]),
+		                   STATUS_COLUMN_STATUS, _(player_status_name(player.estado)),
 		                   STATUS_COLUMN_WHO, player.empezo_turno,
 		                   -1);
 		free(name);
@@ -610,7 +610,7 @@ TEG_STATUS mainstatus_update()
 
 	gamestatus_item = goo_canvas_text_new(
 	                      goo_canvas_get_root_item(GOO_CANVAS(mainstatus_canvas)),
-	                      _(g_estados[g_game.estado]),
+	                      _(player_status_name(g_game.estado)),
 	                      (double)(MAINSTATUS_X + offset_right),
 	                      (double)(MAINSTATUS_Y/2),
 	                      (double) -1,
@@ -629,7 +629,7 @@ TEG_STATUS mainstatus_update()
 	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%s", countries_get_name(gui_private.country_i_am));
+		snprintf(buffer, sizeof(buffer)-1, "%s", countries_get_name(g_game.common, gui_private.country_i_am));
 	}
 
 	country_item = goo_canvas_text_new(
@@ -653,7 +653,7 @@ TEG_STATUS mainstatus_update()
 	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(g_countries[gui_private.country_i_am].continente));
+		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(g_game.common, g_game.common.countries[gui_private.country_i_am].continente));
 	}
 
 	cont_item = goo_canvas_text_new(

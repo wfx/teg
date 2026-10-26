@@ -50,7 +50,7 @@ bool fow_can_player_see_country(PSPLAYER pJ, PCOUNTRY pP)
 	}
 
 	bool result{false};
-	countries_map_int(pJ->numjug, [pP, &result](COUNTRY& country) {
+	countries_map_int(g_game.common, pJ->numjug, [pP, &result](COUNTRY& country) {
 		if(pP->id == country.id) {
 			result = true;
 			return false;
@@ -76,14 +76,14 @@ TEG_STATUS fow_fill_with_boundaries(int country, char *buffer, int buf_len)
 	}
 
 	for(i=0; i < static_cast<int>(COUNTRIES_CANT); i++) {
-		if(i != country && g_countries[i].numjug != g_game.player_fow->numjug && countries_eslimitrofe(country, i)) {
+		if(i != country && g_game.common.countries[i].numjug != g_game.player_fow->numjug && countries_eslimitrofe(country, i)) {
 			char buf[1024];
 
 			if(first_time) {
-				snprintf(buf, sizeof(buf)-1, "%s=%d,%d,%d", TOKEN_COUNTRY, i, g_countries[i].numjug, g_countries[i].ejercitos);
+				snprintf(buf, sizeof(buf)-1, "%s=%d,%d,%d", TOKEN_COUNTRY, i, g_game.common.countries[i].numjug, g_game.common.countries[i].ejercitos);
 				first_time = 0;
 			} else {
-				snprintf(buf, sizeof(buf)-1, ";%s=%d,%d,%d", TOKEN_COUNTRY, i, g_countries[i].numjug, g_countries[i].ejercitos);
+				snprintf(buf, sizeof(buf)-1, ";%s=%d,%d,%d", TOKEN_COUNTRY, i, g_game.common.countries[i].numjug, g_game.common.countries[i].ejercitos);
 			}
 
 			strncat(buffer, buf, buf_len);
@@ -117,7 +117,7 @@ int fow_netall_printf(int country, char const *format, ...)
 	player_map([buf, country](PSPLAYER pJ) {
 		if(pJ->fd > 0) {
 			/* check if he has a boundry country wih 'country' */
-			countries_map_int(
+			countries_map_int(g_game.common,
 			pJ->numjug, [country, &buf, pJ](COUNTRY& country_to_inspect) -> bool {
 				CountryId const cid{country_to_inspect.id};
 				if((cid == country) || countries_eslimitrofe(cid, country))
@@ -160,7 +160,7 @@ int fow_2_netall_printf(int src, int dst, char const *format, ...)
 
 			int src_country = -1;
 			int dst_country = -1;
-			countries_map_int(pJ->numjug,
+			countries_map_int(g_game.common, pJ->numjug,
 			[src, dst, &src_country, &dst_country](COUNTRY& country) {
 
 				if(country.id == src || countries_eslimitrofe(country.id, src)) {

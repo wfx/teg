@@ -83,13 +83,13 @@ TEG_STATUS colors_load_images(void)
 		memset(name, 0, sizeof(name));
 
 		/* load player colors */
-		/* IMPORTANT:  Dont translate g_colores! */
+		/* IMPORTANT:  Dont translate color_name()! */
 		if(! gui_theme.choose_colors_custom) {
-			snprintf(name, sizeof(name) -1, "color_player_%s.png", g_colores[i]);
+			snprintf(name, sizeof(name) -1, "color_player_%s.png", color_name(i));
 			g_color_players[i] = gdk_pixbuf_new_from_file(
 			                         load_pixmap_file(name).c_str(), NULL);
 		} else {
-			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, g_colores[i]);
+			snprintf(name, sizeof(name) -1, "%s_%s.png", gui_theme.choose_colors_prefix, color_name(i));
 			auto const fpath = theme_load_file(name);
 			char const*const filename = fpath ? fpath->c_str() : nullptr;
 			g_color_players[i] = gdk_pixbuf_new_from_file(filename, NULL);
@@ -101,8 +101,8 @@ TEG_STATUS colors_load_images(void)
 		}
 
 		/* load color circles */
-		/* IMPORTANT:  Dont translate g_colores! */
-		snprintf(name, sizeof(name) -1, "disc_%s.png", g_colores[i]);
+		/* IMPORTANT:  Dont translate color_name()! */
+		snprintf(name, sizeof(name) -1, "disc_%s.png", color_name(i));
 		g_color_circles[i] = gdk_pixbuf_new_from_file(
 		                         load_pixmap_file(name).c_str(), NULL);
 
@@ -244,7 +244,7 @@ char * get_tag_for_color(int color)
 		return (char*)buffer;
 	}
 
-	snprintf(buffer, sizeof(buffer)-1, "%s_tag", g_colores[pJ->color]);
+	snprintf(buffer, sizeof(buffer)-1, "%s_tag", color_name(pJ->color));
 	return (char*)buffer;
 }
 

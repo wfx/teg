@@ -22,6 +22,7 @@
 
 #include "client.h"
 #include "themes.h"
+#include "../common/state.h"
 
 namespace teg::client
 {
@@ -85,6 +86,8 @@ typedef struct _cgame {
 	bool	with_secret_mission;	/**< play with secret missions */
 	bool	with_common_mission;	/**< if playing with secret mission, includes the common mission */
 	bool	with_fog_of_war;	/**< playing in Fog of War type of game */
+
+	CommonState common;	/**< state shared with the server and the robot */
 } CJUEGO, *PCJUEGO;
 
 /* funciones y variables exportadas */

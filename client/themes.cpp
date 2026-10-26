@@ -570,7 +570,7 @@ static TEG_STATUS theme_fill_country_name()
 	l=0;
 	for(j=0; j<g_theme->i_continent; j++) {
 		for(k=0; k<g_theme->continents[j]->i_country; k++) {
-			g_countries[l++].name = (char*)g_theme->continents[j]->countries[k]->name;
+			g_game.common.countries[l++].name = (char*)g_theme->continents[j]->countries[k]->name;
 		}
 	}
 
@@ -586,7 +586,7 @@ static TEG_STATUS theme_fill_continent_name()
 	}
 
 	for(i=0; i<g_theme->i_continent; i++) {
-		g_conts[i].name = (char*)g_theme->continents[i]->name;
+		g_game.common.conts[i].name = (char*)g_theme->continents[i]->name;
 	}
 
 	return TEG_STATUS_SUCCESS;

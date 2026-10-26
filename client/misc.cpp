@@ -73,7 +73,7 @@ TEG_STATUS game_reinit()
 
 	g_game.tarjetas_cant = 0;
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-		tarjeta_inittarj(&g_countries[i].tarjeta);
+		tarjeta_inittarj(&g_game.common.countries[i].tarjeta);
 	}
 
 	g_game.secret_mission = -1;
@@ -113,7 +113,7 @@ void game_init()
 
 void game_finalize()
 {
-	countries_init();
+	countries_init(g_game.common);
 	game_reinit();
 }
 

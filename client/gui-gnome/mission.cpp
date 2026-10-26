@@ -118,7 +118,7 @@ static TEG_STATUS mission_view_number(GtkWidget *dialog)
 
 	imagetxt = goo_canvas_text_new(
 	               goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	               missions_get_name(mission_number).c_str(),
+	               missions_get_name(g_game.common, mission_number).c_str(),
 	               (double) 4,
 	               (double) 10,
 	               (double) -1,
@@ -195,7 +195,7 @@ TEG_STATUS mission_view_fake_number(GtkWidget *frame, int mission)
 
 	goo_canvas_text_new(
 	    goo_canvas_get_root_item(GOO_CANVAS(fcanvas)),
-	    missions_get_name(mission).c_str(),
+	    missions_get_name(g_game.common, mission).c_str(),
 	    (double) 4,
 	    (double) 10,
 	    (double) -1,
@@ -275,7 +275,7 @@ void mission_view()
 
 	if(tar_mission == NULL) {
 		if(mission_load() != TEG_STATUS_SUCCESS) {
-			textmsg(M_INF, _("Your mission is: %s"), missions_get_name(mission_number));
+			textmsg(M_INF, _("Your mission is: %s"), missions_get_name(g_game.common, mission_number));
 			return;
 		}
 	}

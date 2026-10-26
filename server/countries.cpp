@@ -35,7 +35,9 @@ void countries_repartir()
 	PCOUNTRY p;
 
 	for(i=0; i < static_cast<int>(COUNTRIES_CANT)-resto; i++) {
-		p = get_random_country(country_libre);
+		p = get_random_country([](int i) {
+			return country_libre(g_game.common, i);
+		});
 		player_from_indice(j, &real_j);
 		player_asignarcountry(real_j, p);
 		p->ejercitos=1;
@@ -47,7 +49,9 @@ void countries_repartir()
 	if(resto) {
 		j = random_between(0, g_game.playing-1);
 		for(i=0; i<resto; i++) {
-			p = get_random_country(country_libre);
+			p = get_random_country([](int i) {
+				return country_libre(g_game.common, i);
+			});
 			player_from_indice(j, &real_j);
 			player_asignarcountry(real_j, p);
 			p->ejercitos=1;

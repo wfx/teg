@@ -24,7 +24,7 @@
  * Esta super matriz no se si se justifica. Quizas algun AI la pueda llegar a usar.
  */
 
-static char mat_ady[COUNTRIES_TOT][COUNTRIES_TOT] = {
+static char mat_ady[COUNTRIES_CANT][COUNTRIES_CANT] = {
 	/*	            +        1          +        2  +                3                   4
 	 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9
 	*/

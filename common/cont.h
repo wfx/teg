@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include <array>
+
+struct CommonState;
+
 typedef enum {
 	CONTINENTE_AMERICASUR,
 	CONTINENTE_AMERICANORTE,
@@ -46,7 +50,10 @@ typedef struct _cont {
 	int	fichas_x_cont;		/**< cantidad de fichas adicionales por tener el cont*/
 } CONT, *PCONT;
 
-extern CONT g_conts[];
+using Continents = std::array<CONT, CONTINENTE_LAST>;
+
+/// \return the default continent definitions
+Continents make_conts();
 
 /**
  * \brief Calculates the sum of all additional armies given for completely
@@ -64,7 +71,7 @@ extern CONT g_conts[];
  * \return The total number of additional armies. For oceania and asia, this
  *         would be 9 (2 for oceania + 7 for asia).
  */
-int cont_tot(unsigned long conts);
+int cont_tot(CommonState const& state, unsigned long conts);
 
 /// \return the translated name of the continent with number \p cont_number
-char const* cont_get_name(unsigned cont_number);
+char const* cont_get_name(CommonState const& state, unsigned cont_number);

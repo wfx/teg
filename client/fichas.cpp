@@ -74,7 +74,7 @@ TEG_STATUS fichas_add(PCOUNTRY p)
 			return TEG_STATUS_ERROR;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(p->id));
+		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }
@@ -98,7 +98,7 @@ TEG_STATUS fichas_sub(PCOUNTRY p)
 			return TEG_STATUS_UNEXPECTED;
 		}
 	} else {
-		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(p->id));
+		textmsg(M_ERR, _("Error, '%s' isnt one of your countries"), countries_get_name(g_game.common, p->id));
 		return TEG_STATUS_UNEXPECTED;
 	}
 }
@@ -116,7 +116,7 @@ TEG_STATUS fichas_finish(int **ptr)
 
 	c = wanted_conts;
 	for(i=0; i<CONT_CANT; i++) {
-		if((c & 1) && (aConts[i] < g_conts[i].fichas_x_cont)) {
+		if((c & 1) && (aConts[i] < g_game.common.conts[i].fichas_x_cont)) {
 			return TEG_STATUS_ERROR;
 		}
 		c >>= 1;
@@ -151,7 +151,7 @@ void fichas_reset()
 
 	for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 		if(aFichas[i]) {
-			g_countries[i].ejercitos -= aFichas[i];
+			g_game.common.countries[i].ejercitos -= aFichas[i];
 			aFichas[i] = 0;
 		}
 	}
@@ -287,7 +287,7 @@ TEG_STATUS fichas_leave(PCOUNTRY p)
 
 void fichas_get_wanted(int *cant, int *conts)
 {
-	*cant = wanted_tot - cont_tot(wanted_conts);
+	*cant = wanted_tot - cont_tot(g_game.common, wanted_conts);
 	*conts = wanted_conts;
 }
 

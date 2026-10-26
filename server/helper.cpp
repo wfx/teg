@@ -155,18 +155,18 @@ do_real:
 			cant = atoi(p.value);
 
 			if(country<0 || country >= static_cast<int>(COUNTRIES_CANT) || cant<0 ||
-			        cant+fichas > maximo || g_countries[country].numjug != j->numjug) {
+			        cant+fichas > maximo || g_game.common.countries[country].numjug != j->numjug) {
 				goto error;
 			}
 
 			/* cuando real==1 se asignas los ejercitos, sino hace el test */
 			if(real) {
-				g_countries[country].ejercitos += cant;
+				g_game.common.countries[country].ejercitos += cant;
 				j->tot_armies += cant;
 			}
 
 			if(conts) {
-				cptr[ g_countries[country].continente ] += cant;
+				cptr[ g_game.common.countries[country].continente ] += cant;
 			}
 
 			fichas += cant;
@@ -187,7 +187,7 @@ do_real:
 
 		for(i=0; i<CONT_CANT; i++) {
 			if(conts_tmp & 1) {
-				if(cptr[i] < g_conts[i].fichas_x_cont) {
+				if(cptr[i] < g_game.common.conts[i].fichas_x_cont) {
 					goto error;
 				}
 			}
@@ -312,7 +312,7 @@ PCOUNTRY get_random_country(get_random_func func)
 again:
 	i = random_between(0, COUNTRIES_CANT-1);
 	if(func(i)) {
-		return &g_countries[i];
+		return &g_game.common.countries[i];
 	} else {
 		int r = random_between(0, 2);
 		switch(r) {
@@ -320,12 +320,12 @@ again:
 		case 0:
 			for(; i>=0; i--) {
 				if(func(i)) {
-					return &g_countries[i];
+					return &g_game.common.countries[i];
 				}
 			}
 			for(i=COUNTRIES_CANT-1; i>=0; i--) {
 				if(func(i)) {
-					return &g_countries[i];
+					return &g_game.common.countries[i];
 				}
 			}
 			PDEBUG("uncountryelibre(down): Abnormal error\n");
@@ -334,12 +334,12 @@ again:
 		case 1:
 			for(; i<static_cast<int>(COUNTRIES_CANT); i++) {
 				if(func(i)) {
-					return &g_countries[i];
+					return &g_game.common.countries[i];
 				}
 			}
 			for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
 				if(func(i)) {
-					return &g_countries[i];
+					return &g_game.common.countries[i];
 				}
 			}
 			PDEBUG("uncountrylibre(up):Abnormal error\n");
@@ -352,7 +352,7 @@ again:
 	}
 
 	/* to prevent warnings at compile time */
-	return &g_countries[0];
+	return &g_game.common.countries[0];
 }
 
 /* Sends the player the total number of armies it must place, and the continents he has conquered */
@@ -492,7 +492,7 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 	/* special case where I want to send all countries that he CAN'T see */
 	if(g_game.fog_of_war && pJ->numjug == -1) {
 		for(i=0; i<static_cast<int>(COUNTRIES_CANT); i++) {
-			if(! fow_can_player_see_country(g_game.player_fow, &g_countries[i])) {
+			if(! fow_can_player_see_country(g_game.player_fow, &g_game.common.countries[i])) {
 				if(n==0) {
 					snprintf(strtmp, sizeof(strtmp)-1, "%i:%d", i, -1);
 					n=1;
@@ -509,7 +509,7 @@ void aux_token_countries(PSPLAYER pJ, char *buf, int buflen)
 	}
 
 	/* the other case */
-	countries_map(pJ->numjug,
+	countries_map(g_game.common, pJ->numjug,
 	[&buf, &n, &strtmp, &buflen](COUNTRY &country) {
 		if(
 		    (! g_game.fog_of_war) ||

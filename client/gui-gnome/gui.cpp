@@ -101,7 +101,7 @@ TEG_STATUS gui_lost(int numjug)
 		teg_dialog(_("You lost"), _("Game Over"), buf);
 
 	} else {
-		snprintf(buf, sizeof(buf)-1, _("Player %s(%s) lost the game"), pJ->name, _(g_colores[pJ->color]));
+		snprintf(buf, sizeof(buf)-1, _("Player %s(%s) lost the game"), pJ->name, _(color_name(pJ->color)));
 		teg_dialog(_("A player lost the game"), _("Player lost the game"), buf);
 	}
 	return TEG_STATUS_SUCCESS;
@@ -122,7 +122,7 @@ TEG_STATUS gui_surrender(int numjug)
 		/* */
 
 	} else {
-		snprintf(buf, sizeof(buf)-1, _("Coward %s(%s) has surrendered"), pJ->name, _(g_colores[pJ->color]));
+		snprintf(buf, sizeof(buf)-1, _("Coward %s(%s) has surrendered"), pJ->name, _(color_name(pJ->color)));
 		teg_dialog(_("A player has surrendered"), _("A player has surrendered"), buf);
 	}
 	return TEG_STATUS_SUCCESS;
@@ -318,7 +318,7 @@ TEG_STATUS gui_fichas(int cant, int conts)
 		buf[0]=0;
 		for(i=0; i<CONT_CANT; i++) {
 			if(conts & 1) {
-				snprintf(buf2, sizeof(buf2)-1, _("Place %d armies in %s\n"), g_conts[i].fichas_x_cont, cont_get_name(i));
+				snprintf(buf2, sizeof(buf2)-1, _("Place %d armies in %s\n"), g_game.common.conts[i].fichas_x_cont, cont_get_name(g_game.common, i));
 				buf2[ sizeof(buf2) -1 ] = 0;
 				strcat(buf, buf2);
 				hubo_cont=1;
@@ -406,8 +406,8 @@ TEG_STATUS gui_tarjeta(int country)
 {
 	cards_view(country);
 
-	if(tarjeta_es_usada(&g_countries[country].tarjeta)) {
-		locate_country_add_army(&g_countries[country]);
+	if(tarjeta_es_usada(&g_game.common.countries[country].tarjeta)) {
+		locate_country_add_army(&g_game.common.countries[country]);
 	}
 
 	set_sensitive_tb();

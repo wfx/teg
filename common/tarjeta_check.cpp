@@ -5,24 +5,26 @@
 #include <gtest/gtest.h>
 
 #include "country.h"
+#include "state.h"
 
 
 TEST(Tarjeta, card_belongs_to_player)
 {
+	CommonState state;
 	const std::size_t checkCountry = 15;
 	const int myself = 23;
 	const int other = 42;
 	static_assert(checkCountry < COUNTRIES_CANT);
 
-	g_countries[checkCountry].tarjeta.numjug = other;
-	EXPECT_FALSE(card_belongs_to_player(myself, 0)) << "Players differ";
+	state.countries[checkCountry].tarjeta.numjug = other;
+	EXPECT_FALSE(card_belongs_to_player(state, myself, 0)) << "Players differ";
 
-	EXPECT_FALSE(card_belongs_to_player(myself, COUNTRIES_CANT))
+	EXPECT_FALSE(card_belongs_to_player(state, myself, COUNTRIES_CANT))
 	        << "Country number out of range";
-	g_countries[checkCountry].tarjeta.numjug = myself;
-	EXPECT_TRUE(card_belongs_to_player(myself, checkCountry));
+	state.countries[checkCountry].tarjeta.numjug = myself;
+	EXPECT_TRUE(card_belongs_to_player(state, myself, checkCountry));
 
-	g_countries[checkCountry].tarjeta.numjug = -1;
+	state.countries[checkCountry].tarjeta.numjug = -1;
 }
 
 TEST(TARJETA, can_trade_cards)

@@ -107,7 +107,7 @@ int ai_many_country_enemigo(int p)
 	int c=0;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug != c::WHOAMI() && countries_eslimitrofe(p, i)) {
+		if(c::g_game.common.countries[i].numjug != c::WHOAMI() && countries_eslimitrofe(p, i)) {
 			c++;
 		}
 	}
@@ -123,7 +123,7 @@ bool ai_is_country_border(int p)
 {
 	std::size_t i;
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(countries_eslimitrofe(i, p) && g_countries[i].continente != g_countries[p].continente) {
+		if(countries_eslimitrofe(i, p) && c::g_game.common.countries[i].continente != c::g_game.common.countries[p].continente) {
 			return true;
 		}
 	}
@@ -137,13 +137,13 @@ bool ai_own_continent(CONTINENTE c)
 	int t=0;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug == c::WHOAMI()
-		        && g_countries[i].continente == c) {
+		if(c::g_game.common.countries[i].numjug == c::WHOAMI()
+		        && c::g_game.common.countries[i].continente == c) {
 			t++;
 		}
 	}
 
-	return (t == g_conts[c].cant_countries);
+	return (t == c::g_game.common.conts[c].cant_countries);
 
 }
 
@@ -172,7 +172,7 @@ bool ai_is_country_peligroso(int src, int dst)
 			aparecio_empezo = true;
 		}
 
-		if(player.numjug == g_countries[dst].numjug) {
+		if(player.numjug == c::g_game.common.countries[dst].numjug) {
 			dst_jugo = aparecio_empezo;
 			return false;
 		}
@@ -183,8 +183,8 @@ bool ai_is_country_peligroso(int src, int dst)
 		return false;
 	}
 
-	tmp = (g_countries[src].ejercitos > 3) ? 3: g_countries[src].ejercitos-1;
-	if(g_countries[dst].ejercitos > (g_countries[src].ejercitos-tmp)) {
+	tmp = (c::g_game.common.countries[src].ejercitos > 3) ? 3: c::g_game.common.countries[src].ejercitos-1;
+	if(c::g_game.common.countries[dst].ejercitos > (c::g_game.common.countries[src].ejercitos-tmp)) {
 		return true;
 	}
 	return false;
@@ -202,10 +202,10 @@ int ai_puntaje_atacar_warning(int src)
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
 		if(countries_eslimitrofe(src, i) &&
-		        g_countries[src].numjug != g_countries[i].numjug &&
+		        c::g_game.common.countries[src].numjug != c::g_game.common.countries[i].numjug &&
 		        ai_is_country_peligroso(src, i)) {
 
-			p += (g_countries[i].ejercitos - g_countries[src].ejercitos);
+			p += (c::g_game.common.countries[i].ejercitos - c::g_game.common.countries[src].ejercitos);
 		}
 	}
 
@@ -221,19 +221,19 @@ int ai_puntaje_atacar_country(int src, int dst)
 {
 	int p=0;
 
-	if(g_countries[src].ejercitos > g_countries[dst].ejercitos) {
+	if(c::g_game.common.countries[src].ejercitos > c::g_game.common.countries[dst].ejercitos) {
 
-		if(g_countries[src].continente == g_countries[dst].continente) {
+		if(c::g_game.common.countries[src].continente == c::g_game.common.countries[dst].continente) {
 			p++;
 		}
 
-		p += 10 + g_countries[src].ejercitos - g_countries[dst].ejercitos;
+		p += 10 + c::g_game.common.countries[src].ejercitos - c::g_game.common.countries[dst].ejercitos;
 
 	} else {
 
 		int r = random_between(1, 10);
 
-		if((r>7) && (g_countries[src].ejercitos > 7)) {
+		if((r>7) && (c::g_game.common.countries[src].ejercitos > 7)) {
 			p++;
 		}
 	}
@@ -254,7 +254,7 @@ TEG_STATUS ai_puntaje_atacar(int country)
 	int dst=-1;
 
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(countries_eslimitrofe(country, i) && g_countries[i].numjug != c::WHOAMI()) {
+		if(countries_eslimitrofe(country, i) && c::g_game.common.countries[i].numjug != c::WHOAMI()) {
 			p_tmp = ai_puntaje_atacar_country(country, i);
 
 			/* son negativos estos valores, por eso sumo */
@@ -283,7 +283,7 @@ TEG_STATUS ai_turno()
 
 	ai_puntaje_clean();
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug == c::WHOAMI() && g_countries[i].ejercitos > 1) {
+		if(c::g_game.common.countries[i].numjug == c::WHOAMI() && c::g_game.common.countries[i].ejercitos > 1) {
 			ai_puntaje_atacar(i);
 		}
 	}
@@ -294,8 +294,8 @@ TEG_STATUS ai_turno()
 	if(ai_puntaje[i] > 0) {
 
 		c::attack_init();
-		c::attack_click(&g_countries[i]);
-		c::attack_click(&g_countries[j]);
+		c::attack_click(&c::g_game.common.countries[i]);
+		c::attack_click(&c::g_game.common.countries[j]);
 		return TEG_STATUS_SUCCESS;
 	}
 	return TEG_STATUS_ERROR;
@@ -304,16 +304,16 @@ TEG_STATUS ai_turno()
 TEG_STATUS __ai_reagrupe(int  p, int cant)
 {
 	std::size_t i;
-	int own = ai_own_continent(g_countries[p].continente);
+	int own = ai_own_continent(c::g_game.common.countries[p].continente);
 
 	if(own) {
 		int new_cant = cant;
 
 		/* try to defend, undefended frontiers */
 		for(i=0; i<COUNTRIES_CANT; i++) {
-			if(g_countries[i].numjug != c::WHOAMI() &&
+			if(c::g_game.common.countries[i].numjug != c::WHOAMI() &&
 			        countries_eslimitrofe(i, p) &&
-			        g_countries[i].ejercitos > g_countries[p].ejercitos) {
+			        c::g_game.common.countries[i].ejercitos > c::g_game.common.countries[p].ejercitos) {
 
 				c::reagrupe_out(p, i, cant);
 				return TEG_STATUS_SUCCESS;
@@ -321,13 +321,13 @@ TEG_STATUS __ai_reagrupe(int  p, int cant)
 		}
 
 		/* I will leave 3 armies in border country of the continent */
-		if(g_countries[p].ejercitos - g_countries[p].ejer_reagrupe - cant < 3) {
+		if(c::g_game.common.countries[p].ejercitos - c::g_game.common.countries[p].ejer_reagrupe - cant < 3) {
 			new_cant -= 2;
 		}
 
 		for(i=0; i<COUNTRIES_CANT && (new_cant>0); i++) {
-			if(g_countries[i].numjug == c::WHOAMI() && countries_eslimitrofe(p, i) &&
-			        g_countries[i].continente != g_countries[p].continente) {
+			if(c::g_game.common.countries[i].numjug == c::WHOAMI() && countries_eslimitrofe(p, i) &&
+			        c::g_game.common.countries[i].continente != c::g_game.common.countries[p].continente) {
 
 				c::reagrupe_out(p, i, new_cant);
 				return TEG_STATUS_SUCCESS;
@@ -337,8 +337,8 @@ TEG_STATUS __ai_reagrupe(int  p, int cant)
 
 	/*... si falla, los muevo a una frontera */
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug == c::WHOAMI() && countries_eslimitrofe(p, i) &&
-		        g_countries[i].continente == g_countries[p].continente) {
+		if(c::g_game.common.countries[i].numjug == c::WHOAMI() && countries_eslimitrofe(p, i) &&
+		        c::g_game.common.countries[i].continente == c::g_game.common.countries[p].continente) {
 
 			if(ai_is_country_border(i)) {
 				c::reagrupe_out(p, i, cant);
@@ -349,8 +349,8 @@ TEG_STATUS __ai_reagrupe(int  p, int cant)
 
 	/*... y si no hay frontera lo mando al 1ro que tenga a mano */
 	for(i=0; i<COUNTRIES_CANT; i++) {
-		if(g_countries[i].numjug == c::WHOAMI() && countries_eslimitrofe(p, i) &&
-		        g_countries[i].continente == g_countries[p].continente) {
+		if(c::g_game.common.countries[i].numjug == c::WHOAMI() && countries_eslimitrofe(p, i) &&
+		        c::g_game.common.countries[i].continente == c::g_game.common.countries[p].continente) {
 
 			c::reagrupe_out(p, i, cant);
 			return TEG_STATUS_SUCCESS;
@@ -367,9 +367,9 @@ TEG_STATUS ai_reagrupe()
 	c::reagrupe_init();
 
 	for(i=0; i < COUNTRIES_CANT ; i++) {
-		if(g_countries[i].numjug == c::WHOAMI()) {
+		if(c::g_game.common.countries[i].numjug == c::WHOAMI()) {
 			if(ai_many_country_enemigo(i) == 0) {
-				p = g_countries[i].ejercitos - g_countries[i].ejer_reagrupe;
+				p = c::g_game.common.countries[i].ejercitos - c::g_game.common.countries[i].ejer_reagrupe;
 
 				if(p < 2) {
 					continue;

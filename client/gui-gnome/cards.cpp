@@ -207,7 +207,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 		}
 	}
 
-	COUNTRY *const pP = &COUNTRY_FROM_TARJETA(*pT);
+	COUNTRY *const pP = &COUNTRY_FROM_TARJETA(g_game.common, *pT);
 
 	vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	if(!vbox) {
@@ -242,7 +242,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 
 	image = goo_canvas_text_new(
 	            goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	            countries_get_name(pP->id),
+	            countries_get_name(g_game.common, pP->id),
 	            (double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
 	            (double) cards.pos_y,
 	            (double) -1,
@@ -258,7 +258,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 
 	image = goo_canvas_text_new(
 	            goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	            cont_get_name(pP->continente),
+	            cont_get_name(g_game.common, pP->continente),
 	            (double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
 	            (double) cards.pos_y + 15,
 	            (double) -1,
@@ -324,7 +324,7 @@ void cards_view(int country)
 	 * cards. This is only an optimization, should this condition not be true,
 	 * the vector will grow automatically */
 	cards_i_have.reserve(maximum_country_cards);
-	countries_map([&cards_i_have](COUNTRY& c) {
+	countries_map(g_game.common, [&cards_i_have](COUNTRY& c) {
 		if(c.tarjeta.numjug == WHOAMI()) {
 			cards_i_have.push_back(&c.tarjeta);
 		}
@@ -405,7 +405,7 @@ void cards_view(int country)
 			}
 
 			if(tarjs_sensi[i].country == NULL) {
-				GtkWidget *const tarjeta = cards_create(&g_countries[country].tarjeta, i);
+				GtkWidget *const tarjeta = cards_create(&g_game.common.countries[country].tarjeta, i);
 				if(tarjeta) {
 					gtk_widget_show(tarjeta);
 					gtk_grid_attach(table, tarjeta,

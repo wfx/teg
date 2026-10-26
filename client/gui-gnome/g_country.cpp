@@ -60,9 +60,9 @@ static gboolean enter_notify_cb(GooCanvasItem *item, GooCanvasItem *target,
 	char buff[250];
 
 	if(country->ejercitos > 0) {
-		snprintf(buff, sizeof(buff)-1, _("%s armies: %d"), countries_get_name(country->id), country->ejercitos);
+		snprintf(buff, sizeof(buff)-1, _("%s armies: %d"), countries_get_name(g_game.common, country->id), country->ejercitos);
 	} else {
-		snprintf(buff, sizeof(buff)-1, "%s", countries_get_name(country->id));
+		snprintf(buff, sizeof(buff)-1, "%s", countries_get_name(g_game.common, country->id));
 	}
 
 	gtk_statusbar_push(GTK_STATUSBAR(statusbar),  0, buff);
@@ -166,11 +166,11 @@ static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *targent,
 #ifdef GENERATE_LIMITROFE
 		case PLAYER_STATUS_DESCONECTADO:
 			if(country->id < borrame) {
-				textmsg(M_DBG, "not added :%s", countries_get_name(country->id));
+				textmsg(M_DBG, "not added :%s", countries_get_name(g_game.common, country->id));
 				break;
 			}
 			buf[ country->id ] = 1;
-			textmsg(M_DBG, "added :%s", countries_get_name(country->id));
+			textmsg(M_DBG, "added :%s", countries_get_name(g_game.common, country->id));
 			break;
 #endif /* GENERATE_LIMITROFE */
 		case PLAYER_STATUS_FICHAS:
@@ -227,7 +227,7 @@ static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *targent,
 			fclose(fp);
 		}
 		fp = fopen("test.h", "w+");
-		textmsg(M_DBG, "Processing %s", countries_get_name(borrame));
+		textmsg(M_DBG, "Processing %s", countries_get_name(g_game.common, borrame));
 		break;
 	}
 #endif /* GENERATE_LIMITROFE */
@@ -238,7 +238,7 @@ static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *targent,
 		xx= G_conts[cont].x ;
 		yy= G_conts[cont].y ;
 
-		printf("%s :%f %f\n", countries_get_name(country->id), item->x1-xx, item->y1-yy);
+		printf("%s :%f %f\n", countries_get_name(g_game.common, country->id), item->x1-xx, item->y1-yy);
 
 		if(event->button.state & GDK_SHIFT_MASK) {
 			gnome_canvas_item_lower_to_bottom(item);
@@ -264,7 +264,7 @@ static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *targent,
 			for(i=0; i<50; i++) {
 				fprintf(fp, "%d,", buf[i]);
 			}
-			fprintf(fp, "} /* %s (%d) */\n", countries_get_name(borrame), g_countries[borrame].id);
+			fprintf(fp, "} /* %s (%d) */\n", countries_get_name(g_game.common, borrame), g_game.common.countries[borrame].id);
 
 			borrame++;
 
@@ -275,7 +275,7 @@ static gboolean button_press_cb(GooCanvasItem *item, GooCanvasItem *targent,
 			if(borrame == 50) {
 				fclose(fp);
 			}
-			textmsg(M_DBG, "Processing %s", countries_get_name(borrame));
+			textmsg(M_DBG, "Processing %s", countries_get_name(g_game.common, borrame));
 			break;
 		}
 #endif /* GENERATE_LIMITROFE */
@@ -348,12 +348,12 @@ void G_country_init()
 	for(i=0; i < static_cast<int>(COUNTRIES_CANT) ; i++) {
 
 		/* find continent, find country number */
-		int c = g_countries[i].continente;
+		int c = g_game.common.countries[i].continente;
 		int sum, j, p;
 
 		sum=0;
 		for(j=0; j<c; j++) {
-			sum += g_conts[j].cant_countries;
+			sum += g_game.common.conts[j].cant_countries;
 		}
 
 		p = i - sum;
@@ -400,14 +400,14 @@ void G_country_create(int country)
 
 	G_countries[country].country_group =
 	    goo_canvas_group_new(
-	        G_conts[g_countries[country].continente].cont_group,
+	        G_conts[g_game.common.countries[country].continente].cont_group,
 	        "x", (float) G_countries[country].x,
 	        "y", (float) G_countries[country].y,
 	        NULL);
 
 	if(G_countries[country].country_group != NULL)
 		setup_dnd_handlers(G_countries[country].country_group,
-		                   &g_countries[country]);
+		                   &g_game.common.countries[country]);
 }
 
 /* Draw the country 'country' */
@@ -462,7 +462,7 @@ void G_country_draw_ejer(int country)
 	char size_string[10];
 
 	color = 6;
-	if(player_whois(g_countries[country].numjug, &j) == TEG_STATUS_SUCCESS) {
+	if(player_whois(g_game.common.countries[country].numjug, &j) == TEG_STATUS_SUCCESS) {
 		if(j->color >=0 && j->color < static_cast<int>(maximum_player_count)) {
 			color = j->color;
 		}
@@ -470,7 +470,7 @@ void G_country_draw_ejer(int country)
 		color = maximum_player_count;
 	}
 
-	switch(g_countries[country].ejercitos) {
+	switch(g_game.common.countries[country].ejercitos) {
 	case 0:
 		size = 4;
 		size_tmp = 0;
@@ -554,14 +554,14 @@ void G_country_draw_ejer(int country)
 	/* 'e' puede ser NULL, pero si es NULL me interesa que ellip lo sea tambien */
 	G_countries[country].ellip_item = e;
 
-	gui_country_select(g_countries[country].id);
+	gui_country_select(g_game.common.countries[country].id);
 
 	/* crear numero */
-	if(g_countries[country].ejercitos) {
-		if(g_countries[country].ejercitos == -1) {
+	if(g_game.common.countries[country].ejercitos) {
+		if(g_game.common.countries[country].ejercitos == -1) {
 			sprintf(size_string, "%s", "?");
 		} else {
-			sprintf(size_string, "%d", g_countries[country].ejercitos);
+			sprintf(size_string, "%d", g_game.common.countries[country].ejercitos);
 		}
 		e = goo_canvas_text_new(
 		        G_countries[country].country_group,
@@ -595,49 +595,49 @@ TEG_STATUS gui_country_select(int country)
 		return TEG_STATUS_ERROR;
 	}
 
-	if(g_countries[country].selected == COUNTRY_SELECT_NONE) {
+	if(g_game.common.countries[country].selected == COUNTRY_SELECT_NONE) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "black",
 		    "line-width", (double) 1,
 		    NULL);
 	}
-	if(g_countries[country].selected & COUNTRY_SELECT_FICHAS_IN) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_FICHAS_IN) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "white",
 		    "line-width", (double) 2,
 		    NULL);
 	}
-	if(g_countries[country].selected & COUNTRY_SELECT_FICHAS_OUT) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_FICHAS_OUT) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "DarkOrange1",
 		    "line-width", (double) 2,
 		    NULL);
 	}
-	if(g_countries[country].selected & COUNTRY_SELECT_ATTACK_ENTER) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_ATTACK_ENTER) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "white",
 		    "line-width", (double) 2,
 		    NULL);
 	}
-	if(g_countries[country].selected & COUNTRY_SELECT_ATTACK) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_ATTACK) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "red",
 		    "line-width", (double) 3,
 		    NULL);
 	}
-	if(g_countries[country].selected & COUNTRY_SELECT_REGROUP_ENTER) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_REGROUP_ENTER) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "white",
 		    "line-width", (double) 2,
 		    NULL);
 	}
-	if(g_countries[country].selected & COUNTRY_SELECT_REGROUP) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_REGROUP) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "blue",
@@ -645,7 +645,7 @@ TEG_STATUS gui_country_select(int country)
 		    NULL);
 	}
 
-	if(g_countries[country].selected & COUNTRY_SELECT_ATTACK_SRC) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_ATTACK_SRC) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "white",
@@ -653,7 +653,7 @@ TEG_STATUS gui_country_select(int country)
 		    NULL);
 	}
 
-	if(g_countries[country].selected & COUNTRY_SELECT_ATTACK_DST) {
+	if(g_game.common.countries[country].selected & COUNTRY_SELECT_ATTACK_DST) {
 		g_object_set(
 		    G_countries[country].ellip_item,
 		    "stroke-color", "white",

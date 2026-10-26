@@ -166,7 +166,7 @@ void turno_initialize_new_round(void)
 		}
 
 		/* update the score */
-		stats_score(&pJ->player_stats, g_conts);
+		stats_score(&pJ->player_stats, g_game.common.conts.data());
 	});
 
 	netall_printf(TOKEN_NEW_ROUND"=%d,%d\n", g_game.turno->numjug, g_game.round_number);

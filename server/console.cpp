@@ -110,7 +110,7 @@ STATIC TEG_STATUS con_exit(int unused, char* unused2)
 /*shows player's statistics */
 STATIC void con_stats_show(PSPLAYER pJ)
 {
-	stats_score(&pJ->player_stats, g_conts);
+	stats_score(&pJ->player_stats, g_game.common.conts.data());
 	printf(" %i   %-4i  [ %-3u   %-3u ] - [ %-3u  %-3u ]  %-15s %s\n",
 	       pJ->numjug,
 	       pJ->player_stats.score,
@@ -140,7 +140,7 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 	       pS->score,
 	       pS->date,
 	       pS->name,
-	       _(g_colores[color]),
+	       _(color_name(color)),
 	       pS->human ? _("yes") : _("no")
 	      );
 }
@@ -149,7 +149,7 @@ STATIC void con_scores_show(PSCORES pS, void* unused)
 STATIC TEG_STATUS con_scores(int unused, char* unused2)
 {
 	printf(_("  score  date       time    name              color    human\n"));
-	scores_map(con_scores_show, NULL);
+	scores_map(g_game.common.highscores, con_scores_show, NULL);
 	return TEG_STATUS_SUCCESS;
 }
 
@@ -219,8 +219,8 @@ STATIC TEG_STATUS con_status(int fd, char*unused)
 			           pJ->tot_exchanges,
 			           pJ->name,
 			           pJ->human ? _("yes") : _("no"),
-			           _(g_colores[color]),
-			           _(g_estados[pJ->estado]),
+			           _(color_name(color)),
+			           _(player_status_name(pJ->estado)),
 			           pJ->addr
 			          );
 		} else {
