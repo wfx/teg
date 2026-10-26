@@ -110,7 +110,7 @@ STATIC TEG_STATUS con_exit(int unused, char* unused2)
 /*shows player's statistics */
 STATIC void con_stats_show(PSPLAYER pJ)
 {
-	stats_score(&pJ->player_stats, g_conts);
+	stats_score(&pJ->player_stats, g_game.common.conts.data());
 	printf(" %i   %-4i  [ %-3u   %-3u ] - [ %-3u  %-3u ]  %-15s %s\n",
 	       pJ->numjug,
 	       pJ->player_stats.score,

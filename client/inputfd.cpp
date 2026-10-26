@@ -574,7 +574,7 @@ TEG_STATUS clitok_fichasc(char *str)
 	out_countries();
 
 	if(numjug == g_game.numjug) {
-		int const tot_cant = cont_tot(conts) + cant;
+		int const tot_cant = cont_tot(g_game.common, conts) + cant;
 		ESTADO_SET(PLAYER_STATUS_FICHASC);
 		fichas_init(tot_cant, conts);
 		callbacks::gui_fichas(cant, conts);

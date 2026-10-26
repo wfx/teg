@@ -653,7 +653,7 @@ TEG_STATUS mainstatus_update()
 	if(gui_private.country_i_am < 0 || gui_private.country_i_am >= static_cast<int>(COUNTRIES_CANT)) {
 		snprintf(buffer, sizeof(buffer)-1, " ");
 	} else {
-		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(g_countries[gui_private.country_i_am].continente));
+		snprintf(buffer, sizeof(buffer)-1, "%s", cont_get_name(g_game.common, g_countries[gui_private.country_i_am].continente));
 	}
 
 	cont_item = goo_canvas_text_new(

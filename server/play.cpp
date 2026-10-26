@@ -506,7 +506,7 @@ STATIC TEG_STATUS token_fichasc(int fd, char *str)
 		goto error;
 	}
 
-	total_armies = pJ->fichasc_armies + cont_tot(pJ->fichasc_conts);
+	total_armies = pJ->fichasc_armies + cont_tot(g_game.common, pJ->fichasc_conts);
 
 	if(pJ->hizo_canje) {
 		total_armies += cards_for_this_exchange(pJ->tot_exchanges);
@@ -668,8 +668,8 @@ STATIC TEG_STATUS token_attack(int fd, char *str)
 	}
 
 	/* update the scores */
-	stats_score(&pJ_src->player_stats, g_conts);
-	stats_score(&pJ_dst->player_stats, g_conts);
+	stats_score(&pJ_src->player_stats, g_game.common.conts.data());
+	stats_score(&pJ_dst->player_stats, g_game.common.conts.data());
 
 	/* tell everybody the result of the attack */
 

@@ -353,7 +353,7 @@ void G_country_init()
 
 		sum=0;
 		for(j=0; j<c; j++) {
-			sum += g_conts[j].cant_countries;
+			sum += g_game.common.conts[j].cant_countries;
 		}
 
 		p = i - sum;

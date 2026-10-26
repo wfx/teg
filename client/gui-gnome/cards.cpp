@@ -258,7 +258,7 @@ static GtkWidget *cards_create(PTARJETA pT, int tarjs_index)
 
 	image = goo_canvas_text_new(
 	            goo_canvas_get_root_item(GOO_CANVAS(canvas)),
-	            cont_get_name(pP->continente),
+	            cont_get_name(g_game.common, pP->continente),
 	            (double) gdk_pixbuf_get_width(tarjs[i].tar)/2,
 	            (double) cards.pos_y + 15,
 	            (double) -1,

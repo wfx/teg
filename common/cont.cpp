@@ -23,25 +23,27 @@
 #include <stdlib.h>
 
 #include "fcintl.h"
+#include "state.h"
 
-CONT g_conts[] = {
-	{ N_("South America"), CONTINENTE_AMERICASUR, CONT_AMERICASUR_CANT, 3 },
-	{ N_("North America"), CONTINENTE_AMERICANORTE, CONT_AMERICANORTE_CANT, 5 },
-	{ N_("Africa"), CONTINENTE_AFRICA, CONT_AFRICA_CANT, 3},
-	{ N_("Oceania"), CONTINENTE_OCEANIA, CONT_OCEANIA_CANT, 2 },
-	{ N_("Europe"), CONTINENTE_EUROPA, CONT_EUROPA_CANT, 5 },
-	{ N_("Asia"), CONTINENTE_ASIA, CONT_ASIA_CANT, 7 },
-};
-#define NRCONTS ( sizeof(g_conts) /sizeof(g_conts[0]) )
-
-int cont_tot(unsigned long conts)
+Continents make_conts()
 {
-	int max;
+	return {{
+			{ N_("South America"), CONTINENTE_AMERICASUR, CONT_AMERICASUR_CANT, 3 },
+			{ N_("North America"), CONTINENTE_AMERICANORTE, CONT_AMERICANORTE_CANT, 5 },
+			{ N_("Africa"), CONTINENTE_AFRICA, CONT_AFRICA_CANT, 3},
+			{ N_("Oceania"), CONTINENTE_OCEANIA, CONT_OCEANIA_CANT, 2 },
+			{ N_("Europe"), CONTINENTE_EUROPA, CONT_EUROPA_CANT, 5 },
+			{ N_("Asia"), CONTINENTE_ASIA, CONT_ASIA_CANT, 7 },
+		}};
+}
 
-	max = 0;
-	for(size_t i=0; i<NRCONTS; i++) {
+int cont_tot(CommonState const& state, unsigned long conts)
+{
+	int max = 0;
+
+	for(auto const& cont: state.conts) {
 		if(conts & 1) {
-			max += g_conts[i].fichas_x_cont;
+			max += cont.fichas_x_cont;
 		}
 		conts >>= 1;
 	}
@@ -49,10 +51,10 @@ int cont_tot(unsigned long conts)
 	return max;
 }
 
-char const* cont_get_name(unsigned i)
+char const* cont_get_name(CommonState const& state, unsigned i)
 {
-	if(i < NRCONTS) {
-		return _(g_conts[i].name);
+	if(i < state.conts.size()) {
+		return _(state.conts[i].name);
 	} else {
 		return _("Unknown");
 	}

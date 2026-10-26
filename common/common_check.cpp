@@ -2,6 +2,7 @@
 
 #include "common.h"
 #include "missions.h"
+#include "state.h"
 
 #include <cstring>
 
@@ -27,6 +28,17 @@ TEST(Common, player_status_name)
 	EXPECT_STREQ("ending turn", player_status_name(PLAYER_STATUS_TURNOEND));
 	EXPECT_STREQ("unknown", player_status_name(-1));
 	EXPECT_STREQ("unknown", player_status_name(PLAYER_STATUS_LAST));
+}
+
+TEST(Common, continents)
+{
+	CommonState state;
+
+	EXPECT_EQ(static_cast<std::size_t>(CONTINENTE_LAST), state.conts.size());
+	EXPECT_EQ(3, cont_tot(state, 1u << CONTINENTE_AMERICASUR));
+	EXPECT_EQ(7, cont_tot(state, (1u << CONTINENTE_OCEANIA) | (1u << CONTINENTE_EUROPA)));
+	EXPECT_STREQ("South America", cont_get_name(state, CONTINENTE_AMERICASUR));
+	EXPECT_STREQ("Unknown", cont_get_name(state, CONTINENTE_LAST));
 }
 
 TEST(Common, missions)

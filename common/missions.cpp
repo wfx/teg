@@ -27,6 +27,7 @@
 #include "fcintl.h"
 #include "missions.h"
 #include "common.h"
+#include "state.h"
 
 
 namespace
@@ -204,18 +205,18 @@ MISSIONS const& mission_get(int number)
 	return mission_definitions[number];
 }
 
-std::string missions_get_name(int number)
+std::string missions_get_name(CommonState const& state, int number)
 {
 	if(number < 0 || static_cast<std::size_t>(number) >= mission_definitions.size()) {
 		return _("Unknown");
 	}
 	ContinentNames names{
-		_(g_conts[0].name),
-		_(g_conts[1].name),
-		_(g_conts[2].name),
-		_(g_conts[3].name),
-		_(g_conts[4].name),
-		_(g_conts[5].name),
+		_(state.conts[0].name),
+		_(state.conts[1].name),
+		_(state.conts[2].name),
+		_(state.conts[3].name),
+		_(state.conts[4].name),
+		_(state.conts[5].name),
 	};
 	return replace_continents(_(mission_definitions[number].name), names);
 }

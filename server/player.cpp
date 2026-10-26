@@ -450,7 +450,7 @@ void player_listar_conts(PSPLAYER pJ, unsigned long *ret)
 	*ret = 0;
 
 	for(i=0; i< CONT_CANT; i++) {
-		if(countries[i] == g_conts[i].cant_countries) {
+		if(countries[i] == g_game.common.conts[i].cant_countries) {
 			*ret |= 1 << i;
 		}
 	}

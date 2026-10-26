@@ -116,7 +116,7 @@ TEG_STATUS fichas_finish(int **ptr)
 
 	c = wanted_conts;
 	for(i=0; i<CONT_CANT; i++) {
-		if((c & 1) && (aConts[i] < g_conts[i].fichas_x_cont)) {
+		if((c & 1) && (aConts[i] < g_game.common.conts[i].fichas_x_cont)) {
 			return TEG_STATUS_ERROR;
 		}
 		c >>= 1;
@@ -287,7 +287,7 @@ TEG_STATUS fichas_leave(PCOUNTRY p)
 
 void fichas_get_wanted(int *cant, int *conts)
 {
-	*cant = wanted_tot - cont_tot(wanted_conts);
+	*cant = wanted_tot - cont_tot(g_game.common, wanted_conts);
 	*conts = wanted_conts;
 }
 

@@ -318,7 +318,7 @@ TEG_STATUS gui_fichas(int cant, int conts)
 		buf[0]=0;
 		for(i=0; i<CONT_CANT; i++) {
 			if(conts & 1) {
-				snprintf(buf2, sizeof(buf2)-1, _("Place %d armies in %s\n"), g_conts[i].fichas_x_cont, cont_get_name(i));
+				snprintf(buf2, sizeof(buf2)-1, _("Place %d armies in %s\n"), g_game.common.conts[i].fichas_x_cont, cont_get_name(g_game.common, i));
 				buf2[ sizeof(buf2) -1 ] = 0;
 				strcat(buf, buf2);
 				hubo_cont=1;

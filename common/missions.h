@@ -50,5 +50,5 @@ int missions_cant();
 /// \return the definition of the mission with the given number
 MISSIONS const& mission_get(int number);
 
-/* return the name of a mission (translated) */
-std::string missions_get_name(int number);
+/// \return the name of a mission (translated)
+std::string missions_get_name(CommonState const& state, int number);

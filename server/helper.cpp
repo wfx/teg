@@ -187,7 +187,7 @@ do_real:
 
 		for(i=0; i<CONT_CANT; i++) {
 			if(conts_tmp & 1) {
-				if(cptr[i] < g_conts[i].fichas_x_cont) {
+				if(cptr[i] < g_game.common.conts[i].fichas_x_cont) {
 					goto error;
 				}
 			}

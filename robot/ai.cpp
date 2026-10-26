@@ -143,7 +143,7 @@ bool ai_own_continent(CONTINENTE c)
 		}
 	}
 
-	return (t == g_conts[c].cant_countries);
+	return (t == c::g_game.common.conts[c].cant_countries);
 
 }
 

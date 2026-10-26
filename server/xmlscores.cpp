@@ -236,7 +236,7 @@ TEG_STATUS scores_insert_player(PSPLAYER pJ)
 		return TEG_STATUS_ERROR;
 	}
 
-	stats_score(&pJ->player_stats, g_conts);
+	stats_score(&pJ->player_stats, g_game.common.conts.data());
 
 	if(pJ->player_stats.score == 0 && pJ->player_stats.armies_killed == 0) {
 		return TEG_STATUS_ERROR;
